@@ -1,7 +1,7 @@
 # Station Chief Runtime Skeleton Report
 
 ## Status
-Station Chief Runtime upgraded to v2.8.0. Locked 175-family baseline preserved. Operator approval queue enforcement added.
+Station Chief Runtime upgraded to v2.9.0. Locked 175-family baseline preserved. Release candidate hardening added.
 
 ## Ownership / Attribution
 Project owner, system architect, and operating-doctrine author: Devin O’Rourke.
@@ -9,7 +9,7 @@ Project owner, system architect, and operating-doctrine author: Devin O’Rourke
 This attribution applies to the Agent Command Center Station Chief runtime skeleton. The locked 175-family baseline remains preserved.
 
 ## Purpose
-This report documents the Station Chief runtime v2.8.0 upgrade to operator approval queue enforcement while preserving the locked 175-family baseline, the controlled multi-worker audit replay preview layer, and all previous coordination and safety layers.
+This report documents the Station Chief runtime v2.9.0 upgrade to release candidate hardening while preserving the locked 175-family baseline, the operator approval queue enforcement layer, and all previous coordination and safety layers.
 
 ## Files Created / Modified
 10_runtime/station_chief_runtime.py
@@ -37,8 +37,9 @@ This report documents the Station Chief runtime v2.8.0 upgrade to operator appro
 10_runtime/station_chief_permissioned_external_api_dry_run_preview.py
 10_runtime/station_chief_controlled_multi_worker_audit_replay_preview.py
 10_runtime/station_chief_operator_approval_queue_enforcement.py
+10_runtime/station_chief_release_candidate_hardening.py
 09_exports/station_chief_runtime_skeleton_report.md
-09_exports/station_chief_runtime_v2_8_report.md
+09_exports/station_chief_runtime_v2_9_report.md
 
 ## Runtime Capabilities
 - one-command intake
@@ -248,6 +249,23 @@ This report documents the Station Chief runtime v2.8.0 upgrade to operator appro
 - release candidate hardening readiness bridge
 - no queued action execution
 - no automatic approval
+- operator approval queue enforcement readiness bridge
+- release candidate hardening schema
+- release candidate hardening approval gate
+- full runtime invariant scan
+- validator chain lock proof
+- artifact contract freeze manifest
+- known issue register
+- pre-v3 production readiness checklist
+- release candidate safety gate
+- release candidate audit proof
+- release candidate ledger
+- release candidate readiness summary
+- controlled production readiness gate bridge
+- no production execution
+- no production readiness gate activation
+- no queued action execution
+- no automatic approval
 - no approval bypass
 - no actual replay execution
 - no worker action re-execution
@@ -266,7 +284,7 @@ This report documents the Station Chief runtime v2.8.0 upgrade to operator appro
 - no actual replay execution
 
 ## Required Validator
-python3 scripts/validate_station_chief_runtime_v2_8.py
+python3 scripts/validate_station_chief_runtime_v2_9.py
 
 ## Next Recommended Step
-Next recommended build step: build release candidate hardening.
+Next recommended build step: build controlled production readiness gate.

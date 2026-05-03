@@ -124,6 +124,11 @@ from station_chief_operator_approval_queue_enforcement import (
     create_operator_approval_queue_enforcement_bundle,
     create_operator_approval_queue_enforcement_schema,
 )
+from station_chief_release_candidate_hardening import (
+    RELEASE_CANDIDATE_HARDENING_APPROVAL_TOKEN,
+    create_release_candidate_hardening_bundle,
+    create_release_candidate_hardening_schema,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -133,7 +138,7 @@ from station_chief_execution_profiles import (
     select_execution_profile,
 )
 
-STATION_CHIEF_RUNTIME_VERSION = "2.8.0"
+STATION_CHIEF_RUNTIME_VERSION = "2.9.0"
 
 EXPECTED_OVERLAYS = [
     {
@@ -339,7 +344,7 @@ def normalize_command_for_id(command: str) -> str:
 def generate_run_id(command: str, run_label: str = "station-chief-runtime") -> str:
     normalized = normalize_command_for_id(command)
     digest = hashlib.sha256(f"{STATION_CHIEF_RUNTIME_VERSION}:{run_label}:{command}".encode("utf-8")).hexdigest()
-    return f"station-chief-v2-8-{normalized}-{digest[:12]}"
+    return f"station-chief-v2-9-{normalized}-{digest[:12]}"
 
 
 def classify_command(command: str) -> str:
@@ -450,7 +455,7 @@ def load_registry(registry_dir: str | Path) -> dict:
     registry_path = Path(registry_dir) / "run_registry.json"
     if not registry_path.exists():
         return {
-            "registry_version": "2.8.0",
+            "registry_version": "2.9.0",
             "runtime_name": "Station Chief Runtime",
             "runs": [],
         }
@@ -467,7 +472,7 @@ def update_registry(registry_dir: str | Path, index_entry: dict) -> dict:
     registry = load_registry(registry_dir)
     runs = [run for run in registry.get("runs", []) if run.get("run_id") != index_entry.get("run_id")]
     runs.append(index_entry)
-    registry["registry_version"] = "2.8.0"
+    registry["registry_version"] = "2.9.0"
     registry["runtime_name"] = "Station Chief Runtime"
     registry["runs"] = runs
     save_registry(registry_dir, registry)
@@ -476,7 +481,7 @@ def update_registry(registry_dir: str | Path, index_entry: dict) -> dict:
 
 def write_runtime_index(registry_dir: str | Path, registry: dict) -> dict:
     index = {
-        "index_version": "2.8.0",
+        "index_version": "2.9.0",
         "runtime_name": "Station Chief Runtime",
         "run_count": len(registry.get("runs", [])),
         "runs": registry.get("runs", []),
@@ -530,7 +535,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
     adapter_result = run_noop_adapter(execution_plan)
     return {
         "station_chief_runtime_version": STATION_CHIEF_RUNTIME_VERSION,
-        "runtime_status": "operator_approval_queue_enforcement",
+        "runtime_status": "release_candidate_hardening",
         "release_status": "STABLE_LOCKED",
         "run_capabilities": {
             "persistent_run_logs": True,
@@ -734,6 +739,18 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
             "replay_preview_ledger": True,
             "replay_readiness_summary": True,
             "operator_approval_queue_enforcement_readiness_bridge": True,
+            "release_candidate_hardening_schema": True,
+            "release_candidate_hardening_approval_gate": True,
+            "full_runtime_invariant_scan": True,
+            "validator_chain_lock_proof": True,
+            "artifact_contract_freeze_manifest": True,
+            "known_issue_register": True,
+            "pre_v3_production_readiness_checklist": True,
+            "release_candidate_safety_gate": True,
+            "release_candidate_audit_proof": True,
+            "release_candidate_ledger": True,
+            "release_candidate_readiness_summary": True,
+            "controlled_production_readiness_gate_bridge": True,
             "operator_approval_queue_enforcement_schema": True,
             "operator_approval_queue_enforcement_approval_gate": True,
             "queued_action_registry": True,
@@ -1031,9 +1048,27 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
             "operator_approval_queue_does_not_read_secrets": True,
             "operator_approval_queue_does_not_read_environment": True,
             "operator_approval_queue_does_not_modify_repo_files": True,
-            "release_candidate_hardening_not_yet_active": True,
+            "release_candidate_hardening_available": True,
+            "release_candidate_hardening_preview_only": True,
+            "release_candidate_hardening_requires_token": True,
+            "release_candidate_hardening_does_not_execute_production": True,
+            "release_candidate_hardening_does_not_activate_production_readiness_gate": True,
+            "release_candidate_hardening_does_not_execute_queued_actions": True,
+            "release_candidate_hardening_does_not_auto_approve": True,
+            "release_candidate_hardening_does_not_bypass_approval": True,
+            "release_candidate_hardening_does_not_execute_actual_replay": True,
+            "release_candidate_hardening_does_not_replay_worker_actions": True,
+            "release_candidate_hardening_does_not_replay_external_tools": True,
+            "release_candidate_hardening_does_not_call_live_apis": True,
+            "release_candidate_hardening_does_not_use_network_access": True,
+            "release_candidate_hardening_does_not_open_sockets": True,
+            "release_candidate_hardening_does_not_use_credentials": True,
+            "release_candidate_hardening_does_not_read_secrets": True,
+            "release_candidate_hardening_does_not_read_environment": True,
+            "release_candidate_hardening_does_not_modify_repo_files": True,
+            "controlled_production_readiness_gate_not_yet_active": True,
         },
-        "next_step": "Next step: build release candidate hardening.",
+        "next_step": "Next step: build controlled production readiness gate.",
     }
 
 
@@ -1090,7 +1125,7 @@ def write_approval_ledger(result: dict, output_dir: str | Path, run_label: str =
     manifest = {
         "approval_ledger_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.8.0",
+        "runtime_version": "2.9.0",
         "files_written": files_written,
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1161,7 +1196,7 @@ def write_controlled_execution(result: dict, output_dir: str | Path, run_label: 
     manifest = {
         "controlled_execution_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.8.0",
+        "runtime_version": "2.9.0",
         "files_written": files_written + ["controlled_execution_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1226,7 +1261,7 @@ def write_work_order_executor(result: dict, output_dir: str | Path, run_label: s
     manifest = {
         "work_order_executor_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.8.0",
+        "runtime_version": "2.9.0",
         "files_written": files_written + ["work_order_executor_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1292,7 +1327,7 @@ def write_worker_hiring_registry(result: dict, output_dir: str | Path, run_label
     manifest = {
         "worker_hiring_registry_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.8.0",
+        "runtime_version": "2.9.0",
         "files_written": files_written + ["worker_hiring_registry_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1361,7 +1396,7 @@ def write_department_routing(result: dict, output_dir: str | Path, run_label: st
     manifest = {
         "department_routing_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.8.0",
+        "runtime_version": "2.9.0",
         "files_written": files_written + ["department_routing_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1433,7 +1468,7 @@ def write_multi_agent_orchestration(result: dict, output_dir: str | Path, run_la
     manifest = {
         "multi_agent_orchestration_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.8.0",
+        "runtime_version": "2.9.0",
         "files_written": files_written + ["multi_agent_orchestration_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1514,7 +1549,7 @@ def write_operator_console(result: dict, output_dir: str | Path, run_label: str 
     manifest = {
         "operator_console_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.8.0",
+        "runtime_version": "2.9.0",
         "files_written": files_written + ["operator_console_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1607,7 +1642,7 @@ def write_github_patch_hardening(result: dict, output_dir: str | Path, run_label
     manifest = {
         "github_patch_hardening_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.8.0",
+        "runtime_version": "2.9.0",
         "files_written": files_written + ["github_patch_hardening_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1674,7 +1709,7 @@ def write_deployment_packaging(result: dict, output_dir: str | Path, run_label: 
     manifest = {
         "deployment_packaging_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.8.0",
+        "runtime_version": "2.9.0",
         "files_written": files_written + ["deployment_packaging_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1760,7 +1795,7 @@ def write_controlled_worker_execution(result: dict, output_dir: str | Path, run_
     manifest = {
         "controlled_worker_execution_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.8.0",
+        "runtime_version": "2.9.0",
         "files_written": files_written + ["controlled_worker_execution_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1863,7 +1898,7 @@ def write_tool_permission_binding(result: dict, output_dir: str | Path, run_labe
     manifest = {
         "tool_permission_binding_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.8.0",
+        "runtime_version": "2.9.0",
         "files_written": files_written + ["tool_permission_binding_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -2017,7 +2052,7 @@ def write_post_run_audit_expansion(
     manifest = {
         "post_run_audit_expansion_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.8.0",
+        "runtime_version": "2.9.0",
         "files_written": files_written + ["post_run_audit_expansion_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -2132,7 +2167,7 @@ def write_multi_worker_sandbox_coordination(
     manifest = {
         "multi_worker_sandbox_coordination_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.8.0",
+        "runtime_version": "2.9.0",
         "files_written": files_written + ["multi_worker_sandbox_coordination_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -2257,7 +2292,7 @@ def write_controlled_external_tool_adapter_preview(
     manifest = {
         "controlled_external_tool_adapter_preview_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.8.0",
+        "runtime_version": "2.9.0",
         "files_written": files_written + ["controlled_external_tool_adapter_preview_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -2319,7 +2354,7 @@ result: dict, output_dir: str | Path, run_label: str = "station-chief-runtime") 
     manifest = {
         "live_execution_telemetry_abort_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.8.0",
+        "runtime_version": "2.9.0",
         "files_written": files_written + ["live_execution_telemetry_abort_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -2423,7 +2458,7 @@ def write_permissioned_external_api_dry_run_preview(result: dict, output_dir: st
     manifest = {
         "permissioned_external_api_dry_run_preview_manifest_version": "2.7.0",
         "run_id": run_id,
-        "runtime_version": "2.8.0",
+        "runtime_version": "2.9.0",
         "files_written": written + ["permissioned_external_api_dry_run_preview_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -2526,7 +2561,7 @@ def write_controlled_multi_worker_audit_replay_preview(result: dict, output_dir:
     manifest = {
         "controlled_multi_worker_audit_replay_preview_manifest_version": "2.7.0",
         "run_id": run_id,
-        "runtime_version": "2.8.0",
+        "runtime_version": "2.9.0",
         "files_written": written + ["controlled_multi_worker_audit_replay_preview_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -2629,7 +2664,7 @@ def write_operator_approval_queue_enforcement(result: dict, output_dir: str | Pa
     manifest = {
         "operator_approval_queue_enforcement_manifest_version": "2.8.0",
         "run_id": run_id,
-        "runtime_version": "2.8.0",
+        "runtime_version": "2.9.0",
         "files_written": written + ["operator_approval_queue_enforcement_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -2664,6 +2699,119 @@ def write_operator_approval_queue_enforcement(result: dict, output_dir: str | Pa
     return {
         "run_id": run_id,
         "operator_approval_queue_enforcement_dir": str(target_dir),
+        "files_written": manifest["files_written"]
+    }
+
+
+def attach_release_candidate_hardening(
+    result: dict,
+    release_candidate_label: str | None = None,
+    confirmation_token: str | None = None,
+    invariant_labels: list[str] | None = None,
+    validator_names: list[str] | None = None,
+    artifact_contracts: list[str] | None = None,
+    known_issues: list[dict] | None = None,
+    checklist_items: list[str] | None = None
+) -> dict:
+    if "operator_approval_queue_enforcement_bundle" not in result:
+        result = attach_operator_approval_queue_enforcement(result)
+        
+    bundle = create_release_candidate_hardening_bundle(
+        result,
+        command=result.get("command", ""),
+        release_candidate_label=release_candidate_label,
+        confirmation_token=confirmation_token,
+        invariant_labels=invariant_labels,
+        validator_names=validator_names,
+        artifact_contracts=artifact_contracts,
+        known_issues=known_issues,
+        checklist_items=checklist_items
+    )
+    result["release_candidate_hardening_bundle"] = bundle
+    result["release_candidate_hardening_schema"] = bundle["release_candidate_hardening_schema"]
+    result["release_candidate_hardening_approval_gate"] = bundle["release_candidate_hardening_approval_gate"]
+    result["full_runtime_invariant_scan"] = bundle["full_runtime_invariant_scan"]
+    result["validator_chain_lock_proof"] = bundle["validator_chain_lock_proof"]
+    result["artifact_contract_freeze_manifest"] = bundle["artifact_contract_freeze_manifest"]
+    result["known_issue_register"] = bundle["known_issue_register"]
+    result["pre_v3_production_readiness_checklist"] = bundle["pre_v3_production_readiness_checklist"]
+    result["release_candidate_safety_gate"] = bundle["release_candidate_safety_gate"]
+    result["release_candidate_audit_proof"] = bundle["release_candidate_audit_proof"]
+    result["release_candidate_ledger"] = bundle["release_candidate_ledger"]
+    result["release_candidate_readiness_summary"] = bundle["release_candidate_readiness_summary"]
+    result["controlled_production_readiness_gate_bridge"] = bundle["controlled_production_readiness_gate_bridge"]
+    return result
+
+def write_release_candidate_hardening(result: dict, output_dir: str | Path, run_label: str = "station-chief-runtime") -> dict:
+    if "release_candidate_hardening_bundle" not in result:
+        raise ValueError("release_candidate_hardening_bundle missing")
+        
+    run_id = generate_run_id(result.get("command", run_label))
+    target_dir = Path(output_dir) / run_id
+    target_dir.mkdir(parents=True, exist_ok=True)
+    
+    files_to_write = [
+        ("release_candidate_hardening_bundle.json", "release_candidate_hardening_bundle"),
+        ("release_candidate_hardening_schema.json", "release_candidate_hardening_schema"),
+        ("release_candidate_hardening_approval_gate.json", "release_candidate_hardening_approval_gate"),
+        ("full_runtime_invariant_scan.json", "full_runtime_invariant_scan"),
+        ("validator_chain_lock_proof.json", "validator_chain_lock_proof"),
+        ("artifact_contract_freeze_manifest.json", "artifact_contract_freeze_manifest"),
+        ("known_issue_register.json", "known_issue_register"),
+        ("pre_v3_production_readiness_checklist.json", "pre_v3_production_readiness_checklist"),
+        ("release_candidate_safety_gate.json", "release_candidate_safety_gate"),
+        ("release_candidate_audit_proof.json", "release_candidate_audit_proof"),
+        ("release_candidate_ledger.json", "release_candidate_ledger"),
+        ("release_candidate_readiness_summary.json", "release_candidate_readiness_summary"),
+        ("controlled_production_readiness_gate_bridge.json", "controlled_production_readiness_gate_bridge"),
+    ]
+    
+    written = []
+    for fname, key in files_to_write:
+        path = target_dir / fname
+        path.write_text(json.dumps(result[key], indent=2, ensure_ascii=False), encoding="utf-8")
+        written.append(fname)
+        
+    manifest = {
+        "release_candidate_hardening_manifest_version": "2.9.0",
+        "run_id": run_id,
+        "runtime_version": "2.9.0",
+        "files_written": written + ["release_candidate_hardening_manifest.json"],
+        "baseline_preserved": True,
+        "external_actions_taken": False,
+        "production_execution_performed": False,
+        "production_readiness_gate_activated": False,
+        "automatic_execution_performed": False,
+        "queued_action_executed": False,
+        "auto_approval_performed": False,
+        "approval_bypass_performed": False,
+        "actual_replay_performed": False,
+        "worker_actions_replayed": False,
+        "external_tool_replay_performed": False,
+        "live_api_call_performed": False,
+        "network_access_performed": False,
+        "socket_opened": False,
+        "credentials_used": False,
+        "secrets_read": False,
+        "environment_read": False,
+        "repo_files_modified": False,
+        "broad_worker_activation_performed": False,
+        "real_workers_hired": False,
+        "worker_processes_started": False,
+        "live_worker_routing_performed": False,
+        "live_orchestration_performed": False,
+        "hosting_api_called": False,
+        "deployment_performed": False,
+        "execution_authorized": False,
+        "status": "RELEASE_CANDIDATE_HARDENING_PREVIEW_ONLY",
+        "note": "Release Candidate Hardening v2.9.0 creates local release candidate schema, invariant scan, validator chain lock proof, artifact contract freeze manifest, known issue register, pre-v3 checklist, safety gate, audit proof, ledger, readiness summary, and controlled production readiness gate bridge artifacts only. It does not execute production, activate production readiness, execute queued actions, auto-approve, bypass approval, execute actual replay, replay worker actions, replay external tools, call live APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, run shell commands, modify repo files, deploy, hire real workers, start worker processes, route live workers, perform live orchestration, or animate broad workforce."
+    }
+    
+    (target_dir / "release_candidate_hardening_manifest.json").write_text(json.dumps(manifest, indent=2, ensure_ascii=False), encoding="utf-8")
+    
+    return {
+        "run_id": run_id,
+        "release_candidate_hardening_dir": str(target_dir),
         "files_written": manifest["files_written"]
     }
 
@@ -2945,7 +3093,7 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "manifest": {
             "run_id": run_id,
             "runtime_version": result["station_chief_runtime_version"],
-            "artifact_type": "station_chief_runtime_v2_8_artifacts",
+            "artifact_type": "station_chief_runtime_v2_9_artifacts",
             "files_planned": [
                 "run_log.json",
                 "command_brief.json",
@@ -3458,6 +3606,35 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
             "approval_queue_readiness_summary": "approval_queue_readiness_summary" in result,
             "release_candidate_hardening_readiness_bridge": "release_candidate_hardening_readiness_bridge" in result,
             "operator_approval_queue_enforcement_preview_only": True,
+            "release_candidate_hardening_schema": "release_candidate_hardening_schema" in result,
+            "release_candidate_hardening_approval_gate": "release_candidate_hardening_approval_gate" in result,
+            "full_runtime_invariant_scan": "full_runtime_invariant_scan" in result,
+            "validator_chain_lock_proof": "validator_chain_lock_proof" in result,
+            "artifact_contract_freeze_manifest": "artifact_contract_freeze_manifest" in result,
+            "known_issue_register": "known_issue_register" in result,
+            "pre_v3_production_readiness_checklist": "pre_v3_production_readiness_checklist" in result,
+            "release_candidate_safety_gate": "release_candidate_safety_gate" in result,
+            "release_candidate_audit_proof": "release_candidate_audit_proof" in result,
+            "release_candidate_ledger": "release_candidate_ledger" in result,
+            "release_candidate_readiness_summary": "release_candidate_readiness_summary" in result,
+            "controlled_production_readiness_gate_bridge": "controlled_production_readiness_gate_bridge" in result,
+            "release_candidate_hardening_preview_only": True,
+            "release_candidate_hardening_requires_token": True,
+            "release_candidate_hardening_does_not_execute_production": True,
+            "release_candidate_hardening_does_not_activate_production_readiness_gate": True,
+            "release_candidate_hardening_does_not_execute_queued_actions": True,
+            "release_candidate_hardening_does_not_auto_approve": True,
+            "release_candidate_hardening_does_not_bypass_approval": True,
+            "release_candidate_hardening_does_not_execute_actual_replay": True,
+            "release_candidate_hardening_does_not_replay_worker_actions": True,
+            "release_candidate_hardening_does_not_replay_external_tools": True,
+            "release_candidate_hardening_does_not_call_live_apis": True,
+            "release_candidate_hardening_does_not_use_network_access": True,
+            "release_candidate_hardening_does_not_open_sockets": True,
+            "release_candidate_hardening_does_not_use_credentials": True,
+            "release_candidate_hardening_does_not_read_secrets": True,
+            "release_candidate_hardening_does_not_read_environment": True,
+            "release_candidate_hardening_does_not_modify_repo_files": True,
             "operator_approval_queue_enforcement_requires_token": True,
             "operator_approval_queue_does_not_execute_queued_actions": True,
             "operator_approval_queue_does_not_auto_approve": True,
@@ -4305,6 +4482,16 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--approval-queue-action-json", type=str, action="append")
     parser.add_argument("--approval-queue-operator-decisions-json", type=str)
     parser.add_argument("--approval-queue-stale-after-hours", type=int, default=72)
+    parser.add_argument("--release-candidate-hardening-schema", action="store_true")
+    parser.add_argument("--release-candidate-hardening", action="store_true")
+    parser.add_argument("--write-release-candidate-hardening", metavar="DIR", type=str)
+    parser.add_argument("--release-candidate-label", type=str)
+    parser.add_argument("--release-candidate-confirm-token", type=str)
+    parser.add_argument("--release-candidate-invariant", type=str, action="append")
+    parser.add_argument("--release-candidate-validator", type=str, action="append")
+    parser.add_argument("--release-candidate-artifact-contract", type=str, action="append")
+    parser.add_argument("--release-candidate-known-issue-json", type=str, action="append")
+    parser.add_argument("--release-candidate-checklist-item", type=str, action="append")
     parser.add_argument("--telemetry-worker-id", type=str, help="Worker ID for live telemetry")
     parser.add_argument("--telemetry-confirm-token", type=str, help="Confirmation token for live telemetry approval")
     parser.add_argument("--telemetry-abort-reason", type=str, help="Reason for live telemetry abort")
@@ -4429,6 +4616,9 @@ def main() -> None:
         return
     if args.operator_approval_queue_schema:
         print(json.dumps(create_operator_approval_queue_enforcement_schema(), indent=2, ensure_ascii=False))
+        return
+    if args.release_candidate_hardening_schema:
+        print(json.dumps(create_release_candidate_hardening_schema(), indent=2, ensure_ascii=False))
         return
 
     if args.list_controlled_execution_profiles:
@@ -4848,6 +5038,30 @@ def main() -> None:
             stale_after_hours=args.approval_queue_stale_after_hours
         )
 
+    if args.write_release_candidate_hardening:
+        args.release_candidate_hardening = True
+
+    if getattr(args, "release_candidate_hardening", False):
+        known_issues = []
+        if args.release_candidate_known_issue_json:
+            for kijson in args.release_candidate_known_issue_json:
+                try:
+                    ki = json.loads(kijson)
+                    known_issues.append(ki)
+                except Exception:
+                    pass
+        
+        result = attach_release_candidate_hardening(
+            result,
+            release_candidate_label=args.release_candidate_label,
+            confirmation_token=args.release_candidate_confirm_token,
+            invariant_labels=args.release_candidate_invariant,
+            validator_names=args.release_candidate_validator,
+            artifact_contracts=args.release_candidate_artifact_contract,
+            known_issues=known_issues if known_issues else None,
+            checklist_items=args.release_candidate_checklist_item
+        )
+
     artifact_summary = None
     if args.write_artifacts:
         artifact_summary = write_runtime_artifacts(
@@ -5045,6 +5259,10 @@ def main() -> None:
         queue_res = write_operator_approval_queue_enforcement(result, args.write_operator_approval_queue_enforcement)
         result = dict(result)
         result["operator_approval_queue_enforcement_write_summary"] = queue_res
+    if args.write_release_candidate_hardening:
+        rc_res = write_release_candidate_hardening(result, args.write_release_candidate_hardening)
+        result = dict(result)
+        result["release_candidate_hardening_write_summary"] = rc_res
 
     if args.write_output:
         Path(args.write_output).write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n")

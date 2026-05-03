@@ -4,7 +4,7 @@ from __future__ import annotations
 import hashlib
 import json
 
-APPROVAL_RECORD_MODULE_VERSION = "2.8.0"
+APPROVAL_RECORD_MODULE_VERSION = "2.9.0"
 APPROVAL_RECORD_CONFIRMATION_TOKEN = "YES_I_APPROVE_APPROVAL_HANDOFF_RECORD"
 
 APPROVAL_DECISIONS = {
@@ -103,7 +103,7 @@ def create_approval_review_ui_schema() -> dict:
         },
     ]
     return {
-        "approval_review_ui_schema_version": "2.8.0",
+        "approval_review_ui_schema_version": "2.9.0",
         "title": "Station Chief Approval Handoff Review",
         "purpose": "Review an approval handoff packet before any human-confirmed scoped repo patch execution.",
         "fields": fields,
@@ -197,7 +197,7 @@ def create_signed_approval_record(
     approval_note_clean = approval_note or ""
     record_status = "SIGNED" if validation_result["input_validation_status"] == "PASS" else "BLOCKED"
     record = {
-        "approval_record_version": "2.8.0",
+        "approval_record_version": "2.9.0",
         "approval_packet_digest": approval_packet_digest,
         "reviewer_name": reviewer_name_clean,
         "approval_decision": approval_decision,
@@ -218,7 +218,7 @@ def create_signed_approval_record(
         "record_status": record_status,
     }
     signature_payload = {
-        "approval_record_version": "2.8.0",
+        "approval_record_version": "2.9.0",
         "approval_packet_digest": approval_packet_digest,
         "reviewer_name": reviewer_name_clean,
         "approval_decision": approval_decision,
@@ -266,7 +266,7 @@ def create_approval_record_audit_manifest(
     verification_result: dict,
 ) -> dict:
     return {
-        "approval_record_audit_manifest_version": "2.8.0",
+        "approval_record_audit_manifest_version": "2.9.0",
         "approval_handoff_version": approval_handoff_packet.get("approval_handoff_version"),
         "approval_record_version": approval_record.get("approval_record_version"),
         "approval_packet_digest": approval_record.get("approval_packet_digest"),

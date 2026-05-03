@@ -4,7 +4,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-ADAPTER_MODULE_VERSION = "2.8.0"
+ADAPTER_MODULE_VERSION = "2.9.0"
 
 YES_I_APPROVE_SANDBOX_FILE_WRITE = "YES_I_APPROVE_SANDBOX_FILE_WRITE"
 YES_I_APPROVE_SCOPED_REPO_PATCH = "YES_I_APPROVE_SCOPED_REPO_PATCH"
@@ -24,6 +24,7 @@ YES_I_APPROVE_CONTROLLED_EXTERNAL_TOOL_ADAPTER_PREVIEW = "YES_I_APPROVE_CONTROLL
 YES_I_APPROVE_PERMISSIONED_EXTERNAL_API_DRY_RUN_PREVIEW = "YES_I_APPROVE_PERMISSIONED_EXTERNAL_API_DRY_RUN_PREVIEW"
 YES_I_APPROVE_CONTROLLED_MULTI_WORKER_AUDIT_REPLAY_PREVIEW = "YES_I_APPROVE_CONTROLLED_MULTI_WORKER_AUDIT_REPLAY_PREVIEW"
 YES_I_APPROVE_OPERATOR_APPROVAL_QUEUE_ENFORCEMENT = "YES_I_APPROVE_OPERATOR_APPROVAL_QUEUE_ENFORCEMENT"
+YES_I_APPROVE_RELEASE_CANDIDATE_HARDENING = "YES_I_APPROVE_RELEASE_CANDIDATE_HARDENING"
 
 SAFE_SANDBOX_PATH = "SAFE_SANDBOX_PATH"
 SAFE_REPO_PATCH_PATH = "SAFE_REPO_PATCH_PATH"
@@ -56,6 +57,8 @@ SUPPORTED_ADAPTERS = {
         "controlled_multi_worker_audit_replay_preview_requires_specific_token": True,
         "supports_operator_approval_queue_enforcement": True,
         "operator_approval_queue_enforcement_requires_specific_token": True,
+        "supports_release_candidate_hardening": True,
+        "release_candidate_hardening_requires_specific_token": True,
         "external_tool_invocation_allowed": False,
         "actual_replay_allowed": False,
         "worker_action_reexecution_allowed": False,
@@ -65,6 +68,8 @@ SUPPORTED_ADAPTERS = {
         "queued_action_execution_allowed": False,
         "auto_approval_allowed": False,
         "approval_bypass_allowed": False,
+        "production_execution_allowed": False,
+        "production_readiness_gate_activation_allowed": False,
         "live_api_call_allowed": False,
         "network_access_allowed": False,
         "socket_access_allowed": False,
@@ -138,6 +143,8 @@ SUPPORTED_ADAPTERS = {
         "controlled_multi_worker_audit_replay_preview_requires_separate_gate": True,
         "supports_operator_approval_queue_enforcement": False,
         "operator_approval_queue_enforcement_requires_separate_gate": True,
+        "supports_release_candidate_hardening": False,
+        "release_candidate_hardening_requires_separate_gate": True,
         "supports_live_execution_telemetry_abort_controls": False,
         "telemetry_abort_controls_require_specific_token": True,
         "telemetry_abort_requires_separate_gate": True,
@@ -171,6 +178,8 @@ def list_adapters() -> dict:
         "controlled_multi_worker_audit_replay_preview_requires_specific_token": True,
         "supports_operator_approval_queue_enforcement": True,
         "operator_approval_queue_enforcement_requires_specific_token": True,
+        "supports_release_candidate_hardening": True,
+        "release_candidate_hardening_requires_specific_token": True,
         "external_tool_invocation_allowed": False,
         "actual_replay_allowed": False,
         "worker_action_reexecution_allowed": False,
@@ -180,6 +189,8 @@ def list_adapters() -> dict:
         "queued_action_execution_allowed": False,
         "auto_approval_allowed": False,
         "approval_bypass_allowed": False,
+        "production_execution_allowed": False,
+        "production_readiness_gate_activation_allowed": False,
         "live_api_call_allowed": False,
         "network_access_allowed": False,
         "socket_access_allowed": False,
