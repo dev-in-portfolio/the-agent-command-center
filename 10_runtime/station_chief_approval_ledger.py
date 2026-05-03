@@ -2,7 +2,7 @@ import json
 import hashlib
 from pathlib import Path
 
-APPROVAL_LEDGER_MODULE_VERSION = "2.7.0"
+APPROVAL_LEDGER_MODULE_VERSION = "2.8.0"
 
 def canonical_json(data: object) -> str:
     return json.dumps(data, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
@@ -54,7 +54,7 @@ def compare_signed_approval_records(before_record: dict, after_record: dict) -> 
     ])
     
     return {
-        "approval_record_comparison_version": "2.7.0",
+        "approval_record_comparison_version": "2.8.0",
         "comparison_status": "CHANGED" if changed else "UNCHANGED",
         "before_summary": before_summary,
         "after_summary": after_summary,
@@ -104,7 +104,7 @@ def create_approval_status_summary(record_items: list[dict]) -> dict:
     unique_signatures = len(set(signatures))
     
     return {
-        "approval_status_summary_version": "2.7.0",
+        "approval_status_summary_version": "2.8.0",
         "total_records": total,
         "signed_records": signed,
         "blocked_records": blocked,
@@ -147,7 +147,7 @@ def find_duplicate_approval_signals(record_items: list[dict]) -> dict:
     status = "DUPLICATES_FOUND" if dup_digests or dup_signatures else "CLEAR"
     
     return {
-        "duplicate_signal_version": "2.7.0",
+        "duplicate_signal_version": "2.8.0",
         "duplicate_packet_digests": dup_digests,
         "duplicate_approval_signatures": dup_signatures,
         "duplicate_signal_status": status,
@@ -160,7 +160,7 @@ def create_approval_ledger_index(record_items: list[dict], ledger_label: str = "
     summaries = [r["summary"] for r in record_items]
     
     ledger = {
-        "approval_ledger_version": "2.7.0",
+        "approval_ledger_version": "2.8.0",
         "ledger_label": ledger_label,
         "record_count": len(summaries),
         "records": summaries,
@@ -191,7 +191,7 @@ def verify_approval_ledger_index(ledger_index: dict) -> dict:
     pass_all = matches and auth and base and ext and live
     
     return {
-        "ledger_verification_version": "2.7.0",
+        "ledger_verification_version": "2.8.0",
         "verification_status": "PASS" if pass_all else "FAIL",
         "ledger_digest_matches": matches,
         "execution_authorized": False,
@@ -205,7 +205,7 @@ def lookup_approval_records_by_digest(ledger_index: dict, approval_packet_digest
     matches = [r for r in ledger_index.get("records", []) if r.get("approval_packet_digest") == approval_packet_digest]
     
     return {
-        "lookup_version": "2.7.0",
+        "lookup_version": "2.8.0",
         "approval_packet_digest": approval_packet_digest,
         "match_count": len(matches),
         "matches": matches,
@@ -218,7 +218,7 @@ def create_approval_ledger_bundle(record_items: list[dict], ledger_label: str = 
     ledger_index = create_approval_ledger_index(record_items, ledger_label)
     
     return {
-        "approval_ledger_bundle_version": "2.7.0",
+        "approval_ledger_bundle_version": "2.8.0",
         "ledger_index": ledger_index,
         "ledger_verification": verify_approval_ledger_index(ledger_index),
         "approval_status_summary": ledger_index["approval_status_summary"],

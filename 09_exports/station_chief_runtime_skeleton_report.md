@@ -1,7 +1,7 @@
 # Station Chief Runtime Skeleton Report
 
 ## Status
-Station Chief Runtime upgraded to v2.7.0. Locked 175-family baseline preserved. Controlled multi-worker audit replay preview added.
+Station Chief Runtime upgraded to v2.8.0. Locked 175-family baseline preserved. Operator approval queue enforcement added.
 
 ## Ownership / Attribution
 Project owner, system architect, and operating-doctrine author: Devin O’Rourke.
@@ -9,7 +9,7 @@ Project owner, system architect, and operating-doctrine author: Devin O’Rourke
 This attribution applies to the Agent Command Center Station Chief runtime skeleton. The locked 175-family baseline remains preserved.
 
 ## Purpose
-This report documents the Station Chief runtime v2.7.0 upgrade to controlled multi-worker audit replay preview while preserving the locked 175-family baseline, the permissioned external API dry-run preview layer, and all previous coordination and safety layers.
+This report documents the Station Chief runtime v2.8.0 upgrade to operator approval queue enforcement while preserving the locked 175-family baseline, the controlled multi-worker audit replay preview layer, and all previous coordination and safety layers.
 
 ## Files Created / Modified
 10_runtime/station_chief_runtime.py
@@ -36,8 +36,9 @@ This report documents the Station Chief runtime v2.7.0 upgrade to controlled mul
 10_runtime/station_chief_controlled_external_tool_adapter_preview.py
 10_runtime/station_chief_permissioned_external_api_dry_run_preview.py
 10_runtime/station_chief_controlled_multi_worker_audit_replay_preview.py
+10_runtime/station_chief_operator_approval_queue_enforcement.py
 09_exports/station_chief_runtime_skeleton_report.md
-09_exports/station_chief_runtime_v2_7_report.md
+09_exports/station_chief_runtime_v2_8_report.md
 
 ## Runtime Capabilities
 - one-command intake
@@ -85,7 +86,7 @@ This report documents the Station Chief runtime v2.7.0 upgrade to controlled mul
 - stable safety doctrine lock
 - stable approval flow lock
 - stable known limitations record
-- stable next-phase handoff
+- stable next_phase handoff
 - controlled execution profile catalog
 - controlled execution profile selection
 - execution permission matrix
@@ -234,6 +235,20 @@ This report documents the Station Chief runtime v2.7.0 upgrade to controlled mul
 - replay preview ledger
 - replay readiness summary
 - operator approval queue enforcement readiness bridge
+- operator approval queue enforcement schema
+- operator approval queue enforcement approval gate
+- queued action registry
+- approval item priority classifier
+- operator decision contract
+- approval expiry and stale-item detector
+- queue enforcement safety gate
+- approval queue audit proof
+- approval queue ledger
+- approval queue readiness summary
+- release candidate hardening readiness bridge
+- no queued action execution
+- no automatic approval
+- no approval bypass
 - no actual replay execution
 - no worker action re-execution
 - no external tool replay
@@ -251,7 +266,7 @@ This report documents the Station Chief runtime v2.7.0 upgrade to controlled mul
 - no actual replay execution
 
 ## Required Validator
-python3 scripts/validate_station_chief_runtime_v2_7.py
+python3 scripts/validate_station_chief_runtime_v2_8.py
 
 ## Next Recommended Step
-Next recommended build step: build operator approval queue enforcement.
+Next recommended build step: build release candidate hardening.

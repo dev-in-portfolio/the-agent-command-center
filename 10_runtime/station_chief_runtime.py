@@ -119,6 +119,11 @@ from station_chief_controlled_multi_worker_audit_replay_preview import (
     create_controlled_multi_worker_audit_replay_preview_bundle,
     create_controlled_multi_worker_audit_replay_preview_schema,
 )
+from station_chief_operator_approval_queue_enforcement import (
+    OPERATOR_APPROVAL_QUEUE_ENFORCEMENT_APPROVAL_TOKEN,
+    create_operator_approval_queue_enforcement_bundle,
+    create_operator_approval_queue_enforcement_schema,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -128,7 +133,7 @@ from station_chief_execution_profiles import (
     select_execution_profile,
 )
 
-STATION_CHIEF_RUNTIME_VERSION = "2.7.0"
+STATION_CHIEF_RUNTIME_VERSION = "2.8.0"
 
 EXPECTED_OVERLAYS = [
     {
@@ -334,7 +339,7 @@ def normalize_command_for_id(command: str) -> str:
 def generate_run_id(command: str, run_label: str = "station-chief-runtime") -> str:
     normalized = normalize_command_for_id(command)
     digest = hashlib.sha256(f"{STATION_CHIEF_RUNTIME_VERSION}:{run_label}:{command}".encode("utf-8")).hexdigest()
-    return f"station-chief-v2-7-{normalized}-{digest[:12]}"
+    return f"station-chief-v2-8-{normalized}-{digest[:12]}"
 
 
 def classify_command(command: str) -> str:
@@ -445,7 +450,7 @@ def load_registry(registry_dir: str | Path) -> dict:
     registry_path = Path(registry_dir) / "run_registry.json"
     if not registry_path.exists():
         return {
-            "registry_version": "2.7.0",
+            "registry_version": "2.8.0",
             "runtime_name": "Station Chief Runtime",
             "runs": [],
         }
@@ -462,7 +467,7 @@ def update_registry(registry_dir: str | Path, index_entry: dict) -> dict:
     registry = load_registry(registry_dir)
     runs = [run for run in registry.get("runs", []) if run.get("run_id") != index_entry.get("run_id")]
     runs.append(index_entry)
-    registry["registry_version"] = "2.7.0"
+    registry["registry_version"] = "2.8.0"
     registry["runtime_name"] = "Station Chief Runtime"
     registry["runs"] = runs
     save_registry(registry_dir, registry)
@@ -471,7 +476,7 @@ def update_registry(registry_dir: str | Path, index_entry: dict) -> dict:
 
 def write_runtime_index(registry_dir: str | Path, registry: dict) -> dict:
     index = {
-        "index_version": "2.7.0",
+        "index_version": "2.8.0",
         "runtime_name": "Station Chief Runtime",
         "run_count": len(registry.get("runs", [])),
         "runs": registry.get("runs", []),
@@ -525,7 +530,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
     adapter_result = run_noop_adapter(execution_plan)
     return {
         "station_chief_runtime_version": STATION_CHIEF_RUNTIME_VERSION,
-        "runtime_status": "controlled_multi_worker_audit_replay_preview",
+        "runtime_status": "operator_approval_queue_enforcement",
         "release_status": "STABLE_LOCKED",
         "run_capabilities": {
             "persistent_run_logs": True,
@@ -729,6 +734,17 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
             "replay_preview_ledger": True,
             "replay_readiness_summary": True,
             "operator_approval_queue_enforcement_readiness_bridge": True,
+            "operator_approval_queue_enforcement_schema": True,
+            "operator_approval_queue_enforcement_approval_gate": True,
+            "queued_action_registry": True,
+            "approval_item_priority_classifier": True,
+            "operator_decision_contract": True,
+            "approval_expiry_stale_item_detector": True,
+            "queue_enforcement_safety_gate": True,
+            "approval_queue_audit_proof": True,
+            "approval_queue_ledger": True,
+            "approval_queue_readiness_summary": True,
+            "release_candidate_hardening_readiness_bridge": True,
             "controlled_multi_worker_audit_replay_preview_readiness_bridge": True,
             "permissioned_external_api_dry_run_preview_readiness_bridge": True,
         },
@@ -999,9 +1015,25 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
             "controlled_multi_worker_audit_replay_does_not_read_secrets": True,
             "controlled_multi_worker_audit_replay_does_not_read_environment": True,
             "controlled_multi_worker_audit_replay_does_not_modify_repo_files": True,
-            "operator_approval_queue_enforcement_not_yet_active": True,
+            "operator_approval_queue_enforcement_available": True,
+            "operator_approval_queue_enforcement_preview_only": True,
+            "operator_approval_queue_enforcement_requires_token": True,
+            "operator_approval_queue_does_not_execute_queued_actions": True,
+            "operator_approval_queue_does_not_auto_approve": True,
+            "operator_approval_queue_does_not_bypass_approval": True,
+            "operator_approval_queue_does_not_execute_actual_replay": True,
+            "operator_approval_queue_does_not_replay_worker_actions": True,
+            "operator_approval_queue_does_not_replay_external_tools": True,
+            "operator_approval_queue_does_not_call_live_apis": True,
+            "operator_approval_queue_does_not_use_network_access": True,
+            "operator_approval_queue_does_not_open_sockets": True,
+            "operator_approval_queue_does_not_use_credentials": True,
+            "operator_approval_queue_does_not_read_secrets": True,
+            "operator_approval_queue_does_not_read_environment": True,
+            "operator_approval_queue_does_not_modify_repo_files": True,
+            "release_candidate_hardening_not_yet_active": True,
         },
-        "next_step": "Next step: build operator approval queue enforcement.",
+        "next_step": "Next step: build release candidate hardening.",
     }
 
 
@@ -1058,7 +1090,7 @@ def write_approval_ledger(result: dict, output_dir: str | Path, run_label: str =
     manifest = {
         "approval_ledger_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.7.0",
+        "runtime_version": "2.8.0",
         "files_written": files_written,
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1129,7 +1161,7 @@ def write_controlled_execution(result: dict, output_dir: str | Path, run_label: 
     manifest = {
         "controlled_execution_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.7.0",
+        "runtime_version": "2.8.0",
         "files_written": files_written + ["controlled_execution_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1194,7 +1226,7 @@ def write_work_order_executor(result: dict, output_dir: str | Path, run_label: s
     manifest = {
         "work_order_executor_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.7.0",
+        "runtime_version": "2.8.0",
         "files_written": files_written + ["work_order_executor_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1260,7 +1292,7 @@ def write_worker_hiring_registry(result: dict, output_dir: str | Path, run_label
     manifest = {
         "worker_hiring_registry_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.7.0",
+        "runtime_version": "2.8.0",
         "files_written": files_written + ["worker_hiring_registry_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1329,7 +1361,7 @@ def write_department_routing(result: dict, output_dir: str | Path, run_label: st
     manifest = {
         "department_routing_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.7.0",
+        "runtime_version": "2.8.0",
         "files_written": files_written + ["department_routing_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1401,7 +1433,7 @@ def write_multi_agent_orchestration(result: dict, output_dir: str | Path, run_la
     manifest = {
         "multi_agent_orchestration_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.7.0",
+        "runtime_version": "2.8.0",
         "files_written": files_written + ["multi_agent_orchestration_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1482,7 +1514,7 @@ def write_operator_console(result: dict, output_dir: str | Path, run_label: str 
     manifest = {
         "operator_console_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.7.0",
+        "runtime_version": "2.8.0",
         "files_written": files_written + ["operator_console_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1575,7 +1607,7 @@ def write_github_patch_hardening(result: dict, output_dir: str | Path, run_label
     manifest = {
         "github_patch_hardening_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.7.0",
+        "runtime_version": "2.8.0",
         "files_written": files_written + ["github_patch_hardening_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1642,7 +1674,7 @@ def write_deployment_packaging(result: dict, output_dir: str | Path, run_label: 
     manifest = {
         "deployment_packaging_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.7.0",
+        "runtime_version": "2.8.0",
         "files_written": files_written + ["deployment_packaging_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1728,7 +1760,7 @@ def write_controlled_worker_execution(result: dict, output_dir: str | Path, run_
     manifest = {
         "controlled_worker_execution_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.7.0",
+        "runtime_version": "2.8.0",
         "files_written": files_written + ["controlled_worker_execution_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1831,7 +1863,7 @@ def write_tool_permission_binding(result: dict, output_dir: str | Path, run_labe
     manifest = {
         "tool_permission_binding_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.7.0",
+        "runtime_version": "2.8.0",
         "files_written": files_written + ["tool_permission_binding_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1985,7 +2017,7 @@ def write_post_run_audit_expansion(
     manifest = {
         "post_run_audit_expansion_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.7.0",
+        "runtime_version": "2.8.0",
         "files_written": files_written + ["post_run_audit_expansion_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -2100,7 +2132,7 @@ def write_multi_worker_sandbox_coordination(
     manifest = {
         "multi_worker_sandbox_coordination_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.7.0",
+        "runtime_version": "2.8.0",
         "files_written": files_written + ["multi_worker_sandbox_coordination_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -2225,7 +2257,7 @@ def write_controlled_external_tool_adapter_preview(
     manifest = {
         "controlled_external_tool_adapter_preview_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.7.0",
+        "runtime_version": "2.8.0",
         "files_written": files_written + ["controlled_external_tool_adapter_preview_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -2287,7 +2319,7 @@ result: dict, output_dir: str | Path, run_label: str = "station-chief-runtime") 
     manifest = {
         "live_execution_telemetry_abort_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.7.0",
+        "runtime_version": "2.8.0",
         "files_written": files_written + ["live_execution_telemetry_abort_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -2391,7 +2423,7 @@ def write_permissioned_external_api_dry_run_preview(result: dict, output_dir: st
     manifest = {
         "permissioned_external_api_dry_run_preview_manifest_version": "2.7.0",
         "run_id": run_id,
-        "runtime_version": "2.7.0",
+        "runtime_version": "2.8.0",
         "files_written": written + ["permissioned_external_api_dry_run_preview_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -2494,7 +2526,7 @@ def write_controlled_multi_worker_audit_replay_preview(result: dict, output_dir:
     manifest = {
         "controlled_multi_worker_audit_replay_preview_manifest_version": "2.7.0",
         "run_id": run_id,
-        "runtime_version": "2.7.0",
+        "runtime_version": "2.8.0",
         "files_written": written + ["controlled_multi_worker_audit_replay_preview_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -2525,6 +2557,113 @@ def write_controlled_multi_worker_audit_replay_preview(result: dict, output_dir:
     return {
         "run_id": run_id,
         "controlled_multi_worker_audit_replay_preview_dir": str(target_dir),
+        "files_written": manifest["files_written"]
+    }
+
+
+def attach_operator_approval_queue_enforcement(
+    result: dict,
+    queue_label: str | None = None,
+    confirmation_token: str | None = None,
+    queued_actions: list[dict] | None = None,
+    requested_action_count: int = 3,
+    operator_decisions: dict | None = None,
+    stale_after_hours: int = 72
+) -> dict:
+    if "controlled_multi_worker_audit_replay_preview_bundle" not in result:
+        result = attach_controlled_multi_worker_audit_replay_preview(result)
+        
+    bundle = create_operator_approval_queue_enforcement_bundle(
+        result,
+        command=result.get("command", ""),
+        queue_label=queue_label,
+        confirmation_token=confirmation_token,
+        queued_actions=queued_actions,
+        requested_action_count=requested_action_count,
+        operator_decisions=operator_decisions,
+        stale_after_hours=stale_after_hours
+    )
+    result["operator_approval_queue_enforcement_bundle"] = bundle
+    result["operator_approval_queue_enforcement_schema"] = bundle["operator_approval_queue_enforcement_schema"]
+    result["operator_approval_queue_enforcement_approval_gate"] = bundle["operator_approval_queue_enforcement_approval_gate"]
+    result["queued_action_registry"] = bundle["queued_action_registry"]
+    result["approval_item_priority_classifier"] = bundle["approval_item_priority_classifier"]
+    result["operator_decision_contract"] = bundle["operator_decision_contract"]
+    result["approval_expiry_stale_item_detector"] = bundle["approval_expiry_stale_item_detector"]
+    result["queue_enforcement_safety_gate"] = bundle["queue_enforcement_safety_gate"]
+    result["approval_queue_audit_proof"] = bundle["approval_queue_audit_proof"]
+    result["approval_queue_ledger"] = bundle["approval_queue_ledger"]
+    result["approval_queue_readiness_summary"] = bundle["approval_queue_readiness_summary"]
+    result["release_candidate_hardening_readiness_bridge"] = bundle["release_candidate_hardening_readiness_bridge"]
+    return result
+
+def write_operator_approval_queue_enforcement(result: dict, output_dir: str | Path, run_label: str = "station-chief-runtime") -> dict:
+    if "operator_approval_queue_enforcement_bundle" not in result:
+        raise ValueError("operator_approval_queue_enforcement_bundle missing")
+        
+    run_id = generate_run_id(result.get("command", run_label))
+    target_dir = Path(output_dir) / run_id
+    target_dir.mkdir(parents=True, exist_ok=True)
+    
+    files_to_write = [
+        ("operator_approval_queue_enforcement_bundle.json", "operator_approval_queue_enforcement_bundle"),
+        ("operator_approval_queue_enforcement_schema.json", "operator_approval_queue_enforcement_schema"),
+        ("operator_approval_queue_enforcement_approval_gate.json", "operator_approval_queue_enforcement_approval_gate"),
+        ("queued_action_registry.json", "queued_action_registry"),
+        ("approval_item_priority_classifier.json", "approval_item_priority_classifier"),
+        ("operator_decision_contract.json", "operator_decision_contract"),
+        ("approval_expiry_stale_item_detector.json", "approval_expiry_stale_item_detector"),
+        ("queue_enforcement_safety_gate.json", "queue_enforcement_safety_gate"),
+        ("approval_queue_audit_proof.json", "approval_queue_audit_proof"),
+        ("approval_queue_ledger.json", "approval_queue_ledger"),
+        ("approval_queue_readiness_summary.json", "approval_queue_readiness_summary"),
+        ("release_candidate_hardening_readiness_bridge.json", "release_candidate_hardening_readiness_bridge"),
+    ]
+    
+    written = []
+    for fname, key in files_to_write:
+        path = target_dir / fname
+        path.write_text(json.dumps(result[key], indent=2, ensure_ascii=False), encoding="utf-8")
+        written.append(fname)
+        
+    manifest = {
+        "operator_approval_queue_enforcement_manifest_version": "2.8.0",
+        "run_id": run_id,
+        "runtime_version": "2.8.0",
+        "files_written": written + ["operator_approval_queue_enforcement_manifest.json"],
+        "baseline_preserved": True,
+        "external_actions_taken": False,
+        "automatic_execution_performed": False,
+        "queued_action_executed": False,
+        "auto_approval_performed": False,
+        "approval_bypass_performed": False,
+        "actual_replay_performed": False,
+        "worker_actions_replayed": False,
+        "external_tool_replay_performed": False,
+        "live_api_call_performed": False,
+        "network_access_performed": False,
+        "socket_opened": False,
+        "credentials_used": False,
+        "secrets_read": False,
+        "environment_read": False,
+        "repo_files_modified": False,
+        "broad_worker_activation_performed": False,
+        "real_workers_hired": False,
+        "worker_processes_started": False,
+        "live_worker_routing_performed": False,
+        "live_orchestration_performed": False,
+        "hosting_api_called": False,
+        "deployment_performed": False,
+        "execution_authorized": False,
+        "status": "OPERATOR_APPROVAL_QUEUE_ENFORCEMENT_PREVIEW_ONLY",
+        "note": "Operator Approval Queue Enforcement v2.8.0 creates local queue schema, queued action registry, priority classifier, operator decision contract, stale item detector, queue safety gate, audit proof, ledger, readiness summary, and release candidate hardening bridge artifacts only. It does not execute queued actions, auto-approve, bypass approval, execute actual replay, replay worker actions, replay external tools, call live APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, run shell commands, modify repo files, deploy, hire real workers, start worker processes, route live workers, perform live orchestration, or animate broad workforce."
+    }
+    
+    (target_dir / "operator_approval_queue_enforcement_manifest.json").write_text(json.dumps(manifest, indent=2, ensure_ascii=False), encoding="utf-8")
+    
+    return {
+        "run_id": run_id,
+        "operator_approval_queue_enforcement_dir": str(target_dir),
         "files_written": manifest["files_written"]
     }
 
@@ -2806,7 +2945,7 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "manifest": {
             "run_id": run_id,
             "runtime_version": result["station_chief_runtime_version"],
-            "artifact_type": "station_chief_runtime_v2_7_artifacts",
+            "artifact_type": "station_chief_runtime_v2_8_artifacts",
             "files_planned": [
                 "run_log.json",
                 "command_brief.json",
@@ -3307,6 +3446,32 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
             "replay_readiness_summary": "replay_readiness_summary" in result,
             "operator_approval_queue_enforcement_readiness_bridge": "operator_approval_queue_enforcement_readiness_bridge" in result,
             "controlled_multi_worker_audit_replay_preview_only": True,
+            "operator_approval_queue_enforcement_schema": "operator_approval_queue_enforcement_schema" in result,
+            "operator_approval_queue_enforcement_approval_gate": "operator_approval_queue_enforcement_approval_gate" in result,
+            "queued_action_registry": "queued_action_registry" in result,
+            "approval_item_priority_classifier": "approval_item_priority_classifier" in result,
+            "operator_decision_contract": "operator_decision_contract" in result,
+            "approval_expiry_stale_item_detector": "approval_expiry_stale_item_detector" in result,
+            "queue_enforcement_safety_gate": "queue_enforcement_safety_gate" in result,
+            "approval_queue_audit_proof": "approval_queue_audit_proof" in result,
+            "approval_queue_ledger": "approval_queue_ledger" in result,
+            "approval_queue_readiness_summary": "approval_queue_readiness_summary" in result,
+            "release_candidate_hardening_readiness_bridge": "release_candidate_hardening_readiness_bridge" in result,
+            "operator_approval_queue_enforcement_preview_only": True,
+            "operator_approval_queue_enforcement_requires_token": True,
+            "operator_approval_queue_does_not_execute_queued_actions": True,
+            "operator_approval_queue_does_not_auto_approve": True,
+            "operator_approval_queue_does_not_bypass_approval": True,
+            "operator_approval_queue_does_not_execute_actual_replay": True,
+            "operator_approval_queue_does_not_replay_worker_actions": True,
+            "operator_approval_queue_does_not_replay_external_tools": True,
+            "operator_approval_queue_does_not_call_live_apis": True,
+            "operator_approval_queue_does_not_use_network_access": True,
+            "operator_approval_queue_does_not_open_sockets": True,
+            "operator_approval_queue_does_not_use_credentials": True,
+            "operator_approval_queue_does_not_read_secrets": True,
+            "operator_approval_queue_does_not_read_environment": True,
+            "operator_approval_queue_does_not_modify_repo_files": True,
             "controlled_multi_worker_audit_replay_preview_requires_token": True,
             "controlled_multi_worker_audit_replay_does_not_execute_actual_replay": True,
             "controlled_multi_worker_audit_replay_does_not_replay_worker_actions": True,
@@ -4131,6 +4296,15 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--audit-replay-packet-json", type=str, action="append")
     parser.add_argument("--audit-replay-observed-digest-map-json", type=str)
     parser.add_argument("--audit-replay-quarantine-reason", type=str)
+    parser.add_argument("--operator-approval-queue-schema", action="store_true")
+    parser.add_argument("--operator-approval-queue-enforcement", action="store_true")
+    parser.add_argument("--write-operator-approval-queue-enforcement", metavar="DIR", type=str)
+    parser.add_argument("--approval-queue-label", type=str)
+    parser.add_argument("--approval-queue-confirm-token", type=str)
+    parser.add_argument("--approval-queue-action-count", type=int, default=3)
+    parser.add_argument("--approval-queue-action-json", type=str, action="append")
+    parser.add_argument("--approval-queue-operator-decisions-json", type=str)
+    parser.add_argument("--approval-queue-stale-after-hours", type=int, default=72)
     parser.add_argument("--telemetry-worker-id", type=str, help="Worker ID for live telemetry")
     parser.add_argument("--telemetry-confirm-token", type=str, help="Confirmation token for live telemetry approval")
     parser.add_argument("--telemetry-abort-reason", type=str, help="Reason for live telemetry abort")
@@ -4252,6 +4426,9 @@ def main() -> None:
         return
     if args.audit_replay_preview_schema:
         print(json.dumps(create_controlled_multi_worker_audit_replay_preview_schema(), indent=2, ensure_ascii=False))
+        return
+    if args.operator_approval_queue_schema:
+        print(json.dumps(create_operator_approval_queue_enforcement_schema(), indent=2, ensure_ascii=False))
         return
 
     if args.list_controlled_execution_profiles:
@@ -4641,6 +4818,36 @@ def main() -> None:
             quarantine_reason=args.audit_replay_quarantine_reason
         )
 
+    if args.write_operator_approval_queue_enforcement:
+        args.operator_approval_queue_enforcement = True
+
+    if getattr(args, "operator_approval_queue_enforcement", False):
+        queued_actions = []
+        if args.approval_queue_action_json:
+            for ajson in args.approval_queue_action_json:
+                try:
+                    a = json.loads(ajson)
+                    queued_actions.append(a)
+                except Exception:
+                    pass
+        
+        operator_decisions = None
+        if args.approval_queue_operator_decisions_json:
+            try:
+                operator_decisions = json.loads(args.approval_queue_operator_decisions_json)
+            except Exception:
+                operator_decisions = {"error": "invalid operator decisions json"}
+
+        result = attach_operator_approval_queue_enforcement(
+            result,
+            queue_label=args.approval_queue_label,
+            confirmation_token=args.approval_queue_confirm_token,
+            queued_actions=queued_actions if queued_actions else None,
+            requested_action_count=args.approval_queue_action_count,
+            operator_decisions=operator_decisions,
+            stale_after_hours=args.approval_queue_stale_after_hours
+        )
+
     artifact_summary = None
     if args.write_artifacts:
         artifact_summary = write_runtime_artifacts(
@@ -4834,6 +5041,10 @@ def main() -> None:
         replay_res = write_controlled_multi_worker_audit_replay_preview(result, args.write_controlled_multi_worker_audit_replay_preview)
         result = dict(result)
         result["controlled_multi_worker_audit_replay_preview_write_summary"] = replay_res
+    if args.write_operator_approval_queue_enforcement:
+        queue_res = write_operator_approval_queue_enforcement(result, args.write_operator_approval_queue_enforcement)
+        result = dict(result)
+        result["operator_approval_queue_enforcement_write_summary"] = queue_res
 
     if args.write_output:
         Path(args.write_output).write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n")
