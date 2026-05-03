@@ -4,7 +4,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-ADAPTER_MODULE_VERSION = "2.5.0"
+ADAPTER_MODULE_VERSION = "2.6.0"
 
 YES_I_APPROVE_SANDBOX_FILE_WRITE = "YES_I_APPROVE_SANDBOX_FILE_WRITE"
 YES_I_APPROVE_SCOPED_REPO_PATCH = "YES_I_APPROVE_SCOPED_REPO_PATCH"
@@ -21,6 +21,7 @@ YES_I_APPROVE_SINGLE_WORKER_TELEMETRY_ABORT_CONTROLS = "YES_I_APPROVE_SINGLE_WOR
 YES_I_APPROVE_POST_RUN_AUDIT_PROOF_EXPANSION = "YES_I_APPROVE_POST_RUN_AUDIT_PROOF_EXPANSION"
 YES_I_APPROVE_MULTI_WORKER_SANDBOX_COORDINATION = "YES_I_APPROVE_MULTI_WORKER_SANDBOX_COORDINATION"
 YES_I_APPROVE_CONTROLLED_EXTERNAL_TOOL_ADAPTER_PREVIEW = "YES_I_APPROVE_CONTROLLED_EXTERNAL_TOOL_ADAPTER_PREVIEW"
+YES_I_APPROVE_PERMISSIONED_EXTERNAL_API_DRY_RUN_PREVIEW = "YES_I_APPROVE_PERMISSIONED_EXTERNAL_API_DRY_RUN_PREVIEW"
 
 SAFE_SANDBOX_PATH = "SAFE_SANDBOX_PATH"
 SAFE_REPO_PATCH_PATH = "SAFE_REPO_PATCH_PATH"
@@ -47,7 +48,15 @@ SUPPORTED_ADAPTERS = {
         "multi_worker_sandbox_coordination_requires_specific_token": True,
         "supports_controlled_external_tool_adapter_preview": True,
         "controlled_external_tool_adapter_preview_requires_specific_token": True,
+        "supports_permissioned_external_api_dry_run_preview": True,
+        "permissioned_external_api_dry_run_preview_requires_specific_token": True,
         "external_tool_invocation_allowed": False,
+        "live_api_call_allowed": False,
+        "network_access_allowed": False,
+        "socket_access_allowed": False,
+        "credential_use_allowed": False,
+        "secret_read_allowed": False,
+        "environment_read_allowed": False,
         "live_api_call_allowed": False,
         "network_access_allowed": False,
         "socket_access_allowed": False,
@@ -109,6 +118,8 @@ SUPPORTED_ADAPTERS = {
         "multi_worker_sandbox_coordination_requires_separate_gate": True,
         "supports_controlled_external_tool_adapter_preview": False,
         "controlled_external_tool_adapter_preview_requires_separate_gate": True,
+        "supports_permissioned_external_api_dry_run_preview": False,
+        "permissioned_external_api_dry_run_preview_requires_separate_gate": True,
         "supports_live_execution_telemetry_abort_controls": False,
         "telemetry_abort_controls_require_specific_token": True,
         "telemetry_abort_requires_separate_gate": True,
@@ -136,7 +147,15 @@ def list_adapters() -> dict:
         "multi_worker_sandbox_coordination_requires_specific_token": True,
         "supports_controlled_external_tool_adapter_preview": True,
         "controlled_external_tool_adapter_preview_requires_specific_token": True,
+        "supports_permissioned_external_api_dry_run_preview": True,
+        "permissioned_external_api_dry_run_preview_requires_specific_token": True,
         "external_tool_invocation_allowed": False,
+        "live_api_call_allowed": False,
+        "network_access_allowed": False,
+        "socket_access_allowed": False,
+        "credential_use_allowed": False,
+        "secret_read_allowed": False,
+        "environment_read_allowed": False,
         "live_api_call_allowed": False,
         "network_access_allowed": False,
         "socket_access_allowed": False,

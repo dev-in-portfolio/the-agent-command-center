@@ -109,6 +109,11 @@ from station_chief_controlled_external_tool_adapter_preview import (
     create_controlled_external_tool_adapter_preview_bundle,
     create_controlled_external_tool_adapter_preview_schema,
 )
+from station_chief_permissioned_external_api_dry_run_preview import (
+    PERMISSIONED_EXTERNAL_API_DRY_RUN_PREVIEW_APPROVAL_TOKEN,
+    create_permissioned_external_api_dry_run_preview_bundle,
+    create_permissioned_external_api_dry_run_preview_schema,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -118,7 +123,7 @@ from station_chief_execution_profiles import (
     select_execution_profile,
 )
 
-STATION_CHIEF_RUNTIME_VERSION = "2.5.0"
+STATION_CHIEF_RUNTIME_VERSION = "2.6.0"
 
 EXPECTED_OVERLAYS = [
     {
@@ -324,7 +329,7 @@ def normalize_command_for_id(command: str) -> str:
 def generate_run_id(command: str, run_label: str = "station-chief-runtime") -> str:
     normalized = normalize_command_for_id(command)
     digest = hashlib.sha256(f"{STATION_CHIEF_RUNTIME_VERSION}:{run_label}:{command}".encode("utf-8")).hexdigest()
-    return f"station-chief-v2-5-{normalized}-{digest[:12]}"
+    return f"station-chief-v2-6-{normalized}-{digest[:12]}"
 
 
 def classify_command(command: str) -> str:
@@ -435,7 +440,7 @@ def load_registry(registry_dir: str | Path) -> dict:
     registry_path = Path(registry_dir) / "run_registry.json"
     if not registry_path.exists():
         return {
-            "registry_version": "2.5.0",
+            "registry_version": "2.6.0",
             "runtime_name": "Station Chief Runtime",
             "runs": [],
         }
@@ -461,7 +466,7 @@ def update_registry(registry_dir: str | Path, index_entry: dict) -> dict:
 
 def write_runtime_index(registry_dir: str | Path, registry: dict) -> dict:
     index = {
-        "index_version": "2.5.0",
+        "index_version": "2.6.0",
         "runtime_name": "Station Chief Runtime",
         "run_count": len(registry.get("runs", [])),
         "runs": registry.get("runs", []),
@@ -515,7 +520,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
     adapter_result = run_noop_adapter(execution_plan)
     return {
         "station_chief_runtime_version": STATION_CHIEF_RUNTIME_VERSION,
-        "runtime_status": "controlled_external_tool_adapter_preview",
+        "runtime_status": "permissioned_external_api_dry_run_preview",
         "release_status": "STABLE_LOCKED",
         "run_capabilities": {
             "persistent_run_logs": True,
@@ -698,6 +703,17 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
             "external_tool_audit_proof": True,
             "external_tool_preview_ledger": True,
             "external_tool_preview_readiness_summary": True,
+            "permissioned_external_api_dry_run_preview_schema": True,
+            "external_api_dry_run_approval_gate": True,
+            "api_endpoint_preview_registry": True,
+            "request_envelope_validation": True,
+            "credential_absence_proof": True,
+            "outbound_call_prevention_proof": True,
+            "dry_run_response_fixture_contract": True,
+            "external_api_audit_proof": True,
+            "external_api_dry_run_ledger": True,
+            "external_api_dry_run_readiness_summary": True,
+            "controlled_multi_worker_audit_replay_preview_readiness_bridge": True,
             "permissioned_external_api_dry_run_preview_readiness_bridge": True,
         },
         "command": command,
@@ -944,7 +960,17 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
             "controlled_external_tool_adapter_preview_does_not_use_network_access": True,
             "controlled_external_tool_adapter_preview_does_not_open_sockets": True,
             "controlled_external_tool_adapter_preview_does_not_modify_repo_files": True,
-            "permissioned_external_api_dry_run_preview_not_yet_active": True,
+            "permissioned_external_api_dry_run_preview_available": True,
+            "permissioned_external_api_dry_run_preview_only": True,
+            "permissioned_external_api_dry_run_preview_requires_token": True,
+            "permissioned_external_api_dry_run_does_not_call_live_apis": True,
+            "permissioned_external_api_dry_run_does_not_use_network_access": True,
+            "permissioned_external_api_dry_run_does_not_open_sockets": True,
+            "permissioned_external_api_dry_run_does_not_use_credentials": True,
+            "permissioned_external_api_dry_run_does_not_read_secrets": True,
+            "permissioned_external_api_dry_run_does_not_read_environment": True,
+            "permissioned_external_api_dry_run_does_not_modify_repo_files": True,
+            "controlled_multi_worker_audit_replay_preview_not_yet_active": True,
         },
         "next_step": "Next step: build permissioned external API dry-run preview.",
     }
@@ -1003,7 +1029,7 @@ def write_approval_ledger(result: dict, output_dir: str | Path, run_label: str =
     manifest = {
         "approval_ledger_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.5.0",
+        "runtime_version": "2.6.0",
         "files_written": files_written,
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1074,7 +1100,7 @@ def write_controlled_execution(result: dict, output_dir: str | Path, run_label: 
     manifest = {
         "controlled_execution_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.5.0",
+        "runtime_version": "2.6.0",
         "files_written": files_written + ["controlled_execution_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1139,7 +1165,7 @@ def write_work_order_executor(result: dict, output_dir: str | Path, run_label: s
     manifest = {
         "work_order_executor_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.5.0",
+        "runtime_version": "2.6.0",
         "files_written": files_written + ["work_order_executor_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1205,7 +1231,7 @@ def write_worker_hiring_registry(result: dict, output_dir: str | Path, run_label
     manifest = {
         "worker_hiring_registry_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.5.0",
+        "runtime_version": "2.6.0",
         "files_written": files_written + ["worker_hiring_registry_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1274,7 +1300,7 @@ def write_department_routing(result: dict, output_dir: str | Path, run_label: st
     manifest = {
         "department_routing_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.5.0",
+        "runtime_version": "2.6.0",
         "files_written": files_written + ["department_routing_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1346,7 +1372,7 @@ def write_multi_agent_orchestration(result: dict, output_dir: str | Path, run_la
     manifest = {
         "multi_agent_orchestration_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.5.0",
+        "runtime_version": "2.6.0",
         "files_written": files_written + ["multi_agent_orchestration_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1427,7 +1453,7 @@ def write_operator_console(result: dict, output_dir: str | Path, run_label: str 
     manifest = {
         "operator_console_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.5.0",
+        "runtime_version": "2.6.0",
         "files_written": files_written + ["operator_console_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1520,7 +1546,7 @@ def write_github_patch_hardening(result: dict, output_dir: str | Path, run_label
     manifest = {
         "github_patch_hardening_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.5.0",
+        "runtime_version": "2.6.0",
         "files_written": files_written + ["github_patch_hardening_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1587,7 +1613,7 @@ def write_deployment_packaging(result: dict, output_dir: str | Path, run_label: 
     manifest = {
         "deployment_packaging_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.5.0",
+        "runtime_version": "2.6.0",
         "files_written": files_written + ["deployment_packaging_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1673,7 +1699,7 @@ def write_controlled_worker_execution(result: dict, output_dir: str | Path, run_
     manifest = {
         "controlled_worker_execution_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.5.0",
+        "runtime_version": "2.6.0",
         "files_written": files_written + ["controlled_worker_execution_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1776,7 +1802,7 @@ def write_tool_permission_binding(result: dict, output_dir: str | Path, run_labe
     manifest = {
         "tool_permission_binding_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.5.0",
+        "runtime_version": "2.6.0",
         "files_written": files_written + ["tool_permission_binding_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1930,7 +1956,7 @@ def write_post_run_audit_expansion(
     manifest = {
         "post_run_audit_expansion_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.5.0",
+        "runtime_version": "2.6.0",
         "files_written": files_written + ["post_run_audit_expansion_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -2045,7 +2071,7 @@ def write_multi_worker_sandbox_coordination(
     manifest = {
         "multi_worker_sandbox_coordination_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.5.0",
+        "runtime_version": "2.6.0",
         "files_written": files_written + ["multi_worker_sandbox_coordination_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -2170,7 +2196,7 @@ def write_controlled_external_tool_adapter_preview(
     manifest = {
         "controlled_external_tool_adapter_preview_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.5.0",
+        "runtime_version": "2.6.0",
         "files_written": files_written + ["controlled_external_tool_adapter_preview_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -2232,7 +2258,7 @@ result: dict, output_dir: str | Path, run_label: str = "station-chief-runtime") 
     manifest = {
         "live_execution_telemetry_abort_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.5.0",
+        "runtime_version": "2.6.0",
         "files_written": files_written + ["live_execution_telemetry_abort_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -2260,6 +2286,113 @@ result: dict, output_dir: str | Path, run_label: str = "station-chief-runtime") 
         "files_written": files_written
     }
 
+
+
+def attach_permissioned_external_api_dry_run_preview(
+    result: dict,
+    api_label: str | None = None,
+    endpoint_id: str | None = None,
+    confirmation_token: str | None = None,
+    requested_endpoints: list[str] | None = None,
+    method: str | None = None,
+    path_template: str | None = None,
+    request_payload: dict | None = None,
+    credential_labels: list[str] | None = None,
+    fixture_payload: dict | None = None
+) -> dict:
+    if "controlled_external_tool_adapter_preview_bundle" not in result:
+        result = attach_controlled_external_tool_adapter_preview(result)
+        
+    bundle = create_permissioned_external_api_dry_run_preview_bundle(
+        result,
+        command=result.get("command", ""),
+        api_label=api_label,
+        endpoint_id=endpoint_id,
+        confirmation_token=confirmation_token,
+        requested_endpoints=requested_endpoints,
+        method=method,
+        path_template=path_template,
+        request_payload=request_payload,
+        credential_labels=credential_labels,
+        fixture_payload=fixture_payload
+    )
+    result["permissioned_external_api_dry_run_preview_bundle"] = bundle
+    result["permissioned_external_api_dry_run_preview_schema"] = bundle["permissioned_external_api_dry_run_preview_schema"]
+    result["external_api_dry_run_approval_gate"] = bundle["external_api_dry_run_approval_gate"]
+    result["api_endpoint_preview_registry"] = bundle["api_endpoint_preview_registry"]
+    result["request_envelope_validation"] = bundle["request_envelope_validation"]
+    result["credential_absence_proof"] = bundle["credential_absence_proof"]
+    result["outbound_call_prevention_proof"] = bundle["outbound_call_prevention_proof"]
+    result["dry_run_response_fixture_contract"] = bundle["dry_run_response_fixture_contract"]
+    result["external_api_audit_proof"] = bundle["external_api_audit_proof"]
+    result["external_api_dry_run_ledger"] = bundle["external_api_dry_run_ledger"]
+    result["external_api_dry_run_readiness_summary"] = bundle["external_api_dry_run_readiness_summary"]
+    result["controlled_multi_worker_audit_replay_preview_readiness_bridge"] = bundle["controlled_multi_worker_audit_replay_preview_readiness_bridge"]
+    return result
+
+def write_permissioned_external_api_dry_run_preview(result: dict, output_dir: str | Path, run_label: str = "station-chief-runtime") -> dict:
+    if "permissioned_external_api_dry_run_preview_bundle" not in result:
+        raise ValueError("permissioned_external_api_dry_run_preview_bundle missing")
+        
+    run_id = generate_run_id(result.get("command", run_label))
+    target_dir = Path(output_dir) / run_id
+    target_dir.mkdir(parents=True, exist_ok=True)
+    
+    files_to_write = [
+        ("permissioned_external_api_dry_run_preview_bundle.json", "permissioned_external_api_dry_run_preview_bundle"),
+        ("permissioned_external_api_dry_run_preview_schema.json", "permissioned_external_api_dry_run_preview_schema"),
+        ("external_api_dry_run_approval_gate.json", "external_api_dry_run_approval_gate"),
+        ("api_endpoint_preview_registry.json", "api_endpoint_preview_registry"),
+        ("request_envelope_validation.json", "request_envelope_validation"),
+        ("credential_absence_proof.json", "credential_absence_proof"),
+        ("outbound_call_prevention_proof.json", "outbound_call_prevention_proof"),
+        ("dry_run_response_fixture_contract.json", "dry_run_response_fixture_contract"),
+        ("external_api_audit_proof.json", "external_api_audit_proof"),
+        ("external_api_dry_run_ledger.json", "external_api_dry_run_ledger"),
+        ("external_api_dry_run_readiness_summary.json", "external_api_dry_run_readiness_summary"),
+        ("controlled_multi_worker_audit_replay_preview_readiness_bridge.json", "controlled_multi_worker_audit_replay_preview_readiness_bridge"),
+    ]
+    
+    written = []
+    for fname, key in files_to_write:
+        path = target_dir / fname
+        path.write_text(json.dumps(result[key], indent=2), encoding="utf-8")
+        written.append(fname)
+        
+    manifest = {
+        "permissioned_external_api_dry_run_preview_manifest_version": "2.6.0",
+        "run_id": run_id,
+        "runtime_version": "2.6.0",
+        "files_written": written + ["permissioned_external_api_dry_run_preview_manifest.json"],
+        "baseline_preserved": True,
+        "external_actions_taken": False,
+        "external_tool_invoked": False,
+        "live_api_call_performed": False,
+        "network_access_performed": False,
+        "socket_opened": False,
+        "credentials_used": False,
+        "secrets_read": False,
+        "environment_read": False,
+        "repo_files_modified": False,
+        "broad_worker_activation_performed": False,
+        "real_workers_hired": False,
+        "worker_processes_started": False,
+        "live_worker_routing_performed": False,
+        "live_orchestration_performed": False,
+        "hosting_api_called": False,
+        "deployment_performed": False,
+        "execution_authorized": False,
+        "status": "PERMISSIONED_EXTERNAL_API_DRY_RUN_PREVIEW_ONLY",
+        "note": "Permissioned External API Dry-Run Preview v2.6.0 creates local API dry-run schema, endpoint registry, approval gate, request envelope validation, credential absence proof, outbound call prevention proof, fixture contract, audit proof, ledger, and readiness bridge artifacts only. It does not call live APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, invoke external tools, run shell commands, modify repo files, deploy, hire real workers, start worker processes, route live workers, perform live orchestration, or animate broad workforce."
+    }
+    
+    (target_dir / "permissioned_external_api_dry_run_preview_manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+    
+    return {
+        "run_id": run_id,
+        "permissioned_external_api_dry_run_preview_dir": str(target_dir),
+        "files_written": manifest["files_written"]
+    }
 
 def build_runtime_artifacts(result: dict, run_id: str) -> dict:
     adapter_name = result.get("adapter_name", "noop")
@@ -2514,6 +2647,17 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "controlled_external_tool_adapter_preview_bundle": True,
         "controlled_external_tool_adapter_preview_schema": True,
         "external_tool_adapter_preview_approval_gate": True,
+        "permissioned_external_api_dry_run_preview_schema": True,
+        "external_api_dry_run_approval_gate": True,
+        "api_endpoint_preview_registry": True,
+        "request_envelope_validation": True,
+        "credential_absence_proof": True,
+        "outbound_call_prevention_proof": True,
+        "dry_run_response_fixture_contract": True,
+        "external_api_audit_proof": True,
+        "external_api_dry_run_ledger": True,
+        "external_api_dry_run_readiness_summary": True,
+        "controlled_multi_worker_audit_replay_preview_readiness_bridge": True,
         "external_tool_dry_run_adapter_registry": True,
         "per_tool_external_permission_gate": True,
         "external_request_preview_contract": True,
@@ -2528,7 +2672,7 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "manifest": {
             "run_id": run_id,
             "runtime_version": result["station_chief_runtime_version"],
-            "artifact_type": "station_chief_runtime_v2_5_artifacts",
+            "artifact_type": "station_chief_runtime_v2_6_artifacts",
             "files_planned": [
                 "run_log.json",
                 "command_brief.json",
@@ -3005,6 +3149,17 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
             "external_tool_audit_proof": True,
             "external_tool_preview_ledger": True,
             "external_tool_preview_readiness_summary": True,
+            "permissioned_external_api_dry_run_preview_schema": "permissioned_external_api_dry_run_preview_schema" in result,
+            "external_api_dry_run_approval_gate": "external_api_dry_run_approval_gate" in result,
+            "api_endpoint_preview_registry": "api_endpoint_preview_registry" in result,
+            "request_envelope_validation": "request_envelope_validation" in result,
+            "credential_absence_proof": "credential_absence_proof" in result,
+            "outbound_call_prevention_proof": "outbound_call_prevention_proof" in result,
+            "dry_run_response_fixture_contract": "dry_run_response_fixture_contract" in result,
+            "external_api_audit_proof": "external_api_audit_proof" in result,
+            "external_api_dry_run_ledger": "external_api_dry_run_ledger" in result,
+            "external_api_dry_run_readiness_summary": "external_api_dry_run_readiness_summary" in result,
+            "controlled_multi_worker_audit_replay_preview_readiness_bridge": "controlled_multi_worker_audit_replay_preview_readiness_bridge" in result,
             "permissioned_external_api_dry_run_preview_readiness_bridge": True,
             "multi_worker_sandbox_coordination_preview_only": True,
             "multi_worker_sandbox_coordination_requires_token": True,
@@ -3020,7 +3175,17 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
             "controlled_external_tool_adapter_preview_does_not_use_network_access": True,
             "controlled_external_tool_adapter_preview_does_not_open_sockets": True,
             "controlled_external_tool_adapter_preview_does_not_modify_repo_files": True,
-            "permissioned_external_api_dry_run_preview_not_yet_active": True,
+            "permissioned_external_api_dry_run_preview_available": True,
+            "permissioned_external_api_dry_run_preview_only": True,
+            "permissioned_external_api_dry_run_preview_requires_token": True,
+            "permissioned_external_api_dry_run_does_not_call_live_apis": True,
+            "permissioned_external_api_dry_run_does_not_use_network_access": True,
+            "permissioned_external_api_dry_run_does_not_open_sockets": True,
+            "permissioned_external_api_dry_run_does_not_use_credentials": True,
+            "permissioned_external_api_dry_run_does_not_read_secrets": True,
+            "permissioned_external_api_dry_run_does_not_read_environment": True,
+            "permissioned_external_api_dry_run_does_not_modify_repo_files": True,
+            "controlled_multi_worker_audit_replay_preview_not_yet_active": True,
         },
     }
 
@@ -3773,6 +3938,19 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--external-tool-request-payload-json", type=str, help="JSON payload for controlled external tool adapter preview request")
     parser.add_argument("--external-tool-response-preview-json", type=str, help="JSON response preview for controlled external tool adapter preview")
     parser.add_argument("--external-tool-abort-reason", type=str, help="Abort reason for controlled external tool adapter preview")
+    
+    parser.add_argument("--external-api-dry-run-schema", action="store_true", help="Print the permissioned external API dry-run preview schema as JSON")
+    parser.add_argument("--permissioned-external-api-dry-run", action="store_true", help="Attach permissioned external API dry-run preview bundle to the printed result")
+    parser.add_argument("--write-permissioned-external-api-dry-run", metavar="DIR", type=str, help="Write permissioned external API dry-run preview artifacts into the provided directory")
+    parser.add_argument("--external-api-label", type=str)
+    parser.add_argument("--external-api-endpoint-id", type=str)
+    parser.add_argument("--external-api-confirm-token", type=str)
+    parser.add_argument("--external-api-requested-endpoint", type=str, action="append")
+    parser.add_argument("--external-api-method", type=str)
+    parser.add_argument("--external-api-path-template", type=str)
+    parser.add_argument("--external-api-request-payload-json", type=str)
+    parser.add_argument("--external-api-credential-label", type=str, action="append")
+    parser.add_argument("--external-api-fixture-payload-json", type=str)
     parser.add_argument("--telemetry-worker-id", type=str, help="Worker ID for live telemetry")
     parser.add_argument("--telemetry-confirm-token", type=str, help="Confirmation token for live telemetry approval")
     parser.add_argument("--telemetry-abort-reason", type=str, help="Reason for live telemetry abort")
@@ -3887,6 +4065,10 @@ def main() -> None:
 
     if args.external_tool_preview_schema:
         print(json.dumps(create_controlled_external_tool_adapter_preview_schema(), indent=2, ensure_ascii=False))
+        return
+
+    if args.external_api_dry_run_schema:
+        print(json.dumps(create_permissioned_external_api_dry_run_preview_schema(), indent=2, ensure_ascii=False))
         return
 
     if args.list_controlled_execution_profiles:
@@ -4214,6 +4396,37 @@ def main() -> None:
             abort_reason=args.external_tool_abort_reason,
         )
 
+    if args.write_permissioned_external_api_dry_run:
+        args.permissioned_external_api_dry_run = True
+
+    if getattr(args, "permissioned_external_api_dry_run", False):
+        req_payload = None
+        if args.external_api_request_payload_json:
+            try:
+                req_payload = json.loads(args.external_api_request_payload_json)
+            except Exception:
+                req_payload = {"error": "invalid request payload json"}
+        
+        fix_payload = None
+        if args.external_api_fixture_payload_json:
+            try:
+                fix_payload = json.loads(args.external_api_fixture_payload_json)
+            except Exception:
+                fix_payload = {"error": "invalid fixture payload json"}
+
+        result = attach_permissioned_external_api_dry_run_preview(
+            result,
+            api_label=args.external_api_label,
+            endpoint_id=args.external_api_endpoint_id,
+            confirmation_token=args.external_api_confirm_token,
+            requested_endpoints=args.external_api_requested_endpoint,
+            method=args.external_api_method,
+            path_template=args.external_api_path_template,
+            request_payload=req_payload,
+            credential_labels=args.external_api_credential_label,
+            fixture_payload=fix_payload
+        )
+
     artifact_summary = None
     if args.write_artifacts:
         artifact_summary = write_runtime_artifacts(
@@ -4398,6 +4611,11 @@ def main() -> None:
         )
         result = dict(result)
         result["controlled_external_tool_adapter_preview_write_summary"] = controlled_external_tool_adapter_preview_summary
+
+    if args.write_permissioned_external_api_dry_run:
+        api_res = write_permissioned_external_api_dry_run_preview(result, args.write_permissioned_external_api_dry_run)
+        result = dict(result)
+        result["permissioned_external_api_dry_run_preview_write_summary"] = api_res
 
     if args.write_output:
         Path(args.write_output).write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n")
