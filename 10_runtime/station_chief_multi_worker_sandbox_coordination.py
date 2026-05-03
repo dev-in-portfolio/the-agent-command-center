@@ -5,7 +5,7 @@ import hashlib
 import json
 import re
 
-MULTI_WORKER_SANDBOX_COORDINATION_MODULE_VERSION = "2.9.0"
+MULTI_WORKER_SANDBOX_COORDINATION_MODULE_VERSION = "3.0.0"
 MULTI_WORKER_SANDBOX_COORDINATION_STATUS = "MULTI_WORKER_SANDBOX_COORDINATION_PREVIEW_ONLY"
 MULTI_WORKER_SANDBOX_COORDINATION_PHASE = "Multi-Worker Sandbox Coordination"
 MULTI_WORKER_SANDBOX_COORDINATION_APPROVAL_TOKEN = "YES_I_APPROVE_MULTI_WORKER_SANDBOX_COORDINATION"
@@ -28,15 +28,15 @@ def normalize_coordination_label(label: str) -> str:
     return normalized or "multi-worker-sandbox-coordination"
 
 
-def generate_multi_worker_coordination_id(command: str, roster_label: str, runtime_version: str = "2.9.0") -> str:
+def generate_multi_worker_coordination_id(command: str, roster_label: str, runtime_version: str = "3.0.0") -> str:
     normalized_roster_label = normalize_coordination_label(roster_label)
     digest = hashlib.sha256(f"{runtime_version}:{command}:{roster_label}".encode("utf-8")).hexdigest()
-    return f"multi-worker-v2-9-{normalized_roster_label}-{digest[:12]}"
+    return f"multi-worker-v3-0-{normalized_roster_label}-{digest[:12]}"
 
 
 def create_multi_worker_sandbox_coordination_schema() -> dict:
     return {
-        "multi_worker_sandbox_coordination_schema_version": "2.9.0",
+        "multi_worker_sandbox_coordination_schema_version": "3.0.0",
         "schema_status": MULTI_WORKER_SANDBOX_COORDINATION_STATUS,
         "required_sections": [
             "multi_worker_coordination_approval_gate",
@@ -107,7 +107,7 @@ def create_multi_worker_coordination_approval_gate(
 ) -> dict:
     token_valid = confirmation_token == MULTI_WORKER_SANDBOX_COORDINATION_APPROVAL_TOKEN
     return {
-        "multi_worker_coordination_approval_gate_version": "2.9.0",
+        "multi_worker_coordination_approval_gate_version": "3.0.0",
         "roster_label": roster_label,
         "gate_status": (
             "APPROVED_FOR_MULTI_WORKER_SANDBOX_COORDINATION_RECORDS"
@@ -154,7 +154,7 @@ def create_sandbox_worker_roster(
             normalized_role = _sanitize_role(role)
             workers.append(
                 {
-                    "worker_id": f"sandbox-worker-v2-9-{index:03d}-{normalized_role}",
+                    "worker_id": f"sandbox-worker-v3-0-{index:03d}-{normalized_role}",
                     "worker_index": index,
                     "worker_role": role,
                     "worker_status": "SANDBOX_RECORD_ONLY",
@@ -165,7 +165,7 @@ def create_sandbox_worker_roster(
             )
         roster_status = "ROSTER_CREATED"
     roster = {
-        "sandbox_worker_roster_version": "2.9.0",
+        "sandbox_worker_roster_version": "3.0.0",
         "roster_status": roster_status,
         "command": command,
         "requested_worker_count": requested_worker_count,
@@ -214,7 +214,7 @@ def create_worker_coordination_graph(
             )
         graph_status = "GRAPH_CREATED"
     graph = {
-        "worker_coordination_graph_version": "2.9.0",
+        "worker_coordination_graph_version": "3.0.0",
         "graph_status": graph_status,
         "command": command,
         "nodes": nodes,
@@ -253,7 +253,7 @@ def create_inter_worker_handoff_contract(
             )
         contract_status = "CONTRACT_CREATED"
     contract = {
-        "inter_worker_handoff_contract_version": "2.9.0",
+        "inter_worker_handoff_contract_version": "3.0.0",
         "contract_status": contract_status,
         "handoff_contracts": handoff_contracts,
         "handoff_count": len(handoff_contracts),
@@ -280,7 +280,7 @@ def create_multi_worker_dry_run_ledger(
     )
     status = "MULTI_WORKER_SANDBOX_DRY_RUN_LEDGER" if gate_valid and created else "BLOCKED"
     ledger = {
-        "multi_worker_dry_run_ledger_version": "2.9.0",
+        "multi_worker_dry_run_ledger_version": "3.0.0",
         "ledger_status": status,
         "entries": [
             {"entry_type": "sandbox_worker_roster", "entry_digest": sha256_digest(roster)},
@@ -339,7 +339,7 @@ def create_coordination_conflict_detector(
                 )
         conflict_status = "CLEAR" if not conflicts else "CONFLICTS_FOUND"
     detector = {
-        "coordination_conflict_detector_version": "2.9.0",
+        "coordination_conflict_detector_version": "3.0.0",
         "conflict_status": conflict_status,
         "conflicts": conflicts,
         "conflict_count": len(conflicts),
@@ -360,7 +360,7 @@ def create_coordination_abort_contract(
     gate_valid = audit_gate.get("confirmation_token_valid") is True
     abort_reason = abort_reason or "No abort requested; coordination abort contract prepared."
     abort_contract = {
-        "coordination_abort_contract_version": "2.9.0",
+        "coordination_abort_contract_version": "3.0.0",
         "contract_status": "READY" if gate_valid else "BLOCKED",
         "abort_recommended": conflict_detector.get("conflict_status") == "CONFLICTS_FOUND",
         "abort_reason": abort_reason,
@@ -390,7 +390,7 @@ def create_coordination_quarantine_contract(
     gate_valid = audit_gate.get("confirmation_token_valid") is True
     failure_reason = failure_reason or "No failure recorded; quarantine contract prepared."
     quarantine_contract = {
-        "coordination_quarantine_contract_version": "2.9.0",
+        "coordination_quarantine_contract_version": "3.0.0",
         "quarantine_status": "QUARANTINE_RECORD_READY" if gate_valid else "BLOCKED",
         "quarantine_recommended": conflict_detector.get("conflict_status") == "CONFLICTS_FOUND",
         "failure_reason": failure_reason,
@@ -459,7 +459,7 @@ def create_coordination_audit_proof(
     else:
         audit_status = "REVIEW_REQUIRED"
     proof = {
-        "coordination_audit_proof_version": "2.9.0",
+        "coordination_audit_proof_version": "3.0.0",
         "audit_status": audit_status,
         "roster_digest": sha256_digest(roster),
         "coordination_graph_digest": sha256_digest(coordination_graph),
@@ -524,7 +524,7 @@ def create_coordination_readiness_summary(
         readiness_status = "BLOCKED"
         ready = False
     return {
-        "coordination_readiness_summary_version": "2.9.0",
+        "coordination_readiness_summary_version": "3.0.0",
         "readiness_status": readiness_status,
         "ready_for_controlled_external_tool_adapter_preview": ready,
         "gate_status": audit_gate.get("gate_status"),
@@ -548,7 +548,7 @@ def create_controlled_external_tool_adapter_preview_readiness_bridge(
 ) -> dict:
     ready = readiness_summary.get("ready_for_controlled_external_tool_adapter_preview") is True
     return {
-        "controlled_external_tool_adapter_preview_readiness_bridge_version": "2.9.0",
+        "controlled_external_tool_adapter_preview_readiness_bridge_version": "3.0.0",
         "current_layer": "Multi-Worker Sandbox Coordination",
         "next_layer": "Controlled External Tool Adapter Preview",
         "ready_for_controlled_external_tool_adapter_preview": ready,
@@ -608,7 +608,7 @@ def create_multi_worker_sandbox_coordination_bundle(
     readiness_summary = create_coordination_readiness_summary(gate, conflict_detector, audit_proof)
     bridge = create_controlled_external_tool_adapter_preview_readiness_bridge(result, readiness_summary)
     bundle = {
-        "multi_worker_sandbox_coordination_bundle_version": "2.9.0",
+        "multi_worker_sandbox_coordination_bundle_version": "3.0.0",
         "multi_worker_sandbox_coordination_status": MULTI_WORKER_SANDBOX_COORDINATION_STATUS,
         "command": command,
         "multi_worker_sandbox_coordination_schema": schema,

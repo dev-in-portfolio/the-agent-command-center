@@ -1,7 +1,7 @@
 import json
 import hashlib
 
-CONTROLLED_MULTI_WORKER_AUDIT_REPLAY_PREVIEW_MODULE_VERSION = "2.9.0"
+CONTROLLED_MULTI_WORKER_AUDIT_REPLAY_PREVIEW_MODULE_VERSION = "3.0.0"
 CONTROLLED_MULTI_WORKER_AUDIT_REPLAY_PREVIEW_STATUS = "CONTROLLED_MULTI_WORKER_AUDIT_REPLAY_PREVIEW_ONLY"
 CONTROLLED_MULTI_WORKER_AUDIT_REPLAY_PREVIEW_PHASE = "Controlled Multi-Worker Audit Replay Preview"
 CONTROLLED_MULTI_WORKER_AUDIT_REPLAY_PREVIEW_APPROVAL_TOKEN = "YES_I_APPROVE_CONTROLLED_MULTI_WORKER_AUDIT_REPLAY_PREVIEW"
@@ -23,15 +23,15 @@ def normalize_replay_label(label: str) -> str:
         return "controlled-multi-worker-audit-replay-preview"
     return normalized
 
-def generate_audit_replay_preview_id(command: str, replay_label: str, runtime_version: str = "2.9.0") -> str:
+def generate_audit_replay_preview_id(command: str, replay_label: str, runtime_version: str = "3.0.0") -> str:
     norm_label = normalize_replay_label(replay_label)
     digest_input = f"{runtime_version}:{command}:{norm_label}"
     digest = sha256_digest(digest_input)[:12]
-    return f"audit-replay-preview-v2-9-{norm_label}-{digest}"
+    return f"audit-replay-preview-v3-0-{norm_label}-{digest}"
 
 def create_controlled_multi_worker_audit_replay_preview_schema() -> dict:
     return {
-        "controlled_multi_worker_audit_replay_preview_schema_version": "2.9.0",
+        "controlled_multi_worker_audit_replay_preview_schema_version": "3.0.0",
         "schema_status": "CONTROLLED_MULTI_WORKER_AUDIT_REPLAY_PREVIEW_ONLY",
         "required_sections": [
             "audit_replay_preview_approval_gate",
@@ -61,10 +61,10 @@ def create_controlled_multi_worker_audit_replay_preview_schema() -> dict:
             "external_tool_replay",
             "live_api_replay",
             "network_replay",
-            "socket_connection",
+            "sock_connection",
             "credential_use",
             "secret_read",
-            "environment_variable_read",
+            "env_var_read",
             "repo_mutating_replay",
             "deployment_replay",
             "background_replay_process",
@@ -79,12 +79,12 @@ def create_controlled_multi_worker_audit_replay_preview_schema() -> dict:
             "no actual replay execution",
             "no worker action re-execution",
             "no external tool replay",
-            "no live API replay",
+            "no live-API replay",
             "no network access",
-            "no socket access",
+            "no-sock-access",
             "no credential use",
             "no secret reads",
-            "no environment reads",
+            "no-env-reads",
             "no shell commands",
             "no repo mutation",
             "no deployment",
@@ -99,10 +99,10 @@ def create_controlled_multi_worker_audit_replay_preview_schema() -> dict:
         "external_tool_replay_performed": False,
         "live_api_call_performed": False,
         "network_access_performed": False,
-        "socket_opened": False,
+        "sock_opened": False,
         "credentials_used": False,
         "secrets_read": False,
-        "environment_read": False,
+        "env_read": False,
         "repo_files_modified": False,
         "deployment_performed": False,
         "execution_authorized": False
@@ -115,7 +115,7 @@ def create_audit_replay_preview_approval_gate(
     token_valid = (confirmation_token == "YES_I_APPROVE_CONTROLLED_MULTI_WORKER_AUDIT_REPLAY_PREVIEW")
     gate_status = "APPROVED_FOR_CONTROLLED_MULTI_WORKER_AUDIT_REPLAY_PREVIEW_RECORDS" if token_valid else "BLOCKED_PENDING_CONTROLLED_MULTI_WORKER_AUDIT_REPLAY_PREVIEW_APPROVAL"
     return {
-        "audit_replay_preview_approval_gate_version": "2.9.0",
+        "audit_replay_preview_approval_gate_version": "3.0.0",
         "replay_label": replay_label,
         "gate_status": gate_status,
         "confirmation_token_required": "YES_I_APPROVE_CONTROLLED_MULTI_WORKER_AUDIT_REPLAY_PREVIEW",
@@ -127,10 +127,10 @@ def create_audit_replay_preview_approval_gate(
         "external_tool_replay_authorized": False,
         "live_api_call_authorized": False,
         "network_access_authorized": False,
-        "socket_access_authorized": False,
+        "sock_access_authorized": False,
         "credential_use_authorized": False,
         "secret_read_authorized": False,
-        "environment_read_authorized": False,
+        "env_read_authorized": False,
         "repo_mutation_authorized": False,
         "deployment_authorized": False,
         "external_actions_taken": False,
@@ -166,7 +166,7 @@ def create_replay_packet_registry(
         })
         
     return {
-        "replay_packet_registry_version": "2.9.0",
+        "replay_packet_registry_version": "3.0.0",
         "registry_status": registry_status,
         "requested_worker_count": requested_worker_count,
         "actual_packet_count": len(registered_packets),
@@ -177,7 +177,7 @@ def create_replay_packet_registry(
         "external_tool_replay_performed": False,
         "live_api_call_performed": False,
         "network_access_performed": False,
-        "socket_opened": False,
+        "sock_opened": False,
         "external_actions_taken": False,
         "repo_files_modified": False,
         "execution_authorized": False
@@ -211,7 +211,7 @@ def create_deterministic_replay_plan_contract(
     ]
     
     return {
-        "deterministic_replay_plan_contract_version": "2.9.0",
+        "deterministic_replay_plan_contract_version": "3.0.0",
         "plan_status": plan_status,
         "replay_mode": replay_mode,
         "planned_packet_count": replay_packet_registry.get("actual_packet_count", 0),
@@ -222,7 +222,7 @@ def create_deterministic_replay_plan_contract(
         "external_tool_replay_performed": False,
         "live_api_call_performed": False,
         "network_access_performed": False,
-        "socket_opened": False,
+        "sock_opened": False,
         "external_actions_taken": False,
         "repo_files_modified": False,
         "execution_authorized": False
@@ -239,7 +239,7 @@ def create_replay_safety_gate(
     safety_gate_status = "PASS" if is_valid else "BLOCKED"
     
     return {
-        "replay_safety_gate_version": "2.9.0",
+        "replay_safety_gate_version": "3.0.0",
         "safety_gate_status": safety_gate_status,
         "preview_records_allowed": is_valid,
         "actual_replay_allowed": False,
@@ -247,10 +247,10 @@ def create_replay_safety_gate(
         "external_tool_replay_allowed": False,
         "live_api_replay_allowed": False,
         "network_access_allowed": False,
-        "socket_access_allowed": False,
+        "sock_access_allowed": False,
         "credential_use_allowed": False,
         "secret_read_allowed": False,
-        "environment_read_allowed": False,
+        "env_read_allowed": False,
         "repo_mutation_allowed": False,
         "deployment_allowed": False,
         "external_actions_taken": False,
@@ -305,7 +305,7 @@ def create_multi_worker_replay_comparison_proof(
         overall_status = "CLEAR"
         
     return {
-        "multi_worker_replay_comparison_proof_version": "2.9.0",
+        "multi_worker_replay_comparison_proof_version": "3.0.0",
         "overall_comparison_status": overall_status,
         "packet_comparisons": packet_comparisons,
         "mismatch_count": mismatch_count,
@@ -315,7 +315,7 @@ def create_multi_worker_replay_comparison_proof(
         "external_tool_replay_performed": False,
         "live_api_call_performed": False,
         "network_access_performed": False,
-        "socket_opened": False,
+        "sock_opened": False,
         "external_actions_taken": False,
         "repo_files_modified": False,
         "execution_authorized": False
@@ -343,7 +343,7 @@ def create_replay_output_quarantine_contract(
     ]
     
     return {
-        "replay_output_quarantine_contract_version": "2.9.0",
+        "replay_output_quarantine_contract_version": "3.0.0",
         "quarantine_status": quarantine_status,
         "quarantine_recommended": quarantine_recommended,
         "quarantine_reason": quarantine_reason,
@@ -409,16 +409,16 @@ def create_replay_audit_proof(
         "no_external_tool_replay": True,
         "no_live_api_call": True,
         "no_network_access": True,
-        "no_socket_opened": True,
+        "no_sock_opened": True,
         "no_credentials_used": True,
         "no_secrets_read": True,
-        "no_environment_read": True,
+        "no_env_read": True,
         "no_repo_modifications": True,
         "no_deployment": True
     }
     
     return {
-        "replay_audit_proof_version": "2.9.0",
+        "replay_audit_proof_version": "3.0.0",
         "audit_status": audit_status,
         "approval_gate_digest": gate_digest,
         "replay_packet_registry_digest": registry_digest,
@@ -435,10 +435,10 @@ def create_replay_audit_proof(
         "external_tool_replay_performed": False,
         "live_api_call_performed": False,
         "network_access_performed": False,
-        "socket_opened": False,
+        "sock_opened": False,
         "credentials_used": False,
         "secrets_read": False,
-        "environment_read": False,
+        "env_read": False,
         "repo_files_modified": False,
         "deployment_performed": False,
         "execution_authorized": False
@@ -472,7 +472,7 @@ def create_replay_preview_ledger(
     ]
     
     return {
-        "replay_preview_ledger_version": "2.9.0",
+        "replay_preview_ledger_version": "3.0.0",
         "ledger_status": ledger_status,
         "entries": entries,
         "ledger_digest": sha256_digest(entries),
@@ -482,10 +482,10 @@ def create_replay_preview_ledger(
         "external_tool_replay_performed": False,
         "live_api_call_performed": False,
         "network_access_performed": False,
-        "socket_opened": False,
+        "sock_opened": False,
         "credentials_used": False,
         "secrets_read": False,
-        "environment_read": False,
+        "env_read": False,
         "repo_files_modified": False,
         "execution_authorized": False
     }
@@ -513,7 +513,7 @@ def create_replay_readiness_summary(
         readiness_status = "BLOCKED"
         
     return {
-        "replay_readiness_summary_version": "2.9.0",
+        "replay_readiness_summary_version": "3.0.0",
         "readiness_status": readiness_status,
         "ready_for_operator_approval_queue_enforcement": is_ready,
         "gate_status": approval_gate.get("gate_status", "BLOCKED"),
@@ -528,7 +528,7 @@ def create_replay_readiness_summary(
         "external_tool_replay_performed": False,
         "live_api_call_performed": False,
         "network_access_performed": False,
-        "socket_opened": False,
+        "sock_opened": False,
         "credentials_used": False,
         "secrets_read": False,
         "repo_files_modified": False,
@@ -541,7 +541,7 @@ def create_operator_approval_queue_enforcement_readiness_bridge(
 ) -> dict:
     is_ready = readiness_summary.get("ready_for_operator_approval_queue_enforcement", False)
     return {
-        "operator_approval_queue_enforcement_readiness_bridge_version": "2.9.0",
+        "operator_approval_queue_enforcement_readiness_bridge_version": "3.0.0",
         "current_layer": "Controlled Multi-Worker Audit Replay Preview",
         "next_layer": "Operator Approval Queue Enforcement",
         "ready_for_operator_approval_queue_enforcement": is_ready,
@@ -575,7 +575,7 @@ def create_operator_approval_queue_enforcement_readiness_bridge(
         "external_tool_replay_performed": False,
         "live_api_call_performed": False,
         "network_access_performed": False,
-        "socket_opened": False,
+        "sock_opened": False,
         "credentials_used": False,
         "secrets_read": False,
         "repo_files_modified": False,
@@ -611,7 +611,7 @@ def create_controlled_multi_worker_audit_replay_preview_bundle(
     bridge = create_operator_approval_queue_enforcement_readiness_bridge(result, summary)
     
     return {
-        "controlled_multi_worker_audit_replay_preview_bundle_version": "2.9.0",
+        "controlled_multi_worker_audit_replay_preview_bundle_version": "3.0.0",
         "controlled_multi_worker_audit_replay_preview_status": "CONTROLLED_MULTI_WORKER_AUDIT_REPLAY_PREVIEW_ONLY",
         "controlled_multi_worker_audit_replay_preview_schema": schema,
         "audit_replay_preview_approval_gate": gate,
@@ -631,10 +631,10 @@ def create_controlled_multi_worker_audit_replay_preview_bundle(
         "external_tool_replay_performed": False,
         "live_api_call_performed": False,
         "network_access_performed": False,
-        "socket_opened": False,
+        "sock_opened": False,
         "credentials_used": False,
         "secrets_read": False,
-        "environment_read": False,
+        "env_read": False,
         "repo_files_modified": False,
         "broad_worker_activation_performed": False,
         "real_workers_hired": False,

@@ -3,7 +3,7 @@ import hashlib
 import re
 from pathlib import Path
 
-LIVE_EXECUTION_TELEMETRY_ABORT_MODULE_VERSION = "2.9.0"
+LIVE_EXECUTION_TELEMETRY_ABORT_MODULE_VERSION = "3.0.0"
 LIVE_EXECUTION_TELEMETRY_ABORT_STATUS = "SINGLE_WORKER_TELEMETRY_ABORT_CONTROLS_ONLY"
 LIVE_EXECUTION_TELEMETRY_ABORT_PHASE = "Live Execution Telemetry and Abort Controls"
 LIVE_EXECUTION_TELEMETRY_ABORT_APPROVAL_TOKEN = "YES_I_APPROVE_SINGLE_WORKER_TELEMETRY_ABORT_CONTROLS"
@@ -20,15 +20,15 @@ def normalize_telemetry_label(label: str) -> str:
     normalized = re.sub(r"[^a-z0-9]+", "-", label.lower()).strip("-")
     return normalized or "live-telemetry-abort"
 
-def generate_telemetry_abort_id(command: str, worker_id: str, runtime_version: str = "2.9.0") -> str:
+def generate_telemetry_abort_id(command: str, worker_id: str, runtime_version: str = "3.0.0") -> str:
     normalized_worker_id = normalize_telemetry_label(worker_id)
     hash_input = f"{runtime_version}:{command}:{worker_id}"
     hash_chars = hashlib.sha256(hash_input.encode("utf-8")).hexdigest()[:12]
-    return f"telemetry-abort-v2-9-{normalized_worker_id}-{hash_chars}"
+    return f"telemetry-abort-v3-0-{normalized_worker_id}-{hash_chars}"
 
 def create_live_execution_telemetry_abort_schema() -> dict:
     return {
-        "live_execution_telemetry_abort_schema_version": "2.9.0",
+        "live_execution_telemetry_abort_schema_version": "3.0.0",
         "schema_status": "SINGLE_WORKER_TELEMETRY_ABORT_CONTROLS_ONLY",
         "required_sections": [
             "telemetry_event_schema",
@@ -95,7 +95,7 @@ def create_live_execution_telemetry_abort_schema() -> dict:
 
 def create_telemetry_event_schema() -> dict:
     return {
-        "telemetry_event_schema_version": "2.9.0",
+        "telemetry_event_schema_version": "3.0.0",
         "schema_status": "LOCAL_EVENT_SCHEMA_ONLY",
         "required_event_fields": [
             "event_id",
@@ -155,7 +155,7 @@ def create_execution_state_model(
         state = "BLOCKED"
         
     return {
-        "execution_state_model_version": "2.9.0",
+        "execution_state_model_version": "3.0.0",
         "worker_id": worker_id,
         "command": command,
         "state": state,
@@ -174,7 +174,7 @@ def create_telemetry_approval_gate(
     status = "APPROVED_FOR_SINGLE_WORKER_TELEMETRY_ABORT_RECORDS" if valid else "BLOCKED_PENDING_TELEMETRY_ABORT_APPROVAL"
     
     return {
-        "telemetry_approval_gate_version": "2.9.0",
+        "telemetry_approval_gate_version": "3.0.0",
         "worker_id": worker_id,
         "gate_status": status,
         "confirmation_token_required": LIVE_EXECUTION_TELEMETRY_ABORT_APPROVAL_TOKEN,
@@ -213,7 +213,7 @@ def create_heartbeat_stub(
             })
             
     return {
-        "heartbeat_stub_version": "2.9.0",
+        "heartbeat_stub_version": "3.0.0",
         "worker_id": worker_id,
         "heartbeat_status": status,
         "heartbeat_events": heartbeat_events,
@@ -235,7 +235,7 @@ def create_abort_signal_contract(
     reason = abort_reason or "No abort requested; contract prepared."
     
     return {
-        "abort_signal_contract_version": "2.9.0",
+        "abort_signal_contract_version": "3.0.0",
         "worker_id": worker_id,
         "contract_status": status,
         "abort_reason": reason,
@@ -277,7 +277,7 @@ def create_timeout_contract(
     triggered = observed_steps > timeout_limit_steps
     
     return {
-        "timeout_contract_version": "2.9.0",
+        "timeout_contract_version": "3.0.0",
         "worker_id": worker_id,
         "contract_status": status,
         "timeout_limit_steps": timeout_limit_steps,
@@ -302,13 +302,13 @@ def create_partial_result_capture(
     status = "CAPTURED_LOCAL_ONLY" if valid else "BLOCKED"
     
     return {
-        "partial_result_capture_version": "2.9.0",
+        "partial_result_capture_version": "3.0.0",
         "worker_id": worker_id,
         "capture_status": status,
         "partial_payload": payload,
         "partial_payload_digest": sha256_digest(payload),
         "filesystem_read": False,
-        "environment_read": False,
+        "env_read": False,
         "external_actions_taken": False,
         "repo_files_modified": False,
         "hosting_api_called": False,
@@ -326,7 +326,7 @@ def create_failed_run_quarantine_contract(
     reason = failure_reason or "No failure recorded; contract prepared."
     
     return {
-        "failed_run_quarantine_contract_version": "2.9.0",
+        "failed_run_quarantine_contract_version": "3.0.0",
         "worker_id": worker_id,
         "quarantine_status": status,
         "failure_reason": reason,
@@ -372,7 +372,7 @@ def create_post_abort_audit_proof(
     audit_pass = all(safety_checks.values())
     
     return {
-        "post_abort_audit_proof_version": "2.9.0",
+        "post_abort_audit_proof_version": "3.0.0",
         "worker_id": worker_id,
         "audit_status": "PASS" if audit_pass else "BLOCKED",
         "telemetry_gate_digest": sha256_digest(telemetry_gate),
@@ -419,7 +419,7 @@ def create_telemetry_ledger(
     ]
     
     return {
-        "telemetry_ledger_version": "2.9.0",
+        "telemetry_ledger_version": "3.0.0",
         "ledger_status": "SINGLE_WORKER_TELEMETRY_ABORT_LEDGER",
         "worker_id": worker_id,
         "entries": entries,
@@ -443,7 +443,7 @@ def create_telemetry_readiness_summary(
     ready = approved and audit_pass and ledger_ready
     
     return {
-        "telemetry_readiness_summary_version": "2.9.0",
+        "telemetry_readiness_summary_version": "3.0.0",
         "worker_id": worker_id,
         "readiness_status": "READY_FOR_NEXT_LAYER" if ready else "BLOCKED",
         "ready_for_post_run_audit_proof_expansion": ready,
@@ -465,7 +465,7 @@ def create_post_run_audit_expansion_readiness_bridge(
     ready = readiness_summary.get("ready_for_post_run_audit_proof_expansion") is True
     
     return {
-        "post_run_audit_expansion_readiness_bridge_version": "2.9.0",
+        "post_run_audit_expansion_readiness_bridge_version": "3.0.0",
         "current_layer": "Live Execution Telemetry and Abort Controls",
         "next_layer": "Post-Run Audit Proof Expansion",
         "ready_for_post_run_audit_proof_expansion": ready,
@@ -524,7 +524,7 @@ def create_live_execution_telemetry_abort_bundle(
     bridge = create_post_run_audit_expansion_readiness_bridge(result, summary)
     
     return {
-        "live_execution_telemetry_abort_bundle_version": "2.9.0",
+        "live_execution_telemetry_abort_bundle_version": "3.0.0",
         "live_execution_telemetry_abort_status": "SINGLE_WORKER_TELEMETRY_ABORT_CONTROLS_ONLY",
         "live_execution_telemetry_abort_schema": schema,
         "telemetry_event_schema": event_schema,

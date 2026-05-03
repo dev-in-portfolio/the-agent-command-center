@@ -3,7 +3,7 @@ import hashlib
 import re
 from pathlib import Path
 
-DEPLOYMENT_PACKAGING_MODULE_VERSION = "2.9.0"
+DEPLOYMENT_PACKAGING_MODULE_VERSION = "3.0.0"
 DEPLOYMENT_PACKAGING_STATUS = "PACKAGING_BRIDGE_ONLY"
 DEPLOYMENT_PACKAGING_PHASE = "Deployment / Portfolio Packaging Bridge"
 
@@ -19,15 +19,15 @@ def normalize_packaging_label(label: str) -> str:
     normalized = re.sub(r"[^a-z0-9]+", "-", label.lower()).strip("-")
     return normalized or "deployment-packaging"
 
-def generate_deployment_packaging_id(command: str, label: str, runtime_version: str = "2.9.0") -> str:
+def generate_deployment_packaging_id(command: str, label: str, runtime_version: str = "3.0.0") -> str:
     normalized_label = normalize_packaging_label(label)
     hash_input = f"{runtime_version}:{command}:{label}"
     hash_chars = hashlib.sha256(hash_input.encode("utf-8")).hexdigest()[:12]
-    return f"deployment-packaging-v2-9-{normalized_label}-{hash_chars}"
+    return f"deployment-packaging-v3-0-{normalized_label}-{hash_chars}"
 
 def make_deployment_artifact_schema() -> dict:
     return {
-        "deployment_artifact_schema_version": "2.9.0",
+        "deployment_artifact_schema_version": "3.0.0",
         "schema_status": "PACKAGING_BRIDGE_ONLY",
         "required_sections": [
             "portfolio_packaging_manifest",
@@ -79,7 +79,7 @@ def make_deployment_artifact_schema() -> dict:
 
 def create_portfolio_packaging_manifest(result: dict) -> dict:
     return {
-        "portfolio_packaging_manifest_version": "2.9.0",
+        "portfolio_packaging_manifest_version": "3.0.0",
         "manifest_status": "PORTFOLIO_HANDOFF_PREVIEW_ONLY",
         "project_name": "Agent Command Center",
         "project_owner": "Devin O’Rourke",
@@ -146,7 +146,7 @@ def create_runtime_export_bundle(result: dict) -> dict:
     artifact_keys = list(result.keys())
     
     return {
-        "runtime_export_bundle_version": "2.9.0",
+        "runtime_export_bundle_version": "3.0.0",
         "export_status": "EXPORT_PREVIEW_ONLY",
         "runtime_version": result.get("station_chief_runtime_version"),
         "runtime_status": result.get("runtime_status"),
@@ -171,7 +171,7 @@ def create_runtime_export_bundle(result: dict) -> dict:
 
 def create_release_notes(result: dict) -> dict:
     return {
-        "release_notes_version": "2.9.0",
+        "release_notes_version": "3.0.0",
         "release_title": "Station Chief Runtime v2.5.0 — Deployment / Portfolio Packaging Bridge",
         "release_status": "PACKAGING_BRIDGE_ONLY",
         "summary": "v2.5.0 packages the Station Chief runtime for review and portfolio handoff without performing deployment or live execution.",
@@ -224,7 +224,7 @@ def create_release_notes(result: dict) -> dict:
 
 def make_deployment_safety_contract(result: dict) -> dict:
     return {
-        "deployment_safety_contract_version": "2.9.0",
+        "deployment_safety_contract_version": "3.0.0",
         "contract_status": "DEPLOYMENT_BLOCKED_BY_DEFAULT",
         "blocked_actions": [
             "deploy_to_external_platform_001",
@@ -284,7 +284,7 @@ def make_deployment_readiness_proof(
     ready = all(checks.values())
     
     return {
-        "deployment_readiness_proof_version": "2.9.0",
+        "deployment_readiness_proof_version": "3.0.0",
         "proof_status": "READY_FOR_REVIEW_PACKAGING" if ready else "BLOCKED",
         "readiness_checks": checks,
         "proof_digest": sha256_digest(checks),
@@ -303,7 +303,7 @@ def create_portfolio_handoff_summary(
     deployment_readiness_proof: dict
 ) -> dict:
     return {
-        "portfolio_handoff_summary_version": "2.9.0",
+        "portfolio_handoff_summary_version": "3.0.0",
         "handoff_status": "READY_FOR_PORTFOLIO_REVIEW",
         "project_name": "Agent Command Center",
         "project_owner": "Devin O’Rourke",
@@ -347,7 +347,7 @@ def create_packaging_audit_bundle(
     portfolio_handoff_summary: dict
 ) -> dict:
     return {
-        "packaging_audit_bundle_version": "2.9.0",
+        "packaging_audit_bundle_version": "3.0.0",
         "audit_status": "PACKAGING_REVIEW_READY",
         "portfolio_manifest_digest": sha256_digest(portfolio_manifest),
         "runtime_export_bundle_digest": sha256_digest(runtime_export_bundle),
@@ -381,7 +381,7 @@ def create_first_controlled_worker_execution_readiness_bridge(
     )
     
     return {
-        "first_controlled_worker_execution_readiness_bridge_version": "2.9.0",
+        "first_controlled_worker_execution_readiness_bridge_version": "3.0.0",
         "current_layer": "Deployment / Portfolio Packaging Bridge",
         "next_layer": "First Controlled Worker-Agent Execution Release",
         "ready_for_first_controlled_worker_execution_release": ready,
@@ -431,7 +431,7 @@ def make_deployment_packaging_bundle(result: dict) -> dict:
     )
     
     return {
-        "deployment_packaging_bundle_version": "2.9.0",
+        "deployment_packaging_bundle_version": "3.0.0",
         "deployment_packaging_status": "PACKAGING_BRIDGE_ONLY",
         "deployment_artifact_schema": schema,
         "portfolio_packaging_manifest": portfolio_manifest,

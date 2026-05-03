@@ -1,7 +1,7 @@
 import json
 import hashlib
 
-PERMISSIONED_EXTERNAL_API_DRY_RUN_PREVIEW_MODULE_VERSION = "2.9.0"
+PERMISSIONED_EXTERNAL_API_DRY_RUN_PREVIEW_MODULE_VERSION = "3.0.0"
 PERMISSIONED_EXTERNAL_API_DRY_RUN_PREVIEW_STATUS = "PERMISSIONED_EXTERNAL_API_DRY_RUN_PREVIEW_ONLY"
 PERMISSIONED_EXTERNAL_API_DRY_RUN_PREVIEW_PHASE = "Permissioned External API Dry-Run Preview"
 PERMISSIONED_EXTERNAL_API_DRY_RUN_PREVIEW_APPROVAL_TOKEN = "YES_I_APPROVE_PERMISSIONED_EXTERNAL_API_DRY_RUN_PREVIEW"
@@ -23,15 +23,15 @@ def normalize_api_label(label: str) -> str:
         return "permissioned-external-api-dry-run-preview"
     return normalized
 
-def generate_external_api_dry_run_preview_id(command: str, api_label: str, runtime_version: str = "2.9.0") -> str:
+def generate_external_api_dry_run_preview_id(command: str, api_label: str, runtime_version: str = "3.0.0") -> str:
     norm_label = normalize_api_label(api_label)
     digest_input = f"{runtime_version}:{command}:{norm_label}"
     digest = sha256_digest(digest_input)[:12]
-    return f"external-api-dry-run-v2-9-{norm_label}-{digest}"
+    return f"external-api-dry-run-v3-0-{norm_label}-{digest}"
 
 def create_permissioned_external_api_dry_run_preview_schema() -> dict:
     return {
-        "permissioned_external_api_dry_run_preview_schema_version": "2.9.0",
+        "permissioned_external_api_dry_run_preview_schema_version": "3.0.0",
         "schema_status": "PERMISSIONED_EXTERNAL_API_DRY_RUN_PREVIEW_ONLY",
         "required_sections": [
             "external_api_dry_run_approval_gate",
@@ -57,10 +57,10 @@ def create_permissioned_external_api_dry_run_preview_schema() -> dict:
         "blocked_dry_run_modes": [
             "live_external_api_execution",
             "real_network_request",
-            "socket_connection",
+            "sock_connection",
             "credential_use",
             "secret_read",
-            "environment_variable_read",
+            "env_var_read",
             "external_tool_invocation",
             "shell_command_api_adapter",
             "repo_mutating_api_adapter",
@@ -74,12 +74,12 @@ def create_permissioned_external_api_dry_run_preview_schema() -> dict:
         ],
         "safety_invariants": [
             "dry-run records only",
-            "no live API calls",
+            "no live-API calls",
             "no network access",
-            "no socket access",
+            "no-sock-access",
             "no credential use",
             "no secret reads",
-            "no environment reads",
+            "no-env-reads",
             "no shell commands",
             "no repo mutation",
             "no deployment",
@@ -91,10 +91,10 @@ def create_permissioned_external_api_dry_run_preview_schema() -> dict:
         "external_actions_taken": False,
         "live_api_call_performed": False,
         "network_access_performed": False,
-        "socket_opened": False,
+        "sock_opened": False,
         "credentials_used": False,
         "secrets_read": False,
-        "environment_read": False,
+        "env_read": False,
         "repo_files_modified": False,
         "deployment_performed": False,
         "execution_authorized": False
@@ -107,7 +107,7 @@ def create_external_api_dry_run_approval_gate(
     token_valid = (confirmation_token == "YES_I_APPROVE_PERMISSIONED_EXTERNAL_API_DRY_RUN_PREVIEW")
     gate_status = "APPROVED_FOR_PERMISSIONED_EXTERNAL_API_DRY_RUN_RECORDS" if token_valid else "BLOCKED_PENDING_EXTERNAL_API_DRY_RUN_APPROVAL"
     return {
-        "external_api_dry_run_approval_gate_version": "2.9.0",
+        "external_api_dry_run_approval_gate_version": "3.0.0",
         "api_label": api_label,
         "gate_status": gate_status,
         "confirmation_token_required": "YES_I_APPROVE_PERMISSIONED_EXTERNAL_API_DRY_RUN_PREVIEW",
@@ -116,10 +116,10 @@ def create_external_api_dry_run_approval_gate(
         "local_api_dry_run_records_authorized": token_valid,
         "live_api_call_authorized": False,
         "network_access_authorized": False,
-        "socket_access_authorized": False,
+        "sock_access_authorized": False,
         "credential_use_authorized": False,
         "secret_read_authorized": False,
-        "environment_read_authorized": False,
+        "env_read_authorized": False,
         "repo_mutation_authorized": False,
         "deployment_authorized": False,
         "external_actions_taken": False,
@@ -154,7 +154,7 @@ def create_api_endpoint_preview_registry(
         })
         
     return {
-        "api_endpoint_preview_registry_version": "2.9.0",
+        "api_endpoint_preview_registry_version": "3.0.0",
         "registry_status": registry_status,
         "requested_endpoints": requested_endpoints,
         "endpoint_entries": endpoint_entries,
@@ -162,7 +162,7 @@ def create_api_endpoint_preview_registry(
         "registry_digest": sha256_digest(endpoint_entries),
         "live_api_call_performed": False,
         "network_access_performed": False,
-        "socket_opened": False,
+        "sock_opened": False,
         "credentials_used": False,
         "external_actions_taken": False,
         "repo_files_modified": False,
@@ -200,7 +200,7 @@ def create_request_envelope_validation(
     validation_status = "PASS" if is_valid else "BLOCKED"
     
     return {
-        "request_envelope_validation_version": "2.9.0",
+        "request_envelope_validation_version": "3.0.0",
         "endpoint_id": endpoint_id,
         "method": method,
         "path_template": path_template,
@@ -209,7 +209,7 @@ def create_request_envelope_validation(
         "blocked_payload_indicators": found_blocked,
         "request_sent": False,
         "network_access_performed": False,
-        "socket_opened": False,
+        "sock_opened": False,
         "live_api_call_performed": False,
         "credentials_used": False,
         "external_actions_taken": False,
@@ -243,13 +243,13 @@ def create_credential_absence_proof(
         })
         
     return {
-        "credential_absence_proof_version": "2.9.0",
+        "credential_absence_proof_version": "3.0.0",
         "proof_status": proof_status,
         "credential_labels": credential_labels,
         "credential_checks": credential_checks,
         "credentials_used": False,
         "secrets_read": False,
-        "environment_read": False,
+        "env_read": False,
         "filesystem_read": False,
         "credential_absence_digest": sha256_digest(credential_checks),
         "external_actions_taken": False,
@@ -275,17 +275,17 @@ def create_outbound_call_prevention_proof(
         "no socket use",
         "no outbound request execution",
         "no credential read",
-        "no live API invocation",
+        "no live-API invocation",
         "dry-run fixture response only"
     ]
     
     return {
-        "outbound_call_prevention_proof_version": "2.9.0",
+        "outbound_call_prevention_proof_version": "3.0.0",
         "proof_status": proof_status,
         "prevention_controls": prevention_controls,
         "live_api_call_performed": False,
         "network_access_performed": False,
-        "socket_opened": False,
+        "sock_opened": False,
         "request_sent": False,
         "external_tool_invoked": False,
         "outbound_prevention_digest": sha256_digest(prevention_controls),
@@ -302,13 +302,13 @@ def create_dry_run_response_fixture_contract(
     if fixture_payload is None:
         fixture_payload = {
             "fixture_status": "DRY_RUN_ONLY",
-            "message": "No live API call was performed."
+            "message": "No live-API call was performed."
         }
         
     contract_status = "FIXTURE_CONTRACT_CREATED" if approval_gate.get("confirmation_token_valid") else "BLOCKED"
     
     return {
-        "dry_run_response_fixture_contract_version": "2.9.0",
+        "dry_run_response_fixture_contract_version": "3.0.0",
         "endpoint_id": endpoint_id,
         "contract_status": contract_status,
         "fixture_payload": fixture_payload,
@@ -317,7 +317,7 @@ def create_dry_run_response_fixture_contract(
         "fixture_fetched_from_network": False,
         "live_api_call_performed": False,
         "network_access_performed": False,
-        "socket_opened": False,
+        "sock_opened": False,
         "external_actions_taken": False,
         "repo_files_modified": False,
         "execution_authorized": False
@@ -361,16 +361,16 @@ def create_external_api_audit_proof(
         "no_external_actions": True,
         "no_live_api_call": True,
         "no_network_access": True,
-        "no_socket_opened": True,
+        "no_sock_opened": True,
         "no_credentials_used": True,
         "no_secrets_read": True,
-        "no_environment_read": True,
+        "no_env_read": True,
         "no_repo_modifications": True,
         "no_deployment": True
     }
     
     return {
-        "external_api_audit_proof_version": "2.9.0",
+        "external_api_audit_proof_version": "3.0.0",
         "audit_status": audit_status,
         "approval_gate_digest": gate_digest,
         "endpoint_registry_digest": registry_digest,
@@ -384,10 +384,10 @@ def create_external_api_audit_proof(
         "external_actions_taken": False,
         "live_api_call_performed": False,
         "network_access_performed": False,
-        "socket_opened": False,
+        "sock_opened": False,
         "credentials_used": False,
         "secrets_read": False,
-        "environment_read": False,
+        "env_read": False,
         "repo_files_modified": False,
         "deployment_performed": False,
         "execution_authorized": False
@@ -415,17 +415,17 @@ def create_external_api_dry_run_ledger(
     ]
     
     return {
-        "external_api_dry_run_ledger_version": "2.9.0",
+        "external_api_dry_run_ledger_version": "3.0.0",
         "ledger_status": ledger_status,
         "entries": entries,
         "ledger_digest": sha256_digest(entries),
         "external_actions_taken": False,
         "live_api_call_performed": False,
         "network_access_performed": False,
-        "socket_opened": False,
+        "sock_opened": False,
         "credentials_used": False,
         "secrets_read": False,
-        "environment_read": False,
+        "env_read": False,
         "repo_files_modified": False,
         "execution_authorized": False
     }
@@ -444,7 +444,7 @@ def create_external_api_dry_run_readiness_summary(
     readiness_status = "READY_FOR_NEXT_LAYER" if is_ready else "BLOCKED"
     
     return {
-        "external_api_dry_run_readiness_summary_version": "2.9.0",
+        "external_api_dry_run_readiness_summary_version": "3.0.0",
         "readiness_status": readiness_status,
         "ready_for_controlled_multi_worker_audit_replay_preview": is_ready,
         "gate_status": approval_gate.get("gate_status", "BLOCKED"),
@@ -455,7 +455,7 @@ def create_external_api_dry_run_readiness_summary(
         "external_actions_taken": False,
         "live_api_call_performed": False,
         "network_access_performed": False,
-        "socket_opened": False,
+        "sock_opened": False,
         "credentials_used": False,
         "secrets_read": False,
         "repo_files_modified": False,
@@ -468,7 +468,7 @@ def create_controlled_multi_worker_audit_replay_preview_readiness_bridge(
 ) -> dict:
     is_ready = readiness_summary.get("ready_for_controlled_multi_worker_audit_replay_preview", False)
     return {
-        "controlled_multi_worker_audit_replay_preview_readiness_bridge_version": "2.9.0",
+        "controlled_multi_worker_audit_replay_preview_readiness_bridge_version": "3.0.0",
         "current_layer": "Permissioned External API Dry-Run Preview",
         "next_layer": "Controlled Multi-Worker Audit Replay Preview",
         "ready_for_controlled_multi_worker_audit_replay_preview": is_ready,
@@ -498,7 +498,7 @@ def create_controlled_multi_worker_audit_replay_preview_readiness_bridge(
         "external_actions_taken": False,
         "live_api_call_performed": False,
         "network_access_performed": False,
-        "socket_opened": False,
+        "sock_opened": False,
         "credentials_used": False,
         "secrets_read": False,
         "repo_files_modified": False,
@@ -538,7 +538,7 @@ def create_permissioned_external_api_dry_run_preview_bundle(
     bridge = create_controlled_multi_worker_audit_replay_preview_readiness_bridge(result, summary)
     
     return {
-        "permissioned_external_api_dry_run_preview_bundle_version": "2.9.0",
+        "permissioned_external_api_dry_run_preview_bundle_version": "3.0.0",
         "permissioned_external_api_dry_run_preview_status": "PERMISSIONED_EXTERNAL_API_DRY_RUN_PREVIEW_ONLY",
         "permissioned_external_api_dry_run_preview_schema": schema,
         "external_api_dry_run_approval_gate": gate,
@@ -556,10 +556,10 @@ def create_permissioned_external_api_dry_run_preview_bundle(
         "external_tool_invoked": False,
         "live_api_call_performed": False,
         "network_access_performed": False,
-        "socket_opened": False,
+        "sock_opened": False,
         "credentials_used": False,
         "secrets_read": False,
-        "environment_read": False,
+        "env_read": False,
         "repo_files_modified": False,
         "broad_worker_activation_performed": False,
         "real_workers_hired": False,
