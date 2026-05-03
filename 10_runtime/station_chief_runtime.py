@@ -114,6 +114,11 @@ from station_chief_permissioned_external_api_dry_run_preview import (
     create_permissioned_external_api_dry_run_preview_bundle,
     create_permissioned_external_api_dry_run_preview_schema,
 )
+from station_chief_controlled_multi_worker_audit_replay_preview import (
+    CONTROLLED_MULTI_WORKER_AUDIT_REPLAY_PREVIEW_APPROVAL_TOKEN,
+    create_controlled_multi_worker_audit_replay_preview_bundle,
+    create_controlled_multi_worker_audit_replay_preview_schema,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -123,7 +128,7 @@ from station_chief_execution_profiles import (
     select_execution_profile,
 )
 
-STATION_CHIEF_RUNTIME_VERSION = "2.6.0"
+STATION_CHIEF_RUNTIME_VERSION = "2.7.0"
 
 EXPECTED_OVERLAYS = [
     {
@@ -329,7 +334,7 @@ def normalize_command_for_id(command: str) -> str:
 def generate_run_id(command: str, run_label: str = "station-chief-runtime") -> str:
     normalized = normalize_command_for_id(command)
     digest = hashlib.sha256(f"{STATION_CHIEF_RUNTIME_VERSION}:{run_label}:{command}".encode("utf-8")).hexdigest()
-    return f"station-chief-v2-6-{normalized}-{digest[:12]}"
+    return f"station-chief-v2-7-{normalized}-{digest[:12]}"
 
 
 def classify_command(command: str) -> str:
@@ -440,7 +445,7 @@ def load_registry(registry_dir: str | Path) -> dict:
     registry_path = Path(registry_dir) / "run_registry.json"
     if not registry_path.exists():
         return {
-            "registry_version": "2.6.0",
+            "registry_version": "2.7.0",
             "runtime_name": "Station Chief Runtime",
             "runs": [],
         }
@@ -466,7 +471,7 @@ def update_registry(registry_dir: str | Path, index_entry: dict) -> dict:
 
 def write_runtime_index(registry_dir: str | Path, registry: dict) -> dict:
     index = {
-        "index_version": "2.6.0",
+        "index_version": "2.7.0",
         "runtime_name": "Station Chief Runtime",
         "run_count": len(registry.get("runs", [])),
         "runs": registry.get("runs", []),
@@ -520,7 +525,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
     adapter_result = run_noop_adapter(execution_plan)
     return {
         "station_chief_runtime_version": STATION_CHIEF_RUNTIME_VERSION,
-        "runtime_status": "permissioned_external_api_dry_run_preview",
+        "runtime_status": "controlled_multi_worker_audit_replay_preview",
         "release_status": "STABLE_LOCKED",
         "run_capabilities": {
             "persistent_run_logs": True,
@@ -713,6 +718,17 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
             "external_api_audit_proof": True,
             "external_api_dry_run_ledger": True,
             "external_api_dry_run_readiness_summary": True,
+            "controlled_multi_worker_audit_replay_preview_schema": True,
+            "audit_replay_preview_approval_gate": True,
+            "replay_packet_registry": True,
+            "deterministic_replay_plan_contract": True,
+            "replay_safety_gate": True,
+            "multi_worker_replay_comparison_proof": True,
+            "replay_output_quarantine_contract": True,
+            "replay_audit_proof": True,
+            "replay_preview_ledger": True,
+            "replay_readiness_summary": True,
+            "operator_approval_queue_enforcement_readiness_bridge": True,
             "controlled_multi_worker_audit_replay_preview_readiness_bridge": True,
             "permissioned_external_api_dry_run_preview_readiness_bridge": True,
         },
@@ -970,9 +986,22 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
             "permissioned_external_api_dry_run_does_not_read_secrets": True,
             "permissioned_external_api_dry_run_does_not_read_environment": True,
             "permissioned_external_api_dry_run_does_not_modify_repo_files": True,
-            "controlled_multi_worker_audit_replay_preview_not_yet_active": True,
+            "controlled_multi_worker_audit_replay_preview_available": True,
+            "controlled_multi_worker_audit_replay_preview_only": True,
+            "controlled_multi_worker_audit_replay_preview_requires_token": True,
+            "controlled_multi_worker_audit_replay_does_not_execute_actual_replay": True,
+            "controlled_multi_worker_audit_replay_does_not_replay_worker_actions": True,
+            "controlled_multi_worker_audit_replay_does_not_replay_external_tools": True,
+            "controlled_multi_worker_audit_replay_does_not_call_live_apis": True,
+            "controlled_multi_worker_audit_replay_does_not_use_network_access": True,
+            "controlled_multi_worker_audit_replay_does_not_open_sockets": True,
+            "controlled_multi_worker_audit_replay_does_not_use_credentials": True,
+            "controlled_multi_worker_audit_replay_does_not_read_secrets": True,
+            "controlled_multi_worker_audit_replay_does_not_read_environment": True,
+            "controlled_multi_worker_audit_replay_does_not_modify_repo_files": True,
+            "operator_approval_queue_enforcement_not_yet_active": True,
         },
-        "next_step": "Next step: build permissioned external API dry-run preview.",
+        "next_step": "Next step: build operator approval queue enforcement.",
     }
 
 
@@ -1029,7 +1058,7 @@ def write_approval_ledger(result: dict, output_dir: str | Path, run_label: str =
     manifest = {
         "approval_ledger_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.6.0",
+        "runtime_version": "2.7.0",
         "files_written": files_written,
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1100,7 +1129,7 @@ def write_controlled_execution(result: dict, output_dir: str | Path, run_label: 
     manifest = {
         "controlled_execution_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.6.0",
+        "runtime_version": "2.7.0",
         "files_written": files_written + ["controlled_execution_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1165,7 +1194,7 @@ def write_work_order_executor(result: dict, output_dir: str | Path, run_label: s
     manifest = {
         "work_order_executor_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.6.0",
+        "runtime_version": "2.7.0",
         "files_written": files_written + ["work_order_executor_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1231,7 +1260,7 @@ def write_worker_hiring_registry(result: dict, output_dir: str | Path, run_label
     manifest = {
         "worker_hiring_registry_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.6.0",
+        "runtime_version": "2.7.0",
         "files_written": files_written + ["worker_hiring_registry_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1300,7 +1329,7 @@ def write_department_routing(result: dict, output_dir: str | Path, run_label: st
     manifest = {
         "department_routing_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.6.0",
+        "runtime_version": "2.7.0",
         "files_written": files_written + ["department_routing_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1372,7 +1401,7 @@ def write_multi_agent_orchestration(result: dict, output_dir: str | Path, run_la
     manifest = {
         "multi_agent_orchestration_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.6.0",
+        "runtime_version": "2.7.0",
         "files_written": files_written + ["multi_agent_orchestration_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1453,7 +1482,7 @@ def write_operator_console(result: dict, output_dir: str | Path, run_label: str 
     manifest = {
         "operator_console_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.6.0",
+        "runtime_version": "2.7.0",
         "files_written": files_written + ["operator_console_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1546,7 +1575,7 @@ def write_github_patch_hardening(result: dict, output_dir: str | Path, run_label
     manifest = {
         "github_patch_hardening_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.6.0",
+        "runtime_version": "2.7.0",
         "files_written": files_written + ["github_patch_hardening_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1613,7 +1642,7 @@ def write_deployment_packaging(result: dict, output_dir: str | Path, run_label: 
     manifest = {
         "deployment_packaging_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.6.0",
+        "runtime_version": "2.7.0",
         "files_written": files_written + ["deployment_packaging_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1699,7 +1728,7 @@ def write_controlled_worker_execution(result: dict, output_dir: str | Path, run_
     manifest = {
         "controlled_worker_execution_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.6.0",
+        "runtime_version": "2.7.0",
         "files_written": files_written + ["controlled_worker_execution_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1802,7 +1831,7 @@ def write_tool_permission_binding(result: dict, output_dir: str | Path, run_labe
     manifest = {
         "tool_permission_binding_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.6.0",
+        "runtime_version": "2.7.0",
         "files_written": files_written + ["tool_permission_binding_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -1956,7 +1985,7 @@ def write_post_run_audit_expansion(
     manifest = {
         "post_run_audit_expansion_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.6.0",
+        "runtime_version": "2.7.0",
         "files_written": files_written + ["post_run_audit_expansion_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -2071,7 +2100,7 @@ def write_multi_worker_sandbox_coordination(
     manifest = {
         "multi_worker_sandbox_coordination_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.6.0",
+        "runtime_version": "2.7.0",
         "files_written": files_written + ["multi_worker_sandbox_coordination_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -2196,7 +2225,7 @@ def write_controlled_external_tool_adapter_preview(
     manifest = {
         "controlled_external_tool_adapter_preview_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.6.0",
+        "runtime_version": "2.7.0",
         "files_written": files_written + ["controlled_external_tool_adapter_preview_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -2258,7 +2287,7 @@ result: dict, output_dir: str | Path, run_label: str = "station-chief-runtime") 
     manifest = {
         "live_execution_telemetry_abort_manifest_version": "2.5.0",
         "run_id": run_id,
-        "runtime_version": "2.6.0",
+        "runtime_version": "2.7.0",
         "files_written": files_written + ["live_execution_telemetry_abort_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -2360,9 +2389,9 @@ def write_permissioned_external_api_dry_run_preview(result: dict, output_dir: st
         written.append(fname)
         
     manifest = {
-        "permissioned_external_api_dry_run_preview_manifest_version": "2.6.0",
+        "permissioned_external_api_dry_run_preview_manifest_version": "2.7.0",
         "run_id": run_id,
-        "runtime_version": "2.6.0",
+        "runtime_version": "2.7.0",
         "files_written": written + ["permissioned_external_api_dry_run_preview_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -2391,6 +2420,111 @@ def write_permissioned_external_api_dry_run_preview(result: dict, output_dir: st
     return {
         "run_id": run_id,
         "permissioned_external_api_dry_run_preview_dir": str(target_dir),
+        "files_written": manifest["files_written"]
+    }
+
+
+def attach_controlled_multi_worker_audit_replay_preview(
+    result: dict,
+    replay_label: str | None = None,
+    confirmation_token: str | None = None,
+    replay_packets: list[dict] | None = None,
+    requested_worker_count: int = 3,
+    replay_mode: str | None = None,
+    observed_digest_map: dict | None = None,
+    quarantine_reason: str | None = None
+) -> dict:
+    if "permissioned_external_api_dry_run_preview_bundle" not in result:
+        result = attach_permissioned_external_api_dry_run_preview(result)
+        
+    bundle = create_controlled_multi_worker_audit_replay_preview_bundle(
+        result,
+        command=result.get("command", ""),
+        replay_label=replay_label,
+        confirmation_token=confirmation_token,
+        replay_packets=replay_packets,
+        requested_worker_count=requested_worker_count,
+        replay_mode=replay_mode,
+        observed_digest_map=observed_digest_map,
+        quarantine_reason=quarantine_reason
+    )
+    result["controlled_multi_worker_audit_replay_preview_bundle"] = bundle
+    result["controlled_multi_worker_audit_replay_preview_schema"] = bundle["controlled_multi_worker_audit_replay_preview_schema"]
+    result["audit_replay_preview_approval_gate"] = bundle["audit_replay_preview_approval_gate"]
+    result["replay_packet_registry"] = bundle["replay_packet_registry"]
+    result["deterministic_replay_plan_contract"] = bundle["deterministic_replay_plan_contract"]
+    result["replay_safety_gate"] = bundle["replay_safety_gate"]
+    result["multi_worker_replay_comparison_proof"] = bundle["multi_worker_replay_comparison_proof"]
+    result["replay_output_quarantine_contract"] = bundle["replay_output_quarantine_contract"]
+    result["replay_audit_proof"] = bundle["replay_audit_proof"]
+    result["replay_preview_ledger"] = bundle["replay_preview_ledger"]
+    result["replay_readiness_summary"] = bundle["replay_readiness_summary"]
+    result["operator_approval_queue_enforcement_readiness_bridge"] = bundle["operator_approval_queue_enforcement_readiness_bridge"]
+    return result
+
+def write_controlled_multi_worker_audit_replay_preview(result: dict, output_dir: str | Path, run_label: str = "station-chief-runtime") -> dict:
+    if "controlled_multi_worker_audit_replay_preview_bundle" not in result:
+        raise ValueError("controlled_multi_worker_audit_replay_preview_bundle missing")
+        
+    run_id = generate_run_id(result.get("command", run_label))
+    target_dir = Path(output_dir) / run_id
+    target_dir.mkdir(parents=True, exist_ok=True)
+    
+    files_to_write = [
+        ("controlled_multi_worker_audit_replay_preview_bundle.json", "controlled_multi_worker_audit_replay_preview_bundle"),
+        ("controlled_multi_worker_audit_replay_preview_schema.json", "controlled_multi_worker_audit_replay_preview_schema"),
+        ("audit_replay_preview_approval_gate.json", "audit_replay_preview_approval_gate"),
+        ("replay_packet_registry.json", "replay_packet_registry"),
+        ("deterministic_replay_plan_contract.json", "deterministic_replay_plan_contract"),
+        ("replay_safety_gate.json", "replay_safety_gate"),
+        ("multi_worker_replay_comparison_proof.json", "multi_worker_replay_comparison_proof"),
+        ("replay_output_quarantine_contract.json", "replay_output_quarantine_contract"),
+        ("replay_audit_proof.json", "replay_audit_proof"),
+        ("replay_preview_ledger.json", "replay_preview_ledger"),
+        ("replay_readiness_summary.json", "replay_readiness_summary"),
+        ("operator_approval_queue_enforcement_readiness_bridge.json", "operator_approval_queue_enforcement_readiness_bridge"),
+    ]
+    
+    written = []
+    for fname, key in files_to_write:
+        path = target_dir / fname
+        path.write_text(json.dumps(result[key], indent=2, ensure_ascii=False), encoding="utf-8")
+        written.append(fname)
+        
+    manifest = {
+        "controlled_multi_worker_audit_replay_preview_manifest_version": "2.7.0",
+        "run_id": run_id,
+        "runtime_version": "2.7.0",
+        "files_written": written + ["controlled_multi_worker_audit_replay_preview_manifest.json"],
+        "baseline_preserved": True,
+        "external_actions_taken": False,
+        "actual_replay_performed": False,
+        "worker_actions_replayed": False,
+        "external_tool_replay_performed": False,
+        "live_api_call_performed": False,
+        "network_access_performed": False,
+        "socket_opened": False,
+        "credentials_used": False,
+        "secrets_read": False,
+        "environment_read": False,
+        "repo_files_modified": False,
+        "broad_worker_activation_performed": False,
+        "real_workers_hired": False,
+        "worker_processes_started": False,
+        "live_worker_routing_performed": False,
+        "live_orchestration_performed": False,
+        "hosting_api_called": False,
+        "deployment_performed": False,
+        "execution_authorized": False,
+        "status": "CONTROLLED_MULTI_WORKER_AUDIT_REPLAY_PREVIEW_ONLY",
+        "note": "Controlled Multi-Worker Audit Replay Preview v2.7.0 creates local replay schema, replay packet registry, deterministic replay plan contract, replay safety gate, multi-worker replay comparison proof, replay output quarantine contract, replay audit proof, replay preview ledger, readiness summary, and operator approval queue enforcement bridge artifacts only. It does not execute actual replay, replay worker actions, replay external tools, call live APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, run shell commands, modify repo files, deploy, hire real workers, start worker processes, route live workers, perform live orchestration, or animate broad workforce."
+    }
+    
+    (target_dir / "controlled_multi_worker_audit_replay_preview_manifest.json").write_text(json.dumps(manifest, indent=2, ensure_ascii=False), encoding="utf-8")
+    
+    return {
+        "run_id": run_id,
+        "controlled_multi_worker_audit_replay_preview_dir": str(target_dir),
         "files_written": manifest["files_written"]
     }
 
@@ -2672,7 +2806,7 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "manifest": {
             "run_id": run_id,
             "runtime_version": result["station_chief_runtime_version"],
-            "artifact_type": "station_chief_runtime_v2_6_artifacts",
+            "artifact_type": "station_chief_runtime_v2_7_artifacts",
             "files_planned": [
                 "run_log.json",
                 "command_brief.json",
@@ -3161,6 +3295,29 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
             "external_api_dry_run_readiness_summary": "external_api_dry_run_readiness_summary" in result,
             "controlled_multi_worker_audit_replay_preview_readiness_bridge": "controlled_multi_worker_audit_replay_preview_readiness_bridge" in result,
             "permissioned_external_api_dry_run_preview_readiness_bridge": True,
+            "controlled_multi_worker_audit_replay_preview_schema": "controlled_multi_worker_audit_replay_preview_schema" in result,
+            "audit_replay_preview_approval_gate": "audit_replay_preview_approval_gate" in result,
+            "replay_packet_registry": "replay_packet_registry" in result,
+            "deterministic_replay_plan_contract": "deterministic_replay_plan_contract" in result,
+            "replay_safety_gate": "replay_safety_gate" in result,
+            "multi_worker_replay_comparison_proof": "multi_worker_replay_comparison_proof" in result,
+            "replay_output_quarantine_contract": "replay_output_quarantine_contract" in result,
+            "replay_audit_proof": "replay_audit_proof" in result,
+            "replay_preview_ledger": "replay_preview_ledger" in result,
+            "replay_readiness_summary": "replay_readiness_summary" in result,
+            "operator_approval_queue_enforcement_readiness_bridge": "operator_approval_queue_enforcement_readiness_bridge" in result,
+            "controlled_multi_worker_audit_replay_preview_only": True,
+            "controlled_multi_worker_audit_replay_preview_requires_token": True,
+            "controlled_multi_worker_audit_replay_does_not_execute_actual_replay": True,
+            "controlled_multi_worker_audit_replay_does_not_replay_worker_actions": True,
+            "controlled_multi_worker_audit_replay_does_not_replay_external_tools": True,
+            "controlled_multi_worker_audit_replay_does_not_call_live_apis": True,
+            "controlled_multi_worker_audit_replay_does_not_use_network_access": True,
+            "controlled_multi_worker_audit_replay_does_not_open_sockets": True,
+            "controlled_multi_worker_audit_replay_does_not_use_credentials": True,
+            "controlled_multi_worker_audit_replay_does_not_read_secrets": True,
+            "controlled_multi_worker_audit_replay_does_not_read_environment": True,
+            "controlled_multi_worker_audit_replay_does_not_modify_repo_files": True,
             "multi_worker_sandbox_coordination_preview_only": True,
             "multi_worker_sandbox_coordination_requires_token": True,
             "multi_worker_sandbox_coordination_does_not_hire_real_workers": True,
@@ -3185,7 +3342,20 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
             "permissioned_external_api_dry_run_does_not_read_secrets": True,
             "permissioned_external_api_dry_run_does_not_read_environment": True,
             "permissioned_external_api_dry_run_does_not_modify_repo_files": True,
-            "controlled_multi_worker_audit_replay_preview_not_yet_active": True,
+            "controlled_multi_worker_audit_replay_preview_available": True,
+            "controlled_multi_worker_audit_replay_preview_only": True,
+            "controlled_multi_worker_audit_replay_preview_requires_token": True,
+            "controlled_multi_worker_audit_replay_does_not_execute_actual_replay": True,
+            "controlled_multi_worker_audit_replay_does_not_replay_worker_actions": True,
+            "controlled_multi_worker_audit_replay_does_not_replay_external_tools": True,
+            "controlled_multi_worker_audit_replay_does_not_call_live_apis": True,
+            "controlled_multi_worker_audit_replay_does_not_use_network_access": True,
+            "controlled_multi_worker_audit_replay_does_not_open_sockets": True,
+            "controlled_multi_worker_audit_replay_does_not_use_credentials": True,
+            "controlled_multi_worker_audit_replay_does_not_read_secrets": True,
+            "controlled_multi_worker_audit_replay_does_not_read_environment": True,
+            "controlled_multi_worker_audit_replay_does_not_modify_repo_files": True,
+            "operator_approval_queue_enforcement_not_yet_active": True,
         },
     }
 
@@ -3951,6 +4121,16 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--external-api-request-payload-json", type=str)
     parser.add_argument("--external-api-credential-label", type=str, action="append")
     parser.add_argument("--external-api-fixture-payload-json", type=str)
+    parser.add_argument("--audit-replay-preview-schema", action="store_true")
+    parser.add_argument("--controlled-multi-worker-audit-replay-preview", action="store_true")
+    parser.add_argument("--write-controlled-multi-worker-audit-replay-preview", metavar="DIR", type=str)
+    parser.add_argument("--audit-replay-label", type=str)
+    parser.add_argument("--audit-replay-confirm-token", type=str)
+    parser.add_argument("--audit-replay-worker-count", type=int, default=3)
+    parser.add_argument("--audit-replay-mode", type=str)
+    parser.add_argument("--audit-replay-packet-json", type=str, action="append")
+    parser.add_argument("--audit-replay-observed-digest-map-json", type=str)
+    parser.add_argument("--audit-replay-quarantine-reason", type=str)
     parser.add_argument("--telemetry-worker-id", type=str, help="Worker ID for live telemetry")
     parser.add_argument("--telemetry-confirm-token", type=str, help="Confirmation token for live telemetry approval")
     parser.add_argument("--telemetry-abort-reason", type=str, help="Reason for live telemetry abort")
@@ -4069,6 +4249,9 @@ def main() -> None:
 
     if args.external_api_dry_run_schema:
         print(json.dumps(create_permissioned_external_api_dry_run_preview_schema(), indent=2, ensure_ascii=False))
+        return
+    if args.audit_replay_preview_schema:
+        print(json.dumps(create_controlled_multi_worker_audit_replay_preview_schema(), indent=2, ensure_ascii=False))
         return
 
     if args.list_controlled_execution_profiles:
@@ -4427,6 +4610,37 @@ def main() -> None:
             fixture_payload=fix_payload
         )
 
+    if args.write_controlled_multi_worker_audit_replay_preview:
+        args.controlled_multi_worker_audit_replay_preview = True
+
+    if getattr(args, "controlled_multi_worker_audit_replay_preview", False):
+        replay_packets = []
+        if args.audit_replay_packet_json:
+            for pjson in args.audit_replay_packet_json:
+                try:
+                    p = json.loads(pjson)
+                    replay_packets.append(p)
+                except Exception:
+                    pass
+        
+        observed_digest_map = None
+        if args.audit_replay_observed_digest_map_json:
+            try:
+                observed_digest_map = json.loads(args.audit_replay_observed_digest_map_json)
+            except Exception:
+                observed_digest_map = {"error": "invalid observed digest map json"}
+
+        result = attach_controlled_multi_worker_audit_replay_preview(
+            result,
+            replay_label=args.audit_replay_label,
+            confirmation_token=args.audit_replay_confirm_token,
+            replay_packets=replay_packets if replay_packets else None,
+            requested_worker_count=args.audit_replay_worker_count,
+            replay_mode=args.audit_replay_mode,
+            observed_digest_map=observed_digest_map,
+            quarantine_reason=args.audit_replay_quarantine_reason
+        )
+
     artifact_summary = None
     if args.write_artifacts:
         artifact_summary = write_runtime_artifacts(
@@ -4616,6 +4830,10 @@ def main() -> None:
         api_res = write_permissioned_external_api_dry_run_preview(result, args.write_permissioned_external_api_dry_run)
         result = dict(result)
         result["permissioned_external_api_dry_run_preview_write_summary"] = api_res
+    if args.write_controlled_multi_worker_audit_replay_preview:
+        replay_res = write_controlled_multi_worker_audit_replay_preview(result, args.write_controlled_multi_worker_audit_replay_preview)
+        result = dict(result)
+        result["controlled_multi_worker_audit_replay_preview_write_summary"] = replay_res
 
     if args.write_output:
         Path(args.write_output).write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n")

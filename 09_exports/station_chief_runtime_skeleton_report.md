@@ -1,7 +1,7 @@
 # Station Chief Runtime Skeleton Report
 
 ## Status
-Station Chief Runtime upgraded to v2.6.0. Locked 175-family baseline preserved. Permissioned external API dry-run preview added.
+Station Chief Runtime upgraded to v2.7.0. Locked 175-family baseline preserved. Controlled multi-worker audit replay preview added.
 
 ## Ownership / Attribution
 Project owner, system architect, and operating-doctrine author: Devin O’Rourke.
@@ -9,7 +9,7 @@ Project owner, system architect, and operating-doctrine author: Devin O’Rourke
 This attribution applies to the Agent Command Center Station Chief runtime skeleton. The locked 175-family baseline remains preserved.
 
 ## Purpose
-This report documents the Station Chief runtime v2.6.0 upgrade to permissioned external API dry-run preview while preserving the locked 175-family baseline, the post-run audit proof expansion layer, the multi-worker sandbox coordination layer, and the controlled external tool adapter preview layer.
+This report documents the Station Chief runtime v2.7.0 upgrade to controlled multi-worker audit replay preview while preserving the locked 175-family baseline, the permissioned external API dry-run preview layer, and all previous coordination and safety layers.
 
 ## Files Created / Modified
 10_runtime/station_chief_runtime.py
@@ -35,8 +35,9 @@ This report documents the Station Chief runtime v2.6.0 upgrade to permissioned e
 10_runtime/station_chief_multi_worker_sandbox_coordination.py
 10_runtime/station_chief_controlled_external_tool_adapter_preview.py
 10_runtime/station_chief_permissioned_external_api_dry_run_preview.py
+10_runtime/station_chief_controlled_multi_worker_audit_replay_preview.py
 09_exports/station_chief_runtime_skeleton_report.md
-09_exports/station_chief_runtime_v2_6_report.md
+09_exports/station_chief_runtime_v2_7_report.md
 
 ## Runtime Capabilities
 - one-command intake
@@ -222,6 +223,20 @@ This report documents the Station Chief runtime v2.6.0 upgrade to permissioned e
 - external API dry-run ledger
 - external API dry-run readiness summary
 - controlled multi-worker audit replay preview readiness bridge
+- controlled multi-worker audit replay preview schema
+- audit replay preview approval gate
+- replay packet registry
+- deterministic replay plan contract
+- replay safety gate
+- multi-worker replay comparison proof
+- replay output quarantine contract
+- replay audit proof
+- replay preview ledger
+- replay readiness summary
+- operator approval queue enforcement readiness bridge
+- no actual replay execution
+- no worker action re-execution
+- no external tool replay
 - no live API calls
 - no credential use
 - no secret reads
@@ -233,20 +248,10 @@ This report documents the Station Chief runtime v2.6.0 upgrade to permissioned e
 - no arbitrary code execution
 - no repo mutation
 - no deployment
-- no live API calls
-- no credential use
-- no secret reads
-- no environment reads
-- no network access
-- no socket access
-- no external tool invocation
-- no shell command execution
-- no arbitrary code execution
-- no repo mutation
-- no deployment
+- no actual replay execution
 
 ## Required Validator
-python3 scripts/validate_station_chief_runtime_v2_6.py
+python3 scripts/validate_station_chief_runtime_v2_7.py
 
 ## Next Recommended Step
-Next recommended build step: build controlled multi-worker audit replay preview.
+Next recommended build step: build operator approval queue enforcement.

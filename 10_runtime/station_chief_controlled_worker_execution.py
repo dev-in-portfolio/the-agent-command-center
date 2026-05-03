@@ -3,7 +3,7 @@ import hashlib
 import re
 from pathlib import Path
 
-CONTROLLED_WORKER_EXECUTION_MODULE_VERSION = "2.6.0"
+CONTROLLED_WORKER_EXECUTION_MODULE_VERSION = "2.7.0"
 CONTROLLED_WORKER_EXECUTION_STATUS = "SINGLE_WORKER_SANDBOX_EXECUTION_ONLY"
 CONTROLLED_WORKER_EXECUTION_PHASE = "First Controlled Worker-Agent Execution Release"
 FIRST_CONTROLLED_WORKER_EXECUTION_TOKEN = "YES_I_APPROVE_FIRST_CONTROLLED_WORKER_EXECUTION"
@@ -20,15 +20,15 @@ def normalize_worker_execution_label(label: str) -> str:
     normalized = re.sub(r"[^a-z0-9]+", "-", label.lower()).strip("-")
     return normalized or "controlled-worker-execution"
 
-def generate_worker_execution_run_id(command: str, worker_id: str, runtime_version: str = "2.6.0") -> str:
+def generate_worker_execution_run_id(command: str, worker_id: str, runtime_version: str = "2.7.0") -> str:
     normalized_worker_id = normalize_worker_execution_label(worker_id)
     hash_input = f"{runtime_version}:{command}:{worker_id}"
     hash_chars = hashlib.sha256(hash_input.encode("utf-8")).hexdigest()[:12]
-    return f"controlled-worker-v2-6-{normalized_worker_id}-{hash_chars}"
+    return f"controlled-worker-v2-7-{normalized_worker_id}-{hash_chars}"
 
 def create_controlled_worker_execution_schema() -> dict:
     return {
-        "controlled_worker_execution_schema_version": "2.6.0",
+        "controlled_worker_execution_schema_version": "2.7.0",
         "schema_status": "SINGLE_WORKER_SANDBOX_EXECUTION_ONLY",
         "required_sections": [
             "worker_execution_gate",
@@ -116,7 +116,7 @@ def create_worker_execution_gate(
     status = "APPROVED_FOR_SINGLE_WORKER_SANDBOX_EXECUTION" if authorized else "BLOCKED_PENDING_FIRST_WORKER_APPROVAL"
     
     return {
-        "worker_execution_gate_version": "2.6.0",
+        "worker_execution_gate_version": "2.7.0",
         "gate_status": status,
         "command": command,
         "worker_id": w_id,
@@ -162,7 +162,7 @@ def create_tool_permission_binding(
     status = "PASS" if not blocked else "BLOCKED"
     
     return {
-        "tool_permission_binding_version": "2.6.0",
+        "tool_permission_binding_version": "2.7.0",
         "worker_id": worker_id,
         "binding_status": status,
         "requested_tool_permissions": requested,
@@ -194,7 +194,7 @@ def create_sandbox_worker_task(
 ) -> dict:
     p = payload or {}
     return {
-        "sandbox_worker_task_version": "2.6.0",
+        "sandbox_worker_task_version": "2.7.0",
         "task_status": "TASK_CREATED",
         "worker_id": worker_id,
         "sandbox_task": sandbox_task,
@@ -208,7 +208,7 @@ def create_sandbox_worker_task(
 
 def create_worker_abort_contract(worker_id: str, worker_run_id: str | None = None) -> dict:
     return {
-        "worker_abort_contract_version": "2.6.0",
+        "worker_abort_contract_version": "2.7.0",
         "worker_id": worker_id,
         "worker_run_id": worker_run_id,
         "abort_available": True,
@@ -236,7 +236,7 @@ def create_worker_abort_contract(worker_id: str, worker_run_id: str | None = Non
 
 def create_worker_rollback_contract(worker_id: str, worker_run_id: str | None = None) -> dict:
     return {
-        "worker_rollback_contract_version": "2.6.0",
+        "worker_rollback_contract_version": "2.7.0",
         "worker_id": worker_id,
         "worker_run_id": worker_run_id,
         "rollback_required": False,
@@ -256,7 +256,7 @@ def create_worker_rollback_contract(worker_id: str, worker_run_id: str | None = 
 
 def create_worker_execution_telemetry_stub(worker_id: str, worker_run_id: str | None = None) -> dict:
     return {
-        "worker_execution_telemetry_stub_version": "2.6.0",
+        "worker_execution_telemetry_stub_version": "2.7.0",
         "worker_id": worker_id,
         "worker_run_id": worker_run_id,
         "telemetry_status": "STUB_ONLY",
@@ -293,7 +293,7 @@ def run_single_worker_sandbox_task(
     
     if not (authorized and perms_pass and task in allowed_tasks):
         return {
-            "controlled_worker_execution_result_version": "2.6.0",
+            "controlled_worker_execution_result_version": "2.7.0",
             "worker_run_id": None,
             "worker_id": sandbox_worker_task.get("worker_id"),
             "sandbox_task": task,
@@ -326,7 +326,7 @@ def run_single_worker_sandbox_task(
         result_payload = {"note": "Single sandbox worker completed deterministic local task."}
         
     return {
-        "controlled_worker_execution_result_version": "2.6.0",
+        "controlled_worker_execution_result_version": "2.7.0",
         "worker_run_id": generate_worker_execution_run_id(sandbox_worker_task.get("command", "empty"), sandbox_worker_task.get("worker_id", "none")),
         "worker_id": sandbox_worker_task.get("worker_id"),
         "sandbox_task": task,
@@ -368,7 +368,7 @@ def create_post_run_audit_proof(
     pass_all = all(safety_checks.values())
     
     return {
-        "post_run_audit_proof_version": "2.6.0",
+        "post_run_audit_proof_version": "2.7.0",
         "audit_status": "PASS" if pass_all else "BLOCKED",
         "worker_run_id": controlled_worker_execution_result.get("worker_run_id"),
         "worker_id": controlled_worker_execution_result.get("worker_id"),
@@ -411,7 +411,7 @@ def create_worker_execution_ledger(
         {"type": "audit_proof", "status": post_run_audit_proof.get("audit_status")}
     ]
     return {
-        "worker_execution_ledger_version": "2.6.0",
+        "worker_execution_ledger_version": "2.7.0",
         "ledger_status": "SINGLE_WORKER_SANDBOX_LEDGER",
         "worker_run_id": controlled_worker_execution_result.get("worker_run_id"),
         "worker_id": controlled_worker_execution_result.get("worker_id"),
@@ -435,7 +435,7 @@ def create_single_worker_tool_permission_binding_readiness_bridge(
     )
     
     return {
-        "single_worker_tool_permission_binding_readiness_bridge_version": "2.6.0",
+        "single_worker_tool_permission_binding_readiness_bridge_version": "2.7.0",
         "current_layer": "First Controlled Worker-Agent Execution Release",
         "next_layer": "Single-Worker Tool Permission Binding",
         "ready_for_single_worker_tool_permission_binding": ready,
@@ -498,7 +498,7 @@ def create_controlled_worker_execution_bundle(
     bridge = create_single_worker_tool_permission_binding_readiness_bridge(result, audit, ledger)
     
     return {
-        "controlled_worker_execution_bundle_version": "2.6.0",
+        "controlled_worker_execution_bundle_version": "2.7.0",
         "controlled_worker_execution_status": "SINGLE_WORKER_SANDBOX_EXECUTION_ONLY",
         "controlled_worker_execution_schema": schema,
         "worker_execution_gate": gate,

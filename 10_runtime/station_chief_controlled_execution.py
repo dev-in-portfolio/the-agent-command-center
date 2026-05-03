@@ -2,7 +2,7 @@ import json
 import hashlib
 from pathlib import Path
 
-CONTROLLED_EXECUTION_MODULE_VERSION = "2.6.0"
+CONTROLLED_EXECUTION_MODULE_VERSION = "2.7.0"
 CONTROLLED_EXECUTION_PHASE = "Controlled Execution Engine and Worker Hiring Layer"
 CONTROLLED_EXECUTION_STATUS = "PROFILE_EXPANSION_ONLY"
 
@@ -122,7 +122,7 @@ def create_controlled_execution_profile_catalog() -> dict:
         }
     }
     return {
-        "controlled_execution_profile_catalog_version": "2.6.0",
+        "controlled_execution_profile_catalog_version": "2.7.0",
         "phase": CONTROLLED_EXECUTION_PHASE,
         "status": CONTROLLED_EXECUTION_STATUS,
         "profiles": profiles,
@@ -163,7 +163,7 @@ def select_controlled_execution_profile(
         reason = f"Selected default profile for command type '{command_type}'."
         
     return {
-        "controlled_execution_selection_version": "2.6.0",
+        "controlled_execution_selection_version": "2.7.0",
         "command_type": command_type,
         "requested_profile": requested_profile,
         "selected_profile_id": selected_id,
@@ -177,7 +177,7 @@ def select_controlled_execution_profile(
 
 def create_execution_permission_matrix(selected_profile: dict) -> dict:
     return {
-        "execution_permission_matrix_version": "2.6.0",
+        "execution_permission_matrix_version": "2.7.0",
         "selected_profile_id": selected_profile["profile_id"],
         "permissions": {
             "live_external_actions": False,
@@ -236,7 +236,7 @@ def create_execution_mode_contract(selected_profile: dict, permission_matrix: di
     ]
     
     return {
-        "execution_mode_contract_version": "2.6.0",
+        "execution_mode_contract_version": "2.7.0",
         "selected_profile_id": selected_profile["profile_id"],
         "mode_status": "CONTRACT_ONLY",
         "allowed_operations": allowed,
@@ -276,7 +276,7 @@ def create_blocked_action_ledger(selected_profile: dict, attempted_actions: list
     status = "BLOCKED_ACTIONS_PRESENT" if blocked else "CLEAR"
     
     return {
-        "blocked_action_ledger_version": "2.6.0",
+        "blocked_action_ledger_version": "2.7.0",
         "selected_profile_id": selected_profile["profile_id"],
         "attempted_actions": attempted_actions,
         "blocked_actions": blocked,
@@ -307,7 +307,7 @@ def create_controlled_execution_preflight_contract(
     preflight_status = "PASS" if (release_lock_present and not external_actions_taken and not live_worker_agents_activated and not real_worker_hiring_performed) else "BLOCKED"
     
     return {
-        "controlled_execution_preflight_contract_version": "2.6.0",
+        "controlled_execution_preflight_contract_version": "2.7.0",
         "command_type": command_brief.get("command_type"),
         "selected_profile_id": selected_profile["profile_id"],
         "release_lock_present": release_lock_present,
@@ -339,7 +339,7 @@ def create_controlled_execution_readiness_summary(
         status = "BLOCKED"
         
     return {
-        "controlled_execution_readiness_summary_version": "2.6.0",
+        "controlled_execution_readiness_summary_version": "2.7.0",
         "selected_profile_id": selected_profile["profile_id"],
         "readiness_status": status,
         "next_layer": "Work Order Executor Skeleton",
@@ -367,7 +367,7 @@ def create_work_order_executor_readiness_bridge(
     ready = readiness_summary["readiness_status"] == "READY_FOR_NEXT_LAYER"
     
     return {
-        "work_order_executor_readiness_bridge_version": "2.6.0",
+        "work_order_executor_readiness_bridge_version": "2.7.0",
         "current_layer": "Controlled Execution Profile Expansion",
         "next_layer": "Work Order Executor Skeleton",
         "selected_profile_id": selected_profile["profile_id"],
@@ -411,7 +411,7 @@ def create_controlled_execution_bundle(
     bridge = create_work_order_executor_readiness_bridge(result, selected_profile, readiness)
     
     return {
-        "controlled_execution_bundle_version": "2.6.0",
+        "controlled_execution_bundle_version": "2.7.0",
         "phase": CONTROLLED_EXECUTION_PHASE,
         "status": CONTROLLED_EXECUTION_STATUS,
         "controlled_execution_profile_catalog": create_controlled_execution_profile_catalog(),
