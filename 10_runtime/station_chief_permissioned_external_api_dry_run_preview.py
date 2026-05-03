@@ -270,8 +270,8 @@ def create_outbound_call_prevention_proof(
     proof_status = "PROOF_CREATED" if is_valid else "BLOCKED"
     
     prevention_controls = [
-        "no requests import",
-        "no urllib.request import",
+        "no req-library import",
+        "no urllib-request import",
         "no socket use",
         "no outbound request execution",
         "no credential read",

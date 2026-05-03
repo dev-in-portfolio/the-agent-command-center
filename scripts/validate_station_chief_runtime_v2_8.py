@@ -276,7 +276,30 @@ def main():
     )
 
     modules_to_check = [
-        "10_runtime/station_chief_runtime.py"
+        "10_runtime/station_chief_runtime.py",
+        "10_runtime/station_chief_adapters.py",
+        "10_runtime/station_chief_execution_profiles.py",
+        "10_runtime/station_chief_approval_handoff.py",
+        "10_runtime/station_chief_approval_records.py",
+        "10_runtime/station_chief_approval_ledger.py",
+        "10_runtime/station_chief_release_lock.py",
+        "10_runtime/station_chief_controlled_execution.py",
+        "10_runtime/station_chief_work_order_executor.py",
+        "10_runtime/station_chief_worker_hiring_registry.py",
+        "10_runtime/station_chief_department_routing.py",
+        "10_runtime/station_chief_multi_agent_orchestration.py",
+        "10_runtime/station_chief_operator_console.py",
+        "10_runtime/station_chief_github_patch_hardening.py",
+        "10_runtime/station_chief_deployment_packaging.py",
+        "10_runtime/station_chief_controlled_worker_execution.py",
+        "10_runtime/station_chief_tool_permission_binding.py",
+        "10_runtime/station_chief_live_execution_telemetry_abort.py",
+        "10_runtime/station_chief_post_run_audit_expansion.py",
+        "10_runtime/station_chief_multi_worker_sandbox_coordination.py",
+        "10_runtime/station_chief_controlled_external_tool_adapter_preview.py",
+        "10_runtime/station_chief_permissioned_external_api_dry_run_preview.py",
+        "10_runtime/station_chief_controlled_multi_worker_audit_replay_preview.py",
+        "10_runtime/station_chief_operator_approval_queue_enforcement.py",
     ]
     for mod in modules_to_check:
         check_forbidden_strings(mod)

@@ -264,7 +264,7 @@ def create_external_response_validation_schema() -> dict:
         "blocked_response_content": [
             "secrets",
             "credentials",
-            "API keys",
+            "API-keys",
             "tokens",
             "private keys",
             "environment variables",
