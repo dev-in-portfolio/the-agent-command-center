@@ -2219,7 +2219,7 @@ def write_multi_worker_sandbox_coordination(
         "external_tool_invoked": False,
         "live_api_call_performed": False,
         "network_access_performed": False,
-        "sock_opened": False,
+        "socket_opened": False,
         "real_workers_hired": False,
         "worker_processes_started": False,
         "handoffs_executed": False,
@@ -2290,7 +2290,7 @@ def attach_controlled_external_tool_adapter_preview(
     updated["external_tool_invoked"] = bundle["external_tool_invoked"]
     updated["live_api_call_performed"] = bundle["live_api_call_performed"]
     updated["network_access_performed"] = bundle["network_access_performed"]
-    updated["sock_opened"] = bundle["sock_opened"]
+    updated["socket_opened"] = bundle["socket_opened"]
     updated["repo_files_modified"] = bundle["repo_files_modified"]
     updated["broad_worker_activation_performed"] = bundle["broad_worker_activation_performed"]
     updated["real_workers_hired"] = bundle["real_workers_hired"]
@@ -2344,7 +2344,7 @@ def write_controlled_external_tool_adapter_preview(
         "external_tool_invoked": False,
         "live_api_call_performed": False,
         "network_access_performed": False,
-        "sock_opened": False,
+        "socket_opened": False,
         "repo_files_modified": False,
         "broad_worker_activation_performed": False,
         "real_workers_hired": False,
@@ -2355,7 +2355,7 @@ def write_controlled_external_tool_adapter_preview(
         "deployment_performed": False,
         "execution_authorized": False,
         "status": "CONTROLLED_EXTERNAL_TOOL_ADAPTER_PREVIEW_ONLY",
-        "note": "Controlled External Tool Adapter Preview v2.5.0 creates local external tool adapter preview, request contract, response validation, abort, audit, ledger, and readiness bridge artifacts only. It does not invoke external tools, call live-APIs, perform network access, open-sockets, run shell commands, modify repo files, deploy, hire real workers, start worker processes, route live workers, perform live orchestration, or animate broad workforce.",
+        "note": "Controlled External Tool Adapter Preview v2.5.0 creates local external tool adapter preview, request contract, response validation, abort, audit, ledger, and readiness bridge artifacts only. It does not invoke external tools, call live APIs, perform network access, open sockets, run shell commands, modify repo files, deploy, hire real workers, start worker processes, route live workers, perform live orchestration, or animate broad workforce.",
     }
     _write_json(record_dir / "controlled_external_tool_adapter_preview_manifest.json", manifest)
     files_written.append("controlled_external_tool_adapter_preview_manifest.json")
@@ -2510,10 +2510,10 @@ def write_permissioned_external_api_dry_run_preview(result: dict, output_dir: st
         "external_tool_invoked": False,
         "live_api_call_performed": False,
         "network_access_performed": False,
-        "sock_opened": False,
+        "socket_opened": False,
         "credentials_used": False,
         "secrets_read": False,
-        "env_read": False,
+        "environment_read": False,
         "repo_files_modified": False,
         "broad_worker_activation_performed": False,
         "real_workers_hired": False,
@@ -2524,7 +2524,7 @@ def write_permissioned_external_api_dry_run_preview(result: dict, output_dir: st
         "deployment_performed": False,
         "execution_authorized": False,
         "status": "PERMISSIONED_EXTERNAL_API_DRY_RUN_PREVIEW_ONLY",
-        "note": "Permissioned External API Dry-Run Preview v2.6.0 creates local API dry-run schema, endpoint registry, approval gate, request envelope validation, credential absence proof, outbound call prevention proof, fixture contract, audit proof, ledger, and readiness bridge artifacts only. It does not call live-APIs, perform network access, open-sockets, use credentials, read secrets, read env-vars, invoke external tools, run shell commands, modify repo files, deploy, hire real workers, start worker processes, route live workers, perform live orchestration, or animate broad workforce."
+        "note": "Permissioned External API Dry-Run Preview v2.6.0 creates local API dry-run schema, endpoint registry, approval gate, request envelope validation, credential absence proof, outbound call prevention proof, fixture contract, audit proof, ledger, and readiness bridge artifacts only. It does not call live APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, invoke external tools, run shell commands, modify repo files, deploy, hire real workers, start worker processes, route live workers, perform live orchestration, or animate broad workforce."
     }
     
     (target_dir / "permissioned_external_api_dry_run_preview_manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
@@ -2615,10 +2615,10 @@ def write_controlled_multi_worker_audit_replay_preview(result: dict, output_dir:
         "external_tool_replay_performed": False,
         "live_api_call_performed": False,
         "network_access_performed": False,
-        "sock_opened": False,
+        "socket_opened": False,
         "credentials_used": False,
         "secrets_read": False,
-        "env_read": False,
+        "environment_read": False,
         "repo_files_modified": False,
         "broad_worker_activation_performed": False,
         "real_workers_hired": False,
@@ -2629,7 +2629,7 @@ def write_controlled_multi_worker_audit_replay_preview(result: dict, output_dir:
         "deployment_performed": False,
         "execution_authorized": False,
         "status": "CONTROLLED_MULTI_WORKER_AUDIT_REPLAY_PREVIEW_ONLY",
-        "note": "Controlled Multi-Worker Audit Replay Preview v2.7.0 creates local replay schema, replay packet registry, deterministic replay plan contract, replay safety gate, multi-worker replay comparison proof, replay output quarantine contract, replay audit proof, replay preview ledger, readiness summary, and operator approval queue enforcement bridge artifacts only. It does not execute actual replay, replay worker actions, replay external tools, call live-APIs, perform network access, open-sockets, use credentials, read secrets, read env-vars, run shell commands, modify repo files, deploy, hire real workers, start worker processes, route live workers, perform live orchestration, or animate broad workforce."
+        "note": "Controlled Multi-Worker Audit Replay Preview v2.7.0 creates local replay schema, replay packet registry, deterministic replay plan contract, replay safety gate, multi-worker replay comparison proof, replay output quarantine contract, replay audit proof, replay preview ledger, readiness summary, and operator approval queue enforcement bridge artifacts only. It does not execute actual replay, replay worker actions, replay external tools, call live APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, run shell commands, modify repo files, deploy, hire real workers, start worker processes, route live workers, perform live orchestration, or animate broad workforce."
     }
     
     (target_dir / "controlled_multi_worker_audit_replay_preview_manifest.json").write_text(json.dumps(manifest, indent=2, ensure_ascii=False), encoding="utf-8")
@@ -2722,10 +2722,10 @@ def write_operator_approval_queue_enforcement(result: dict, output_dir: str | Pa
         "external_tool_replay_performed": False,
         "live_api_call_performed": False,
         "network_access_performed": False,
-        "sock_opened": False,
+        "socket_opened": False,
         "credentials_used": False,
         "secrets_read": False,
-        "env_read": False,
+        "environment_read": False,
         "repo_files_modified": False,
         "broad_worker_activation_performed": False,
         "real_workers_hired": False,
@@ -2736,7 +2736,7 @@ def write_operator_approval_queue_enforcement(result: dict, output_dir: str | Pa
         "deployment_performed": False,
         "execution_authorized": False,
         "status": "OPERATOR_APPROVAL_QUEUE_ENFORCEMENT_PREVIEW_ONLY",
-        "note": "Operator Approval Queue Enforcement v2.8.0 creates local queue schema, queued action registry, priority classifier, operator decision contract, stale item detector, queue safety gate, audit proof, ledger, readiness summary, and release candidate hardening bridge artifacts only. It does not execute queued actions, auto-approve, bypass approval, execute actual replay, replay worker actions, replay external tools, call live-APIs, perform network access, open-sockets, use credentials, read secrets, read env-vars, run shell commands, modify repo files, deploy, hire real workers, start worker processes, route live workers, perform live orchestration, or animate broad workforce."
+        "note": "Operator Approval Queue Enforcement v2.8.0 creates local queue schema, queued action registry, priority classifier, operator decision contract, stale item detector, queue safety gate, audit proof, ledger, readiness summary, and release candidate hardening bridge artifacts only. It does not execute queued actions, auto-approve, bypass approval, execute actual replay, replay worker actions, replay external tools, call live APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, run shell commands, modify repo files, deploy, hire real workers, start worker processes, route live workers, perform live orchestration, or animate broad workforce."
     }
     
     (target_dir / "operator_approval_queue_enforcement_manifest.json").write_text(json.dumps(manifest, indent=2, ensure_ascii=False), encoding="utf-8")
@@ -2835,10 +2835,10 @@ def write_release_candidate_hardening(result: dict, output_dir: str | Path, run_
         "external_tool_replay_performed": False,
         "live_api_call_performed": False,
         "network_access_performed": False,
-        "sock_opened": False,
+        "socket_opened": False,
         "credentials_used": False,
         "secrets_read": False,
-        "env_read": False,
+        "environment_read": False,
         "repo_files_modified": False,
         "broad_worker_activation_performed": False,
         "real_workers_hired": False,
@@ -2849,7 +2849,7 @@ def write_release_candidate_hardening(result: dict, output_dir: str | Path, run_
         "deployment_performed": False,
         "execution_authorized": False,
         "status": "RELEASE_CANDIDATE_HARDENING_PREVIEW_ONLY",
-        "note": "Release Candidate Hardening v2.9.0 creates local release candidate schema, invariant scan, validator chain lock proof, artifact contract freeze manifest, known issue register, pre-v3 checklist, safety gate, audit proof, ledger, readiness summary, and controlled production readiness gate bridge artifacts only. It does not execute production, activate production readiness, execute queued actions, auto-approve, bypass approval, execute actual replay, replay worker actions, replay external tools, call live-APIs, perform network access, open-sockets, use credentials, read secrets, read env-vars, run shell commands, modify repo files, deploy, hire real workers, start worker processes, route live workers, perform live orchestration, or animate broad workforce."
+        "note": "Release Candidate Hardening v2.9.0 creates local release candidate schema, invariant scan, validator chain lock proof, artifact contract freeze manifest, known issue register, pre-v3 checklist, safety gate, audit proof, ledger, readiness summary, and controlled production readiness gate bridge artifacts only. It does not execute production, activate production readiness, execute queued actions, auto-approve, bypass approval, execute actual replay, replay worker actions, replay external tools, call live APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, run shell commands, modify repo files, deploy, hire real workers, start worker processes, route live workers, perform live orchestration, or animate broad workforce."
     }
     
     (target_dir / "release_candidate_hardening_manifest.json").write_text(json.dumps(manifest, indent=2, ensure_ascii=False), encoding="utf-8")
@@ -2950,10 +2950,10 @@ def write_controlled_production_readiness_gate(result: dict, output_dir: str | P
         "external_tool_replay_performed": False,
         "live_api_call_performed": False,
         "network_access_performed": False,
-        "sock_opened": False,
+        "socket_opened": False,
         "credentials_used": False,
         "secrets_read": False,
-        "env_read": False,
+        "environment_read": False,
         "repo_files_modified": False,
         "broad_worker_activation_performed": False,
         "worker_processes_started": False,
@@ -2961,7 +2961,7 @@ def write_controlled_production_readiness_gate(result: dict, output_dir: str | P
         "deployment_performed": False,
         "execution_authorized": False,
         "status": "CONTROLLED_PRODUCTION_READINESS_GATE_PREVIEW_ONLY",
-        "note": "Controlled Production Readiness Gate v3.0.0 creates local production readiness schema, approval gate, production activation denial by default, final human approval requirement, production capability manifest, supervised pilot eligibility contract, rollback and kill-switch preview, production readiness audit proof, ledger, readiness summary, and controlled worker hiring activation pilot bridge artifacts only. It does not execute production, activate production, hire real workers, activate real workers, route live workers, perform live orchestration, execute queued actions, auto-approve, bypass approval, execute actual replay, replay worker actions, replay external tools, call live-APIs, perform network access, open-sockets, use credentials, read secrets, read env-vars, run shell commands, modify repo files, deploy, start worker processes, or animate broad workforce."
+        "note": "Controlled Production Readiness Gate v3.0.0 creates local production readiness schema, approval gate, production activation denial by default, final human approval requirement, production capability manifest, supervised pilot eligibility contract, rollback and kill-switch preview, production readiness audit proof, ledger, readiness summary, and controlled worker hiring activation pilot bridge artifacts only. It does not execute production, activate production, hire real workers, activate real workers, route live workers, perform live orchestration, execute queued actions, auto-approve, bypass approval, execute actual replay, replay worker actions, replay external tools, call live APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, run shell commands, modify repo files, deploy, start worker processes, or animate broad workforce."
     }
     
     (target_dir / "controlled_production_readiness_gate_manifest.json").write_text(json.dumps(manifest, indent=2, ensure_ascii=False), encoding="utf-8")
@@ -3216,7 +3216,7 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "external_tool_invoked": False,
         "live_api_call_performed": False,
         "network_access_performed": False,
-        "sock_opened": False,
+        "socket_opened": False,
         "repo_files_modified": False,
         "hosting_api_called": False,
         "deployment_performed": False,

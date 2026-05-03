@@ -308,7 +308,7 @@ def create_partial_result_capture(
         "partial_payload": payload,
         "partial_payload_digest": sha256_digest(payload),
         "filesystem_read": False,
-        "env_read": False,
+        "environment_read": False,
         "external_actions_taken": False,
         "repo_files_modified": False,
         "hosting_api_called": False,

@@ -137,7 +137,7 @@ def create_expanded_audit_evidence_schema() -> dict:
             "shell command output",
             "filesystem scans",
             "secret stores",
-            "env-vars",
+            "environment variables",
             "network responses",
             "deployment provider state",
             "GitHub API mutation state",
