@@ -462,7 +462,7 @@ def update_registry(registry_dir: str | Path, index_entry: dict) -> dict:
     registry = load_registry(registry_dir)
     runs = [run for run in registry.get("runs", []) if run.get("run_id") != index_entry.get("run_id")]
     runs.append(index_entry)
-    registry["registry_version"] = "2.5.0"
+    registry["registry_version"] = "2.7.0"
     registry["runtime_name"] = "Station Chief Runtime"
     registry["runs"] = runs
     save_registry(registry_dir, registry)

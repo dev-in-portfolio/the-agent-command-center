@@ -484,6 +484,9 @@ def main():
         require_true(man["artifact_type"] == "station_chief_runtime_v2_7_artifacts", "art typ")
         require_true(man["runtime_version"] == "2.7.0", "art v")
         require_true(man.get("controlled_multi_worker_audit_replay_preview_schema") == True, "m 1")
+        run_reg = json.loads((reg_dir / "run_registry.json").read_text())
+        require_true(run_reg["registry_version"] == "2.7.0", "run registry version")
+        require_true(len(run_reg.get("runs", [])) >= 1, "run registry runs length")
         reg_ix = json.loads((reg_dir / "runtime_index.json").read_text())
         require_true(reg_ix["index_version"] == "2.7.0", "reg ix")
 
