@@ -4,7 +4,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-ADAPTER_MODULE_VERSION = "3.2.0"
+ADAPTER_MODULE_VERSION = "3.3.0"
 
 YES_I_APPROVE_SANDBOX_FILE_WRITE = "YES_I_APPROVE_SANDBOX_FILE_WRITE"
 YES_I_APPROVE_SCOPED_REPO_PATCH = "YES_I_APPROVE_SCOPED_REPO_PATCH"
@@ -77,6 +77,8 @@ SUPPORTED_ADAPTERS = {
         "controlled_worker_hiring_activation_pilot_requires_specific_token": True,
         "supports_first_supervised_production_dry_run": True,
         "first_supervised_production_dry_run_requires_specific_token": True,
+        "supports_limited_external_tool_supervised_pilot": True,
+        "limited_external_tool_supervised_pilot_requires_specific_token": True,
         "real_worker_hiring_allowed": False,
         "real_worker_activation_allowed": False,
         "worker_process_start_allowed": False,
@@ -163,6 +165,8 @@ SUPPORTED_ADAPTERS = {
         "controlled_worker_hiring_activation_pilot_requires_separate_gate": True,
         "supports_first_supervised_production_dry_run": False,
         "first_supervised_production_dry_run_requires_separate_gate": True,
+        "supports_limited_external_tool_supervised_pilot": False,
+        "limited_external_tool_supervised_pilot_requires_separate_gate": True,
         "supports_live_execution_telemetry_abort_controls": False,
         "telemetry_abort_controls_require_specific_token": True,
         "telemetry_abort_requires_separate_gate": True,
@@ -205,6 +209,8 @@ def list_adapters() -> dict:
         "controlled_worker_hiring_activation_pilot_requires_specific_token": True,
         "supports_first_supervised_production_dry_run": True,
         "first_supervised_production_dry_run_requires_specific_token": True,
+        "supports_limited_external_tool_supervised_pilot": True,
+        "limited_external_tool_supervised_pilot_requires_specific_token": True,
         "real_worker_hiring_allowed": False,
         "real_worker_activation_allowed": False,
         "worker_process_start_allowed": False,
@@ -223,6 +229,17 @@ def list_adapters() -> dict:
         "secret_read_allowed": False,
         "environment_read_allowed": False,
         "deployment_allowed": False,
+        "real_external_tool_invocation_allowed": False,
+        "live_api_call_allowed": False,
+        "socket_access_allowed": False,
+        "credential_use_allowed": False,
+        "secret_read_allowed": False,
+        "production_execution_allowed": False,
+        "production_activation_allowed": False,
+        "real_task_execution_allowed": False,
+        "live_task_assignment_allowed": False,
+        "live_worker_routing_allowed": False,
+        "live_orchestration_allowed": False,
         "supported_adapters": SUPPORTED_ADAPTERS,
     }
 

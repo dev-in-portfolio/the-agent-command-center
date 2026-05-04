@@ -19,15 +19,15 @@ def normalize_orchestration_label(label: str) -> str:
     normalized = re.sub(r"[^a-z0-9]+", "-", label.lower()).strip("-")
     return normalized or "orchestration"
 
-def generate_orchestration_id(command: str, label: str, index: int, runtime_version: str = "3.2.0") -> str:
+def generate_orchestration_id(command: str, label: str, index: int, runtime_version: str = "3.3.0") -> str:
     normalized_label = normalize_orchestration_label(label)
     hash_input = f"{runtime_version}:{command}:{label}:{index}"
     hash_chars = hashlib.sha256(hash_input.encode("utf-8")).hexdigest()[:12]
-    return f"orchestration-v3-2-{normalized_label}-{index:03d}-{hash_chars}"
+    return f"orchestration-v3-3-{normalized_label}-{index:03d}-{hash_chars}"
 
 def create_orchestration_topology_schema() -> dict:
     return {
-        "orchestration_topology_schema_version": "3.2.0",
+        "orchestration_topology_schema_version": "3.3.0",
         "schema_status": "ORCHESTRATION_SANDBOX_ONLY",
         "required_fields": [
             "orchestration_id",

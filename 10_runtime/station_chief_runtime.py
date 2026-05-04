@@ -144,6 +144,11 @@ from station_chief_first_supervised_production_dry_run import (
     create_first_supervised_production_dry_run_bundle,
     create_first_supervised_production_dry_run_schema,
 )
+from station_chief_limited_external_tool_supervised_pilot import (
+    LIMITED_EXTERNAL_TOOL_SUPERVISED_PILOT_APPROVAL_TOKEN,
+    create_limited_external_tool_supervised_pilot_bundle,
+    create_limited_external_tool_supervised_pilot_schema,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -153,7 +158,7 @@ from station_chief_execution_profiles import (
     select_execution_profile,
 )
 
-STATION_CHIEF_RUNTIME_VERSION = "3.2.0"
+STATION_CHIEF_RUNTIME_VERSION = "3.3.0"
 
 EXPECTED_OVERLAYS = [
     {
@@ -359,7 +364,7 @@ def normalize_command_for_id(command: str) -> str:
 def generate_run_id(command: str, run_label: str = "station-chief-runtime") -> str:
     normalized = normalize_command_for_id(command)
     digest = hashlib.sha256(f"{STATION_CHIEF_RUNTIME_VERSION}:{run_label}:{command}".encode("utf-8")).hexdigest()
-    return f"station-chief-v3-2-{normalized}-{digest[:12]}"
+    return f"station-chief-v3-3-{normalized}-{digest[:12]}"
 
 
 def classify_command(command: str) -> str:
@@ -470,7 +475,7 @@ def load_registry(registry_dir: str | Path) -> dict:
     registry_path = Path(registry_dir) / "run_registry.json"
     if not registry_path.exists():
         return {
-            "registry_version": "3.2.0",
+            "registry_version": "3.3.0",
             "runtime_name": "Station Chief Runtime",
             "runs": [],
         }
@@ -487,7 +492,7 @@ def update_registry(registry_dir: str | Path, index_entry: dict) -> dict:
     registry = load_registry(registry_dir)
     runs = [run for run in registry.get("runs", []) if run.get("run_id") != index_entry.get("run_id")]
     runs.append(index_entry)
-    registry["registry_version"] = "3.2.0"
+    registry["registry_version"] = "3.3.0"
     registry["runtime_name"] = "Station Chief Runtime"
     registry["runs"] = runs
     save_registry(registry_dir, registry)
@@ -496,7 +501,7 @@ def update_registry(registry_dir: str | Path, index_entry: dict) -> dict:
 
 def write_runtime_index(registry_dir: str | Path, registry: dict) -> dict:
     index = {
-        "index_version": "3.2.0",
+        "index_version": "3.3.0",
         "runtime_name": "Station Chief Runtime",
         "run_count": len(registry.get("runs", [])),
         "runs": registry.get("runs", []),
@@ -550,7 +555,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
     adapter_result = run_noop_adapter(execution_plan)
     return {
         "station_chief_runtime_version": STATION_CHIEF_RUNTIME_VERSION,
-        "runtime_status": "first_supervised_production_dry_run",
+        "runtime_status": "limited_external_tool_supervised_pilot",
         "release_status": "STABLE_LOCKED",
         "command": command,
         "command_type": brief["command_type"],
@@ -793,7 +798,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
             "pilot_audit_proof": True,
             "pilot_ledger": True,
             "pilot_readiness_summary": True,
-                        "first_supervised_production_dry_run_schema": True,
+            "first_supervised_production_dry_run_schema": True,
             "first_supervised_production_dry_run_approval_gate": True,
             "single_controlled_task_dry_run_envelope": True,
             "dry_run_only_production_context_contract": True,
@@ -805,6 +810,17 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
             "dry_run_ledger": True,
             "dry_run_readiness_summary": True,
             "limited_external_tool_supervised_pilot_bridge": True,
+            "limited_external_tool_supervised_pilot_schema": True,
+            "limited_external_tool_supervised_pilot_approval_gate": True,
+            "single_external_tool_category_contract": True,
+            "tool_invocation_denial_by_default": True,
+            "human_tool_use_preflight_gate": True,
+            "tool_request_envelope_preview": True,
+            "tool_response_quarantine_preview": True,
+            "tool_audit_proof": True,
+            "tool_pilot_ledger": True,
+            "tool_pilot_readiness_summary": True,
+            "supervised_external_api_pilot_bridge": True,
             "operator_approval_queue_enforcement_schema": True,
             "operator_approval_queue_enforcement_approval_gate": True,
             "queued_action_registry": True,
@@ -1184,8 +1200,29 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
             "first_supervised_production_dry_run_does_not_modify_repo_files": True,
             "first_supervised_production_dry_run_does_not_deploy": True,
             "limited_external_tool_supervised_pilot_not_yet_active": True,
+            "limited_external_tool_supervised_pilot_available": True,
+            "limited_external_tool_supervised_pilot_preview_only": True,
+            "limited_external_tool_supervised_pilot_requires_token": True,
+            "single_external_tool_category_limit_is_one": True,
+            "tool_invocation_denied_by_default": True,
+            "limited_external_tool_supervised_pilot_does_not_invoke_external_tools": True,
+            "limited_external_tool_supervised_pilot_does_not_call_live_apis": True,
+            "limited_external_tool_supervised_pilot_does_not_use_network_access": True,
+            "limited_external_tool_supervised_pilot_does_not_open_sockets": True,
+            "limited_external_tool_supervised_pilot_does_not_use_credentials": True,
+            "limited_external_tool_supervised_pilot_does_not_read_secrets": True,
+            "limited_external_tool_supervised_pilot_does_not_read_environment": True,
+            "limited_external_tool_supervised_pilot_does_not_deploy": True,
+            "limited_external_tool_supervised_pilot_does_not_execute_production": True,
+            "limited_external_tool_supervised_pilot_does_not_activate_production": True,
+            "limited_external_tool_supervised_pilot_does_not_execute_real_tasks": True,
+            "limited_external_tool_supervised_pilot_does_not_assign_live_tasks": True,
+            "limited_external_tool_supervised_pilot_does_not_route_live_workers": True,
+            "limited_external_tool_supervised_pilot_does_not_perform_live_orchestration": True,
+            "limited_external_tool_supervised_pilot_does_not_modify_repo_files": True,
+            "supervised_external_api_pilot_not_yet_active": True,
         },
-        "next_step": "Next step: build limited external tool supervised pilot.",
+        "next_step": "Next step: build supervised external API pilot.",
     }
 
 
@@ -3003,9 +3040,9 @@ def write_first_supervised_production_dry_run(result: dict, output_dir: str | Pa
         written.append(fname)
         
     manifest = {
-        "first_supervised_production_dry_run_manifest_version": "3.2.0",
+        "first_supervised_production_dry_run_manifest_version": "3.3.0",
         "run_id": run_id,
-        "runtime_version": "3.2.0",
+        "runtime_version": "3.3.0",
         "files_written": written + ["first_supervised_production_dry_run_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -3027,7 +3064,7 @@ def write_first_supervised_production_dry_run(result: dict, output_dir: str | Pa
         "repo_files_modified": False,
         "execution_authorized": False,
         "status": "FIRST_SUPERVISED_PRODUCTION_DRY_RUN_PREVIEW_ONLY",
-        "note": "First Supervised Production Dry-Run v3.2.0 creates local dry-run schema, approval gate, single controlled task envelope, dry-run-only production context contract, human preflight approval gate, worker task simulation contract, external action denial-by-default record, rollback and quarantine preview, audit proof, ledger, readiness summary, and limited external tool supervised pilot bridge artifacts only. It does not execute production, activate production, execute real tasks, assign live tasks, route live workers, perform live orchestration, invoke external tools, call live APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, deploy, start worker processes, run shell commands, or modify repo files."
+        "note": "First Supervised Production Dry-Run v3.3.0 creates local dry-run schema, approval gate, single controlled task envelope, dry-run-only production context contract, human preflight approval gate, worker task simulation contract, external action denial-by-default record, rollback and quarantine preview, audit proof, ledger, readiness summary, and limited external tool supervised pilot bridge artifacts only. It does not execute production, activate production, execute real tasks, assign live tasks, route live workers, perform live orchestration, invoke external tools, call live APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, deploy, start worker processes, run shell commands, or modify repo files."
     }
     
     _write_json(target_dir / "first_supervised_production_dry_run_manifest.json", manifest)
@@ -3037,6 +3074,112 @@ def write_first_supervised_production_dry_run(result: dict, output_dir: str | Pa
         "first_supervised_production_dry_run_dir": str(target_dir),
         "files_written": manifest["files_written"]
     }
+
+
+def attach_limited_external_tool_supervised_pilot(
+    result: dict,
+    tool_pilot_label: str | None = None,
+    confirmation_token: str | None = None,
+    tool_category_label: str | None = None,
+    required_tool_preflight_approver: str | None = None,
+    tool_request_label: str | None = None,
+    quarantine_labels: list[str] | None = None,
+) -> dict:
+    if "first_supervised_production_dry_run_bundle" not in result:
+        result = attach_first_supervised_production_dry_run(result)
+
+    bundle = create_limited_external_tool_supervised_pilot_bundle(
+        result,
+        command=result.get("command", ""),
+        tool_pilot_label=tool_pilot_label,
+        confirmation_token=confirmation_token,
+        tool_category_label=tool_category_label,
+        required_tool_preflight_approver=required_tool_preflight_approver,
+        tool_request_label=tool_request_label,
+        quarantine_labels=quarantine_labels,
+    )
+    result["limited_external_tool_supervised_pilot_bundle"] = bundle
+    result["limited_external_tool_supervised_pilot_schema"] = bundle["limited_external_tool_supervised_pilot_schema"]
+    result["limited_external_tool_supervised_pilot_approval_gate"] = bundle["limited_external_tool_supervised_pilot_approval_gate"]
+    result["single_external_tool_category_contract"] = bundle["single_external_tool_category_contract"]
+    result["tool_invocation_denial_by_default"] = bundle["tool_invocation_denial_by_default"]
+    result["human_tool_use_preflight_gate"] = bundle["human_tool_use_preflight_gate"]
+    result["tool_request_envelope_preview"] = bundle["tool_request_envelope_preview"]
+    result["tool_response_quarantine_preview"] = bundle["tool_response_quarantine_preview"]
+    result["tool_audit_proof"] = bundle["tool_audit_proof"]
+    result["tool_pilot_ledger"] = bundle["tool_pilot_ledger"]
+    result["tool_pilot_readiness_summary"] = bundle["tool_pilot_readiness_summary"]
+    result["supervised_external_api_pilot_bridge"] = bundle["supervised_external_api_pilot_bridge"]
+    return result
+
+
+def write_limited_external_tool_supervised_pilot(
+    result: dict,
+    output_dir: str | Path,
+    run_label: str = "station-chief-runtime",
+) -> dict:
+    if "limited_external_tool_supervised_pilot_bundle" not in result:
+        raise ValueError("limited_external_tool_supervised_pilot_bundle missing")
+
+    command = result.get("command", "empty")
+    run_id = generate_run_id(command, run_label=run_label)
+    target_dir = Path(output_dir) / run_id
+    target_dir.mkdir(parents=True, exist_ok=True)
+
+    payloads = {
+        "limited_external_tool_supervised_pilot_bundle.json": result["limited_external_tool_supervised_pilot_bundle"],
+        "limited_external_tool_supervised_pilot_schema.json": result["limited_external_tool_supervised_pilot_schema"],
+        "limited_external_tool_supervised_pilot_approval_gate.json": result["limited_external_tool_supervised_pilot_approval_gate"],
+        "single_external_tool_category_contract.json": result["single_external_tool_category_contract"],
+        "tool_invocation_denial_by_default.json": result["tool_invocation_denial_by_default"],
+        "human_tool_use_preflight_gate.json": result["human_tool_use_preflight_gate"],
+        "tool_request_envelope_preview.json": result["tool_request_envelope_preview"],
+        "tool_response_quarantine_preview.json": result["tool_response_quarantine_preview"],
+        "tool_audit_proof.json": result["tool_audit_proof"],
+        "tool_pilot_ledger.json": result["tool_pilot_ledger"],
+        "tool_pilot_readiness_summary.json": result["tool_pilot_readiness_summary"],
+        "supervised_external_api_pilot_bridge.json": result["supervised_external_api_pilot_bridge"],
+    }
+    files_written = list(payloads.keys())
+    for filename, payload in payloads.items():
+        _write_json(target_dir / filename, payload)
+
+    manifest = {
+        "limited_external_tool_supervised_pilot_manifest_version": "3.3.0",
+        "run_id": run_id,
+        "runtime_version": "3.3.0",
+        "files_written": files_written + ["limited_external_tool_supervised_pilot_manifest.json"],
+        "baseline_preserved": True,
+        "external_actions_taken": False,
+        "real_external_tool_invocation_performed": False,
+        "live_api_call_performed": False,
+        "network_access_performed": False,
+        "socket_opened": False,
+        "credentials_used": False,
+        "secrets_read": False,
+        "environment_read": False,
+        "deployment_performed": False,
+        "production_execution_performed": False,
+        "production_activation_performed": False,
+        "real_task_execution_performed": False,
+        "live_task_assignment_performed": False,
+        "live_worker_routing_performed": False,
+        "live_orchestration_performed": False,
+        "worker_processes_started": False,
+        "repo_files_modified": False,
+        "execution_authorized": False,
+        "status": "LIMITED_EXTERNAL_TOOL_SUPERVISED_PILOT_PREVIEW_ONLY",
+        "note": "Limited External Tool Supervised Pilot v3.3.0 creates local tool pilot schema, approval gate, single external tool category contract, tool invocation denial-by-default record, human tool-use preflight gate, tool request envelope preview, tool response quarantine preview, audit proof, ledger, readiness summary, and supervised external API pilot bridge artifacts only. It does not invoke external tools, call live APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, deploy, execute production, activate production, execute real tasks, assign live tasks, route live workers, perform live orchestration, start worker processes, run shell commands, or modify repo files.",
+    }
+    _write_json(target_dir / "limited_external_tool_supervised_pilot_manifest.json", manifest)
+
+    return {
+        "run_id": run_id,
+        "limited_external_tool_supervised_pilot_dir": str(target_dir),
+        "files_written": manifest["files_written"],
+    }
+
+
 def attach_controlled_worker_hiring_activation_pilot(
     result: dict,
     pilot_label: str | None = None,
@@ -3105,7 +3248,7 @@ def write_controlled_worker_hiring_activation_pilot(result: dict, output_dir: st
     manifest = {
         "controlled_worker_hiring_activation_pilot_manifest_version": "3.1.0",
         "run_id": run_id,
-        "runtime_version": "3.2.0",
+        "runtime_version": "3.3.0",
         "files_written": written + ["controlled_worker_hiring_activation_pilot_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -3212,7 +3355,7 @@ def write_controlled_production_readiness_gate(result: dict, output_dir: str | P
     manifest = {
         "controlled_production_readiness_gate_manifest_version": "3.0.0",
         "run_id": run_id,
-        "runtime_version": "3.2.0",
+        "runtime_version": "3.3.0",
         "files_written": written + ["controlled_production_readiness_gate_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -3311,6 +3454,18 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
     dry_run_ledger = result.get("dry_run_ledger")
     dry_run_readiness_summary = result.get("dry_run_readiness_summary")
     limited_external_tool_supervised_pilot_bridge = result.get("limited_external_tool_supervised_pilot_bridge")
+    limited_external_tool_supervised_pilot_bundle = result.get("limited_external_tool_supervised_pilot_bundle")
+    limited_external_tool_supervised_pilot_schema = result.get("limited_external_tool_supervised_pilot_schema")
+    limited_external_tool_supervised_pilot_approval_gate = result.get("limited_external_tool_supervised_pilot_approval_gate")
+    single_external_tool_category_contract = result.get("single_external_tool_category_contract")
+    tool_invocation_denial_by_default = result.get("tool_invocation_denial_by_default")
+    human_tool_use_preflight_gate = result.get("human_tool_use_preflight_gate")
+    tool_request_envelope_preview = result.get("tool_request_envelope_preview")
+    tool_response_quarantine_preview = result.get("tool_response_quarantine_preview")
+    tool_audit_proof = result.get("tool_audit_proof")
+    tool_pilot_ledger = result.get("tool_pilot_ledger")
+    tool_pilot_readiness_summary = result.get("tool_pilot_readiness_summary")
+    supervised_external_api_pilot_bridge = result.get("supervised_external_api_pilot_bridge")
     
     controlled_worker_hiring_activation_pilot_bundle = result.get("controlled_worker_hiring_activation_pilot_bundle")
     controlled_worker_hiring_activation_pilot_schema = result.get("controlled_worker_hiring_activation_pilot_schema")
@@ -3396,6 +3551,8 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         files_planned.extend(["release_candidate_hardening_readiness_bridge.json", "release_candidate_hardening_bundle.json", "release_candidate_hardening_schema.json", "release_candidate_hardening_approval_gate.json", "full_runtime_invariant_scan.json", "validator_chain_lock_proof.json", "artifact_contract_freeze_manifest.json", "known_issue_register.json", "pre_v3_production_readiness_checklist.json", "release_candidate_safety_gate.json", "release_candidate_audit_proof.json", "release_candidate_ledger.json", "release_candidate_readiness_summary.json", "controlled_production_readiness_gate_bridge.json"])
     if result.get("controlled_production_readiness_gate_bundle"):
         files_planned.extend(["controlled_production_readiness_gate_bundle.json", "controlled_production_readiness_gate_schema.json", "controlled_production_readiness_gate_approval_gate.json", "production_activation_denial_by_default.json", "final_human_approval_requirement.json", "production_capability_manifest.json", "supervised_pilot_eligibility_contract.json", "production_rollback_kill_switch_preview.json", "production_readiness_audit_proof.json", "production_readiness_ledger.json", "production_readiness_summary.json", "controlled_worker_hiring_activation_pilot_bridge.json"])
+    if result.get("limited_external_tool_supervised_pilot_bundle"):
+        files_planned.extend(["limited_external_tool_supervised_pilot_bundle.json", "limited_external_tool_supervised_pilot_schema.json", "limited_external_tool_supervised_pilot_approval_gate.json", "single_external_tool_category_contract.json", "tool_invocation_denial_by_default.json", "human_tool_use_preflight_gate.json", "tool_request_envelope_preview.json", "tool_response_quarantine_preview.json", "tool_audit_proof.json", "tool_pilot_ledger.json", "tool_pilot_readiness_summary.json", "supervised_external_api_pilot_bridge.json"])
     if controlled_worker_hiring_activation_pilot_bundle:
         files_planned.extend(["controlled_worker_hiring_activation_pilot_bundle.json", "controlled_worker_hiring_activation_pilot_schema.json", "controlled_worker_hiring_activation_pilot_approval_gate.json", "pilot_worker_limit_contract.json", "worker_identity_activation_contract.json", "task_assignment_denial_by_default.json", "human_supervised_pilot_gate.json", "pilot_rollback_abort_preview.json", "pilot_audit_proof.json", "pilot_ledger.json", "pilot_readiness_summary.json", "first_supervised_production_dry_run_bridge.json"])
 
@@ -3675,6 +3832,18 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "production_readiness_ledger": result.get("production_readiness_ledger"),
         "production_readiness_summary": result.get("production_readiness_summary"),
         "controlled_worker_hiring_activation_pilot_bridge": result.get("controlled_worker_hiring_activation_pilot_bridge"),
+        "limited_external_tool_supervised_pilot_bundle": result.get("limited_external_tool_supervised_pilot_bundle"),
+        "limited_external_tool_supervised_pilot_schema": result.get("limited_external_tool_supervised_pilot_schema"),
+        "limited_external_tool_supervised_pilot_approval_gate": result.get("limited_external_tool_supervised_pilot_approval_gate"),
+        "single_external_tool_category_contract": result.get("single_external_tool_category_contract"),
+        "tool_invocation_denial_by_default": result.get("tool_invocation_denial_by_default"),
+        "human_tool_use_preflight_gate": result.get("human_tool_use_preflight_gate"),
+        "tool_request_envelope_preview": result.get("tool_request_envelope_preview"),
+        "tool_response_quarantine_preview": result.get("tool_response_quarantine_preview"),
+        "tool_audit_proof": result.get("tool_audit_proof"),
+        "tool_pilot_ledger": result.get("tool_pilot_ledger"),
+        "tool_pilot_readiness_summary": result.get("tool_pilot_readiness_summary"),
+        "supervised_external_api_pilot_bridge": result.get("supervised_external_api_pilot_bridge"),
         "controlled_worker_hiring_activation_pilot_bundle": result.get("controlled_worker_hiring_activation_pilot_bundle"),
         "controlled_worker_hiring_activation_pilot_schema": result.get("controlled_worker_hiring_activation_pilot_schema"),
         "controlled_worker_hiring_activation_pilot_approval_gate": result.get("controlled_worker_hiring_activation_pilot_approval_gate"),
@@ -3689,8 +3858,8 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "first_supervised_production_dry_run_bridge": result.get("first_supervised_production_dry_run_bridge"),
         "manifest": {
             "run_id": run_id,
-            "runtime_version": "3.2.0",
-            "artifact_type": "station_chief_runtime_v3_2_artifacts",
+            "runtime_version": "3.3.0",
+            "artifact_type": "station_chief_runtime_v3_3_artifacts",
             "files_planned": files_planned,
             "baseline_preserved": True,
             "devinization_overlays_preserved": True,
@@ -3707,6 +3876,18 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
             "pilot_ledger": result.get("pilot_ledger") is not None,
             "pilot_readiness_summary": result.get("pilot_readiness_summary") is not None,
             "first_supervised_production_dry_run_bridge": result.get("first_supervised_production_dry_run_bridge") is not None,
+            "limited_external_tool_supervised_pilot_bundle": result.get("limited_external_tool_supervised_pilot_bundle") is not None,
+            "limited_external_tool_supervised_pilot_schema": result.get("limited_external_tool_supervised_pilot_schema") is not None,
+            "limited_external_tool_supervised_pilot_approval_gate": result.get("limited_external_tool_supervised_pilot_approval_gate") is not None,
+            "single_external_tool_category_contract": result.get("single_external_tool_category_contract") is not None,
+            "tool_invocation_denial_by_default": result.get("tool_invocation_denial_by_default") is not None,
+            "human_tool_use_preflight_gate": result.get("human_tool_use_preflight_gate") is not None,
+            "tool_request_envelope_preview": result.get("tool_request_envelope_preview") is not None,
+            "tool_response_quarantine_preview": result.get("tool_response_quarantine_preview") is not None,
+            "tool_audit_proof": result.get("tool_audit_proof") is not None,
+            "tool_pilot_ledger": result.get("tool_pilot_ledger") is not None,
+            "tool_pilot_readiness_summary": result.get("tool_pilot_readiness_summary") is not None,
+            "supervised_external_api_pilot_bridge": result.get("supervised_external_api_pilot_bridge") is not None,
             "controlled_worker_hiring_activation_pilot_preview_only": True,
             "controlled_worker_hiring_activation_pilot_requires_token": True,
             "pilot_worker_limit_maximum_is_three": True,
@@ -3725,6 +3906,26 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
             "controlled_worker_hiring_activation_pilot_does_not_read_secrets": True,
             "controlled_worker_hiring_activation_pilot_does_not_read_environment": True,
             "controlled_worker_hiring_activation_pilot_does_not_modify_repo_files": True,
+            "limited_external_tool_supervised_pilot_preview_only": True,
+            "limited_external_tool_supervised_pilot_requires_token": True,
+            "single_external_tool_category_limit_is_one": True,
+            "tool_invocation_denied_by_default": True,
+            "limited_external_tool_supervised_pilot_does_not_invoke_external_tools": True,
+            "limited_external_tool_supervised_pilot_does_not_call_live_apis": True,
+            "limited_external_tool_supervised_pilot_does_not_use_network_access": True,
+            "limited_external_tool_supervised_pilot_does_not_open_sockets": True,
+            "limited_external_tool_supervised_pilot_does_not_use_credentials": True,
+            "limited_external_tool_supervised_pilot_does_not_read_secrets": True,
+            "limited_external_tool_supervised_pilot_does_not_read_environment": True,
+            "limited_external_tool_supervised_pilot_does_not_deploy": True,
+            "limited_external_tool_supervised_pilot_does_not_execute_production": True,
+            "limited_external_tool_supervised_pilot_does_not_activate_production": True,
+            "limited_external_tool_supervised_pilot_does_not_execute_real_tasks": True,
+            "limited_external_tool_supervised_pilot_does_not_assign_live_tasks": True,
+            "limited_external_tool_supervised_pilot_does_not_route_live_workers": True,
+            "limited_external_tool_supervised_pilot_does_not_perform_live_orchestration": True,
+            "limited_external_tool_supervised_pilot_does_not_modify_repo_files": True,
+            "supervised_external_api_pilot_not_yet_active": True,
         },
     }
 
@@ -4007,6 +4208,18 @@ def write_runtime_artifacts(
         "production_readiness_ledger.json": artifacts.get("production_readiness_ledger"),
         "production_readiness_summary.json": artifacts.get("production_readiness_summary"),
         "controlled_worker_hiring_activation_pilot_bridge.json": artifacts.get("controlled_worker_hiring_activation_pilot_bridge"),
+        "limited_external_tool_supervised_pilot_bundle.json": artifacts.get("limited_external_tool_supervised_pilot_bundle"),
+        "limited_external_tool_supervised_pilot_schema.json": artifacts.get("limited_external_tool_supervised_pilot_schema"),
+        "limited_external_tool_supervised_pilot_approval_gate.json": artifacts.get("limited_external_tool_supervised_pilot_approval_gate"),
+        "single_external_tool_category_contract.json": artifacts.get("single_external_tool_category_contract"),
+        "tool_invocation_denial_by_default.json": artifacts.get("tool_invocation_denial_by_default"),
+        "human_tool_use_preflight_gate.json": artifacts.get("human_tool_use_preflight_gate"),
+        "tool_request_envelope_preview.json": artifacts.get("tool_request_envelope_preview"),
+        "tool_response_quarantine_preview.json": artifacts.get("tool_response_quarantine_preview"),
+        "tool_audit_proof.json": artifacts.get("tool_audit_proof"),
+        "tool_pilot_ledger.json": artifacts.get("tool_pilot_ledger"),
+        "tool_pilot_readiness_summary.json": artifacts.get("tool_pilot_readiness_summary"),
+        "supervised_external_api_pilot_bridge.json": artifacts.get("supervised_external_api_pilot_bridge"),
         "first_supervised_production_dry_run_bundle.json": artifacts.get("first_supervised_production_dry_run_bundle"),
         "first_supervised_production_dry_run_schema.json": artifacts.get("first_supervised_production_dry_run_schema"),
         "first_supervised_production_dry_run_approval_gate.json": artifacts.get("first_supervised_production_dry_run_approval_gate"),
@@ -4622,6 +4835,16 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--dry-run-worker-label", type=str)
     parser.add_argument("--dry-run-quarantine-label", type=str, action="append")
 
+    parser.add_argument("--limited-external-tool-supervised-pilot-schema", action="store_true")
+    parser.add_argument("--limited-external-tool-supervised-pilot", action="store_true")
+    parser.add_argument("--write-limited-external-tool-supervised-pilot", metavar="DIR", type=str)
+    parser.add_argument("--tool-pilot-label", type=str, default="station-chief-limited-external-tool-supervised-pilot")
+    parser.add_argument("--tool-pilot-confirm-token", type=str)
+    parser.add_argument("--tool-category-label", type=str, default="local-json-artifact-review")
+    parser.add_argument("--tool-pilot-required-preflight-approver", type=str, default="Devin O’Rourke / explicit human operator")
+    parser.add_argument("--tool-request-label", type=str, default="single supervised tool request preview")
+    parser.add_argument("--tool-quarantine-label", type=str, action="append", default=[])
+
     parser.add_argument("--telemetry-worker-id", type=str, help="Worker ID for live telemetry")
     parser.add_argument("--telemetry-confirm-token", type=str, help="Confirmation token for live telemetry approval")
     parser.add_argument("--telemetry-abort-reason", type=str, help="Reason for live telemetry abort")
@@ -4755,6 +4978,10 @@ def main() -> None:
         print(json.dumps(create_first_supervised_production_dry_run_schema(), indent=2, ensure_ascii=False))
         return
 
+    if args.limited_external_tool_supervised_pilot_schema:
+        print(json.dumps(create_limited_external_tool_supervised_pilot_schema(), indent=2, ensure_ascii=False))
+        return
+
     if args.worker_hiring_activation_pilot_schema:
         print(json.dumps(create_controlled_worker_hiring_activation_pilot_schema(), indent=2, ensure_ascii=False))
         return
@@ -4775,7 +5002,7 @@ def main() -> None:
         return
 
     if args.stable_release_manifest:
-        print(json.dumps(create_stable_release_manifest(), indent=2, ensure_ascii=False))
+        print(json.dumps({"stable_release_manifest": create_stable_release_manifest()}, indent=2, ensure_ascii=False))
         return
 
     if args.approval_review_ui_schema:
@@ -5216,6 +5443,17 @@ def main() -> None:
             quarantine_labels=args.dry_run_quarantine_label
         )
 
+    if args.limited_external_tool_supervised_pilot or args.write_limited_external_tool_supervised_pilot:
+        result = attach_limited_external_tool_supervised_pilot(
+            result,
+            tool_pilot_label=args.tool_pilot_label,
+            confirmation_token=args.tool_pilot_confirm_token,
+            tool_category_label=args.tool_category_label,
+            required_tool_preflight_approver=args.tool_pilot_required_preflight_approver,
+            tool_request_label=args.tool_request_label,
+            quarantine_labels=args.tool_quarantine_label,
+        )
+
     if args.controlled_worker_hiring_activation_pilot or args.write_controlled_worker_hiring_activation_pilot:
         result = attach_controlled_worker_hiring_activation_pilot(
             result,
@@ -5444,6 +5682,10 @@ def main() -> None:
         dry_run_res = write_first_supervised_production_dry_run(result, args.write_first_supervised_production_dry_run)
         result = dict(result)
         result["first_supervised_production_dry_run_write_summary"] = dry_run_res
+    if args.write_limited_external_tool_supervised_pilot:
+        pilot_res = write_limited_external_tool_supervised_pilot(result, args.write_limited_external_tool_supervised_pilot)
+        result = dict(result)
+        result["limited_external_tool_supervised_pilot_write_summary"] = pilot_res
     if args.write_controlled_worker_hiring_activation_pilot:
         pilot_res = write_controlled_worker_hiring_activation_pilot(result, args.write_controlled_worker_hiring_activation_pilot)
         result = dict(result)
