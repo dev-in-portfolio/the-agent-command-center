@@ -19,15 +19,15 @@ def normalize_route_label(label: str) -> str:
     normalized = re.sub(r"[^a-z0-9]+", "-", label.lower()).strip("-")
     return normalized or "route"
 
-def generate_route_id(command: str, route_label: str, index: int, runtime_version: str = "3.1.0") -> str:
+def generate_route_id(command: str, route_label: str, index: int, runtime_version: str = "3.2.0") -> str:
     normalized_label = normalize_route_label(route_label)
     hash_input = f"{runtime_version}:{command}:{route_label}:{index}"
     hash_chars = hashlib.sha256(hash_input.encode("utf-8")).hexdigest()[:12]
-    return f"route-v3-1-{normalized_label}-{index:03d}-{hash_chars}"
+    return f"route-v3-2-{normalized_label}-{index:03d}-{hash_chars}"
 
 def create_department_routing_schema() -> dict:
     return {
-        "department_routing_schema_version": "3.1.0",
+        "department_routing_schema_version": "3.2.0",
         "schema_status": "ROUTING_PREVIEW_ONLY",
         "required_fields": [
             "route_id",

@@ -5,7 +5,7 @@ import hashlib
 import json
 import re
 
-POST_RUN_AUDIT_EXPANSION_MODULE_VERSION = "3.1.0"
+POST_RUN_AUDIT_EXPANSION_MODULE_VERSION = "3.2.0"
 POST_RUN_AUDIT_EXPANSION_STATUS = "SINGLE_WORKER_POST_RUN_AUDIT_EXPANSION_ONLY"
 POST_RUN_AUDIT_EXPANSION_PHASE = "Post-Run Audit Proof Expansion"
 POST_RUN_AUDIT_EXPANSION_APPROVAL_TOKEN = "YES_I_APPROVE_POST_RUN_AUDIT_PROOF_EXPANSION"
@@ -26,16 +26,16 @@ def normalize_audit_label(label: str) -> str:
     return normalized or "post-run-audit-expansion"
 
 
-def generate_post_run_audit_expansion_id(command: str, worker_id: str, runtime_version: str = "3.1.0") -> str:
+def generate_post_run_audit_expansion_id(command: str, worker_id: str, runtime_version: str = "3.2.0") -> str:
     normalized_worker_id = normalize_audit_label(worker_id)
     hash_input = f"{runtime_version}:{command}:{worker_id}"
     hash_chars = hashlib.sha256(hash_input.encode("utf-8")).hexdigest()[:12]
-    return f"post-run-audit-v3-1-{normalized_worker_id}-{hash_chars}"
+    return f"post-run-audit-v3-2-{normalized_worker_id}-{hash_chars}"
 
 
 def create_post_run_audit_expansion_schema() -> dict:
     return {
-        "post_run_audit_expansion_schema_version": "3.1.0",
+        "post_run_audit_expansion_schema_version": "3.2.0",
         "schema_status": "SINGLE_WORKER_POST_RUN_AUDIT_EXPANSION_ONLY",
         "required_sections": [
             "expanded_audit_evidence_schema",
@@ -99,7 +99,7 @@ def create_post_run_audit_expansion_schema() -> dict:
 
 def create_expanded_audit_evidence_schema() -> dict:
     return {
-        "expanded_audit_evidence_schema_version": "3.1.0",
+        "expanded_audit_evidence_schema_version": "3.2.0",
         "schema_status": "EVIDENCE_SCHEMA_ONLY",
         "required_evidence_fields": [
             "audit_id",
@@ -162,7 +162,7 @@ def create_expanded_audit_evidence_schema() -> dict:
 def create_post_run_audit_approval_gate(worker_id: str, confirmation_token: str | None = None) -> dict:
     token_valid = confirmation_token == POST_RUN_AUDIT_EXPANSION_APPROVAL_TOKEN
     return {
-        "post_run_audit_approval_gate_version": "3.1.0",
+        "post_run_audit_approval_gate_version": "3.2.0",
         "worker_id": worker_id,
         "gate_status": "APPROVED_FOR_SINGLE_WORKER_POST_RUN_AUDIT_EXPANSION_RECORDS" if token_valid else "BLOCKED_PENDING_POST_RUN_AUDIT_EXPANSION_APPROVAL",
         "confirmation_token_required": POST_RUN_AUDIT_EXPANSION_APPROVAL_TOKEN,
@@ -194,7 +194,7 @@ def create_before_after_run_comparison_proof(worker_id: str, audit_gate: dict, b
     before_digest = sha256_digest(before_result)
     after_digest = sha256_digest(after_result)
     return {
-        "before_after_run_comparison_proof_version": "3.1.0",
+        "before_after_run_comparison_proof_version": "3.2.0",
         "worker_id": worker_id,
         "comparison_status": "CREATED" if approved else "BLOCKED",
         "before_key_count": len(before_keys),
@@ -221,7 +221,7 @@ def create_validator_backed_audit_artifact_index(worker_id: str, audit_gate: dic
     artifact_index_entries = [{"artifact_name": name, "artifact_status": "EXPECTED_BY_CONTRACT", "artifact_verified_from_filesystem": False} for name in artifact_names]
     validator_index_entries = [{"validator_name": name, "validator_status": "EXPECTED_BY_CONTRACT", "validator_executed_by_module": False} for name in validator_names]
     return {
-        "validator_backed_audit_artifact_index_version": "3.1.0",
+        "validator_backed_audit_artifact_index_version": "3.2.0",
         "worker_id": worker_id,
         "index_status": "INDEX_CREATED" if approved else "BLOCKED",
         "artifact_names": artifact_names,
@@ -244,7 +244,7 @@ def create_audit_replay_record(worker_id: str, audit_gate: dict, replay_source_d
     approved = audit_gate.get("confirmation_token_valid") is True
     replay_steps = ["identify source result digest", "identify expected artifact contracts", "compare recorded digests", "classify failure if mismatch", "create human review packet", "do not execute replay automatically"]
     record = {
-        "audit_replay_record_version": "3.1.0",
+        "audit_replay_record_version": "3.2.0",
         "worker_id": worker_id,
         "replay_status": "REPLAY_RECORD_CREATED" if approved else "BLOCKED",
         "replay_source_digest": replay_source_digest,
@@ -267,7 +267,7 @@ def create_failure_class_taxonomy(worker_id: str, audit_gate: dict, observed_fai
     known_failure_classes = ["missing_required_artifact", "digest_mismatch", "validator_failure", "unsafe_output_detected", "token_missing", "token_invalid", "external_action_attempted", "repo_mutation_attempted", "broad_worker_activation_attempted", "unexpected_exception", "unknown_failure"]
     classified_failures = [failure if failure in known_failure_classes else "unknown_failure" for failure in observed_failures]
     return {
-        "failure_class_taxonomy_version": "3.1.0",
+        "failure_class_taxonomy_version": "3.2.0",
         "worker_id": worker_id,
         "taxonomy_status": "TAXONOMY_CREATED" if approved else "BLOCKED",
         "known_failure_classes": known_failure_classes,
@@ -285,7 +285,7 @@ def create_human_review_packet(worker_id: str, audit_gate: dict, comparison_proo
     approved = audit_gate.get("confirmation_token_valid") is True
     review_summary = "Post-run audit expansion is ready for human review when the audit gate is approved. This packet does not authorize broad execution."
     packet = {
-        "human_review_packet_version": "3.1.0",
+        "human_review_packet_version": "3.2.0",
         "worker_id": worker_id,
         "packet_status": "READY_FOR_HUMAN_REVIEW" if approved else "BLOCKED",
         "review_summary": review_summary,
@@ -338,7 +338,7 @@ def create_audit_integrity_score(worker_id: str, audit_gate: dict, comparison_pr
         factors.append(f"observed failures ({observed_failure_count}) (-{deduction})")
     score = max(score, 0)
     integrity_status = "BLOCKED" if (not approved or score < 50) else ("REVIEW_REQUIRED" if score < 80 else "PASS")
-    return {"audit_integrity_score_version": "3.1.0", "worker_id": worker_id, "integrity_score": score, "integrity_status": integrity_status, "score_factors": factors, "external_actions_taken": False, "repo_files_modified": False, "execution_authorized": False}
+    return {"audit_integrity_score_version": "3.2.0", "worker_id": worker_id, "integrity_score": score, "integrity_status": integrity_status, "score_factors": factors, "external_actions_taken": False, "repo_files_modified": False, "execution_authorized": False}
 
 
 def create_audit_evidence_ledger(worker_id: str, audit_gate: dict, expanded_schema: dict, comparison_proof: dict, artifact_index: dict, audit_replay_record: dict, failure_taxonomy: dict, human_review_packet: dict, audit_integrity_score: dict) -> dict:
@@ -352,7 +352,7 @@ def create_audit_evidence_ledger(worker_id: str, audit_gate: dict, expanded_sche
         {"entry_type": "human review packet", "entry_digest": sha256_digest(human_review_packet)},
         {"entry_type": "audit integrity score", "entry_digest": sha256_digest(audit_integrity_score)},
     ]
-    return {"audit_evidence_ledger_version": "3.1.0", "ledger_status": "SINGLE_WORKER_POST_RUN_AUDIT_LEDGER", "worker_id": worker_id, "entries": entries, "ledger_digest": sha256_digest(entries), "external_actions_taken": False, "actual_replay_performed": False, "repo_files_modified": False, "execution_authorized": False}
+    return {"audit_evidence_ledger_version": "3.2.0", "ledger_status": "SINGLE_WORKER_POST_RUN_AUDIT_LEDGER", "worker_id": worker_id, "entries": entries, "ledger_digest": sha256_digest(entries), "external_actions_taken": False, "actual_replay_performed": False, "repo_files_modified": False, "execution_authorized": False}
 
 
 def create_audit_expansion_readiness_summary(worker_id: str, audit_gate: dict, audit_integrity_score: dict, audit_evidence_ledger: dict) -> dict:
@@ -360,12 +360,12 @@ def create_audit_expansion_readiness_summary(worker_id: str, audit_gate: dict, a
     integrity_status = audit_integrity_score.get("integrity_status")
     ledger_status = audit_evidence_ledger.get("ledger_status")
     ready = gate_approved and integrity_status == "PASS" and ledger_status == "SINGLE_WORKER_POST_RUN_AUDIT_LEDGER"
-    return {"audit_expansion_readiness_summary_version": "3.1.0", "worker_id": worker_id, "readiness_status": "READY_FOR_NEXT_LAYER" if ready else "BLOCKED", "ready_for_multi_worker_sandbox_coordination": ready, "audit_gate_status": audit_gate.get("gate_status"), "integrity_status": integrity_status, "integrity_score": audit_integrity_score.get("integrity_score"), "ledger_status": ledger_status, "next_layer": "Multi-Worker Sandbox Coordination", "baseline_preserved": True, "external_actions_taken": False, "actual_replay_performed": False, "repo_files_modified": False, "execution_authorized": False}
+    return {"audit_expansion_readiness_summary_version": "3.2.0", "worker_id": worker_id, "readiness_status": "READY_FOR_NEXT_LAYER" if ready else "BLOCKED", "ready_for_multi_worker_sandbox_coordination": ready, "audit_gate_status": audit_gate.get("gate_status"), "integrity_status": integrity_status, "integrity_score": audit_integrity_score.get("integrity_score"), "ledger_status": ledger_status, "next_layer": "Multi-Worker Sandbox Coordination", "baseline_preserved": True, "external_actions_taken": False, "actual_replay_performed": False, "repo_files_modified": False, "execution_authorized": False}
 
 
 def create_multi_worker_sandbox_coordination_readiness_bridge(result: dict, readiness_summary: dict) -> dict:
     ready = readiness_summary.get("ready_for_multi_worker_sandbox_coordination") is True
-    return {"multi_worker_sandbox_coordination_readiness_bridge_version": "3.1.0", "current_layer": "Post-Run Audit Proof Expansion", "next_layer": "Multi-Worker Sandbox Coordination", "ready_for_multi_worker_sandbox_coordination": ready, "required_next_capabilities": ["multi-worker sandbox coordination schema", "worker coordination graph", "inter-worker handoff contract", "multi-worker dry-run ledger", "collision/conflict detector", "coordination abort contract", "coordination audit proof", "still no broad workforce animation"], "non_goals_for_next_layer": ["no full 47,250 worker activation", "no uncontrolled external API execution", "no baseline mutation", "no Devinization overlay mutation", "no unbounded tool access", "no autonomous deployment", "no live production orchestration"], "baseline_preserved": True, "external_actions_taken": False, "actual_replay_performed": False, "repo_files_modified": False, "execution_authorized": False}
+    return {"multi_worker_sandbox_coordination_readiness_bridge_version": "3.2.0", "current_layer": "Post-Run Audit Proof Expansion", "next_layer": "Multi-Worker Sandbox Coordination", "ready_for_multi_worker_sandbox_coordination": ready, "required_next_capabilities": ["multi-worker sandbox coordination schema", "worker coordination graph", "inter-worker handoff contract", "multi-worker dry-run ledger", "collision/conflict detector", "coordination abort contract", "coordination audit proof", "still no broad workforce animation"], "non_goals_for_next_layer": ["no full 47,250 worker activation", "no uncontrolled external API execution", "no baseline mutation", "no Devinization overlay mutation", "no unbounded tool access", "no autonomous deployment", "no live production orchestration"], "baseline_preserved": True, "external_actions_taken": False, "actual_replay_performed": False, "repo_files_modified": False, "execution_authorized": False}
 
 
 def create_post_run_audit_expansion_bundle(result: dict, worker_id: str | None = None, command: str | None = None, confirmation_token: str | None = None, before_result: dict | None = None, after_result: dict | None = None, artifact_names: list[str] | None = None, validator_names: list[str] | None = None, observed_failures: list[str] | None = None) -> dict:
@@ -385,7 +385,7 @@ def create_post_run_audit_expansion_bundle(result: dict, worker_id: str | None =
     readiness_summary = create_audit_expansion_readiness_summary(worker_id, audit_gate, audit_integrity_score, audit_evidence_ledger)
     bridge = create_multi_worker_sandbox_coordination_readiness_bridge(result, readiness_summary)
     bundle = {
-        "post_run_audit_expansion_bundle_version": "3.1.0",
+        "post_run_audit_expansion_bundle_version": "3.2.0",
         "post_run_audit_expansion_status": POST_RUN_AUDIT_EXPANSION_STATUS,
         "worker_id": worker_id,
         "command": command,

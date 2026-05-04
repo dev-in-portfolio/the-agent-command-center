@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import difflib
 
-APPROVAL_HANDOFF_MODULE_VERSION = "3.1.0"
+APPROVAL_HANDOFF_MODULE_VERSION = "3.2.0"
 
 
 def safe_get(dictionary: dict, dotted_path: str, default=None):
@@ -68,7 +68,7 @@ def compare_dry_run_bundles(before_bundle: dict, after_bundle: dict) -> dict:
     ):
         comparison_status = "UNCHANGED"
     return {
-        "comparison_version": "3.1.0",
+        "comparison_version": "3.2.0",
         "comparison_status": comparison_status,
         "before_summary": before_summary,
         "after_summary": after_summary,
@@ -112,7 +112,7 @@ def create_risk_summary(dry_run_bundle: dict, comparison: dict | None = None) ->
     if safe_get(dry_run_bundle, "repo_patch_plan") is not None and safety_status != "SAFE_REPO_PATCH_PATH":
         blocking_reasons.append("Repo patch path safety is not approved.")
     return {
-        "risk_summary_version": "3.1.0",
+        "risk_summary_version": "3.2.0",
         "risk_level": risk_level,
         "risk_factors": risk_factors,
         "blocking_reasons": blocking_reasons,
@@ -141,7 +141,7 @@ def create_human_approval_summary(dry_run_bundle: dict, risk_summary: dict) -> d
             "Should this proceed to confirmed scoped repo patch execution?",
         ]
     return {
-        "approval_summary_version": "3.1.0",
+        "approval_summary_version": "3.2.0",
         "approval_required": approval_required,
         "approval_token": approval_token,
         "readiness_status": readiness_status,
@@ -177,7 +177,7 @@ def create_next_action_recommendation(dry_run_bundle: dict, risk_summary: dict, 
     else:
         recommended_next_action = "Review dry-run bundle before deciding next action."
     return {
-        "recommendation_version": "3.1.0",
+        "recommendation_version": "3.2.0",
         "recommended_next_action": recommended_next_action,
         "allowed_next_actions": allowed_next_actions,
         "blocked_next_actions": blocked_next_actions,
@@ -190,7 +190,7 @@ def create_approval_handoff_packet(dry_run_bundle: dict, comparison: dict | None
     human_approval_summary = create_human_approval_summary(dry_run_bundle, risk_summary)
     next_action_recommendation = create_next_action_recommendation(dry_run_bundle, risk_summary, comparison)
     return {
-        "approval_handoff_version": "3.1.0",
+        "approval_handoff_version": "3.2.0",
         "dry_run_bundle": dry_run_bundle,
         "comparison": comparison,
         "risk_summary": risk_summary,

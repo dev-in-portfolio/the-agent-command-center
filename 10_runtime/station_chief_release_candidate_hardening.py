@@ -1,7 +1,7 @@
 import json
 import hashlib
 
-RELEASE_CANDIDATE_HARDENING_MODULE_VERSION = "3.1.0"
+RELEASE_CANDIDATE_HARDENING_MODULE_VERSION = "3.2.0"
 RELEASE_CANDIDATE_HARDENING_STATUS = "RELEASE_CANDIDATE_HARDENING_PREVIEW_ONLY"
 RELEASE_CANDIDATE_HARDENING_PHASE = "Release Candidate Hardening"
 RELEASE_CANDIDATE_HARDENING_APPROVAL_TOKEN = "YES_I_APPROVE_RELEASE_CANDIDATE_HARDENING"
@@ -23,15 +23,15 @@ def normalize_release_candidate_label(label: str) -> str:
         return "release-candidate-hardening"
     return normalized
 
-def generate_release_candidate_hardening_id(command: str, release_candidate_label: str, runtime_version: str = "3.1.0") -> str:
+def generate_release_candidate_hardening_id(command: str, release_candidate_label: str, runtime_version: str = "3.2.0") -> str:
     norm_label = normalize_release_candidate_label(release_candidate_label)
     digest_input = f"{runtime_version}:{command}:{norm_label}"
     digest = sha256_digest(digest_input)[:12]
-    return f"release-candidate-hardening-v3-1-{norm_label}-{digest}"
+    return f"release-candidate-hardening-v3-2-{norm_label}-{digest}"
 
 def create_release_candidate_hardening_schema() -> dict:
     return {
-        "release_candidate_hardening_schema_version": "3.1.0",
+        "release_candidate_hardening_schema_version": "3.2.0",
         "schema_status": "RELEASE_CANDIDATE_HARDENING_PREVIEW_ONLY",
         "required_sections": [
             "release_candidate_hardening_approval_gate",
@@ -134,7 +134,7 @@ def create_release_candidate_hardening_approval_gate(
     token_valid = (confirmation_token == "YES_I_APPROVE_RELEASE_CANDIDATE_HARDENING")
     gate_status = "APPROVED_FOR_RELEASE_CANDIDATE_HARDENING_RECORDS" if token_valid else "BLOCKED_PENDING_RELEASE_CANDIDATE_HARDENING_APPROVAL"
     return {
-        "release_candidate_hardening_approval_gate_version": "3.1.0",
+        "release_candidate_hardening_approval_gate_version": "3.2.0",
         "release_candidate_label": release_candidate_label,
         "gate_status": gate_status,
         "confirmation_token_required": "YES_I_APPROVE_RELEASE_CANDIDATE_HARDENING",
@@ -201,7 +201,7 @@ def create_full_runtime_invariant_scan(
         })
         
     return {
-        "full_runtime_invariant_scan_version": "3.1.0",
+        "full_runtime_invariant_scan_version": "3.2.0",
         "scan_status": scan_status,
         "invariant_results": invariant_results,
         "invariant_count": len(invariant_results),
@@ -249,14 +249,14 @@ def create_validator_chain_lock_proof(
     for name in validator_names:
         validator_records.append({
             "validator_name": name,
-            "expected_current_runtime_version": "3.1.0",
+            "expected_current_runtime_version": "3.2.0",
             "lock_status": "LOCKED_TO_CURRENT_RUNTIME" if approval_gate.get("confirmation_token_valid") else "BLOCKED",
             "validator_executed": False,
             "external_actions_taken": False
         })
         
     return {
-        "validator_chain_lock_proof_version": "3.1.0",
+        "validator_chain_lock_proof_version": "3.2.0",
         "proof_status": proof_status,
         "validator_records": validator_records,
         "validator_count": len(validator_records),
@@ -309,7 +309,7 @@ def create_artifact_contract_freeze_manifest(
         })
         
     return {
-        "artifact_contract_freeze_manifest_version": "3.1.0",
+        "artifact_contract_freeze_manifest_version": "3.2.0",
         "freeze_status": freeze_status,
         "artifact_contract_records": artifact_contract_records,
         "artifact_contract_count": len(artifact_contract_records),
@@ -372,7 +372,7 @@ def create_known_issue_register(
     blocking_count = sum(1 for issue in known_issues if issue.get("blocks_release_candidate"))
     
     return {
-        "known_issue_register_version": "3.1.0",
+        "known_issue_register_version": "3.2.0",
         "register_status": register_status,
         "known_issues": known_issues,
         "known_issue_count": len(known_issues),
@@ -421,7 +421,7 @@ def create_pre_v3_production_readiness_checklist(
         })
         
     return {
-        "pre_v3_production_readiness_checklist_version": "3.1.0",
+        "pre_v3_production_readiness_checklist_version": "3.2.0",
         "checklist_status": checklist_status,
         "checklist_items": checklist_records,
         "checklist_item_count": len(checklist_records),
@@ -461,7 +461,7 @@ def create_release_candidate_safety_gate(
         safety_gate_status = "BLOCKED"
         
     return {
-        "release_candidate_safety_gate_version": "3.1.0",
+        "release_candidate_safety_gate_version": "3.2.0",
         "safety_gate_status": safety_gate_status,
         "release_candidate_records_allowed": gate_valid and scan_ok,
         "production_execution_allowed": False,
@@ -548,7 +548,7 @@ def create_release_candidate_audit_proof(
     }
     
     return {
-        "release_candidate_audit_proof_version": "3.1.0",
+        "release_candidate_audit_proof_version": "3.2.0",
         "audit_status": audit_status,
         "approval_gate_digest": gate_digest,
         "invariant_scan_digest": scan_digest,
@@ -611,7 +611,7 @@ def create_release_candidate_ledger(
     ]
     
     return {
-        "release_candidate_ledger_version": "3.1.0",
+        "release_candidate_ledger_version": "3.2.0",
         "ledger_status": ledger_status,
         "entries": entries,
         "ledger_digest": sha256_digest(entries),
@@ -658,7 +658,7 @@ def create_release_candidate_readiness_summary(
         readiness_status = "BLOCKED"
         
     return {
-        "release_candidate_readiness_summary_version": "3.1.0",
+        "release_candidate_readiness_summary_version": "3.2.0",
         "readiness_status": readiness_status,
         "ready_for_controlled_production_readiness_gate": is_ready,
         "gate_status": approval_gate.get("gate_status", "BLOCKED"),
@@ -692,7 +692,7 @@ def create_controlled_production_readiness_gate_bridge(
 ) -> dict:
     is_ready = readiness_summary.get("ready_for_controlled_production_readiness_gate", False)
     return {
-        "controlled_production_readiness_gate_bridge_version": "3.1.0",
+        "controlled_production_readiness_gate_bridge_version": "3.2.0",
         "current_layer": "Release Candidate Hardening",
         "next_layer": "Controlled Production Readiness Gate",
         "ready_for_controlled_production_readiness_gate": is_ready,
@@ -770,7 +770,7 @@ def create_release_candidate_hardening_bundle(
     bridge = create_controlled_production_readiness_gate_bridge(result, summary)
     
     return {
-        "release_candidate_hardening_bundle_version": "3.1.0",
+        "release_candidate_hardening_bundle_version": "3.2.0",
         "release_candidate_hardening_status": "RELEASE_CANDIDATE_HARDENING_PREVIEW_ONLY",
         "release_candidate_hardening_schema": schema,
         "release_candidate_hardening_approval_gate": gate,

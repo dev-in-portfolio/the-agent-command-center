@@ -139,6 +139,11 @@ from station_chief_controlled_worker_hiring_activation_pilot import (
     create_controlled_worker_hiring_activation_pilot_bundle,
     create_controlled_worker_hiring_activation_pilot_schema,
 )
+from station_chief_first_supervised_production_dry_run import (
+    FIRST_SUPERVISED_PRODUCTION_DRY_RUN_APPROVAL_TOKEN,
+    create_first_supervised_production_dry_run_bundle,
+    create_first_supervised_production_dry_run_schema,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -148,7 +153,7 @@ from station_chief_execution_profiles import (
     select_execution_profile,
 )
 
-STATION_CHIEF_RUNTIME_VERSION = "3.1.0"
+STATION_CHIEF_RUNTIME_VERSION = "3.2.0"
 
 EXPECTED_OVERLAYS = [
     {
@@ -354,7 +359,7 @@ def normalize_command_for_id(command: str) -> str:
 def generate_run_id(command: str, run_label: str = "station-chief-runtime") -> str:
     normalized = normalize_command_for_id(command)
     digest = hashlib.sha256(f"{STATION_CHIEF_RUNTIME_VERSION}:{run_label}:{command}".encode("utf-8")).hexdigest()
-    return f"station-chief-v3-1-{normalized}-{digest[:12]}"
+    return f"station-chief-v3-2-{normalized}-{digest[:12]}"
 
 
 def classify_command(command: str) -> str:
@@ -465,7 +470,7 @@ def load_registry(registry_dir: str | Path) -> dict:
     registry_path = Path(registry_dir) / "run_registry.json"
     if not registry_path.exists():
         return {
-            "registry_version": "3.1.0",
+            "registry_version": "3.2.0",
             "runtime_name": "Station Chief Runtime",
             "runs": [],
         }
@@ -482,7 +487,7 @@ def update_registry(registry_dir: str | Path, index_entry: dict) -> dict:
     registry = load_registry(registry_dir)
     runs = [run for run in registry.get("runs", []) if run.get("run_id") != index_entry.get("run_id")]
     runs.append(index_entry)
-    registry["registry_version"] = "3.1.0"
+    registry["registry_version"] = "3.2.0"
     registry["runtime_name"] = "Station Chief Runtime"
     registry["runs"] = runs
     save_registry(registry_dir, registry)
@@ -491,7 +496,7 @@ def update_registry(registry_dir: str | Path, index_entry: dict) -> dict:
 
 def write_runtime_index(registry_dir: str | Path, registry: dict) -> dict:
     index = {
-        "index_version": "3.1.0",
+        "index_version": "3.2.0",
         "runtime_name": "Station Chief Runtime",
         "run_count": len(registry.get("runs", [])),
         "runs": registry.get("runs", []),
@@ -545,7 +550,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
     adapter_result = run_noop_adapter(execution_plan)
     return {
         "station_chief_runtime_version": STATION_CHIEF_RUNTIME_VERSION,
-        "runtime_status": "controlled_worker_hiring_activation_pilot",
+        "runtime_status": "first_supervised_production_dry_run",
         "release_status": "STABLE_LOCKED",
         "command": command,
         "command_type": brief["command_type"],
@@ -788,7 +793,18 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
             "pilot_audit_proof": True,
             "pilot_ledger": True,
             "pilot_readiness_summary": True,
-            "first_supervised_production_dry_run_bridge": True,
+                        "first_supervised_production_dry_run_schema": True,
+            "first_supervised_production_dry_run_approval_gate": True,
+            "single_controlled_task_dry_run_envelope": True,
+            "dry_run_only_production_context_contract": True,
+            "human_preflight_approval_gate": True,
+            "worker_task_simulation_contract": True,
+            "external_action_denial_by_default": True,
+            "dry_run_rollback_quarantine_preview": True,
+            "dry_run_audit_proof": True,
+            "dry_run_ledger": True,
+            "dry_run_readiness_summary": True,
+            "limited_external_tool_supervised_pilot_bridge": True,
             "operator_approval_queue_enforcement_schema": True,
             "operator_approval_queue_enforcement_approval_gate": True,
             "queued_action_registry": True,
@@ -1147,9 +1163,29 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
             "controlled_worker_hiring_activation_pilot_does_not_read_secrets": True,
             "controlled_worker_hiring_activation_pilot_does_not_read_environment": True,
             "controlled_worker_hiring_activation_pilot_does_not_modify_repo_files": True,
-            "first_supervised_production_dry_run_not_yet_active": True,
+                        "first_supervised_production_dry_run_available": True,
+            "first_supervised_production_dry_run_preview_only": True,
+            "first_supervised_production_dry_run_requires_token": True,
+            "single_controlled_task_dry_run_limit_is_one": True,
+            "external_actions_denied_by_default": True,
+            "first_supervised_production_dry_run_does_not_execute_production": True,
+            "first_supervised_production_dry_run_does_not_activate_production": True,
+            "first_supervised_production_dry_run_does_not_execute_real_tasks": True,
+            "first_supervised_production_dry_run_does_not_assign_live_tasks": True,
+            "first_supervised_production_dry_run_does_not_route_live_workers": True,
+            "first_supervised_production_dry_run_does_not_perform_live_orchestration": True,
+            "first_supervised_production_dry_run_does_not_invoke_external_tools": True,
+            "first_supervised_production_dry_run_does_not_call_live_apis": True,
+            "first_supervised_production_dry_run_does_not_use_network_access": True,
+            "first_supervised_production_dry_run_does_not_open_sockets": True,
+            "first_supervised_production_dry_run_does_not_use_credentials": True,
+            "first_supervised_production_dry_run_does_not_read_secrets": True,
+            "first_supervised_production_dry_run_does_not_read_environment": True,
+            "first_supervised_production_dry_run_does_not_modify_repo_files": True,
+            "first_supervised_production_dry_run_does_not_deploy": True,
+            "limited_external_tool_supervised_pilot_not_yet_active": True,
         },
-        "next_step": "Next step: build first supervised production dry-run.",
+        "next_step": "Next step: build limited external tool supervised pilot.",
     }
 
 
@@ -2897,6 +2933,110 @@ def write_release_candidate_hardening(result: dict, output_dir: str | Path, run_
     }
 
 
+def attach_first_supervised_production_dry_run(
+    result: dict,
+    dry_run_label: str | None = None,
+    confirmation_token: str | None = None,
+    dry_run_task_label: str | None = None,
+    production_context_label: str | None = None,
+    required_preflight_approver: str | None = None,
+    worker_label: str | None = None,
+    quarantine_labels: list[str] | None = None
+) -> dict:
+    if "controlled_worker_hiring_activation_pilot_bundle" not in result:
+        result = attach_controlled_worker_hiring_activation_pilot(result)
+        
+    bundle = create_first_supervised_production_dry_run_bundle(
+        result,
+        command=result.get("command", ""),
+        dry_run_label=dry_run_label,
+        confirmation_token=confirmation_token,
+        dry_run_task_label=dry_run_task_label,
+        production_context_label=production_context_label,
+        required_preflight_approver=required_preflight_approver,
+        worker_label=worker_label,
+        quarantine_labels=quarantine_labels
+    )
+    result["first_supervised_production_dry_run_bundle"] = bundle
+    result["first_supervised_production_dry_run_schema"] = bundle["first_supervised_production_dry_run_schema"]
+    result["first_supervised_production_dry_run_approval_gate"] = bundle["first_supervised_production_dry_run_approval_gate"]
+    result["single_controlled_task_dry_run_envelope"] = bundle["single_controlled_task_dry_run_envelope"]
+    result["dry_run_only_production_context_contract"] = bundle["dry_run_only_production_context_contract"]
+    result["human_preflight_approval_gate"] = bundle["human_preflight_approval_gate"]
+    result["worker_task_simulation_contract"] = bundle["worker_task_simulation_contract"]
+    result["external_action_denial_by_default"] = bundle["external_action_denial_by_default"]
+    result["dry_run_rollback_quarantine_preview"] = bundle["dry_run_rollback_quarantine_preview"]
+    result["dry_run_audit_proof"] = bundle["dry_run_audit_proof"]
+    result["dry_run_ledger"] = bundle["dry_run_ledger"]
+    result["dry_run_readiness_summary"] = bundle["dry_run_readiness_summary"]
+    result["limited_external_tool_supervised_pilot_bridge"] = bundle["limited_external_tool_supervised_pilot_bridge"]
+    return result
+
+def write_first_supervised_production_dry_run(result: dict, output_dir: str | Path, run_label: str = "station-chief-runtime") -> dict:
+    if "first_supervised_production_dry_run_bundle" not in result:
+        raise ValueError("first_supervised_production_dry_run_bundle missing")
+        
+    run_id = generate_run_id(result.get("command", run_label))
+    target_dir = Path(output_dir) / run_id
+    target_dir.mkdir(parents=True, exist_ok=True)
+    
+    files_to_write = [
+        ("first_supervised_production_dry_run_bundle.json", "first_supervised_production_dry_run_bundle"),
+        ("first_supervised_production_dry_run_schema.json", "first_supervised_production_dry_run_schema"),
+        ("first_supervised_production_dry_run_approval_gate.json", "first_supervised_production_dry_run_approval_gate"),
+        ("single_controlled_task_dry_run_envelope.json", "single_controlled_task_dry_run_envelope"),
+        ("dry_run_only_production_context_contract.json", "dry_run_only_production_context_contract"),
+        ("human_preflight_approval_gate.json", "human_preflight_approval_gate"),
+        ("worker_task_simulation_contract.json", "worker_task_simulation_contract"),
+        ("external_action_denial_by_default.json", "external_action_denial_by_default"),
+        ("dry_run_rollback_quarantine_preview.json", "dry_run_rollback_quarantine_preview"),
+        ("dry_run_audit_proof.json", "dry_run_audit_proof"),
+        ("dry_run_ledger.json", "dry_run_ledger"),
+        ("dry_run_readiness_summary.json", "dry_run_readiness_summary"),
+        ("limited_external_tool_supervised_pilot_bridge.json", "limited_external_tool_supervised_pilot_bridge"),
+    ]
+    
+    written = []
+    for fname, key in files_to_write:
+        path = target_dir / fname
+        _write_json(path, result[key])
+        written.append(fname)
+        
+    manifest = {
+        "first_supervised_production_dry_run_manifest_version": "3.2.0",
+        "run_id": run_id,
+        "runtime_version": "3.2.0",
+        "files_written": written + ["first_supervised_production_dry_run_manifest.json"],
+        "baseline_preserved": True,
+        "external_actions_taken": False,
+        "real_production_execution_performed": False,
+        "production_activation_performed": False,
+        "real_task_execution_performed": False,
+        "live_task_assignment_performed": False,
+        "live_worker_routing_performed": False,
+        "live_orchestration_performed": False,
+        "external_tool_invocation_performed": False,
+        "live_api_call_performed": False,
+        "network_access_performed": False,
+        "socket_opened": False,
+        "credentials_used": False,
+        "secrets_read": False,
+        "environment_read": False,
+        "deployment_performed": False,
+        "worker_processes_started": False,
+        "repo_files_modified": False,
+        "execution_authorized": False,
+        "status": "FIRST_SUPERVISED_PRODUCTION_DRY_RUN_PREVIEW_ONLY",
+        "note": "First Supervised Production Dry-Run v3.2.0 creates local dry-run schema, approval gate, single controlled task envelope, dry-run-only production context contract, human preflight approval gate, worker task simulation contract, external action denial-by-default record, rollback and quarantine preview, audit proof, ledger, readiness summary, and limited external tool supervised pilot bridge artifacts only. It does not execute production, activate production, execute real tasks, assign live tasks, route live workers, perform live orchestration, invoke external tools, call live APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, deploy, start worker processes, run shell commands, or modify repo files."
+    }
+    
+    _write_json(target_dir / "first_supervised_production_dry_run_manifest.json", manifest)
+    
+    return {
+        "run_id": run_id,
+        "first_supervised_production_dry_run_dir": str(target_dir),
+        "files_written": manifest["files_written"]
+    }
 def attach_controlled_worker_hiring_activation_pilot(
     result: dict,
     pilot_label: str | None = None,
@@ -2965,7 +3105,7 @@ def write_controlled_worker_hiring_activation_pilot(result: dict, output_dir: st
     manifest = {
         "controlled_worker_hiring_activation_pilot_manifest_version": "3.1.0",
         "run_id": run_id,
-        "runtime_version": "3.1.0",
+        "runtime_version": "3.2.0",
         "files_written": written + ["controlled_worker_hiring_activation_pilot_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -3072,7 +3212,7 @@ def write_controlled_production_readiness_gate(result: dict, output_dir: str | P
     manifest = {
         "controlled_production_readiness_gate_manifest_version": "3.0.0",
         "run_id": run_id,
-        "runtime_version": "3.1.0",
+        "runtime_version": "3.2.0",
         "files_written": written + ["controlled_production_readiness_gate_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -3158,6 +3298,19 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
     production_readiness_ledger = result.get("production_readiness_ledger")
     production_readiness_summary = result.get("production_readiness_summary")
     controlled_worker_hiring_activation_pilot_bridge = result.get("controlled_worker_hiring_activation_pilot_bridge")
+    first_supervised_production_dry_run_bundle = result.get("first_supervised_production_dry_run_bundle")
+    first_supervised_production_dry_run_schema = result.get("first_supervised_production_dry_run_schema")
+    first_supervised_production_dry_run_approval_gate = result.get("first_supervised_production_dry_run_approval_gate")
+    single_controlled_task_dry_run_envelope = result.get("single_controlled_task_dry_run_envelope")
+    dry_run_only_production_context_contract = result.get("dry_run_only_production_context_contract")
+    human_preflight_approval_gate = result.get("human_preflight_approval_gate")
+    worker_task_simulation_contract = result.get("worker_task_simulation_contract")
+    external_action_denial_by_default = result.get("external_action_denial_by_default")
+    dry_run_rollback_quarantine_preview = result.get("dry_run_rollback_quarantine_preview")
+    dry_run_audit_proof = result.get("dry_run_audit_proof")
+    dry_run_ledger = result.get("dry_run_ledger")
+    dry_run_readiness_summary = result.get("dry_run_readiness_summary")
+    limited_external_tool_supervised_pilot_bridge = result.get("limited_external_tool_supervised_pilot_bridge")
     
     controlled_worker_hiring_activation_pilot_bundle = result.get("controlled_worker_hiring_activation_pilot_bundle")
     controlled_worker_hiring_activation_pilot_schema = result.get("controlled_worker_hiring_activation_pilot_schema")
@@ -3536,8 +3689,8 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "first_supervised_production_dry_run_bridge": result.get("first_supervised_production_dry_run_bridge"),
         "manifest": {
             "run_id": run_id,
-            "runtime_version": "3.1.0",
-            "artifact_type": "station_chief_runtime_v3_1_artifacts",
+            "runtime_version": "3.2.0",
+            "artifact_type": "station_chief_runtime_v3_2_artifacts",
             "files_planned": files_planned,
             "baseline_preserved": True,
             "devinization_overlays_preserved": True,
@@ -3854,6 +4007,19 @@ def write_runtime_artifacts(
         "production_readiness_ledger.json": artifacts.get("production_readiness_ledger"),
         "production_readiness_summary.json": artifacts.get("production_readiness_summary"),
         "controlled_worker_hiring_activation_pilot_bridge.json": artifacts.get("controlled_worker_hiring_activation_pilot_bridge"),
+        "first_supervised_production_dry_run_bundle.json": artifacts.get("first_supervised_production_dry_run_bundle"),
+        "first_supervised_production_dry_run_schema.json": artifacts.get("first_supervised_production_dry_run_schema"),
+        "first_supervised_production_dry_run_approval_gate.json": artifacts.get("first_supervised_production_dry_run_approval_gate"),
+        "single_controlled_task_dry_run_envelope.json": artifacts.get("single_controlled_task_dry_run_envelope"),
+        "dry_run_only_production_context_contract.json": artifacts.get("dry_run_only_production_context_contract"),
+        "human_preflight_approval_gate.json": artifacts.get("human_preflight_approval_gate"),
+        "worker_task_simulation_contract.json": artifacts.get("worker_task_simulation_contract"),
+        "external_action_denial_by_default.json": artifacts.get("external_action_denial_by_default"),
+        "dry_run_rollback_quarantine_preview.json": artifacts.get("dry_run_rollback_quarantine_preview"),
+        "dry_run_audit_proof.json": artifacts.get("dry_run_audit_proof"),
+        "dry_run_ledger.json": artifacts.get("dry_run_ledger"),
+        "dry_run_readiness_summary.json": artifacts.get("dry_run_readiness_summary"),
+        "limited_external_tool_supervised_pilot_bridge.json": artifacts.get("limited_external_tool_supervised_pilot_bridge"),
         "controlled_worker_hiring_activation_pilot_bundle.json": artifacts.get("controlled_worker_hiring_activation_pilot_bundle"),
         "controlled_worker_hiring_activation_pilot_schema.json": artifacts.get("controlled_worker_hiring_activation_pilot_schema"),
         "controlled_worker_hiring_activation_pilot_approval_gate.json": artifacts.get("controlled_worker_hiring_activation_pilot_approval_gate"),
@@ -4444,6 +4610,17 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--pilot-worker-label", type=str, action="append")
     parser.add_argument("--pilot-required-supervisor", type=str)
     parser.add_argument("--pilot-rollback-label", type=str, action="append")
+    
+    parser.add_argument("--first-supervised-production-dry-run-schema", action="store_true")
+    parser.add_argument("--first-supervised-production-dry-run", action="store_true")
+    parser.add_argument("--write-first-supervised-production-dry-run", metavar="DIR", type=str)
+    parser.add_argument("--dry-run-label", type=str)
+    parser.add_argument("--dry-run-confirm-token", type=str)
+    parser.add_argument("--dry-run-task-label", type=str)
+    parser.add_argument("--dry-run-production-context-label", type=str)
+    parser.add_argument("--dry-run-required-preflight-approver", type=str)
+    parser.add_argument("--dry-run-worker-label", type=str)
+    parser.add_argument("--dry-run-quarantine-label", type=str, action="append")
 
     parser.add_argument("--telemetry-worker-id", type=str, help="Worker ID for live telemetry")
     parser.add_argument("--telemetry-confirm-token", type=str, help="Confirmation token for live telemetry approval")
@@ -4572,6 +4749,10 @@ def main() -> None:
         return
     if args.release_candidate_hardening_schema:
         print(json.dumps(create_release_candidate_hardening_schema(), indent=2, ensure_ascii=False))
+        return
+
+    if args.first_supervised_production_dry_run_schema:
+        print(json.dumps(create_first_supervised_production_dry_run_schema(), indent=2, ensure_ascii=False))
         return
 
     if args.worker_hiring_activation_pilot_schema:
@@ -5023,6 +5204,18 @@ def main() -> None:
             checklist_items=args.release_candidate_checklist_item
         )
 
+    if args.first_supervised_production_dry_run or args.write_first_supervised_production_dry_run:
+        result = attach_first_supervised_production_dry_run(
+            result,
+            dry_run_label=args.dry_run_label,
+            confirmation_token=args.dry_run_confirm_token,
+            dry_run_task_label=args.dry_run_task_label,
+            production_context_label=args.dry_run_production_context_label,
+            required_preflight_approver=args.dry_run_required_preflight_approver,
+            worker_label=args.dry_run_worker_label,
+            quarantine_labels=args.dry_run_quarantine_label
+        )
+
     if args.controlled_worker_hiring_activation_pilot or args.write_controlled_worker_hiring_activation_pilot:
         result = attach_controlled_worker_hiring_activation_pilot(
             result,
@@ -5033,6 +5226,7 @@ def main() -> None:
             required_supervisor_label=args.pilot_required_supervisor,
             rollback_labels=args.pilot_rollback_label
         )
+
     if args.controlled_production_readiness_gate or args.write_controlled_production_readiness_gate:
         result = attach_controlled_production_readiness_gate(
             result,
@@ -5246,6 +5440,10 @@ def main() -> None:
         rc_res = write_release_candidate_hardening(result, args.write_release_candidate_hardening)
         result = dict(result)
         result["release_candidate_hardening_write_summary"] = rc_res
+    if args.write_first_supervised_production_dry_run:
+        dry_run_res = write_first_supervised_production_dry_run(result, args.write_first_supervised_production_dry_run)
+        result = dict(result)
+        result["first_supervised_production_dry_run_write_summary"] = dry_run_res
     if args.write_controlled_worker_hiring_activation_pilot:
         pilot_res = write_controlled_worker_hiring_activation_pilot(result, args.write_controlled_worker_hiring_activation_pilot)
         result = dict(result)

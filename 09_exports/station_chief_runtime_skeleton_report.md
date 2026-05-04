@@ -1,28 +1,28 @@
 # Station Chief Runtime Skeleton Report
 
 ## Status
-Station Chief Runtime upgraded to v3.1.0. Locked 175-family baseline preserved. Controlled worker hiring activation pilot added.
+Station Chief Runtime upgraded to v3.2.0. Locked 175-family baseline preserved. First supervised production dry-run added.
 
 ## Runtime Capabilities
-- controlled worker hiring activation pilot schema
-- controlled worker hiring activation pilot approval gate
-- one-to-three worker pilot limit contract
-- worker identity activation contract
-- task assignment denial by default
-- human-supervised pilot gate
-- pilot rollback and abort preview
-- pilot audit proof
-- pilot ledger
-- pilot readiness summary
-- first supervised production dry-run bridge
-- no real worker hiring
-- no real worker activation
-- no worker process starts
+- first supervised production dry-run schema
+- first supervised production dry-run approval gate
+- single controlled task dry-run envelope
+- dry-run-only production context contract
+- human preflight approval gate
+- worker task simulation contract
+- external action denial by default
+- dry-run rollback and quarantine preview
+- dry-run audit proof
+- dry-run ledger
+- dry-run readiness summary
+- limited external tool supervised pilot bridge
+- no real production execution
+- no production activation
+- no real task execution
 - no live task assignment
 - no live worker routing
 - no live orchestration
-- no production execution
-- no production activation
+- no external tool invocation
 - no live API calls
 - no credential use
 - no secret reads
@@ -33,11 +33,9 @@ Station Chief Runtime upgraded to v3.1.0. Locked 175-family baseline preserved. 
 - no shell command execution
 - no arbitrary code execution
 - no repo mutation
-- no worker process starts
-- no full workforce activation
 
 ## Required Validator
-python3 scripts/validate_station_chief_runtime_v3_1.py
+python3 scripts/validate_station_chief_runtime_v3_2.py
 
 ## Next Recommended Build Step
-Next recommended build step: build first supervised production dry-run.
+Next recommended build step: build limited external tool supervised pilot.
