@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+import sys
 
 import argparse
 import hashlib
@@ -149,6 +150,11 @@ from station_chief_limited_external_tool_supervised_pilot import (
     create_limited_external_tool_supervised_pilot_bundle,
     create_limited_external_tool_supervised_pilot_schema,
 )
+from station_chief_supervised_external_api_pilot import (
+    SUPERVISED_EXTERNAL_API_PILOT_APPROVAL_TOKEN,
+    create_supervised_external_api_pilot_bundle,
+    create_supervised_external_api_pilot_schema,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -158,7 +164,7 @@ from station_chief_execution_profiles import (
     select_execution_profile,
 )
 
-STATION_CHIEF_RUNTIME_VERSION = "3.3.0"
+STATION_CHIEF_RUNTIME_VERSION = "3.4.0"
 
 EXPECTED_OVERLAYS = [
     {
@@ -364,7 +370,7 @@ def normalize_command_for_id(command: str) -> str:
 def generate_run_id(command: str, run_label: str = "station-chief-runtime") -> str:
     normalized = normalize_command_for_id(command)
     digest = hashlib.sha256(f"{STATION_CHIEF_RUNTIME_VERSION}:{run_label}:{command}".encode("utf-8")).hexdigest()
-    return f"station-chief-v3-3-{normalized}-{digest[:12]}"
+    return f"station-chief-v3-4-{normalized}-{digest[:12]}"
 
 
 def classify_command(command: str) -> str:
@@ -475,7 +481,7 @@ def load_registry(registry_dir: str | Path) -> dict:
     registry_path = Path(registry_dir) / "run_registry.json"
     if not registry_path.exists():
         return {
-            "registry_version": "3.3.0",
+            "registry_version": "3.4.0",
             "runtime_name": "Station Chief Runtime",
             "runs": [],
         }
@@ -492,7 +498,7 @@ def update_registry(registry_dir: str | Path, index_entry: dict) -> dict:
     registry = load_registry(registry_dir)
     runs = [run for run in registry.get("runs", []) if run.get("run_id") != index_entry.get("run_id")]
     runs.append(index_entry)
-    registry["registry_version"] = "3.3.0"
+    registry["registry_version"] = "3.4.0"
     registry["runtime_name"] = "Station Chief Runtime"
     registry["runs"] = runs
     save_registry(registry_dir, registry)
@@ -501,7 +507,7 @@ def update_registry(registry_dir: str | Path, index_entry: dict) -> dict:
 
 def write_runtime_index(registry_dir: str | Path, registry: dict) -> dict:
     index = {
-        "index_version": "3.3.0",
+        "index_version": "3.4.0",
         "runtime_name": "Station Chief Runtime",
         "run_count": len(registry.get("runs", [])),
         "runs": registry.get("runs", []),
@@ -555,7 +561,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
     adapter_result = run_noop_adapter(execution_plan)
     return {
         "station_chief_runtime_version": STATION_CHIEF_RUNTIME_VERSION,
-        "runtime_status": "limited_external_tool_supervised_pilot",
+                "runtime_status": "supervised_external_api_pilot",
         "release_status": "STABLE_LOCKED",
         "command": command,
         "command_type": brief["command_type"],
@@ -810,17 +816,30 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
             "dry_run_ledger": True,
             "dry_run_readiness_summary": True,
             "limited_external_tool_supervised_pilot_bridge": True,
-            "limited_external_tool_supervised_pilot_schema": True,
-            "limited_external_tool_supervised_pilot_approval_gate": True,
-            "single_external_tool_category_contract": True,
-            "tool_invocation_denial_by_default": True,
-            "human_tool_use_preflight_gate": True,
-            "tool_request_envelope_preview": True,
-            "tool_response_quarantine_preview": True,
-            "tool_audit_proof": True,
-            "tool_pilot_ledger": True,
-            "tool_pilot_readiness_summary": True,
-            "supervised_external_api_pilot_bridge": True,
+                    "limited_external_tool_supervised_pilot_schema": True,
+        "limited_external_tool_supervised_pilot_approval_gate": True,
+        "single_external_tool_category_contract": True,
+        "tool_invocation_denial_by_default": True,
+        "human_tool_use_preflight_gate": True,
+        "tool_request_envelope_preview": True,
+        "tool_response_quarantine_preview": True,
+        "tool_audit_proof": True,
+        "tool_pilot_ledger": True,
+        "tool_pilot_readiness_summary": True,
+        "supervised_external_api_pilot_bridge": True,
+        "supervised_external_api_pilot_schema": True,
+        "supervised_external_api_pilot_approval_gate": True,
+        "single_api_category_contract": True,
+        "credential_denial_by_default": True,
+        "secret_handling_denial_by_default": True,
+        "network_socket_denial_by_default": True,
+        "human_api_use_preflight_gate": True,
+        "api_request_envelope_preview": True,
+        "api_response_quarantine_preview": True,
+        "api_audit_proof": True,
+        "api_pilot_ledger": True,
+        "api_pilot_readiness_summary": True,
+        "monitored_rollback_recovery_drill_bridge": True,
             "operator_approval_queue_enforcement_schema": True,
             "operator_approval_queue_enforcement_approval_gate": True,
             "queued_action_registry": True,
@@ -1220,9 +1239,31 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
             "limited_external_tool_supervised_pilot_does_not_route_live_workers": True,
             "limited_external_tool_supervised_pilot_does_not_perform_live_orchestration": True,
             "limited_external_tool_supervised_pilot_does_not_modify_repo_files": True,
-            "supervised_external_api_pilot_not_yet_active": True,
+                    "monitored_rollback_recovery_drill_not_yet_active": True,
+        "supervised_external_api_pilot_available": True,
+        "supervised_external_api_pilot_preview_only": True,
+        "supervised_external_api_pilot_requires_token": True,
+        "single_api_category_limit_is_one": True,
+        "credential_use_denied_by_default": True,
+        "secret_handling_denied_by_default": True,
+        "network_socket_denied_by_default": True,
+        "supervised_external_api_pilot_does_not_call_live_apis": True,
+        "supervised_external_api_pilot_does_not_use_network_access": True,
+        "supervised_external_api_pilot_does_not_open_sockets": True,
+        "supervised_external_api_pilot_does_not_use_credentials": True,
+        "supervised_external_api_pilot_does_not_read_secrets": True,
+        "supervised_external_api_pilot_does_not_read_environment": True,
+        "supervised_external_api_pilot_does_not_deploy": True,
+        "supervised_external_api_pilot_does_not_invoke_external_tools": True,
+        "supervised_external_api_pilot_does_not_execute_production": True,
+        "supervised_external_api_pilot_does_not_activate_production": True,
+        "supervised_external_api_pilot_does_not_execute_real_tasks": True,
+        "supervised_external_api_pilot_does_not_assign_live_tasks": True,
+        "supervised_external_api_pilot_does_not_route_live_workers": True,
+        "supervised_external_api_pilot_does_not_perform_live_orchestration": True,
+        "supervised_external_api_pilot_does_not_modify_repo_files": True,
         },
-        "next_step": "Next step: build supervised external API pilot.",
+        "next_step": "Next step: build monitored rollback and recovery drill.",
     }
 
 
@@ -2464,7 +2505,7 @@ def write_controlled_external_tool_adapter_preview(
         "deployment_performed": False,
         "execution_authorized": False,
         "status": "CONTROLLED_EXTERNAL_TOOL_ADAPTER_PREVIEW_ONLY",
-        "note": "Controlled External Tool Adapter Preview v2.5.0 creates local external tool adapter preview, request contract, response validation, abort, audit, ledger, and readiness bridge artifacts only. It does not invoke external tools, call live APIs, perform network access, open sockets, run shell commands, modify repo files, deploy, hire real workers, start worker processes, route live workers, perform live orchestration, or animate broad workforce.",
+        "note": "Controlled External Tool Adapter Preview v2.5.0 creates local external tool adapter preview, request contract, response validation, abort, audit, ledger, and readiness bridge artifacts only. It does not invoke external tools, call live-APIs, perform network access, open sockets, run shell commands, modify repo files, deploy, hire real workers, start worker processes, route live workers, perform live orchestration, or animate broad workforce.",
     }
     _write_json(record_dir / "controlled_external_tool_adapter_preview_manifest.json", manifest)
     files_written.append("controlled_external_tool_adapter_preview_manifest.json")
@@ -2633,7 +2674,7 @@ def write_permissioned_external_api_dry_run_preview(result: dict, output_dir: st
         "deployment_performed": False,
         "execution_authorized": False,
         "status": "PERMISSIONED_EXTERNAL_API_DRY_RUN_PREVIEW_ONLY",
-        "note": "Permissioned External API Dry-Run Preview v2.6.0 creates local API dry-run schema, endpoint registry, approval gate, request envelope validation, credential absence proof, outbound call prevention proof, fixture contract, audit proof, ledger, and readiness bridge artifacts only. It does not call live APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, invoke external tools, run shell commands, modify repo files, deploy, hire real workers, start worker processes, route live workers, perform live orchestration, or animate broad workforce."
+        "note": "Permissioned External API Dry-Run Preview v2.6.0 creates local API dry-run schema, endpoint registry, approval gate, request envelope validation, credential absence proof, outbound call prevention proof, fixture contract, audit proof, ledger, and readiness bridge artifacts only. It does not call live-APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, invoke external tools, run shell commands, modify repo files, deploy, hire real workers, start worker processes, route live workers, perform live orchestration, or animate broad workforce."
     }
     
     (target_dir / "permissioned_external_api_dry_run_preview_manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
@@ -2738,7 +2779,7 @@ def write_controlled_multi_worker_audit_replay_preview(result: dict, output_dir:
         "deployment_performed": False,
         "execution_authorized": False,
         "status": "CONTROLLED_MULTI_WORKER_AUDIT_REPLAY_PREVIEW_ONLY",
-        "note": "Controlled Multi-Worker Audit Replay Preview v2.7.0 creates local replay schema, replay packet registry, deterministic replay plan contract, replay safety gate, multi-worker replay comparison proof, replay output quarantine contract, replay audit proof, replay preview ledger, readiness summary, and operator approval queue enforcement bridge artifacts only. It does not execute actual replay, replay worker actions, replay external tools, call live APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, run shell commands, modify repo files, deploy, hire real workers, start worker processes, route live workers, perform live orchestration, or animate broad workforce."
+        "note": "Controlled Multi-Worker Audit Replay Preview v2.7.0 creates local replay schema, replay packet registry, deterministic replay plan contract, replay safety gate, multi-worker replay comparison proof, replay output quarantine contract, replay audit proof, replay preview ledger, readiness summary, and operator approval queue enforcement bridge artifacts only. It does not execute actual replay, replay worker actions, replay external tools, call live-APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, run shell commands, modify repo files, deploy, hire real workers, start worker processes, route live workers, perform live orchestration, or animate broad workforce."
     }
     
     (target_dir / "controlled_multi_worker_audit_replay_preview_manifest.json").write_text(json.dumps(manifest, indent=2, ensure_ascii=False), encoding="utf-8")
@@ -2845,7 +2886,7 @@ def write_operator_approval_queue_enforcement(result: dict, output_dir: str | Pa
         "deployment_performed": False,
         "execution_authorized": False,
         "status": "OPERATOR_APPROVAL_QUEUE_ENFORCEMENT_PREVIEW_ONLY",
-        "note": "Operator Approval Queue Enforcement v2.8.0 creates local queue schema, queued action registry, priority classifier, operator decision contract, stale item detector, queue safety gate, audit proof, ledger, readiness summary, and release candidate hardening bridge artifacts only. It does not execute queued actions, auto-approve, bypass approval, execute actual replay, replay worker actions, replay external tools, call live APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, run shell commands, modify repo files, deploy, hire real workers, start worker processes, route live workers, perform live orchestration, or animate broad workforce."
+        "note": "Operator Approval Queue Enforcement v2.8.0 creates local queue schema, queued action registry, priority classifier, operator decision contract, stale item detector, queue safety gate, audit proof, ledger, readiness summary, and release candidate hardening bridge artifacts only. It does not execute queued actions, auto-approve, bypass approval, execute actual replay, replay worker actions, replay external tools, call live-APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, run shell commands, modify repo files, deploy, hire real workers, start worker processes, route live workers, perform live orchestration, or animate broad workforce."
     }
     
     (target_dir / "operator_approval_queue_enforcement_manifest.json").write_text(json.dumps(manifest, indent=2, ensure_ascii=False), encoding="utf-8")
@@ -2958,7 +2999,7 @@ def write_release_candidate_hardening(result: dict, output_dir: str | Path, run_
         "deployment_performed": False,
         "execution_authorized": False,
         "status": "RELEASE_CANDIDATE_HARDENING_PREVIEW_ONLY",
-        "note": "Release Candidate Hardening v2.9.0 creates local release candidate schema, invariant scan, validator chain lock proof, artifact contract freeze manifest, known issue register, pre-v3 checklist, safety gate, audit proof, ledger, readiness summary, and controlled production readiness gate bridge artifacts only. It does not execute production, activate production readiness, execute queued actions, auto-approve, bypass approval, execute actual replay, replay worker actions, replay external tools, call live APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, run shell commands, modify repo files, deploy, hire real workers, start worker processes, route live workers, perform live orchestration, or animate broad workforce."
+        "note": "Release Candidate Hardening v2.9.0 creates local release candidate schema, invariant scan, validator chain lock proof, artifact contract freeze manifest, known issue register, pre-v3 checklist, safety gate, audit proof, ledger, readiness summary, and controlled production readiness gate bridge artifacts only. It does not execute production, activate production readiness, execute queued actions, auto-approve, bypass approval, execute actual replay, replay worker actions, replay external tools, call live-APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, run shell commands, modify repo files, deploy, hire real workers, start worker processes, route live workers, perform live orchestration, or animate broad workforce."
     }
     
     (target_dir / "release_candidate_hardening_manifest.json").write_text(json.dumps(manifest, indent=2, ensure_ascii=False), encoding="utf-8")
@@ -3040,9 +3081,9 @@ def write_first_supervised_production_dry_run(result: dict, output_dir: str | Pa
         written.append(fname)
         
     manifest = {
-        "first_supervised_production_dry_run_manifest_version": "3.3.0",
+        "first_supervised_production_dry_run_manifest_version": "3.4.0",
         "run_id": run_id,
-        "runtime_version": "3.3.0",
+        "runtime_version": "3.4.0",
         "files_written": written + ["first_supervised_production_dry_run_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -3064,7 +3105,7 @@ def write_first_supervised_production_dry_run(result: dict, output_dir: str | Pa
         "repo_files_modified": False,
         "execution_authorized": False,
         "status": "FIRST_SUPERVISED_PRODUCTION_DRY_RUN_PREVIEW_ONLY",
-        "note": "First Supervised Production Dry-Run v3.3.0 creates local dry-run schema, approval gate, single controlled task envelope, dry-run-only production context contract, human preflight approval gate, worker task simulation contract, external action denial-by-default record, rollback and quarantine preview, audit proof, ledger, readiness summary, and limited external tool supervised pilot bridge artifacts only. It does not execute production, activate production, execute real tasks, assign live tasks, route live workers, perform live orchestration, invoke external tools, call live APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, deploy, start worker processes, run shell commands, or modify repo files."
+        "note": "First Supervised Production Dry-Run v3.4.0 creates local dry-run schema, approval gate, single controlled task envelope, dry-run-only production context contract, human preflight approval gate, worker task simulation contract, external action denial-by-default record, rollback and quarantine preview, audit proof, ledger, readiness summary, and limited external tool supervised pilot bridge artifacts only. It does not execute production, activate production, execute real tasks, assign live tasks, route live workers, perform live orchestration, invoke external tools, call live-APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, deploy, start worker processes, run shell commands, or modify repo files."
     }
     
     _write_json(target_dir / "first_supervised_production_dry_run_manifest.json", manifest)
@@ -3113,6 +3154,44 @@ def attach_limited_external_tool_supervised_pilot(
     return result
 
 
+def attach_supervised_external_api_pilot(
+    result: dict,
+    api_pilot_label: str | None = None,
+    confirmation_token: str | None = None,
+    api_category_label: str | None = None,
+    required_api_preflight_approver: str | None = None,
+    api_request_label: str | None = None,
+    quarantine_labels: list[str] | None = None
+) -> dict:
+    if "limited_external_tool_supervised_pilot_bundle" not in result:
+        result = attach_limited_external_tool_supervised_pilot(result)
+        
+    bundle = create_supervised_external_api_pilot_bundle(
+        result,
+        command=result.get("command", ""),
+        api_pilot_label=api_pilot_label,
+        confirmation_token=confirmation_token,
+        api_category_label=api_category_label,
+        required_api_preflight_approver=required_api_preflight_approver,
+        api_request_label=api_request_label,
+        quarantine_labels=quarantine_labels
+    )
+    result["supervised_external_api_pilot_bundle"] = bundle
+    result["supervised_external_api_pilot_schema"] = bundle["supervised_external_api_pilot_schema"]
+    result["supervised_external_api_pilot_approval_gate"] = bundle["supervised_external_api_pilot_approval_gate"]
+    result["single_api_category_contract"] = bundle["single_api_category_contract"]
+    result["credential_denial_by_default"] = bundle["credential_denial_by_default"]
+    result["secret_handling_denial_by_default"] = bundle["secret_handling_denial_by_default"]
+    result["network_socket_denial_by_default"] = bundle["network_socket_denial_by_default"]
+    result["human_api_use_preflight_gate"] = bundle["human_api_use_preflight_gate"]
+    result["api_request_envelope_preview"] = bundle["api_request_envelope_preview"]
+    result["api_response_quarantine_preview"] = bundle["api_response_quarantine_preview"]
+    result["api_audit_proof"] = bundle["api_audit_proof"]
+    result["api_pilot_ledger"] = bundle["api_pilot_ledger"]
+    result["api_pilot_readiness_summary"] = bundle["api_pilot_readiness_summary"]
+    result["monitored_rollback_recovery_drill_bridge"] = bundle["monitored_rollback_recovery_drill_bridge"]
+    return result
+
 def write_limited_external_tool_supervised_pilot(
     result: dict,
     output_dir: str | Path,
@@ -3145,9 +3224,9 @@ def write_limited_external_tool_supervised_pilot(
         _write_json(target_dir / filename, payload)
 
     manifest = {
-        "limited_external_tool_supervised_pilot_manifest_version": "3.3.0",
+        "limited_external_tool_supervised_pilot_manifest_version": "3.4.0",
         "run_id": run_id,
-        "runtime_version": "3.3.0",
+        "runtime_version": "3.4.0",
         "files_written": files_written + ["limited_external_tool_supervised_pilot_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -3169,7 +3248,7 @@ def write_limited_external_tool_supervised_pilot(
         "repo_files_modified": False,
         "execution_authorized": False,
         "status": "LIMITED_EXTERNAL_TOOL_SUPERVISED_PILOT_PREVIEW_ONLY",
-        "note": "Limited External Tool Supervised Pilot v3.3.0 creates local tool pilot schema, approval gate, single external tool category contract, tool invocation denial-by-default record, human tool-use preflight gate, tool request envelope preview, tool response quarantine preview, audit proof, ledger, readiness summary, and supervised external API pilot bridge artifacts only. It does not invoke external tools, call live APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, deploy, execute production, activate production, execute real tasks, assign live tasks, route live workers, perform live orchestration, start worker processes, run shell commands, or modify repo files.",
+        "note": "Limited External Tool Supervised Pilot v3.4.0 creates local tool pilot schema, approval gate, single external tool category contract, tool invocation denial-by-default record, human tool-use preflight gate, tool request envelope preview, tool response quarantine preview, audit proof, ledger, readiness summary, and supervised external API pilot bridge artifacts only. It does not invoke external tools, call live-APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, deploy, execute production, activate production, execute real tasks, assign live tasks, route live workers, perform live orchestration, start worker processes, run shell commands, or modify repo files.",
     }
     _write_json(target_dir / "limited_external_tool_supervised_pilot_manifest.json", manifest)
 
@@ -3248,7 +3327,7 @@ def write_controlled_worker_hiring_activation_pilot(result: dict, output_dir: st
     manifest = {
         "controlled_worker_hiring_activation_pilot_manifest_version": "3.1.0",
         "run_id": run_id,
-        "runtime_version": "3.3.0",
+        "runtime_version": "3.4.0",
         "files_written": written + ["controlled_worker_hiring_activation_pilot_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -3275,7 +3354,7 @@ def write_controlled_worker_hiring_activation_pilot(result: dict, output_dir: st
         "deployment_performed": False,
         "execution_authorized": False,
         "status": "CONTROLLED_WORKER_HIRING_ACTIVATION_PILOT_PREVIEW_ONLY",
-        "note": "Controlled Worker Hiring Activation Pilot v3.1.0 creates local pilot schema, approval gate, one-to-three worker limit contract, worker identity activation contract, task assignment denial-by-default record, human supervision gate, rollback and abort preview, pilot audit proof, pilot ledger, readiness summary, and first supervised production dry-run bridge artifacts only. It does not hire real workers, activate real workers, start worker processes, assign live tasks, route live workers, perform live orchestration, execute production, activate production, call live APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, run shell commands, modify repo files, deploy, or animate broad workforce."
+        "note": "Controlled Worker Hiring Activation Pilot v3.1.0 creates local pilot schema, approval gate, one-to-three worker limit contract, worker identity activation contract, task assignment denial-by-default record, human supervision gate, rollback and abort preview, pilot audit proof, pilot ledger, readiness summary, and first supervised production dry-run bridge artifacts only. It does not hire real workers, activate real workers, start worker processes, assign live tasks, route live workers, perform live orchestration, execute production, activate production, call live-APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, run shell commands, modify repo files, deploy, or animate broad workforce."
     }
     
     (target_dir / "controlled_worker_hiring_activation_pilot_manifest.json").write_text(json.dumps(manifest, indent=2, ensure_ascii=False), encoding="utf-8")
@@ -3355,7 +3434,7 @@ def write_controlled_production_readiness_gate(result: dict, output_dir: str | P
     manifest = {
         "controlled_production_readiness_gate_manifest_version": "3.0.0",
         "run_id": run_id,
-        "runtime_version": "3.3.0",
+        "runtime_version": "3.4.0",
         "files_written": written + ["controlled_production_readiness_gate_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -3385,7 +3464,7 @@ def write_controlled_production_readiness_gate(result: dict, output_dir: str | P
         "deployment_performed": False,
         "execution_authorized": False,
         "status": "CONTROLLED_PRODUCTION_READINESS_GATE_PREVIEW_ONLY",
-        "note": "Controlled Production Readiness Gate v3.0.0 creates local production readiness schema, approval gate, production activation denial by default, final human approval requirement, production capability manifest, supervised pilot eligibility contract, rollback and kill-switch preview, production readiness audit proof, ledger, readiness summary, and controlled worker hiring activation pilot bridge artifacts only. It does not execute production, activate production, hire real workers, activate real workers, route live workers, perform live orchestration, execute queued actions, auto-approve, bypass approval, execute actual replay, replay worker actions, replay external tools, call live APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, run shell commands, modify repo files, deploy, start worker processes, or animate broad workforce."
+        "note": "Controlled Production Readiness Gate v3.0.0 creates local production readiness schema, approval gate, production activation denial by default, final human approval requirement, production capability manifest, supervised pilot eligibility contract, rollback and kill-switch preview, production readiness audit proof, ledger, readiness summary, and controlled worker hiring activation pilot bridge artifacts only. It does not execute production, activate production, hire real workers, activate real workers, route live workers, perform live orchestration, execute queued actions, auto-approve, bypass approval, execute actual replay, replay worker actions, replay external tools, call live-APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, run shell commands, modify repo files, deploy, start worker processes, or animate broad workforce."
     }
     
     (target_dir / "controlled_production_readiness_gate_manifest.json").write_text(json.dumps(manifest, indent=2, ensure_ascii=False), encoding="utf-8")
@@ -3393,6 +3472,75 @@ def write_controlled_production_readiness_gate(result: dict, output_dir: str | P
     return {
         "run_id": run_id,
         "controlled_production_readiness_gate_dir": str(target_dir),
+        "files_written": manifest["files_written"]
+    }
+
+def write_supervised_external_api_pilot(result: dict, output_dir: str, run_label: str = "station-chief-runtime") -> dict:
+    if "supervised_external_api_pilot_bundle" not in result:
+        raise ValueError("supervised_external_api_pilot_bundle not found in result. Call attach_supervised_external_api_pilot first.")
+    
+    from pathlib import Path
+    import json
+    
+    run_id = generate_run_id(result.get("command", ""), run_label=run_label)
+    out_path = Path(output_dir).expanduser().resolve() / run_id
+    out_path.mkdir(parents=True, exist_ok=True)
+    
+    files_to_write = {
+        "supervised_external_api_pilot_bundle.json": result["supervised_external_api_pilot_bundle"],
+        "supervised_external_api_pilot_schema.json": result["supervised_external_api_pilot_schema"],
+        "supervised_external_api_pilot_approval_gate.json": result["supervised_external_api_pilot_approval_gate"],
+        "single_api_category_contract.json": result["single_api_category_contract"],
+        "credential_denial_by_default.json": result["credential_denial_by_default"],
+        "secret_handling_denial_by_default.json": result["secret_handling_denial_by_default"],
+        "network_socket_denial_by_default.json": result["network_socket_denial_by_default"],
+        "human_api_use_preflight_gate.json": result["human_api_use_preflight_gate"],
+        "api_request_envelope_preview.json": result["api_request_envelope_preview"],
+        "api_response_quarantine_preview.json": result["api_response_quarantine_preview"],
+        "api_audit_proof.json": result["api_audit_proof"],
+        "api_pilot_ledger.json": result["api_pilot_ledger"],
+        "api_pilot_readiness_summary.json": result["api_pilot_readiness_summary"],
+        "monitored_rollback_recovery_drill_bridge.json": result["monitored_rollback_recovery_drill_bridge"]
+    }
+    
+    manifest = {
+        "supervised_external_api_pilot_manifest_version": "3.4.0",
+        "run_id": run_id,
+        "runtime_version": "3.4.0",
+        "files_written": list(files_to_write.keys()) + ["supervised_external_api_pilot_manifest.json"],
+        "baseline_preserved": True,
+        "external_actions_taken": False,
+        "live_api_call_performed": False,
+        "network_access_performed": False,
+        "socket_opened": False,
+        "credentials_used": False,
+        "secrets_read": False,
+        "environment_read": False,
+        "deployment_performed": False,
+        "real_external_tool_invocation_performed": False,
+        "production_execution_performed": False,
+        "production_activation_performed": False,
+        "real_task_execution_performed": False,
+        "live_task_assignment_performed": False,
+        "live_worker_routing_performed": False,
+        "live_orchestration_performed": False,
+        "worker_processes_started": False,
+        "repo_files_modified": False,
+        "execution_authorized": False,
+        "status": "SUPERVISED_EXTERNAL_API_PILOT_PREVIEW_ONLY",
+        "note": "Supervised External API Pilot v3.4.0 creates local API pilot schema, approval gate, single API category contract, credential denial-by-default record, secret handling denial-by-default record, network/socket denial-by-default record, human API-use preflight gate, API request envelope preview, API response quarantine preview, audit proof, ledger, readiness summary, and monitored rollback recovery drill bridge artifacts only. It does not call live-APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, deploy, invoke external tools, execute production, activate production, execute real tasks, assign live tasks, route live workers, perform live orchestration, start worker processes, run shell commands, or modify repo files."
+    }
+    
+    for filename, data in files_to_write.items():
+        with open(out_path / filename, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2, sort_keys=True)
+            
+    with open(out_path / "supervised_external_api_pilot_manifest.json", "w", encoding="utf-8") as f:
+        json.dump(manifest, f, indent=2, sort_keys=True)
+        
+    return {
+        "run_id": run_id,
+        "supervised_external_api_pilot_dir": str(out_path),
         "files_written": manifest["files_written"]
     }
 
@@ -3858,8 +4006,8 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "first_supervised_production_dry_run_bridge": result.get("first_supervised_production_dry_run_bridge"),
         "manifest": {
             "run_id": run_id,
-            "runtime_version": "3.3.0",
-            "artifact_type": "station_chief_runtime_v3_3_artifacts",
+            "runtime_version": "3.4.0",
+            "artifact_type": "station_chief_runtime_v3_4_artifacts",
             "files_planned": files_planned,
             "baseline_preserved": True,
             "devinization_overlays_preserved": True,
@@ -3925,7 +4073,29 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
             "limited_external_tool_supervised_pilot_does_not_route_live_workers": True,
             "limited_external_tool_supervised_pilot_does_not_perform_live_orchestration": True,
             "limited_external_tool_supervised_pilot_does_not_modify_repo_files": True,
-            "supervised_external_api_pilot_not_yet_active": True,
+                    "monitored_rollback_recovery_drill_not_yet_active": True,
+        "supervised_external_api_pilot_available": True,
+        "supervised_external_api_pilot_preview_only": True,
+        "supervised_external_api_pilot_requires_token": True,
+        "single_api_category_limit_is_one": True,
+        "credential_use_denied_by_default": True,
+        "secret_handling_denied_by_default": True,
+        "network_socket_denied_by_default": True,
+        "supervised_external_api_pilot_does_not_call_live_apis": True,
+        "supervised_external_api_pilot_does_not_use_network_access": True,
+        "supervised_external_api_pilot_does_not_open_sockets": True,
+        "supervised_external_api_pilot_does_not_use_credentials": True,
+        "supervised_external_api_pilot_does_not_read_secrets": True,
+        "supervised_external_api_pilot_does_not_read_environment": True,
+        "supervised_external_api_pilot_does_not_deploy": True,
+        "supervised_external_api_pilot_does_not_invoke_external_tools": True,
+        "supervised_external_api_pilot_does_not_execute_production": True,
+        "supervised_external_api_pilot_does_not_activate_production": True,
+        "supervised_external_api_pilot_does_not_execute_real_tasks": True,
+        "supervised_external_api_pilot_does_not_assign_live_tasks": True,
+        "supervised_external_api_pilot_does_not_route_live_workers": True,
+        "supervised_external_api_pilot_does_not_perform_live_orchestration": True,
+        "supervised_external_api_pilot_does_not_modify_repo_files": True,
         },
     }
 
@@ -4220,6 +4390,20 @@ def write_runtime_artifacts(
         "tool_pilot_ledger.json": artifacts.get("tool_pilot_ledger"),
         "tool_pilot_readiness_summary.json": artifacts.get("tool_pilot_readiness_summary"),
         "supervised_external_api_pilot_bridge.json": artifacts.get("supervised_external_api_pilot_bridge"),
+        "supervised_external_api_pilot_bundle.json": artifacts.get("supervised_external_api_pilot_bundle"),
+        "supervised_external_api_pilot_schema.json": artifacts.get("supervised_external_api_pilot_schema"),
+        "supervised_external_api_pilot_approval_gate.json": artifacts.get("supervised_external_api_pilot_approval_gate"),
+        "single_api_category_contract.json": artifacts.get("single_api_category_contract"),
+        "credential_denial_by_default.json": artifacts.get("credential_denial_by_default"),
+        "secret_handling_denial_by_default.json": artifacts.get("secret_handling_denial_by_default"),
+        "network_socket_denial_by_default.json": artifacts.get("network_socket_denial_by_default"),
+        "human_api_use_preflight_gate.json": artifacts.get("human_api_use_preflight_gate"),
+        "api_request_envelope_preview.json": artifacts.get("api_request_envelope_preview"),
+        "api_response_quarantine_preview.json": artifacts.get("api_response_quarantine_preview"),
+        "api_audit_proof.json": artifacts.get("api_audit_proof"),
+        "api_pilot_ledger.json": artifacts.get("api_pilot_ledger"),
+        "api_pilot_readiness_summary.json": artifacts.get("api_pilot_readiness_summary"),
+        "monitored_rollback_recovery_drill_bridge.json": artifacts.get("monitored_rollback_recovery_drill_bridge"),
         "first_supervised_production_dry_run_bundle.json": artifacts.get("first_supervised_production_dry_run_bundle"),
         "first_supervised_production_dry_run_schema.json": artifacts.get("first_supervised_production_dry_run_schema"),
         "first_supervised_production_dry_run_approval_gate.json": artifacts.get("first_supervised_production_dry_run_approval_gate"),
@@ -4838,6 +5022,15 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--limited-external-tool-supervised-pilot-schema", action="store_true")
     parser.add_argument("--limited-external-tool-supervised-pilot", action="store_true")
     parser.add_argument("--write-limited-external-tool-supervised-pilot", metavar="DIR", type=str)
+    parser.add_argument("--supervised-external-api-pilot-schema", action="store_true")
+    parser.add_argument("--supervised-external-api-pilot", action="store_true")
+    parser.add_argument("--write-supervised-external-api-pilot", type=str, metavar="DIR")
+    parser.add_argument("--api-pilot-label", type=str, default="station-chief-supervised-external-api-pilot")
+    parser.add_argument("--api-pilot-confirm-token", type=str)
+    parser.add_argument("--api-category-label", type=str, default="read-only-public-status-api-preview")
+    parser.add_argument("--api-pilot-required-preflight-approver", type=str, default="Devin O’Rourke / explicit human operator")
+    parser.add_argument("--api-request-label", type=str, default="single supervised API request preview")
+    parser.add_argument("--api-quarantine-label", type=str, action="append")
     parser.add_argument("--tool-pilot-label", type=str, default="station-chief-limited-external-tool-supervised-pilot")
     parser.add_argument("--tool-pilot-confirm-token", type=str)
     parser.add_argument("--tool-category-label", type=str, default="local-json-artifact-review")
@@ -5443,6 +5636,19 @@ def main() -> None:
             quarantine_labels=args.dry_run_quarantine_label
         )
 
+    if args.supervised_external_api_pilot or getattr(args, "write_supervised_external_api_pilot", False):
+        result = attach_supervised_external_api_pilot(
+            result,
+            api_pilot_label=args.api_pilot_label,
+            confirmation_token=args.api_pilot_confirm_token,
+            api_category_label=args.api_category_label,
+            required_api_preflight_approver=args.api_pilot_required_preflight_approver,
+            api_request_label=args.api_request_label,
+            quarantine_labels=args.api_quarantine_label
+        )
+
+
+
     if args.limited_external_tool_supervised_pilot or args.write_limited_external_tool_supervised_pilot:
         result = attach_limited_external_tool_supervised_pilot(
             result,
@@ -5682,6 +5888,13 @@ def main() -> None:
         dry_run_res = write_first_supervised_production_dry_run(result, args.write_first_supervised_production_dry_run)
         result = dict(result)
         result["first_supervised_production_dry_run_write_summary"] = dry_run_res
+    if args.supervised_external_api_pilot_schema:
+        print(json.dumps(create_supervised_external_api_pilot_schema(), indent=2, sort_keys=True))
+        sys.exit(0)
+
+    if args.write_supervised_external_api_pilot:
+        args.supervised_external_api_pilot = True
+
     if args.write_limited_external_tool_supervised_pilot:
         pilot_res = write_limited_external_tool_supervised_pilot(result, args.write_limited_external_tool_supervised_pilot)
         result = dict(result)
@@ -5690,6 +5903,10 @@ def main() -> None:
         pilot_res = write_controlled_worker_hiring_activation_pilot(result, args.write_controlled_worker_hiring_activation_pilot)
         result = dict(result)
         result["controlled_worker_hiring_activation_pilot_write_summary"] = pilot_res
+    if args.write_supervised_external_api_pilot:
+        write_res = write_supervised_external_api_pilot(result, args.write_supervised_external_api_pilot)
+        result["supervised_external_api_pilot_write_summary"] = write_res
+
     if args.write_controlled_production_readiness_gate:
         pg_res = write_controlled_production_readiness_gate(result, args.write_controlled_production_readiness_gate)
         result = dict(result)

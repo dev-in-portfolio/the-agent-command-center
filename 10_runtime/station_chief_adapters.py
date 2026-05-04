@@ -4,7 +4,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-ADAPTER_MODULE_VERSION = "3.3.0"
+ADAPTER_MODULE_VERSION = "3.4.0"
 
 YES_I_APPROVE_SANDBOX_FILE_WRITE = "YES_I_APPROVE_SANDBOX_FILE_WRITE"
 YES_I_APPROVE_SCOPED_REPO_PATCH = "YES_I_APPROVE_SCOPED_REPO_PATCH"
@@ -28,6 +28,7 @@ YES_I_APPROVE_RELEASE_CANDIDATE_HARDENING = "YES_I_APPROVE_RELEASE_CANDIDATE_HAR
 YES_I_APPROVE_CONTROLLED_PRODUCTION_READINESS_GATE = "YES_I_APPROVE_CONTROLLED_PRODUCTION_READINESS_GATE"
 YES_I_APPROVE_CONTROLLED_WORKER_HIRING_ACTIVATION_PILOT = "YES_I_APPROVE_CONTROLLED_WORKER_HIRING_ACTIVATION_PILOT"
 YES_I_APPROVE_FIRST_SUPERVISED_PRODUCTION_DRY_RUN = "YES_I_APPROVE_FIRST_SUPERVISED_PRODUCTION_DRY_RUN"
+YES_I_APPROVE_SUPERVISED_EXTERNAL_API_PILOT = "YES_I_APPROVE_SUPERVISED_EXTERNAL_API_PILOT"
 
 SAFE_SANDBOX_PATH = "SAFE_SANDBOX_PATH"
 SAFE_REPO_PATCH_PATH = "SAFE_REPO_PATCH_PATH"
@@ -79,6 +80,8 @@ SUPPORTED_ADAPTERS = {
         "first_supervised_production_dry_run_requires_specific_token": True,
         "supports_limited_external_tool_supervised_pilot": True,
         "limited_external_tool_supervised_pilot_requires_specific_token": True,
+        "supports_supervised_external_api_pilot": True,
+        "supervised_external_api_pilot_requires_specific_token": True,
         "real_worker_hiring_allowed": False,
         "real_worker_activation_allowed": False,
         "worker_process_start_allowed": False,
@@ -97,6 +100,7 @@ SUPPORTED_ADAPTERS = {
         "secret_read_allowed": False,
         "environment_read_allowed": False,
         "deployment_allowed": False,
+        "real_external_tool_invocation_allowed": False,
         "description": "Safely simulates execution boundaries without performing live work.",
     },
     "sandbox_file_write": {
@@ -106,6 +110,21 @@ SUPPORTED_ADAPTERS = {
         "worker_animation": False,
         "requires_human_confirmation": True,
         "sandbox_only": True,
+        "supports_supervised_external_api_pilot": False,
+        "live_api_call_allowed": False,
+        "network_access_allowed": False,
+        "socket_access_allowed": False,
+        "credential_use_allowed": False,
+        "secret_read_allowed": False,
+        "environment_read_allowed": False,
+        "deployment_allowed": False,
+        "real_external_tool_invocation_allowed": False,
+        "production_execution_allowed": False,
+        "production_activation_allowed": False,
+        "real_task_execution_allowed": False,
+        "live_task_assignment_allowed": False,
+        "live_worker_routing_allowed": False,
+        "live_orchestration_allowed": False,
         "description": "Writes only approved sandbox files inside a provided execution directory after explicit confirmation.",
     },
         "scoped_repo_patch": {
@@ -167,6 +186,8 @@ SUPPORTED_ADAPTERS = {
         "first_supervised_production_dry_run_requires_separate_gate": True,
         "supports_limited_external_tool_supervised_pilot": False,
         "limited_external_tool_supervised_pilot_requires_separate_gate": True,
+        "supports_supervised_external_api_pilot": False,
+        "supervised_external_api_pilot_requires_separate_gate": True,
         "supports_live_execution_telemetry_abort_controls": False,
         "telemetry_abort_controls_require_specific_token": True,
         "telemetry_abort_requires_separate_gate": True,
@@ -177,6 +198,20 @@ SUPPORTED_ADAPTERS = {
         "external_tool_invocations_allowed": False,
         "broad_worker_activation_allowed": False,
         "external_worker_tool_calls_allowed": False,
+        "live_api_call_allowed": False,
+        "network_access_allowed": False,
+        "socket_access_allowed": False,
+        "credential_use_allowed": False,
+        "secret_read_allowed": False,
+        "environment_read_allowed": False,
+        "deployment_allowed": False,
+        "real_external_tool_invocation_allowed": False,
+        "production_execution_allowed": False,
+        "production_activation_allowed": False,
+        "real_task_execution_allowed": False,
+        "live_task_assignment_allowed": False,
+        "live_worker_routing_allowed": False,
+        "live_orchestration_allowed": False,
         "description": "Applies deterministic local patches only inside a provided patch root, only to explicitly allowlisted relative files, after explicit confirmation.",
     },
 }
@@ -211,6 +246,8 @@ def list_adapters() -> dict:
         "first_supervised_production_dry_run_requires_specific_token": True,
         "supports_limited_external_tool_supervised_pilot": True,
         "limited_external_tool_supervised_pilot_requires_specific_token": True,
+        "supports_supervised_external_api_pilot": True,
+        "supervised_external_api_pilot_requires_specific_token": True,
         "real_worker_hiring_allowed": False,
         "real_worker_activation_allowed": False,
         "worker_process_start_allowed": False,
@@ -370,7 +407,7 @@ def classify_path_safety(target_path: str, execution_dir: str | None = None) -> 
             "is_absolute": is_absolute,
             "is_inside_execution_dir": False,
             "is_forbidden_project_path": forbidden,
-            "safety_status": BLOCKED_OUTSIDE_EXECUTION_DIR,
+            "safety_status": "BLOCKED_OUTSIDE_EXECUTION_DIR",
             "reason": "execution_dir is required for sandbox file writes.",
         }
 
@@ -392,7 +429,7 @@ def classify_path_safety(target_path: str, execution_dir: str | None = None) -> 
             "is_absolute": is_absolute,
             "is_inside_execution_dir": False,
             "is_forbidden_project_path": forbidden,
-            "safety_status": BLOCKED_OUTSIDE_EXECUTION_DIR,
+            "safety_status": "BLOCKED_OUTSIDE_EXECUTION_DIR",
             "reason": "Target path must resolve inside execution_dir.",
         }
 
@@ -403,7 +440,7 @@ def classify_path_safety(target_path: str, execution_dir: str | None = None) -> 
             "is_absolute": is_absolute,
             "is_inside_execution_dir": True,
             "is_forbidden_project_path": True,
-            "safety_status": BLOCKED_FORBIDDEN_PATH,
+            "safety_status": "BLOCKED_FORBIDDEN_PATH",
             "reason": "Target path resolves to a forbidden project path.",
         }
 
@@ -413,7 +450,7 @@ def classify_path_safety(target_path: str, execution_dir: str | None = None) -> 
         "is_absolute": is_absolute,
         "is_inside_execution_dir": True,
         "is_forbidden_project_path": False,
-        "safety_status": SAFE_SANDBOX_PATH,
+        "safety_status": "SAFE_SANDBOX_PATH",
         "reason": "Target path is inside execution_dir and allowed for sandbox write.",
     }
 
@@ -439,7 +476,7 @@ def create_file_operation_plan(
             "live_worker_agents_activated=false",
         ]
     )
-    operation_status = "PLANNED_SAFE" if path_safety["safety_status"] == SAFE_SANDBOX_PATH else "BLOCKED"
+    operation_status = "PLANNED_SAFE" if path_safety["safety_status"] == "SAFE_SANDBOX_PATH" else "BLOCKED"
     return {
         "operation_type": "sandbox_file_write",
         "execution_dir": execution_dir,
@@ -456,10 +493,10 @@ def create_file_operation_plan(
 def evaluate_execution_gate(file_operation_plan: dict, confirmation_token: str | None = None) -> dict:
     token_received = confirmation_token == YES_I_APPROVE_SANDBOX_FILE_WRITE
     path_status = file_operation_plan["path_safety"]["safety_status"]
-    approved = token_received and path_status == SAFE_SANDBOX_PATH
+    approved = token_received and path_status == "SAFE_SANDBOX_PATH"
     if approved:
         reason = "Sandbox file write approved."
-    elif path_status != SAFE_SANDBOX_PATH:
+    elif path_status != "SAFE_SANDBOX_PATH":
         reason = file_operation_plan["path_safety"]["reason"]
     else:
         reason = "Sandbox file write blocked: confirmation token missing or incorrect."
@@ -561,7 +598,7 @@ def classify_repo_patch_safety(
             "is_allowlisted": False,
             "is_forbidden_repo_path": False if normalized_relative_path else True,
             "is_inside_patch_root": False,
-            "safety_status": BLOCKED_OUTSIDE_PATCH_ROOT,
+            "safety_status": "BLOCKED_OUTSIDE_PATCH_ROOT",
             "reason": "patch_root is required for scoped repo patches.",
         }
 
@@ -577,7 +614,7 @@ def classify_repo_patch_safety(
             "is_allowlisted": False,
             "is_forbidden_repo_path": True,
             "is_inside_patch_root": False,
-            "safety_status": BLOCKED_FORBIDDEN_REPO_PATH,
+            "safety_status": "BLOCKED_FORBIDDEN_REPO_PATH",
             "reason": "Invalid relative path.",
         }
 
@@ -600,7 +637,7 @@ def classify_repo_patch_safety(
             "is_allowlisted": allowlisted,
             "is_forbidden_repo_path": True,
             "is_inside_patch_root": inside,
-            "safety_status": BLOCKED_FORBIDDEN_REPO_PATH,
+            "safety_status": "BLOCKED_FORBIDDEN_REPO_PATH",
             "reason": "Target path resolves to a forbidden repo path.",
         }
 
@@ -614,7 +651,7 @@ def classify_repo_patch_safety(
             "is_allowlisted": False,
             "is_forbidden_repo_path": False,
             "is_inside_patch_root": inside,
-            "safety_status": BLOCKED_NOT_ALLOWLISTED,
+            "safety_status": "BLOCKED_NOT_ALLOWLISTED",
             "reason": "Target path is not on the allowlist.",
         }
 
@@ -628,7 +665,7 @@ def classify_repo_patch_safety(
             "is_allowlisted": True,
             "is_forbidden_repo_path": False,
             "is_inside_patch_root": False,
-            "safety_status": BLOCKED_OUTSIDE_PATCH_ROOT,
+            "safety_status": "BLOCKED_OUTSIDE_PATCH_ROOT",
             "reason": "Target path must resolve inside patch_root.",
         }
 
@@ -641,7 +678,7 @@ def classify_repo_patch_safety(
         "is_allowlisted": True,
         "is_forbidden_repo_path": False,
         "is_inside_patch_root": True,
-        "safety_status": SAFE_REPO_PATCH_PATH,
+        "safety_status": "SAFE_REPO_PATCH_PATH",
         "reason": "Target path is allowlisted and inside patch_root.",
     }
 
@@ -680,7 +717,7 @@ def create_repo_patch_plan(
     patch_preview_lines = ["--- /dev/null", f"+++ b/{path_safety['normalized_relative_path']}"]
     for line in patch_content.splitlines():
         patch_preview_lines.append(f"+{line}")
-    operation_status = "PLANNED_SAFE" if path_safety["safety_status"] == SAFE_REPO_PATCH_PATH else "BLOCKED"
+    operation_status = "PLANNED_SAFE" if path_safety["safety_status"] == "SAFE_REPO_PATCH_PATH" else "BLOCKED"
     return {
         "operation_type": "scoped_repo_patch",
         "patch_root": patch_root,
@@ -702,12 +739,12 @@ def evaluate_repo_patch_gate(repo_patch_plan: dict, confirmation_token: str | No
     path_status = repo_patch_plan["path_safety"]["safety_status"]
     approved = (
         token_received
-        and path_status == SAFE_REPO_PATCH_PATH
+        and path_status == "SAFE_REPO_PATCH_PATH"
         and repo_patch_plan.get("operation_status") == "PLANNED_SAFE"
     )
     if approved:
         reason = "Scoped repo patch approved."
-    elif path_status != SAFE_REPO_PATCH_PATH:
+    elif path_status != "SAFE_REPO_PATCH_PATH":
         reason = repo_patch_plan["path_safety"]["reason"]
     else:
         reason = "Scoped repo patch blocked: confirmation token missing or incorrect."

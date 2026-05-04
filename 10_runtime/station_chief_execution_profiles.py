@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-EXECUTION_PROFILE_MODULE_VERSION = "3.3.0"
+EXECUTION_PROFILE_MODULE_VERSION = "3.4.0"
 
 EXECUTION_PROFILES = {
     "audit_only": {
@@ -195,7 +195,7 @@ def create_dry_run_bundle(
     else:
         repo_patch_preview = repo_patch_plan.get("patch_preview")
     return {
-        "dry_run_bundle_version": "3.3.0",
+        "dry_run_bundle_version": "3.4.0",
         "command": result["command"],
         "command_type": result["command_type"],
         "activation_tier": result["activation_tier"],

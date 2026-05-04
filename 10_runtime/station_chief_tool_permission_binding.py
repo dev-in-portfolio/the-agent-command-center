@@ -3,7 +3,7 @@ import hashlib
 import re
 from pathlib import Path
 
-TOOL_PERMISSION_BINDING_MODULE_VERSION = "3.3.0"
+TOOL_PERMISSION_BINDING_MODULE_VERSION = "3.4.0"
 TOOL_PERMISSION_BINDING_STATUS = "SINGLE_WORKER_TOOL_PERMISSION_BINDING_ONLY"
 TOOL_PERMISSION_BINDING_PHASE = "Single-Worker Tool Permission Binding"
 
@@ -26,15 +26,15 @@ def normalize_tool_permission_label(label: str) -> str:
     normalized = re.sub(r"[^a-z0-9]+", "-", label.lower()).strip("-")
     return normalized or "tool-permission-binding"
 
-def generate_tool_permission_binding_id(command: str, worker_id: str, runtime_version: str = "3.3.0") -> str:
+def generate_tool_permission_binding_id(command: str, worker_id: str, runtime_version: str = "3.4.0") -> str:
     normalized_worker_id = normalize_tool_permission_label(worker_id)
     hash_input = f"{runtime_version}:{command}:{worker_id}"
     hash_chars = hashlib.sha256(hash_input.encode("utf-8")).hexdigest()[:12]
-    return f"tool-permission-v3-3-{normalized_worker_id}-{hash_chars}"
+    return f"tool-permission-v3-4-{normalized_worker_id}-{hash_chars}"
 
 def create_tool_permission_binding_schema() -> dict:
     return {
-        "tool_permission_binding_schema_version": "3.3.0",
+        "tool_permission_binding_schema_version": "3.4.0",
         "schema_status": "SINGLE_WORKER_TOOL_PERMISSION_BINDING_ONLY",
         "required_sections": [
             "per_tool_permission_registry",
@@ -97,7 +97,7 @@ def create_tool_permission_binding_schema() -> dict:
 
 def create_per_tool_permission_registry() -> dict:
     return {
-        "per_tool_permission_registry_version": "3.3.0",
+        "per_tool_permission_registry_version": "3.4.0",
         "registry_status": "ACTIVE_CONTRACT",
         "allowed_tools": {
             "sandbox_noop": {
@@ -218,7 +218,7 @@ def create_tool_permission_request_validation(
         validation_status = "BLOCKED" # Must request at least one to pass formal validation here
         
     return {
-        "tool_permission_request_validation_version": "3.3.0",
+        "tool_permission_request_validation_version": "3.4.0",
         "worker_id": worker_id,
         "validation_status": validation_status,
         "requested_tool_permissions": requested,
@@ -244,7 +244,7 @@ def create_tool_specific_approval_binding(
     digest = sha256_digest(binding_data)
     
     return {
-        "tool_specific_approval_binding_version": "3.3.0",
+        "tool_specific_approval_binding_version": "3.4.0",
         "worker_id": worker_id,
         "binding_status": status,
         "approved_tool_permissions": validation_result.get("approved_tool_permissions", []),
@@ -297,7 +297,7 @@ def create_tool_invocation_dry_run_contract(
         status = "BLOCKED"
 
     return {
-        "tool_invocation_dry_run_contract_version": "3.3.0",
+        "tool_invocation_dry_run_contract_version": "3.4.0",
         "worker_id": worker_id,
         "sandbox_task": sandbox_task,
         "dry_run_status": status,
@@ -312,7 +312,7 @@ def create_tool_invocation_dry_run_contract(
 
 def create_tool_output_validation_schema() -> dict:
     return {
-        "tool_output_validation_schema_version": "3.3.0",
+        "tool_output_validation_schema_version": "3.4.0",
         "schema_status": "VALIDATION_SCHEMA_ONLY",
         "required_output_fields": [
             "permission_id",
@@ -396,7 +396,7 @@ def create_tool_output_validation_result(
     # An empty list of outputs is considered PASSing the validation phase (nothing to reject)
     
     return {
-        "tool_output_validation_result_version": "3.3.0",
+        "tool_output_validation_result_version": "3.4.0",
         "validation_status": validation_status,
         "output_count": len(outputs),
         "output_checks": output_checks,
@@ -418,7 +418,7 @@ def create_tool_failure_handling_contract(
     )
     
     return {
-        "tool_failure_handling_contract_version": "3.3.0",
+        "tool_failure_handling_contract_version": "3.4.0",
         "worker_id": worker_id,
         "failure_contract_status": "READY" if ready else "BLOCKED",
         "failure_triggers": [
@@ -449,7 +449,7 @@ def create_tool_revocation_contract(
     approved_tool_permissions: list[str]
 ) -> dict:
     return {
-        "tool_revocation_contract_version": "3.3.0",
+        "tool_revocation_contract_version": "3.4.0",
         "worker_id": worker_id,
         "revocation_status": "REVOCABLE",
         "revocable_permissions": approved_tool_permissions,
@@ -501,7 +501,7 @@ def create_per_run_permission_audit_proof(
     pass_all = all(safety_checks.values())
     
     return {
-        "per_run_permission_audit_proof_version": "3.3.0",
+        "per_run_permission_audit_proof_version": "3.4.0",
         "worker_id": worker_id,
         "audit_status": "PASS" if pass_all else "BLOCKED",
         "registry_digest": sha256_digest(registry),
@@ -542,7 +542,7 @@ def create_tool_permission_ledger(
         {"type": "audit_proof", "status": audit_proof.get("audit_status")}
     ]
     return {
-        "tool_permission_ledger_version": "3.3.0",
+        "tool_permission_ledger_version": "3.4.0",
         "ledger_status": "SINGLE_WORKER_TOOL_PERMISSION_LEDGER",
         "worker_id": worker_id,
         "entries": entries,
@@ -568,7 +568,7 @@ def create_tool_permission_readiness_summary(
     )
     
     return {
-        "tool_permission_readiness_summary_version": "3.3.0",
+        "tool_permission_readiness_summary_version": "3.4.0",
         "worker_id": worker_id,
         "readiness_status": "READY_FOR_NEXT_LAYER" if ready else "BLOCKED",
         "ready_for_live_execution_telemetry_abort_controls": ready,
@@ -591,7 +591,7 @@ def create_live_execution_telemetry_abort_readiness_bridge(
     ready = readiness_summary.get("ready_for_live_execution_telemetry_abort_controls") is True
     
     return {
-        "live_execution_telemetry_abort_readiness_bridge_version": "3.3.0",
+        "live_execution_telemetry_abort_readiness_bridge_version": "3.4.0",
         "current_layer": "Single-Worker Tool Permission Binding",
         "next_layer": "Live Execution Telemetry and Abort Controls",
         "ready_for_live_execution_telemetry_abort_controls": ready,
@@ -654,7 +654,7 @@ def create_tool_permission_binding_bundle(
     bridge = create_live_execution_telemetry_abort_readiness_bridge(result, summary)
     
     return {
-        "tool_permission_binding_bundle_version": "3.3.0",
+        "tool_permission_binding_bundle_version": "3.4.0",
         "tool_permission_binding_status": "SINGLE_WORKER_TOOL_PERMISSION_BINDING_ONLY",
         "tool_permission_binding_schema": schema,
         "per_tool_permission_registry": registry,

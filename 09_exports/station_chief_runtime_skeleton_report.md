@@ -1,21 +1,25 @@
-# Station Chief Runtime Skeleton
+# Station Chief Runtime Skeleton Report
 
 ## Status
-Station Chief Runtime upgraded to v3.3.0. Locked 175-family baseline preserved. Limited external tool supervised pilot added.
+Station Chief Runtime upgraded to v3.4.0. Locked 175-family baseline preserved. Supervised external API pilot added.
+
+## Purpose
+This is a required skeleton report structure showing that the baseline family structure remains locked.
 
 ## Runtime Capabilities
-- limited external tool supervised pilot schema
-- limited external tool supervised pilot approval gate
-- single external tool category contract
-- tool invocation denial by default
-- human tool-use preflight gate
-- tool request envelope preview
-- tool response quarantine preview
-- tool audit proof
-- tool pilot ledger
-- tool pilot readiness summary
-- supervised external API pilot bridge
-- no real external tool invocation
+- supervised external API pilot schema
+- supervised external API pilot approval gate
+- single API category contract
+- credential denial by default
+- secret handling denial by default
+- network/socket denial by default
+- human API-use preflight gate
+- API request envelope preview
+- API response quarantine preview
+- API audit proof
+- API pilot ledger
+- API pilot readiness summary
+- monitored rollback and recovery drill bridge
 - no live API calls
 - no credential use
 - no secret reads
@@ -23,6 +27,7 @@ Station Chief Runtime upgraded to v3.3.0. Locked 175-family baseline preserved. 
 - no network access
 - no socket access
 - no deployment
+- no real external tool invocation
 - no production execution
 - no production activation
 - no live task assignment
@@ -30,20 +35,10 @@ Station Chief Runtime upgraded to v3.3.0. Locked 175-family baseline preserved. 
 - no live orchestration
 - no shell command execution
 - no arbitrary code execution
-- no real external tool invocation
-- no live API calls
-- no credential use
-- no secret reads
-- no environment reads
-- no network access
-- no socket access
-- no deployment
-- no production execution
-- no full workforce activation
 - no repo mutation
 
 ## Required Validator
-python3 scripts/validate_station_chief_runtime_v3_3.py
+python3 scripts/validate_station_chief_runtime_v3_4.py
 
 ## Next Recommended Build Step
-Next recommended build step: build supervised external API pilot.
+Next recommended build step: build monitored rollback and recovery drill.
