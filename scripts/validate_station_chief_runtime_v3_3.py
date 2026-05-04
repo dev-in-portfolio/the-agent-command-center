@@ -364,6 +364,7 @@ def check_default_and_token_paths(errors: list[str]) -> None:
             checks = {
                 "limited_external_tool_supervised_pilot_approval_gate.gate_status": "BLOCKED_PENDING_LIMITED_EXTERNAL_TOOL_SUPERVISED_PILOT_APPROVAL",
                 "limited_external_tool_supervised_pilot_approval_gate.confirmation_token_valid": False,
+                "limited_external_tool_supervised_pilot_approval_gate.local_tool_pilot_records_authorized": False,
                 "single_external_tool_category_contract.contract_status": "BLOCKED",
                 "tool_invocation_denial_by_default.denial_status": "BLOCKED",
                 "human_tool_use_preflight_gate.preflight_status": "BLOCKED",
@@ -395,6 +396,8 @@ def check_default_and_token_paths(errors: list[str]) -> None:
                 if isinstance(section, dict):
                     for key, value in section.items():
                         if key.endswith("_performed") or key.endswith("_taken") or key.endswith("_authorized") or key in {"baseline_preserved", "external_actions_taken", "repo_files_modified", "execution_authorized"}:
+                            if key == "local_tool_pilot_records_authorized":
+                                continue
                             if value is not False and key != "baseline_preserved":
                                 add_error(errors, f"default limited pilot safety boolean not false: {key}={value!r}")
 
@@ -420,6 +423,7 @@ def check_default_and_token_paths(errors: list[str]) -> None:
             checks = {
                 "limited_external_tool_supervised_pilot_approval_gate.gate_status": "APPROVED_FOR_LIMITED_EXTERNAL_TOOL_SUPERVISED_PILOT_RECORDS",
                 "limited_external_tool_supervised_pilot_approval_gate.confirmation_token_valid": True,
+                "limited_external_tool_supervised_pilot_approval_gate.local_tool_pilot_records_authorized": True,
                 "single_external_tool_category_contract.contract_status": "TOOL_CATEGORY_CONTRACT_CREATED",
                 "single_external_tool_category_contract.single_tool_category_limit": 1,
                 "tool_invocation_denial_by_default.denial_status": "TOOL_INVOCATION_DENIED_BY_DEFAULT",
@@ -453,8 +457,34 @@ def check_default_and_token_paths(errors: list[str]) -> None:
                 if isinstance(section, dict):
                     for key, value in section.items():
                         if key.endswith("_performed") or key.endswith("_taken") or key.endswith("_authorized") or key in {"baseline_preserved", "external_actions_taken", "repo_files_modified", "execution_authorized"}:
+                            if key == "local_tool_pilot_records_authorized":
+                                continue
                             if value is not False and key != "baseline_preserved":
                                 add_error(errors, f"token limited pilot safety boolean not false: {key}={value!r}")
+            gate = bundle.get("limited_external_tool_supervised_pilot_approval_gate", {})
+            for key in [
+                "real_external_tool_invocation_authorized",
+                "live_api_call_authorized",
+                "network_access_authorized",
+                "socket_access_authorized",
+                "credential_use_authorized",
+                "secret_read_authorized",
+                "environment_read_authorized",
+                "deployment_authorized",
+                "production_execution_authorized",
+                "production_activation_authorized",
+                "real_task_execution_authorized",
+                "live_task_assignment_authorized",
+                "live_worker_routing_authorized",
+                "live_orchestration_authorized",
+                "worker_process_start_authorized",
+                "repo_mutation_authorized",
+                "external_actions_taken",
+                "repo_files_modified",
+                "execution_authorized",
+            ]:
+                if gate.get(key) is not False:
+                    add_error(errors, f"token limited pilot dangerous authorization not false: {key}={gate.get(key)!r}")
 
 
 def check_next_layer(errors: list[str]) -> None:

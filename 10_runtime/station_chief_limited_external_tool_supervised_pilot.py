@@ -128,7 +128,7 @@ def create_limited_external_tool_supervised_pilot_approval_gate(
         "confirmation_token_required": LIMITED_EXTERNAL_TOOL_SUPERVISED_PILOT_APPROVAL_TOKEN,
         "confirmation_token_present": confirmation_token is not None,
         "confirmation_token_valid": token_valid,
-        "local_tool_pilot_records_authorized": False,
+        "local_tool_pilot_records_authorized": token_valid,
         "real_external_tool_invocation_authorized": False,
         "live_api_call_authorized": False,
         "network_access_authorized": False,
