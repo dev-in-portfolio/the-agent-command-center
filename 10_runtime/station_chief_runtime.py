@@ -134,6 +134,11 @@ from station_chief_controlled_production_readiness_gate import (
     create_controlled_production_readiness_gate_bundle,
     create_controlled_production_readiness_gate_schema,
 )
+from station_chief_controlled_worker_hiring_activation_pilot import (
+    CONTROLLED_WORKER_HIRING_ACTIVATION_PILOT_APPROVAL_TOKEN,
+    create_controlled_worker_hiring_activation_pilot_bundle,
+    create_controlled_worker_hiring_activation_pilot_schema,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -143,7 +148,7 @@ from station_chief_execution_profiles import (
     select_execution_profile,
 )
 
-STATION_CHIEF_RUNTIME_VERSION = "3.0.0"
+STATION_CHIEF_RUNTIME_VERSION = "3.1.0"
 
 EXPECTED_OVERLAYS = [
     {
@@ -349,7 +354,7 @@ def normalize_command_for_id(command: str) -> str:
 def generate_run_id(command: str, run_label: str = "station-chief-runtime") -> str:
     normalized = normalize_command_for_id(command)
     digest = hashlib.sha256(f"{STATION_CHIEF_RUNTIME_VERSION}:{run_label}:{command}".encode("utf-8")).hexdigest()
-    return f"station-chief-v3-0-{normalized}-{digest[:12]}"
+    return f"station-chief-v3-1-{normalized}-{digest[:12]}"
 
 
 def classify_command(command: str) -> str:
@@ -460,7 +465,7 @@ def load_registry(registry_dir: str | Path) -> dict:
     registry_path = Path(registry_dir) / "run_registry.json"
     if not registry_path.exists():
         return {
-            "registry_version": "3.0.0",
+            "registry_version": "3.1.0",
             "runtime_name": "Station Chief Runtime",
             "runs": [],
         }
@@ -477,7 +482,7 @@ def update_registry(registry_dir: str | Path, index_entry: dict) -> dict:
     registry = load_registry(registry_dir)
     runs = [run for run in registry.get("runs", []) if run.get("run_id") != index_entry.get("run_id")]
     runs.append(index_entry)
-    registry["registry_version"] = "3.0.0"
+    registry["registry_version"] = "3.1.0"
     registry["runtime_name"] = "Station Chief Runtime"
     registry["runs"] = runs
     save_registry(registry_dir, registry)
@@ -486,7 +491,7 @@ def update_registry(registry_dir: str | Path, index_entry: dict) -> dict:
 
 def write_runtime_index(registry_dir: str | Path, registry: dict) -> dict:
     index = {
-        "index_version": "3.0.0",
+        "index_version": "3.1.0",
         "runtime_name": "Station Chief Runtime",
         "run_count": len(registry.get("runs", [])),
         "runs": registry.get("runs", []),
@@ -540,7 +545,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
     adapter_result = run_noop_adapter(execution_plan)
     return {
         "station_chief_runtime_version": STATION_CHIEF_RUNTIME_VERSION,
-        "runtime_status": "controlled_production_readiness_gate",
+        "runtime_status": "controlled_worker_hiring_activation_pilot",
         "release_status": "STABLE_LOCKED",
         "command": command,
         "command_type": brief["command_type"],
@@ -773,6 +778,17 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
             "production_readiness_ledger": True,
             "production_readiness_summary": True,
             "controlled_worker_hiring_activation_pilot_bridge": True,
+            "controlled_worker_hiring_activation_pilot_schema": True,
+            "controlled_worker_hiring_activation_pilot_approval_gate": True,
+            "pilot_worker_limit_contract": True,
+            "worker_identity_activation_contract": True,
+            "task_assignment_denial_by_default": True,
+            "human_supervised_pilot_gate": True,
+            "pilot_rollback_abort_preview": True,
+            "pilot_audit_proof": True,
+            "pilot_ledger": True,
+            "pilot_readiness_summary": True,
+            "first_supervised_production_dry_run_bridge": True,
             "operator_approval_queue_enforcement_schema": True,
             "operator_approval_queue_enforcement_approval_gate": True,
             "queued_action_registry": True,
@@ -1111,9 +1127,29 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
             "controlled_production_readiness_gate_does_not_read_secrets": True,
             "controlled_production_readiness_gate_does_not_read_environment": True,
             "controlled_production_readiness_gate_does_not_modify_repo_files": True,
-            "controlled_worker_hiring_activation_pilot_not_yet_active": True,
+                        "controlled_worker_hiring_activation_pilot_available": True,
+            "controlled_worker_hiring_activation_pilot_preview_only": True,
+            "controlled_worker_hiring_activation_pilot_requires_token": True,
+            "pilot_worker_limit_maximum_is_three": True,
+            "task_assignment_denied_by_default": True,
+            "controlled_worker_hiring_activation_pilot_does_not_hire_real_workers": True,
+            "controlled_worker_hiring_activation_pilot_does_not_activate_real_workers": True,
+            "controlled_worker_hiring_activation_pilot_does_not_start_worker_processes": True,
+            "controlled_worker_hiring_activation_pilot_does_not_assign_live_tasks": True,
+            "controlled_worker_hiring_activation_pilot_does_not_route_live_workers": True,
+            "controlled_worker_hiring_activation_pilot_does_not_perform_live_orchestration": True,
+            "controlled_worker_hiring_activation_pilot_does_not_execute_production": True,
+            "controlled_worker_hiring_activation_pilot_does_not_activate_production": True,
+            "controlled_worker_hiring_activation_pilot_does_not_call_live_apis": True,
+            "controlled_worker_hiring_activation_pilot_does_not_use_network_access": True,
+            "controlled_worker_hiring_activation_pilot_does_not_open_sockets": True,
+            "controlled_worker_hiring_activation_pilot_does_not_use_credentials": True,
+            "controlled_worker_hiring_activation_pilot_does_not_read_secrets": True,
+            "controlled_worker_hiring_activation_pilot_does_not_read_environment": True,
+            "controlled_worker_hiring_activation_pilot_does_not_modify_repo_files": True,
+            "first_supervised_production_dry_run_not_yet_active": True,
         },
-        "next_step": "Next step: build controlled worker hiring activation pilot.",
+        "next_step": "Next step: build first supervised production dry-run.",
     }
 
 
@@ -2861,6 +2897,111 @@ def write_release_candidate_hardening(result: dict, output_dir: str | Path, run_
     }
 
 
+def attach_controlled_worker_hiring_activation_pilot(
+    result: dict,
+    pilot_label: str | None = None,
+    confirmation_token: str | None = None,
+    pilot_worker_limit: int = 1,
+    worker_labels: list[str] | None = None,
+    required_supervisor_label: str | None = None,
+    rollback_labels: list[str] | None = None
+) -> dict:
+    if "controlled_production_readiness_gate_bundle" not in result:
+        result = attach_controlled_production_readiness_gate(result)
+        
+    bundle = create_controlled_worker_hiring_activation_pilot_bundle(
+        result,
+        command=result.get("command", ""),
+        pilot_label=pilot_label,
+        confirmation_token=confirmation_token,
+        pilot_worker_limit=pilot_worker_limit,
+        worker_labels=worker_labels,
+        required_supervisor_label=required_supervisor_label,
+        rollback_labels=rollback_labels
+    )
+    result["controlled_worker_hiring_activation_pilot_bundle"] = bundle
+    result["controlled_worker_hiring_activation_pilot_schema"] = bundle["controlled_worker_hiring_activation_pilot_schema"]
+    result["controlled_worker_hiring_activation_pilot_approval_gate"] = bundle["controlled_worker_hiring_activation_pilot_approval_gate"]
+    result["pilot_worker_limit_contract"] = bundle["pilot_worker_limit_contract"]
+    result["worker_identity_activation_contract"] = bundle["worker_identity_activation_contract"]
+    result["task_assignment_denial_by_default"] = bundle["task_assignment_denial_by_default"]
+    result["human_supervised_pilot_gate"] = bundle["human_supervised_pilot_gate"]
+    result["pilot_rollback_abort_preview"] = bundle["pilot_rollback_abort_preview"]
+    result["pilot_audit_proof"] = bundle["pilot_audit_proof"]
+    result["pilot_ledger"] = bundle["pilot_ledger"]
+    result["pilot_readiness_summary"] = bundle["pilot_readiness_summary"]
+    result["first_supervised_production_dry_run_bridge"] = bundle["first_supervised_production_dry_run_bridge"]
+    return result
+
+def write_controlled_worker_hiring_activation_pilot(result: dict, output_dir: str | Path, run_label: str = "station-chief-runtime") -> dict:
+    if "controlled_worker_hiring_activation_pilot_bundle" not in result:
+        raise ValueError("controlled_worker_hiring_activation_pilot_bundle missing")
+        
+    run_id = generate_run_id(result.get("command", run_label))
+    target_dir = Path(output_dir) / run_id
+    target_dir.mkdir(parents=True, exist_ok=True)
+    
+    files_to_write = [
+        ("controlled_worker_hiring_activation_pilot_bundle.json", "controlled_worker_hiring_activation_pilot_bundle"),
+        ("controlled_worker_hiring_activation_pilot_schema.json", "controlled_worker_hiring_activation_pilot_schema"),
+        ("controlled_worker_hiring_activation_pilot_approval_gate.json", "controlled_worker_hiring_activation_pilot_approval_gate"),
+        ("pilot_worker_limit_contract.json", "pilot_worker_limit_contract"),
+        ("worker_identity_activation_contract.json", "worker_identity_activation_contract"),
+        ("task_assignment_denial_by_default.json", "task_assignment_denial_by_default"),
+        ("human_supervised_pilot_gate.json", "human_supervised_pilot_gate"),
+        ("pilot_rollback_abort_preview.json", "pilot_rollback_abort_preview"),
+        ("pilot_audit_proof.json", "pilot_audit_proof"),
+        ("pilot_ledger.json", "pilot_ledger"),
+        ("pilot_readiness_summary.json", "pilot_readiness_summary"),
+        ("first_supervised_production_dry_run_bridge.json", "first_supervised_production_dry_run_bridge"),
+    ]
+    
+    written = []
+    for fname, key in files_to_write:
+        path = target_dir / fname
+        path.write_text(json.dumps(result[key], indent=2, ensure_ascii=False), encoding="utf-8")
+        written.append(fname)
+        
+    manifest = {
+        "controlled_worker_hiring_activation_pilot_manifest_version": "3.1.0",
+        "run_id": run_id,
+        "runtime_version": "3.1.0",
+        "files_written": written + ["controlled_worker_hiring_activation_pilot_manifest.json"],
+        "baseline_preserved": True,
+        "external_actions_taken": False,
+        "real_worker_hiring_performed": False,
+        "real_worker_activation_performed": False,
+        "worker_processes_started": False,
+        "live_task_assignment_performed": False,
+        "live_worker_routing_performed": False,
+        "live_orchestration_performed": False,
+        "production_execution_performed": False,
+        "production_activation_performed": False,
+        "automatic_execution_performed": False,
+        "queued_action_executed": False,
+        "auto_approval_performed": False,
+        "approval_bypass_performed": False,
+        "actual_replay_performed": False,
+        "live_api_call_performed": False,
+        "network_access_performed": False,
+        "socket_opened": False,
+        "credentials_used": False,
+        "secrets_read": False,
+        "environment_read": False,
+        "repo_files_modified": False,
+        "deployment_performed": False,
+        "execution_authorized": False,
+        "status": "CONTROLLED_WORKER_HIRING_ACTIVATION_PILOT_PREVIEW_ONLY",
+        "note": "Controlled Worker Hiring Activation Pilot v3.1.0 creates local pilot schema, approval gate, one-to-three worker limit contract, worker identity activation contract, task assignment denial-by-default record, human supervision gate, rollback and abort preview, pilot audit proof, pilot ledger, readiness summary, and first supervised production dry-run bridge artifacts only. It does not hire real workers, activate real workers, start worker processes, assign live tasks, route live workers, perform live orchestration, execute production, activate production, call live APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, run shell commands, modify repo files, deploy, or animate broad workforce."
+    }
+    
+    (target_dir / "controlled_worker_hiring_activation_pilot_manifest.json").write_text(json.dumps(manifest, indent=2, ensure_ascii=False), encoding="utf-8")
+    
+    return {
+        "run_id": run_id,
+        "controlled_worker_hiring_activation_pilot_dir": str(target_dir),
+        "files_written": manifest["files_written"]
+    }
 def attach_controlled_production_readiness_gate(
     result: dict,
     production_gate_label: str | None = None,
@@ -2931,7 +3072,7 @@ def write_controlled_production_readiness_gate(result: dict, output_dir: str | P
     manifest = {
         "controlled_production_readiness_gate_manifest_version": "3.0.0",
         "run_id": run_id,
-        "runtime_version": "3.0.0",
+        "runtime_version": "3.1.0",
         "files_written": written + ["controlled_production_readiness_gate_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -3249,8 +3390,8 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "runtime_index_entry": runtime_index_entry,
                 "manifest": {
             "run_id": run_id,
-            "runtime_version": "3.0.0",
-            "artifact_type": "station_chief_runtime_v3_0_artifacts",
+            "runtime_version": "3.1.0",
+            "artifact_type": "station_chief_runtime_v3_1_artifacts",
             "files_planned": files_planned,
             "baseline_preserved": True,
             "devinization_overlays_preserved": True,
@@ -3279,6 +3420,35 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
             "production_readiness_ledger": production_readiness_ledger is not None,
             "production_readiness_summary": production_readiness_summary is not None,
             "controlled_worker_hiring_activation_pilot_bridge": controlled_worker_hiring_activation_pilot_bridge is not None,
+            "controlled_worker_hiring_activation_pilot_schema": controlled_worker_hiring_activation_pilot_schema is not None,
+            "controlled_worker_hiring_activation_pilot_approval_gate": controlled_worker_hiring_activation_pilot_approval_gate is not None,
+            "pilot_worker_limit_contract": pilot_worker_limit_contract is not None,
+            "worker_identity_activation_contract": worker_identity_activation_contract is not None,
+            "task_assignment_denial_by_default": task_assignment_denial_by_default is not None,
+            "human_supervised_pilot_gate": human_supervised_pilot_gate is not None,
+            "pilot_rollback_abort_preview": pilot_rollback_abort_preview is not None,
+            "pilot_audit_proof": pilot_audit_proof is not None,
+            "pilot_ledger": pilot_ledger is not None,
+            "pilot_readiness_summary": pilot_readiness_summary is not None,
+            "first_supervised_production_dry_run_bridge": first_supervised_production_dry_run_bridge is not None,
+            "controlled_worker_hiring_activation_pilot_preview_only": True,
+            "controlled_worker_hiring_activation_pilot_requires_token": True,
+            "pilot_worker_limit_maximum_is_three": True,
+            "task_assignment_denied_by_default": True,
+            "controlled_worker_hiring_activation_pilot_does_not_hire_real_workers": True,
+            "controlled_worker_hiring_activation_pilot_does_not_activate_real_workers": True,
+            "controlled_worker_hiring_activation_pilot_does_not_start_worker_processes": True,
+            "controlled_worker_hiring_activation_pilot_does_not_assign_live_tasks": True,
+            "controlled_worker_hiring_activation_pilot_does_not_route_live_workers": True,
+            "controlled_worker_hiring_activation_pilot_does_not_perform_live_orchestration": True,
+            "controlled_worker_hiring_activation_pilot_does_not_execute_production": True,
+            "controlled_worker_hiring_activation_pilot_does_not_call_live_apis": True,
+            "controlled_worker_hiring_activation_pilot_does_not_use_network_access": True,
+            "controlled_worker_hiring_activation_pilot_does_not_open_sockets": True,
+            "controlled_worker_hiring_activation_pilot_does_not_use_credentials": True,
+            "controlled_worker_hiring_activation_pilot_does_not_read_secrets": True,
+            "controlled_worker_hiring_activation_pilot_does_not_read_environment": True,
+            "controlled_worker_hiring_activation_pilot_does_not_modify_repo_files": True,
             "controlled_production_readiness_gate_preview_only": True,
             "controlled_production_readiness_gate_requires_token": True,
             "production_activation_denied_by_default": True,
@@ -4106,6 +4276,16 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--production-gate-pilot-label", type=str)
     parser.add_argument("--production-gate-pilot-worker-limit", type=int, default=1)
     parser.add_argument("--production-gate-rollback-label", type=str, action="append")
+    
+    parser.add_argument("--worker-hiring-activation-pilot-schema", action="store_true")
+    parser.add_argument("--controlled-worker-hiring-activation-pilot", action="store_true")
+    parser.add_argument("--write-controlled-worker-hiring-activation-pilot", metavar="DIR", type=str)
+    parser.add_argument("--pilot-label", type=str)
+    parser.add_argument("--pilot-confirm-token", type=str)
+    parser.add_argument("--pilot-worker-limit", type=int, default=1)
+    parser.add_argument("--pilot-worker-label", type=str, action="append")
+    parser.add_argument("--pilot-required-supervisor", type=str)
+    parser.add_argument("--pilot-rollback-label", type=str, action="append")
 
     parser.add_argument("--telemetry-worker-id", type=str, help="Worker ID for live telemetry")
     parser.add_argument("--telemetry-confirm-token", type=str, help="Confirmation token for live telemetry approval")
@@ -4234,6 +4414,10 @@ def main() -> None:
         return
     if args.release_candidate_hardening_schema:
         print(json.dumps(create_release_candidate_hardening_schema(), indent=2, ensure_ascii=False))
+        return
+
+    if args.worker_hiring_activation_pilot_schema:
+        print(json.dumps(create_controlled_worker_hiring_activation_pilot_schema(), indent=2, ensure_ascii=False))
         return
 
     if args.production_readiness_gate_schema:
@@ -4681,6 +4865,16 @@ def main() -> None:
             checklist_items=args.release_candidate_checklist_item
         )
 
+    if args.controlled_worker_hiring_activation_pilot or args.write_controlled_worker_hiring_activation_pilot:
+        result = attach_controlled_worker_hiring_activation_pilot(
+            result,
+            pilot_label=args.pilot_label,
+            confirmation_token=args.pilot_confirm_token,
+            pilot_worker_limit=args.pilot_worker_limit,
+            worker_labels=args.pilot_worker_label,
+            required_supervisor_label=args.pilot_required_supervisor,
+            rollback_labels=args.pilot_rollback_label
+        )
     if args.controlled_production_readiness_gate or args.write_controlled_production_readiness_gate:
         result = attach_controlled_production_readiness_gate(
             result,
@@ -4894,6 +5088,10 @@ def main() -> None:
         rc_res = write_release_candidate_hardening(result, args.write_release_candidate_hardening)
         result = dict(result)
         result["release_candidate_hardening_write_summary"] = rc_res
+    if args.write_controlled_worker_hiring_activation_pilot:
+        pilot_res = write_controlled_worker_hiring_activation_pilot(result, args.write_controlled_worker_hiring_activation_pilot)
+        result = dict(result)
+        result["controlled_worker_hiring_activation_pilot_write_summary"] = pilot_res
     if args.write_controlled_production_readiness_gate:
         pg_res = write_controlled_production_readiness_gate(result, args.write_controlled_production_readiness_gate)
         result = dict(result)

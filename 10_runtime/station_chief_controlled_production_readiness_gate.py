@@ -1,7 +1,7 @@
 import json
 import hashlib
 
-CONTROLLED_PRODUCTION_READINESS_GATE_MODULE_VERSION = "3.0.0"
+CONTROLLED_PRODUCTION_READINESS_GATE_MODULE_VERSION = "3.1.0"
 CONTROLLED_PRODUCTION_READINESS_GATE_STATUS = "CONTROLLED_PRODUCTION_READINESS_GATE_PREVIEW_ONLY"
 CONTROLLED_PRODUCTION_READINESS_GATE_PHASE = "Controlled Production Readiness Gate"
 CONTROLLED_PRODUCTION_READINESS_GATE_APPROVAL_TOKEN = "YES_I_APPROVE_CONTROLLED_PRODUCTION_READINESS_GATE"
@@ -23,15 +23,15 @@ def normalize_production_gate_label(label: str) -> str:
         return "controlled-production-readiness-gate"
     return normalized
 
-def generate_controlled_production_readiness_gate_id(command: str, production_gate_label: str, runtime_version: str = "3.0.0") -> str:
+def generate_controlled_production_readiness_gate_id(command: str, production_gate_label: str, runtime_version: str = "3.1.0") -> str:
     norm_label = normalize_production_gate_label(production_gate_label)
     digest_input = f"{runtime_version}:{command}:{norm_label}"
     digest = sha256_digest(digest_input)[:12]
-    return f"controlled-production-readiness-gate-v3-0-{norm_label}-{digest}"
+    return f"controlled-production-readiness-gate-v3-1-{norm_label}-{digest}"
 
 def create_controlled_production_readiness_gate_schema() -> dict:
     return {
-        "controlled_production_readiness_gate_schema_version": "3.0.0",
+        "controlled_production_readiness_gate_schema_version": "3.1.0",
         "schema_status": "CONTROLLED_PRODUCTION_READINESS_GATE_PREVIEW_ONLY",
         "required_sections": [
             "controlled_production_readiness_gate_approval_gate",
@@ -144,7 +144,7 @@ def create_controlled_production_readiness_gate_approval_gate(
     token_valid = (confirmation_token == "YES_I_APPROVE_CONTROLLED_PRODUCTION_READINESS_GATE")
     gate_status = "APPROVED_FOR_CONTROLLED_PRODUCTION_READINESS_GATE_RECORDS" if token_valid else "BLOCKED_PENDING_CONTROLLED_PRODUCTION_READINESS_GATE_APPROVAL"
     return {
-        "controlled_production_readiness_gate_approval_gate_version": "3.0.0",
+        "controlled_production_readiness_gate_approval_gate_version": "3.1.0",
         "production_gate_label": production_gate_label,
         "gate_status": gate_status,
         "confirmation_token_required": "YES_I_APPROVE_CONTROLLED_PRODUCTION_READINESS_GATE",
@@ -182,7 +182,7 @@ def create_production_activation_denial_by_default(
 ) -> dict:
     denial_status = "PRODUCTION_ACTIVATION_DENIED_BY_DEFAULT" if approval_gate.get("confirmation_token_valid") else "BLOCKED"
     return {
-        "production_activation_denial_by_default_version": "3.0.0",
+        "production_activation_denial_by_default_version": "3.1.0",
         "denial_status": denial_status,
         "production_activation_default": "DENIED",
         "production_execution_allowed": False,
@@ -206,7 +206,7 @@ def create_final_human_approval_requirement(
     requirement_status = "REQUIREMENT_CREATED" if approval_gate.get("confirmation_token_valid") else "BLOCKED"
     
     return {
-        "final_human_approval_requirement_version": "3.0.0",
+        "final_human_approval_requirement_version": "3.1.0",
         "requirement_status": requirement_status,
         "required_approver_label": required_approver_label,
         "future_final_human_approval_required": True,
@@ -265,7 +265,7 @@ def create_production_capability_manifest(
         })
         
     return {
-        "production_capability_manifest_version": "3.0.0",
+        "production_capability_manifest_version": "3.1.0",
         "manifest_status": manifest_status,
         "capability_records": capability_records,
         "capability_count": len(capability_records),
@@ -289,7 +289,7 @@ def create_supervised_pilot_eligibility_contract(
     eligibility_status = "ELIGIBLE_FOR_FUTURE_SUPERVISED_PILOT_RECORDS" if (approval_gate.get("confirmation_token_valid") and limit_valid) else "BLOCKED"
     
     return {
-        "supervised_pilot_eligibility_contract_version": "3.0.0",
+        "supervised_pilot_eligibility_contract_version": "3.1.0",
         "eligibility_status": eligibility_status,
         "pilot_label": pilot_label,
         "pilot_worker_limit": pilot_worker_limit,
@@ -334,7 +334,7 @@ def create_production_rollback_kill_switch_preview(
         })
         
     return {
-        "production_rollback_kill_switch_preview_version": "3.0.0",
+        "production_rollback_kill_switch_preview_version": "3.1.0",
         "preview_status": preview_status,
         "rollback_records": rollback_records,
         "rollback_record_count": len(rollback_records),
@@ -400,7 +400,7 @@ def create_production_readiness_audit_proof(
     }
     
     return {
-        "production_readiness_audit_proof_version": "3.0.0",
+        "production_readiness_audit_proof_version": "3.1.0",
         "audit_status": audit_status,
         "approval_gate_digest": gate_digest,
         "activation_denial_digest": denial_digest,
@@ -451,7 +451,7 @@ def create_production_readiness_ledger(
     ]
     
     return {
-        "production_readiness_ledger_version": "3.0.0",
+        "production_readiness_ledger_version": "3.1.0",
         "ledger_status": ledger_status,
         "entries": entries,
         "ledger_digest": sha256_digest(entries),
@@ -486,7 +486,7 @@ def create_production_readiness_summary(
     )
     
     return {
-        "production_readiness_summary_version": "3.0.0",
+        "production_readiness_summary_version": "3.1.0",
         "readiness_status": "READY_FOR_NEXT_LAYER" if is_ready else "BLOCKED",
         "ready_for_controlled_worker_hiring_activation_pilot": is_ready,
         "gate_status": approval_gate.get("gate_status", "BLOCKED"),
@@ -517,7 +517,7 @@ def create_controlled_worker_hiring_activation_pilot_bridge(
 ) -> dict:
     is_ready = readiness_summary.get("ready_for_controlled_worker_hiring_activation_pilot", False)
     return {
-        "controlled_worker_hiring_activation_pilot_bridge_version": "3.0.0",
+        "controlled_worker_hiring_activation_pilot_bridge_version": "3.1.0",
         "current_layer": "Controlled Production Readiness Gate",
         "next_layer": "Controlled Worker Hiring Activation Pilot",
         "ready_for_controlled_worker_hiring_activation_pilot": is_ready,
@@ -590,7 +590,7 @@ def create_controlled_production_readiness_gate_bundle(
     bridge = create_controlled_worker_hiring_activation_pilot_bridge(result, summary)
     
     return {
-        "controlled_production_readiness_gate_bundle_version": "3.0.0",
+        "controlled_production_readiness_gate_bundle_version": "3.1.0",
         "controlled_production_readiness_gate_status": "CONTROLLED_PRODUCTION_READINESS_GATE_PREVIEW_ONLY",
         "controlled_production_readiness_gate_schema": schema,
         "controlled_production_readiness_gate_approval_gate": gate,
