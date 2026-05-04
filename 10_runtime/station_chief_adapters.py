@@ -100,7 +100,7 @@ SUPPORTED_ADAPTERS = {
         "sandbox_only": True,
         "description": "Writes only approved sandbox files inside a provided execution directory after explicit confirmation.",
     },
-    "scoped_repo_patch": {
+        "scoped_repo_patch": {
         "name": "Human-Approved Scoped Repo Patch Adapter",
         "live_execution": False,
         "external_actions": False,
@@ -132,7 +132,7 @@ SUPPORTED_ADAPTERS = {
         "live_deployment_allowed": False,
         "supports_controlled_worker_execution": False,
         "controlled_worker_execution_requires_separate_gate": True,
-        "first_controlled_worker_execution_token": "YES_I_APPROVE_FIRST_CONTROLLED_WORKER_EXECUTION",
+        "first_controlled_worker_execution_token": "YES_I_APPROVE_CONTROLLED_WORKER_EXECUTION",
         "supports_single_worker_tool_permission_binding": True,
         "tool_permission_binding_requires_specific_tokens": True,
         "supports_tool_permission_binding": False,
@@ -153,6 +153,8 @@ SUPPORTED_ADAPTERS = {
         "release_candidate_hardening_requires_separate_gate": True,
         "supports_controlled_production_readiness_gate": False,
         "controlled_production_readiness_gate_requires_separate_gate": True,
+        "supports_controlled_worker_hiring_activation_pilot": False,
+        "controlled_worker_hiring_activation_pilot_requires_separate_gate": True,
         "supports_live_execution_telemetry_abort_controls": False,
         "telemetry_abort_controls_require_specific_token": True,
         "telemetry_abort_requires_separate_gate": True,

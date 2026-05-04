@@ -53,6 +53,24 @@ The Station Chief runtime receives one command, classifies it, loads the locked 
 - Does not write to protected baseline or overlay paths
 - Does not treat controlled worker hiring activation pilot records as execution permission
 - Does not build first supervised production dry-run yet
+- no real worker hiring
+- no real worker activation
+- no worker process starts
+- no live task assignment
+- no live worker routing
+- no live orchestration
+- no production execution
+- no production activation
+- no live API calls
+- no credential use
+- no secret reads
+- no environment reads
+- no network access
+- no socket access
+- no deployment
+- no shell command execution
+- no arbitrary code execution
+- no full workforce activation
 
 ## Commands
 

@@ -17,7 +17,7 @@ Station Chief Runtime upgraded to v3.1.0. Locked 175-family baseline preserved. 
 - first supervised production dry-run bridge
 - no real worker hiring
 - no real worker activation
-- no worker process start
+- no worker process starts
 - no live task assignment
 - no live worker routing
 - no live orchestration
@@ -33,6 +33,8 @@ Station Chief Runtime upgraded to v3.1.0. Locked 175-family baseline preserved. 
 - no shell command execution
 - no arbitrary code execution
 - no repo mutation
+- no worker process starts
+- no full workforce activation
 
 ## Required Validator
 python3 scripts/validate_station_chief_runtime_v3_1.py

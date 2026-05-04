@@ -3143,6 +3143,109 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         if item["id"] in result["selected_overlays"]
     ]
     runtime_index_entry = build_runtime_index_entry(result, run_id, artifact_dir=None)
+
+    release_candidate_readiness_summary = result.get("release_candidate_readiness_summary")
+    controlled_production_readiness_gate_bridge = result.get("controlled_production_readiness_gate_bridge")
+    controlled_production_readiness_gate_bundle = result.get("controlled_production_readiness_gate_bundle")
+    controlled_production_readiness_gate_schema = result.get("controlled_production_readiness_gate_schema")
+    controlled_production_readiness_gate_approval_gate = result.get("controlled_production_readiness_gate_approval_gate")
+    production_activation_denial_by_default = result.get("production_activation_denial_by_default")
+    final_human_approval_requirement = result.get("final_human_approval_requirement")
+    production_capability_manifest = result.get("production_capability_manifest")
+    supervised_pilot_eligibility_contract = result.get("supervised_pilot_eligibility_contract")
+    production_rollback_kill_switch_preview = result.get("production_rollback_kill_switch_preview")
+    production_readiness_audit_proof = result.get("production_readiness_audit_proof")
+    production_readiness_ledger = result.get("production_readiness_ledger")
+    production_readiness_summary = result.get("production_readiness_summary")
+    controlled_worker_hiring_activation_pilot_bridge = result.get("controlled_worker_hiring_activation_pilot_bridge")
+    
+    controlled_worker_hiring_activation_pilot_bundle = result.get("controlled_worker_hiring_activation_pilot_bundle")
+    controlled_worker_hiring_activation_pilot_schema = result.get("controlled_worker_hiring_activation_pilot_schema")
+    controlled_worker_hiring_activation_pilot_approval_gate = result.get("controlled_worker_hiring_activation_pilot_approval_gate")
+    pilot_worker_limit_contract = result.get("pilot_worker_limit_contract")
+    worker_identity_activation_contract = result.get("worker_identity_activation_contract")
+    task_assignment_denial_by_default = result.get("task_assignment_denial_by_default")
+    human_supervised_pilot_gate = result.get("human_supervised_pilot_gate")
+    pilot_rollback_abort_preview = result.get("pilot_rollback_abort_preview")
+    pilot_audit_proof = result.get("pilot_audit_proof")
+    pilot_ledger = result.get("pilot_ledger")
+    pilot_readiness_summary = result.get("pilot_readiness_summary")
+    first_supervised_production_dry_run_bridge = result.get("first_supervised_production_dry_run_bridge")
+
+    files_planned = [
+        "run_log.json",
+        "command_brief.json",
+        "work_orders.json",
+        "selected_overlays.json",
+        "evidence.json",
+        "execution_plan.json",
+        "adapter_result.json",
+    ]
+    if file_operation_plan:
+        files_planned.extend(["file_operation_plan.json", "execution_gate.json", "file_operation_result.json"])
+    if repo_patch_plan:
+        files_planned.extend(["repo_patch_plan.json", "repo_patch_gate.json", "repo_patch_result.json", "changed_file_scope_proof.json"])
+    if execution_profile:
+        files_planned.append("execution_profile.json")
+    if preflight_gate_record:
+        files_planned.append("preflight_gate_record.json")
+    if patch_approval_checklist:
+        files_planned.append("patch_approval_checklist.json")
+    if execution_readiness_score:
+        files_planned.append("execution_readiness_score.json")
+    if dry_run_bundle:
+        files_planned.extend(["dry_run_bundle.json", "repo_patch_preview.diff"])
+    if dry_run_bundle_comparison:
+        files_planned.append("dry_run_bundle_comparison.json")
+    if approval_handoff_packet:
+        files_planned.append("approval_handoff_packet.json")
+    if signed_approval_record:
+        files_planned.extend(["approval_review_ui_schema.json", "signed_approval_record.json", "approval_record_verification.json", "approval_record_audit_manifest.json"])
+    if result.get("approval_ledger_bundle"):
+        files_planned.extend(["approval_ledger_bundle.json", "approval_ledger_index.json", "approval_ledger_verification.json", "approval_status_summary.json", "duplicate_approval_signals.json"])
+    if result.get("release_lock_bundle"):
+        files_planned.extend(["release_lock_bundle.json", "stable_release_manifest.json", "stable_release_verification.json", "stable_runtime_contract.json", "stable_capability_inventory.json", "stable_artifact_contract.json", "stable_adapter_boundary_contract.json", "stable_safety_doctrine_lock.json", "stable_approval_flow_lock.json", "known_limitations.json", "next_phase_handoff.json", "release_readiness_summary.json"])
+    if result.get("controlled_execution_bundle"):
+        files_planned.extend(["controlled_execution_bundle.json", "controlled_execution_profile_catalog.json", "controlled_execution_selection.json", "execution_permission_matrix.json", "execution_mode_contract.json", "blocked_action_ledger.json", "controlled_execution_preflight_contract.json", "controlled_execution_readiness_summary.json"])
+    if result.get("work_order_executor_bundle"):
+        files_planned.extend(["work_order_executor_readiness_bridge.json", "work_order_executor_bundle.json", "executable_work_order_schema.json", "work_orders_executable.json", "work_order_status_lifecycle.json", "work_order_dependency_map.json", "work_order_dry_run_results.json", "work_order_execution_ledger.json", "work_order_completion_proofs.json", "work_order_executor_summary.json"])
+    if result.get("worker_hiring_registry_bundle"):
+        files_planned.extend(["worker_hiring_registry_bundle.json", "worker_role_schema.json", "worker_candidates.json", "worker_registry_status_lifecycle.json", "worker_assignment_plan.json", "worker_registry_ledger.json", "worker_hiring_preview_records.json", "worker_hiring_readiness_summary.json", "worker_hiring_readiness_bridge.json"])
+    if result.get("department_routing_bundle"):
+        files_planned.extend(["department_routing_readiness_bridge.json", "department_routing_bundle.json", "department_routing_schema.json", "department_route_candidates.json", "family_to_department_routing_map.json", "worker_to_department_assignment_map.json", "department_routing_conflict_detector.json", "department_routing_dry_run_results.json", "department_routing_ledger.json", "department_routing_completion_proofs.json", "department_routing_readiness_summary.json"])
+    if result.get("multi_agent_orchestration_bundle"):
+        files_planned.extend(["multi_agent_orchestration_readiness_bridge.json", "multi_agent_orchestration_bundle.json", "orchestration_topology_schema.json", "orchestration_node_generation.json", "multi_worker_coordination_map.json", "task_handoff_simulation.json", "inter_worker_dependency_graph.json", "orchestration_conflict_detector.json", "orchestration_dry_run_engine.json", "orchestration_ledger.json", "orchestration_completion_proof.json", "orchestration_readiness_summary.json"])
+    if result.get("operator_console_bundle"):
+        files_planned.extend(["ui_operator_console_readiness_bridge.json", "operator_console_bundle.json", "operator_console_screen_schema.json", "runtime_status_panel_schema.json", "approval_queue_panel_schema.json", "work_order_panel_schema.json", "worker_registry_panel_schema.json", "department_routing_panel_schema.json", "orchestration_sandbox_panel_schema.json", "human_control_surface_schema.json", "operator_action_registry.json", "disabled_action_state_map.json", "operator_console_review_bundle.json", "operator_console_safety_summary.json", "operator_console_readiness_summary.json"])
+    if result.get("github_patch_hardening_bundle"):
+        files_planned.extend(["github_patch_hardening_readiness_bridge.json", "github_patch_hardening_bundle.json", "patch_hardening_schema.json", "protected_path_policy.json", "patch_root_validation.json", "patch_preview_diff_contract.json", "patch_digest_manifest.json", "patch_rollback_preview.json", "changed_file_proof_hardening.json", "human_approval_chain_binding.json", "patch_execution_readiness_score.json", "patch_hardening_audit_bundle.json"])
+    if result.get("deployment_packaging_bundle"):
+        files_planned.extend(["deployment_packaging_readiness_bridge.json", "deployment_packaging_bundle.json", "deployment_artifact_schema.json", "portfolio_packaging_manifest.json", "runtime_export_bundle.json", "release_notes.json", "deployment_safety_contract.json", "deployment_readiness_proof.json", "packaging_audit_bundle.json", "portfolio_handoff_summary.json"])
+    if result.get("controlled_worker_execution_bundle"):
+        files_planned.extend(["first_controlled_worker_execution_readiness_bridge.json", "controlled_worker_execution_bundle.json", "controlled_worker_execution_schema.json", "worker_execution_gate.json", "tool_permission_binding.json", "sandbox_worker_task.json", "worker_abort_contract.json", "worker_rollback_contract.json", "worker_execution_telemetry_stub.json", "controlled_worker_execution_result.json", "post_run_audit_proof.json", "worker_execution_ledger.json"])
+    if result.get("tool_permission_binding_bundle"):
+        files_planned.extend(["single_worker_tool_permission_binding_readiness_bridge.json", "tool_permission_binding_bundle.json", "tool_permission_binding_schema.json"])
+    if result.get("live_execution_telemetry_abort_bundle"):
+        files_planned.extend(["live_execution_telemetry_abort_schema.json", "telemetry_event_schema.json", "execution_state_model.json", "telemetry_approval_gate.json", "heartbeat_stub.json", "abort_signal_contract.json", "timeout_contract.json", "partial_result_capture.json", "failed_run_quarantine_contract.json", "post_abort_audit_proof.json", "telemetry_ledger.json", "telemetry_readiness_summary.json"])
+    if result.get("post_run_audit_expansion_bundle"):
+        files_planned.extend(["post_run_audit_expansion_readiness_bridge.json", "post_run_audit_expansion_bundle.json", "post_run_audit_expansion_schema.json", "expanded_audit_evidence_schema.json", "post_run_audit_approval_gate.json", "before_after_run_comparison_proof.json", "validator_backed_audit_artifact_index.json", "audit_replay_record.json", "failure_class_taxonomy.json", "human_review_packet.json", "audit_integrity_score.json", "audit_evidence_ledger.json", "audit_expansion_readiness_summary.json"])
+    if result.get("multi_worker_sandbox_coordination_bundle"):
+        files_planned.extend(["multi_worker_sandbox_coordination_readiness_bridge.json", "multi_worker_sandbox_coordination_bundle.json", "multi_worker_sandbox_coordination_schema.json", "multi_worker_coordination_approval_gate.json", "sandbox_worker_roster.json", "worker_coordination_graph.json", "inter_worker_handoff_contract.json", "multi_worker_dry_run_ledger.json", "coordination_conflict_detector.json", "coordination_abort_contract.json", "coordination_quarantine_contract.json", "coordination_audit_proof.json", "coordination_readiness_summary.json"])
+    if result.get("controlled_external_tool_adapter_preview_bundle"):
+        files_planned.extend(["controlled_external_tool_adapter_preview_readiness_bridge.json", "controlled_external_tool_adapter_preview_bundle.json", "controlled_external_tool_adapter_preview_schema.json", "external_tool_adapter_preview_approval_gate.json", "external_tool_dry_run_adapter_registry.json", "per_tool_external_permission_gate.json", "external_request_preview_contract.json", "external_response_validation_schema.json", "external_response_validation_preview_result.json", "external_tool_abort_contract.json", "external_tool_audit_proof.json", "external_tool_preview_ledger.json", "external_tool_preview_readiness_summary.json"])
+    if result.get("permissioned_external_api_dry_run_preview_bundle"):
+        files_planned.extend(["permissioned_external_api_dry_run_preview_readiness_bridge.json", "permissioned_external_api_dry_run_preview_bundle.json", "permissioned_external_api_dry_run_preview_schema.json", "external_api_dry_run_approval_gate.json", "api_endpoint_preview_registry.json", "request_envelope_validation.json", "credential_absence_proof.json", "outbound_call_prevention_proof.json", "dry_run_response_fixture_contract.json", "external_api_audit_proof.json", "external_api_dry_run_ledger.json", "external_api_dry_run_readiness_summary.json"])
+    if result.get("controlled_multi_worker_audit_replay_preview_bundle"):
+        files_planned.extend(["controlled_multi_worker_audit_replay_preview_readiness_bridge.json", "controlled_multi_worker_audit_replay_preview_bundle.json", "controlled_multi_worker_audit_replay_preview_schema.json", "audit_replay_preview_approval_gate.json", "replay_packet_registry.json", "deterministic_replay_plan_contract.json", "replay_safety_gate.json", "multi_worker_replay_comparison_proof.json", "replay_output_quarantine_contract.json", "replay_audit_proof.json", "replay_preview_ledger.json", "replay_readiness_summary.json"])
+    if result.get("operator_approval_queue_enforcement_bundle"):
+        files_planned.extend(["operator_approval_queue_enforcement_readiness_bridge.json", "operator_approval_queue_enforcement_bundle.json", "operator_approval_queue_enforcement_schema.json", "operator_approval_queue_enforcement_approval_gate.json", "queued_action_registry.json", "approval_item_priority_classifier.json", "operator_decision_contract.json", "approval_expiry_stale_item_detector.json", "queue_enforcement_safety_gate.json", "approval_queue_audit_proof.json", "approval_queue_ledger.json", "approval_queue_readiness_summary.json"])
+    if result.get("release_candidate_hardening_bundle"):
+        files_planned.extend(["release_candidate_hardening_readiness_bridge.json", "release_candidate_hardening_bundle.json", "release_candidate_hardening_schema.json", "release_candidate_hardening_approval_gate.json", "full_runtime_invariant_scan.json", "validator_chain_lock_proof.json", "artifact_contract_freeze_manifest.json", "known_issue_register.json", "pre_v3_production_readiness_checklist.json", "release_candidate_safety_gate.json", "release_candidate_audit_proof.json", "release_candidate_ledger.json", "release_candidate_readiness_summary.json", "controlled_production_readiness_gate_bridge.json"])
+    if result.get("controlled_production_readiness_gate_bundle"):
+        files_planned.extend(["controlled_production_readiness_gate_bundle.json", "controlled_production_readiness_gate_schema.json", "controlled_production_readiness_gate_approval_gate.json", "production_activation_denial_by_default.json", "final_human_approval_requirement.json", "production_capability_manifest.json", "supervised_pilot_eligibility_contract.json", "production_rollback_kill_switch_preview.json", "production_readiness_audit_proof.json", "production_readiness_ledger.json", "production_readiness_summary.json", "controlled_worker_hiring_activation_pilot_bridge.json"])
+    if controlled_worker_hiring_activation_pilot_bundle:
+        files_planned.extend(["controlled_worker_hiring_activation_pilot_bundle.json", "controlled_worker_hiring_activation_pilot_schema.json", "controlled_worker_hiring_activation_pilot_approval_gate.json", "pilot_worker_limit_contract.json", "worker_identity_activation_contract.json", "task_assignment_denial_by_default.json", "human_supervised_pilot_gate.json", "pilot_rollback_abort_preview.json", "pilot_audit_proof.json", "pilot_ledger.json", "pilot_readiness_summary.json", "first_supervised_production_dry_run_bridge.json"])
+
     return {
         "run_log": {
             "run_id": run_id,
@@ -3232,6 +3335,16 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "worker_registry_ledger": result.get("worker_registry_ledger"),
         "worker_hiring_preview_records": result.get("worker_hiring_preview_records"),
         "worker_hiring_readiness_summary": result.get("worker_hiring_readiness_summary"),
+        "department_routing_readiness_bridge": result.get("department_routing_readiness_bridge"),
+        "department_routing_bundle": result.get("department_routing_bundle"),
+        "department_routing_schema": result.get("department_routing_schema"),
+        "department_route_candidates": result.get("department_route_candidates"),
+        "family_to_department_routing_map": result.get("family_to_department_routing_map"),
+        "worker_to_department_assignment_map": result.get("worker_to_department_assignment_map"),
+        "department_routing_conflict_detector": result.get("department_routing_conflict_detector"),
+        "department_routing_dry_run_results": result.get("department_routing_dry_run_results"),
+        "department_routing_ledger": result.get("department_routing_ledger"),
+        "department_routing_completion_proofs": result.get("department_routing_completion_proofs"),
         "department_routing_readiness_summary": result.get("department_routing_readiness_summary"),
         "multi_agent_orchestration_readiness_bridge": result.get("multi_agent_orchestration_readiness_bridge"),
         "multi_agent_orchestration_bundle": result.get("multi_agent_orchestration_bundle"),
@@ -3283,21 +3396,7 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "deployment_readiness_proof": result.get("deployment_readiness_proof"),
         "portfolio_handoff_summary": result.get("portfolio_handoff_summary"),
         "packaging_audit_bundle": result.get("packaging_audit_bundle"),
-        "single_worker_tool_permission_binding_readiness_bridge": result.get("single_worker_tool_permission_binding_readiness_bridge"),
-        "live_execution_telemetry_abort_readiness_bridge": result.get("live_execution_telemetry_abort_readiness_bridge"),
-        "tool_permission_binding_bundle": result.get("tool_permission_binding_bundle"),
-        "tool_permission_binding_schema": result.get("tool_permission_binding_schema"),
-        "per_tool_permission_registry": result.get("per_tool_permission_registry"),
-        "tool_permission_request_validation": result.get("tool_permission_request_validation"),
-        "tool_specific_approval_binding": result.get("tool_specific_approval_binding"),
-        "tool_invocation_dry_run_contract": result.get("tool_invocation_dry_run_contract"),
-        "tool_output_validation_schema": result.get("tool_output_validation_schema"),
-        "tool_output_validation_result": result.get("tool_output_validation_result"),
-        "tool_failure_handling_contract": result.get("tool_failure_handling_contract"),
-        "tool_revocation_contract": result.get("tool_revocation_contract"),
-        "per_run_permission_audit_proof": result.get("per_run_permission_audit_proof"),
-        "tool_permission_ledger": result.get("tool_permission_ledger"),
-        "tool_permission_readiness_summary": result.get("tool_permission_readiness_summary"),
+        "first_controlled_worker_execution_readiness_bridge": result.get("first_controlled_worker_execution_readiness_bridge"),
         "controlled_worker_execution_bundle": result.get("controlled_worker_execution_bundle"),
         "controlled_worker_execution_schema": result.get("controlled_worker_execution_schema"),
         "worker_execution_gate": result.get("worker_execution_gate"),
@@ -3311,17 +3410,17 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "worker_execution_ledger": result.get("worker_execution_ledger"),
         "live_execution_telemetry_abort_bundle": result.get("live_execution_telemetry_abort_bundle"),
         "live_execution_telemetry_abort_schema": result.get("live_execution_telemetry_abort_schema"),
-        "telemetry_event_schema": result.get("telemetry_event_schema"),
-        "execution_state_model": result.get("execution_state_model"),
-        "telemetry_approval_gate": result.get("telemetry_approval_gate"),
-        "heartbeat_stub": result.get("heartbeat_stub"),
-        "abort_signal_contract": result.get("abort_signal_contract"),
-        "timeout_contract": result.get("timeout_contract"),
-        "partial_result_capture": result.get("partial_result_capture"),
-        "failed_run_quarantine_contract": result.get("failed_run_quarantine_contract"),
-        "post_abort_audit_proof": result.get("post_abort_audit_proof"),
-        "telemetry_ledger": result.get("telemetry_ledger"),
-        "telemetry_readiness_summary": result.get("telemetry_readiness_summary"),
+        "telemetry_event_schema.json": result.get("telemetry_event_schema"),
+        "execution_state_model.json": result.get("execution_state_model"),
+        "telemetry_approval_gate.json": result.get("telemetry_approval_gate"),
+        "heartbeat_stub.json": result.get("heartbeat_stub"),
+        "abort_signal_contract.json": result.get("abort_signal_contract"),
+        "timeout_contract.json": result.get("timeout_contract"),
+        "partial_result_capture.json": result.get("partial_result_capture"),
+        "failed_run_quarantine_contract.json": result.get("failed_run_quarantine_contract"),
+        "post_abort_audit_proof.json": result.get("post_abort_audit_proof"),
+        "telemetry_ledger.json": result.get("telemetry_ledger"),
+        "telemetry_readiness_summary.json": result.get("telemetry_readiness_summary"),
         "post_run_audit_expansion_readiness_bridge": result.get("post_run_audit_expansion_readiness_bridge"),
         "post_run_audit_expansion_bundle": result.get("post_run_audit_expansion_bundle"),
         "post_run_audit_expansion_schema": result.get("post_run_audit_expansion_schema"),
@@ -3335,60 +3434,107 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "audit_integrity_score": result.get("audit_integrity_score"),
         "audit_evidence_ledger": result.get("audit_evidence_ledger"),
         "audit_expansion_readiness_summary": result.get("audit_expansion_readiness_summary"),
-        "multi_worker_sandbox_coordination_readiness_bridge": True,
-        "multi_worker_sandbox_coordination_bundle": True,
-        "multi_worker_sandbox_coordination_schema": True,
-        "multi_worker_coordination_approval_gate": True,
-        "sandbox_worker_roster": True,
-        "worker_coordination_graph": True,
-        "inter_worker_handoff_contract": True,
-        "multi_worker_dry_run_ledger": True,
-        "coordination_conflict_detector": True,
-        "coordination_abort_contract": True,
-        "coordination_quarantine_contract": True,
-        "coordination_audit_proof": True,
-        "coordination_readiness_summary": True,
-        "external_actions_taken": False,
-        "broad_worker_activation_performed": False,
-        "real_workers_hired": False,
-        "worker_processes_started": False,
-        "live_worker_routing_performed": False,
-        "live_orchestration_performed": False,
-        "external_tool_invoked": False,
-        "live_api_call_performed": False,
-        "network_access_performed": False,
-        "socket_opened": False,
-        "repo_files_modified": False,
-        "hosting_api_called": False,
-        "deployment_performed": False,
-        "execution_authorized": False,
-        "controlled_external_tool_adapter_preview_readiness_bridge": True,
-        "controlled_external_tool_adapter_preview_bundle": True,
-        "controlled_external_tool_adapter_preview_schema": True,
-        "external_tool_adapter_preview_approval_gate": True,
-        "permissioned_external_api_dry_run_preview_schema": True,
-        "external_api_dry_run_approval_gate": True,
-        "api_endpoint_preview_registry": True,
-        "request_envelope_validation": True,
-        "credential_absence_proof": True,
-        "outbound_call_prevention_proof": True,
-        "dry_run_response_fixture_contract": True,
-        "external_api_audit_proof": True,
-        "external_api_dry_run_ledger": True,
-        "external_api_dry_run_readiness_summary": True,
-        "controlled_multi_worker_audit_replay_preview_readiness_bridge": True,
-        "external_tool_dry_run_adapter_registry": True,
-        "per_tool_external_permission_gate": True,
-        "external_request_preview_contract": True,
-        "external_response_validation_schema": True,
-        "external_response_validation_preview_result": True,
-        "external_tool_abort_contract": True,
-        "external_tool_audit_proof": True,
-        "external_tool_preview_ledger": True,
-        "external_tool_preview_readiness_summary": True,
-        "permissioned_external_api_dry_run_preview_readiness_bridge": True,
-        "runtime_index_entry": runtime_index_entry,
-                "manifest": {
+        "multi_worker_sandbox_coordination_readiness_bridge": result.get("multi_worker_sandbox_coordination_readiness_bridge"),
+        "multi_worker_sandbox_coordination_bundle": result.get("multi_worker_sandbox_coordination_bundle"),
+        "multi_worker_sandbox_coordination_schema": result.get("multi_worker_sandbox_coordination_schema"),
+        "multi_worker_coordination_approval_gate": result.get("multi_worker_coordination_approval_gate"),
+        "sandbox_worker_roster": result.get("sandbox_worker_roster"),
+        "worker_coordination_graph": result.get("worker_coordination_graph"),
+        "inter_worker_handoff_contract": result.get("inter_worker_handoff_contract"),
+        "multi_worker_dry_run_ledger": result.get("multi_worker_dry_run_ledger"),
+        "coordination_conflict_detector": result.get("coordination_conflict_detector"),
+        "coordination_abort_contract": result.get("coordination_abort_contract"),
+        "coordination_quarantine_contract": result.get("coordination_quarantine_contract"),
+        "coordination_audit_proof": result.get("coordination_audit_proof"),
+        "coordination_readiness_summary": result.get("coordination_readiness_summary"),
+        "controlled_external_tool_adapter_preview_readiness_bridge": result.get("controlled_external_tool_adapter_preview_readiness_bridge"),
+        "controlled_external_tool_adapter_preview_bundle": result.get("controlled_external_tool_adapter_preview_bundle"),
+        "controlled_external_tool_adapter_preview_schema": result.get("controlled_external_tool_adapter_preview_schema"),
+        "external_tool_adapter_preview_approval_gate": result.get("external_tool_adapter_preview_approval_gate"),
+        "external_tool_dry_run_adapter_registry": result.get("external_tool_dry_run_adapter_registry"),
+        "per_tool_external_permission_gate": result.get("per_tool_external_permission_gate"),
+        "external_request_preview_contract": result.get("external_request_preview_contract"),
+        "external_response_validation_schema": result.get("external_response_validation_schema"),
+        "external_response_validation_preview_result": result.get("external_response_validation_preview_result"),
+        "external_tool_abort_contract": result.get("external_tool_abort_contract"),
+        "external_tool_audit_proof": result.get("external_tool_audit_proof"),
+        "external_tool_preview_ledger": result.get("external_tool_preview_ledger"),
+        "external_tool_preview_readiness_summary": result.get("external_tool_preview_readiness_summary"),
+        "permissioned_external_api_dry_run_preview_readiness_bridge": result.get("permissioned_external_api_dry_run_preview_readiness_bridge"),
+        "permissioned_external_api_dry_run_preview_bundle": result.get("permissioned_external_api_dry_run_preview_bundle"),
+        "permissioned_external_api_dry_run_preview_schema": result.get("permissioned_external_api_dry_run_preview_schema"),
+        "external_api_dry_run_approval_gate": result.get("external_api_dry_run_approval_gate"),
+        "api_endpoint_preview_registry": result.get("api_endpoint_preview_registry"),
+        "request_envelope_validation": result.get("request_envelope_validation"),
+        "credential_absence_proof": result.get("credential_absence_proof"),
+        "outbound_call_prevention_proof": result.get("outbound_call_prevention_proof"),
+        "dry_run_response_fixture_contract": result.get("dry_run_response_fixture_contract"),
+        "external_api_audit_proof": result.get("external_api_audit_proof"),
+        "external_api_dry_run_ledger": result.get("external_api_dry_run_ledger"),
+        "external_api_dry_run_readiness_summary": result.get("external_api_dry_run_readiness_summary"),
+        "controlled_multi_worker_audit_replay_preview_readiness_bridge": result.get("controlled_multi_worker_audit_replay_preview_readiness_bridge"),
+        "controlled_multi_worker_audit_replay_preview_bundle": result.get("controlled_multi_worker_audit_replay_preview_bundle"),
+        "controlled_multi_worker_audit_replay_preview_schema": result.get("controlled_multi_worker_audit_replay_preview_schema"),
+        "audit_replay_preview_approval_gate": result.get("audit_replay_preview_approval_gate"),
+        "replay_packet_registry": result.get("replay_packet_registry"),
+        "deterministic_replay_plan_contract": result.get("deterministic_replay_plan_contract"),
+        "replay_safety_gate": result.get("replay_safety_gate"),
+        "multi_worker_replay_comparison_proof": result.get("multi_worker_replay_comparison_proof"),
+        "replay_output_quarantine_contract": result.get("replay_output_quarantine_contract"),
+        "replay_audit_proof": result.get("replay_audit_proof"),
+        "replay_preview_ledger": result.get("replay_preview_ledger"),
+        "replay_readiness_summary": result.get("replay_readiness_summary"),
+        "operator_approval_queue_enforcement_readiness_bridge": result.get("operator_approval_queue_enforcement_readiness_bridge"),
+        "operator_approval_queue_enforcement_bundle": result.get("operator_approval_queue_enforcement_bundle"),
+        "operator_approval_queue_enforcement_schema": result.get("operator_approval_queue_enforcement_schema"),
+        "operator_approval_queue_enforcement_approval_gate": result.get("operator_approval_queue_enforcement_approval_gate"),
+        "queued_action_registry": result.get("queued_action_registry"),
+        "approval_item_priority_classifier": result.get("approval_item_priority_classifier"),
+        "operator_decision_contract": result.get("operator_decision_contract"),
+        "approval_expiry_stale_item_detector": result.get("approval_expiry_stale_item_detector"),
+        "queue_enforcement_safety_gate": result.get("queue_enforcement_safety_gate"),
+        "approval_queue_audit_proof": result.get("approval_queue_audit_proof"),
+        "approval_queue_ledger": result.get("approval_queue_ledger"),
+        "approval_queue_readiness_summary": result.get("approval_queue_readiness_summary"),
+        "release_candidate_hardening_readiness_bridge": result.get("release_candidate_hardening_readiness_bridge"),
+        "release_candidate_hardening_bundle": result.get("release_candidate_hardening_bundle"),
+        "release_candidate_hardening_schema": result.get("release_candidate_hardening_schema"),
+        "release_candidate_hardening_approval_gate": result.get("release_candidate_hardening_approval_gate"),
+        "full_runtime_invariant_scan": result.get("full_runtime_invariant_scan"),
+        "validator_chain_lock_proof": result.get("validator_chain_lock_proof"),
+        "artifact_contract_freeze_manifest": result.get("artifact_contract_freeze_manifest"),
+        "known_issue_register": result.get("known_issue_register"),
+        "pre_v3_production_readiness_checklist": result.get("pre_v3_production_readiness_checklist"),
+        "release_candidate_safety_gate": result.get("release_candidate_safety_gate"),
+        "release_candidate_audit_proof": result.get("release_candidate_audit_proof"),
+        "release_candidate_ledger": result.get("release_candidate_ledger"),
+        "release_candidate_readiness_summary": result.get("release_candidate_readiness_summary"),
+        "controlled_production_readiness_gate_bridge": result.get("controlled_production_readiness_gate_bridge"),
+        "controlled_production_readiness_gate_bundle": result.get("controlled_production_readiness_gate_bundle"),
+        "controlled_production_readiness_gate_schema": result.get("controlled_production_readiness_gate_schema"),
+        "controlled_production_readiness_gate_approval_gate": result.get("controlled_production_readiness_gate_approval_gate"),
+        "production_activation_denial_by_default": result.get("production_activation_denial_by_default"),
+        "final_human_approval_requirement": result.get("final_human_approval_requirement"),
+        "production_capability_manifest": result.get("production_capability_manifest"),
+        "supervised_pilot_eligibility_contract": result.get("supervised_pilot_eligibility_contract"),
+        "production_rollback_kill_switch_preview": result.get("production_rollback_kill_switch_preview"),
+        "production_readiness_audit_proof": result.get("production_readiness_audit_proof"),
+        "production_readiness_ledger": result.get("production_readiness_ledger"),
+        "production_readiness_summary": result.get("production_readiness_summary"),
+        "controlled_worker_hiring_activation_pilot_bridge": result.get("controlled_worker_hiring_activation_pilot_bridge"),
+        "controlled_worker_hiring_activation_pilot_bundle": result.get("controlled_worker_hiring_activation_pilot_bundle"),
+        "controlled_worker_hiring_activation_pilot_schema": result.get("controlled_worker_hiring_activation_pilot_schema"),
+        "controlled_worker_hiring_activation_pilot_approval_gate": result.get("controlled_worker_hiring_activation_pilot_approval_gate"),
+        "pilot_worker_limit_contract": result.get("pilot_worker_limit_contract"),
+        "worker_identity_activation_contract": result.get("worker_identity_activation_contract"),
+        "task_assignment_denial_by_default": result.get("task_assignment_denial_by_default"),
+        "human_supervised_pilot_gate": result.get("human_supervised_pilot_gate"),
+        "pilot_rollback_abort_preview": result.get("pilot_rollback_abort_preview"),
+        "pilot_audit_proof": result.get("pilot_audit_proof"),
+        "pilot_ledger": result.get("pilot_ledger"),
+        "pilot_readiness_summary": result.get("pilot_readiness_summary"),
+        "first_supervised_production_dry_run_bridge": result.get("first_supervised_production_dry_run_bridge"),
+        "manifest": {
             "run_id": run_id,
             "runtime_version": "3.1.0",
             "artifact_type": "station_chief_runtime_v3_1_artifacts",
@@ -3397,40 +3543,17 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
             "devinization_overlays_preserved": True,
             "external_actions_taken": False,
             "live_worker_agents_activated": False,
-            "release_candidate_hardening_schema": result.get("release_candidate_hardening_schema") is not None,
-            "release_candidate_hardening_approval_gate": result.get("release_candidate_hardening_approval_gate") is not None,
-            "full_runtime_invariant_scan": result.get("full_runtime_invariant_scan") is not None,
-            "validator_chain_lock_proof": result.get("validator_chain_lock_proof") is not None,
-            "artifact_contract_freeze_manifest": result.get("artifact_contract_freeze_manifest") is not None,
-            "known_issue_register": result.get("known_issue_register") is not None,
-            "pre_v3_production_readiness_checklist": result.get("pre_v3_production_readiness_checklist") is not None,
-            "release_candidate_safety_gate": result.get("release_candidate_safety_gate") is not None,
-            "release_candidate_audit_proof": result.get("release_candidate_audit_proof") is not None,
-            "release_candidate_ledger": result.get("release_candidate_ledger") is not None,
-            "release_candidate_readiness_summary": release_candidate_readiness_summary is not None,
-            "controlled_production_readiness_gate_bridge": controlled_production_readiness_gate_bridge is not None,
-            "controlled_production_readiness_gate_schema": controlled_production_readiness_gate_schema is not None,
-            "controlled_production_readiness_gate_approval_gate": controlled_production_readiness_gate_approval_gate is not None,
-            "production_activation_denial_by_default": production_activation_denial_by_default is not None,
-            "final_human_approval_requirement": final_human_approval_requirement is not None,
-            "production_capability_manifest": production_capability_manifest is not None,
-            "supervised_pilot_eligibility_contract": supervised_pilot_eligibility_contract is not None,
-            "production_rollback_kill_switch_preview": production_rollback_kill_switch_preview is not None,
-            "production_readiness_audit_proof": production_readiness_audit_proof is not None,
-            "production_readiness_ledger": production_readiness_ledger is not None,
-            "production_readiness_summary": production_readiness_summary is not None,
-            "controlled_worker_hiring_activation_pilot_bridge": controlled_worker_hiring_activation_pilot_bridge is not None,
-            "controlled_worker_hiring_activation_pilot_schema": controlled_worker_hiring_activation_pilot_schema is not None,
-            "controlled_worker_hiring_activation_pilot_approval_gate": controlled_worker_hiring_activation_pilot_approval_gate is not None,
-            "pilot_worker_limit_contract": pilot_worker_limit_contract is not None,
-            "worker_identity_activation_contract": worker_identity_activation_contract is not None,
-            "task_assignment_denial_by_default": task_assignment_denial_by_default is not None,
-            "human_supervised_pilot_gate": human_supervised_pilot_gate is not None,
-            "pilot_rollback_abort_preview": pilot_rollback_abort_preview is not None,
-            "pilot_audit_proof": pilot_audit_proof is not None,
-            "pilot_ledger": pilot_ledger is not None,
-            "pilot_readiness_summary": pilot_readiness_summary is not None,
-            "first_supervised_production_dry_run_bridge": first_supervised_production_dry_run_bridge is not None,
+            "controlled_worker_hiring_activation_pilot_schema": result.get("controlled_worker_hiring_activation_pilot_schema") is not None,
+            "controlled_worker_hiring_activation_pilot_approval_gate": result.get("controlled_worker_hiring_activation_pilot_approval_gate") is not None,
+            "pilot_worker_limit_contract": result.get("pilot_worker_limit_contract") is not None,
+            "worker_identity_activation_contract": result.get("worker_identity_activation_contract") is not None,
+            "task_assignment_denial_by_default": result.get("task_assignment_denial_by_default") is not None,
+            "human_supervised_pilot_gate": result.get("human_supervised_pilot_gate") is not None,
+            "pilot_rollback_abort_preview": result.get("pilot_rollback_abort_preview") is not None,
+            "pilot_audit_proof": result.get("pilot_audit_proof") is not None,
+            "pilot_ledger": result.get("pilot_ledger") is not None,
+            "pilot_readiness_summary": result.get("pilot_readiness_summary") is not None,
+            "first_supervised_production_dry_run_bridge": result.get("first_supervised_production_dry_run_bridge") is not None,
             "controlled_worker_hiring_activation_pilot_preview_only": True,
             "controlled_worker_hiring_activation_pilot_requires_token": True,
             "pilot_worker_limit_maximum_is_three": True,
@@ -3449,34 +3572,11 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
             "controlled_worker_hiring_activation_pilot_does_not_read_secrets": True,
             "controlled_worker_hiring_activation_pilot_does_not_read_environment": True,
             "controlled_worker_hiring_activation_pilot_does_not_modify_repo_files": True,
-            "controlled_production_readiness_gate_preview_only": True,
-            "controlled_production_readiness_gate_requires_token": True,
-            "production_activation_denied_by_default": True,
-            "controlled_production_readiness_gate_does_not_execute_production": True,
-            "controlled_production_readiness_gate_does_not_activate_production": True,
-            "controlled_production_readiness_gate_does_not_hire_real_workers": True,
-            "controlled_production_readiness_gate_does_not_activate_real_workers": True,
-            "controlled_production_readiness_gate_does_not_route_live_workers": True,
-            "controlled_production_readiness_gate_does_not_perform_live_orchestration": True,
-            "controlled_production_readiness_gate_does_not_execute_queued_actions": True,
-            "controlled_production_readiness_gate_does_not_auto_approve": True,
-            "controlled_production_readiness_gate_does_not_bypass_approval": True,
-            "controlled_production_readiness_gate_does_not_execute_actual_replay": True,
-            "controlled_production_readiness_gate_does_not_replay_worker_actions": True,
-            "controlled_production_readiness_gate_does_not_replay_external_tools": True,
-            "controlled_production_readiness_gate_does_not_call_live_apis": True,
-            "controlled_production_readiness_gate_does_not_use_network_access": True,
-            "controlled_production_readiness_gate_does_not_open_sockets": True,
-            "controlled_production_readiness_gate_does_not_use_credentials": True,
-            "controlled_production_readiness_gate_does_not_read_secrets": True,
-            "controlled_production_readiness_gate_does_not_read_environment": True,
-            "controlled_production_readiness_gate_does_not_modify_repo_files": True,
         },
     }
 
-
 def _write_json(path: Path, data: Any) -> None:
-    path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n")
+    path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
 
 def write_runtime_artifacts(
@@ -3640,7 +3740,6 @@ def write_runtime_artifacts(
         "controlled_worker_execution_result.json": artifacts.get("controlled_worker_execution_result"),
         "post_run_audit_proof.json": artifacts.get("post_run_audit_proof"),
         "worker_execution_ledger.json": artifacts.get("worker_execution_ledger"),
-        "live_execution_telemetry_abort_readiness_bridge.json": artifacts.get("live_execution_telemetry_abort_readiness_bridge"),
         "live_execution_telemetry_abort_bundle.json": artifacts.get("live_execution_telemetry_abort_bundle"),
         "live_execution_telemetry_abort_schema.json": artifacts.get("live_execution_telemetry_abort_schema"),
         "telemetry_event_schema.json": artifacts.get("telemetry_event_schema"),
@@ -3681,9 +3780,9 @@ def write_runtime_artifacts(
         "coordination_audit_proof.json": artifacts.get("coordination_audit_proof"),
         "coordination_readiness_summary.json": artifacts.get("coordination_readiness_summary"),
         "controlled_external_tool_adapter_preview_readiness_bridge.json": artifacts.get("controlled_external_tool_adapter_preview_readiness_bridge"),
-        "controlled_external_tool_adapter_preview_bundle.json": artifacts.get("controlled_external_tool_adapter_preview_bundle"),
-        "controlled_external_tool_adapter_preview_schema.json": artifacts.get("controlled_external_tool_adapter_preview_schema"),
-        "external_tool_adapter_preview_approval_gate.json": artifacts.get("external_tool_adapter_preview_approval_gate"),
+        "controlled_external_tool_adapter_preview_bundle": artifacts.get("controlled_external_tool_adapter_preview_bundle"),
+        "controlled_external_tool_adapter_preview_schema": artifacts.get("controlled_external_tool_adapter_preview_schema"),
+        "external_tool_adapter_preview_approval_gate": artifacts.get("external_tool_adapter_preview_approval_gate"),
         "external_tool_dry_run_adapter_registry.json": artifacts.get("external_tool_dry_run_adapter_registry"),
         "per_tool_external_permission_gate.json": artifacts.get("per_tool_external_permission_gate"),
         "external_request_preview_contract.json": artifacts.get("external_request_preview_contract"),
@@ -3694,19 +3793,79 @@ def write_runtime_artifacts(
         "external_tool_preview_ledger.json": artifacts.get("external_tool_preview_ledger"),
         "external_tool_preview_readiness_summary.json": artifacts.get("external_tool_preview_readiness_summary"),
         "permissioned_external_api_dry_run_preview_readiness_bridge.json": artifacts.get("permissioned_external_api_dry_run_preview_readiness_bridge"),
-        "tool_permission_binding_bundle.json": artifacts.get("tool_permission_binding_bundle"),
-        "tool_permission_binding_schema.json": artifacts.get("tool_permission_binding_schema"),
-        "per_tool_permission_registry.json": artifacts.get("per_tool_permission_registry"),
-        "tool_permission_request_validation.json": artifacts.get("tool_permission_request_validation"),
-        "tool_specific_approval_binding.json": artifacts.get("tool_specific_approval_binding"),
-        "tool_invocation_dry_run_contract.json": artifacts.get("tool_invocation_dry_run_contract"),
-        "tool_output_validation_schema.json": artifacts.get("tool_output_validation_schema"),
-        "tool_output_validation_result.json": artifacts.get("tool_output_validation_result"),
-        "tool_failure_handling_contract.json": artifacts.get("tool_failure_handling_contract"),
-        "tool_revocation_contract.json": artifacts.get("tool_revocation_contract"),
-        "per_run_permission_audit_proof.json": artifacts.get("per_run_permission_audit_proof"),
-        "tool_permission_ledger.json": artifacts.get("tool_permission_ledger"),
-        "tool_permission_readiness_summary.json": artifacts.get("tool_permission_readiness_summary"),
+        "permissioned_external_api_dry_run_preview_bundle": artifacts.get("permissioned_external_api_dry_run_preview_bundle"),
+        "permissioned_external_api_dry_run_preview_schema.json": artifacts.get("permissioned_external_api_dry_run_preview_schema"),
+        "external_api_dry_run_approval_gate.json": artifacts.get("external_api_dry_run_approval_gate"),
+        "api_endpoint_preview_registry.json": artifacts.get("api_endpoint_preview_registry"),
+        "request_envelope_validation.json": artifacts.get("request_envelope_validation"),
+        "credential_absence_proof.json": artifacts.get("credential_absence_proof"),
+        "outbound_call_prevention_proof.json": artifacts.get("outbound_call_prevention_proof"),
+        "dry_run_response_fixture_contract.json": artifacts.get("dry_run_response_fixture_contract"),
+        "external_api_audit_proof.json": artifacts.get("external_api_audit_proof"),
+        "external_api_dry_run_ledger.json": artifacts.get("external_api_dry_run_ledger"),
+        "external_api_dry_run_readiness_summary.json": artifacts.get("external_api_dry_run_readiness_summary"),
+        "controlled_multi_worker_audit_replay_preview_readiness_bridge.json": artifacts.get("controlled_multi_worker_audit_replay_preview_readiness_bridge"),
+        "controlled_multi_worker_audit_replay_preview_bundle": artifacts.get("controlled_multi_worker_audit_replay_preview_bundle"),
+        "controlled_multi_worker_audit_replay_preview_schema.json": artifacts.get("controlled_multi_worker_audit_replay_preview_schema"),
+        "audit_replay_preview_approval_gate.json": artifacts.get("audit_replay_preview_approval_gate"),
+        "replay_packet_registry.json": artifacts.get("replay_packet_registry"),
+        "deterministic_replay_plan_contract.json": artifacts.get("deterministic_replay_plan_contract"),
+        "replay_safety_gate.json": artifacts.get("replay_safety_gate"),
+        "multi_worker_replay_comparison_proof.json": artifacts.get("multi_worker_replay_comparison_proof"),
+        "replay_output_quarantine_contract.json": artifacts.get("replay_output_quarantine_contract"),
+        "replay_audit_proof.json": artifacts.get("replay_audit_proof"),
+        "replay_preview_ledger.json": artifacts.get("replay_preview_ledger"),
+        "replay_readiness_summary.json": artifacts.get("replay_readiness_summary"),
+        "operator_approval_queue_enforcement_readiness_bridge.json": artifacts.get("operator_approval_queue_enforcement_readiness_bridge"),
+        "operator_approval_queue_enforcement_bundle": artifacts.get("operator_approval_queue_enforcement_bundle"),
+        "operator_approval_queue_enforcement_schema.json": artifacts.get("operator_approval_queue_enforcement_schema"),
+        "operator_approval_queue_enforcement_approval_gate.json": artifacts.get("operator_approval_queue_enforcement_approval_gate"),
+        "queued_action_registry.json": artifacts.get("queued_action_registry"),
+        "approval_item_priority_classifier.json": artifacts.get("approval_item_priority_classifier"),
+        "operator_decision_contract.json": artifacts.get("operator_decision_contract"),
+        "approval_expiry_stale_item_detector.json": artifacts.get("approval_expiry_stale_item_detector"),
+        "queue_enforcement_safety_gate.json": artifacts.get("queue_enforcement_safety_gate"),
+        "approval_queue_audit_proof.json": artifacts.get("approval_queue_audit_proof"),
+        "approval_queue_ledger.json": artifacts.get("approval_queue_ledger"),
+        "approval_queue_readiness_summary.json": artifacts.get("approval_queue_readiness_summary"),
+        "release_candidate_hardening_readiness_bridge.json": artifacts.get("release_candidate_hardening_readiness_bridge"),
+        "release_candidate_hardening_bundle": artifacts.get("release_candidate_hardening_bundle"),
+        "release_candidate_hardening_schema.json": artifacts.get("release_candidate_hardening_schema"),
+        "release_candidate_hardening_approval_gate.json": artifacts.get("release_candidate_hardening_approval_gate"),
+        "full_runtime_invariant_scan.json": artifacts.get("full_runtime_invariant_scan"),
+        "validator_chain_lock_proof.json": artifacts.get("validator_chain_lock_proof"),
+        "artifact_contract_freeze_manifest.json": artifacts.get("artifact_contract_freeze_manifest"),
+        "known_issue_register.json": artifacts.get("known_issue_register"),
+        "pre_v3_production_readiness_checklist.json": artifacts.get("pre_v3_production_readiness_checklist"),
+        "release_candidate_safety_gate.json": artifacts.get("release_candidate_safety_gate"),
+        "release_candidate_audit_proof.json": artifacts.get("release_candidate_audit_proof"),
+        "release_candidate_ledger.json": artifacts.get("release_candidate_ledger"),
+        "release_candidate_readiness_summary.json": artifacts.get("release_candidate_readiness_summary"),
+        "controlled_production_readiness_gate_bridge.json": artifacts.get("controlled_production_readiness_gate_bridge"),
+        "controlled_production_readiness_gate_bundle.json": artifacts.get("controlled_production_readiness_gate_bundle"),
+        "controlled_production_readiness_gate_schema.json": artifacts.get("controlled_production_readiness_gate_schema"),
+        "controlled_production_readiness_gate_approval_gate.json": artifacts.get("controlled_production_readiness_gate_approval_gate"),
+        "production_activation_denial_by_default.json": artifacts.get("production_activation_denial_by_default"),
+        "final_human_approval_requirement.json": artifacts.get("final_human_approval_requirement"),
+        "production_capability_manifest.json": artifacts.get("production_capability_manifest"),
+        "supervised_pilot_eligibility_contract.json": artifacts.get("supervised_pilot_eligibility_contract"),
+        "production_rollback_kill_switch_preview.json": artifacts.get("production_rollback_kill_switch_preview"),
+        "production_readiness_audit_proof.json": artifacts.get("production_readiness_audit_proof"),
+        "production_readiness_ledger.json": artifacts.get("production_readiness_ledger"),
+        "production_readiness_summary.json": artifacts.get("production_readiness_summary"),
+        "controlled_worker_hiring_activation_pilot_bridge.json": artifacts.get("controlled_worker_hiring_activation_pilot_bridge"),
+        "controlled_worker_hiring_activation_pilot_bundle.json": artifacts.get("controlled_worker_hiring_activation_pilot_bundle"),
+        "controlled_worker_hiring_activation_pilot_schema.json": artifacts.get("controlled_worker_hiring_activation_pilot_schema"),
+        "controlled_worker_hiring_activation_pilot_approval_gate.json": artifacts.get("controlled_worker_hiring_activation_pilot_approval_gate"),
+        "pilot_worker_limit_contract.json": artifacts.get("pilot_worker_limit_contract"),
+        "worker_identity_activation_contract.json": artifacts.get("worker_identity_activation_contract"),
+        "task_assignment_denial_by_default.json": artifacts.get("task_assignment_denial_by_default"),
+        "human_supervised_pilot_gate.json": artifacts.get("human_supervised_pilot_gate"),
+        "pilot_rollback_abort_preview.json": artifacts.get("pilot_rollback_abort_preview"),
+        "pilot_audit_proof.json": artifacts.get("pilot_audit_proof"),
+        "pilot_ledger.json": artifacts.get("pilot_ledger"),
+        "pilot_readiness_summary.json": artifacts.get("pilot_readiness_summary"),
+        "first_supervised_production_dry_run_bridge.json": artifacts.get("first_supervised_production_dry_run_bridge"),
         "runtime_index_entry.json": artifacts["runtime_index_entry"],
         "manifest.json": artifacts["manifest"],
         "full_result.json": result,
@@ -3733,7 +3892,6 @@ def write_runtime_artifacts(
         "registry_updated": registry_updated,
         "registry_dir": registry_dir_str,
     }
-
 
 def run_fixture_tests() -> dict:
     cases = load_json("10_runtime/station_chief_demo_cases.json")["demo_cases"]
