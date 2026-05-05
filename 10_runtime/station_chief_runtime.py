@@ -165,6 +165,11 @@ from station_chief_supervised_production_pilot_readiness_review import (
     create_supervised_production_pilot_readiness_review_bundle,
     create_supervised_production_pilot_readiness_review_schema,
 )
+from station_chief_credential_vault_denial_secret_handling_proof import (
+    CREDENTIAL_VAULT_DENIAL_SECRET_HANDLING_PROOF_APPROVAL_TOKEN,
+    create_credential_vault_denial_secret_handling_proof_bundle,
+    create_credential_vault_denial_secret_handling_proof_schema,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -174,7 +179,7 @@ from station_chief_execution_profiles import (
     select_execution_profile,
 )
 
-STATION_CHIEF_RUNTIME_VERSION = "3.6.0"
+STATION_CHIEF_RUNTIME_VERSION = "3.7.0"
 
 EXPECTED_OVERLAYS = [
     {
@@ -380,7 +385,7 @@ def normalize_command_for_id(command: str) -> str:
 def generate_run_id(command: str, run_label: str = "station-chief-runtime") -> str:
     normalized = normalize_command_for_id(command)
     digest = hashlib.sha256(f"{STATION_CHIEF_RUNTIME_VERSION}:{run_label}:{command}".encode("utf-8")).hexdigest()
-    return f"station-chief-v3-6-{normalized}-{digest[:12]}"
+    return f"station-chief-v3-7-{normalized}-{digest[:12]}"
 
 
 def classify_command(command: str) -> str:
@@ -554,6 +559,18 @@ def build_demo_evidence() -> dict[str, bool]:
         "supervised_production_pilot_readiness_review_does_not_perform_live_orchestration": True,
         "supervised_production_pilot_readiness_review_does_not_modify_repo_files": True,
         "credential_vault_denial_secret_handling_proof_not_yet_active": True,
+        "credential_vault_denial_secret_handling_proof_available": True,
+        "credential_vault_denial_secret_handling_proof_preview_only": True,
+        "credential_vault_denial_secret_handling_proof_requires_token": True,
+        "credential_vault_denial_secret_handling_proof_does_not_access_credentials": True,
+        "credential_vault_denial_secret_handling_proof_does_not_read_secrets": True,
+        "credential_vault_denial_secret_handling_proof_does_not_read_environment": True,
+        "credential_vault_denial_secret_handling_proof_does_not_call_live_apis": True,
+        "credential_vault_denial_secret_handling_proof_does_not_use_network_access": True,
+        "credential_vault_denial_secret_handling_proof_does_not_open_sockets": True,
+        "credential_vault_denial_secret_handling_proof_does_not_deploy": True,
+        "credential_vault_denial_secret_handling_proof_does_not_execute_production": True,
+        "credential_vault_denial_secret_handling_proof_does_not_modify_repo_files": True,
     }
 
 
@@ -561,7 +578,7 @@ def load_registry(registry_dir: str | Path) -> dict:
     registry_path = Path(registry_dir) / "run_registry.json"
     if not registry_path.exists():
         return {
-            "registry_version": "3.6.0",
+            "registry_version": "3.7.0",
             "runtime_name": "Station Chief Runtime",
             "runs": [],
         }
@@ -578,7 +595,7 @@ def update_registry(registry_dir: str | Path, index_entry: dict) -> dict:
     registry = load_registry(registry_dir)
     runs = [run for run in registry.get("runs", []) if run.get("run_id") != index_entry.get("run_id")]
     runs.append(index_entry)
-    registry["registry_version"] = "3.6.0"
+    registry["registry_version"] = "3.7.0"
     registry["runtime_name"] = "Station Chief Runtime"
     registry["runs"] = runs
     save_registry(registry_dir, registry)
@@ -587,7 +604,7 @@ def update_registry(registry_dir: str | Path, index_entry: dict) -> dict:
 
 def write_runtime_index(registry_dir: str | Path, registry: dict) -> dict:
     index = {
-        "index_version": "3.6.0",
+        "index_version": "3.7.0",
         "runtime_name": "Station Chief Runtime",
         "run_count": len(registry.get("runs", [])),
         "runs": registry.get("runs", []),
@@ -641,14 +658,14 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
     adapter_result = run_noop_adapter(execution_plan)
     return {
         "station_chief_runtime_version": STATION_CHIEF_RUNTIME_VERSION,
-        "runtime_status": "supervised_production_pilot_readiness_review",
+        "runtime_status": "credential_vault_denial_secret_handling_proof",
         "release_status": "STABLE_LOCKED",
         "command": command,
         "command_type": brief["command_type"],
         "activation_tier": brief["activation_tier"],
         "baseline_preserved": True,
         "evidence": build_demo_evidence(),
-        "next_step": "Next step: build credential vault denial and secret handling proof.",
+        "next_step": "Next step: build network/socket lockdown proof.",
         "external_actions_taken": False,
         "live_api_call_performed": False,
         "network_access_performed": False,
@@ -690,6 +707,18 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "supervised_production_pilot_readiness_review_does_not_perform_live_orchestration": True,
         "supervised_production_pilot_readiness_review_does_not_modify_repo_files": True,
         "credential_vault_denial_secret_handling_proof_not_yet_active": True,
+        "credential_vault_denial_secret_handling_proof_available": True,
+        "credential_vault_denial_secret_handling_proof_preview_only": True,
+        "credential_vault_denial_secret_handling_proof_requires_token": True,
+        "credential_vault_denial_secret_handling_proof_does_not_access_credentials": True,
+        "credential_vault_denial_secret_handling_proof_does_not_read_secrets": True,
+        "credential_vault_denial_secret_handling_proof_does_not_read_environment": True,
+        "credential_vault_denial_secret_handling_proof_does_not_call_live_apis": True,
+        "credential_vault_denial_secret_handling_proof_does_not_use_network_access": True,
+        "credential_vault_denial_secret_handling_proof_does_not_open_sockets": True,
+        "credential_vault_denial_secret_handling_proof_does_not_deploy": True,
+        "credential_vault_denial_secret_handling_proof_does_not_execute_production": True,
+        "credential_vault_denial_secret_handling_proof_does_not_modify_repo_files": True,
         "selected_overlays": brief["selected_overlays"],
         "command_brief": brief,
         "work_orders": work_orders,
@@ -989,6 +1018,19 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
             "production_pilot_readiness_ledger": True,
             "production_pilot_readiness_summary": True,
             "credential_vault_denial_secret_handling_proof_bridge": True,
+            "credential_vault_denial_secret_handling_proof_bundle": True,
+            "credential_vault_denial_secret_handling_proof_schema": True,
+            "credential_vault_denial_secret_handling_proof_approval_gate": True,
+            "credential_access_denial_contract": True,
+            "secret_read_denial_contract": True,
+            "environment_variable_denial_contract": True,
+            "credential_vault_boundary_record": True,
+            "secret_handling_boundary_record": True,
+            "environment_read_boundary_record": True,
+            "credential_secret_audit_proof": True,
+            "credential_secret_denial_ledger": True,
+            "credential_secret_readiness_summary": True,
+            "network_socket_lockdown_proof_bridge": True,
             "operator_approval_queue_enforcement_schema": True,
             "operator_approval_queue_enforcement_approval_gate": True,
             "queued_action_registry": True,
@@ -3846,7 +3888,7 @@ def write_monitored_rollback_recovery_drill(result: dict, output_dir: str | Path
         "worker_processes_started": False,
         "repo_files_modified": False,
         "execution_authorized": False,
-        "note": "Monitored Rollback and Recovery Drill v3.6.0 creates local rollback/recovery drill schema, approval gate, simulated failure trigger contract, rollback path preview, recovery checkpoint contract, quarantine/freeze preview, human recovery approval gate, recovery audit proof, rollback recovery drill ledger, readiness summary, and supervised production pilot readiness review bridge artifacts only. It does not perform real rollback, perform real recovery, terminate processes, terminate workers, change production state, roll back deployments, deploy, call live APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, invoke external tools, execute production, activate production, execute real tasks, assign live tasks, route live workers, perform live orchestration, start worker processes, run shell commands, or modify repo files.",
+        "note": "Monitored Rollback and Recovery Drill v3.6.0 creates local rollback/recovery drill schema, approval gate, simulated failure trigger contract, rollback path preview, recovery checkpoint contract, quarantine/freeze preview, human recovery approval gate, recovery audit proof, rollback recovery drill ledger, readiness summary, and supervised production pilot readiness review bridge artifacts only. It does not perform real rollback, perform real recovery, terminate processes, terminate workers, change production state, roll back deployments, deploy, call live-API requests, perform network access, open sockets, use credentials, read secrets, read environment variables, invoke external tools, execute production, activate production, execute real tasks, assign live tasks, route live workers, perform live orchestration, start worker processes, run shell commands, or modify repo files.",
     }
     _write_json(drill_dir / "monitored_rollback_recovery_drill_manifest.json", manifest)
     return {
@@ -3959,12 +4001,122 @@ def write_supervised_production_pilot_readiness_review(
         "worker_processes_started": False,
         "repo_files_modified": False,
         "execution_authorized": False,
-        "note": "Supervised Production Pilot Readiness Review v3.6.0 creates local production-readiness review schema, approval gate, minimum viable production candidate contract, human production pilot review gate, production blast-radius analysis, live action denial review, rollback availability review, credential/secret readiness denial proof, network/socket readiness denial proof, production pilot audit proof, production pilot readiness ledger, readiness summary, and credential vault denial and secret handling proof bridge artifacts only. It does not execute production, activate production, deploy, roll back deployments, perform rollback, perform recovery, terminate processes, terminate workers, change production state, call live APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, invoke external tools, assign live tasks, route live workers, perform live orchestration, start worker processes, run shell commands, or modify repo files.",
+        "note": "Supervised Production Pilot Readiness Review v3.6.0 creates local production-readiness review schema, approval gate, minimum viable production candidate contract, human production pilot review gate, production blast-radius analysis, live action denial review, rollback availability review, credential/secret readiness denial proof, network/socket readiness denial proof, production pilot audit proof, production pilot readiness ledger, readiness summary, and credential vault denial and secret handling proof bridge artifacts only. It does not execute production, activate production, deploy, roll back deployments, perform rollback, perform recovery, terminate processes, terminate workers, change production state, call live-API requests, perform network access, open sockets, use credentials, read secrets, read environment variables, invoke external tools, assign live tasks, route live workers, perform live orchestration, start worker processes, run shell commands, or modify repo files.",
     }
     _write_json(review_dir / "supervised_production_pilot_readiness_review_manifest.json", manifest)
     return {
         "run_id": run_id,
         "supervised_production_pilot_readiness_review_dir": str(review_dir),
+        "files_written": manifest["files_written"],
+    }
+
+
+def attach_credential_vault_denial_secret_handling_proof(
+    result: dict,
+    credential_secret_label: str | None = None,
+    confirmation_token: str | None = None,
+    credential_boundary_label: str | None = None,
+    secret_boundary_label: str | None = None,
+    environment_boundary_label: str | None = None,
+) -> dict:
+    if "supervised_production_pilot_readiness_review_bundle" not in result:
+        result = attach_supervised_production_pilot_readiness_review(result)
+
+    bundle = create_credential_vault_denial_secret_handling_proof_bundle(
+        result,
+        command=result.get("command", ""),
+        credential_secret_label=credential_secret_label,
+        confirmation_token=confirmation_token,
+        credential_boundary_label=credential_boundary_label,
+        secret_boundary_label=secret_boundary_label,
+        environment_boundary_label=environment_boundary_label,
+    )
+    result["credential_vault_denial_secret_handling_proof_bundle"] = bundle
+    result["credential_vault_denial_secret_handling_proof_schema"] = bundle["credential_vault_denial_secret_handling_proof_schema"]
+    result["credential_vault_denial_secret_handling_proof_approval_gate"] = bundle["credential_vault_denial_secret_handling_proof_approval_gate"]
+    result["credential_access_denial_contract"] = bundle["credential_access_denial_contract"]
+    result["secret_read_denial_contract"] = bundle["secret_read_denial_contract"]
+    result["environment_variable_denial_contract"] = bundle["environment_variable_denial_contract"]
+    result["credential_vault_boundary_record"] = bundle["credential_vault_boundary_record"]
+    result["secret_handling_boundary_record"] = bundle["secret_handling_boundary_record"]
+    result["environment_read_boundary_record"] = bundle["environment_read_boundary_record"]
+    result["credential_secret_audit_proof"] = bundle["credential_secret_audit_proof"]
+    result["credential_secret_denial_ledger"] = bundle["credential_secret_denial_ledger"]
+    result["credential_secret_readiness_summary"] = bundle["credential_secret_readiness_summary"]
+    result["network_socket_lockdown_proof_bridge"] = bundle["network_socket_lockdown_proof_bridge"]
+    return result
+
+
+def write_credential_vault_denial_secret_handling_proof(
+    result: dict,
+    output_dir: str | Path,
+    run_label: str = "station-chief-runtime",
+) -> dict:
+    if "credential_vault_denial_secret_handling_proof_bundle" not in result:
+        raise ValueError(
+            "credential_vault_denial_secret_handling_proof_bundle not found in result. Call attach_credential_vault_denial_secret_handling_proof first."
+        )
+
+    out_path = Path(output_dir).expanduser().resolve()
+    run_id = generate_run_id(result.get("command", ""), run_label=run_label)
+    proof_dir = out_path / run_id
+    proof_dir.mkdir(parents=True, exist_ok=True)
+
+    files_to_write = {
+        "credential_vault_denial_secret_handling_proof_bundle.json": result["credential_vault_denial_secret_handling_proof_bundle"],
+        "credential_vault_denial_secret_handling_proof_schema.json": result["credential_vault_denial_secret_handling_proof_schema"],
+        "credential_vault_denial_secret_handling_proof_approval_gate.json": result["credential_vault_denial_secret_handling_proof_approval_gate"],
+        "credential_access_denial_contract.json": result["credential_access_denial_contract"],
+        "secret_read_denial_contract.json": result["secret_read_denial_contract"],
+        "environment_variable_denial_contract.json": result["environment_variable_denial_contract"],
+        "credential_vault_boundary_record.json": result["credential_vault_boundary_record"],
+        "secret_handling_boundary_record.json": result["secret_handling_boundary_record"],
+        "environment_read_boundary_record.json": result["environment_read_boundary_record"],
+        "credential_secret_audit_proof.json": result["credential_secret_audit_proof"],
+        "credential_secret_denial_ledger.json": result["credential_secret_denial_ledger"],
+        "credential_secret_readiness_summary.json": result["credential_secret_readiness_summary"],
+        "network_socket_lockdown_proof_bridge.json": result["network_socket_lockdown_proof_bridge"],
+    }
+    files_written = list(files_to_write.keys())
+    for filename, payload in files_to_write.items():
+        _write_json(proof_dir / filename, payload)
+
+    manifest = {
+        "credential_vault_denial_secret_handling_proof_manifest_version": "3.7.0",
+        "run_id": run_id,
+        "runtime_version": "3.7.0",
+        "status": "CREDENTIAL_VAULT_DENIAL_SECRET_HANDLING_PROOF_PREVIEW_ONLY",
+        "files_written": files_written + ["credential_vault_denial_secret_handling_proof_manifest.json"],
+        "baseline_preserved": True,
+        "external_actions_taken": False,
+        "credential_vault_access_performed": False,
+        "credentials_used": False,
+        "secrets_read": False,
+        "environment_read": False,
+        "tokens_read": False,
+        "api_keys_read": False,
+        "oauth_used": False,
+        "service_account_used": False,
+        "live_api_call_performed": False,
+        "network_access_performed": False,
+        "socket_opened": False,
+        "deployment_performed": False,
+        "production_execution_performed": False,
+        "production_activation_performed": False,
+        "real_external_tool_invocation_performed": False,
+        "real_task_execution_performed": False,
+        "live_task_assignment_performed": False,
+        "live_worker_routing_performed": False,
+        "live_orchestration_performed": False,
+        "worker_processes_started": False,
+        "repo_files_modified": False,
+        "execution_authorized": False,
+        "note": "Credential Vault Denial and Secret Handling Proof v3.7.0 creates deterministic local denial schemas, approval gates, denial contracts, boundary records, audit proofs, denial ledgers, readiness summaries, and a bridge to Network/Socket Lockdown Proof only. It does not access credential vaults, use credentials, read secrets, read environment variables, call live-API requests, perform network access, open sockets, deploy, execute production, execute real tasks, assign live tasks, route live workers, perform live orchestration, start worker processes, run shell commands, or modify repo files.",
+    }
+    _write_json(proof_dir / "credential_vault_denial_secret_handling_proof_manifest.json", manifest)
+    return {
+        "run_id": run_id,
+        "credential_vault_denial_secret_handling_proof_dir": str(proof_dir),
         "files_written": manifest["files_written"],
     }
 
@@ -4066,6 +4218,19 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
     production_pilot_readiness_ledger = result.get("production_pilot_readiness_ledger")
     production_pilot_readiness_summary = result.get("production_pilot_readiness_summary")
     credential_vault_denial_secret_handling_proof_bridge = result.get("credential_vault_denial_secret_handling_proof_bridge")
+    credential_vault_denial_secret_handling_proof_bundle = result.get("credential_vault_denial_secret_handling_proof_bundle")
+    credential_vault_denial_secret_handling_proof_schema = result.get("credential_vault_denial_secret_handling_proof_schema")
+    credential_vault_denial_secret_handling_proof_approval_gate = result.get("credential_vault_denial_secret_handling_proof_approval_gate")
+    credential_access_denial_contract = result.get("credential_access_denial_contract")
+    secret_read_denial_contract = result.get("secret_read_denial_contract")
+    environment_variable_denial_contract = result.get("environment_variable_denial_contract")
+    credential_vault_boundary_record = result.get("credential_vault_boundary_record")
+    secret_handling_boundary_record = result.get("secret_handling_boundary_record")
+    environment_read_boundary_record = result.get("environment_read_boundary_record")
+    credential_secret_audit_proof = result.get("credential_secret_audit_proof")
+    credential_secret_denial_ledger = result.get("credential_secret_denial_ledger")
+    credential_secret_readiness_summary = result.get("credential_secret_readiness_summary")
+    network_socket_lockdown_proof_bridge = result.get("network_socket_lockdown_proof_bridge")
     
     controlled_worker_hiring_activation_pilot_bundle = result.get("controlled_worker_hiring_activation_pilot_bundle")
     controlled_worker_hiring_activation_pilot_schema = result.get("controlled_worker_hiring_activation_pilot_schema")
@@ -4201,6 +4366,22 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
             "production_pilot_readiness_ledger.json",
             "production_pilot_readiness_summary.json",
             "credential_vault_denial_secret_handling_proof_bridge.json",
+        ])
+    if result.get("credential_vault_denial_secret_handling_proof_bundle"):
+        files_planned.extend([
+            "credential_vault_denial_secret_handling_proof_bundle.json",
+            "credential_vault_denial_secret_handling_proof_schema.json",
+            "credential_vault_denial_secret_handling_proof_approval_gate.json",
+            "credential_access_denial_contract.json",
+            "secret_read_denial_contract.json",
+            "environment_variable_denial_contract.json",
+            "credential_vault_boundary_record.json",
+            "secret_handling_boundary_record.json",
+            "environment_read_boundary_record.json",
+            "credential_secret_audit_proof.json",
+            "credential_secret_denial_ledger.json",
+            "credential_secret_readiness_summary.json",
+            "network_socket_lockdown_proof_bridge.json",
         ])
     if controlled_worker_hiring_activation_pilot_bundle:
         files_planned.extend(["controlled_worker_hiring_activation_pilot_bundle.json", "controlled_worker_hiring_activation_pilot_schema.json", "controlled_worker_hiring_activation_pilot_approval_gate.json", "pilot_worker_limit_contract.json", "worker_identity_activation_contract.json", "task_assignment_denial_by_default.json", "human_supervised_pilot_gate.json", "pilot_rollback_abort_preview.json", "pilot_audit_proof.json", "pilot_ledger.json", "pilot_readiness_summary.json", "first_supervised_production_dry_run_bridge.json"])
@@ -4533,6 +4714,19 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "production_pilot_readiness_ledger": production_pilot_readiness_ledger,
         "production_pilot_readiness_summary": production_pilot_readiness_summary,
         "credential_vault_denial_secret_handling_proof_bridge": credential_vault_denial_secret_handling_proof_bridge,
+        "credential_vault_denial_secret_handling_proof_bundle": credential_vault_denial_secret_handling_proof_bundle,
+        "credential_vault_denial_secret_handling_proof_schema": credential_vault_denial_secret_handling_proof_schema,
+        "credential_vault_denial_secret_handling_proof_approval_gate": credential_vault_denial_secret_handling_proof_approval_gate,
+        "credential_access_denial_contract": credential_access_denial_contract,
+        "secret_read_denial_contract": secret_read_denial_contract,
+        "environment_variable_denial_contract": environment_variable_denial_contract,
+        "credential_vault_boundary_record": credential_vault_boundary_record,
+        "secret_handling_boundary_record": secret_handling_boundary_record,
+        "environment_read_boundary_record": environment_read_boundary_record,
+        "credential_secret_audit_proof": credential_secret_audit_proof,
+        "credential_secret_denial_ledger": credential_secret_denial_ledger,
+        "credential_secret_readiness_summary": credential_secret_readiness_summary,
+        "network_socket_lockdown_proof_bridge": network_socket_lockdown_proof_bridge,
         "controlled_worker_hiring_activation_pilot_bundle": controlled_worker_hiring_activation_pilot_bundle,
         "controlled_worker_hiring_activation_pilot_schema": result.get("controlled_worker_hiring_activation_pilot_schema"),
         "controlled_worker_hiring_activation_pilot_approval_gate": result.get("controlled_worker_hiring_activation_pilot_approval_gate"),
@@ -4547,8 +4741,8 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "first_supervised_production_dry_run_bridge": result.get("first_supervised_production_dry_run_bridge"),
         "manifest": {
             "run_id": run_id,
-            "runtime_version": "3.6.0",
-            "artifact_type": "station_chief_runtime_v3_6_artifacts",
+            "runtime_version": "3.7.0",
+            "artifact_type": "station_chief_runtime_v3_7_artifacts",
             "files_planned": files_planned,
             "baseline_preserved": True,
             "devinization_overlays_preserved": True,
@@ -4664,6 +4858,18 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
             "supervised_production_pilot_readiness_review_does_not_perform_live_orchestration": True,
             "supervised_production_pilot_readiness_review_does_not_modify_repo_files": True,
             "credential_vault_denial_secret_handling_proof_not_yet_active": True,
+            "credential_vault_denial_secret_handling_proof_available": True,
+            "credential_vault_denial_secret_handling_proof_preview_only": True,
+            "credential_vault_denial_secret_handling_proof_requires_token": True,
+            "credential_vault_denial_secret_handling_proof_does_not_access_credentials": True,
+            "credential_vault_denial_secret_handling_proof_does_not_read_secrets": True,
+            "credential_vault_denial_secret_handling_proof_does_not_read_environment": True,
+            "credential_vault_denial_secret_handling_proof_does_not_call_live_apis": True,
+            "credential_vault_denial_secret_handling_proof_does_not_use_network_access": True,
+            "credential_vault_denial_secret_handling_proof_does_not_open_sockets": True,
+            "credential_vault_denial_secret_handling_proof_does_not_deploy": True,
+            "credential_vault_denial_secret_handling_proof_does_not_execute_production": True,
+            "credential_vault_denial_secret_handling_proof_does_not_modify_repo_files": True,
             "controlled_worker_hiring_activation_pilot_schema": result.get("controlled_worker_hiring_activation_pilot_schema") is not None,
             "controlled_worker_hiring_activation_pilot_approval_gate": result.get("controlled_worker_hiring_activation_pilot_approval_gate") is not None,
             "pilot_worker_limit_contract": result.get("pilot_worker_limit_contract") is not None,
@@ -5081,6 +5287,19 @@ def write_runtime_artifacts(
         "production_pilot_readiness_ledger.json": artifacts.get("production_pilot_readiness_ledger"),
         "production_pilot_readiness_summary.json": artifacts.get("production_pilot_readiness_summary"),
         "credential_vault_denial_secret_handling_proof_bridge.json": artifacts.get("credential_vault_denial_secret_handling_proof_bridge"),
+        "credential_vault_denial_secret_handling_proof_bundle.json": artifacts.get("credential_vault_denial_secret_handling_proof_bundle"),
+        "credential_vault_denial_secret_handling_proof_schema.json": artifacts.get("credential_vault_denial_secret_handling_proof_schema"),
+        "credential_vault_denial_secret_handling_proof_approval_gate.json": artifacts.get("credential_vault_denial_secret_handling_proof_approval_gate"),
+        "credential_access_denial_contract.json": artifacts.get("credential_access_denial_contract"),
+        "secret_read_denial_contract.json": artifacts.get("secret_read_denial_contract"),
+        "environment_variable_denial_contract.json": artifacts.get("environment_variable_denial_contract"),
+        "credential_vault_boundary_record.json": artifacts.get("credential_vault_boundary_record"),
+        "secret_handling_boundary_record.json": artifacts.get("secret_handling_boundary_record"),
+        "environment_read_boundary_record.json": artifacts.get("environment_read_boundary_record"),
+        "credential_secret_audit_proof.json": artifacts.get("credential_secret_audit_proof"),
+        "credential_secret_denial_ledger.json": artifacts.get("credential_secret_denial_ledger"),
+        "credential_secret_readiness_summary.json": artifacts.get("credential_secret_readiness_summary"),
+        "network_socket_lockdown_proof_bridge.json": artifacts.get("network_socket_lockdown_proof_bridge"),
         "first_supervised_production_dry_run_bundle.json": artifacts.get("first_supervised_production_dry_run_bundle"),
         "first_supervised_production_dry_run_schema.json": artifacts.get("first_supervised_production_dry_run_schema"),
         "first_supervised_production_dry_run_approval_gate.json": artifacts.get("first_supervised_production_dry_run_approval_gate"),
@@ -5707,6 +5926,14 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--candidate-label", type=str, default="minimum viable production candidate preview")
     parser.add_argument("--required-production-pilot-reviewer", type=str, default="Devin O’Rourke / explicit human operator")
     parser.add_argument("--blast-radius-label", type=str, default="preview production blast-radius analysis")
+    parser.add_argument("--credential-vault-denial-secret-handling-proof-schema", action="store_true")
+    parser.add_argument("--credential-vault-denial-secret-handling-proof", action="store_true")
+    parser.add_argument("--write-credential-vault-denial-secret-handling-proof", metavar="DIR", type=str)
+    parser.add_argument("--credential-secret-label", type=str, default="station-chief-credential-vault-denial-secret-handling-proof")
+    parser.add_argument("--credential-secret-confirm-token", type=str)
+    parser.add_argument("--credential-boundary-label", type=str, default="credential vault boundary preview")
+    parser.add_argument("--secret-boundary-label", type=str, default="secret handling boundary preview")
+    parser.add_argument("--environment-boundary-label", type=str, default="environment read boundary preview")
     parser.add_argument("--supervised-external-api-pilot-schema", action="store_true")
     parser.add_argument("--supervised-external-api-pilot", action="store_true")
     parser.add_argument("--write-supervised-external-api-pilot", type=str, metavar="DIR")
@@ -5864,6 +6091,10 @@ def main() -> None:
 
     if args.first_supervised_production_dry_run_schema:
         print(json.dumps(create_first_supervised_production_dry_run_schema(), indent=2, ensure_ascii=False))
+        return
+
+    if args.credential_vault_denial_secret_handling_proof_schema:
+        print(json.dumps(create_credential_vault_denial_secret_handling_proof_schema(), indent=2, ensure_ascii=False))
         return
 
     if args.limited_external_tool_supervised_pilot_schema:
@@ -6342,6 +6573,19 @@ def main() -> None:
             quarantine_labels=args.dry_run_quarantine_label
         )
 
+    if args.write_credential_vault_denial_secret_handling_proof:
+        args.credential_vault_denial_secret_handling_proof = True
+
+    if args.credential_vault_denial_secret_handling_proof or getattr(args, "write_credential_vault_denial_secret_handling_proof", False):
+        result = attach_credential_vault_denial_secret_handling_proof(
+            result,
+            credential_secret_label=args.credential_secret_label,
+            confirmation_token=args.credential_secret_confirm_token,
+            credential_boundary_label=args.credential_boundary_label,
+            secret_boundary_label=args.secret_boundary_label,
+            environment_boundary_label=args.environment_boundary_label,
+        )
+
     if args.write_supervised_production_pilot_readiness_review:
         args.supervised_production_pilot_readiness_review = True
 
@@ -6656,6 +6900,24 @@ def main() -> None:
         )
         result = dict(result)
         result["supervised_production_pilot_readiness_review_write_summary"] = supervised_production_pilot_readiness_review_write_summary
+
+    if args.write_credential_vault_denial_secret_handling_proof:
+        if "credential_vault_denial_secret_handling_proof_bundle" not in result or result["credential_vault_denial_secret_handling_proof_bundle"] is None:
+            result = attach_credential_vault_denial_secret_handling_proof(
+                result,
+                credential_secret_label=args.credential_secret_label,
+                confirmation_token=args.credential_secret_confirm_token,
+                credential_boundary_label=args.credential_boundary_label,
+                secret_boundary_label=args.secret_boundary_label,
+                environment_boundary_label=args.environment_boundary_label,
+            )
+        credential_vault_denial_secret_handling_proof_write_summary = write_credential_vault_denial_secret_handling_proof(
+            result,
+            args.write_credential_vault_denial_secret_handling_proof,
+            run_label=args.run_label,
+        )
+        result = dict(result)
+        result["credential_vault_denial_secret_handling_proof_write_summary"] = credential_vault_denial_secret_handling_proof_write_summary
 
     if args.write_limited_external_tool_supervised_pilot:
         pilot_res = write_limited_external_tool_supervised_pilot(result, args.write_limited_external_tool_supervised_pilot)
