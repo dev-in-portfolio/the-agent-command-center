@@ -3,7 +3,7 @@ import hashlib
 import re
 from pathlib import Path
 
-WORK_ORDER_EXECUTOR_MODULE_VERSION = "3.5.0"
+WORK_ORDER_EXECUTOR_MODULE_VERSION = "3.6.0"
 WORK_ORDER_EXECUTOR_STATUS = "SKELETON_DRY_RUN_ONLY"
 WORK_ORDER_EXECUTOR_PHASE = "Work Order Executor Skeleton"
 
@@ -19,15 +19,15 @@ def normalize_work_order_label(label: str) -> str:
     normalized = re.sub(r"[^a-z0-9]+", "-", label.lower()).strip("-")
     return normalized or "work-order"
 
-def generate_work_order_id(command: str, label: str, index: int, runtime_version: str = "3.5.0") -> str:
+def generate_work_order_id(command: str, label: str, index: int, runtime_version: str = "3.6.0") -> str:
     normalized_label = normalize_work_order_label(label)
     hash_input = f"{runtime_version}:{command}:{label}:{index}"
     hash_chars = hashlib.sha256(hash_input.encode("utf-8")).hexdigest()[:12]
-    return f"work-order-v3-5-{normalized_label}-{index:03d}-{hash_chars}"
+    return f"work-order-v3-6-{normalized_label}-{index:03d}-{hash_chars}"
 
 def create_executable_work_order_schema() -> dict:
     return {
-        "executable_work_order_schema_version": "3.5.0",
+        "executable_work_order_schema_version": "3.6.0",
         "schema_status": WORK_ORDER_EXECUTOR_STATUS,
         "required_fields": [
             "work_order_id",
@@ -125,7 +125,7 @@ def create_work_order(
     work_order_id = generate_work_order_id(command, title, index)
     
     return {
-        "work_order_schema_version": "3.5.0",
+        "work_order_schema_version": "3.6.0",
         "work_order_id": work_order_id,
         "title": title,
         "description": description,
@@ -181,7 +181,7 @@ def create_work_orders_from_runtime_result(result: dict) -> list[dict]:
 
 def create_work_order_status_lifecycle() -> dict:
     return {
-        "work_order_status_lifecycle_version": "3.5.0",
+        "work_order_status_lifecycle_version": "3.6.0",
         "statuses": {
             "CREATED": {"description": "Work order skeleton exists."},
             "READY": {"description": "Work order passed dry-run preflight."},
@@ -235,7 +235,7 @@ def create_work_order_dependency_map(work_orders: list[dict]) -> dict:
     status = "UNRESOLVED_DEPENDENCIES" if unresolved else "CLEAR"
     
     return {
-        "work_order_dependency_map_version": "3.5.0",
+        "work_order_dependency_map_version": "3.6.0",
         "work_order_count": len(work_orders),
         "dependency_map": dependency_map,
         "unresolved_dependencies": unresolved,
@@ -261,7 +261,7 @@ def dry_run_execute_work_order(work_order: dict, dependency_map: dict) -> dict:
         path = ["CREATED", "READY", "DRY_RUN_STARTED", "DRY_RUN_COMPLETE"]
         
     return {
-        "work_order_dry_run_result_version": "3.5.0",
+        "work_order_dry_run_result_version": "3.6.0",
         "work_order_id": wid,
         "dry_run_status": dr_status,
         "initial_status": "CREATED",
@@ -317,7 +317,7 @@ def create_work_order_execution_ledger(work_orders: list[dict], dry_run_results:
         })
         
     return {
-        "work_order_execution_ledger_version": "3.5.0",
+        "work_order_execution_ledger_version": "3.6.0",
         "ledger_status": "DRY_RUN_ONLY",
         "work_order_count": len(work_orders),
         "dry_run_pass_count": pass_count,
@@ -344,7 +344,7 @@ def create_work_order_completion_proof(work_order: dict, dry_run_result: dict) -
     digest = sha256_digest(proof_data)
     
     return {
-        "work_order_completion_proof_version": "3.5.0",
+        "work_order_completion_proof_version": "3.6.0",
         "work_order_id": wid,
         "proof_status": status,
         "dry_run_status": dry_run_result["dry_run_status"],
@@ -388,7 +388,7 @@ def create_work_order_executor_summary(
     )
     
     return {
-        "work_order_executor_summary_version": "3.5.0",
+        "work_order_executor_summary_version": "3.6.0",
         "executor_status": "DRY_RUN_ONLY",
         "work_order_count": wo_count,
         "ready_count": len(dependency_map["ready_work_order_ids"]),
@@ -416,7 +416,7 @@ def create_work_order_executor_bundle(result: dict) -> dict:
     summary = create_work_order_executor_summary(work_orders, dep_map, dr_results, ledger, proofs)
     
     return {
-        "work_order_executor_bundle_version": "3.5.0",
+        "work_order_executor_bundle_version": "3.6.0",
         "executor_status": WORK_ORDER_EXECUTOR_STATUS,
         "executable_work_order_schema": schema,
         "work_orders": work_orders,

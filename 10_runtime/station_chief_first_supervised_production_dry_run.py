@@ -1,7 +1,7 @@
 import json
 import hashlib
 
-FIRST_SUPERVISED_PRODUCTION_DRY_RUN_MODULE_VERSION = "3.5.0"
+FIRST_SUPERVISED_PRODUCTION_DRY_RUN_MODULE_VERSION = "3.6.0"
 FIRST_SUPERVISED_PRODUCTION_DRY_RUN_STATUS = "FIRST_SUPERVISED_PRODUCTION_DRY_RUN_PREVIEW_ONLY"
 FIRST_SUPERVISED_PRODUCTION_DRY_RUN_PHASE = "First Supervised Production Dry-Run"
 FIRST_SUPERVISED_PRODUCTION_DRY_RUN_APPROVAL_TOKEN = "YES_I_APPROVE_FIRST_SUPERVISED_PRODUCTION_DRY_RUN"
@@ -23,15 +23,15 @@ def normalize_dry_run_label(label: str) -> str:
         return "first-supervised-production-dry-run"
     return normalized
 
-def generate_first_supervised_production_dry_run_id(command: str, dry_run_label: str, runtime_version: str = "3.5.0") -> str:
+def generate_first_supervised_production_dry_run_id(command: str, dry_run_label: str, runtime_version: str = "3.6.0") -> str:
     norm_label = normalize_dry_run_label(dry_run_label)
     digest_input = f"{runtime_version}:{command}:{norm_label}"
     digest = sha256_digest(digest_input)[:12]
-    return f"first-supervised-production-dry-run-v3-5-{norm_label}-{digest}"
+    return f"first-supervised-production-dry-run-v3-6-{norm_label}-{digest}"
 
 def create_first_supervised_production_dry_run_schema() -> dict:
     return {
-        "first_supervised_production_dry_run_schema_version": "3.5.0",
+        "first_supervised_production_dry_run_schema_version": "3.6.0",
         "schema_status": "FIRST_SUPERVISED_PRODUCTION_DRY_RUN_PREVIEW_ONLY",
         "required_sections": [
             "first_supervised_production_dry_run_approval_gate",
@@ -112,7 +112,7 @@ def create_first_supervised_production_dry_run_approval_gate(
     token_valid = (confirmation_token == "YES_I_APPROVE_FIRST_SUPERVISED_PRODUCTION_DRY_RUN")
     gate_status = "APPROVED_FOR_FIRST_SUPERVISED_PRODUCTION_DRY_RUN_RECORDS" if token_valid else "BLOCKED_PENDING_FIRST_SUPERVISED_PRODUCTION_DRY_RUN_APPROVAL"
     return {
-        "first_supervised_production_dry_run_approval_gate_version": "3.5.0",
+        "first_supervised_production_dry_run_approval_gate_version": "3.6.0",
         "dry_run_label": dry_run_label,
         "gate_status": gate_status,
         "confirmation_token_required": "YES_I_APPROVE_FIRST_SUPERVISED_PRODUCTION_DRY_RUN",
@@ -151,7 +151,7 @@ def create_single_controlled_task_dry_run_envelope(
     envelope_status = "ENVELOPE_CREATED" if is_valid else "BLOCKED"
     
     return {
-        "single_controlled_task_dry_run_envelope_version": "3.5.0",
+        "single_controlled_task_dry_run_envelope_version": "3.6.0",
         "envelope_status": envelope_status,
         "dry_run_task_label": dry_run_task_label,
         "single_task_limit": 1,
@@ -177,7 +177,7 @@ def create_dry_run_only_production_context_contract(
     contract_status = "CONTRACT_CREATED" if is_valid else "BLOCKED"
     
     return {
-        "dry_run_only_production_context_contract_version": "3.5.0",
+        "dry_run_only_production_context_contract_version": "3.6.0",
         "contract_status": contract_status,
         "production_context_label": production_context_label,
         "production_like_context_allowed_for_preview": is_valid,
@@ -204,7 +204,7 @@ def create_human_preflight_approval_gate(
     preflight_status = "PREFLIGHT_REQUIREMENT_CREATED" if is_valid else "BLOCKED"
     
     return {
-        "human_preflight_approval_gate_version": "3.5.0",
+        "human_preflight_approval_gate_version": "3.6.0",
         "preflight_status": preflight_status,
         "required_preflight_approver": required_preflight_approver,
         "human_preflight_required": True,
@@ -228,7 +228,7 @@ def create_worker_task_simulation_contract(
     simulation_status = "SIMULATION_CONTRACT_CREATED" if is_valid else "BLOCKED"
     
     return {
-        "worker_task_simulation_contract_version": "3.5.0",
+        "worker_task_simulation_contract_version": "3.6.0",
         "simulation_status": simulation_status,
         "worker_label": worker_label,
         "simulated_task_assignment_created": is_valid,
@@ -248,7 +248,7 @@ def create_external_action_denial_by_default(
     denial_status = "EXTERNAL_ACTIONS_DENIED_BY_DEFAULT" if is_valid else "BLOCKED"
     
     return {
-        "external_action_denial_by_default_version": "3.5.0",
+        "external_action_denial_by_default_version": "3.6.0",
         "denial_status": denial_status,
         "external_tool_invocation_allowed": False,
         "live_api_call_allowed": False,
@@ -297,7 +297,7 @@ def create_dry_run_rollback_quarantine_preview(
         })
     
     return {
-        "dry_run_rollback_quarantine_preview_version": "3.5.0",
+        "dry_run_rollback_quarantine_preview_version": "3.6.0",
         "preview_status": preview_status,
         "quarantine_records": quarantine_records,
         "quarantine_record_count": len(quarantine_records),
@@ -368,7 +368,7 @@ def create_dry_run_audit_proof(
     }
     
     return {
-        "dry_run_audit_proof_version": "3.5.0",
+        "dry_run_audit_proof_version": "3.6.0",
         "audit_status": audit_status,
         "approval_gate_digest": gate_digest,
         "task_envelope_digest": envelope_digest,
@@ -424,7 +424,7 @@ def create_dry_run_ledger(
     ]
     
     return {
-        "dry_run_ledger_version": "3.5.0",
+        "dry_run_ledger_version": "3.6.0",
         "ledger_status": ledger_status,
         "entries": entries,
         "ledger_digest": sha256_digest(entries),
@@ -461,7 +461,7 @@ def create_dry_run_readiness_summary(
     )
     
     return {
-        "dry_run_readiness_summary_version": "3.5.0",
+        "dry_run_readiness_summary_version": "3.6.0",
         "readiness_status": "READY_FOR_NEXT_LAYER" if is_ready else "BLOCKED",
         "ready_for_limited_external_tool_supervised_pilot": is_ready,
         "gate_status": approval_gate.get("gate_status", "BLOCKED"),
@@ -495,7 +495,7 @@ def create_limited_external_tool_supervised_pilot_bridge(
     is_ready = dry_run_readiness_summary.get("ready_for_limited_external_tool_supervised_pilot", False)
     
     return {
-        "limited_external_tool_supervised_pilot_bridge_version": "3.5.0",
+        "limited_external_tool_supervised_pilot_bridge_version": "3.6.0",
         "current_layer": "First Supervised Production Dry-Run",
         "next_layer": "Limited External Tool Supervised Pilot",
         "ready_for_limited_external_tool_supervised_pilot": is_ready,
@@ -562,7 +562,7 @@ def create_first_supervised_production_dry_run_bundle(
     bridge = create_limited_external_tool_supervised_pilot_bridge(result, summary)
     
     return {
-        "first_supervised_production_dry_run_bundle_version": "3.5.0",
+        "first_supervised_production_dry_run_bundle_version": "3.6.0",
         "first_supervised_production_dry_run_status": "FIRST_SUPERVISED_PRODUCTION_DRY_RUN_PREVIEW_ONLY",
         "first_supervised_production_dry_run_schema": schema,
         "first_supervised_production_dry_run_approval_gate": gate,

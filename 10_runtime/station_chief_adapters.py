@@ -4,7 +4,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-ADAPTER_MODULE_VERSION = "3.5.0"
+ADAPTER_MODULE_VERSION = "3.6.0"
 
 YES_I_APPROVE_SANDBOX_FILE_WRITE = "YES_I_APPROVE_SANDBOX_FILE_WRITE"
 YES_I_APPROVE_SCOPED_REPO_PATCH = "YES_I_APPROVE_SCOPED_REPO_PATCH"
@@ -30,6 +30,7 @@ YES_I_APPROVE_CONTROLLED_WORKER_HIRING_ACTIVATION_PILOT = "YES_I_APPROVE_CONTROL
 YES_I_APPROVE_FIRST_SUPERVISED_PRODUCTION_DRY_RUN = "YES_I_APPROVE_FIRST_SUPERVISED_PRODUCTION_DRY_RUN"
 YES_I_APPROVE_SUPERVISED_EXTERNAL_API_PILOT = "YES_I_APPROVE_SUPERVISED_EXTERNAL_API_PILOT"
 YES_I_APPROVE_MONITORED_ROLLBACK_RECOVERY_DRILL = "YES_I_APPROVE_MONITORED_ROLLBACK_RECOVERY_DRILL"
+YES_I_APPROVE_SUPERVISED_PRODUCTION_PILOT_READINESS_REVIEW = "YES_I_APPROVE_SUPERVISED_PRODUCTION_PILOT_READINESS_REVIEW"
 
 SAFE_SANDBOX_PATH = "SAFE_SANDBOX_PATH"
 SAFE_REPO_PATCH_PATH = "SAFE_REPO_PATCH_PATH"
@@ -85,6 +86,8 @@ SUPPORTED_ADAPTERS = {
         "supervised_external_api_pilot_requires_specific_token": True,
         "supports_monitored_rollback_recovery_drill": True,
         "monitored_rollback_recovery_drill_requires_specific_token": True,
+        "supports_supervised_production_pilot_readiness_review": True,
+        "supervised_production_pilot_readiness_review_requires_specific_token": True,
         "real_worker_hiring_allowed": False,
         "real_worker_activation_allowed": False,
         "worker_process_start_allowed": False,
@@ -103,7 +106,9 @@ SUPPORTED_ADAPTERS = {
         "secret_read_allowed": False,
         "environment_read_allowed": False,
         "deployment_allowed": False,
+        "deployment_rollback_allowed": False,
         "real_external_tool_invocation_allowed": False,
+        "full_workforce_activation_allowed": False,
         "description": "Safely simulates execution boundaries without performing live work.",
     },
     "sandbox_file_write": {
@@ -193,6 +198,8 @@ SUPPORTED_ADAPTERS = {
         "supervised_external_api_pilot_requires_separate_gate": True,
         "supports_monitored_rollback_recovery_drill": False,
         "monitored_rollback_recovery_drill_requires_separate_gate": True,
+        "supports_supervised_production_pilot_readiness_review": False,
+        "supervised_production_pilot_readiness_review_requires_separate_gate": True,
         "supports_live_execution_telemetry_abort_controls": False,
         "telemetry_abort_controls_require_specific_token": True,
         "telemetry_abort_requires_separate_gate": True,
@@ -210,6 +217,7 @@ SUPPORTED_ADAPTERS = {
         "secret_read_allowed": False,
         "environment_read_allowed": False,
         "deployment_allowed": False,
+        "deployment_rollback_allowed": False,
         "real_external_tool_invocation_allowed": False,
         "production_execution_allowed": False,
         "production_activation_allowed": False,
@@ -217,6 +225,7 @@ SUPPORTED_ADAPTERS = {
         "live_task_assignment_allowed": False,
         "live_worker_routing_allowed": False,
         "live_orchestration_allowed": False,
+        "full_workforce_activation_allowed": False,
         "description": "Applies deterministic local patches only inside a provided patch root, only to explicitly allowlisted relative files, after explicit confirmation.",
     },
 }
@@ -255,6 +264,8 @@ def list_adapters() -> dict:
         "supervised_external_api_pilot_requires_specific_token": True,
         "supports_monitored_rollback_recovery_drill": True,
         "monitored_rollback_recovery_drill_requires_specific_token": True,
+        "supports_supervised_production_pilot_readiness_review": True,
+        "supervised_production_pilot_readiness_review_requires_specific_token": True,
         "real_rollback_allowed": False,
         "real_recovery_allowed": False,
         "process_termination_allowed": False,
@@ -280,6 +291,7 @@ def list_adapters() -> dict:
         "environment_read_allowed": False,
         "deployment_allowed": False,
         "real_external_tool_invocation_allowed": False,
+        "full_workforce_activation_allowed": False,
         "live_api_call_allowed": False,
         "socket_access_allowed": False,
         "credential_use_allowed": False,

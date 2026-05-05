@@ -1,7 +1,7 @@
 import json
 import hashlib
 
-OPERATOR_APPROVAL_QUEUE_ENFORCEMENT_MODULE_VERSION = "3.5.0"
+OPERATOR_APPROVAL_QUEUE_ENFORCEMENT_MODULE_VERSION = "3.6.0"
 OPERATOR_APPROVAL_QUEUE_ENFORCEMENT_STATUS = "OPERATOR_APPROVAL_QUEUE_ENFORCEMENT_PREVIEW_ONLY"
 OPERATOR_APPROVAL_QUEUE_ENFORCEMENT_PHASE = "Operator Approval Queue Enforcement"
 OPERATOR_APPROVAL_QUEUE_ENFORCEMENT_APPROVAL_TOKEN = "YES_I_APPROVE_OPERATOR_APPROVAL_QUEUE_ENFORCEMENT"
@@ -23,15 +23,15 @@ def normalize_queue_label(label: str) -> str:
         return "operator-approval-queue-enforcement"
     return normalized
 
-def generate_operator_approval_queue_id(command: str, queue_label: str, runtime_version: str = "3.5.0") -> str:
+def generate_operator_approval_queue_id(command: str, queue_label: str, runtime_version: str = "3.6.0") -> str:
     norm_label = normalize_queue_label(queue_label)
     digest_input = f"{runtime_version}:{command}:{norm_label}"
     digest = sha256_digest(digest_input)[:12]
-    return f"operator-approval-queue-v3-5-{norm_label}-{digest}"
+    return f"operator-approval-queue-v3-6-{norm_label}-{digest}"
 
 def create_operator_approval_queue_enforcement_schema() -> dict:
     return {
-        "operator_approval_queue_enforcement_schema_version": "3.5.0",
+        "operator_approval_queue_enforcement_schema_version": "3.6.0",
         "schema_status": "OPERATOR_APPROVAL_QUEUE_ENFORCEMENT_PREVIEW_ONLY",
         "required_sections": [
             "operator_approval_queue_enforcement_approval_gate",
@@ -126,7 +126,7 @@ def create_operator_approval_queue_enforcement_approval_gate(
     token_valid = (confirmation_token == "YES_I_APPROVE_OPERATOR_APPROVAL_QUEUE_ENFORCEMENT")
     gate_status = "APPROVED_FOR_OPERATOR_APPROVAL_QUEUE_ENFORCEMENT_RECORDS" if token_valid else "BLOCKED_PENDING_OPERATOR_APPROVAL_QUEUE_ENFORCEMENT_APPROVAL"
     return {
-        "operator_approval_queue_enforcement_approval_gate_version": "3.5.0",
+        "operator_approval_queue_enforcement_approval_gate_version": "3.6.0",
         "queue_label": queue_label,
         "gate_status": gate_status,
         "confirmation_token_required": "YES_I_APPROVE_OPERATOR_APPROVAL_QUEUE_ENFORCEMENT",
@@ -183,7 +183,7 @@ def create_queued_action_registry(
         })
         
     return {
-        "queued_action_registry_version": "3.5.0",
+        "queued_action_registry_version": "3.6.0",
         "registry_status": registry_status,
         "requested_action_count": requested_action_count,
         "actual_action_count": len(registered_actions),
@@ -238,7 +238,7 @@ def create_approval_item_priority_classifier(
         })
         
     return {
-        "approval_item_priority_classifier_version": "3.5.0",
+        "approval_item_priority_classifier_version": "3.6.0",
         "classifier_status": classifier_status,
         "priority_results": priority_results,
         "high_priority_count": high_count,
@@ -304,7 +304,7 @@ def create_operator_decision_contract(
         })
         
     return {
-        "operator_decision_contract_version": "3.5.0",
+        "operator_decision_contract_version": "3.6.0",
         "contract_status": contract_status,
         "decision_records": decision_records,
         "approved_preview_record_count": approved_count,
@@ -362,7 +362,7 @@ def create_approval_expiry_stale_item_detector(
         })
         
     return {
-        "approval_expiry_stale_item_detector_version": "3.5.0",
+        "approval_expiry_stale_item_detector_version": "3.6.0",
         "detector_status": detector_status,
         "stale_after_hours": stale_after_hours,
         "stale_item_records": stale_item_records,
@@ -401,7 +401,7 @@ def create_queue_enforcement_safety_gate(
         safety_gate_status = "PASS"
         
     return {
-        "queue_enforcement_safety_gate_version": "3.5.0",
+        "queue_enforcement_safety_gate_version": "3.6.0",
         "safety_gate_status": safety_gate_status,
         "preview_records_allowed": gate_valid and registry_created,
         "automatic_execution_allowed": False,
@@ -487,7 +487,7 @@ def create_approval_queue_audit_proof(
     }
     
     return {
-        "approval_queue_audit_proof_version": "3.5.0",
+        "approval_queue_audit_proof_version": "3.6.0",
         "audit_status": audit_status,
         "approval_gate_digest": gate_digest,
         "queued_action_registry_digest": registry_digest,
@@ -545,7 +545,7 @@ def create_approval_queue_ledger(
     ]
     
     return {
-        "approval_queue_ledger_version": "3.5.0",
+        "approval_queue_ledger_version": "3.6.0",
         "ledger_status": ledger_status,
         "entries": entries,
         "ledger_digest": sha256_digest(entries),
@@ -590,7 +590,7 @@ def create_approval_queue_readiness_summary(
         readiness_status = "BLOCKED"
         
     return {
-        "approval_queue_readiness_summary_version": "3.5.0",
+        "approval_queue_readiness_summary_version": "3.6.0",
         "readiness_status": readiness_status,
         "ready_for_release_candidate_hardening": is_ready,
         "gate_status": approval_gate.get("gate_status", "BLOCKED"),
@@ -620,7 +620,7 @@ def create_release_candidate_hardening_readiness_bridge(
 ) -> dict:
     is_ready = readiness_summary.get("ready_for_release_candidate_hardening", False)
     return {
-        "release_candidate_hardening_readiness_bridge_version": "3.5.0",
+        "release_candidate_hardening_readiness_bridge_version": "3.6.0",
         "current_layer": "Operator Approval Queue Enforcement",
         "next_layer": "Release Candidate Hardening",
         "ready_for_release_candidate_hardening": is_ready,
@@ -693,7 +693,7 @@ def create_operator_approval_queue_enforcement_bundle(
     bridge = create_release_candidate_hardening_readiness_bridge(result, summary)
     
     return {
-        "operator_approval_queue_enforcement_bundle_version": "3.5.0",
+        "operator_approval_queue_enforcement_bundle_version": "3.6.0",
         "operator_approval_queue_enforcement_status": "OPERATOR_APPROVAL_QUEUE_ENFORCEMENT_PREVIEW_ONLY",
         "operator_approval_queue_enforcement_schema": schema,
         "operator_approval_queue_enforcement_approval_gate": gate,

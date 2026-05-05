@@ -3,7 +3,7 @@ import hashlib
 import re
 from pathlib import Path
 
-OPERATOR_CONSOLE_MODULE_VERSION = "3.5.0"
+OPERATOR_CONSOLE_MODULE_VERSION = "3.6.0"
 OPERATOR_CONSOLE_STATUS = "SCHEMA_ONLY"
 OPERATOR_CONSOLE_PHASE = "UI / Operator Console Schema"
 
@@ -19,15 +19,15 @@ def normalize_console_label(label: str) -> str:
     normalized = re.sub(r"[^a-z0-9]+", "-", label.lower()).strip("-")
     return normalized or "operator-console"
 
-def generate_console_id(command: str, label: str, runtime_version: str = "3.5.0") -> str:
+def generate_console_id(command: str, label: str, runtime_version: str = "3.6.0") -> str:
     normalized_label = normalize_console_label(label)
     hash_input = f"{runtime_version}:{command}:{label}"
     hash_chars = hashlib.sha256(hash_input.encode("utf-8")).hexdigest()[:12]
-    return f"operator-console-v3-5-{normalized_label}-{hash_chars}"
+    return f"operator-console-v3-6-{normalized_label}-{hash_chars}"
 
 def create_operator_console_screen_schema() -> dict:
     return {
-        "operator_console_screen_schema_version": "3.5.0",
+        "operator_console_screen_schema_version": "3.6.0",
         "schema_status": "SCHEMA_ONLY",
         "console_title": "Station Chief Operator Console",
         "layout_type": "read_only_control_dashboard_schema",
@@ -96,7 +96,7 @@ def create_operator_console_screen_schema() -> dict:
 
 def create_runtime_status_panel_schema(result: dict) -> dict:
     return {
-        "runtime_status_panel_schema_version": "3.5.0",
+        "runtime_status_panel_schema_version": "3.6.0",
         "panel_id": "runtime_status_panel",
         "panel_title": "Runtime Status",
         "panel_mode": "read_only",
@@ -140,7 +140,7 @@ def create_approval_queue_panel_schema(result: dict) -> dict:
     if result.get("release_lock_bundle"): items.append("release_lock_bundle")
 
     return {
-        "approval_queue_panel_schema_version": "3.5.0",
+        "approval_queue_panel_schema_version": "3.6.0",
         "panel_id": "approval_queue_panel",
         "panel_title": "Approval Queue",
         "panel_mode": "review_only",
@@ -184,7 +184,7 @@ def create_work_order_panel_schema(result: dict) -> dict:
         })
 
     return {
-        "work_order_panel_schema_version": "3.5.0",
+        "work_order_panel_schema_version": "3.6.0",
         "panel_id": "work_order_panel",
         "panel_title": "Work Orders",
         "panel_mode": "dry_run_review_only",
@@ -223,7 +223,7 @@ def create_worker_registry_panel_schema(result: dict) -> dict:
         })
 
     return {
-        "worker_registry_panel_schema_version": "3.5.0",
+        "worker_registry_panel_schema_version": "3.6.0",
         "panel_id": "worker_registry_panel",
         "panel_title": "Worker Registry Preview",
         "panel_mode": "registry_preview_only",
@@ -258,7 +258,7 @@ def create_department_routing_panel_schema(result: dict) -> dict:
         })
 
     return {
-        "department_routing_panel_schema_version": "3.5.0",
+        "department_routing_panel_schema_version": "3.6.0",
         "panel_id": "department_routing_panel",
         "panel_title": "Department Routing Preview",
         "panel_mode": "routing_preview_only",
@@ -292,7 +292,7 @@ def create_orchestration_sandbox_panel_schema(result: dict) -> dict:
         })
 
     return {
-        "orchestration_sandbox_panel_schema_version": "3.5.0",
+        "orchestration_sandbox_panel_schema_version": "3.6.0",
         "panel_id": "orchestration_sandbox_panel",
         "panel_title": "Multi-Agent Orchestration Sandbox",
         "panel_mode": "orchestration_sandbox_only",
@@ -315,7 +315,7 @@ def create_release_lock_panel_schema(result: dict) -> dict:
     manifest = lock_bundle.get("stable_release_manifest") if lock_bundle else None
     
     return {
-        "release_lock_panel_schema_version": "3.5.0",
+        "release_lock_panel_schema_version": "3.6.0",
         "panel_id": "release_lock_panel",
         "panel_title": "Release Lock",
         "panel_mode": "read_only",
@@ -333,7 +333,7 @@ def create_release_lock_panel_schema(result: dict) -> dict:
 
 def create_human_control_surface_schema() -> dict:
     return {
-        "human_control_surface_schema_version": "3.5.0",
+        "human_control_surface_schema_version": "3.6.0",
         "panel_id": "human_control_surface_panel",
         "panel_title": "Human Control Surface",
         "panel_mode": "approval_and_review_schema_only",
@@ -420,7 +420,7 @@ def create_operator_action_registry() -> dict:
         }
 
     return {
-        "operator_action_registry_version": "3.5.0",
+        "operator_action_registry_version": "3.6.0",
         "registry_status": "SCHEMA_ONLY",
         "allowed_actions": [aid for aid, atype, _, _ in actions if atype == "allowed"],
         "blocked_actions": [aid for aid, atype, _, _ in actions if atype == "blocked"],
@@ -433,7 +433,7 @@ def create_operator_action_registry() -> dict:
 def create_disabled_action_state_map(operator_action_registry: dict) -> dict:
     blocked = operator_action_registry["blocked_actions"]
     return {
-        "disabled_action_state_map_version": "3.5.0",
+        "disabled_action_state_map_version": "3.6.0",
         "disabled_action_count": len(blocked),
         "disabled_actions": blocked,
         "disabled_reason": "Live execution controls remain disabled in v2.5.0 schema-only operator console.",
@@ -445,7 +445,7 @@ def create_operator_console_review_bundle(result: dict) -> dict:
     registry = create_operator_action_registry()
     
     return {
-        "operator_console_review_bundle_version": "3.5.0",
+        "operator_console_review_bundle_version": "3.6.0",
         "console_status": "SCHEMA_ONLY",
         "operator_console_screen_schema": create_operator_console_screen_schema(),
         "runtime_status_panel_schema": create_runtime_status_panel_schema(result),
@@ -470,7 +470,7 @@ def create_operator_console_review_bundle(result: dict) -> dict:
 
 def create_operator_console_safety_summary(review_bundle: dict) -> dict:
     return {
-        "operator_console_safety_summary_version": "3.5.0",
+        "operator_console_safety_summary_version": "3.6.0",
         "safety_status": "SAFE_SCHEMA_ONLY",
         "safe_panel_count": 11,
         "blocked_action_count": len(review_bundle["operator_action_registry"]["blocked_actions"]),
@@ -497,7 +497,7 @@ def create_operator_console_readiness_summary(review_bundle: dict, safety_summar
     )
 
     return {
-        "operator_console_readiness_summary_version": "3.5.0",
+        "operator_console_readiness_summary_version": "3.6.0",
         "console_status": "SCHEMA_ONLY",
         "ready_for_github_patch_hardening": ready,
         "next_layer": "GitHub Patch Application Hardening",
@@ -524,7 +524,7 @@ def create_operator_console_readiness_summary(review_bundle: dict, safety_summar
 
 def create_github_patch_hardening_readiness_bridge(result: dict, readiness_summary: dict) -> dict:
     return {
-        "github_patch_hardening_readiness_bridge_version": "3.5.0",
+        "github_patch_hardening_readiness_bridge_version": "3.6.0",
         "current_layer": "UI / Operator Console Schema",
         "next_layer": "GitHub Patch Application Hardening",
         "ready_for_github_patch_hardening": readiness_summary["ready_for_github_patch_hardening"],
@@ -562,7 +562,7 @@ def create_operator_console_bundle(result: dict) -> dict:
     bridge = create_github_patch_hardening_readiness_bridge(result, readiness_summary)
     
     return {
-        "operator_console_bundle_version": "3.5.0",
+        "operator_console_bundle_version": "3.6.0",
         "console_status": OPERATOR_CONSOLE_STATUS,
         "operator_console_review_bundle": review_bundle,
         "operator_console_safety_summary": safety_summary,

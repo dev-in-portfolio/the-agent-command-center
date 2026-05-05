@@ -160,6 +160,11 @@ from station_chief_monitored_rollback_recovery_drill import (
     create_monitored_rollback_recovery_drill_bundle,
     create_monitored_rollback_recovery_drill_schema,
 )
+from station_chief_supervised_production_pilot_readiness_review import (
+    SUPERVISED_PRODUCTION_PILOT_READINESS_REVIEW_APPROVAL_TOKEN,
+    create_supervised_production_pilot_readiness_review_bundle,
+    create_supervised_production_pilot_readiness_review_schema,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -169,7 +174,7 @@ from station_chief_execution_profiles import (
     select_execution_profile,
 )
 
-STATION_CHIEF_RUNTIME_VERSION = "3.5.0"
+STATION_CHIEF_RUNTIME_VERSION = "3.6.0"
 
 EXPECTED_OVERLAYS = [
     {
@@ -375,7 +380,7 @@ def normalize_command_for_id(command: str) -> str:
 def generate_run_id(command: str, run_label: str = "station-chief-runtime") -> str:
     normalized = normalize_command_for_id(command)
     digest = hashlib.sha256(f"{STATION_CHIEF_RUNTIME_VERSION}:{run_label}:{command}".encode("utf-8")).hexdigest()
-    return f"station-chief-v3-5-{normalized}-{digest[:12]}"
+    return f"station-chief-v3-6-{normalized}-{digest[:12]}"
 
 
 def classify_command(command: str) -> str:
@@ -526,7 +531,29 @@ def build_demo_evidence() -> dict[str, bool]:
         "monitored_rollback_recovery_drill_does_not_read_environment": True,
         "monitored_rollback_recovery_drill_does_not_execute_production": True,
         "monitored_rollback_recovery_drill_does_not_modify_repo_files": True,
-        "supervised_production_pilot_readiness_review_not_yet_active": True,
+        "supervised_production_pilot_readiness_review_available": True,
+        "supervised_production_pilot_readiness_review_preview_only": True,
+        "supervised_production_pilot_readiness_review_requires_token": True,
+        "minimum_viable_production_candidate_preview_only": True,
+        "production_blast_radius_analysis_preview_only": True,
+        "live_action_denied_by_default": True,
+        "rollback_availability_review_only": True,
+        "credential_secret_readiness_denied": True,
+        "network_socket_readiness_denied": True,
+        "supervised_production_pilot_readiness_review_does_not_execute_production": True,
+        "supervised_production_pilot_readiness_review_does_not_activate_production": True,
+        "supervised_production_pilot_readiness_review_does_not_deploy": True,
+        "supervised_production_pilot_readiness_review_does_not_call_live_apis": True,
+        "supervised_production_pilot_readiness_review_does_not_use_network_access": True,
+        "supervised_production_pilot_readiness_review_does_not_open_sockets": True,
+        "supervised_production_pilot_readiness_review_does_not_use_credentials": True,
+        "supervised_production_pilot_readiness_review_does_not_read_secrets": True,
+        "supervised_production_pilot_readiness_review_does_not_read_environment": True,
+        "supervised_production_pilot_readiness_review_does_not_assign_live_tasks": True,
+        "supervised_production_pilot_readiness_review_does_not_route_live_workers": True,
+        "supervised_production_pilot_readiness_review_does_not_perform_live_orchestration": True,
+        "supervised_production_pilot_readiness_review_does_not_modify_repo_files": True,
+        "credential_vault_denial_secret_handling_proof_not_yet_active": True,
     }
 
 
@@ -534,7 +561,7 @@ def load_registry(registry_dir: str | Path) -> dict:
     registry_path = Path(registry_dir) / "run_registry.json"
     if not registry_path.exists():
         return {
-            "registry_version": "3.5.0",
+            "registry_version": "3.6.0",
             "runtime_name": "Station Chief Runtime",
             "runs": [],
         }
@@ -551,7 +578,7 @@ def update_registry(registry_dir: str | Path, index_entry: dict) -> dict:
     registry = load_registry(registry_dir)
     runs = [run for run in registry.get("runs", []) if run.get("run_id") != index_entry.get("run_id")]
     runs.append(index_entry)
-    registry["registry_version"] = "3.5.0"
+    registry["registry_version"] = "3.6.0"
     registry["runtime_name"] = "Station Chief Runtime"
     registry["runs"] = runs
     save_registry(registry_dir, registry)
@@ -560,7 +587,7 @@ def update_registry(registry_dir: str | Path, index_entry: dict) -> dict:
 
 def write_runtime_index(registry_dir: str | Path, registry: dict) -> dict:
     index = {
-        "index_version": "3.5.0",
+        "index_version": "3.6.0",
         "runtime_name": "Station Chief Runtime",
         "run_count": len(registry.get("runs", [])),
         "runs": registry.get("runs", []),
@@ -614,14 +641,14 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
     adapter_result = run_noop_adapter(execution_plan)
     return {
         "station_chief_runtime_version": STATION_CHIEF_RUNTIME_VERSION,
-        "runtime_status": "monitored_rollback_recovery_drill",
+        "runtime_status": "supervised_production_pilot_readiness_review",
         "release_status": "STABLE_LOCKED",
         "command": command,
         "command_type": brief["command_type"],
         "activation_tier": brief["activation_tier"],
         "baseline_preserved": True,
         "evidence": build_demo_evidence(),
-        "next_step": "Next step: build supervised production pilot readiness review.",
+        "next_step": "Next step: build credential vault denial and secret handling proof.",
         "external_actions_taken": False,
         "live_api_call_performed": False,
         "network_access_performed": False,
@@ -640,34 +667,29 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "worker_processes_started": False,
         "repo_files_modified": False,
         "execution_authorized": False,
-        "monitored_rollback_recovery_drill_available": True,
-        "monitored_rollback_recovery_drill_preview_only": True,
-        "monitored_rollback_recovery_drill_requires_token": True,
-        "simulated_failure_trigger_preview_only": True,
-        "rollback_path_preview_only": True,
-        "recovery_checkpoint_preview_only": True,
-        "quarantine_freeze_preview_only": True,
-        "monitored_rollback_recovery_drill_does_not_perform_real_rollback": True,
-        "monitored_rollback_recovery_drill_does_not_perform_real_recovery": True,
-        "monitored_rollback_recovery_drill_does_not_terminate_processes": True,
-        "monitored_rollback_recovery_drill_does_not_terminate_workers": True,
-        "monitored_rollback_recovery_drill_does_not_change_production_state": True,
-        "monitored_rollback_recovery_drill_does_not_rollback_deployments": True,
-        "monitored_rollback_recovery_drill_does_not_deploy": True,
-        "monitored_rollback_recovery_drill_does_not_call_live_apis": True,
-        "monitored_rollback_recovery_drill_does_not_use_network_access": True,
-        "monitored_rollback_recovery_drill_does_not_open_sockets": True,
-        "monitored_rollback_recovery_drill_does_not_use_credentials": True,
-        "monitored_rollback_recovery_drill_does_not_read_secrets": True,
-        "monitored_rollback_recovery_drill_does_not_read_environment": True,
-        "monitored_rollback_recovery_drill_does_not_execute_production": True,
-        "monitored_rollback_recovery_drill_does_not_activate_production": True,
-        "monitored_rollback_recovery_drill_does_not_execute_real_tasks": True,
-        "monitored_rollback_recovery_drill_does_not_assign_live_tasks": True,
-        "monitored_rollback_recovery_drill_does_not_route_live_workers": True,
-        "monitored_rollback_recovery_drill_does_not_perform_live_orchestration": True,
-        "monitored_rollback_recovery_drill_does_not_modify_repo_files": True,
-        "supervised_production_pilot_readiness_review_not_yet_active": True,
+        "supervised_production_pilot_readiness_review_available": True,
+        "supervised_production_pilot_readiness_review_preview_only": True,
+        "supervised_production_pilot_readiness_review_requires_token": True,
+        "minimum_viable_production_candidate_preview_only": True,
+        "production_blast_radius_analysis_preview_only": True,
+        "live_action_denied_by_default": True,
+        "rollback_availability_review_only": True,
+        "credential_secret_readiness_denied": True,
+        "network_socket_readiness_denied": True,
+        "supervised_production_pilot_readiness_review_does_not_execute_production": True,
+        "supervised_production_pilot_readiness_review_does_not_activate_production": True,
+        "supervised_production_pilot_readiness_review_does_not_deploy": True,
+        "supervised_production_pilot_readiness_review_does_not_call_live_apis": True,
+        "supervised_production_pilot_readiness_review_does_not_use_network_access": True,
+        "supervised_production_pilot_readiness_review_does_not_open_sockets": True,
+        "supervised_production_pilot_readiness_review_does_not_use_credentials": True,
+        "supervised_production_pilot_readiness_review_does_not_read_secrets": True,
+        "supervised_production_pilot_readiness_review_does_not_read_environment": True,
+        "supervised_production_pilot_readiness_review_does_not_assign_live_tasks": True,
+        "supervised_production_pilot_readiness_review_does_not_route_live_workers": True,
+        "supervised_production_pilot_readiness_review_does_not_perform_live_orchestration": True,
+        "supervised_production_pilot_readiness_review_does_not_modify_repo_files": True,
+        "credential_vault_denial_secret_handling_proof_not_yet_active": True,
         "selected_overlays": brief["selected_overlays"],
         "command_brief": brief,
         "work_orders": work_orders,
@@ -953,6 +975,20 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
             "rollback_recovery_drill_ledger": True,
             "recovery_readiness_summary": True,
             "supervised_production_pilot_readiness_review_bridge": True,
+            "supervised_production_pilot_readiness_review_bundle": True,
+            "supervised_production_pilot_readiness_review_schema": True,
+            "supervised_production_pilot_readiness_review_approval_gate": True,
+            "minimum_viable_production_candidate_contract": True,
+            "human_production_pilot_review_gate": True,
+            "production_blast_radius_analysis": True,
+            "live_action_denial_review": True,
+            "rollback_availability_review": True,
+            "credential_secret_readiness_denial_proof": True,
+            "network_socket_readiness_denial_proof": True,
+            "production_pilot_audit_proof": True,
+            "production_pilot_readiness_ledger": True,
+            "production_pilot_readiness_summary": True,
+            "credential_vault_denial_secret_handling_proof_bridge": True,
             "operator_approval_queue_enforcement_schema": True,
             "operator_approval_queue_enforcement_approval_gate": True,
             "queued_action_registry": True,
@@ -3252,9 +3288,9 @@ def write_first_supervised_production_dry_run(result: dict, output_dir: str | Pa
         written.append(fname)
         
     manifest = {
-        "first_supervised_production_dry_run_manifest_version": "3.5.0",
+        "first_supervised_production_dry_run_manifest_version": "3.6.0",
         "run_id": run_id,
-        "runtime_version": "3.5.0",
+        "runtime_version": "3.6.0",
         "files_written": written + ["first_supervised_production_dry_run_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -3276,7 +3312,7 @@ def write_first_supervised_production_dry_run(result: dict, output_dir: str | Pa
         "repo_files_modified": False,
         "execution_authorized": False,
         "status": "FIRST_SUPERVISED_PRODUCTION_DRY_RUN_PREVIEW_ONLY",
-        "note": "First Supervised Production Dry-Run v3.5.0 creates local dry-run schema, approval gate, single controlled task envelope, dry-run-only production context contract, human preflight approval gate, worker task simulation contract, external action denial-by-default record, rollback and quarantine preview, audit proof, ledger, readiness summary, and limited external tool supervised pilot bridge artifacts only. It does not execute production, activate production, execute real tasks, assign live tasks, route live workers, perform live orchestration, invoke external tools, call live-APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, deploy, start worker processes, run shell commands, or modify repo files."
+        "note": "First Supervised Production Dry-Run v3.6.0 creates local dry-run schema, approval gate, single controlled task envelope, dry-run-only production context contract, human preflight approval gate, worker task simulation contract, external action denial-by-default record, rollback and quarantine preview, audit proof, ledger, readiness summary, and limited external tool supervised pilot bridge artifacts only. It does not execute production, activate production, execute real tasks, assign live tasks, route live workers, perform live orchestration, invoke external tools, call live-APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, deploy, start worker processes, run shell commands, or modify repo files."
     }
     
     _write_json(target_dir / "first_supervised_production_dry_run_manifest.json", manifest)
@@ -3395,9 +3431,9 @@ def write_limited_external_tool_supervised_pilot(
         _write_json(target_dir / filename, payload)
 
     manifest = {
-        "limited_external_tool_supervised_pilot_manifest_version": "3.5.0",
+        "limited_external_tool_supervised_pilot_manifest_version": "3.6.0",
         "run_id": run_id,
-        "runtime_version": "3.5.0",
+        "runtime_version": "3.6.0",
         "files_written": files_written + ["limited_external_tool_supervised_pilot_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -3419,7 +3455,7 @@ def write_limited_external_tool_supervised_pilot(
         "repo_files_modified": False,
         "execution_authorized": False,
         "status": "LIMITED_EXTERNAL_TOOL_SUPERVISED_PILOT_PREVIEW_ONLY",
-        "note": "Limited External Tool Supervised Pilot v3.5.0 creates local tool pilot schema, approval gate, single external tool category contract, tool invocation denial-by-default record, human tool-use preflight gate, tool request envelope preview, tool response quarantine preview, audit proof, ledger, readiness summary, and supervised external API pilot bridge artifacts only. It does not invoke external tools, call live-APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, deploy, execute production, activate production, execute real tasks, assign live tasks, route live workers, perform live orchestration, start worker processes, run shell commands, or modify repo files.",
+        "note": "Limited External Tool Supervised Pilot v3.6.0 creates local tool pilot schema, approval gate, single external tool category contract, tool invocation denial-by-default record, human tool-use preflight gate, tool request envelope preview, tool response quarantine preview, audit proof, ledger, readiness summary, and supervised external API pilot bridge artifacts only. It does not invoke external tools, call live-APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, deploy, execute production, activate production, execute real tasks, assign live tasks, route live workers, perform live orchestration, start worker processes, run shell commands, or modify repo files.",
     }
     _write_json(target_dir / "limited_external_tool_supervised_pilot_manifest.json", manifest)
 
@@ -3498,7 +3534,7 @@ def write_controlled_worker_hiring_activation_pilot(result: dict, output_dir: st
     manifest = {
         "controlled_worker_hiring_activation_pilot_manifest_version": "3.1.0",
         "run_id": run_id,
-        "runtime_version": "3.5.0",
+        "runtime_version": "3.6.0",
         "files_written": written + ["controlled_worker_hiring_activation_pilot_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -3605,7 +3641,7 @@ def write_controlled_production_readiness_gate(result: dict, output_dir: str | P
     manifest = {
         "controlled_production_readiness_gate_manifest_version": "3.0.0",
         "run_id": run_id,
-        "runtime_version": "3.5.0",
+        "runtime_version": "3.6.0",
         "files_written": written + ["controlled_production_readiness_gate_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -3675,9 +3711,9 @@ def write_supervised_external_api_pilot(result: dict, output_dir: str, run_label
     }
     
     manifest = {
-        "supervised_external_api_pilot_manifest_version": "3.5.0",
+        "supervised_external_api_pilot_manifest_version": "3.6.0",
         "run_id": run_id,
-        "runtime_version": "3.5.0",
+        "runtime_version": "3.6.0",
         "status": "SUPERVISED_EXTERNAL_API_PILOT_PREVIEW_ONLY",
         "files_written": list(files_to_write.keys()) + ["supervised_external_api_pilot_manifest.json"],
         "baseline_preserved": True,
@@ -3780,9 +3816,9 @@ def write_monitored_rollback_recovery_drill(result: dict, output_dir: str | Path
         _write_json(drill_dir / filename, payload)
 
     manifest = {
-        "monitored_rollback_recovery_drill_manifest_version": "3.5.0",
+        "monitored_rollback_recovery_drill_manifest_version": "3.6.0",
         "run_id": run_id,
-        "runtime_version": "3.5.0",
+        "runtime_version": "3.6.0",
         "status": "MONITORED_ROLLBACK_RECOVERY_DRILL_PREVIEW_ONLY",
         "files_written": files_written + ["monitored_rollback_recovery_drill_manifest.json"],
         "baseline_preserved": True,
@@ -3810,12 +3846,125 @@ def write_monitored_rollback_recovery_drill(result: dict, output_dir: str | Path
         "worker_processes_started": False,
         "repo_files_modified": False,
         "execution_authorized": False,
-        "note": "Monitored Rollback and Recovery Drill v3.5.0 creates local rollback/recovery drill schema, approval gate, simulated failure trigger contract, rollback path preview, recovery checkpoint contract, quarantine/freeze preview, human recovery approval gate, recovery audit proof, rollback recovery drill ledger, readiness summary, and supervised production pilot readiness review bridge artifacts only. It does not perform real rollback, perform real recovery, terminate processes, terminate workers, change production state, roll back deployments, deploy, call live APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, invoke external tools, execute production, activate production, execute real tasks, assign live tasks, route live workers, perform live orchestration, start worker processes, run shell commands, or modify repo files.",
+        "note": "Monitored Rollback and Recovery Drill v3.6.0 creates local rollback/recovery drill schema, approval gate, simulated failure trigger contract, rollback path preview, recovery checkpoint contract, quarantine/freeze preview, human recovery approval gate, recovery audit proof, rollback recovery drill ledger, readiness summary, and supervised production pilot readiness review bridge artifacts only. It does not perform real rollback, perform real recovery, terminate processes, terminate workers, change production state, roll back deployments, deploy, call live APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, invoke external tools, execute production, activate production, execute real tasks, assign live tasks, route live workers, perform live orchestration, start worker processes, run shell commands, or modify repo files.",
     }
     _write_json(drill_dir / "monitored_rollback_recovery_drill_manifest.json", manifest)
     return {
         "run_id": run_id,
         "monitored_rollback_recovery_drill_dir": str(drill_dir),
+        "files_written": manifest["files_written"],
+    }
+
+
+def attach_supervised_production_pilot_readiness_review(
+    result: dict,
+    production_readiness_label: str | None = None,
+    confirmation_token: str | None = None,
+    candidate_label: str | None = None,
+    required_production_pilot_reviewer: str | None = None,
+    blast_radius_label: str | None = None,
+) -> dict:
+    if "monitored_rollback_recovery_drill_bundle" not in result:
+        result = attach_monitored_rollback_recovery_drill(result)
+
+    bundle = create_supervised_production_pilot_readiness_review_bundle(
+        result,
+        command=result.get("command", ""),
+        production_readiness_label=production_readiness_label,
+        confirmation_token=confirmation_token,
+        candidate_label=candidate_label,
+        required_production_pilot_reviewer=required_production_pilot_reviewer,
+        blast_radius_label=blast_radius_label,
+    )
+    result["supervised_production_pilot_readiness_review_bundle"] = bundle
+    result["supervised_production_pilot_readiness_review_schema"] = bundle["supervised_production_pilot_readiness_review_schema"]
+    result["supervised_production_pilot_readiness_review_approval_gate"] = bundle["supervised_production_pilot_readiness_review_approval_gate"]
+    result["minimum_viable_production_candidate_contract"] = bundle["minimum_viable_production_candidate_contract"]
+    result["human_production_pilot_review_gate"] = bundle["human_production_pilot_review_gate"]
+    result["production_blast_radius_analysis"] = bundle["production_blast_radius_analysis"]
+    result["live_action_denial_review"] = bundle["live_action_denial_review"]
+    result["rollback_availability_review"] = bundle["rollback_availability_review"]
+    result["credential_secret_readiness_denial_proof"] = bundle["credential_secret_readiness_denial_proof"]
+    result["network_socket_readiness_denial_proof"] = bundle["network_socket_readiness_denial_proof"]
+    result["production_pilot_audit_proof"] = bundle["production_pilot_audit_proof"]
+    result["production_pilot_readiness_ledger"] = bundle["production_pilot_readiness_ledger"]
+    result["production_pilot_readiness_summary"] = bundle["production_pilot_readiness_summary"]
+    result["credential_vault_denial_secret_handling_proof_bridge"] = bundle["credential_vault_denial_secret_handling_proof_bridge"]
+    return result
+
+
+def write_supervised_production_pilot_readiness_review(
+    result: dict,
+    output_dir: str | Path,
+    run_label: str = "station-chief-runtime",
+) -> dict:
+    if "supervised_production_pilot_readiness_review_bundle" not in result:
+        raise ValueError(
+            "supervised_production_pilot_readiness_review_bundle not found in result. Call attach_supervised_production_pilot_readiness_review first."
+        )
+
+    out_path = Path(output_dir).expanduser().resolve()
+    run_id = generate_run_id(result.get("command", ""), run_label=run_label)
+    review_dir = out_path / run_id
+    review_dir.mkdir(parents=True, exist_ok=True)
+
+    files_to_write = {
+        "supervised_production_pilot_readiness_review_bundle.json": result["supervised_production_pilot_readiness_review_bundle"],
+        "supervised_production_pilot_readiness_review_schema.json": result["supervised_production_pilot_readiness_review_schema"],
+        "supervised_production_pilot_readiness_review_approval_gate.json": result["supervised_production_pilot_readiness_review_approval_gate"],
+        "minimum_viable_production_candidate_contract.json": result["minimum_viable_production_candidate_contract"],
+        "human_production_pilot_review_gate.json": result["human_production_pilot_review_gate"],
+        "production_blast_radius_analysis.json": result["production_blast_radius_analysis"],
+        "live_action_denial_review.json": result["live_action_denial_review"],
+        "rollback_availability_review.json": result["rollback_availability_review"],
+        "credential_secret_readiness_denial_proof.json": result["credential_secret_readiness_denial_proof"],
+        "network_socket_readiness_denial_proof.json": result["network_socket_readiness_denial_proof"],
+        "production_pilot_audit_proof.json": result["production_pilot_audit_proof"],
+        "production_pilot_readiness_ledger.json": result["production_pilot_readiness_ledger"],
+        "production_pilot_readiness_summary.json": result["production_pilot_readiness_summary"],
+        "credential_vault_denial_secret_handling_proof_bridge.json": result["credential_vault_denial_secret_handling_proof_bridge"],
+    }
+    files_written = list(files_to_write.keys())
+    for filename, payload in files_to_write.items():
+        _write_json(review_dir / filename, payload)
+
+    manifest = {
+        "supervised_production_pilot_readiness_review_manifest_version": "3.6.0",
+        "run_id": run_id,
+        "runtime_version": "3.6.0",
+        "status": "SUPERVISED_PRODUCTION_PILOT_READINESS_REVIEW_PREVIEW_ONLY",
+        "files_written": files_written + ["supervised_production_pilot_readiness_review_manifest.json"],
+        "baseline_preserved": True,
+        "external_actions_taken": False,
+        "production_execution_performed": False,
+        "production_activation_performed": False,
+        "deployment_performed": False,
+        "deployment_rollback_performed": False,
+        "real_rollback_performed": False,
+        "real_recovery_performed": False,
+        "processes_terminated": False,
+        "workers_terminated": False,
+        "production_state_changed": False,
+        "live_api_call_performed": False,
+        "network_access_performed": False,
+        "socket_opened": False,
+        "credentials_used": False,
+        "secrets_read": False,
+        "environment_read": False,
+        "real_external_tool_invocation_performed": False,
+        "real_task_execution_performed": False,
+        "live_task_assignment_performed": False,
+        "live_worker_routing_performed": False,
+        "live_orchestration_performed": False,
+        "worker_processes_started": False,
+        "repo_files_modified": False,
+        "execution_authorized": False,
+        "note": "Supervised Production Pilot Readiness Review v3.6.0 creates local production-readiness review schema, approval gate, minimum viable production candidate contract, human production pilot review gate, production blast-radius analysis, live action denial review, rollback availability review, credential/secret readiness denial proof, network/socket readiness denial proof, production pilot audit proof, production pilot readiness ledger, readiness summary, and credential vault denial and secret handling proof bridge artifacts only. It does not execute production, activate production, deploy, roll back deployments, perform rollback, perform recovery, terminate processes, terminate workers, change production state, call live APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, invoke external tools, assign live tasks, route live workers, perform live orchestration, start worker processes, run shell commands, or modify repo files.",
+    }
+    _write_json(review_dir / "supervised_production_pilot_readiness_review_manifest.json", manifest)
+    return {
+        "run_id": run_id,
+        "supervised_production_pilot_readiness_review_dir": str(review_dir),
         "files_written": manifest["files_written"],
     }
 
@@ -3903,6 +4052,20 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
     api_pilot_ledger = result.get("api_pilot_ledger")
     api_pilot_readiness_summary = result.get("api_pilot_readiness_summary")
     monitored_rollback_recovery_drill_bridge = result.get("monitored_rollback_recovery_drill_bridge")
+    supervised_production_pilot_readiness_review_bundle = result.get("supervised_production_pilot_readiness_review_bundle")
+    supervised_production_pilot_readiness_review_schema = result.get("supervised_production_pilot_readiness_review_schema")
+    supervised_production_pilot_readiness_review_approval_gate = result.get("supervised_production_pilot_readiness_review_approval_gate")
+    minimum_viable_production_candidate_contract = result.get("minimum_viable_production_candidate_contract")
+    human_production_pilot_review_gate = result.get("human_production_pilot_review_gate")
+    production_blast_radius_analysis = result.get("production_blast_radius_analysis")
+    live_action_denial_review = result.get("live_action_denial_review")
+    rollback_availability_review = result.get("rollback_availability_review")
+    credential_secret_readiness_denial_proof = result.get("credential_secret_readiness_denial_proof")
+    network_socket_readiness_denial_proof = result.get("network_socket_readiness_denial_proof")
+    production_pilot_audit_proof = result.get("production_pilot_audit_proof")
+    production_pilot_readiness_ledger = result.get("production_pilot_readiness_ledger")
+    production_pilot_readiness_summary = result.get("production_pilot_readiness_summary")
+    credential_vault_denial_secret_handling_proof_bridge = result.get("credential_vault_denial_secret_handling_proof_bridge")
     
     controlled_worker_hiring_activation_pilot_bundle = result.get("controlled_worker_hiring_activation_pilot_bundle")
     controlled_worker_hiring_activation_pilot_schema = result.get("controlled_worker_hiring_activation_pilot_schema")
@@ -4021,6 +4184,23 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
             "rollback_recovery_drill_ledger.json",
             "recovery_readiness_summary.json",
             "supervised_production_pilot_readiness_review_bridge.json",
+        ])
+    if result.get("supervised_production_pilot_readiness_review_bundle"):
+        files_planned.extend([
+            "supervised_production_pilot_readiness_review_bundle.json",
+            "supervised_production_pilot_readiness_review_schema.json",
+            "supervised_production_pilot_readiness_review_approval_gate.json",
+            "minimum_viable_production_candidate_contract.json",
+            "human_production_pilot_review_gate.json",
+            "production_blast_radius_analysis.json",
+            "live_action_denial_review.json",
+            "rollback_availability_review.json",
+            "credential_secret_readiness_denial_proof.json",
+            "network_socket_readiness_denial_proof.json",
+            "production_pilot_audit_proof.json",
+            "production_pilot_readiness_ledger.json",
+            "production_pilot_readiness_summary.json",
+            "credential_vault_denial_secret_handling_proof_bridge.json",
         ])
     if controlled_worker_hiring_activation_pilot_bundle:
         files_planned.extend(["controlled_worker_hiring_activation_pilot_bundle.json", "controlled_worker_hiring_activation_pilot_schema.json", "controlled_worker_hiring_activation_pilot_approval_gate.json", "pilot_worker_limit_contract.json", "worker_identity_activation_contract.json", "task_assignment_denial_by_default.json", "human_supervised_pilot_gate.json", "pilot_rollback_abort_preview.json", "pilot_audit_proof.json", "pilot_ledger.json", "pilot_readiness_summary.json", "first_supervised_production_dry_run_bridge.json"])
@@ -4339,6 +4519,20 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "rollback_recovery_drill_ledger": result.get("rollback_recovery_drill_ledger"),
         "recovery_readiness_summary": result.get("recovery_readiness_summary"),
         "supervised_production_pilot_readiness_review_bridge": result.get("supervised_production_pilot_readiness_review_bridge"),
+        "supervised_production_pilot_readiness_review_bundle": supervised_production_pilot_readiness_review_bundle,
+        "supervised_production_pilot_readiness_review_schema": supervised_production_pilot_readiness_review_schema,
+        "supervised_production_pilot_readiness_review_approval_gate": supervised_production_pilot_readiness_review_approval_gate,
+        "minimum_viable_production_candidate_contract": minimum_viable_production_candidate_contract,
+        "human_production_pilot_review_gate": human_production_pilot_review_gate,
+        "production_blast_radius_analysis": production_blast_radius_analysis,
+        "live_action_denial_review": live_action_denial_review,
+        "rollback_availability_review": rollback_availability_review,
+        "credential_secret_readiness_denial_proof": credential_secret_readiness_denial_proof,
+        "network_socket_readiness_denial_proof": network_socket_readiness_denial_proof,
+        "production_pilot_audit_proof": production_pilot_audit_proof,
+        "production_pilot_readiness_ledger": production_pilot_readiness_ledger,
+        "production_pilot_readiness_summary": production_pilot_readiness_summary,
+        "credential_vault_denial_secret_handling_proof_bridge": credential_vault_denial_secret_handling_proof_bridge,
         "controlled_worker_hiring_activation_pilot_bundle": controlled_worker_hiring_activation_pilot_bundle,
         "controlled_worker_hiring_activation_pilot_schema": result.get("controlled_worker_hiring_activation_pilot_schema"),
         "controlled_worker_hiring_activation_pilot_approval_gate": result.get("controlled_worker_hiring_activation_pilot_approval_gate"),
@@ -4353,8 +4547,8 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "first_supervised_production_dry_run_bridge": result.get("first_supervised_production_dry_run_bridge"),
         "manifest": {
             "run_id": run_id,
-            "runtime_version": "3.5.0",
-            "artifact_type": "station_chief_runtime_v3_5_artifacts",
+            "runtime_version": "3.6.0",
+            "artifact_type": "station_chief_runtime_v3_6_artifacts",
             "files_planned": files_planned,
             "baseline_preserved": True,
             "devinization_overlays_preserved": True,
@@ -4447,6 +4641,29 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
             "monitored_rollback_recovery_drill_does_not_perform_live_orchestration": True,
             "monitored_rollback_recovery_drill_does_not_modify_repo_files": True,
             "supervised_production_pilot_readiness_review_not_yet_active": True,
+            "supervised_production_pilot_readiness_review_available": True,
+            "supervised_production_pilot_readiness_review_preview_only": True,
+            "supervised_production_pilot_readiness_review_requires_token": True,
+            "minimum_viable_production_candidate_preview_only": True,
+            "production_blast_radius_analysis_preview_only": True,
+            "live_action_denied_by_default": True,
+            "rollback_availability_review_only": True,
+            "credential_secret_readiness_denied": True,
+            "network_socket_readiness_denied": True,
+            "supervised_production_pilot_readiness_review_does_not_execute_production": True,
+            "supervised_production_pilot_readiness_review_does_not_activate_production": True,
+            "supervised_production_pilot_readiness_review_does_not_deploy": True,
+            "supervised_production_pilot_readiness_review_does_not_call_live_apis": True,
+            "supervised_production_pilot_readiness_review_does_not_use_network_access": True,
+            "supervised_production_pilot_readiness_review_does_not_open_sockets": True,
+            "supervised_production_pilot_readiness_review_does_not_use_credentials": True,
+            "supervised_production_pilot_readiness_review_does_not_read_secrets": True,
+            "supervised_production_pilot_readiness_review_does_not_read_environment": True,
+            "supervised_production_pilot_readiness_review_does_not_assign_live_tasks": True,
+            "supervised_production_pilot_readiness_review_does_not_route_live_workers": True,
+            "supervised_production_pilot_readiness_review_does_not_perform_live_orchestration": True,
+            "supervised_production_pilot_readiness_review_does_not_modify_repo_files": True,
+            "credential_vault_denial_secret_handling_proof_not_yet_active": True,
             "controlled_worker_hiring_activation_pilot_schema": result.get("controlled_worker_hiring_activation_pilot_schema") is not None,
             "controlled_worker_hiring_activation_pilot_approval_gate": result.get("controlled_worker_hiring_activation_pilot_approval_gate") is not None,
             "pilot_worker_limit_contract": result.get("pilot_worker_limit_contract") is not None,
@@ -4850,6 +5067,20 @@ def write_runtime_artifacts(
         "rollback_recovery_drill_ledger.json": artifacts.get("rollback_recovery_drill_ledger"),
         "recovery_readiness_summary.json": artifacts.get("recovery_readiness_summary"),
         "supervised_production_pilot_readiness_review_bridge.json": artifacts.get("supervised_production_pilot_readiness_review_bridge"),
+        "supervised_production_pilot_readiness_review_bundle.json": artifacts.get("supervised_production_pilot_readiness_review_bundle"),
+        "supervised_production_pilot_readiness_review_schema.json": artifacts.get("supervised_production_pilot_readiness_review_schema"),
+        "supervised_production_pilot_readiness_review_approval_gate.json": artifacts.get("supervised_production_pilot_readiness_review_approval_gate"),
+        "minimum_viable_production_candidate_contract.json": artifacts.get("minimum_viable_production_candidate_contract"),
+        "human_production_pilot_review_gate.json": artifacts.get("human_production_pilot_review_gate"),
+        "production_blast_radius_analysis.json": artifacts.get("production_blast_radius_analysis"),
+        "live_action_denial_review.json": artifacts.get("live_action_denial_review"),
+        "rollback_availability_review.json": artifacts.get("rollback_availability_review"),
+        "credential_secret_readiness_denial_proof.json": artifacts.get("credential_secret_readiness_denial_proof"),
+        "network_socket_readiness_denial_proof.json": artifacts.get("network_socket_readiness_denial_proof"),
+        "production_pilot_audit_proof.json": artifacts.get("production_pilot_audit_proof"),
+        "production_pilot_readiness_ledger.json": artifacts.get("production_pilot_readiness_ledger"),
+        "production_pilot_readiness_summary.json": artifacts.get("production_pilot_readiness_summary"),
+        "credential_vault_denial_secret_handling_proof_bridge.json": artifacts.get("credential_vault_denial_secret_handling_proof_bridge"),
         "first_supervised_production_dry_run_bundle.json": artifacts.get("first_supervised_production_dry_run_bundle"),
         "first_supervised_production_dry_run_schema.json": artifacts.get("first_supervised_production_dry_run_schema"),
         "first_supervised_production_dry_run_approval_gate.json": artifacts.get("first_supervised_production_dry_run_approval_gate"),
@@ -5468,6 +5699,14 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--limited-external-tool-supervised-pilot-schema", action="store_true")
     parser.add_argument("--limited-external-tool-supervised-pilot", action="store_true")
     parser.add_argument("--write-limited-external-tool-supervised-pilot", metavar="DIR", type=str)
+    parser.add_argument("--supervised-production-pilot-readiness-review-schema", action="store_true")
+    parser.add_argument("--supervised-production-pilot-readiness-review", action="store_true")
+    parser.add_argument("--write-supervised-production-pilot-readiness-review", metavar="DIR", type=str)
+    parser.add_argument("--production-readiness-label", type=str, default="station-chief-supervised-production-pilot-readiness-review")
+    parser.add_argument("--production-readiness-confirm-token", type=str)
+    parser.add_argument("--candidate-label", type=str, default="minimum viable production candidate preview")
+    parser.add_argument("--required-production-pilot-reviewer", type=str, default="Devin O’Rourke / explicit human operator")
+    parser.add_argument("--blast-radius-label", type=str, default="preview production blast-radius analysis")
     parser.add_argument("--supervised-external-api-pilot-schema", action="store_true")
     parser.add_argument("--supervised-external-api-pilot", action="store_true")
     parser.add_argument("--write-supervised-external-api-pilot", type=str, metavar="DIR")
@@ -6103,6 +6342,20 @@ def main() -> None:
             quarantine_labels=args.dry_run_quarantine_label
         )
 
+    if args.write_supervised_production_pilot_readiness_review:
+        args.supervised_production_pilot_readiness_review = True
+
+    if args.supervised_production_pilot_readiness_review or getattr(args, "write_supervised_production_pilot_readiness_review", False):
+        args.monitored_rollback_recovery_drill = True
+        result = attach_supervised_production_pilot_readiness_review(
+            result,
+            production_readiness_label=args.production_readiness_label,
+            confirmation_token=args.production_readiness_confirm_token,
+            candidate_label=args.candidate_label,
+            required_production_pilot_reviewer=args.required_production_pilot_reviewer,
+            blast_radius_label=args.blast_radius_label,
+        )
+
     if args.supervised_external_api_pilot or getattr(args, "write_supervised_external_api_pilot", False) or args.monitored_rollback_recovery_drill or getattr(args, "write_monitored_rollback_recovery_drill", False):
         result = attach_supervised_external_api_pilot(
             result,
@@ -6367,6 +6620,10 @@ def main() -> None:
         dry_run_res = write_first_supervised_production_dry_run(result, args.write_first_supervised_production_dry_run)
         result = dict(result)
         result["first_supervised_production_dry_run_write_summary"] = dry_run_res
+    if args.supervised_production_pilot_readiness_review_schema:
+        print(json.dumps(create_supervised_production_pilot_readiness_review_schema(), indent=2, sort_keys=True))
+        sys.exit(0)
+
     if args.supervised_external_api_pilot_schema:
         print(json.dumps(create_supervised_external_api_pilot_schema(), indent=2, sort_keys=True))
         sys.exit(0)
@@ -6381,6 +6638,24 @@ def main() -> None:
     if args.write_monitored_rollback_recovery_drill:
         args.monitored_rollback_recovery_drill = True
         args.supervised_external_api_pilot = True
+
+    if args.write_supervised_production_pilot_readiness_review:
+        if "supervised_production_pilot_readiness_review_bundle" not in result or result["supervised_production_pilot_readiness_review_bundle"] is None:
+            result = attach_supervised_production_pilot_readiness_review(
+                result,
+                production_readiness_label=args.production_readiness_label,
+                confirmation_token=args.production_readiness_confirm_token,
+                candidate_label=args.candidate_label,
+                required_production_pilot_reviewer=args.required_production_pilot_reviewer,
+                blast_radius_label=args.blast_radius_label,
+            )
+        supervised_production_pilot_readiness_review_write_summary = write_supervised_production_pilot_readiness_review(
+            result,
+            args.write_supervised_production_pilot_readiness_review,
+            run_label=args.run_label,
+        )
+        result = dict(result)
+        result["supervised_production_pilot_readiness_review_write_summary"] = supervised_production_pilot_readiness_review_write_summary
 
     if args.write_limited_external_tool_supervised_pilot:
         pilot_res = write_limited_external_tool_supervised_pilot(result, args.write_limited_external_tool_supervised_pilot)

@@ -4,7 +4,7 @@ import re
 import difflib
 from pathlib import Path
 
-GITHUB_PATCH_HARDENING_MODULE_VERSION = "3.5.0"
+GITHUB_PATCH_HARDENING_MODULE_VERSION = "3.6.0"
 GITHUB_PATCH_HARDENING_STATUS = "PATCH_HARDENING_CONTRACT_ONLY"
 GITHUB_PATCH_HARDENING_PHASE = "GitHub Patch Application Hardening"
 
@@ -20,15 +20,15 @@ def normalize_patch_label(label: str) -> str:
     normalized = re.sub(r"[^a-z0-9]+", "-", label.lower()).strip("-")
     return normalized or "patch-hardening"
 
-def generate_patch_hardening_id(command: str, label: str, runtime_version: str = "3.5.0") -> str:
+def generate_patch_hardening_id(command: str, label: str, runtime_version: str = "3.6.0") -> str:
     normalized_label = normalize_patch_label(label)
     hash_input = f"{runtime_version}:{command}:{label}"
     hash_chars = hashlib.sha256(hash_input.encode("utf-8")).hexdigest()[:12]
-    return f"patch-hardening-v3-5-{normalized_label}-{hash_chars}"
+    return f"patch-hardening-v3-6-{normalized_label}-{hash_chars}"
 
 def create_patch_hardening_schema() -> dict:
     return {
-        "patch_hardening_schema_version": "3.5.0",
+        "patch_hardening_schema_version": "3.6.0",
         "schema_status": "PATCH_HARDENING_CONTRACT_ONLY",
         "required_sections": [
             "protected_path_policy",
@@ -83,7 +83,7 @@ def create_patch_hardening_schema() -> dict:
 
 def create_protected_path_policy() -> dict:
     return {
-        "protected_path_policy_version": "3.5.0",
+        "protected_path_policy_version": "3.6.0",
         "policy_status": "ACTIVE_CONTRACT",
         "protected_paths": [
             "09_exports/dashboard_seed.json",
@@ -156,7 +156,7 @@ def is_path_protected(path: str, protected_policy: dict | None = None) -> dict:
         reason = "Path contains sensitive keywords or traversal patterns."
         
     return {
-        "path_protection_check_version": "3.5.0",
+        "path_protection_check_version": "3.6.0",
         "path": normalized,
         "is_protected": is_protected,
         "matched_rule": matched_rule,
@@ -202,7 +202,7 @@ def create_patch_root_validation(
     status = "PASS" if all(checks.values()) else "BLOCKED"
     
     return {
-        "patch_root_validation_version": "3.5.0",
+        "patch_root_validation_version": "3.6.0",
         "patch_root": patch_root or "",
         "allowed_patch_file": allowed_patch_file or "",
         "validation_status": status,
@@ -232,7 +232,7 @@ def create_patch_preview_diff_contract(
     diff_text = "".join(diff_lines)
     
     return {
-        "patch_preview_diff_contract_version": "3.5.0",
+        "patch_preview_diff_contract_version": "3.6.0",
         "diff_status": "PREVIEW_ONLY",
         "target_file": target,
         "original_content_digest": hashlib.sha256(original.encode("utf-8")).hexdigest(),
@@ -261,7 +261,7 @@ def create_patch_digest_manifest(
     }
     
     return {
-        "patch_digest_manifest_version": "3.5.0",
+        "patch_digest_manifest_version": "3.6.0",
         "manifest_status": "DIGESTED_PREVIEW_ONLY",
         "command_digest": hashlib.sha256(command.encode("utf-8")).hexdigest(),
         "patch_root_validation_digest": sha256_digest(patch_root_validation),
@@ -282,7 +282,7 @@ def create_patch_rollback_preview(
     patch = patch_content if patch_content is not None else ""
     
     return {
-        "patch_rollback_preview_version": "3.5.0",
+        "patch_rollback_preview_version": "3.6.0",
         "rollback_status": "PREVIEW_ONLY",
         "target_file": allowed_patch_file or "",
         "rollback_available": allowed_patch_file is not None,
@@ -344,7 +344,7 @@ def create_changed_file_proof_hardening(
         note = f"{len(changed_files)} files checked."
         
     return {
-        "changed_file_proof_hardening_version": "3.5.0",
+        "changed_file_proof_hardening_version": "3.6.0",
         "proof_status": status,
         "note": note,
         "allowed_files": allowed_files,
@@ -367,7 +367,7 @@ def create_human_approval_chain_binding(
     binding_present = (approval_record is not None or approval_ledger is not None)
     
     return {
-        "human_approval_chain_binding_version": "3.5.0",
+        "human_approval_chain_binding_version": "3.6.0",
         "binding_status": "BOUND_FOR_REVIEW" if binding_present else "MISSING_APPROVAL_CHAIN",
         "required_token": "YES_I_APPROVE_SCOPED_REPO_PATCH",
         "approval_record_present": approval_record is not None,
@@ -421,7 +421,7 @@ def create_patch_execution_readiness_score(
     status = "READY_FOR_CONFIRMED_SCOPED_PATCH_REVIEW" if score >= 80 and patch_root_validation["validation_status"] == "PASS" and changed_file_proof_hardening["proof_status"] == "PASS" else "BLOCKED"
     
     return {
-        "patch_execution_readiness_score_version": "3.5.0",
+        "patch_execution_readiness_score_version": "3.6.0",
         "readiness_status": status,
         "readiness_score": score,
         "score_breakdown": breakdown,
@@ -452,7 +452,7 @@ def create_patch_hardening_audit_bundle(
     score = create_patch_execution_readiness_score(validation, proof, binding, policy)
     
     return {
-        "patch_hardening_audit_bundle_version": "3.5.0",
+        "patch_hardening_audit_bundle_version": "3.6.0",
         "patch_hardening_status": "PATCH_HARDENING_CONTRACT_ONLY",
         "patch_hardening_schema": schema,
         "protected_path_policy": policy,
@@ -482,7 +482,7 @@ def create_deployment_packaging_readiness_bridge(result: dict, audit_bundle: dic
     )
     
     return {
-        "deployment_packaging_readiness_bridge_version": "3.5.0",
+        "deployment_packaging_readiness_bridge_version": "3.6.0",
         "current_layer": "GitHub Patch Application Hardening",
         "next_layer": "Deployment / Portfolio Packaging Bridge",
         "ready_for_deployment_packaging_bridge": ready,
@@ -527,7 +527,7 @@ def create_github_patch_hardening_bundle(
     bridge = create_deployment_packaging_readiness_bridge(result, audit_bundle)
     
     return {
-        "github_patch_hardening_bundle_version": "3.5.0",
+        "github_patch_hardening_bundle_version": "3.6.0",
         "patch_hardening_status": "PATCH_HARDENING_CONTRACT_ONLY",
         "patch_hardening_audit_bundle": audit_bundle,
         "patch_hardening_schema": audit_bundle["patch_hardening_schema"],

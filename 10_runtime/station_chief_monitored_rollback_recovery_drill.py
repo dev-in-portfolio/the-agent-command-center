@@ -5,7 +5,7 @@ import hashlib
 import json
 import re
 
-MONITORED_ROLLBACK_RECOVERY_DRILL_MODULE_VERSION = "3.5.0"
+MONITORED_ROLLBACK_RECOVERY_DRILL_MODULE_VERSION = "3.6.0"
 MONITORED_ROLLBACK_RECOVERY_DRILL_STATUS = "MONITORED_ROLLBACK_RECOVERY_DRILL_PREVIEW_ONLY"
 MONITORED_ROLLBACK_RECOVERY_DRILL_PHASE = "Monitored Rollback and Recovery Drill"
 MONITORED_ROLLBACK_RECOVERY_DRILL_APPROVAL_TOKEN = "YES_I_APPROVE_MONITORED_ROLLBACK_RECOVERY_DRILL"
@@ -31,11 +31,11 @@ def normalize_recovery_drill_label(label: str) -> str:
 def generate_monitored_rollback_recovery_drill_id(
     command: str,
     recovery_drill_label: str,
-    runtime_version: str = "3.5.0",
+    runtime_version: str = "3.6.0",
 ) -> str:
     normalized_label = normalize_recovery_drill_label(recovery_drill_label)
     digest = sha256_digest(f"{runtime_version}:{command}:{recovery_drill_label}")
-    return f"monitored-rollback-recovery-drill-v3-5-{normalized_label}-{digest[:12]}"
+    return f"monitored-rollback-recovery-drill-v3-6-{normalized_label}-{digest[:12]}"
 
 
 def _gate_is_valid(approval_gate: dict) -> bool:

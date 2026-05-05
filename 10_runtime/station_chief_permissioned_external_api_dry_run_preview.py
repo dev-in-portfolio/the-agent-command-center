@@ -1,7 +1,7 @@
 import json
 import hashlib
 
-PERMISSIONED_EXTERNAL_API_DRY_RUN_PREVIEW_MODULE_VERSION = "3.5.0"
+PERMISSIONED_EXTERNAL_API_DRY_RUN_PREVIEW_MODULE_VERSION = "3.6.0"
 PERMISSIONED_EXTERNAL_API_DRY_RUN_PREVIEW_STATUS = "PERMISSIONED_EXTERNAL_API_DRY_RUN_PREVIEW_ONLY"
 PERMISSIONED_EXTERNAL_API_DRY_RUN_PREVIEW_PHASE = "Permissioned External API Dry-Run Preview"
 PERMISSIONED_EXTERNAL_API_DRY_RUN_PREVIEW_APPROVAL_TOKEN = "YES_I_APPROVE_PERMISSIONED_EXTERNAL_API_DRY_RUN_PREVIEW"
@@ -23,15 +23,15 @@ def normalize_api_label(label: str) -> str:
         return "permissioned-external-api-dry-run-preview"
     return normalized
 
-def generate_external_api_dry_run_preview_id(command: str, api_label: str, runtime_version: str = "3.5.0") -> str:
+def generate_external_api_dry_run_preview_id(command: str, api_label: str, runtime_version: str = "3.6.0") -> str:
     norm_label = normalize_api_label(api_label)
     digest_input = f"{runtime_version}:{command}:{norm_label}"
     digest = sha256_digest(digest_input)[:12]
-    return f"external-api-dry-run-v3-5-{norm_label}-{digest}"
+    return f"external-api-dry-run-v3-6-{norm_label}-{digest}"
 
 def create_permissioned_external_api_dry_run_preview_schema() -> dict:
     return {
-        "permissioned_external_api_dry_run_preview_schema_version": "3.5.0",
+        "permissioned_external_api_dry_run_preview_schema_version": "3.6.0",
         "schema_status": "PERMISSIONED_EXTERNAL_API_DRY_RUN_PREVIEW_ONLY",
         "required_sections": [
             "external_api_dry_run_approval_gate",
@@ -107,7 +107,7 @@ def create_external_api_dry_run_approval_gate(
     token_valid = (confirmation_token == "YES_I_APPROVE_PERMISSIONED_EXTERNAL_API_DRY_RUN_PREVIEW")
     gate_status = "APPROVED_FOR_PERMISSIONED_EXTERNAL_API_DRY_RUN_RECORDS" if token_valid else "BLOCKED_PENDING_EXTERNAL_API_DRY_RUN_APPROVAL"
     return {
-        "external_api_dry_run_approval_gate_version": "3.5.0",
+        "external_api_dry_run_approval_gate_version": "3.6.0",
         "api_label": api_label,
         "gate_status": gate_status,
         "confirmation_token_required": "YES_I_APPROVE_PERMISSIONED_EXTERNAL_API_DRY_RUN_PREVIEW",
@@ -154,7 +154,7 @@ def create_api_endpoint_preview_registry(
         })
         
     return {
-        "api_endpoint_preview_registry_version": "3.5.0",
+        "api_endpoint_preview_registry_version": "3.6.0",
         "registry_status": registry_status,
         "requested_endpoints": requested_endpoints,
         "endpoint_entries": endpoint_entries,
@@ -200,7 +200,7 @@ def create_request_envelope_validation(
     validation_status = "PASS" if is_valid else "BLOCKED"
     
     return {
-        "request_envelope_validation_version": "3.5.0",
+        "request_envelope_validation_version": "3.6.0",
         "endpoint_id": endpoint_id,
         "method": method,
         "path_template": path_template,
@@ -243,7 +243,7 @@ def create_credential_absence_proof(
         })
         
     return {
-        "credential_absence_proof_version": "3.5.0",
+        "credential_absence_proof_version": "3.6.0",
         "proof_status": proof_status,
         "credential_labels": credential_labels,
         "credential_checks": credential_checks,
@@ -280,7 +280,7 @@ def create_outbound_call_prevention_proof(
     ]
     
     return {
-        "outbound_call_prevention_proof_version": "3.5.0",
+        "outbound_call_prevention_proof_version": "3.6.0",
         "proof_status": proof_status,
         "prevention_controls": prevention_controls,
         "live_api_call_performed": False,
@@ -308,7 +308,7 @@ def create_dry_run_response_fixture_contract(
     contract_status = "FIXTURE_CONTRACT_CREATED" if approval_gate.get("confirmation_token_valid") else "BLOCKED"
     
     return {
-        "dry_run_response_fixture_contract_version": "3.5.0",
+        "dry_run_response_fixture_contract_version": "3.6.0",
         "endpoint_id": endpoint_id,
         "contract_status": contract_status,
         "fixture_payload": fixture_payload,
@@ -370,7 +370,7 @@ def create_external_api_audit_proof(
     }
     
     return {
-        "external_api_audit_proof_version": "3.5.0",
+        "external_api_audit_proof_version": "3.6.0",
         "audit_status": audit_status,
         "approval_gate_digest": gate_digest,
         "endpoint_registry_digest": registry_digest,
@@ -415,7 +415,7 @@ def create_external_api_dry_run_ledger(
     ]
     
     return {
-        "external_api_dry_run_ledger_version": "3.5.0",
+        "external_api_dry_run_ledger_version": "3.6.0",
         "ledger_status": ledger_status,
         "entries": entries,
         "ledger_digest": sha256_digest(entries),
@@ -444,7 +444,7 @@ def create_external_api_dry_run_readiness_summary(
     readiness_status = "READY_FOR_NEXT_LAYER" if is_ready else "BLOCKED"
     
     return {
-        "external_api_dry_run_readiness_summary_version": "3.5.0",
+        "external_api_dry_run_readiness_summary_version": "3.6.0",
         "readiness_status": readiness_status,
         "ready_for_controlled_multi_worker_audit_replay_preview": is_ready,
         "gate_status": approval_gate.get("gate_status", "BLOCKED"),
@@ -468,7 +468,7 @@ def create_controlled_multi_worker_audit_replay_preview_readiness_bridge(
 ) -> dict:
     is_ready = readiness_summary.get("ready_for_controlled_multi_worker_audit_replay_preview", False)
     return {
-        "controlled_multi_worker_audit_replay_preview_readiness_bridge_version": "3.5.0",
+        "controlled_multi_worker_audit_replay_preview_readiness_bridge_version": "3.6.0",
         "current_layer": "Permissioned External API Dry-Run Preview",
         "next_layer": "Controlled Multi-Worker Audit Replay Preview",
         "ready_for_controlled_multi_worker_audit_replay_preview": is_ready,
@@ -538,7 +538,7 @@ def create_permissioned_external_api_dry_run_preview_bundle(
     bridge = create_controlled_multi_worker_audit_replay_preview_readiness_bridge(result, summary)
     
     return {
-        "permissioned_external_api_dry_run_preview_bundle_version": "3.5.0",
+        "permissioned_external_api_dry_run_preview_bundle_version": "3.6.0",
         "permissioned_external_api_dry_run_preview_status": "PERMISSIONED_EXTERNAL_API_DRY_RUN_PREVIEW_ONLY",
         "permissioned_external_api_dry_run_preview_schema": schema,
         "external_api_dry_run_approval_gate": gate,
