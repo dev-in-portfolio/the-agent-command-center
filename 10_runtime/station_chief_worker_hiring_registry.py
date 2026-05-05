@@ -19,7 +19,7 @@ def normalize_worker_label(label: str) -> str:
     normalized = re.sub(r"[^a-z0-9]+", "-", label.lower()).strip("-")
     return normalized or "worker"
 
-def generate_worker_id(command: str, role_label: str, index: int, runtime_version: str = "3.4.0") -> str:
+def generate_worker_id(command: str, role_label: str, index: int, runtime_version: str = "3.5.0") -> str:
     normalized_label = normalize_worker_label(role_label)
     hash_input = f"{runtime_version}:{command}:{role_label}:{index}"
     hash_chars = hashlib.sha256(hash_input.encode("utf-8")).hexdigest()[:12]
@@ -27,7 +27,7 @@ def generate_worker_id(command: str, role_label: str, index: int, runtime_versio
 
 def create_worker_role_schema() -> dict:
     return {
-        "worker_role_schema_version": "3.4.0",
+        "worker_role_schema_version": "3.5.0",
         "schema_status": "REGISTRY_PREVIEW_ONLY",
         "required_fields": [
             "worker_id",

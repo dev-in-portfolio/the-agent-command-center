@@ -4,7 +4,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-ADAPTER_MODULE_VERSION = "3.4.0"
+ADAPTER_MODULE_VERSION = "3.5.0"
 
 YES_I_APPROVE_SANDBOX_FILE_WRITE = "YES_I_APPROVE_SANDBOX_FILE_WRITE"
 YES_I_APPROVE_SCOPED_REPO_PATCH = "YES_I_APPROVE_SCOPED_REPO_PATCH"
@@ -29,6 +29,7 @@ YES_I_APPROVE_CONTROLLED_PRODUCTION_READINESS_GATE = "YES_I_APPROVE_CONTROLLED_P
 YES_I_APPROVE_CONTROLLED_WORKER_HIRING_ACTIVATION_PILOT = "YES_I_APPROVE_CONTROLLED_WORKER_HIRING_ACTIVATION_PILOT"
 YES_I_APPROVE_FIRST_SUPERVISED_PRODUCTION_DRY_RUN = "YES_I_APPROVE_FIRST_SUPERVISED_PRODUCTION_DRY_RUN"
 YES_I_APPROVE_SUPERVISED_EXTERNAL_API_PILOT = "YES_I_APPROVE_SUPERVISED_EXTERNAL_API_PILOT"
+YES_I_APPROVE_MONITORED_ROLLBACK_RECOVERY_DRILL = "YES_I_APPROVE_MONITORED_ROLLBACK_RECOVERY_DRILL"
 
 SAFE_SANDBOX_PATH = "SAFE_SANDBOX_PATH"
 SAFE_REPO_PATCH_PATH = "SAFE_REPO_PATCH_PATH"
@@ -82,6 +83,8 @@ SUPPORTED_ADAPTERS = {
         "limited_external_tool_supervised_pilot_requires_specific_token": True,
         "supports_supervised_external_api_pilot": True,
         "supervised_external_api_pilot_requires_specific_token": True,
+        "supports_monitored_rollback_recovery_drill": True,
+        "monitored_rollback_recovery_drill_requires_specific_token": True,
         "real_worker_hiring_allowed": False,
         "real_worker_activation_allowed": False,
         "worker_process_start_allowed": False,
@@ -188,6 +191,8 @@ SUPPORTED_ADAPTERS = {
         "limited_external_tool_supervised_pilot_requires_separate_gate": True,
         "supports_supervised_external_api_pilot": False,
         "supervised_external_api_pilot_requires_separate_gate": True,
+        "supports_monitored_rollback_recovery_drill": False,
+        "monitored_rollback_recovery_drill_requires_separate_gate": True,
         "supports_live_execution_telemetry_abort_controls": False,
         "telemetry_abort_controls_require_specific_token": True,
         "telemetry_abort_requires_separate_gate": True,
@@ -248,6 +253,14 @@ def list_adapters() -> dict:
         "limited_external_tool_supervised_pilot_requires_specific_token": True,
         "supports_supervised_external_api_pilot": True,
         "supervised_external_api_pilot_requires_specific_token": True,
+        "supports_monitored_rollback_recovery_drill": True,
+        "monitored_rollback_recovery_drill_requires_specific_token": True,
+        "real_rollback_allowed": False,
+        "real_recovery_allowed": False,
+        "process_termination_allowed": False,
+        "worker_termination_allowed": False,
+        "production_state_change_allowed": False,
+        "deployment_rollback_allowed": False,
         "real_worker_hiring_allowed": False,
         "real_worker_activation_allowed": False,
         "worker_process_start_allowed": False,

@@ -5,7 +5,7 @@ import hashlib
 import json
 import re
 
-LIMITED_EXTERNAL_TOOL_SUPERVISED_PILOT_MODULE_VERSION = "3.4.0"
+LIMITED_EXTERNAL_TOOL_SUPERVISED_PILOT_MODULE_VERSION = "3.5.0"
 LIMITED_EXTERNAL_TOOL_SUPERVISED_PILOT_STATUS = "LIMITED_EXTERNAL_TOOL_SUPERVISED_PILOT_PREVIEW_ONLY"
 LIMITED_EXTERNAL_TOOL_SUPERVISED_PILOT_PHASE = "Limited External Tool Supervised Pilot"
 LIMITED_EXTERNAL_TOOL_SUPERVISED_PILOT_APPROVAL_TOKEN = "YES_I_APPROVE_LIMITED_EXTERNAL_TOOL_SUPERVISED_PILOT"
@@ -29,7 +29,7 @@ def normalize_tool_pilot_label(label: str) -> str:
 def generate_limited_external_tool_supervised_pilot_id(
     command: str,
     tool_pilot_label: str,
-    runtime_version: str = "3.4.0",
+    runtime_version: str = "3.5.0",
 ) -> str:
     normalized_tool_pilot_label = normalize_tool_pilot_label(tool_pilot_label)
     digest = sha256_digest(f"{runtime_version}:{command}:{normalized_tool_pilot_label}")[:12]
@@ -38,7 +38,7 @@ def generate_limited_external_tool_supervised_pilot_id(
 
 def create_limited_external_tool_supervised_pilot_schema() -> dict:
     return {
-        "limited_external_tool_supervised_pilot_schema_version": "3.4.0",
+        "limited_external_tool_supervised_pilot_schema_version": "3.5.0",
         "schema_status": LIMITED_EXTERNAL_TOOL_SUPERVISED_PILOT_STATUS,
         "required_sections": [
             "limited_external_tool_supervised_pilot_approval_gate",
@@ -122,7 +122,7 @@ def create_limited_external_tool_supervised_pilot_approval_gate(
         else "BLOCKED_PENDING_LIMITED_EXTERNAL_TOOL_SUPERVISED_PILOT_APPROVAL"
     )
     return {
-        "limited_external_tool_supervised_pilot_approval_gate_version": "3.4.0",
+        "limited_external_tool_supervised_pilot_approval_gate_version": "3.5.0",
         "tool_pilot_label": tool_pilot_label,
         "gate_status": gate_status,
         "confirmation_token_required": LIMITED_EXTERNAL_TOOL_SUPERVISED_PILOT_APPROVAL_TOKEN,
@@ -160,7 +160,7 @@ def create_single_external_tool_category_contract(
     gate_valid = approval_gate.get("confirmation_token_valid") is True
     contract_status = "TOOL_CATEGORY_CONTRACT_CREATED" if gate_valid else "BLOCKED"
     return {
-        "single_external_tool_category_contract_version": "3.4.0",
+        "single_external_tool_category_contract_version": "3.5.0",
         "contract_status": contract_status,
         "tool_category_label": tool_category_label,
         "single_tool_category_limit": 1,
@@ -186,7 +186,7 @@ def create_tool_invocation_denial_by_default(
     contract_created = tool_category_contract.get("contract_status") == "TOOL_CATEGORY_CONTRACT_CREATED"
     denial_status = "TOOL_INVOCATION_DENIED_BY_DEFAULT" if gate_valid and contract_created else "BLOCKED"
     return {
-        "tool_invocation_denial_by_default_version": "3.4.0",
+        "tool_invocation_denial_by_default_version": "3.5.0",
         "denial_status": denial_status,
         "external_tool_invocation_default": "DENIED",
         "real_external_tool_invocation_allowed": False,
@@ -220,7 +220,7 @@ def create_human_tool_use_preflight_gate(
     gate_valid = approval_gate.get("confirmation_token_valid") is True
     preflight_status = "TOOL_USE_PREFLIGHT_REQUIREMENT_CREATED" if gate_valid else "BLOCKED"
     return {
-        "human_tool_use_preflight_gate_version": "3.4.0",
+        "human_tool_use_preflight_gate_version": "3.5.0",
         "preflight_status": preflight_status,
         "required_tool_preflight_approver": required_tool_preflight_approver,
         "human_tool_use_preflight_required": True,
@@ -248,7 +248,7 @@ def create_tool_request_envelope_preview(
     contract_created = tool_category_contract.get("contract_status") == "TOOL_CATEGORY_CONTRACT_CREATED"
     envelope_status = "TOOL_REQUEST_ENVELOPE_PREVIEW_CREATED" if gate_valid and contract_created else "BLOCKED"
     return {
-        "tool_request_envelope_preview_version": "3.4.0",
+        "tool_request_envelope_preview_version": "3.5.0",
         "envelope_status": envelope_status,
         "tool_request_label": tool_request_label,
         "request_preview_only": True,
@@ -282,7 +282,7 @@ def create_tool_response_quarantine_preview(
     gate_valid = approval_gate.get("confirmation_token_valid") is True
     preview_status = "TOOL_RESPONSE_QUARANTINE_PREVIEW_CREATED" if gate_valid else "BLOCKED"
     return {
-        "tool_response_quarantine_preview_version": "3.4.0",
+        "tool_response_quarantine_preview_version": "3.5.0",
         "preview_status": preview_status,
         "quarantine_records": list(quarantine_labels),
         "quarantine_record_count": len(quarantine_labels),
@@ -418,7 +418,7 @@ def create_tool_audit_proof(
         }
     )
     return {
-        "tool_audit_proof_version": "3.4.0",
+        "tool_audit_proof_version": "3.5.0",
         "audit_status": "PASS" if pass_all else "BLOCKED",
         "approval_gate_digest": approval_digest,
         "tool_category_contract_digest": category_digest,
@@ -495,7 +495,7 @@ def create_tool_pilot_ledger(
     ]
     ledger_digest = sha256_digest(entries)
     return {
-        "tool_pilot_ledger_version": "3.4.0",
+        "tool_pilot_ledger_version": "3.5.0",
         "ledger_status": ledger_status,
         "entries": entries,
         "ledger_digest": ledger_digest,
@@ -526,7 +526,7 @@ def create_tool_pilot_readiness_summary(
         and tool_pilot_ledger.get("ledger_status") == "LIMITED_EXTERNAL_TOOL_SUPERVISED_PILOT_LEDGER"
     )
     return {
-        "tool_pilot_readiness_summary_version": "3.4.0",
+        "tool_pilot_readiness_summary_version": "3.5.0",
         "readiness_status": "READY_FOR_NEXT_LAYER" if ready else "BLOCKED",
         "ready_for_supervised_external_api_pilot": ready,
         "gate_status": approval_gate.get("gate_status"),
@@ -555,7 +555,7 @@ def create_supervised_external_api_pilot_bridge(
 ) -> dict:
     ready = tool_pilot_readiness_summary.get("readiness_status") == "READY_FOR_NEXT_LAYER"
     return {
-        "supervised_external_api_pilot_bridge_version": "3.4.0",
+        "supervised_external_api_pilot_bridge_version": "3.5.0",
         "current_layer": LIMITED_EXTERNAL_TOOL_SUPERVISED_PILOT_PHASE,
         "next_layer": "Supervised External API Pilot",
         "ready_for_supervised_external_api_pilot": ready,
@@ -666,7 +666,7 @@ def create_limited_external_tool_supervised_pilot_bundle(
         tool_pilot_label=tool_pilot_label,
     )
     return {
-        "limited_external_tool_supervised_pilot_bundle_version": "3.4.0",
+        "limited_external_tool_supervised_pilot_bundle_version": "3.5.0",
         "limited_external_tool_supervised_pilot_status": LIMITED_EXTERNAL_TOOL_SUPERVISED_PILOT_STATUS,
         "limited_external_tool_supervised_pilot_id": pilot_id,
         "command": command,

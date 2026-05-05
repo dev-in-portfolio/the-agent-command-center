@@ -1,7 +1,7 @@
 import json
 import hashlib
 
-CONTROLLED_WORKER_HIRING_ACTIVATION_PILOT_MODULE_VERSION = "3.4.0"
+CONTROLLED_WORKER_HIRING_ACTIVATION_PILOT_MODULE_VERSION = "3.5.0"
 CONTROLLED_WORKER_HIRING_ACTIVATION_PILOT_STATUS = "CONTROLLED_WORKER_HIRING_ACTIVATION_PILOT_PREVIEW_ONLY"
 CONTROLLED_WORKER_HIRING_ACTIVATION_PILOT_PHASE = "Controlled Worker Hiring Activation Pilot"
 CONTROLLED_WORKER_HIRING_ACTIVATION_PILOT_APPROVAL_TOKEN = "YES_I_APPROVE_CONTROLLED_WORKER_HIRING_ACTIVATION_PILOT"
@@ -23,7 +23,7 @@ def normalize_pilot_label(label: str) -> str:
         return "controlled-worker-hiring-activation-pilot"
     return normalized
 
-def generate_controlled_worker_hiring_activation_pilot_id(command: str, pilot_label: str, runtime_version: str = "3.4.0") -> str:
+def generate_controlled_worker_hiring_activation_pilot_id(command: str, pilot_label: str, runtime_version: str = "3.5.0") -> str:
     norm_label = normalize_pilot_label(pilot_label)
     digest_input = f"{runtime_version}:{command}:{norm_label}"
     digest = sha256_digest(digest_input)[:12]
@@ -31,7 +31,7 @@ def generate_controlled_worker_hiring_activation_pilot_id(command: str, pilot_la
 
 def create_controlled_worker_hiring_activation_pilot_schema() -> dict:
     return {
-        "controlled_worker_hiring_activation_pilot_schema_version": "3.4.0",
+        "controlled_worker_hiring_activation_pilot_schema_version": "3.5.0",
         "schema_status": "CONTROLLED_WORKER_HIRING_ACTIVATION_PILOT_PREVIEW_ONLY",
         "required_sections": [
             "controlled_worker_hiring_activation_pilot_approval_gate",
@@ -114,7 +114,7 @@ def create_controlled_worker_hiring_activation_pilot_approval_gate(
     token_valid = (confirmation_token == "YES_I_APPROVE_CONTROLLED_WORKER_HIRING_ACTIVATION_PILOT")
     gate_status = "APPROVED_FOR_CONTROLLED_WORKER_HIRING_ACTIVATION_PILOT_RECORDS" if token_valid else "BLOCKED_PENDING_CONTROLLED_WORKER_HIRING_ACTIVATION_PILOT_APPROVAL"
     return {
-        "controlled_worker_hiring_activation_pilot_approval_gate_version": "3.4.0",
+        "controlled_worker_hiring_activation_pilot_approval_gate_version": "3.5.0",
         "pilot_label": pilot_label,
         "gate_status": gate_status,
         "confirmation_token_required": "YES_I_APPROVE_CONTROLLED_WORKER_HIRING_ACTIVATION_PILOT",
@@ -150,7 +150,7 @@ def create_pilot_worker_limit_contract(
     limit_valid = (1 <= pilot_worker_limit <= 3)
     contract_status = "PILOT_LIMIT_ACCEPTED" if (approval_gate.get("confirmation_token_valid") and limit_valid) else "BLOCKED"
     return {
-        "pilot_worker_limit_contract_version": "3.4.0",
+        "pilot_worker_limit_contract_version": "3.5.0",
         "contract_status": contract_status,
         "pilot_worker_limit": pilot_worker_limit,
         "minimum_allowed": 1,
@@ -189,7 +189,7 @@ def create_worker_identity_activation_contract(
             })
             
     return {
-        "worker_identity_activation_contract_version": "3.4.0",
+        "worker_identity_activation_contract_version": "3.5.0",
         "contract_status": contract_status,
         "worker_identity_records": worker_identity_records,
         "worker_identity_count": len(worker_identity_records),
@@ -206,7 +206,7 @@ def create_task_assignment_denial_by_default(
 ) -> dict:
     denial_status = "TASK_ASSIGNMENT_DENIED_BY_DEFAULT" if (approval_gate.get("confirmation_token_valid") and worker_identity_contract.get("contract_status") == "IDENTITY_CONTRACTS_CREATED") else "BLOCKED"
     return {
-        "task_assignment_denial_by_default_version": "3.4.0",
+        "task_assignment_denial_by_default_version": "3.5.0",
         "denial_status": denial_status,
         "task_assignment_default": "DENIED",
         "live_task_assignment_allowed": False,
@@ -231,7 +231,7 @@ def create_human_supervised_pilot_gate(
     supervision_status = "SUPERVISION_REQUIREMENT_CREATED" if approval_gate.get("confirmation_token_valid") else "BLOCKED"
     
     return {
-        "human_supervised_pilot_gate_version": "3.4.0",
+        "human_supervised_pilot_gate_version": "3.5.0",
         "supervision_status": supervision_status,
         "required_supervisor_label": required_supervisor_label,
         "human_supervision_required": True,
@@ -272,7 +272,7 @@ def create_pilot_rollback_abort_preview(
         })
         
     return {
-        "pilot_rollback_abort_preview_version": "3.4.0",
+        "pilot_rollback_abort_preview_version": "3.5.0",
         "preview_status": preview_status,
         "rollback_records": rollback_records,
         "rollback_record_count": len(rollback_records),
@@ -340,7 +340,7 @@ def create_pilot_audit_proof(
     }
     
     return {
-        "pilot_audit_proof_version": "3.4.0",
+        "pilot_audit_proof_version": "3.5.0",
         "audit_status": audit_status,
         "approval_gate_digest": gate_digest,
         "pilot_worker_limit_contract_digest": limit_digest,
@@ -393,7 +393,7 @@ def create_pilot_ledger(
     ]
     
     return {
-        "pilot_ledger_version": "3.4.0",
+        "pilot_ledger_version": "3.5.0",
         "ledger_status": ledger_status,
         "entries": entries,
         "ledger_digest": sha256_digest(entries),
@@ -425,7 +425,7 @@ def create_pilot_readiness_summary(
     )
     
     return {
-        "pilot_readiness_summary_version": "3.4.0",
+        "pilot_readiness_summary_version": "3.5.0",
         "readiness_status": "READY_FOR_NEXT_LAYER" if is_ready else "BLOCKED",
         "ready_for_first_supervised_production_dry_run": is_ready,
         "gate_status": approval_gate.get("gate_status", "BLOCKED"),
@@ -453,7 +453,7 @@ def create_first_supervised_production_dry_run_bridge(
 ) -> dict:
     is_ready = pilot_readiness_summary.get("ready_for_first_supervised_production_dry_run", False)
     return {
-        "first_supervised_production_dry_run_bridge_version": "3.4.0",
+        "first_supervised_production_dry_run_bridge_version": "3.5.0",
         "current_layer": "Controlled Worker Hiring Activation Pilot",
         "next_layer": "First Supervised Production Dry-Run",
         "ready_for_first_supervised_production_dry_run": is_ready,
@@ -517,7 +517,7 @@ def create_controlled_worker_hiring_activation_pilot_bundle(
     bridge = create_first_supervised_production_dry_run_bridge(result, summary)
     
     return {
-        "controlled_worker_hiring_activation_pilot_bundle_version": "3.4.0",
+        "controlled_worker_hiring_activation_pilot_bundle_version": "3.5.0",
         "controlled_worker_hiring_activation_pilot_status": "CONTROLLED_WORKER_HIRING_ACTIVATION_PILOT_PREVIEW_ONLY",
         "controlled_worker_hiring_activation_pilot_schema": schema,
         "controlled_worker_hiring_activation_pilot_approval_gate": gate,

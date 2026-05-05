@@ -1,7 +1,7 @@
 import json
 import hashlib
 
-SUPERVISED_EXTERNAL_API_PILOT_MODULE_VERSION = "3.4.0"
+SUPERVISED_EXTERNAL_API_PILOT_MODULE_VERSION = "3.5.0"
 SUPERVISED_EXTERNAL_API_PILOT_STATUS = "SUPERVISED_EXTERNAL_API_PILOT_PREVIEW_ONLY"
 SUPERVISED_EXTERNAL_API_PILOT_PHASE = "Supervised External API Pilot"
 SUPERVISED_EXTERNAL_API_PILOT_APPROVAL_TOKEN = "YES_I_APPROVE_SUPERVISED_EXTERNAL_API_PILOT"
@@ -21,15 +21,15 @@ def normalize_api_pilot_label(label: str) -> str:
     label = label.strip("-")
     return label if label else "supervised-external-api-pilot"
 
-def generate_supervised_external_api_pilot_id(command: str, api_pilot_label: str, runtime_version: str = "3.4.0") -> str:
+def generate_supervised_external_api_pilot_id(command: str, api_pilot_label: str, runtime_version: str = "3.5.0") -> str:
     norm_label = normalize_api_pilot_label(api_pilot_label)
     data = f"{runtime_version}:{command}:{norm_label}"
     hash_prefix = sha256_digest(data)[:12]
-    return f"supervised-external-api-pilot-v3-4-{norm_label}-{hash_prefix}"
+    return f"supervised-external-api-pilot-v3-5-{norm_label}-{hash_prefix}"
 
 def create_supervised_external_api_pilot_schema() -> dict:
     return {
-        "supervised_external_api_pilot_schema_version": "3.4.0",
+        "supervised_external_api_pilot_schema_version": "3.5.0",
         "schema_status": "SUPERVISED_EXTERNAL_API_PILOT_PREVIEW_ONLY",
         "required_sections": [
             "supervised_external_api_pilot_approval_gate",
@@ -114,7 +114,7 @@ def create_supervised_external_api_pilot_approval_gate(
     token_valid = confirmation_token == SUPERVISED_EXTERNAL_API_PILOT_APPROVAL_TOKEN
     gate_status = "APPROVED_FOR_SUPERVISED_EXTERNAL_API_PILOT_RECORDS" if token_valid else "BLOCKED_PENDING_SUPERVISED_EXTERNAL_API_PILOT_APPROVAL"
     return {
-        "supervised_external_api_pilot_approval_gate_version": "3.4.0",
+        "supervised_external_api_pilot_approval_gate_version": "3.5.0",
         "api_pilot_label": api_pilot_label,
         "gate_status": gate_status,
         "confirmation_token_required": SUPERVISED_EXTERNAL_API_PILOT_APPROVAL_TOKEN,
@@ -149,7 +149,7 @@ def create_single_api_category_contract(
     valid = approval_gate.get("confirmation_token_valid", False)
     status = "API_CATEGORY_CONTRACT_CREATED" if valid else "BLOCKED"
     return {
-        "single_api_category_contract_version": "3.4.0",
+        "single_api_category_contract_version": "3.5.0",
         "contract_status": status,
         "api_category_label": api_category_label if api_category_label else "read-only-public-status-api-preview",
         "single_api_category_limit": 1,
@@ -172,7 +172,7 @@ def create_credential_denial_by_default(
     valid = approval_gate.get("confirmation_token_valid", False) and api_category_contract.get("contract_status") == "API_CATEGORY_CONTRACT_CREATED"
     status = "CREDENTIAL_USE_DENIED_BY_DEFAULT" if valid else "BLOCKED"
     return {
-        "credential_denial_by_default_version": "3.4.0",
+        "credential_denial_by_default_version": "3.5.0",
         "denial_status": status,
         "credential_use_default": "DENIED",
         "credential_use_allowed": False,
@@ -192,7 +192,7 @@ def create_secret_handling_denial_by_default(
     valid = approval_gate.get("confirmation_token_valid", False) and api_category_contract.get("contract_status") == "API_CATEGORY_CONTRACT_CREATED"
     status = "SECRET_HANDLING_DENIED_BY_DEFAULT" if valid else "BLOCKED"
     return {
-        "secret_handling_denial_by_default_version": "3.4.0",
+        "secret_handling_denial_by_default_version": "3.5.0",
         "denial_status": status,
         "secret_read_default": "DENIED",
         "environment_read_default": "DENIED",
@@ -212,7 +212,7 @@ def create_network_socket_denial_by_default(
     valid = approval_gate.get("confirmation_token_valid", False) and api_category_contract.get("contract_status") == "API_CATEGORY_CONTRACT_CREATED"
     status = "NETWORK_SOCKET_DENIED_BY_DEFAULT" if valid else "BLOCKED"
     return {
-        "network_socket_denial_by_default_version": "3.4.0",
+        "network_socket_denial_by_default_version": "3.5.0",
         "denial_status": status,
         "network_access_default": "DENIED",
         "socket_access_default": "DENIED",
@@ -233,7 +233,7 @@ def create_human_api_use_preflight_gate(
     valid = approval_gate.get("confirmation_token_valid", False)
     status = "API_USE_PREFLIGHT_REQUIREMENT_CREATED" if valid else "BLOCKED"
     return {
-        "human_api_use_preflight_gate_version": "3.4.0",
+        "human_api_use_preflight_gate_version": "3.5.0",
         "preflight_status": status,
         "required_api_preflight_approver": required_api_preflight_approver if required_api_preflight_approver else "Devin O’Rourke / explicit human operator",
         "human_api_use_preflight_required": True,
@@ -256,7 +256,7 @@ def create_api_request_envelope_preview(
     valid = approval_gate.get("confirmation_token_valid", False) and api_category_contract.get("contract_status") == "API_CATEGORY_CONTRACT_CREATED"
     status = "API_REQUEST_ENVELOPE_PREVIEW_CREATED" if valid else "BLOCKED"
     return {
-        "api_request_envelope_preview_version": "3.4.0",
+        "api_request_envelope_preview_version": "3.5.0",
         "envelope_status": status,
         "api_request_label": api_request_label if api_request_label else "single supervised API request preview",
         "request_preview_only": True,
@@ -289,7 +289,7 @@ def create_api_response_quarantine_preview(
         "preserve locked baseline"
     ]
     return {
-        "api_response_quarantine_preview_version": "3.4.0",
+        "api_response_quarantine_preview_version": "3.5.0",
         "preview_status": status,
         "quarantine_records": labels,
         "quarantine_record_count": len(labels),
@@ -355,7 +355,7 @@ def create_api_audit_proof(
     combined_digest = sha256_digest(combined)
 
     return {
-        "api_audit_proof_version": "3.4.0",
+        "api_audit_proof_version": "3.5.0",
         "audit_status": audit_status,
         "approval_gate_digest": ag_digest,
         "api_category_contract_digest": acc_digest,
@@ -413,7 +413,7 @@ def create_api_pilot_ledger(
     ledger_digest = sha256_digest([sha256_digest(e) for e in entries])
     
     return {
-        "api_pilot_ledger_version": "3.4.0",
+        "api_pilot_ledger_version": "3.5.0",
         "ledger_status": status,
         "entries": entries,
         "ledger_digest": ledger_digest,
@@ -444,7 +444,7 @@ def create_api_pilot_readiness_summary(
     status = "READY_FOR_NEXT_LAYER" if ready else "BLOCKED"
     
     return {
-        "api_pilot_readiness_summary_version": "3.4.0",
+        "api_pilot_readiness_summary_version": "3.5.0",
         "readiness_status": status,
         "ready_for_monitored_rollback_recovery_drill": ready,
         "gate_status": approval_gate.get("gate_status", "UNKNOWN"),
@@ -470,7 +470,7 @@ def create_monitored_rollback_recovery_drill_bridge(
     api_pilot_readiness_summary: dict
 ) -> dict:
     return {
-        "monitored_rollback_recovery_drill_bridge_version": "3.4.0",
+        "monitored_rollback_recovery_drill_bridge_version": "3.5.0",
         "current_layer": "Supervised External API Pilot",
         "next_layer": "Monitored Rollback and Recovery Drill",
         "ready_for_monitored_rollback_recovery_drill": api_pilot_readiness_summary.get("ready_for_monitored_rollback_recovery_drill", False),
@@ -537,7 +537,7 @@ def create_supervised_external_api_pilot_bundle(
     bridge = create_monitored_rollback_recovery_drill_bridge(result, summary)
     
     return {
-        "supervised_external_api_pilot_bundle_version": "3.4.0",
+        "supervised_external_api_pilot_bundle_version": "3.5.0",
         "supervised_external_api_pilot_status": "SUPERVISED_EXTERNAL_API_PILOT_PREVIEW_ONLY",
         "supervised_external_api_pilot_schema": schema,
         "supervised_external_api_pilot_approval_gate": gate,

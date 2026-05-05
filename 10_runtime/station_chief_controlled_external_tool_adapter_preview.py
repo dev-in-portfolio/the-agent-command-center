@@ -5,7 +5,7 @@ import hashlib
 import json
 import re
 
-CONTROLLED_EXTERNAL_TOOL_ADAPTER_PREVIEW_MODULE_VERSION = "3.4.0"
+CONTROLLED_EXTERNAL_TOOL_ADAPTER_PREVIEW_MODULE_VERSION = "3.5.0"
 CONTROLLED_EXTERNAL_TOOL_ADAPTER_PREVIEW_STATUS = "CONTROLLED_EXTERNAL_TOOL_ADAPTER_PREVIEW_ONLY"
 CONTROLLED_EXTERNAL_TOOL_ADAPTER_PREVIEW_PHASE = "Controlled External Tool Adapter Preview"
 CONTROLLED_EXTERNAL_TOOL_ADAPTER_PREVIEW_APPROVAL_TOKEN = "YES_I_APPROVE_CONTROLLED_EXTERNAL_TOOL_ADAPTER_PREVIEW"
@@ -25,7 +25,7 @@ def normalize_external_tool_label(label: str) -> str:
     return normalized or "controlled-external-tool-adapter-preview"
 
 
-def generate_external_tool_preview_id(command: str, tool_label: str, runtime_version: str = "3.4.0") -> str:
+def generate_external_tool_preview_id(command: str, tool_label: str, runtime_version: str = "3.5.0") -> str:
     normalized_tool_label = normalize_external_tool_label(tool_label)
     digest = hashlib.sha256(f"{runtime_version}:{command}:{tool_label}".encode("utf-8")).hexdigest()
     return f"external-tool-preview-v3-4-{normalized_tool_label}-{digest[:12]}"
@@ -33,7 +33,7 @@ def generate_external_tool_preview_id(command: str, tool_label: str, runtime_ver
 
 def create_controlled_external_tool_adapter_preview_schema() -> dict:
     return {
-        "controlled_external_tool_adapter_preview_schema_version": "3.4.0",
+        "controlled_external_tool_adapter_preview_schema_version": "3.5.0",
         "schema_status": CONTROLLED_EXTERNAL_TOOL_ADAPTER_PREVIEW_STATUS,
         "required_sections": [
             "external_tool_adapter_preview_approval_gate",
@@ -104,7 +104,7 @@ def create_external_tool_adapter_preview_approval_gate(
 ) -> dict:
     token_valid = confirmation_token == CONTROLLED_EXTERNAL_TOOL_ADAPTER_PREVIEW_APPROVAL_TOKEN
     return {
-        "external_tool_adapter_preview_approval_gate_version": "3.4.0",
+        "external_tool_adapter_preview_approval_gate_version": "3.5.0",
         "tool_label": tool_label,
         "gate_status": (
             "APPROVED_FOR_EXTERNAL_TOOL_ADAPTER_PREVIEW_RECORDS"
@@ -157,7 +157,7 @@ def create_external_tool_dry_run_adapter_registry(
     else:
         registry_status = "BLOCKED"
     registry = {
-        "external_tool_dry_run_adapter_registry_version": "3.4.0",
+        "external_tool_dry_run_adapter_registry_version": "3.5.0",
         "registry_status": registry_status,
         "requested_tools": requested_tools,
         "adapter_entries": adapter_entries,
@@ -182,7 +182,7 @@ def create_per_tool_external_permission_gate(
     token_valid = approval_gate.get("confirmation_token_valid") is True
     permission_status = "PREVIEW_PERMISSION_BOUND" if token_valid and requested_external_action == "preview_request_contract" else "BLOCKED"
     return {
-        "per_tool_external_permission_gate_version": "3.4.0",
+        "per_tool_external_permission_gate_version": "3.5.0",
         "tool_id": tool_id,
         "requested_external_action": requested_external_action,
         "permission_status": permission_status,
@@ -230,7 +230,7 @@ def create_external_request_preview_contract(
         }
     )
     return {
-        "external_request_preview_contract_version": "3.4.0",
+        "external_request_preview_contract_version": "3.5.0",
         "tool_id": tool_id,
         "request_label": request_label,
         "request_contract_status": request_contract_status,
@@ -249,7 +249,7 @@ def create_external_request_preview_contract(
 
 def create_external_response_validation_schema() -> dict:
     return {
-        "external_response_validation_schema_version": "3.4.0",
+        "external_response_validation_schema_version": "3.5.0",
         "schema_status": "VALIDATION_SCHEMA_ONLY",
         "required_response_fields": [
             "tool_id",
@@ -298,7 +298,7 @@ def create_external_response_validation_preview_result(
     response_preview_present = bool(response_preview)
     if not response_preview_present:
         return {
-            "external_response_validation_preview_result_version": "3.4.0",
+            "external_response_validation_preview_result_version": "3.5.0",
             "validation_status": "PASS",
             "response_preview_present": False,
             "response_count": 0,
@@ -346,7 +346,7 @@ def create_external_response_validation_preview_result(
         response_checks.append("execution authorized false")
     valid = not missing_fields and digest_matches and not blocked_indicators and response_preview.get("external_actions_taken") is False and response_preview.get("live_api_call_performed") is False and response_preview.get("repo_files_modified") is False and response_preview.get("execution_authorized") is False
     return {
-        "external_response_validation_preview_result_version": "3.4.0",
+        "external_response_validation_preview_result_version": "3.5.0",
         "validation_status": "PASS" if valid else "BLOCKED",
         "response_preview_present": True,
         "response_count": 1,
@@ -370,7 +370,7 @@ def create_external_tool_abort_contract(
     abort_reason = abort_reason or "No external tool action started; abort contract prepared."
     gate_valid = approval_gate.get("confirmation_token_valid") is True
     return {
-        "external_tool_abort_contract_version": "3.4.0",
+        "external_tool_abort_contract_version": "3.5.0",
         "contract_status": "READY" if gate_valid else "BLOCKED",
         "abort_reason": abort_reason,
         "abort_steps": [
@@ -481,7 +481,7 @@ def create_external_tool_audit_proof(
         no_deployment,
     ]) else "BLOCKED"
     proof = {
-        "external_tool_audit_proof_version": "3.4.0",
+        "external_tool_audit_proof_version": "3.5.0",
         "audit_status": audit_status,
         "approval_gate_digest": sha256_digest(approval_gate),
         "adapter_registry_digest": sha256_digest(adapter_registry),
@@ -539,7 +539,7 @@ def create_external_tool_preview_ledger(
 ) -> dict:
     status = "CONTROLLED_EXTERNAL_TOOL_ADAPTER_PREVIEW_LEDGER" if audit_proof.get("audit_status") == "PASS" else "BLOCKED"
     ledger = {
-        "external_tool_preview_ledger_version": "3.4.0",
+        "external_tool_preview_ledger_version": "3.5.0",
         "ledger_status": status,
         "entries": [
             {"entry_type": "external_tool_adapter_preview_approval_gate", "entry_digest": sha256_digest(approval_gate)},
@@ -570,7 +570,7 @@ def create_external_tool_preview_readiness_summary(
     ledger_status = preview_ledger.get("ledger_status")
     ready = gate_valid and audit_status == "PASS" and ledger_status == "CONTROLLED_EXTERNAL_TOOL_ADAPTER_PREVIEW_LEDGER"
     return {
-        "external_tool_preview_readiness_summary_version": "3.4.0",
+        "external_tool_preview_readiness_summary_version": "3.5.0",
         "readiness_status": "READY_FOR_NEXT_LAYER" if ready else "BLOCKED",
         "ready_for_permissioned_external_api_dry_run_preview": ready,
         "gate_status": approval_gate.get("gate_status"),
@@ -593,7 +593,7 @@ def create_permissioned_external_api_dry_run_preview_readiness_bridge(
 ) -> dict:
     ready = readiness_summary.get("ready_for_permissioned_external_api_dry_run_preview") is True
     return {
-        "permissioned_external_api_dry_run_preview_readiness_bridge_version": "3.4.0",
+        "permissioned_external_api_dry_run_preview_readiness_bridge_version": "3.5.0",
         "current_layer": "Controlled External Tool Adapter Preview",
         "next_layer": "Permissioned External API Dry-Run Preview",
         "ready_for_permissioned_external_api_dry_run_preview": ready,
@@ -657,7 +657,7 @@ def create_controlled_external_tool_adapter_preview_bundle(
     readiness_summary = create_external_tool_preview_readiness_summary(gate, audit_proof, preview_ledger)
     bridge = create_permissioned_external_api_dry_run_preview_readiness_bridge(result, readiness_summary)
     bundle = {
-        "controlled_external_tool_adapter_preview_bundle_version": "3.4.0",
+        "controlled_external_tool_adapter_preview_bundle_version": "3.5.0",
         "controlled_external_tool_adapter_preview_status": CONTROLLED_EXTERNAL_TOOL_ADAPTER_PREVIEW_STATUS,
         "command": command,
         "controlled_external_tool_adapter_preview_schema": schema,
