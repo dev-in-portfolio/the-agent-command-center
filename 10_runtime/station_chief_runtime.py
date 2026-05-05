@@ -566,6 +566,25 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "command": command,
         "command_type": brief["command_type"],
         "activation_tier": brief["activation_tier"],
+        "baseline_preserved": True,
+        "external_actions_taken": False,
+        "live_api_call_performed": False,
+        "network_access_performed": False,
+        "socket_opened": False,
+        "credentials_used": False,
+        "secrets_read": False,
+        "environment_read": False,
+        "deployment_performed": False,
+        "real_external_tool_invocation_performed": False,
+        "production_execution_performed": False,
+        "production_activation_performed": False,
+        "real_task_execution_performed": False,
+        "live_task_assignment_performed": False,
+        "live_worker_routing_performed": False,
+        "live_orchestration_performed": False,
+        "worker_processes_started": False,
+        "repo_files_modified": False,
+        "execution_authorized": False,
         "selected_overlays": brief["selected_overlays"],
         "command_brief": brief,
         "work_orders": work_orders,
@@ -994,6 +1013,23 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "evidence": {
             "baseline_preserved": True,
             "external_actions_taken": False,
+            "live_api_call_performed": False,
+            "network_access_performed": False,
+            "socket_opened": False,
+            "credentials_used": False,
+            "secrets_read": False,
+            "environment_read": False,
+            "deployment_performed": False,
+            "real_external_tool_invocation_performed": False,
+            "production_execution_performed": False,
+            "production_activation_performed": False,
+            "real_task_execution_performed": False,
+            "live_task_assignment_performed": False,
+            "live_worker_routing_performed": False,
+            "live_orchestration_performed": False,
+            "worker_processes_started": False,
+            "repo_files_modified": False,
+            "execution_authorized": False,
             "live_worker_agents_activated": False,
             "deterministic_demo_mode": True,
             "validators_required_before_completion": True,
@@ -1247,6 +1283,25 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "credential_use_denied_by_default": True,
         "secret_handling_denied_by_default": True,
         "network_socket_denied_by_default": True,
+        "baseline_preserved": True,
+        "external_actions_taken": False,
+        "live_api_call_performed": False,
+        "network_access_performed": False,
+        "socket_opened": False,
+        "credentials_used": False,
+        "secrets_read": False,
+        "environment_read": False,
+        "deployment_performed": False,
+        "real_external_tool_invocation_performed": False,
+        "production_execution_performed": False,
+        "production_activation_performed": False,
+        "real_task_execution_performed": False,
+        "live_task_assignment_performed": False,
+        "live_worker_routing_performed": False,
+        "live_orchestration_performed": False,
+        "worker_processes_started": False,
+        "repo_files_modified": False,
+        "execution_authorized": False,
         "supervised_external_api_pilot_does_not_call_live_apis": True,
         "supervised_external_api_pilot_does_not_use_network_access": True,
         "supervised_external_api_pilot_does_not_open_sockets": True,
@@ -3507,6 +3562,7 @@ def write_supervised_external_api_pilot(result: dict, output_dir: str, run_label
         "supervised_external_api_pilot_manifest_version": "3.4.0",
         "run_id": run_id,
         "runtime_version": "3.4.0",
+        "status": "SUPERVISED_EXTERNAL_API_PILOT_PREVIEW_ONLY",
         "files_written": list(files_to_write.keys()) + ["supervised_external_api_pilot_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -3526,9 +3582,7 @@ def write_supervised_external_api_pilot(result: dict, output_dir: str, run_label
         "live_orchestration_performed": False,
         "worker_processes_started": False,
         "repo_files_modified": False,
-        "execution_authorized": False,
-        "status": "SUPERVISED_EXTERNAL_API_PILOT_PREVIEW_ONLY",
-        "note": "Supervised External API Pilot v3.4.0 creates local API pilot schema, approval gate, single API category contract, credential denial-by-default record, secret handling denial-by-default record, network/socket denial-by-default record, human API-use preflight gate, API request envelope preview, API response quarantine preview, audit proof, ledger, readiness summary, and monitored rollback recovery drill bridge artifacts only. It does not call live-APIs, perform network access, open sockets, use credentials, read secrets, read environment variables, deploy, invoke external tools, execute production, activate production, execute real tasks, assign live tasks, route live workers, perform live orchestration, start worker processes, run shell commands, or modify repo files."
+        "execution_authorized": False
     }
     
     for filename, data in files_to_write.items():
@@ -3614,6 +3668,20 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
     tool_pilot_ledger = result.get("tool_pilot_ledger")
     tool_pilot_readiness_summary = result.get("tool_pilot_readiness_summary")
     supervised_external_api_pilot_bridge = result.get("supervised_external_api_pilot_bridge")
+    supervised_external_api_pilot_bundle = result.get("supervised_external_api_pilot_bundle")
+    supervised_external_api_pilot_schema = result.get("supervised_external_api_pilot_schema")
+    supervised_external_api_pilot_approval_gate = result.get("supervised_external_api_pilot_approval_gate")
+    single_api_category_contract = result.get("single_api_category_contract")
+    credential_denial_by_default = result.get("credential_denial_by_default")
+    secret_handling_denial_by_default = result.get("secret_handling_denial_by_default")
+    network_socket_denial_by_default = result.get("network_socket_denial_by_default")
+    human_api_use_preflight_gate = result.get("human_api_use_preflight_gate")
+    api_request_envelope_preview = result.get("api_request_envelope_preview")
+    api_response_quarantine_preview = result.get("api_response_quarantine_preview")
+    api_audit_proof = result.get("api_audit_proof")
+    api_pilot_ledger = result.get("api_pilot_ledger")
+    api_pilot_readiness_summary = result.get("api_pilot_readiness_summary")
+    monitored_rollback_recovery_drill_bridge = result.get("monitored_rollback_recovery_drill_bridge")
     
     controlled_worker_hiring_activation_pilot_bundle = result.get("controlled_worker_hiring_activation_pilot_bundle")
     controlled_worker_hiring_activation_pilot_schema = result.get("controlled_worker_hiring_activation_pilot_schema")
@@ -3701,6 +3769,23 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         files_planned.extend(["controlled_production_readiness_gate_bundle.json", "controlled_production_readiness_gate_schema.json", "controlled_production_readiness_gate_approval_gate.json", "production_activation_denial_by_default.json", "final_human_approval_requirement.json", "production_capability_manifest.json", "supervised_pilot_eligibility_contract.json", "production_rollback_kill_switch_preview.json", "production_readiness_audit_proof.json", "production_readiness_ledger.json", "production_readiness_summary.json", "controlled_worker_hiring_activation_pilot_bridge.json"])
     if result.get("limited_external_tool_supervised_pilot_bundle"):
         files_planned.extend(["limited_external_tool_supervised_pilot_bundle.json", "limited_external_tool_supervised_pilot_schema.json", "limited_external_tool_supervised_pilot_approval_gate.json", "single_external_tool_category_contract.json", "tool_invocation_denial_by_default.json", "human_tool_use_preflight_gate.json", "tool_request_envelope_preview.json", "tool_response_quarantine_preview.json", "tool_audit_proof.json", "tool_pilot_ledger.json", "tool_pilot_readiness_summary.json", "supervised_external_api_pilot_bridge.json"])
+    if result.get("supervised_external_api_pilot_bundle"):
+        files_planned.extend([
+            "supervised_external_api_pilot_bundle.json",
+            "supervised_external_api_pilot_schema.json",
+            "supervised_external_api_pilot_approval_gate.json",
+            "single_api_category_contract.json",
+            "credential_denial_by_default.json",
+            "secret_handling_denial_by_default.json",
+            "network_socket_denial_by_default.json",
+            "human_api_use_preflight_gate.json",
+            "api_request_envelope_preview.json",
+            "api_response_quarantine_preview.json",
+            "api_audit_proof.json",
+            "api_pilot_ledger.json",
+            "api_pilot_readiness_summary.json",
+            "monitored_rollback_recovery_drill_bridge.json"
+        ])
     if controlled_worker_hiring_activation_pilot_bundle:
         files_planned.extend(["controlled_worker_hiring_activation_pilot_bundle.json", "controlled_worker_hiring_activation_pilot_schema.json", "controlled_worker_hiring_activation_pilot_approval_gate.json", "pilot_worker_limit_contract.json", "worker_identity_activation_contract.json", "task_assignment_denial_by_default.json", "human_supervised_pilot_gate.json", "pilot_rollback_abort_preview.json", "pilot_audit_proof.json", "pilot_ledger.json", "pilot_readiness_summary.json", "first_supervised_production_dry_run_bridge.json"])
 
@@ -3991,8 +4076,22 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "tool_audit_proof": result.get("tool_audit_proof"),
         "tool_pilot_ledger": result.get("tool_pilot_ledger"),
         "tool_pilot_readiness_summary": result.get("tool_pilot_readiness_summary"),
-        "supervised_external_api_pilot_bridge": result.get("supervised_external_api_pilot_bridge"),
-        "controlled_worker_hiring_activation_pilot_bundle": result.get("controlled_worker_hiring_activation_pilot_bundle"),
+        "supervised_external_api_pilot_bridge": supervised_external_api_pilot_bridge,
+        "supervised_external_api_pilot_bundle": supervised_external_api_pilot_bundle,
+        "supervised_external_api_pilot_schema": supervised_external_api_pilot_schema,
+        "supervised_external_api_pilot_approval_gate": supervised_external_api_pilot_approval_gate,
+        "single_api_category_contract": single_api_category_contract,
+        "credential_denial_by_default": credential_denial_by_default,
+        "secret_handling_denial_by_default": secret_handling_denial_by_default,
+        "network_socket_denial_by_default": network_socket_denial_by_default,
+        "human_api_use_preflight_gate": human_api_use_preflight_gate,
+        "api_request_envelope_preview": api_request_envelope_preview,
+        "api_response_quarantine_preview": api_response_quarantine_preview,
+        "api_audit_proof": api_audit_proof,
+        "api_pilot_ledger": api_pilot_ledger,
+        "api_pilot_readiness_summary": api_pilot_readiness_summary,
+        "monitored_rollback_recovery_drill_bridge": monitored_rollback_recovery_drill_bridge,
+        "controlled_worker_hiring_activation_pilot_bundle": controlled_worker_hiring_activation_pilot_bundle,
         "controlled_worker_hiring_activation_pilot_schema": result.get("controlled_worker_hiring_activation_pilot_schema"),
         "controlled_worker_hiring_activation_pilot_approval_gate": result.get("controlled_worker_hiring_activation_pilot_approval_gate"),
         "pilot_worker_limit_contract": result.get("pilot_worker_limit_contract"),
@@ -4013,6 +4112,54 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
             "devinization_overlays_preserved": True,
             "external_actions_taken": False,
             "live_worker_agents_activated": False,
+            "supervised_external_api_pilot_schema": result.get("supervised_external_api_pilot_schema") is not None,
+            "supervised_external_api_pilot_approval_gate": result.get("supervised_external_api_pilot_approval_gate") is not None,
+            "single_api_category_contract": result.get("single_api_category_contract") is not None,
+            "credential_denial_by_default": result.get("credential_denial_by_default") is not None,
+            "secret_handling_denial_by_default": result.get("secret_handling_denial_by_default") is not None,
+            "network_socket_denial_by_default": result.get("network_socket_denial_by_default") is not None,
+            "human_api_use_preflight_gate": result.get("human_api_use_preflight_gate") is not None,
+            "api_request_envelope_preview": result.get("api_request_envelope_preview") is not None,
+            "api_response_quarantine_preview": result.get("api_response_quarantine_preview") is not None,
+            "api_audit_proof": result.get("api_audit_proof") is not None,
+            "api_pilot_ledger": result.get("api_pilot_ledger") is not None,
+            "api_pilot_readiness_summary": result.get("api_pilot_readiness_summary") is not None,
+            "monitored_rollback_recovery_drill_bridge": result.get("monitored_rollback_recovery_drill_bridge") is not None,
+            "baseline_preserved": True,
+            "external_actions_taken": False,
+            "live_api_call_performed": False,
+            "network_access_performed": False,
+            "socket_opened": False,
+            "credentials_used": False,
+            "secrets_read": False,
+            "environment_read": False,
+            "deployment_performed": False,
+            "real_external_tool_invocation_performed": False,
+            "production_execution_performed": False,
+            "production_activation_performed": False,
+            "real_task_execution_performed": False,
+            "live_task_assignment_performed": False,
+            "live_worker_routing_performed": False,
+            "live_orchestration_performed": False,
+            "worker_processes_started": False,
+            "repo_files_modified": False,
+            "execution_authorized": False,
+            "supervised_external_api_pilot_preview_only": True,
+            "supervised_external_api_pilot_requires_token": True,
+            "single_api_category_limit_is_one": True,
+            "credential_use_denied_by_default": True,
+            "secret_handling_denied_by_default": True,
+            "network_socket_denied_by_default": True,
+            "supervised_external_api_pilot_does_not_call_live_apis": True,
+            "supervised_external_api_pilot_does_not_use_network_access": True,
+            "supervised_external_api_pilot_does_not_open_sockets": True,
+            "supervised_external_api_pilot_does_not_use_credentials": True,
+            "supervised_external_api_pilot_does_not_read_secrets": True,
+            "supervised_external_api_pilot_does_not_read_environment": True,
+            "supervised_external_api_pilot_does_not_deploy": True,
+            "supervised_external_api_pilot_does_not_invoke_external_tools": True,
+            "supervised_external_api_pilot_does_not_execute_production": True,
+            "supervised_external_api_pilot_does_not_modify_repo_files": True,
             "controlled_worker_hiring_activation_pilot_schema": result.get("controlled_worker_hiring_activation_pilot_schema") is not None,
             "controlled_worker_hiring_activation_pilot_approval_gate": result.get("controlled_worker_hiring_activation_pilot_approval_gate") is not None,
             "pilot_worker_limit_contract": result.get("pilot_worker_limit_contract") is not None,

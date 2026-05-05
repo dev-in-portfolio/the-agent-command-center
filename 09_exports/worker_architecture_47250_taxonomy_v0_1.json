@@ -1,0 +1,5146 @@
+{
+  "worker_architecture_version": "0.1",
+  "status": "STATIC_DESIGN_ONLY",
+  "fixed_worker_count": true,
+  "target_worker_capacity": 47250,
+  "workers_activated": false,
+  "live_orchestration_enabled": false,
+  "live_task_routing_enabled": false,
+  "external_actions_taken": false,
+  "api_access_enabled": false,
+  "credential_access_enabled": false,
+  "secret_access_enabled": false,
+  "environment_access_enabled": false,
+  "deployment_access_enabled": false,
+  "production_execution_enabled": false,
+  "divisions": [
+    {
+      "division_id": "DIV-01",
+      "division_name": "Command and Governance",
+      "purpose": "Define direction, guard scope, and coordinate command-level oversight.",
+      "example_departments": [
+        "Command Desk",
+        "Scope Office",
+        "Policy Office"
+      ],
+      "example_worker_roles": [
+        "Command Router",
+        "Scope Guardian",
+        "Priority Governor"
+      ],
+      "permission_ceiling": "T1",
+      "output_types": [
+        "command briefs",
+        "scope rulings",
+        "governance logs"
+      ],
+      "escalation_requirements": [
+        "Escalate any ambiguity affecting scope, authority, or safety."
+      ],
+      "safety_restrictions": [
+        "No live task routing.",
+        "No production access.",
+        "No self-activation."
+      ]
+    },
+    {
+      "division_id": "DIV-02",
+      "division_name": "Intake and Interpretation",
+      "purpose": "Capture incoming work, normalize requests, and map intent into structured records.",
+      "example_departments": [
+        "Intake Desk",
+        "Interpretation Desk",
+        "Normalization Desk"
+      ],
+      "example_worker_roles": [
+        "Intake Parser",
+        "Intent Interpreter",
+        "Request Normalizer"
+      ],
+      "permission_ceiling": "T1",
+      "output_types": [
+        "structured intake records",
+        "intent summaries",
+        "classification notes"
+      ],
+      "escalation_requirements": [
+        "Escalate missing context, contradictory instructions, or unsafe requests."
+      ],
+      "safety_restrictions": [
+        "No direct execution.",
+        "No credential access.",
+        "No live routing."
+      ]
+    },
+    {
+      "division_id": "DIV-03",
+      "division_name": "Planning and Strategy",
+      "purpose": "Convert requirements into staged plans, sequences, and strategic options.",
+      "example_departments": [
+        "Planning Office",
+        "Strategy Office",
+        "Sequencing Office"
+      ],
+      "example_worker_roles": [
+        "Plan Architect",
+        "Strategy Synthesizer",
+        "Milestone Mapper"
+      ],
+      "permission_ceiling": "T1",
+      "output_types": [
+        "plans",
+        "roadmaps",
+        "decision memos"
+      ],
+      "escalation_requirements": [
+        "Escalate when tradeoffs change scope, schedule, or risk exposure."
+      ],
+      "safety_restrictions": [
+        "No deployment action.",
+        "No production execution.",
+        "No API calls."
+      ]
+    },
+    {
+      "division_id": "DIV-04",
+      "division_name": "Research and Knowledge",
+      "purpose": "Collect, organize, and synthesize knowledge into static reference material.",
+      "example_departments": [
+        "Research Desk",
+        "Knowledge Desk",
+        "Synthesis Desk"
+      ],
+      "example_worker_roles": [
+        "Research Synthesizer",
+        "Knowledge Curator",
+        "Evidence Mapper"
+      ],
+      "permission_ceiling": "T1",
+      "output_types": [
+        "research notes",
+        "knowledge briefs",
+        "evidence summaries"
+      ],
+      "escalation_requirements": [
+        "Escalate when source quality, freshness, or reliability is uncertain."
+      ],
+      "safety_restrictions": [
+        "No network access.",
+        "No live system interaction.",
+        "No secrets."
+      ]
+    },
+    {
+      "division_id": "DIV-05",
+      "division_name": "Engineering and Build",
+      "purpose": "Design code changes, build artifacts, and implementation plans without live execution.",
+      "example_departments": [
+        "Build Office",
+        "Implementation Office",
+        "Architecture Office"
+      ],
+      "example_worker_roles": [
+        "Code Reviewer",
+        "UI Builder",
+        "API Boundary Auditor"
+      ],
+      "permission_ceiling": "T1",
+      "output_types": [
+        "design specs",
+        "patch plans",
+        "implementation outlines"
+      ],
+      "escalation_requirements": [
+        "Escalate changes affecting runtime, deployment, or protected baselines."
+      ],
+      "safety_restrictions": [
+        "No live builds.",
+        "No production touch.",
+        "No protected baseline mutation."
+      ]
+    },
+    {
+      "division_id": "DIV-06",
+      "division_name": "QA and Validation",
+      "purpose": "Check correctness, regressions, and conformance against static requirements.",
+      "example_departments": [
+        "Validation Desk",
+        "Regression Desk",
+        "Test Design Desk"
+      ],
+      "example_worker_roles": [
+        "Regression Checker",
+        "Validator Writer",
+        "Test Matrix Auditor"
+      ],
+      "permission_ceiling": "T1",
+      "output_types": [
+        "test plans",
+        "validation reports",
+        "regression notes"
+      ],
+      "escalation_requirements": [
+        "Escalate when a defect might affect safety, data integrity, or production risk."
+      ],
+      "safety_restrictions": [
+        "No live test execution.",
+        "No production execution.",
+        "No API access."
+      ]
+    },
+    {
+      "division_id": "DIV-07",
+      "division_name": "Documentation and Reporting",
+      "purpose": "Produce clear records, reports, and user-facing documentation.",
+      "example_departments": [
+        "Docs Office",
+        "Reporting Office",
+        "Release Notes Office"
+      ],
+      "example_worker_roles": [
+        "Documentation Formatter",
+        "Release Note Curator",
+        "Report Assembler"
+      ],
+      "permission_ceiling": "T1",
+      "output_types": [
+        "documentation",
+        "reports",
+        "summaries"
+      ],
+      "escalation_requirements": [
+        "Escalate when wording could imply activation, authority, or capability that does not exist."
+      ],
+      "safety_restrictions": [
+        "No runtime claims.",
+        "No live worker claims.",
+        "No secrets."
+      ]
+    },
+    {
+      "division_id": "DIV-08",
+      "division_name": "Security and Safety",
+      "purpose": "Define defensive boundaries, restrictions, and safety checks for the worker blueprint.",
+      "example_departments": [
+        "Safety Office",
+        "Boundary Office",
+        "Threat Office"
+      ],
+      "example_worker_roles": [
+        "Policy Sentinel",
+        "Boundary Auditor",
+        "Safety Gatekeeper"
+      ],
+      "permission_ceiling": "T1",
+      "output_types": [
+        "safety rules",
+        "risk notes",
+        "boundary assessments"
+      ],
+      "escalation_requirements": [
+        "Escalate any condition that could expose secrets, credentials, or production systems."
+      ],
+      "safety_restrictions": [
+        "No live access.",
+        "No credential handling.",
+        "No secret handling."
+      ]
+    },
+    {
+      "division_id": "DIV-09",
+      "division_name": "Deployment and Operations",
+      "purpose": "Plan operational readiness, release gating, and non-executing deployment support.",
+      "example_departments": [
+        "Operations Office",
+        "Release Office",
+        "Readiness Office"
+      ],
+      "example_worker_roles": [
+        "Deployment Planner",
+        "Rollback Strategist",
+        "Operations Curator"
+      ],
+      "permission_ceiling": "T1",
+      "output_types": [
+        "readiness plans",
+        "rollback notes",
+        "operations checklists"
+      ],
+      "escalation_requirements": [
+        "Escalate any request involving deployment, runtime drift, or production activation."
+      ],
+      "safety_restrictions": [
+        "No deployment execution.",
+        "No live routing.",
+        "No production approval bypass."
+      ]
+    },
+    {
+      "division_id": "DIV-10",
+      "division_name": "Business and Product",
+      "purpose": "Frame product intent, business goals, and user value in static planning form.",
+      "example_departments": [
+        "Product Office",
+        "Business Office",
+        "Research Ops"
+      ],
+      "example_worker_roles": [
+        "Product Strategist",
+        "Business Analyst",
+        "Value Mapper"
+      ],
+      "permission_ceiling": "T1",
+      "output_types": [
+        "product briefs",
+        "business cases",
+        "roadmap inputs"
+      ],
+      "escalation_requirements": [
+        "Escalate if business objectives conflict with safety, compliance, or capacity limits."
+      ],
+      "safety_restrictions": [
+        "No live customer action.",
+        "No credential use.",
+        "No production access."
+      ]
+    },
+    {
+      "division_id": "DIV-11",
+      "division_name": "Creative and Media",
+      "purpose": "Develop static creative direction, media concepts, and presentation assets.",
+      "example_departments": [
+        "Creative Studio",
+        "Media Studio",
+        "Brand Studio"
+      ],
+      "example_worker_roles": [
+        "Creative Concept Builder",
+        "Media Layout Designer",
+        "Brand Voice Curator"
+      ],
+      "permission_ceiling": "T1",
+      "output_types": [
+        "creative briefs",
+        "media concepts",
+        "presentation assets"
+      ],
+      "escalation_requirements": [
+        "Escalate when a creative request crosses into live publishing or rights-sensitive use."
+      ],
+      "safety_restrictions": [
+        "No live publishing.",
+        "No protected asset mutation.",
+        "No production touch."
+      ]
+    },
+    {
+      "division_id": "DIV-12",
+      "division_name": "Data and Analytics",
+      "purpose": "Describe measurement, reporting, and analytic structure without live query access.",
+      "example_departments": [
+        "Analytics Office",
+        "Metrics Office",
+        "Modeling Office"
+      ],
+      "example_worker_roles": [
+        "Data Analyst",
+        "Metric Curator",
+        "Insight Synthesizer"
+      ],
+      "permission_ceiling": "T1",
+      "output_types": [
+        "analytics plans",
+        "metric definitions",
+        "trend summaries"
+      ],
+      "escalation_requirements": [
+        "Escalate any request that implies direct data access, credentialed access, or production telemetry use."
+      ],
+      "safety_restrictions": [
+        "No direct database access.",
+        "No secrets.",
+        "No live API access."
+      ]
+    },
+    {
+      "division_id": "DIV-13",
+      "division_name": "User Support and Personalization",
+      "purpose": "Draft support patterns, personalization logic, and user assistance guidance.",
+      "example_departments": [
+        "Support Desk",
+        "Personalization Desk",
+        "Experience Desk"
+      ],
+      "example_worker_roles": [
+        "Support Triage Analyst",
+        "Personalization Mapper",
+        "Help Flow Curator"
+      ],
+      "permission_ceiling": "T1",
+      "output_types": [
+        "support scripts",
+        "help articles",
+        "personalization guides"
+      ],
+      "escalation_requirements": [
+        "Escalate when a support response would require live account, credential, or production access."
+      ],
+      "safety_restrictions": [
+        "No account access.",
+        "No credential access.",
+        "No production execution."
+      ]
+    },
+    {
+      "division_id": "DIV-14",
+      "division_name": "Compliance and Audit",
+      "purpose": "Track policy, compliance, and audit-ready records for the static worker system.",
+      "example_departments": [
+        "Compliance Office",
+        "Audit Office",
+        "Controls Office"
+      ],
+      "example_worker_roles": [
+        "Compliance Checker",
+        "Audit Trail Curator",
+        "Control Mapper"
+      ],
+      "permission_ceiling": "T1",
+      "output_types": [
+        "compliance notes",
+        "audit records",
+        "controls mapping"
+      ],
+      "escalation_requirements": [
+        "Escalate any policy exception, audit failure, or control gap."
+      ],
+      "safety_restrictions": [
+        "No live access.",
+        "No production access.",
+        "No unauthorized exceptions."
+      ]
+    },
+    {
+      "division_id": "DIV-15",
+      "division_name": "Experimental Systems Lab",
+      "purpose": "Prototype future static structures and sandboxed conceptual variants without activation.",
+      "example_departments": [
+        "Lab Office",
+        "Prototype Office",
+        "Exploration Office"
+      ],
+      "example_worker_roles": [
+        "Experimental Concept Mapper",
+        "Prototype Planner",
+        "Variant Curator"
+      ],
+      "permission_ceiling": "T1",
+      "output_types": [
+        "prototype specs",
+        "experiment notes",
+        "variant proposals"
+      ],
+      "escalation_requirements": [
+        "Escalate any experiment that could be mistaken for live execution or deployment."
+      ],
+      "safety_restrictions": [
+        "No live test execution.",
+        "No production pathway.",
+        "No self-activation."
+      ]
+    }
+  ],
+  "capacity_phases": [
+    {
+      "phase_id": "P1",
+      "phase_name": "Phase 1: 500 worker templates",
+      "worker_template_capacity": 500,
+      "activation_allowed": false,
+      "live_orchestration_allowed": false,
+      "production_execution_allowed": false,
+      "notes": "Planning and design only; no activation or live orchestration."
+    },
+    {
+      "phase_id": "P2",
+      "phase_name": "Phase 2: 5,000 worker templates",
+      "worker_template_capacity": 5000,
+      "activation_allowed": false,
+      "live_orchestration_allowed": false,
+      "production_execution_allowed": false,
+      "notes": "Planning and design only; no activation or live orchestration."
+    },
+    {
+      "phase_id": "P3",
+      "phase_name": "Phase 3: 25,000 worker templates",
+      "worker_template_capacity": 25000,
+      "activation_allowed": false,
+      "live_orchestration_allowed": false,
+      "production_execution_allowed": false,
+      "notes": "Planning and design only; no activation or live orchestration."
+    },
+    {
+      "phase_id": "P4",
+      "phase_name": "Phase 4: 47,250 worker templates",
+      "worker_template_capacity": 47250,
+      "activation_allowed": false,
+      "live_orchestration_allowed": false,
+      "production_execution_allowed": false,
+      "notes": "Final planning target only; still static design with no execution."
+    }
+  ],
+  "division_capacity_allocation": [
+    {
+      "division_name": "Command and Governance",
+      "worker_template_allocation": 1500
+    },
+    {
+      "division_name": "Intake and Interpretation",
+      "worker_template_allocation": 2500
+    },
+    {
+      "division_name": "Planning and Strategy",
+      "worker_template_allocation": 3000
+    },
+    {
+      "division_name": "Research and Knowledge",
+      "worker_template_allocation": 4500
+    },
+    {
+      "division_name": "Engineering and Build",
+      "worker_template_allocation": 6000
+    },
+    {
+      "division_name": "QA and Validation",
+      "worker_template_allocation": 5000
+    },
+    {
+      "division_name": "Documentation and Reporting",
+      "worker_template_allocation": 3500
+    },
+    {
+      "division_name": "Security and Safety",
+      "worker_template_allocation": 4000
+    },
+    {
+      "division_name": "Deployment and Operations",
+      "worker_template_allocation": 3250
+    },
+    {
+      "division_name": "Business and Product",
+      "worker_template_allocation": 2500
+    },
+    {
+      "division_name": "Creative and Media",
+      "worker_template_allocation": 2750
+    },
+    {
+      "division_name": "Data and Analytics",
+      "worker_template_allocation": 3500
+    },
+    {
+      "division_name": "User Support and Personalization",
+      "worker_template_allocation": 2000
+    },
+    {
+      "division_name": "Compliance and Audit",
+      "worker_template_allocation": 2250
+    },
+    {
+      "division_name": "Experimental Systems Lab",
+      "worker_template_allocation": 1000
+    }
+  ],
+  "permission_tiers": [
+    {
+      "tier_id": "T0",
+      "tier_name": "Design-only worker",
+      "description": "Design-only records with no execution permissions.",
+      "live_execution_allowed": false,
+      "api_access_allowed": false,
+      "credential_access_allowed": false,
+      "deployment_allowed": false,
+      "production_allowed": false,
+      "defined_for_future": false
+    },
+    {
+      "tier_id": "T1",
+      "tier_name": "Local planning worker",
+      "description": "Local planning only, with no live actions.",
+      "live_execution_allowed": false,
+      "api_access_allowed": false,
+      "credential_access_allowed": false,
+      "deployment_allowed": false,
+      "production_allowed": false,
+      "defined_for_future": false
+    },
+    {
+      "tier_id": "T2",
+      "tier_name": "Local file drafting worker",
+      "description": "Future drafting tier reserved for later design stages.",
+      "live_execution_allowed": false,
+      "api_access_allowed": false,
+      "credential_access_allowed": false,
+      "deployment_allowed": false,
+      "production_allowed": false,
+      "defined_for_future": true
+    },
+    {
+      "tier_id": "T3",
+      "tier_name": "Local validation worker",
+      "description": "Future validation tier reserved for later design stages.",
+      "live_execution_allowed": false,
+      "api_access_allowed": false,
+      "credential_access_allowed": false,
+      "deployment_allowed": false,
+      "production_allowed": false,
+      "defined_for_future": true
+    },
+    {
+      "tier_id": "T4",
+      "tier_name": "Sandbox execution worker",
+      "description": "Future sandbox execution tier reserved for later design stages.",
+      "live_execution_allowed": false,
+      "api_access_allowed": false,
+      "credential_access_allowed": false,
+      "deployment_allowed": false,
+      "production_allowed": false,
+      "defined_for_future": true
+    },
+    {
+      "tier_id": "T5",
+      "tier_name": "Supervised tool-use worker",
+      "description": "Future supervised tool-use tier reserved for later design stages.",
+      "live_execution_allowed": false,
+      "api_access_allowed": false,
+      "credential_access_allowed": false,
+      "deployment_allowed": false,
+      "production_allowed": false,
+      "defined_for_future": true
+    },
+    {
+      "tier_id": "T6",
+      "tier_name": "Supervised API-preview worker",
+      "description": "Future supervised API-preview tier reserved for later design stages.",
+      "live_execution_allowed": false,
+      "api_access_allowed": false,
+      "credential_access_allowed": false,
+      "deployment_allowed": false,
+      "production_allowed": false,
+      "defined_for_future": true
+    },
+    {
+      "tier_id": "T7",
+      "tier_name": "Supervised production-candidate worker",
+      "description": "Future supervised production-candidate tier reserved for later design stages.",
+      "live_execution_allowed": false,
+      "api_access_allowed": false,
+      "credential_access_allowed": false,
+      "deployment_allowed": false,
+      "production_allowed": false,
+      "defined_for_future": true
+    },
+    {
+      "tier_id": "T8",
+      "tier_name": "Production pilot worker",
+      "description": "Future production pilot tier reserved for later design stages.",
+      "live_execution_allowed": false,
+      "api_access_allowed": false,
+      "credential_access_allowed": false,
+      "deployment_allowed": false,
+      "production_allowed": false,
+      "defined_for_future": true
+    },
+    {
+      "tier_id": "T9",
+      "tier_name": "Locked live worker",
+      "description": "Future locked live tier reserved for later design stages.",
+      "live_execution_allowed": false,
+      "api_access_allowed": false,
+      "credential_access_allowed": false,
+      "deployment_allowed": false,
+      "production_allowed": false,
+      "defined_for_future": true
+    }
+  ],
+  "activation_tiers": [
+    {
+      "tier_id": "A0",
+      "tier_name": "Not created",
+      "description": "Worker record does not exist yet.",
+      "active_worker": false,
+      "live_task_routing_allowed": false,
+      "requires_human_approval": false
+    },
+    {
+      "tier_id": "A1",
+      "tier_name": "Static role template",
+      "description": "Static role template only.",
+      "active_worker": false,
+      "live_task_routing_allowed": false,
+      "requires_human_approval": false
+    },
+    {
+      "tier_id": "A2",
+      "tier_name": "Registered role template",
+      "description": "Registered template with no live activity.",
+      "active_worker": false,
+      "live_task_routing_allowed": false,
+      "requires_human_approval": true
+    },
+    {
+      "tier_id": "A3",
+      "tier_name": "Simulated dry-run worker",
+      "description": "Dry-run simulation only.",
+      "active_worker": false,
+      "live_task_routing_allowed": false,
+      "requires_human_approval": true
+    },
+    {
+      "tier_id": "A4",
+      "tier_name": "Sandbox worker candidate",
+      "description": "Sandbox candidate only.",
+      "active_worker": false,
+      "live_task_routing_allowed": false,
+      "requires_human_approval": true
+    },
+    {
+      "tier_id": "A5",
+      "tier_name": "Supervised pilot candidate",
+      "description": "Supervised pilot candidate only.",
+      "active_worker": false,
+      "live_task_routing_allowed": false,
+      "requires_human_approval": true
+    },
+    {
+      "tier_id": "A6",
+      "tier_name": "Human-approved pilot worker",
+      "description": "Human-approved pilot worker path.",
+      "active_worker": false,
+      "live_task_routing_allowed": false,
+      "requires_human_approval": true
+    },
+    {
+      "tier_id": "A7",
+      "tier_name": "Production-readiness reviewed",
+      "description": "Production-readiness review stage.",
+      "active_worker": false,
+      "live_task_routing_allowed": false,
+      "requires_human_approval": true
+    },
+    {
+      "tier_id": "A8",
+      "tier_name": "Production pilot approved",
+      "description": "Production pilot approval stage.",
+      "active_worker": false,
+      "live_task_routing_allowed": false,
+      "requires_human_approval": true
+    },
+    {
+      "tier_id": "A9",
+      "tier_name": "Live activation approved",
+      "description": "Live activation approval stage.",
+      "active_worker": false,
+      "live_task_routing_allowed": false,
+      "requires_human_approval": true
+    }
+  ],
+  "audit_levels": [
+    {
+      "audit_level_id": "L0",
+      "audit_level_name": "Design note only",
+      "description": "Minimal design note with no operational record.",
+      "required_for_v0_1": false
+    },
+    {
+      "audit_level_id": "L1",
+      "audit_level_name": "Basic role record",
+      "description": "Basic structured record for static design.",
+      "required_for_v0_1": true
+    },
+    {
+      "audit_level_id": "L2",
+      "audit_level_name": "Structured capability record",
+      "description": "Structured record of capabilities and limits.",
+      "required_for_v0_1": true
+    },
+    {
+      "audit_level_id": "L3",
+      "audit_level_name": "Validation-required role record",
+      "description": "Role record that requires validation evidence.",
+      "required_for_v0_1": true
+    },
+    {
+      "audit_level_id": "L4",
+      "audit_level_name": "Approval-required role record",
+      "description": "Role record that requires approval review.",
+      "required_for_v0_1": false
+    },
+    {
+      "audit_level_id": "L5",
+      "audit_level_name": "Full audit trail required",
+      "description": "Comprehensive audit trail for later phases.",
+      "required_for_v0_1": false
+    }
+  ],
+  "worker_status_values": [
+    "STATIC_DESIGN_ONLY",
+    "REGISTERED_TEMPLATE_ONLY",
+    "SIMULATION_READY_NOT_ACTIVE",
+    "SANDBOX_CANDIDATE_NOT_ACTIVE",
+    "PILOT_CANDIDATE_NOT_ACTIVE",
+    "BLOCKED_PENDING_APPROVAL",
+    "RETIRED_TEMPLATE"
+  ],
+  "starter_worker_role_families": [
+    {
+      "role_family_id": "DIV-01-RF-01",
+      "role_family_name": "Command Router",
+      "division": "Command and Governance",
+      "department": "Command Desk",
+      "purpose": "Routes command intent into static governance records.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "command briefs",
+        "governance logs"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Policy Office",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Command and Governance as static templates only; v0.1 keeps Command Router at template stage."
+    },
+    {
+      "role_family_id": "DIV-01-RF-02",
+      "role_family_name": "Scope Guardian",
+      "division": "Command and Governance",
+      "department": "Command Desk",
+      "purpose": "Protects the scope boundary of the architecture.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "command briefs",
+        "governance logs"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Policy Office",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Command and Governance as static templates only; v0.1 keeps Scope Guardian at template stage."
+    },
+    {
+      "role_family_id": "DIV-01-RF-03",
+      "role_family_name": "Priority Governor",
+      "division": "Command and Governance",
+      "department": "Command Desk",
+      "purpose": "Ranks work by declared importance and urgency.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "command briefs",
+        "governance logs"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Policy Office",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Command and Governance as static templates only; v0.1 keeps Priority Governor at template stage."
+    },
+    {
+      "role_family_id": "DIV-01-RF-04",
+      "role_family_name": "Authority Ledger Keeper",
+      "division": "Command and Governance",
+      "department": "Command Desk",
+      "purpose": "Records authority boundaries and ownership.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "command briefs",
+        "governance logs"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Policy Office",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Command and Governance as static templates only; v0.1 keeps Authority Ledger Keeper at template stage."
+    },
+    {
+      "role_family_id": "DIV-01-RF-05",
+      "role_family_name": "Oversight Coordinator",
+      "division": "Command and Governance",
+      "department": "Command Desk",
+      "purpose": "Coordinates non-executing oversight artifacts.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "command briefs",
+        "governance logs"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Policy Office",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Command and Governance as static templates only; v0.1 keeps Oversight Coordinator at template stage."
+    },
+    {
+      "role_family_id": "DIV-01-RF-06",
+      "role_family_name": "Policy Sentinel",
+      "division": "Command and Governance",
+      "department": "Command Desk",
+      "purpose": "Flags policy drift and authority mismatch.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "command briefs",
+        "governance logs"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Policy Office",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Command and Governance as static templates only; v0.1 keeps Policy Sentinel at template stage."
+    },
+    {
+      "role_family_id": "DIV-01-RF-07",
+      "role_family_name": "Dispatch Curator",
+      "division": "Command and Governance",
+      "department": "Command Desk",
+      "purpose": "Curates dispatch rules without routing live work.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "command briefs",
+        "governance logs"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Policy Office",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Command and Governance as static templates only; v0.1 keeps Dispatch Curator at template stage."
+    },
+    {
+      "role_family_id": "DIV-01-RF-08",
+      "role_family_name": "Directive Archivist",
+      "division": "Command and Governance",
+      "department": "Command Desk",
+      "purpose": "Archives command directives as static references.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "command briefs",
+        "governance logs"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Policy Office",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Command and Governance as static templates only; v0.1 keeps Directive Archivist at template stage."
+    },
+    {
+      "role_family_id": "DIV-01-RF-09",
+      "role_family_name": "Consensus Recorder",
+      "division": "Command and Governance",
+      "department": "Command Desk",
+      "purpose": "Captures agreed decisions for governance review.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "command briefs",
+        "governance logs"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Policy Office",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Command and Governance as static templates only; v0.1 keeps Consensus Recorder at template stage."
+    },
+    {
+      "role_family_id": "DIV-01-RF-10",
+      "role_family_name": "Drift Watcher",
+      "division": "Command and Governance",
+      "department": "Command Desk",
+      "purpose": "Detects divergence between scope and blueprint.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "command briefs",
+        "governance logs"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Policy Office",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Command and Governance as static templates only; v0.1 keeps Drift Watcher at template stage."
+    },
+    {
+      "role_family_id": "DIV-02-RF-01",
+      "role_family_name": "Intake Parser",
+      "division": "Intake and Interpretation",
+      "department": "Intake Desk",
+      "purpose": "Converts raw requests into structured intake records.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "structured intake records",
+        "classification notes"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Normalization Desk",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Intake and Interpretation as static templates only; v0.1 keeps Intake Parser at template stage."
+    },
+    {
+      "role_family_id": "DIV-02-RF-02",
+      "role_family_name": "Intent Interpreter",
+      "division": "Intake and Interpretation",
+      "department": "Intake Desk",
+      "purpose": "Maps human wording to normalized intent.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "structured intake records",
+        "classification notes"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Normalization Desk",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Intake and Interpretation as static templates only; v0.1 keeps Intent Interpreter at template stage."
+    },
+    {
+      "role_family_id": "DIV-02-RF-03",
+      "role_family_name": "Request Normalizer",
+      "division": "Intake and Interpretation",
+      "department": "Intake Desk",
+      "purpose": "Standardizes request fields and phrasing.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "structured intake records",
+        "classification notes"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Normalization Desk",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Intake and Interpretation as static templates only; v0.1 keeps Request Normalizer at template stage."
+    },
+    {
+      "role_family_id": "DIV-02-RF-04",
+      "role_family_name": "Context Collector",
+      "division": "Intake and Interpretation",
+      "department": "Intake Desk",
+      "purpose": "Collects required context fields for planning.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "structured intake records",
+        "classification notes"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Normalization Desk",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Intake and Interpretation as static templates only; v0.1 keeps Context Collector at template stage."
+    },
+    {
+      "role_family_id": "DIV-02-RF-05",
+      "role_family_name": "Clarification Drafter",
+      "division": "Intake and Interpretation",
+      "department": "Intake Desk",
+      "purpose": "Drafts clarification questions for missing context.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "structured intake records",
+        "classification notes"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Normalization Desk",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Intake and Interpretation as static templates only; v0.1 keeps Clarification Drafter at template stage."
+    },
+    {
+      "role_family_id": "DIV-02-RF-06",
+      "role_family_name": "Signal Classifier",
+      "division": "Intake and Interpretation",
+      "department": "Intake Desk",
+      "purpose": "Classifies request signals into static categories.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "structured intake records",
+        "classification notes"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Normalization Desk",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Intake and Interpretation as static templates only; v0.1 keeps Signal Classifier at template stage."
+    },
+    {
+      "role_family_id": "DIV-02-RF-07",
+      "role_family_name": "Input Sanitizer",
+      "division": "Intake and Interpretation",
+      "department": "Intake Desk",
+      "purpose": "Normalizes input without executing it.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "structured intake records",
+        "classification notes"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Normalization Desk",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Intake and Interpretation as static templates only; v0.1 keeps Input Sanitizer at template stage."
+    },
+    {
+      "role_family_id": "DIV-02-RF-08",
+      "role_family_name": "Brief Extractor",
+      "division": "Intake and Interpretation",
+      "department": "Intake Desk",
+      "purpose": "Extracts high-signal summary notes.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "structured intake records",
+        "classification notes"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Normalization Desk",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Intake and Interpretation as static templates only; v0.1 keeps Brief Extractor at template stage."
+    },
+    {
+      "role_family_id": "DIV-02-RF-09",
+      "role_family_name": "Scope Tagger",
+      "division": "Intake and Interpretation",
+      "department": "Intake Desk",
+      "purpose": "Tags requests by scope class and boundary.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "structured intake records",
+        "classification notes"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Normalization Desk",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Intake and Interpretation as static templates only; v0.1 keeps Scope Tagger at template stage."
+    },
+    {
+      "role_family_id": "DIV-02-RF-10",
+      "role_family_name": "Intake Auditor",
+      "division": "Intake and Interpretation",
+      "department": "Intake Desk",
+      "purpose": "Audits intake completeness and safety notes.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "structured intake records",
+        "classification notes"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Normalization Desk",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Intake and Interpretation as static templates only; v0.1 keeps Intake Auditor at template stage."
+    },
+    {
+      "role_family_id": "DIV-03-RF-01",
+      "role_family_name": "Plan Architect",
+      "division": "Planning and Strategy",
+      "department": "Planning Office",
+      "purpose": "Builds staged static plans from requirements.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "plans",
+        "decision memos"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Sequencing Office",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Planning and Strategy as static templates only; v0.1 keeps Plan Architect at template stage."
+    },
+    {
+      "role_family_id": "DIV-03-RF-02",
+      "role_family_name": "Strategy Synthesizer",
+      "division": "Planning and Strategy",
+      "department": "Planning Office",
+      "purpose": "Synthesizes strategic options and tradeoffs.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "plans",
+        "decision memos"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Sequencing Office",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Planning and Strategy as static templates only; v0.1 keeps Strategy Synthesizer at template stage."
+    },
+    {
+      "role_family_id": "DIV-03-RF-03",
+      "role_family_name": "Milestone Mapper",
+      "division": "Planning and Strategy",
+      "department": "Planning Office",
+      "purpose": "Maps milestones and dependencies.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "plans",
+        "decision memos"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Sequencing Office",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Planning and Strategy as static templates only; v0.1 keeps Milestone Mapper at template stage."
+    },
+    {
+      "role_family_id": "DIV-03-RF-04",
+      "role_family_name": "Sequence Planner",
+      "division": "Planning and Strategy",
+      "department": "Planning Office",
+      "purpose": "Orders tasks into a rational static sequence.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "plans",
+        "decision memos"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Sequencing Office",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Planning and Strategy as static templates only; v0.1 keeps Sequence Planner at template stage."
+    },
+    {
+      "role_family_id": "DIV-03-RF-05",
+      "role_family_name": "Tradeoff Curator",
+      "division": "Planning and Strategy",
+      "department": "Planning Office",
+      "purpose": "Records tradeoff choices for review.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "plans",
+        "decision memos"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Sequencing Office",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Planning and Strategy as static templates only; v0.1 keeps Tradeoff Curator at template stage."
+    },
+    {
+      "role_family_id": "DIV-03-RF-06",
+      "role_family_name": "Roadmap Editor",
+      "division": "Planning and Strategy",
+      "department": "Planning Office",
+      "purpose": "Edits roadmap structure without execution.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "plans",
+        "decision memos"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Sequencing Office",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Planning and Strategy as static templates only; v0.1 keeps Roadmap Editor at template stage."
+    },
+    {
+      "role_family_id": "DIV-03-RF-07",
+      "role_family_name": "Scenario Builder",
+      "division": "Planning and Strategy",
+      "department": "Planning Office",
+      "purpose": "Frames alternative future scenarios.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "plans",
+        "decision memos"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Sequencing Office",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Planning and Strategy as static templates only; v0.1 keeps Scenario Builder at template stage."
+    },
+    {
+      "role_family_id": "DIV-03-RF-08",
+      "role_family_name": "Decision Memo Writer",
+      "division": "Planning and Strategy",
+      "department": "Planning Office",
+      "purpose": "Writes decision memos for future approval.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "plans",
+        "decision memos"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Sequencing Office",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Planning and Strategy as static templates only; v0.1 keeps Decision Memo Writer at template stage."
+    },
+    {
+      "role_family_id": "DIV-03-RF-09",
+      "role_family_name": "Constraint Mapper",
+      "division": "Planning and Strategy",
+      "department": "Planning Office",
+      "purpose": "Maps constraints to planning boundaries.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "plans",
+        "decision memos"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Sequencing Office",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Planning and Strategy as static templates only; v0.1 keeps Constraint Mapper at template stage."
+    },
+    {
+      "role_family_id": "DIV-03-RF-10",
+      "role_family_name": "Execution-Free Planner",
+      "division": "Planning and Strategy",
+      "department": "Planning Office",
+      "purpose": "Plans only, never activates work.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "plans",
+        "decision memos"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Sequencing Office",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Planning and Strategy as static templates only; v0.1 keeps Execution-Free Planner at template stage."
+    },
+    {
+      "role_family_id": "DIV-04-RF-01",
+      "role_family_name": "Research Synthesizer",
+      "division": "Research and Knowledge",
+      "department": "Research Desk",
+      "purpose": "Synthesizes evidence into static research notes.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "research notes",
+        "evidence summaries"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Synthesis Desk",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Research and Knowledge as static templates only; v0.1 keeps Research Synthesizer at template stage."
+    },
+    {
+      "role_family_id": "DIV-04-RF-02",
+      "role_family_name": "Knowledge Curator",
+      "division": "Research and Knowledge",
+      "department": "Research Desk",
+      "purpose": "Curates durable reference material.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "research notes",
+        "evidence summaries"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Synthesis Desk",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Research and Knowledge as static templates only; v0.1 keeps Knowledge Curator at template stage."
+    },
+    {
+      "role_family_id": "DIV-04-RF-03",
+      "role_family_name": "Evidence Mapper",
+      "division": "Research and Knowledge",
+      "department": "Research Desk",
+      "purpose": "Maps evidence to claims and caveats.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "research notes",
+        "evidence summaries"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Synthesis Desk",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Research and Knowledge as static templates only; v0.1 keeps Evidence Mapper at template stage."
+    },
+    {
+      "role_family_id": "DIV-04-RF-04",
+      "role_family_name": "Source Evaluator",
+      "division": "Research and Knowledge",
+      "department": "Research Desk",
+      "purpose": "Evaluates source quality and freshness.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "research notes",
+        "evidence summaries"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Synthesis Desk",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Research and Knowledge as static templates only; v0.1 keeps Source Evaluator at template stage."
+    },
+    {
+      "role_family_id": "DIV-04-RF-05",
+      "role_family_name": "Citation Builder",
+      "division": "Research and Knowledge",
+      "department": "Research Desk",
+      "purpose": "Builds citation-ready references.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "research notes",
+        "evidence summaries"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Synthesis Desk",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Research and Knowledge as static templates only; v0.1 keeps Citation Builder at template stage."
+    },
+    {
+      "role_family_id": "DIV-04-RF-06",
+      "role_family_name": "Archive Indexer",
+      "division": "Research and Knowledge",
+      "department": "Research Desk",
+      "purpose": "Indexes archived knowledge records.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "research notes",
+        "evidence summaries"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Synthesis Desk",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Research and Knowledge as static templates only; v0.1 keeps Archive Indexer at template stage."
+    },
+    {
+      "role_family_id": "DIV-04-RF-07",
+      "role_family_name": "Insight Summarizer",
+      "division": "Research and Knowledge",
+      "department": "Research Desk",
+      "purpose": "Summarizes findings for planning use.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "research notes",
+        "evidence summaries"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Synthesis Desk",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Research and Knowledge as static templates only; v0.1 keeps Insight Summarizer at template stage."
+    },
+    {
+      "role_family_id": "DIV-04-RF-08",
+      "role_family_name": "Reference Librarian",
+      "division": "Research and Knowledge",
+      "department": "Research Desk",
+      "purpose": "Organizes knowledge by topic and stability.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "research notes",
+        "evidence summaries"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Synthesis Desk",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Research and Knowledge as static templates only; v0.1 keeps Reference Librarian at template stage."
+    },
+    {
+      "role_family_id": "DIV-04-RF-09",
+      "role_family_name": "Pattern Finder",
+      "division": "Research and Knowledge",
+      "department": "Research Desk",
+      "purpose": "Identifies stable patterns across notes.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "research notes",
+        "evidence summaries"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Synthesis Desk",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Research and Knowledge as static templates only; v0.1 keeps Pattern Finder at template stage."
+    },
+    {
+      "role_family_id": "DIV-04-RF-10",
+      "role_family_name": "Knowledge Auditor",
+      "division": "Research and Knowledge",
+      "department": "Research Desk",
+      "purpose": "Audits the consistency of knowledge records.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "research notes",
+        "evidence summaries"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Synthesis Desk",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Research and Knowledge as static templates only; v0.1 keeps Knowledge Auditor at template stage."
+    },
+    {
+      "role_family_id": "DIV-05-RF-01",
+      "role_family_name": "Code Reviewer",
+      "division": "Engineering and Build",
+      "department": "Build Office",
+      "purpose": "Reviews code design without changing runtime state.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "design specs",
+        "implementation outlines"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Architecture Office",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Engineering and Build as static templates only; v0.1 keeps Code Reviewer at template stage."
+    },
+    {
+      "role_family_id": "DIV-05-RF-02",
+      "role_family_name": "UI Builder",
+      "division": "Engineering and Build",
+      "department": "Build Office",
+      "purpose": "Drafts user interface build specifications.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "design specs",
+        "implementation outlines"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Architecture Office",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Engineering and Build as static templates only; v0.1 keeps UI Builder at template stage."
+    },
+    {
+      "role_family_id": "DIV-05-RF-03",
+      "role_family_name": "API Boundary Auditor",
+      "division": "Engineering and Build",
+      "department": "Build Office",
+      "purpose": "Audits interface boundaries and contracts.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "design specs",
+        "implementation outlines"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Architecture Office",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Engineering and Build as static templates only; v0.1 keeps API Boundary Auditor at template stage."
+    },
+    {
+      "role_family_id": "DIV-05-RF-04",
+      "role_family_name": "Module Planner",
+      "division": "Engineering and Build",
+      "department": "Build Office",
+      "purpose": "Plans module decomposition and ownership.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "design specs",
+        "implementation outlines"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Architecture Office",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Engineering and Build as static templates only; v0.1 keeps Module Planner at template stage."
+    },
+    {
+      "role_family_id": "DIV-05-RF-05",
+      "role_family_name": "Patch Designer",
+      "division": "Engineering and Build",
+      "department": "Build Office",
+      "purpose": "Designs static patch outlines.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "design specs",
+        "implementation outlines"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Architecture Office",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Engineering and Build as static templates only; v0.1 keeps Patch Designer at template stage."
+    },
+    {
+      "role_family_id": "DIV-05-RF-06",
+      "role_family_name": "Architecture Mapper",
+      "division": "Engineering and Build",
+      "department": "Build Office",
+      "purpose": "Maps system architecture for future build work.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "design specs",
+        "implementation outlines"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Architecture Office",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Engineering and Build as static templates only; v0.1 keeps Architecture Mapper at template stage."
+    },
+    {
+      "role_family_id": "DIV-05-RF-07",
+      "role_family_name": "Component Curator",
+      "division": "Engineering and Build",
+      "department": "Build Office",
+      "purpose": "Curates component responsibilities.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "design specs",
+        "implementation outlines"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Architecture Office",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Engineering and Build as static templates only; v0.1 keeps Component Curator at template stage."
+    },
+    {
+      "role_family_id": "DIV-05-RF-08",
+      "role_family_name": "Interface Designer",
+      "division": "Engineering and Build",
+      "department": "Build Office",
+      "purpose": "Defines interaction surfaces and edges.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "design specs",
+        "implementation outlines"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Architecture Office",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Engineering and Build as static templates only; v0.1 keeps Interface Designer at template stage."
+    },
+    {
+      "role_family_id": "DIV-05-RF-09",
+      "role_family_name": "Build Blueprint Writer",
+      "division": "Engineering and Build",
+      "department": "Build Office",
+      "purpose": "Writes build blueprints, not builds.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "design specs",
+        "implementation outlines"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Architecture Office",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Engineering and Build as static templates only; v0.1 keeps Build Blueprint Writer at template stage."
+    },
+    {
+      "role_family_id": "DIV-05-RF-10",
+      "role_family_name": "Dependency Cartographer",
+      "division": "Engineering and Build",
+      "department": "Build Office",
+      "purpose": "Maps internal dependencies and coupling.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "design specs",
+        "implementation outlines"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Architecture Office",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Engineering and Build as static templates only; v0.1 keeps Dependency Cartographer at template stage."
+    },
+    {
+      "role_family_id": "DIV-06-RF-01",
+      "role_family_name": "Regression Checker",
+      "division": "QA and Validation",
+      "department": "Validation Desk",
+      "purpose": "Checks regression risk in static form.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "test plans",
+        "regression notes"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Test Design Desk",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within QA and Validation as static templates only; v0.1 keeps Regression Checker at template stage."
+    },
+    {
+      "role_family_id": "DIV-06-RF-02",
+      "role_family_name": "Validator Writer",
+      "division": "QA and Validation",
+      "department": "Validation Desk",
+      "purpose": "Writes validation criteria and checks.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "test plans",
+        "regression notes"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Test Design Desk",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within QA and Validation as static templates only; v0.1 keeps Validator Writer at template stage."
+    },
+    {
+      "role_family_id": "DIV-06-RF-03",
+      "role_family_name": "Test Matrix Auditor",
+      "division": "QA and Validation",
+      "department": "Validation Desk",
+      "purpose": "Audits test coverage and matrix gaps.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "test plans",
+        "regression notes"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Test Design Desk",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within QA and Validation as static templates only; v0.1 keeps Test Matrix Auditor at template stage."
+    },
+    {
+      "role_family_id": "DIV-06-RF-04",
+      "role_family_name": "Assertion Planner",
+      "division": "QA and Validation",
+      "department": "Validation Desk",
+      "purpose": "Plans assertions and expected results.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "test plans",
+        "regression notes"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Test Design Desk",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within QA and Validation as static templates only; v0.1 keeps Assertion Planner at template stage."
+    },
+    {
+      "role_family_id": "DIV-06-RF-05",
+      "role_family_name": "Quality Gate Keeper",
+      "division": "QA and Validation",
+      "department": "Validation Desk",
+      "purpose": "Defines quality gates without enforcing live execution.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "test plans",
+        "regression notes"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Test Design Desk",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within QA and Validation as static templates only; v0.1 keeps Quality Gate Keeper at template stage."
+    },
+    {
+      "role_family_id": "DIV-06-RF-06",
+      "role_family_name": "Case Designer",
+      "division": "QA and Validation",
+      "department": "Validation Desk",
+      "purpose": "Designs test cases and edge cases.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "test plans",
+        "regression notes"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Test Design Desk",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within QA and Validation as static templates only; v0.1 keeps Case Designer at template stage."
+    },
+    {
+      "role_family_id": "DIV-06-RF-07",
+      "role_family_name": "Failure Analyst",
+      "division": "QA and Validation",
+      "department": "Validation Desk",
+      "purpose": "Analyzes failure modes and rollback needs.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "test plans",
+        "regression notes"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Test Design Desk",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within QA and Validation as static templates only; v0.1 keeps Failure Analyst at template stage."
+    },
+    {
+      "role_family_id": "DIV-06-RF-08",
+      "role_family_name": "Coverage Mapper",
+      "division": "QA and Validation",
+      "department": "Validation Desk",
+      "purpose": "Maps coverage to requirements and risk.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "test plans",
+        "regression notes"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Test Design Desk",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within QA and Validation as static templates only; v0.1 keeps Coverage Mapper at template stage."
+    },
+    {
+      "role_family_id": "DIV-06-RF-09",
+      "role_family_name": "Verification Curator",
+      "division": "QA and Validation",
+      "department": "Validation Desk",
+      "purpose": "Curates verification steps and evidence.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "test plans",
+        "regression notes"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Test Design Desk",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within QA and Validation as static templates only; v0.1 keeps Verification Curator at template stage."
+    },
+    {
+      "role_family_id": "DIV-06-RF-10",
+      "role_family_name": "Defect Pattern Tracker",
+      "division": "QA and Validation",
+      "department": "Validation Desk",
+      "purpose": "Tracks defect patterns for static remediation.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "test plans",
+        "regression notes"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Test Design Desk",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within QA and Validation as static templates only; v0.1 keeps Defect Pattern Tracker at template stage."
+    },
+    {
+      "role_family_id": "DIV-07-RF-01",
+      "role_family_name": "Documentation Formatter",
+      "division": "Documentation and Reporting",
+      "department": "Docs Office",
+      "purpose": "Formats documentation into consistent records.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "documentation",
+        "summaries"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Release Notes Office",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Documentation and Reporting as static templates only; v0.1 keeps Documentation Formatter at template stage."
+    },
+    {
+      "role_family_id": "DIV-07-RF-02",
+      "role_family_name": "Report Assembler",
+      "division": "Documentation and Reporting",
+      "department": "Docs Office",
+      "purpose": "Assembles structured reports from static inputs.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "documentation",
+        "summaries"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Release Notes Office",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Documentation and Reporting as static templates only; v0.1 keeps Report Assembler at template stage."
+    },
+    {
+      "role_family_id": "DIV-07-RF-03",
+      "role_family_name": "Release Note Curator",
+      "division": "Documentation and Reporting",
+      "department": "Docs Office",
+      "purpose": "Curates release notes without release action.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "documentation",
+        "summaries"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Release Notes Office",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Documentation and Reporting as static templates only; v0.1 keeps Release Note Curator at template stage."
+    },
+    {
+      "role_family_id": "DIV-07-RF-04",
+      "role_family_name": "Narrative Editor",
+      "division": "Documentation and Reporting",
+      "department": "Docs Office",
+      "purpose": "Edits narrative clarity and structure.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "documentation",
+        "summaries"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Release Notes Office",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Documentation and Reporting as static templates only; v0.1 keeps Narrative Editor at template stage."
+    },
+    {
+      "role_family_id": "DIV-07-RF-05",
+      "role_family_name": "Brief Writer",
+      "division": "Documentation and Reporting",
+      "department": "Docs Office",
+      "purpose": "Writes concise briefings for review.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "documentation",
+        "summaries"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Release Notes Office",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Documentation and Reporting as static templates only; v0.1 keeps Brief Writer at template stage."
+    },
+    {
+      "role_family_id": "DIV-07-RF-06",
+      "role_family_name": "Record Keeper",
+      "division": "Documentation and Reporting",
+      "department": "Docs Office",
+      "purpose": "Maintains durable documentation records.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "documentation",
+        "summaries"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Release Notes Office",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Documentation and Reporting as static templates only; v0.1 keeps Record Keeper at template stage."
+    },
+    {
+      "role_family_id": "DIV-07-RF-07",
+      "role_family_name": "Summary Producer",
+      "division": "Documentation and Reporting",
+      "department": "Docs Office",
+      "purpose": "Produces readable summary artifacts.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "documentation",
+        "summaries"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Release Notes Office",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Documentation and Reporting as static templates only; v0.1 keeps Summary Producer at template stage."
+    },
+    {
+      "role_family_id": "DIV-07-RF-08",
+      "role_family_name": "Explainer",
+      "division": "Documentation and Reporting",
+      "department": "Docs Office",
+      "purpose": "Explains static system concepts plainly.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "documentation",
+        "summaries"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Release Notes Office",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Documentation and Reporting as static templates only; v0.1 keeps Explainer at template stage."
+    },
+    {
+      "role_family_id": "DIV-07-RF-09",
+      "role_family_name": "Reference Publisher",
+      "division": "Documentation and Reporting",
+      "department": "Docs Office",
+      "purpose": "Prepares reference material for later use.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "documentation",
+        "summaries"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Release Notes Office",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Documentation and Reporting as static templates only; v0.1 keeps Reference Publisher at template stage."
+    },
+    {
+      "role_family_id": "DIV-07-RF-10",
+      "role_family_name": "Archive Formatter",
+      "division": "Documentation and Reporting",
+      "department": "Docs Office",
+      "purpose": "Normalizes archive-ready document output.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "documentation",
+        "summaries"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Release Notes Office",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Documentation and Reporting as static templates only; v0.1 keeps Archive Formatter at template stage."
+    },
+    {
+      "role_family_id": "DIV-08-RF-01",
+      "role_family_name": "Boundary Auditor",
+      "division": "Security and Safety",
+      "department": "Safety Office",
+      "purpose": "Audits safety boundaries and permission ceilings.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "safety rules",
+        "boundary assessments"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Threat Office",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Security and Safety as static templates only; v0.1 keeps Boundary Auditor at template stage."
+    },
+    {
+      "role_family_id": "DIV-08-RF-02",
+      "role_family_name": "Safety Gatekeeper",
+      "division": "Security and Safety",
+      "department": "Safety Office",
+      "purpose": "Prevents unsafe escalation into live systems.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "safety rules",
+        "boundary assessments"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Threat Office",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Security and Safety as static templates only; v0.1 keeps Safety Gatekeeper at template stage."
+    },
+    {
+      "role_family_id": "DIV-08-RF-03",
+      "role_family_name": "Threat Modeler",
+      "division": "Security and Safety",
+      "department": "Safety Office",
+      "purpose": "Models threat scenarios in static form.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "safety rules",
+        "boundary assessments"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Threat Office",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Security and Safety as static templates only; v0.1 keeps Threat Modeler at template stage."
+    },
+    {
+      "role_family_id": "DIV-08-RF-04",
+      "role_family_name": "Risk Sentinel",
+      "division": "Security and Safety",
+      "department": "Safety Office",
+      "purpose": "Watches for risk and unsafe drift.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "safety rules",
+        "boundary assessments"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Threat Office",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Security and Safety as static templates only; v0.1 keeps Risk Sentinel at template stage."
+    },
+    {
+      "role_family_id": "DIV-08-RF-05",
+      "role_family_name": "Policy Enforcer",
+      "division": "Security and Safety",
+      "department": "Safety Office",
+      "purpose": "Describes policy enforcement boundaries.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "safety rules",
+        "boundary assessments"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Threat Office",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Security and Safety as static templates only; v0.1 keeps Policy Enforcer at template stage."
+    },
+    {
+      "role_family_id": "DIV-08-RF-06",
+      "role_family_name": "Shield Curator",
+      "division": "Security and Safety",
+      "department": "Safety Office",
+      "purpose": "Curates defensive safety measures.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "safety rules",
+        "boundary assessments"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Threat Office",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Security and Safety as static templates only; v0.1 keeps Shield Curator at template stage."
+    },
+    {
+      "role_family_id": "DIV-08-RF-07",
+      "role_family_name": "Guardrail Designer",
+      "division": "Security and Safety",
+      "department": "Safety Office",
+      "purpose": "Designs guardrails and stop conditions.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "safety rules",
+        "boundary assessments"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Threat Office",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Security and Safety as static templates only; v0.1 keeps Guardrail Designer at template stage."
+    },
+    {
+      "role_family_id": "DIV-08-RF-08",
+      "role_family_name": "Security Reviewer",
+      "division": "Security and Safety",
+      "department": "Safety Office",
+      "purpose": "Reviews security posture and red lines.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "safety rules",
+        "boundary assessments"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Threat Office",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Security and Safety as static templates only; v0.1 keeps Security Reviewer at template stage."
+    },
+    {
+      "role_family_id": "DIV-08-RF-09",
+      "role_family_name": "Privilege Auditor",
+      "division": "Security and Safety",
+      "department": "Safety Office",
+      "purpose": "Audits privilege boundaries and non-access.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "safety rules",
+        "boundary assessments"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Threat Office",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Security and Safety as static templates only; v0.1 keeps Privilege Auditor at template stage."
+    },
+    {
+      "role_family_id": "DIV-08-RF-10",
+      "role_family_name": "Safety Assertion Writer",
+      "division": "Security and Safety",
+      "department": "Safety Office",
+      "purpose": "Writes explicit safety assertions.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "safety rules",
+        "boundary assessments"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Threat Office",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Security and Safety as static templates only; v0.1 keeps Safety Assertion Writer at template stage."
+    },
+    {
+      "role_family_id": "DIV-09-RF-01",
+      "role_family_name": "Deployment Planner",
+      "division": "Deployment and Operations",
+      "department": "Operations Office",
+      "purpose": "Plans deployment stages without deploying.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "readiness plans",
+        "operations checklists"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Readiness Office",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Deployment and Operations as static templates only; v0.1 keeps Deployment Planner at template stage."
+    },
+    {
+      "role_family_id": "DIV-09-RF-02",
+      "role_family_name": "Rollback Strategist",
+      "division": "Deployment and Operations",
+      "department": "Operations Office",
+      "purpose": "Plans rollback paths and containment.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "readiness plans",
+        "operations checklists"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Readiness Office",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Deployment and Operations as static templates only; v0.1 keeps Rollback Strategist at template stage."
+    },
+    {
+      "role_family_id": "DIV-09-RF-03",
+      "role_family_name": "Operations Curator",
+      "division": "Deployment and Operations",
+      "department": "Operations Office",
+      "purpose": "Curates operations runbooks and readiness notes.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "readiness plans",
+        "operations checklists"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Readiness Office",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Deployment and Operations as static templates only; v0.1 keeps Operations Curator at template stage."
+    },
+    {
+      "role_family_id": "DIV-09-RF-04",
+      "role_family_name": "Readiness Checker",
+      "division": "Deployment and Operations",
+      "department": "Operations Office",
+      "purpose": "Checks readiness criteria in static form.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "readiness plans",
+        "operations checklists"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Readiness Office",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Deployment and Operations as static templates only; v0.1 keeps Readiness Checker at template stage."
+    },
+    {
+      "role_family_id": "DIV-09-RF-05",
+      "role_family_name": "Runbook Writer",
+      "division": "Deployment and Operations",
+      "department": "Operations Office",
+      "purpose": "Writes operational runbooks and references.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "readiness plans",
+        "operations checklists"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Readiness Office",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Deployment and Operations as static templates only; v0.1 keeps Runbook Writer at template stage."
+    },
+    {
+      "role_family_id": "DIV-09-RF-06",
+      "role_family_name": "Stability Analyst",
+      "division": "Deployment and Operations",
+      "department": "Operations Office",
+      "purpose": "Analyzes operational stability patterns.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "readiness plans",
+        "operations checklists"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Readiness Office",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Deployment and Operations as static templates only; v0.1 keeps Stability Analyst at template stage."
+    },
+    {
+      "role_family_id": "DIV-09-RF-07",
+      "role_family_name": "Incident Mapper",
+      "division": "Deployment and Operations",
+      "department": "Operations Office",
+      "purpose": "Maps incident classes to response ideas.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "readiness plans",
+        "operations checklists"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Readiness Office",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Deployment and Operations as static templates only; v0.1 keeps Incident Mapper at template stage."
+    },
+    {
+      "role_family_id": "DIV-09-RF-08",
+      "role_family_name": "Control Desk Planner",
+      "division": "Deployment and Operations",
+      "department": "Operations Office",
+      "purpose": "Plans control desk procedures.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "readiness plans",
+        "operations checklists"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Readiness Office",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Deployment and Operations as static templates only; v0.1 keeps Control Desk Planner at template stage."
+    },
+    {
+      "role_family_id": "DIV-09-RF-09",
+      "role_family_name": "Change Window Curator",
+      "division": "Deployment and Operations",
+      "department": "Operations Office",
+      "purpose": "Curates change-window rules and checks.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "readiness plans",
+        "operations checklists"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Readiness Office",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Deployment and Operations as static templates only; v0.1 keeps Change Window Curator at template stage."
+    },
+    {
+      "role_family_id": "DIV-09-RF-10",
+      "role_family_name": "Continuity Planner",
+      "division": "Deployment and Operations",
+      "department": "Operations Office",
+      "purpose": "Plans continuity and recovery records.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "readiness plans",
+        "operations checklists"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Readiness Office",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Deployment and Operations as static templates only; v0.1 keeps Continuity Planner at template stage."
+    },
+    {
+      "role_family_id": "DIV-10-RF-01",
+      "role_family_name": "Product Strategist",
+      "division": "Business and Product",
+      "department": "Product Office",
+      "purpose": "Shapes product intent into static strategy.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "product briefs",
+        "roadmap inputs"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Research Ops",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Business and Product as static templates only; v0.1 keeps Product Strategist at template stage."
+    },
+    {
+      "role_family_id": "DIV-10-RF-02",
+      "role_family_name": "Business Analyst",
+      "division": "Business and Product",
+      "department": "Product Office",
+      "purpose": "Analyzes business goals and constraints.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "product briefs",
+        "roadmap inputs"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Research Ops",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Business and Product as static templates only; v0.1 keeps Business Analyst at template stage."
+    },
+    {
+      "role_family_id": "DIV-10-RF-03",
+      "role_family_name": "Value Mapper",
+      "division": "Business and Product",
+      "department": "Product Office",
+      "purpose": "Maps value statements to outcomes.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "product briefs",
+        "roadmap inputs"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Research Ops",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Business and Product as static templates only; v0.1 keeps Value Mapper at template stage."
+    },
+    {
+      "role_family_id": "DIV-10-RF-04",
+      "role_family_name": "Market Curator",
+      "division": "Business and Product",
+      "department": "Product Office",
+      "purpose": "Curates market context and positioning.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "product briefs",
+        "roadmap inputs"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Research Ops",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Business and Product as static templates only; v0.1 keeps Market Curator at template stage."
+    },
+    {
+      "role_family_id": "DIV-10-RF-05",
+      "role_family_name": "Opportunity Finder",
+      "division": "Business and Product",
+      "department": "Product Office",
+      "purpose": "Finds opportunity themes for planning.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "product briefs",
+        "roadmap inputs"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Research Ops",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Business and Product as static templates only; v0.1 keeps Opportunity Finder at template stage."
+    },
+    {
+      "role_family_id": "DIV-10-RF-06",
+      "role_family_name": "Portfolio Planner",
+      "division": "Business and Product",
+      "department": "Product Office",
+      "purpose": "Plans product portfolio structure.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "product briefs",
+        "roadmap inputs"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Research Ops",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Business and Product as static templates only; v0.1 keeps Portfolio Planner at template stage."
+    },
+    {
+      "role_family_id": "DIV-10-RF-07",
+      "role_family_name": "Outcome Writer",
+      "division": "Business and Product",
+      "department": "Product Office",
+      "purpose": "Writes outcome-focused product briefs.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "product briefs",
+        "roadmap inputs"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Research Ops",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Business and Product as static templates only; v0.1 keeps Outcome Writer at template stage."
+    },
+    {
+      "role_family_id": "DIV-10-RF-08",
+      "role_family_name": "Segment Analyst",
+      "division": "Business and Product",
+      "department": "Product Office",
+      "purpose": "Analyzes audience segments in static form.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "product briefs",
+        "roadmap inputs"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Research Ops",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Business and Product as static templates only; v0.1 keeps Segment Analyst at template stage."
+    },
+    {
+      "role_family_id": "DIV-10-RF-09",
+      "role_family_name": "Demand Mapper",
+      "division": "Business and Product",
+      "department": "Product Office",
+      "purpose": "Maps demand signals to backlog themes.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "product briefs",
+        "roadmap inputs"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Research Ops",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Business and Product as static templates only; v0.1 keeps Demand Mapper at template stage."
+    },
+    {
+      "role_family_id": "DIV-10-RF-10",
+      "role_family_name": "Business Review Curator",
+      "division": "Business and Product",
+      "department": "Product Office",
+      "purpose": "Curates review-ready business notes.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "product briefs",
+        "roadmap inputs"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Research Ops",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Business and Product as static templates only; v0.1 keeps Business Review Curator at template stage."
+    },
+    {
+      "role_family_id": "DIV-11-RF-01",
+      "role_family_name": "Creative Concept Builder",
+      "division": "Creative and Media",
+      "department": "Creative Studio",
+      "purpose": "Builds static creative concepts and directions.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "creative briefs",
+        "presentation assets"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Brand Studio",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Creative and Media as static templates only; v0.1 keeps Creative Concept Builder at template stage."
+    },
+    {
+      "role_family_id": "DIV-11-RF-02",
+      "role_family_name": "Media Layout Designer",
+      "division": "Creative and Media",
+      "department": "Creative Studio",
+      "purpose": "Designs presentation and media layouts.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "creative briefs",
+        "presentation assets"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Brand Studio",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Creative and Media as static templates only; v0.1 keeps Media Layout Designer at template stage."
+    },
+    {
+      "role_family_id": "DIV-11-RF-03",
+      "role_family_name": "Brand Voice Curator",
+      "division": "Creative and Media",
+      "department": "Creative Studio",
+      "purpose": "Curates voice and tone references.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "creative briefs",
+        "presentation assets"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Brand Studio",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Creative and Media as static templates only; v0.1 keeps Brand Voice Curator at template stage."
+    },
+    {
+      "role_family_id": "DIV-11-RF-04",
+      "role_family_name": "Visual Storyboarder",
+      "division": "Creative and Media",
+      "department": "Creative Studio",
+      "purpose": "Builds visual storyboards for later use.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "creative briefs",
+        "presentation assets"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Brand Studio",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Creative and Media as static templates only; v0.1 keeps Visual Storyboarder at template stage."
+    },
+    {
+      "role_family_id": "DIV-11-RF-05",
+      "role_family_name": "Art Direction Planner",
+      "division": "Creative and Media",
+      "department": "Creative Studio",
+      "purpose": "Plans art direction without publishing.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "creative briefs",
+        "presentation assets"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Brand Studio",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Creative and Media as static templates only; v0.1 keeps Art Direction Planner at template stage."
+    },
+    {
+      "role_family_id": "DIV-11-RF-06",
+      "role_family_name": "Concept Renderer",
+      "division": "Creative and Media",
+      "department": "Creative Studio",
+      "purpose": "Renders concept descriptions into notes.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "creative briefs",
+        "presentation assets"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Brand Studio",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Creative and Media as static templates only; v0.1 keeps Concept Renderer at template stage."
+    },
+    {
+      "role_family_id": "DIV-11-RF-07",
+      "role_family_name": "Presentation Designer",
+      "division": "Creative and Media",
+      "department": "Creative Studio",
+      "purpose": "Designs presentation structure and sequencing.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "creative briefs",
+        "presentation assets"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Brand Studio",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Creative and Media as static templates only; v0.1 keeps Presentation Designer at template stage."
+    },
+    {
+      "role_family_id": "DIV-11-RF-08",
+      "role_family_name": "Creative Brief Writer",
+      "division": "Creative and Media",
+      "department": "Creative Studio",
+      "purpose": "Writes creative briefs for review.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "creative briefs",
+        "presentation assets"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Brand Studio",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Creative and Media as static templates only; v0.1 keeps Creative Brief Writer at template stage."
+    },
+    {
+      "role_family_id": "DIV-11-RF-09",
+      "role_family_name": "Story Arc Curator",
+      "division": "Creative and Media",
+      "department": "Creative Studio",
+      "purpose": "Curates narrative arc options.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "creative briefs",
+        "presentation assets"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Brand Studio",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Creative and Media as static templates only; v0.1 keeps Story Arc Curator at template stage."
+    },
+    {
+      "role_family_id": "DIV-11-RF-10",
+      "role_family_name": "Media Concept Auditor",
+      "division": "Creative and Media",
+      "department": "Creative Studio",
+      "purpose": "Audits media concepts for static fit.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "creative briefs",
+        "presentation assets"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Brand Studio",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Creative and Media as static templates only; v0.1 keeps Media Concept Auditor at template stage."
+    },
+    {
+      "role_family_id": "DIV-12-RF-01",
+      "role_family_name": "Data Analyst",
+      "division": "Data and Analytics",
+      "department": "Analytics Office",
+      "purpose": "Analyzes data structure in static planning form.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "analytics plans",
+        "trend summaries"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Modeling Office",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Data and Analytics as static templates only; v0.1 keeps Data Analyst at template stage."
+    },
+    {
+      "role_family_id": "DIV-12-RF-02",
+      "role_family_name": "Metric Curator",
+      "division": "Data and Analytics",
+      "department": "Analytics Office",
+      "purpose": "Curates metrics and definitions.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "analytics plans",
+        "trend summaries"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Modeling Office",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Data and Analytics as static templates only; v0.1 keeps Metric Curator at template stage."
+    },
+    {
+      "role_family_id": "DIV-12-RF-03",
+      "role_family_name": "Insight Synthesizer",
+      "division": "Data and Analytics",
+      "department": "Analytics Office",
+      "purpose": "Synthesizes analytic insights for review.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "analytics plans",
+        "trend summaries"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Modeling Office",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Data and Analytics as static templates only; v0.1 keeps Insight Synthesizer at template stage."
+    },
+    {
+      "role_family_id": "DIV-12-RF-04",
+      "role_family_name": "Trend Mapper",
+      "division": "Data and Analytics",
+      "department": "Analytics Office",
+      "purpose": "Maps trends to static observations.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "analytics plans",
+        "trend summaries"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Modeling Office",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Data and Analytics as static templates only; v0.1 keeps Trend Mapper at template stage."
+    },
+    {
+      "role_family_id": "DIV-12-RF-05",
+      "role_family_name": "Forecast Planner",
+      "division": "Data and Analytics",
+      "department": "Analytics Office",
+      "purpose": "Plans forecast structure without live queries.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "analytics plans",
+        "trend summaries"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Modeling Office",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Data and Analytics as static templates only; v0.1 keeps Forecast Planner at template stage."
+    },
+    {
+      "role_family_id": "DIV-12-RF-06",
+      "role_family_name": "Signal Analyst",
+      "division": "Data and Analytics",
+      "department": "Analytics Office",
+      "purpose": "Analyzes signals and metric relationships.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "analytics plans",
+        "trend summaries"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Modeling Office",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Data and Analytics as static templates only; v0.1 keeps Signal Analyst at template stage."
+    },
+    {
+      "role_family_id": "DIV-12-RF-07",
+      "role_family_name": "Model Curator",
+      "division": "Data and Analytics",
+      "department": "Analytics Office",
+      "purpose": "Curates model concepts and assumptions.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "analytics plans",
+        "trend summaries"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Modeling Office",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Data and Analytics as static templates only; v0.1 keeps Model Curator at template stage."
+    },
+    {
+      "role_family_id": "DIV-12-RF-08",
+      "role_family_name": "Measure Designer",
+      "division": "Data and Analytics",
+      "department": "Analytics Office",
+      "purpose": "Designs measurement definitions and scope.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "analytics plans",
+        "trend summaries"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Modeling Office",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Data and Analytics as static templates only; v0.1 keeps Measure Designer at template stage."
+    },
+    {
+      "role_family_id": "DIV-12-RF-09",
+      "role_family_name": "Report Analyst",
+      "division": "Data and Analytics",
+      "department": "Analytics Office",
+      "purpose": "Analyzes report structure and outputs.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "analytics plans",
+        "trend summaries"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Modeling Office",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Data and Analytics as static templates only; v0.1 keeps Report Analyst at template stage."
+    },
+    {
+      "role_family_id": "DIV-12-RF-10",
+      "role_family_name": "Analytics Auditor",
+      "division": "Data and Analytics",
+      "department": "Analytics Office",
+      "purpose": "Audits analytics assumptions and notes.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "analytics plans",
+        "trend summaries"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Modeling Office",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Data and Analytics as static templates only; v0.1 keeps Analytics Auditor at template stage."
+    },
+    {
+      "role_family_id": "DIV-13-RF-01",
+      "role_family_name": "Support Triage Analyst",
+      "division": "User Support and Personalization",
+      "department": "Support Desk",
+      "purpose": "Triage support patterns and escalation notes.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "support scripts",
+        "personalization guides"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Experience Desk",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within User Support and Personalization as static templates only; v0.1 keeps Support Triage Analyst at template stage."
+    },
+    {
+      "role_family_id": "DIV-13-RF-02",
+      "role_family_name": "Personalization Mapper",
+      "division": "User Support and Personalization",
+      "department": "Support Desk",
+      "purpose": "Maps personalization logic into static records.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "support scripts",
+        "personalization guides"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Experience Desk",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within User Support and Personalization as static templates only; v0.1 keeps Personalization Mapper at template stage."
+    },
+    {
+      "role_family_id": "DIV-13-RF-03",
+      "role_family_name": "Help Flow Curator",
+      "division": "User Support and Personalization",
+      "department": "Support Desk",
+      "purpose": "Curates support flows and help steps.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "support scripts",
+        "personalization guides"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Experience Desk",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within User Support and Personalization as static templates only; v0.1 keeps Help Flow Curator at template stage."
+    },
+    {
+      "role_family_id": "DIV-13-RF-04",
+      "role_family_name": "Response Drafting Assistant",
+      "division": "User Support and Personalization",
+      "department": "Support Desk",
+      "purpose": "Drafts responses for human review.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "support scripts",
+        "personalization guides"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Experience Desk",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within User Support and Personalization as static templates only; v0.1 keeps Response Drafting Assistant at template stage."
+    },
+    {
+      "role_family_id": "DIV-13-RF-05",
+      "role_family_name": "Experience Guide",
+      "division": "User Support and Personalization",
+      "department": "Support Desk",
+      "purpose": "Guides experience choices in static form.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "support scripts",
+        "personalization guides"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Experience Desk",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within User Support and Personalization as static templates only; v0.1 keeps Experience Guide at template stage."
+    },
+    {
+      "role_family_id": "DIV-13-RF-06",
+      "role_family_name": "Service Pattern Writer",
+      "division": "User Support and Personalization",
+      "department": "Support Desk",
+      "purpose": "Writes support pattern references.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "support scripts",
+        "personalization guides"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Experience Desk",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within User Support and Personalization as static templates only; v0.1 keeps Service Pattern Writer at template stage."
+    },
+    {
+      "role_family_id": "DIV-13-RF-07",
+      "role_family_name": "Care Plan Curator",
+      "division": "User Support and Personalization",
+      "department": "Support Desk",
+      "purpose": "Curates user care and support plans.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "support scripts",
+        "personalization guides"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Experience Desk",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within User Support and Personalization as static templates only; v0.1 keeps Care Plan Curator at template stage."
+    },
+    {
+      "role_family_id": "DIV-13-RF-08",
+      "role_family_name": "Assist Flow Designer",
+      "division": "User Support and Personalization",
+      "department": "Support Desk",
+      "purpose": "Designs assistance flow structure.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "support scripts",
+        "personalization guides"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Experience Desk",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within User Support and Personalization as static templates only; v0.1 keeps Assist Flow Designer at template stage."
+    },
+    {
+      "role_family_id": "DIV-13-RF-09",
+      "role_family_name": "Resolution Mapper",
+      "division": "User Support and Personalization",
+      "department": "Support Desk",
+      "purpose": "Maps resolution paths without live action.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "support scripts",
+        "personalization guides"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Experience Desk",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within User Support and Personalization as static templates only; v0.1 keeps Resolution Mapper at template stage."
+    },
+    {
+      "role_family_id": "DIV-13-RF-10",
+      "role_family_name": "Support Knowledge Builder",
+      "division": "User Support and Personalization",
+      "department": "Support Desk",
+      "purpose": "Builds support knowledge references.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "support scripts",
+        "personalization guides"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Experience Desk",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within User Support and Personalization as static templates only; v0.1 keeps Support Knowledge Builder at template stage."
+    },
+    {
+      "role_family_id": "DIV-14-RF-01",
+      "role_family_name": "Compliance Checker",
+      "division": "Compliance and Audit",
+      "department": "Compliance Office",
+      "purpose": "Checks policy alignment in static form.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "compliance notes",
+        "controls mapping"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Controls Office",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Compliance and Audit as static templates only; v0.1 keeps Compliance Checker at template stage."
+    },
+    {
+      "role_family_id": "DIV-14-RF-02",
+      "role_family_name": "Audit Trail Curator",
+      "division": "Compliance and Audit",
+      "department": "Compliance Office",
+      "purpose": "Curates audit trail requirements and records.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "compliance notes",
+        "controls mapping"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Controls Office",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Compliance and Audit as static templates only; v0.1 keeps Audit Trail Curator at template stage."
+    },
+    {
+      "role_family_id": "DIV-14-RF-03",
+      "role_family_name": "Control Mapper",
+      "division": "Compliance and Audit",
+      "department": "Compliance Office",
+      "purpose": "Maps controls to policy and evidence.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "compliance notes",
+        "controls mapping"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Controls Office",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Compliance and Audit as static templates only; v0.1 keeps Control Mapper at template stage."
+    },
+    {
+      "role_family_id": "DIV-14-RF-04",
+      "role_family_name": "Assurance Writer",
+      "division": "Compliance and Audit",
+      "department": "Compliance Office",
+      "purpose": "Writes assurance notes and exceptions.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "compliance notes",
+        "controls mapping"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Controls Office",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Compliance and Audit as static templates only; v0.1 keeps Assurance Writer at template stage."
+    },
+    {
+      "role_family_id": "DIV-14-RF-05",
+      "role_family_name": "Evidence Keeper",
+      "division": "Compliance and Audit",
+      "department": "Compliance Office",
+      "purpose": "Keeps audit evidence references.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "compliance notes",
+        "controls mapping"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Controls Office",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Compliance and Audit as static templates only; v0.1 keeps Evidence Keeper at template stage."
+    },
+    {
+      "role_family_id": "DIV-14-RF-06",
+      "role_family_name": "Policy Reviewer",
+      "division": "Compliance and Audit",
+      "department": "Compliance Office",
+      "purpose": "Reviews policy consistency and limits.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "compliance notes",
+        "controls mapping"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Controls Office",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Compliance and Audit as static templates only; v0.1 keeps Policy Reviewer at template stage."
+    },
+    {
+      "role_family_id": "DIV-14-RF-07",
+      "role_family_name": "Trace Recorder",
+      "division": "Compliance and Audit",
+      "department": "Compliance Office",
+      "purpose": "Records traceability notes for audits.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "compliance notes",
+        "controls mapping"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Controls Office",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Compliance and Audit as static templates only; v0.1 keeps Trace Recorder at template stage."
+    },
+    {
+      "role_family_id": "DIV-14-RF-08",
+      "role_family_name": "Governance Analyst",
+      "division": "Compliance and Audit",
+      "department": "Compliance Office",
+      "purpose": "Analyzes governance boundaries and records.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "compliance notes",
+        "controls mapping"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Controls Office",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Compliance and Audit as static templates only; v0.1 keeps Governance Analyst at template stage."
+    },
+    {
+      "role_family_id": "DIV-14-RF-09",
+      "role_family_name": "Registry Auditor",
+      "division": "Compliance and Audit",
+      "department": "Compliance Office",
+      "purpose": "Audits registry accuracy and completeness.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "compliance notes",
+        "controls mapping"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Controls Office",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Compliance and Audit as static templates only; v0.1 keeps Registry Auditor at template stage."
+    },
+    {
+      "role_family_id": "DIV-14-RF-10",
+      "role_family_name": "Exception Tracker",
+      "division": "Compliance and Audit",
+      "department": "Compliance Office",
+      "purpose": "Tracks exceptions for formal review.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "compliance notes",
+        "controls mapping"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Controls Office",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Compliance and Audit as static templates only; v0.1 keeps Exception Tracker at template stage."
+    },
+    {
+      "role_family_id": "DIV-15-RF-01",
+      "role_family_name": "Experimental Concept Mapper",
+      "division": "Experimental Systems Lab",
+      "department": "Lab Office",
+      "purpose": "Maps novel concepts into static proposals.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "prototype specs",
+        "variant proposals"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Exploration Office",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Experimental Systems Lab as static templates only; v0.1 keeps Experimental Concept Mapper at template stage."
+    },
+    {
+      "role_family_id": "DIV-15-RF-02",
+      "role_family_name": "Prototype Planner",
+      "division": "Experimental Systems Lab",
+      "department": "Lab Office",
+      "purpose": "Plans prototype directions without execution.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "prototype specs",
+        "variant proposals"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Exploration Office",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Experimental Systems Lab as static templates only; v0.1 keeps Prototype Planner at template stage."
+    },
+    {
+      "role_family_id": "DIV-15-RF-03",
+      "role_family_name": "Variant Curator",
+      "division": "Experimental Systems Lab",
+      "department": "Lab Office",
+      "purpose": "Curates non-live variant ideas.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "prototype specs",
+        "variant proposals"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Exploration Office",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Experimental Systems Lab as static templates only; v0.1 keeps Variant Curator at template stage."
+    },
+    {
+      "role_family_id": "DIV-15-RF-04",
+      "role_family_name": "Lab Scenario Builder",
+      "division": "Experimental Systems Lab",
+      "department": "Lab Office",
+      "purpose": "Builds scenario sketches for research.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "prototype specs",
+        "variant proposals"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Exploration Office",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Experimental Systems Lab as static templates only; v0.1 keeps Lab Scenario Builder at template stage."
+    },
+    {
+      "role_family_id": "DIV-15-RF-05",
+      "role_family_name": "Exploration Mapper",
+      "division": "Experimental Systems Lab",
+      "department": "Lab Office",
+      "purpose": "Maps exploratory paths and unknowns.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "prototype specs",
+        "variant proposals"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Exploration Office",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Experimental Systems Lab as static templates only; v0.1 keeps Exploration Mapper at template stage."
+    },
+    {
+      "role_family_id": "DIV-15-RF-06",
+      "role_family_name": "Trial Designer",
+      "division": "Experimental Systems Lab",
+      "department": "Lab Office",
+      "purpose": "Designs trials without live activation.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "prototype specs",
+        "variant proposals"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Exploration Office",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Experimental Systems Lab as static templates only; v0.1 keeps Trial Designer at template stage."
+    },
+    {
+      "role_family_id": "DIV-15-RF-07",
+      "role_family_name": "Concept Auditor",
+      "division": "Experimental Systems Lab",
+      "department": "Lab Office",
+      "purpose": "Audits concept fit and safety.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "prototype specs",
+        "variant proposals"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Exploration Office",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Experimental Systems Lab as static templates only; v0.1 keeps Concept Auditor at template stage."
+    },
+    {
+      "role_family_id": "DIV-15-RF-08",
+      "role_family_name": "Prototype Blueprint Writer",
+      "division": "Experimental Systems Lab",
+      "department": "Lab Office",
+      "purpose": "Writes prototype blueprints, not prototypes.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "prototype specs",
+        "variant proposals"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Exploration Office",
+      "audit_level": "L3",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Experimental Systems Lab as static templates only; v0.1 keeps Prototype Blueprint Writer at template stage."
+    },
+    {
+      "role_family_id": "DIV-15-RF-09",
+      "role_family_name": "Model Variant Planner",
+      "division": "Experimental Systems Lab",
+      "department": "Lab Office",
+      "purpose": "Plans model variants for static review.",
+      "default_permission_tier": "T0",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "prototype specs",
+        "variant proposals"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Exploration Office",
+      "audit_level": "L1",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Experimental Systems Lab as static templates only; v0.1 keeps Model Variant Planner at template stage."
+    },
+    {
+      "role_family_id": "DIV-15-RF-10",
+      "role_family_name": "Innovation Recorder",
+      "division": "Experimental Systems Lab",
+      "department": "Lab Office",
+      "purpose": "Records experimental observations and caveats.",
+      "default_permission_tier": "T1",
+      "default_activation_tier": "A1",
+      "allowed_outputs": [
+        "prototype specs",
+        "variant proposals"
+      ],
+      "forbidden_actions": [
+        "activate_live_worker",
+        "route_live_task",
+        "call_api",
+        "use_credentials",
+        "read_secrets",
+        "read_environment_variables",
+        "deploy",
+        "execute_production",
+        "modify_protected_baseline",
+        "modify_devinization_overlay"
+      ],
+      "escalation_target": "Exploration Office",
+      "audit_level": "L2",
+      "status": "STATIC_DESIGN_ONLY",
+      "future_instance_scaling_notes": "Future instances may scale within Experimental Systems Lab as static templates only; v0.1 keeps Innovation Recorder at template stage."
+    }
+  ]
+}

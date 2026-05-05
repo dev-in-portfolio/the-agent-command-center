@@ -32,22 +32,23 @@ The Station Chief runtime receives one command, classifies it, loads the locked 
 - no credential use
 - no secret reads
 - no environment reads
-- Does not invoke external tools
+- no real external tool invocation
 - no deployment
 - no production execution
-- Does not activate production
-- Does not execute real tasks
-- Does not assign live tasks
-- Does not route live workers
-- Does not perform live orchestration
-- Does not start worker processes
-- Does not activate the full 47,250-worker workforce
+- no production activation
+- no real task execution
+- no live task assignment
+- no live worker routing
+- no live orchestration
+- no worker process starts
+- no full workforce activation
+- no shell command execution
+- no arbitrary code execution
+- no repo mutation
 - Does not execute queued actions
 - Does not auto-approve queue items
 - Does not bypass approval
 - Does not execute actual replay
-- Does not execute arbitrary code
-- Does not run shell commands
 - Does not terminate processes
 - Does not start background monitoring
 - Does not write to protected baseline or overlay paths
