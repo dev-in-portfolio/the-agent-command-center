@@ -24,7 +24,7 @@ def generate_telemetry_abort_id(command: str, worker_id: str, runtime_version: s
     normalized_worker_id = normalize_telemetry_label(worker_id)
     hash_input = f"{runtime_version}:{command}:{worker_id}"
     hash_chars = hashlib.sha256(hash_input.encode("utf-8")).hexdigest()[:12]
-    return f"telemetry-abort-v3-4-{normalized_worker_id}-{hash_chars}"
+    return f"telemetry-abort-v3-5-{normalized_worker_id}-{hash_chars}"
 
 def create_live_execution_telemetry_abort_schema() -> dict:
     return {

@@ -27,7 +27,7 @@ def generate_first_supervised_production_dry_run_id(command: str, dry_run_label:
     norm_label = normalize_dry_run_label(dry_run_label)
     digest_input = f"{runtime_version}:{command}:{norm_label}"
     digest = sha256_digest(digest_input)[:12]
-    return f"first-supervised-production-dry-run-v3-4-{norm_label}-{digest}"
+    return f"first-supervised-production-dry-run-v3-5-{norm_label}-{digest}"
 
 def create_first_supervised_production_dry_run_schema() -> dict:
     return {

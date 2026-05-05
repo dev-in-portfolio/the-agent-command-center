@@ -23,7 +23,7 @@ def generate_worker_id(command: str, role_label: str, index: int, runtime_versio
     normalized_label = normalize_worker_label(role_label)
     hash_input = f"{runtime_version}:{command}:{role_label}:{index}"
     hash_chars = hashlib.sha256(hash_input.encode("utf-8")).hexdigest()[:12]
-    return f"worker-v3-4-{normalized_label}-{index:03d}-{hash_chars}"
+    return f"worker-v3-5-{normalized_label}-{index:03d}-{hash_chars}"
 
 def create_worker_role_schema() -> dict:
     return {

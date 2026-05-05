@@ -31,7 +31,7 @@ def normalize_coordination_label(label: str) -> str:
 def generate_multi_worker_coordination_id(command: str, roster_label: str, runtime_version: str = "3.5.0") -> str:
     normalized_roster_label = normalize_coordination_label(roster_label)
     digest = hashlib.sha256(f"{runtime_version}:{command}:{roster_label}".encode("utf-8")).hexdigest()
-    return f"multi-worker-v3-4-{normalized_roster_label}-{digest[:12]}"
+    return f"multi-worker-v3-5-{normalized_roster_label}-{digest[:12]}"
 
 
 def create_multi_worker_sandbox_coordination_schema() -> dict:
@@ -154,7 +154,7 @@ def create_sandbox_worker_roster(
             normalized_role = _sanitize_role(role)
             workers.append(
                 {
-                    "worker_id": f"sandbox-worker-v3-4-{index:03d}-{normalized_role}",
+                    "worker_id": f"sandbox-worker-v3-5-{index:03d}-{normalized_role}",
                     "worker_index": index,
                     "worker_role": role,
                     "worker_status": "SANDBOX_RECORD_ONLY",

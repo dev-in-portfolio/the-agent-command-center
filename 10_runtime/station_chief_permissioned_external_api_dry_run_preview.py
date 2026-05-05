@@ -27,7 +27,7 @@ def generate_external_api_dry_run_preview_id(command: str, api_label: str, runti
     norm_label = normalize_api_label(api_label)
     digest_input = f"{runtime_version}:{command}:{norm_label}"
     digest = sha256_digest(digest_input)[:12]
-    return f"external-api-dry-run-v3-4-{norm_label}-{digest}"
+    return f"external-api-dry-run-v3-5-{norm_label}-{digest}"
 
 def create_permissioned_external_api_dry_run_preview_schema() -> dict:
     return {

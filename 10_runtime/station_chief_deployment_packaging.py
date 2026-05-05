@@ -23,7 +23,7 @@ def generate_deployment_packaging_id(command: str, label: str, runtime_version: 
     normalized_label = normalize_packaging_label(label)
     hash_input = f"{runtime_version}:{command}:{label}"
     hash_chars = hashlib.sha256(hash_input.encode("utf-8")).hexdigest()[:12]
-    return f"deployment-packaging-v3-4-{normalized_label}-{hash_chars}"
+    return f"deployment-packaging-v3-5-{normalized_label}-{hash_chars}"
 
 def make_deployment_artifact_schema() -> dict:
     return {

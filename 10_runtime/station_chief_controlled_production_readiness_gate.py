@@ -27,7 +27,7 @@ def generate_controlled_production_readiness_gate_id(command: str, production_ga
     norm_label = normalize_production_gate_label(production_gate_label)
     digest_input = f"{runtime_version}:{command}:{norm_label}"
     digest = sha256_digest(digest_input)[:12]
-    return f"controlled-production-readiness-gate-v3-4-{norm_label}-{digest}"
+    return f"controlled-production-readiness-gate-v3-5-{norm_label}-{digest}"
 
 def create_controlled_production_readiness_gate_schema() -> dict:
     return {

@@ -28,7 +28,7 @@ def normalize_external_tool_label(label: str) -> str:
 def generate_external_tool_preview_id(command: str, tool_label: str, runtime_version: str = "3.5.0") -> str:
     normalized_tool_label = normalize_external_tool_label(tool_label)
     digest = hashlib.sha256(f"{runtime_version}:{command}:{tool_label}".encode("utf-8")).hexdigest()
-    return f"external-tool-preview-v3-4-{normalized_tool_label}-{digest[:12]}"
+    return f"external-tool-preview-v3-5-{normalized_tool_label}-{digest[:12]}"
 
 
 def create_controlled_external_tool_adapter_preview_schema() -> dict:

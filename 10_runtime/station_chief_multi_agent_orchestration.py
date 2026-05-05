@@ -23,7 +23,7 @@ def generate_orchestration_id(command: str, label: str, index: int, runtime_vers
     normalized_label = normalize_orchestration_label(label)
     hash_input = f"{runtime_version}:{command}:{label}:{index}"
     hash_chars = hashlib.sha256(hash_input.encode("utf-8")).hexdigest()[:12]
-    return f"orchestration-v3-4-{normalized_label}-{index:03d}-{hash_chars}"
+    return f"orchestration-v3-5-{normalized_label}-{index:03d}-{hash_chars}"
 
 def create_orchestration_topology_schema() -> dict:
     return {

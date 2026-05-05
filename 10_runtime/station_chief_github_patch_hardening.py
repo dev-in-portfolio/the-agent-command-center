@@ -24,7 +24,7 @@ def generate_patch_hardening_id(command: str, label: str, runtime_version: str =
     normalized_label = normalize_patch_label(label)
     hash_input = f"{runtime_version}:{command}:{label}"
     hash_chars = hashlib.sha256(hash_input.encode("utf-8")).hexdigest()[:12]
-    return f"patch-hardening-v3-4-{normalized_label}-{hash_chars}"
+    return f"patch-hardening-v3-5-{normalized_label}-{hash_chars}"
 
 def create_patch_hardening_schema() -> dict:
     return {

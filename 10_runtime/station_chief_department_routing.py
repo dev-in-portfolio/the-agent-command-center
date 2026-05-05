@@ -23,7 +23,7 @@ def generate_route_id(command: str, route_label: str, index: int, runtime_versio
     normalized_label = normalize_route_label(route_label)
     hash_input = f"{runtime_version}:{command}:{route_label}:{index}"
     hash_chars = hashlib.sha256(hash_input.encode("utf-8")).hexdigest()[:12]
-    return f"route-v3-4-{normalized_label}-{index:03d}-{hash_chars}"
+    return f"route-v3-5-{normalized_label}-{index:03d}-{hash_chars}"
 
 def create_department_routing_schema() -> dict:
     return {

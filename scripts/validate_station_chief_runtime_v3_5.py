@@ -471,6 +471,79 @@ def check_forbidden_strings(errors):
                 require(errors, item not in text, f'{path.relative_to(ROOT)} contains forbidden text {item!r}')
 
 
+def check_deterministic_prefix_drift(errors):
+    stale_prefixes = [
+        'v3-4-',
+        '-v3-4-',
+        'station-chief-v3-4',
+        'external-tool-preview-v3-4',
+        'external-api-dry-run-preview-v3-4',
+        'multi-worker-audit-replay-preview-v3-4',
+        'operator-approval-queue-v3-4',
+        'release-candidate-hardening-v3-4',
+        'controlled-production-readiness-gate-v3-4',
+        'controlled-worker-hiring-activation-pilot-v3-4',
+        'first-supervised-production-dry-run-v3-4',
+        'limited-external-tool-supervised-pilot-v3-4',
+        'supervised-external-api-pilot-v3-4',
+        'monitored-rollback-recovery-drill-v3-4',
+        'external-api-dry-run-v3-4',
+        'work-order-v3-4',
+        'tool-permission-v3-4',
+        'controlled-worker-v3-4',
+        'worker-v3-4',
+        'route-v3-4',
+        'deployment-packaging-v3-4',
+        'patch-hardening-v3-4',
+        'telemetry-abort-v3-4',
+        'orchestration-v3-4',
+        'multi-worker-v3-4',
+        'sandbox-worker-v3-4',
+        'post-run-audit-v3-4',
+        'controlled-worker-hiring-activation-pilot-v3-4',
+    ]
+    required_prefixes_by_file = {
+        'station_chief_runtime.py': ['station-chief-v3-5-'],
+        'station_chief_controlled_external_tool_adapter_preview.py': ['external-tool-preview-v3-5-'],
+        'station_chief_controlled_multi_worker_audit_replay_preview.py': ['audit-replay-preview-v3-5-'],
+        'station_chief_controlled_production_readiness_gate.py': ['controlled-production-readiness-gate-v3-5-'],
+        'station_chief_controlled_worker_execution.py': ['controlled-worker-v3-5-'],
+        'station_chief_controlled_worker_hiring_activation_pilot.py': ['controlled-worker-hiring-activation-pilot-v3-5-'],
+        'station_chief_department_routing.py': ['route-v3-5-'],
+        'station_chief_deployment_packaging.py': ['deployment-packaging-v3-5-'],
+        'station_chief_first_supervised_production_dry_run.py': ['first-supervised-production-dry-run-v3-5-'],
+        'station_chief_github_patch_hardening.py': ['patch-hardening-v3-5-'],
+        'station_chief_limited_external_tool_supervised_pilot.py': ['limited-external-tool-supervised-pilot-v3-5-'],
+        'station_chief_live_execution_telemetry_abort.py': ['telemetry-abort-v3-5-'],
+        'station_chief_multi_agent_orchestration.py': ['orchestration-v3-5-'],
+        'station_chief_multi_worker_sandbox_coordination.py': ['multi-worker-v3-5-', 'sandbox-worker-v3-5-'],
+        'station_chief_operator_approval_queue_enforcement.py': ['operator-approval-queue-v3-5-'],
+        'station_chief_operator_console.py': ['operator-console-v3-5-'],
+        'station_chief_permissioned_external_api_dry_run_preview.py': ['external-api-dry-run-v3-5-'],
+        'station_chief_post_run_audit_expansion.py': ['post-run-audit-v3-5-'],
+        'station_chief_release_candidate_hardening.py': ['release-candidate-hardening-v3-5-'],
+        'station_chief_supervised_external_api_pilot.py': ['supervised-external-api-pilot-v3-5-'],
+        'station_chief_tool_permission_binding.py': ['tool-permission-v3-5-'],
+        'station_chief_work_order_executor.py': ['work-order-v3-5-'],
+        'station_chief_worker_hiring_registry.py': ['worker-v3-5-'],
+        'station_chief_monitored_rollback_recovery_drill.py': ['monitored-rollback-recovery-drill-v3-5-'],
+    }
+    for path in sorted(RUNTIME_DIR.glob('station_chief_*.py')):
+        text = read_text(path)
+        if '3.5.0' not in text:
+            continue
+        for stale in stale_prefixes:
+            require(errors, stale not in text, f'{path.relative_to(ROOT)} contains stale deterministic prefix {stale!r}')
+        for required in required_prefixes_by_file.get(path.name, []):
+            require_in(errors, required, text, f'{path.relative_to(ROOT)} missing required deterministic prefix {required!r}')
+    preview_path = RUNTIME_DIR / 'station_chief_controlled_external_tool_adapter_preview.py'
+    preview_text = read_text(preview_path)
+    require_in(errors, 'def generate_external_tool_preview_id', preview_text, 'controlled external tool preview missing ID generator')
+    require_in(errors, 'runtime_version: str = "3.5.0"', preview_text, 'controlled external tool preview missing 3.5.0 runtime_version default')
+    require_in(errors, 'external-tool-preview-v3-5-', preview_text, 'controlled external tool preview missing v3-5 prefix')
+    require(errors, 'external-tool-preview-v3-4-' not in preview_text, 'controlled external tool preview still contains v3-4 prefix')
+
+
 def check_demo_output(errors):
     rc, stdout, stderr = run_command(['python3', '10_runtime/station_chief_runtime.py', '--demo'], 'demo run', errors)
     data = parse_json_output(stdout, 'demo run', errors)

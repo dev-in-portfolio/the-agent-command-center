@@ -33,7 +33,7 @@ def generate_limited_external_tool_supervised_pilot_id(
 ) -> str:
     normalized_tool_pilot_label = normalize_tool_pilot_label(tool_pilot_label)
     digest = sha256_digest(f"{runtime_version}:{command}:{normalized_tool_pilot_label}")[:12]
-    return f"limited-external-tool-supervised-pilot-v3-4-{normalized_tool_pilot_label}-{digest}"
+    return f"limited-external-tool-supervised-pilot-v3-5-{normalized_tool_pilot_label}-{digest}"
 
 
 def create_limited_external_tool_supervised_pilot_schema() -> dict:

@@ -27,7 +27,7 @@ def generate_audit_replay_preview_id(command: str, replay_label: str, runtime_ve
     norm_label = normalize_replay_label(replay_label)
     digest_input = f"{runtime_version}:{command}:{norm_label}"
     digest = sha256_digest(digest_input)[:12]
-    return f"audit-replay-preview-v3-4-{norm_label}-{digest}"
+    return f"audit-replay-preview-v3-5-{norm_label}-{digest}"
 
 def create_controlled_multi_worker_audit_replay_preview_schema() -> dict:
     return {

@@ -27,7 +27,7 @@ def generate_controlled_worker_hiring_activation_pilot_id(command: str, pilot_la
     norm_label = normalize_pilot_label(pilot_label)
     digest_input = f"{runtime_version}:{command}:{norm_label}"
     digest = sha256_digest(digest_input)[:12]
-    return f"controlled-worker-hiring-activation-pilot-v3-4-{norm_label}-{digest}"
+    return f"controlled-worker-hiring-activation-pilot-v3-5-{norm_label}-{digest}"
 
 def create_controlled_worker_hiring_activation_pilot_schema() -> dict:
     return {

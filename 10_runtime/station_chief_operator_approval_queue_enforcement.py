@@ -27,7 +27,7 @@ def generate_operator_approval_queue_id(command: str, queue_label: str, runtime_
     norm_label = normalize_queue_label(queue_label)
     digest_input = f"{runtime_version}:{command}:{norm_label}"
     digest = sha256_digest(digest_input)[:12]
-    return f"operator-approval-queue-v3-4-{norm_label}-{digest}"
+    return f"operator-approval-queue-v3-5-{norm_label}-{digest}"
 
 def create_operator_approval_queue_enforcement_schema() -> dict:
     return {

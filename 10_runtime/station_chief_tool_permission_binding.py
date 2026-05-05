@@ -30,7 +30,7 @@ def generate_tool_permission_binding_id(command: str, worker_id: str, runtime_ve
     normalized_worker_id = normalize_tool_permission_label(worker_id)
     hash_input = f"{runtime_version}:{command}:{worker_id}"
     hash_chars = hashlib.sha256(hash_input.encode("utf-8")).hexdigest()[:12]
-    return f"tool-permission-v3-4-{normalized_worker_id}-{hash_chars}"
+    return f"tool-permission-v3-5-{normalized_worker_id}-{hash_chars}"
 
 def create_tool_permission_binding_schema() -> dict:
     return {

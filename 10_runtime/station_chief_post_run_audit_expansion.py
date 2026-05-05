@@ -30,7 +30,7 @@ def generate_post_run_audit_expansion_id(command: str, worker_id: str, runtime_v
     normalized_worker_id = normalize_audit_label(worker_id)
     hash_input = f"{runtime_version}:{command}:{worker_id}"
     hash_chars = hashlib.sha256(hash_input.encode("utf-8")).hexdigest()[:12]
-    return f"post-run-audit-v3-4-{normalized_worker_id}-{hash_chars}"
+    return f"post-run-audit-v3-5-{normalized_worker_id}-{hash_chars}"
 
 
 def create_post_run_audit_expansion_schema() -> dict:

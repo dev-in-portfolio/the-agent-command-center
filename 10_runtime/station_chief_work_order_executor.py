@@ -23,7 +23,7 @@ def generate_work_order_id(command: str, label: str, index: int, runtime_version
     normalized_label = normalize_work_order_label(label)
     hash_input = f"{runtime_version}:{command}:{label}:{index}"
     hash_chars = hashlib.sha256(hash_input.encode("utf-8")).hexdigest()[:12]
-    return f"work-order-v3-4-{normalized_label}-{index:03d}-{hash_chars}"
+    return f"work-order-v3-5-{normalized_label}-{index:03d}-{hash_chars}"
 
 def create_executable_work_order_schema() -> dict:
     return {

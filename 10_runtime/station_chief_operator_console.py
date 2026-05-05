@@ -23,7 +23,7 @@ def generate_console_id(command: str, label: str, runtime_version: str = "3.5.0"
     normalized_label = normalize_console_label(label)
     hash_input = f"{runtime_version}:{command}:{label}"
     hash_chars = hashlib.sha256(hash_input.encode("utf-8")).hexdigest()[:12]
-    return f"operator-console-v3-4-{normalized_label}-{hash_chars}"
+    return f"operator-console-v3-5-{normalized_label}-{hash_chars}"
 
 def create_operator_console_screen_schema() -> dict:
     return {

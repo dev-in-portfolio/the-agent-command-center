@@ -27,7 +27,7 @@ def generate_release_candidate_hardening_id(command: str, release_candidate_labe
     norm_label = normalize_release_candidate_label(release_candidate_label)
     digest_input = f"{runtime_version}:{command}:{norm_label}"
     digest = sha256_digest(digest_input)[:12]
-    return f"release-candidate-hardening-v3-4-{norm_label}-{digest}"
+    return f"release-candidate-hardening-v3-5-{norm_label}-{digest}"
 
 def create_release_candidate_hardening_schema() -> dict:
     return {
