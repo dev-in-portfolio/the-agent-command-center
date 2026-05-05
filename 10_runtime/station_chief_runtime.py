@@ -170,6 +170,11 @@ from station_chief_credential_vault_denial_secret_handling_proof import (
     create_credential_vault_denial_secret_handling_proof_bundle,
     create_credential_vault_denial_secret_handling_proof_schema,
 )
+from station_chief_network_socket_lockdown_proof import (
+    NETWORK_SOCKET_LOCKDOWN_PROOF_APPROVAL_TOKEN,
+    create_network_socket_lockdown_proof_bundle,
+    create_network_socket_lockdown_proof_schema,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -179,7 +184,7 @@ from station_chief_execution_profiles import (
     select_execution_profile,
 )
 
-STATION_CHIEF_RUNTIME_VERSION = "3.7.0"
+STATION_CHIEF_RUNTIME_VERSION = "3.8.0"
 
 EXPECTED_OVERLAYS = [
     {
@@ -385,7 +390,7 @@ def normalize_command_for_id(command: str) -> str:
 def generate_run_id(command: str, run_label: str = "station-chief-runtime") -> str:
     normalized = normalize_command_for_id(command)
     digest = hashlib.sha256(f"{STATION_CHIEF_RUNTIME_VERSION}:{run_label}:{command}".encode("utf-8")).hexdigest()
-    return f"station-chief-v3-7-{normalized}-{digest[:12]}"
+    return f"station-chief-v3-8-{normalized}-{digest[:12]}"
 
 
 def classify_command(command: str) -> str:
@@ -571,6 +576,17 @@ def build_demo_evidence() -> dict[str, bool]:
         "credential_vault_denial_secret_handling_proof_does_not_deploy": True,
         "credential_vault_denial_secret_handling_proof_does_not_execute_production": True,
         "credential_vault_denial_secret_handling_proof_does_not_modify_repo_files": True,
+        "network_socket_lockdown_proof_available": True,
+        "network_socket_lockdown_proof_preview_only": True,
+        "network_socket_lockdown_proof_requires_token": True,
+        "network_socket_lockdown_proof_does_not_perform_network_access": True,
+        "network_socket_lockdown_proof_does_not_open_sockets": True,
+        "network_socket_lockdown_proof_does_not_resolve_dns": True,
+        "network_socket_lockdown_proof_does_not_make_outbound_connections": True,
+        "network_socket_lockdown_proof_does_not_make_inbound_connections": True,
+        "network_socket_lockdown_proof_does_not_call_live_apis": True,
+        "network_socket_lockdown_proof_does_not_call_webhooks": True,
+        "network_socket_lockdown_proof_does_not_invoke_external_tools": True,
     }
 
 
@@ -578,7 +594,7 @@ def load_registry(registry_dir: str | Path) -> dict:
     registry_path = Path(registry_dir) / "run_registry.json"
     if not registry_path.exists():
         return {
-            "registry_version": "3.7.0",
+            "registry_version": "3.8.0",
             "runtime_name": "Station Chief Runtime",
             "runs": [],
         }
@@ -595,7 +611,7 @@ def update_registry(registry_dir: str | Path, index_entry: dict) -> dict:
     registry = load_registry(registry_dir)
     runs = [run for run in registry.get("runs", []) if run.get("run_id") != index_entry.get("run_id")]
     runs.append(index_entry)
-    registry["registry_version"] = "3.7.0"
+    registry["registry_version"] = "3.8.0"
     registry["runtime_name"] = "Station Chief Runtime"
     registry["runs"] = runs
     save_registry(registry_dir, registry)
@@ -604,7 +620,7 @@ def update_registry(registry_dir: str | Path, index_entry: dict) -> dict:
 
 def write_runtime_index(registry_dir: str | Path, registry: dict) -> dict:
     index = {
-        "index_version": "3.7.0",
+        "index_version": "3.8.0",
         "runtime_name": "Station Chief Runtime",
         "run_count": len(registry.get("runs", [])),
         "runs": registry.get("runs", []),
@@ -658,14 +674,14 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
     adapter_result = run_noop_adapter(execution_plan)
     return {
         "station_chief_runtime_version": STATION_CHIEF_RUNTIME_VERSION,
-        "runtime_status": "credential_vault_denial_secret_handling_proof",
+        "runtime_status": "network_socket_lockdown_proof",
         "release_status": "STABLE_LOCKED",
         "command": command,
         "command_type": brief["command_type"],
         "activation_tier": brief["activation_tier"],
         "baseline_preserved": True,
         "evidence": build_demo_evidence(),
-        "next_step": "Next step: build network/socket lockdown proof.",
+        "next_step": "Next step: build live external action final preflight gate.",
         "external_actions_taken": False,
         "live_api_call_performed": False,
         "network_access_performed": False,
@@ -706,7 +722,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "supervised_production_pilot_readiness_review_does_not_route_live_workers": True,
         "supervised_production_pilot_readiness_review_does_not_perform_live_orchestration": True,
         "supervised_production_pilot_readiness_review_does_not_modify_repo_files": True,
-        "credential_vault_denial_secret_handling_proof_not_yet_active": True,
+        "credential_vault_denial_secret_handling_proof_not_yet_active": False,
         "credential_vault_denial_secret_handling_proof_available": True,
         "credential_vault_denial_secret_handling_proof_preview_only": True,
         "credential_vault_denial_secret_handling_proof_requires_token": True,
@@ -719,6 +735,18 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "credential_vault_denial_secret_handling_proof_does_not_deploy": True,
         "credential_vault_denial_secret_handling_proof_does_not_execute_production": True,
         "credential_vault_denial_secret_handling_proof_does_not_modify_repo_files": True,
+        "network_socket_lockdown_proof_not_yet_active": True,
+        "network_socket_lockdown_proof_available": True,
+        "network_socket_lockdown_proof_preview_only": True,
+        "network_socket_lockdown_proof_requires_token": True,
+        "network_socket_lockdown_proof_does_not_perform_network_access": True,
+        "network_socket_lockdown_proof_does_not_open_sockets": True,
+        "network_socket_lockdown_proof_does_not_resolve_dns": True,
+        "network_socket_lockdown_proof_does_not_make_outbound_connections": True,
+        "network_socket_lockdown_proof_does_not_make_inbound_connections": True,
+        "network_socket_lockdown_proof_does_not_call_live_apis": True,
+        "network_socket_lockdown_proof_does_not_call_webhooks": True,
+        "network_socket_lockdown_proof_does_not_invoke_external_tools": True,
         "selected_overlays": brief["selected_overlays"],
         "command_brief": brief,
         "work_orders": work_orders,
@@ -4120,6 +4148,115 @@ def write_credential_vault_denial_secret_handling_proof(
         "files_written": manifest["files_written"],
     }
 
+
+def attach_network_socket_lockdown_proof(
+    result: dict,
+    network_socket_label: str | None = None,
+    confirmation_token: str | None = None,
+    network_boundary_label: str | None = None,
+    socket_boundary_label: str | None = None,
+) -> dict:
+    if "credential_vault_denial_secret_handling_proof_bundle" not in result:
+        result = attach_credential_vault_denial_secret_handling_proof(result)
+
+    bundle = create_network_socket_lockdown_proof_bundle(
+        result,
+        command=result.get("command", ""),
+        network_socket_label=network_socket_label,
+        confirmation_token=confirmation_token,
+        network_boundary_label=network_boundary_label,
+        socket_boundary_label=socket_boundary_label,
+    )
+    result["network_socket_lockdown_proof_bundle"] = bundle
+    result["network_socket_lockdown_proof_schema"] = bundle["network_socket_lockdown_proof_schema"]
+    result["network_socket_lockdown_proof_approval_gate"] = bundle["network_socket_lockdown_proof_approval_gate"]
+    result["network_access_denial_contract"] = bundle["network_access_denial_contract"]
+    result["socket_access_denial_contract"] = bundle["socket_access_denial_contract"]
+    result["live_api_call_denial_contract"] = bundle["live_api_call_denial_contract"]
+    result["dns_resolution_denial_contract"] = bundle["dns_resolution_denial_contract"]
+    result["outbound_connection_denial_contract"] = bundle["outbound_connection_denial_contract"]
+    result["network_boundary_record"] = bundle["network_boundary_record"]
+    result["socket_boundary_record"] = bundle["socket_boundary_record"]
+    result["network_socket_audit_proof"] = bundle["network_socket_audit_proof"]
+    result["network_socket_lockdown_ledger"] = bundle["network_socket_lockdown_ledger"]
+    result["network_socket_readiness_summary"] = bundle["network_socket_readiness_summary"]
+    result["live_external_action_final_preflight_gate_bridge"] = bundle["live_external_action_final_preflight_gate_bridge"]
+    return result
+
+
+def write_network_socket_lockdown_proof(
+    result: dict,
+    output_dir: str | Path,
+    run_label: str = "station-chief-runtime",
+) -> dict:
+    if "network_socket_lockdown_proof_bundle" not in result:
+        raise ValueError(
+            "network_socket_lockdown_proof_bundle not found in result. Call attach_network_socket_lockdown_proof first."
+        )
+
+    out_path = Path(output_dir).expanduser().resolve()
+    run_id = generate_run_id(result.get("command", ""), run_label=run_label)
+    proof_dir = out_path / run_id
+    proof_dir.mkdir(parents=True, exist_ok=True)
+
+    files_to_write = {
+        "network_socket_lockdown_proof_bundle.json": result["network_socket_lockdown_proof_bundle"],
+        "network_socket_lockdown_proof_schema.json": result["network_socket_lockdown_proof_schema"],
+        "network_socket_lockdown_proof_approval_gate.json": result["network_socket_lockdown_proof_approval_gate"],
+        "network_access_denial_contract.json": result["network_access_denial_contract"],
+        "socket_access_denial_contract.json": result["socket_access_denial_contract"],
+        "live_api_call_denial_contract.json": result["live_api_call_denial_contract"],
+        "dns_resolution_denial_contract.json": result["dns_resolution_denial_contract"],
+        "outbound_connection_denial_contract.json": result["outbound_connection_denial_contract"],
+        "network_boundary_record.json": result["network_boundary_record"],
+        "socket_boundary_record.json": result["socket_boundary_record"],
+        "network_socket_audit_proof.json": result["network_socket_audit_proof"],
+        "network_socket_lockdown_ledger.json": result["network_socket_lockdown_ledger"],
+        "network_socket_readiness_summary.json": result["network_socket_readiness_summary"],
+        "live_external_action_final_preflight_gate_bridge.json": result["live_external_action_final_preflight_gate_bridge"],
+    }
+    files_written = list(files_to_write.keys())
+    for filename, payload in files_to_write.items():
+        _write_json(proof_dir / filename, payload)
+
+    manifest = {
+        "network_socket_lockdown_proof_manifest_version": "3.8.0",
+        "run_id": run_id,
+        "runtime_version": "3.8.0",
+        "status": "NETWORK_SOCKET_LOCKDOWN_PROOF_PREVIEW_ONLY",
+        "files_written": files_written + ["network_socket_lockdown_proof_manifest.json"],
+        "baseline_preserved": True,
+        "external_actions_taken": False,
+        "network_access_performed": False,
+        "socket_opened": False,
+        "dns_resolution_performed": False,
+        "outbound_connection_performed": False,
+        "inbound_connection_performed": False,
+        "live_api_call_performed": False,
+        "webhook_call_performed": False,
+        "external_tool_invocation_performed": False,
+        "credentials_used": False,
+        "secrets_read": False,
+        "environment_read": False,
+        "deployment_performed": False,
+        "production_execution_performed": False,
+        "production_activation_performed": False,
+        "live_task_assignment_performed": False,
+        "live_worker_routing_performed": False,
+        "live_orchestration_performed": False,
+        "worker_processes_started": False,
+        "repo_files_modified": False,
+        "execution_authorized": False,
+        "note": "Network/Socket Lockdown Proof v3.8.0 creates deterministic local denial schemas, approval gates, denial contracts, boundary records, audit proofs, denial ledgers, readiness summaries, and a bridge to Live External Action Final Preflight Gate only. It does not perform network access, open sockets, resolve DNS, make outbound connections, call live APIs, or execute any real deployment or production action.",
+    }
+    _write_json(proof_dir / "network_socket_lockdown_proof_manifest.json", manifest)
+    return {
+        "run_id": run_id,
+        "network_socket_lockdown_proof_dir": str(proof_dir),
+        "files_written": manifest["files_written"],
+    }
+
+
 def build_runtime_artifacts(result: dict, run_id: str) -> dict:
     adapter_name = result.get("adapter_name", "noop")
     command_brief = result["command_brief"]
@@ -4741,8 +4878,8 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "first_supervised_production_dry_run_bridge": result.get("first_supervised_production_dry_run_bridge"),
         "manifest": {
             "run_id": run_id,
-            "runtime_version": "3.7.0",
-            "artifact_type": "station_chief_runtime_v3_7_artifacts",
+            "runtime_version": "3.8.0",
+            "artifact_type": "station_chief_runtime_v3_8_artifacts",
             "files_planned": files_planned,
             "baseline_preserved": True,
             "devinization_overlays_preserved": True,
@@ -5982,6 +6119,13 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--hardening-patch-content", type=str, help="Patch content for hardening review")
     parser.add_argument("--hardening-original-content", type=str, help="Original content for hardening review")
     parser.add_argument("--hardening-changed-file", action="append", default=[], help="Changed file for hardening review")
+    parser.add_argument("--network-socket-lockdown-proof-schema", action="store_true")
+    parser.add_argument("--network-socket-lockdown-proof", action="store_true")
+    parser.add_argument("--write-network-socket-lockdown-proof", metavar="DIR", type=str)
+    parser.add_argument("--network-socket-label", type=str)
+    parser.add_argument("--network-socket-confirm-token", type=str)
+    parser.add_argument("--network-boundary-label", type=str)
+    parser.add_argument("--socket-boundary-label", type=str)
     return parser
 
 
@@ -6095,6 +6239,10 @@ def main() -> None:
 
     if args.credential_vault_denial_secret_handling_proof_schema:
         print(json.dumps(create_credential_vault_denial_secret_handling_proof_schema(), indent=2, ensure_ascii=False))
+        return
+
+    if args.network_socket_lockdown_proof_schema:
+        print(json.dumps(create_network_socket_lockdown_proof_schema(), indent=2, ensure_ascii=False))
         return
 
     if args.limited_external_tool_supervised_pilot_schema:
@@ -6576,6 +6724,12 @@ def main() -> None:
     if args.write_credential_vault_denial_secret_handling_proof:
         args.credential_vault_denial_secret_handling_proof = True
 
+    if getattr(args, "write_network_socket_lockdown_proof", False):
+        args.network_socket_lockdown_proof = True
+
+    if getattr(args, "network_socket_lockdown_proof", False):
+        args.credential_vault_denial_secret_handling_proof = True
+
     if args.credential_vault_denial_secret_handling_proof or getattr(args, "write_credential_vault_denial_secret_handling_proof", False):
         result = attach_credential_vault_denial_secret_handling_proof(
             result,
@@ -6584,6 +6738,15 @@ def main() -> None:
             credential_boundary_label=args.credential_boundary_label,
             secret_boundary_label=args.secret_boundary_label,
             environment_boundary_label=args.environment_boundary_label,
+        )
+
+    if getattr(args, "network_socket_lockdown_proof", False):
+        result = attach_network_socket_lockdown_proof(
+            result,
+            network_socket_label=args.network_socket_label,
+            confirmation_token=args.network_socket_confirm_token,
+            network_boundary_label=args.network_boundary_label,
+            socket_boundary_label=args.socket_boundary_label,
         )
 
     if args.write_supervised_production_pilot_readiness_review:
@@ -6918,6 +7081,23 @@ def main() -> None:
         )
         result = dict(result)
         result["credential_vault_denial_secret_handling_proof_write_summary"] = credential_vault_denial_secret_handling_proof_write_summary
+
+    if getattr(args, "write_network_socket_lockdown_proof", False):
+        if "network_socket_lockdown_proof_bundle" not in result or result["network_socket_lockdown_proof_bundle"] is None:
+            result = attach_network_socket_lockdown_proof(
+                result,
+                network_socket_label=args.network_socket_label,
+                confirmation_token=args.network_socket_confirm_token,
+                network_boundary_label=args.network_boundary_label,
+                socket_boundary_label=args.socket_boundary_label,
+            )
+        network_socket_lockdown_proof_write_summary = write_network_socket_lockdown_proof(
+            result,
+            args.write_network_socket_lockdown_proof,
+            run_label=args.run_label,
+        )
+        result = dict(result)
+        result["network_socket_lockdown_proof_write_summary"] = network_socket_lockdown_proof_write_summary
 
     if args.write_limited_external_tool_supervised_pilot:
         pilot_res = write_limited_external_tool_supervised_pilot(result, args.write_limited_external_tool_supervised_pilot)
