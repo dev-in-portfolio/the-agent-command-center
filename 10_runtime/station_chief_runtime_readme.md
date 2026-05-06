@@ -1,7 +1,7 @@
-# Station Chief Runtime v4.3.0
+# Station Chief Runtime v4.4.0
 
 ## Status
-Station Chief Runtime v4.3.0 delivers the Limited Live Worker Activation Candidate layer. It remains locked to the 175-family baseline and keeps broad execution, API access, network access, socket access, credential use, secret reads, environment reads, deployment, production execution, worker process start, worker activation, and full workforce activation denied by default.
+Station Chief Runtime v4.4.0 delivers the Permissioned Worker Task Assignment Candidate layer. It remains locked to the 175-family baseline and keeps broad execution, API access, network access, socket access, credential use, secret reads, environment reads, deployment, production execution, worker process start, task execution, task enqueue, worker routing, and full workforce activation denied by default.
 
 ## What This Adds
 - live external action final preflight gate layer preserved as the prior boundary
@@ -51,6 +51,17 @@ Station Chief Runtime v4.3.0 delivers the Limited Live Worker Activation Candida
 - worker activation ledger
 - worker activation readiness summary
 - permissioned worker task assignment candidate bridge
+- permissioned worker task assignment candidate schema
+- permissioned worker task assignment candidate approval gate
+- task label reference contract
+- one worker one task assignment scope contract
+- non-execution task boundary
+- task permission denial record
+- worker task assignment candidate record
+- task assignment audit record
+- task assignment ledger
+- task assignment readiness summary
+- task assignment audit closeout candidate bridge
 
 ## What This Does Not Do
 - no live API calls
@@ -69,6 +80,8 @@ Station Chief Runtime v4.3.0 delivers the Limited Live Worker Activation Candida
 - no live worker routing
 - no live orchestration
 - no worker process starts
+- no task execution
+- no task enqueue
 - no full workforce activation
 - no daemon start
 - no scheduler start
@@ -92,6 +105,7 @@ python3 10_runtime/station_chief_runtime.py --first-tiny-real-world-supervised-e
 python3 10_runtime/station_chief_runtime.py --post-action-verification-and-audit-review-schema
 python3 10_runtime/station_chief_runtime.py --supervised-rollback-cleanup-candidate-schema
 python3 10_runtime/station_chief_runtime.py --limited-live-worker-activation-candidate-schema
+python3 10_runtime/station_chief_runtime.py --permissioned-worker-task-assignment-candidate-schema
 python3 10_runtime/station_chief_runtime.py --command "check please" --first-tiny-real-world-supervised-execution-candidate
 python3 10_runtime/station_chief_runtime.py --command "check please" --first-tiny-real-world-supervised-execution-candidate --v4-candidate-confirm-token YES_I_APPROVE_FIRST_TINY_REAL_WORLD_SUPERVISED_EXECUTION_CANDIDATE --v4-human-operator "Devin O’Rourke"
 python3 10_runtime/station_chief_runtime.py --command "check please" --write-first-tiny-real-world-supervised-execution-candidate /tmp/station_chief_v4_candidate --v4-candidate-confirm-token YES_I_APPROVE_FIRST_TINY_REAL_WORLD_SUPERVISED_EXECUTION_CANDIDATE --v4-human-operator "Devin O’Rourke"
@@ -101,11 +115,13 @@ python3 10_runtime/station_chief_runtime.py --command "check please" --supervise
 python3 10_runtime/station_chief_runtime.py --command "check please" --execute-supervised-rollback-cleanup-candidate /tmp/station_chief_v4_cleanup --v4-cleanup-artifact-path /tmp/station_chief_v4_candidate/first_tiny_supervised_execution_candidate_proof.json --v4-cleanup-expected-output-directory /tmp/station_chief_v4_candidate --v4-cleanup-confirm-token YES_I_APPROVE_SUPERVISED_ROLLBACK_CLEANUP_CANDIDATE --v4-cleanup-human-operator "Devin O’Rourke"
 python3 10_runtime/station_chief_runtime.py --command "check please" --limited-live-worker-activation-candidate --v4-worker-template-label station-chief-sandbox-observer-worker-template --v4-worker-activation-confirm-token YES_I_APPROVE_LIMITED_LIVE_WORKER_ACTIVATION_CANDIDATE --v4-worker-activation-human-operator "Devin O’Rourke"
 python3 10_runtime/station_chief_runtime.py --command "check please" --write-limited-live-worker-activation-candidate /tmp/station_chief_v4_worker --v4-worker-template-label station-chief-sandbox-observer-worker-template --v4-worker-activation-confirm-token YES_I_APPROVE_LIMITED_LIVE_WORKER_ACTIVATION_CANDIDATE --v4-worker-activation-human-operator "Devin O’Rourke"
+python3 10_runtime/station_chief_runtime.py --command "check please" --permissioned-worker-task-assignment-candidate --v4-task-worker-template-label station-chief-sandbox-observer-worker-template --v4-task-label station-chief-sandbox-observation-task --v4-task-assignment-confirm-token YES_I_APPROVE_PERMISSIONED_WORKER_TASK_ASSIGNMENT_CANDIDATE --v4-task-assignment-human-operator "Devin O’Rourke"
+python3 10_runtime/station_chief_runtime.py --command "check please" --write-permissioned-worker-task-assignment-candidate /tmp/station_chief_v4_task_assignment --v4-task-worker-template-label station-chief-sandbox-observer-worker-template --v4-task-label station-chief-sandbox-observation-task --v4-task-assignment-confirm-token YES_I_APPROVE_PERMISSIONED_WORKER_TASK_ASSIGNMENT_CANDIDATE --v4-task-assignment-human-operator "Devin O’Rourke"
 python3 10_runtime/station_chief_fixture_tests.py
 ```
 
-## v4.3 Doctrine
-Station Chief Runtime v4.3.0 adds a limited live worker activation candidate that may create or write exactly one deterministic local worker activation record for exactly one explicitly named worker template inside an explicit operator-approved output directory after separate approval. It does not start worker processes. It does not spawn agents. It does not execute tasks. It does not route workers. It does not activate the full 47,250-worker workforce. It does not authorize APIs, network, sockets, DNS resolution, outbound connections, credential use, secret reads, environment variable reads, deployment, production execution, production activation, worker process start, or full workforce activation. v4.3 does not approve v4.4.
+## v4.4 Doctrine
+Station Chief Runtime v4.4.0 adds a permissioned worker task assignment candidate that may create or write exactly one deterministic local worker task assignment record for exactly one explicitly named worker template and exactly one explicitly named task label inside an explicit operator-approved output directory after separate approval. It does not execute tasks. It does not enqueue tasks. It does not start worker processes. It does not spawn agents. It does not route workers. It does not activate the full 47,250-worker workforce. It does not authorize APIs, network, sockets, DNS resolution, outbound connections, credential use, secret reads, environment variable reads, deployment, production execution, production activation, worker process start, task execution, task enqueue, or full workforce activation. v4.4 does not approve v4.5.
 
 ## Next Recommended Step
-Next recommended step: build permissioned worker task assignment candidate.
+Next recommended step: build task assignment audit closeout candidate.

@@ -200,6 +200,11 @@ from station_chief_limited_live_worker_activation_candidate import (
     create_limited_live_worker_activation_candidate_bundle,
     create_limited_live_worker_activation_candidate_schema,
 )
+from station_chief_permissioned_worker_task_assignment_candidate import (
+    PERMISSIONED_WORKER_TASK_ASSIGNMENT_CANDIDATE_APPROVAL_TOKEN,
+    create_permissioned_worker_task_assignment_candidate_bundle,
+    create_permissioned_worker_task_assignment_candidate_schema,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -209,7 +214,7 @@ from station_chief_execution_profiles import (
     select_execution_profile,
 )
 
-STATION_CHIEF_RUNTIME_VERSION = "4.3.0"
+STATION_CHIEF_RUNTIME_VERSION = "4.4.0"
 
 EXPECTED_OVERLAYS = [
     {
@@ -415,7 +420,7 @@ def normalize_command_for_id(command: str) -> str:
 def generate_run_id(command: str, run_label: str = "station-chief-runtime") -> str:
     normalized = normalize_command_for_id(command)
     digest = hashlib.sha256(f"{STATION_CHIEF_RUNTIME_VERSION}:{run_label}:{command}".encode("utf-8")).hexdigest()
-    return f"station-chief-v4-3-{normalized}-{digest[:12]}"
+    return f"station-chief-v4-4-{normalized}-{digest[:12]}"
 
 
 def classify_command(command: str) -> str:
@@ -674,7 +679,25 @@ def build_demo_evidence() -> dict[str, bool]:
         "limited_live_worker_activation_candidate_does_not_read_environment": True,
         "limited_live_worker_activation_candidate_does_not_deploy": True,
         "limited_live_worker_activation_candidate_does_not_execute_production": True,
-        "permissioned_worker_task_assignment_candidate_not_yet_active": True,
+        "permissioned_worker_task_assignment_candidate_available": True,
+        "permissioned_worker_task_assignment_candidate_local_record_only": True,
+        "permissioned_worker_task_assignment_candidate_requires_token": True,
+        "permissioned_worker_task_assignment_candidate_requires_human_operator": True,
+        "permissioned_worker_task_assignment_candidate_writes_one_local_record_only": True,
+        "permissioned_worker_task_assignment_candidate_does_not_execute_tasks": True,
+        "permissioned_worker_task_assignment_candidate_does_not_enqueue_tasks": True,
+        "permissioned_worker_task_assignment_candidate_does_not_start_worker_processes": True,
+        "permissioned_worker_task_assignment_candidate_does_not_assign_live_tasks": True,
+        "permissioned_worker_task_assignment_candidate_does_not_route_workers": True,
+        "permissioned_worker_task_assignment_candidate_does_not_call_live_apis": True,
+        "permissioned_worker_task_assignment_candidate_does_not_use_network_access": True,
+        "permissioned_worker_task_assignment_candidate_does_not_open_sockets": True,
+        "permissioned_worker_task_assignment_candidate_does_not_use_credentials": True,
+        "permissioned_worker_task_assignment_candidate_does_not_read_secrets": True,
+        "permissioned_worker_task_assignment_candidate_does_not_read_environment": True,
+        "permissioned_worker_task_assignment_candidate_does_not_deploy": True,
+        "permissioned_worker_task_assignment_candidate_does_not_execute_production": True,
+        "task_assignment_audit_closeout_candidate_not_yet_active": True,
         "v4_0_does_not_call_live_apis": True,
         "v4_0_does_not_use_network_access": True,
         "v4_0_does_not_open_sockets": True,
@@ -709,7 +732,7 @@ def load_registry(registry_dir: str | Path) -> dict:
     registry_path = Path(registry_dir) / "run_registry.json"
     if not registry_path.exists():
         return {
-            "registry_version": "4.3.0",
+            "registry_version": "4.4.0",
             "runtime_name": "Station Chief Runtime",
             "runs": [],
         }
@@ -726,7 +749,7 @@ def update_registry(registry_dir: str | Path, index_entry: dict) -> dict:
     registry = load_registry(registry_dir)
     runs = [run for run in registry.get("runs", []) if run.get("run_id") != index_entry.get("run_id")]
     runs.append(index_entry)
-    registry["registry_version"] = "4.3.0"
+    registry["registry_version"] = "4.4.0"
     registry["runtime_name"] = "Station Chief Runtime"
     registry["runs"] = runs
     save_registry(registry_dir, registry)
@@ -735,7 +758,7 @@ def update_registry(registry_dir: str | Path, index_entry: dict) -> dict:
 
 def write_runtime_index(registry_dir: str | Path, registry: dict) -> dict:
     index = {
-        "index_version": "4.3.0",
+        "index_version": "4.4.0",
         "runtime_name": "Station Chief Runtime",
         "run_count": len(registry.get("runs", [])),
         "runs": registry.get("runs", []),
@@ -789,7 +812,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
     adapter_result = run_noop_adapter(execution_plan)
     return {
         "station_chief_runtime_version": STATION_CHIEF_RUNTIME_VERSION,
-        "runtime_status": "limited_live_worker_activation_candidate",
+        "runtime_status": "permissioned_worker_task_assignment_candidate",
         "release_status": "STABLE_LOCKED",
         "command": command,
         "command_type": brief["command_type"],
@@ -831,7 +854,25 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "limited_live_worker_activation_candidate_does_not_read_environment": True,
         "limited_live_worker_activation_candidate_does_not_deploy": True,
         "limited_live_worker_activation_candidate_does_not_execute_production": True,
-        "permissioned_worker_task_assignment_candidate_not_yet_active": True,
+        "permissioned_worker_task_assignment_candidate_available": True,
+        "permissioned_worker_task_assignment_candidate_local_record_only": True,
+        "permissioned_worker_task_assignment_candidate_requires_token": True,
+        "permissioned_worker_task_assignment_candidate_requires_human_operator": True,
+        "permissioned_worker_task_assignment_candidate_writes_one_local_record_only": True,
+        "permissioned_worker_task_assignment_candidate_does_not_execute_tasks": True,
+        "permissioned_worker_task_assignment_candidate_does_not_enqueue_tasks": True,
+        "permissioned_worker_task_assignment_candidate_does_not_start_worker_processes": True,
+        "permissioned_worker_task_assignment_candidate_does_not_assign_live_tasks": True,
+        "permissioned_worker_task_assignment_candidate_does_not_route_workers": True,
+        "permissioned_worker_task_assignment_candidate_does_not_call_live_apis": True,
+        "permissioned_worker_task_assignment_candidate_does_not_use_network_access": True,
+        "permissioned_worker_task_assignment_candidate_does_not_open_sockets": True,
+        "permissioned_worker_task_assignment_candidate_does_not_use_credentials": True,
+        "permissioned_worker_task_assignment_candidate_does_not_read_secrets": True,
+        "permissioned_worker_task_assignment_candidate_does_not_read_environment": True,
+        "permissioned_worker_task_assignment_candidate_does_not_deploy": True,
+        "permissioned_worker_task_assignment_candidate_does_not_execute_production": True,
+        "task_assignment_audit_closeout_candidate_not_yet_active": True,
         "post_action_verification_and_audit_review_available": True,
         "post_action_verification_and_audit_review_local_only": True,
         "post_action_verification_and_audit_review_requires_token": True,
@@ -860,7 +901,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "v4_0_does_not_activate_production": True,
         "v4_0_does_not_route_live_workers": True,
         "v4_0_does_not_activate_full_workforce": True,
-        "next_step": "Next step: build permissioned worker task assignment candidate.",
+        "next_step": "Next step: build task assignment audit closeout candidate.",
         "external_actions_taken": False,
         "live_api_call_performed": False,
         "network_access_performed": False,
@@ -4872,6 +4913,85 @@ def write_limited_live_worker_activation_candidate(
     return result
 
 
+def attach_permissioned_worker_task_assignment_candidate(
+    result: dict,
+    worker_template_label: str | None = None,
+    task_label: str | None = None,
+    task_assignment_output_directory: str | None = None,
+    task_assignment_record_name: str | None = None,
+    confirmation_token: str | None = None,
+    human_operator: str | None = None,
+    assignment_requested: bool = False,
+    write_task_assignment_record: bool = False,
+) -> dict:
+    bundle = create_permissioned_worker_task_assignment_candidate_bundle(
+        result,
+        command=result.get("command", "check please"),
+        worker_template_label=worker_template_label,
+        task_label=task_label,
+        task_assignment_output_directory=task_assignment_output_directory,
+        task_assignment_record_name=task_assignment_record_name,
+        confirmation_token=confirmation_token,
+        human_operator=human_operator,
+        assignment_requested=assignment_requested,
+        write_task_assignment_record=write_task_assignment_record,
+    )
+    result = dict(result)
+    result["permissioned_worker_task_assignment_candidate_bundle"] = bundle
+    result["permissioned_worker_task_assignment_candidate_schema"] = bundle["schema"]
+    result["permissioned_worker_task_assignment_candidate_approval_gate"] = bundle["permissioned_worker_task_assignment_candidate_approval_gate"]
+    result["worker_template_reference_contract"] = bundle["worker_template_reference_contract"]
+    result["task_label_reference_contract"] = bundle["task_label_reference_contract"]
+    result["one_worker_one_task_assignment_scope_contract"] = bundle["one_worker_one_task_assignment_scope_contract"]
+    result["non_execution_task_boundary"] = bundle["non_execution_task_boundary"]
+    result["task_permission_denial_record"] = bundle["task_permission_denial_record"]
+    result["worker_task_assignment_candidate_record"] = bundle["worker_task_assignment_candidate_record"]
+    result["task_assignment_audit_record"] = bundle["task_assignment_audit_record"]
+    result["task_assignment_ledger"] = bundle["task_assignment_ledger"]
+    result["task_assignment_readiness_summary"] = bundle["task_assignment_readiness_summary"]
+    result["task_assignment_audit_closeout_candidate_bridge"] = bundle["task_assignment_audit_closeout_candidate_bridge"]
+    result["task_assignment_record_payload"] = bundle["task_assignment_record_payload"]
+    result["task_assignment_write_record"] = bundle["task_assignment_write_record"]
+    result["local_task_assignment_record_written"] = bundle["local_task_assignment_record_written"]
+    result["task_executed"] = False
+    result["task_enqueued"] = False
+    result["worker_process_started"] = False
+    result["live_task_assignment_performed"] = False
+    result["live_worker_routing_performed"] = False
+    result["full_workforce_activation_performed"] = False
+    result["permissioned_worker_task_assignment_candidate_write_summary"] = bundle["task_assignment_write_record"]
+    return result
+
+
+def write_permissioned_worker_task_assignment_candidate(
+    result: dict,
+    task_assignment_output_directory: str | Path,
+    worker_template_label: str | None = None,
+    task_label: str | None = None,
+    task_assignment_record_name: str | None = None,
+    confirmation_token: str | None = None,
+    human_operator: str | None = None,
+    run_label: str = "station-chief-runtime",
+) -> dict:
+    result = attach_permissioned_worker_task_assignment_candidate(
+        result,
+        worker_template_label=worker_template_label,
+        task_label=task_label,
+        task_assignment_output_directory=str(task_assignment_output_directory),
+        task_assignment_record_name=task_assignment_record_name,
+        confirmation_token=confirmation_token,
+        human_operator=human_operator,
+        assignment_requested=True,
+        write_task_assignment_record=True,
+    )
+    write_record = result["task_assignment_write_record"]
+    result["permissioned_worker_task_assignment_candidate_dir"] = write_record.get("task_assignment_output_directory") or str(task_assignment_output_directory)
+    result["files_written"] = [write_record["record_name"]] if write_record.get("local_task_assignment_record_written") else []
+    result["record_path"] = write_record.get("record_path")
+    result["execution_status"] = write_record.get("write_status")
+    return result
+
+
 def build_runtime_artifacts(result: dict, run_id: str) -> dict:
     adapter_name = result.get("adapter_name", "noop")
     command_brief = result["command_brief"]
@@ -5221,6 +5341,24 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
             "permissioned_worker_task_assignment_candidate_bridge.json",
             "worker_activation_record_payload.json",
             "worker_activation_write_record.json",
+        ])
+    if result.get("permissioned_worker_task_assignment_candidate_bundle"):
+        files_planned.extend([
+            "permissioned_worker_task_assignment_candidate_bundle.json",
+            "permissioned_worker_task_assignment_candidate_schema.json",
+            "permissioned_worker_task_assignment_candidate_approval_gate.json",
+            "worker_template_reference_contract.json",
+            "task_label_reference_contract.json",
+            "one_worker_one_task_assignment_scope_contract.json",
+            "non_execution_task_boundary.json",
+            "task_permission_denial_record.json",
+            "permissioned_worker_task_assignment_candidate_record.json",
+            "task_assignment_audit_record.json",
+            "task_assignment_ledger.json",
+            "task_assignment_readiness_summary.json",
+            "task_assignment_audit_closeout_candidate_bridge.json",
+            "task_assignment_record_payload.json",
+            "task_assignment_write_record.json",
         ])
 
     return {
@@ -5633,6 +5771,20 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "permissioned_worker_task_assignment_candidate_bridge": result.get("permissioned_worker_task_assignment_candidate_bridge"),
         "worker_activation_record_payload": result.get("worker_activation_record_payload"),
         "worker_activation_write_record": result.get("worker_activation_write_record"),
+        "permissioned_worker_task_assignment_candidate_bundle": result.get("permissioned_worker_task_assignment_candidate_bundle"),
+        "permissioned_worker_task_assignment_candidate_schema": result.get("permissioned_worker_task_assignment_candidate_schema"),
+        "permissioned_worker_task_assignment_candidate_approval_gate": result.get("permissioned_worker_task_assignment_candidate_approval_gate"),
+        "task_label_reference_contract": result.get("task_label_reference_contract"),
+        "one_worker_one_task_assignment_scope_contract": result.get("one_worker_one_task_assignment_scope_contract"),
+        "non_execution_task_boundary": result.get("non_execution_task_boundary"),
+        "task_permission_denial_record": result.get("task_permission_denial_record"),
+        "worker_task_assignment_candidate_record": result.get("worker_task_assignment_candidate_record"),
+        "task_assignment_audit_record": result.get("task_assignment_audit_record"),
+        "task_assignment_ledger": result.get("task_assignment_ledger"),
+        "task_assignment_readiness_summary": result.get("task_assignment_readiness_summary"),
+        "task_assignment_audit_closeout_candidate_bridge": result.get("task_assignment_audit_closeout_candidate_bridge"),
+        "task_assignment_record_payload": result.get("task_assignment_record_payload"),
+        "task_assignment_write_record": result.get("task_assignment_write_record"),
         "controlled_worker_hiring_activation_pilot_bundle": controlled_worker_hiring_activation_pilot_bundle,
         "controlled_worker_hiring_activation_pilot_schema": result.get("controlled_worker_hiring_activation_pilot_schema"),
         "controlled_worker_hiring_activation_pilot_approval_gate": result.get("controlled_worker_hiring_activation_pilot_approval_gate"),
@@ -5647,8 +5799,8 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "first_supervised_production_dry_run_bridge": result.get("first_supervised_production_dry_run_bridge"),
         "manifest": {
             "run_id": run_id,
-            "runtime_version": "4.3.0",
-            "artifact_type": "station_chief_runtime_v4_3_artifacts",
+            "runtime_version": "4.4.0",
+            "artifact_type": "station_chief_runtime_v4_4_artifacts",
             "files_planned": files_planned,
             "baseline_preserved": True,
             "devinization_overlays_preserved": True,
@@ -6260,6 +6412,20 @@ def write_runtime_artifacts(
         "permissioned_worker_task_assignment_candidate_bridge.json": artifacts.get("permissioned_worker_task_assignment_candidate_bridge"),
         "worker_activation_record_payload.json": artifacts.get("worker_activation_record_payload"),
         "worker_activation_write_record.json": artifacts.get("worker_activation_write_record"),
+        "permissioned_worker_task_assignment_candidate_bundle.json": artifacts.get("permissioned_worker_task_assignment_candidate_bundle"),
+        "permissioned_worker_task_assignment_candidate_schema.json": artifacts.get("permissioned_worker_task_assignment_candidate_schema"),
+        "permissioned_worker_task_assignment_candidate_approval_gate.json": artifacts.get("permissioned_worker_task_assignment_candidate_approval_gate"),
+        "task_label_reference_contract.json": artifacts.get("task_label_reference_contract"),
+        "one_worker_one_task_assignment_scope_contract.json": artifacts.get("one_worker_one_task_assignment_scope_contract"),
+        "non_execution_task_boundary.json": artifacts.get("non_execution_task_boundary"),
+        "task_permission_denial_record.json": artifacts.get("task_permission_denial_record"),
+        "permissioned_worker_task_assignment_candidate_record.json": artifacts.get("worker_task_assignment_candidate_record"),
+        "task_assignment_audit_record.json": artifacts.get("task_assignment_audit_record"),
+        "task_assignment_ledger.json": artifacts.get("task_assignment_ledger"),
+        "task_assignment_readiness_summary.json": artifacts.get("task_assignment_readiness_summary"),
+        "task_assignment_audit_closeout_candidate_bridge.json": artifacts.get("task_assignment_audit_closeout_candidate_bridge"),
+        "task_assignment_record_payload.json": artifacts.get("task_assignment_record_payload"),
+        "task_assignment_write_record.json": artifacts.get("task_assignment_write_record"),
         "first_supervised_production_dry_run_bundle.json": artifacts.get("first_supervised_production_dry_run_bundle"),
         "first_supervised_production_dry_run_schema.json": artifacts.get("first_supervised_production_dry_run_schema"),
         "first_supervised_production_dry_run_approval_gate.json": artifacts.get("first_supervised_production_dry_run_approval_gate"),
@@ -6984,6 +7150,14 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--v4-worker-activation-record-name", type=str)
     parser.add_argument("--v4-worker-activation-confirm-token", type=str)
     parser.add_argument("--v4-worker-activation-human-operator", type=str)
+    parser.add_argument("--permissioned-worker-task-assignment-candidate-schema", action="store_true")
+    parser.add_argument("--permissioned-worker-task-assignment-candidate", action="store_true")
+    parser.add_argument("--write-permissioned-worker-task-assignment-candidate", metavar="DIR", type=str)
+    parser.add_argument("--v4-task-worker-template-label", type=str)
+    parser.add_argument("--v4-task-label", type=str)
+    parser.add_argument("--v4-task-assignment-record-name", type=str)
+    parser.add_argument("--v4-task-assignment-confirm-token", type=str)
+    parser.add_argument("--v4-task-assignment-human-operator", type=str)
     parser.add_argument("--candidate-action-label", type=str)
     parser.add_argument("--required-final-approver", type=str)
     return parser
@@ -7123,6 +7297,10 @@ def main() -> None:
 
     if args.limited_live_worker_activation_candidate_schema:
         print(json.dumps(create_limited_live_worker_activation_candidate_schema(), indent=2, ensure_ascii=False))
+        return
+
+    if args.permissioned_worker_task_assignment_candidate_schema:
+        print(json.dumps(create_permissioned_worker_task_assignment_candidate_schema(), indent=2, ensure_ascii=False))
         return
 
     if args.limited_external_tool_supervised_pilot_schema:
@@ -7788,6 +7966,34 @@ def main() -> None:
             human_operator=args.v4_worker_activation_human_operator,
             activation_requested=False,
             write_activation_record=False,
+        )
+
+    permissioned_worker_task_assignment_candidate_summary = None
+    if getattr(args, "write_permissioned_worker_task_assignment_candidate", False):
+        result = write_permissioned_worker_task_assignment_candidate(
+            result,
+            args.write_permissioned_worker_task_assignment_candidate,
+            worker_template_label=args.v4_task_worker_template_label,
+            task_label=args.v4_task_label,
+            task_assignment_record_name=args.v4_task_assignment_record_name,
+            confirmation_token=args.v4_task_assignment_confirm_token,
+            human_operator=args.v4_task_assignment_human_operator,
+            run_label=args.run_label,
+        )
+        permissioned_worker_task_assignment_candidate_summary = result["task_assignment_write_record"]
+        result = dict(result)
+        result["permissioned_worker_task_assignment_candidate_write_summary"] = permissioned_worker_task_assignment_candidate_summary
+    elif args.permissioned_worker_task_assignment_candidate:
+        result = attach_permissioned_worker_task_assignment_candidate(
+            result,
+            worker_template_label=args.v4_task_worker_template_label,
+            task_label=args.v4_task_label,
+            task_assignment_output_directory=None,
+            task_assignment_record_name=args.v4_task_assignment_record_name,
+            confirmation_token=args.v4_task_assignment_confirm_token,
+            human_operator=args.v4_task_assignment_human_operator,
+            assignment_requested=False,
+            write_task_assignment_record=False,
         )
 
     artifact_summary = None

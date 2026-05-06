@@ -1,7 +1,7 @@
 # Station Chief Runtime Skeleton
 
 ## Status
-Station Chief Runtime upgraded to v4.3.0. Locked 175-family baseline preserved. Limited live worker activation candidate added.
+Station Chief Runtime upgraded to v4.4.0. Locked 175-family baseline preserved. Permissioned worker task assignment candidate added.
 
 ## Runtime Capabilities
 - live external action final preflight gate layer preserved as the prior boundary
@@ -51,12 +51,23 @@ Station Chief Runtime upgraded to v4.3.0. Locked 175-family baseline preserved. 
 - worker activation ledger
 - worker activation readiness summary
 - permissioned worker task assignment candidate bridge
+- permissioned worker task assignment candidate schema
+- permissioned worker task assignment candidate approval gate
+- task label reference contract
+- one worker one task assignment scope contract
+- non-execution task boundary
+- task permission denial record
+- worker task assignment candidate record
+- task assignment audit record
+- task assignment ledger
+- task assignment readiness summary
+- task assignment audit closeout candidate bridge
 
 ## Required Validator
-python3 scripts/validate_station_chief_runtime_v4_3.py
+python3 scripts/validate_station_chief_runtime_v4_4.py
 
 ## Next Recommended Build Step
-Next recommended build step: build permissioned worker task assignment candidate.
+Next recommended build step: build task assignment audit closeout candidate.
 
-## v4.3 Doctrine
-Station Chief Runtime v4.3.0 adds a limited live worker activation candidate that may create or write exactly one deterministic local worker activation record for exactly one explicitly named worker template inside an explicit operator-approved output directory after separate approval. It does not start worker processes. It does not spawn agents. It does not execute tasks. It does not route workers. It does not activate the full 47,250-worker workforce. It does not authorize APIs, network, sockets, DNS resolution, outbound connections, credential use, secret reads, environment variable reads, deployment, production execution, production activation, worker process start, or full workforce activation. v4.3 does not approve v4.4.
+## v4.4 Doctrine
+Station Chief Runtime v4.4.0 adds a permissioned worker task assignment candidate that may create or write exactly one deterministic local worker task assignment record for exactly one explicitly named worker template and exactly one explicitly named task label inside an explicit operator-approved output directory after separate approval. It does not execute tasks. It does not enqueue tasks. It does not start worker processes. It does not spawn agents. It does not route workers. It does not activate the full 47,250-worker workforce. It does not authorize APIs, network, sockets, DNS resolution, outbound connections, credential use, secret reads, environment variable reads, deployment, production execution, production activation, worker process start, task execution, task enqueue, or full workforce activation. v4.4 does not approve v4.5.
