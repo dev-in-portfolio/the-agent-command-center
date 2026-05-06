@@ -1,0 +1,68 @@
+{
+  "non_runtime_readiness_review_version": "0.1",
+  "runtime_version_assumed": "3.9.0",
+  "current_runtime_layer": "Live External Action Final Preflight Gate",
+  "next_runtime_layer": "First Tiny Real-World Supervised Execution Candidate",
+  "v4_0_built": false,
+  "non_runtime_ready_for_v4_0_prompt": true,
+  "non_runtime_ready_for_v4_0_execution": false,
+  "worker_architecture": {
+    "target_design_capacity": 47250,
+    "workers_are_templates_only": true,
+    "active_workers_enabled": false,
+    "live_worker_routing_enabled": false,
+    "full_workforce_activation_allowed": false
+  },
+  "recommended_v4_0_candidate": {
+    "candidate_type": "local_deterministic_reversible_proof_artifact",
+    "recommended_output_directory": "explicit_operator_approved_output_directory",
+    "recommended_artifact_name": "first_tiny_supervised_execution_candidate_proof.json",
+    "local_only": true,
+    "deterministic": true,
+    "reversible": true,
+    "requires_separate_human_approval": true
+  },
+  "forbidden_for_v4_0_start": {
+    "github_push": true,
+    "github_api_action": true,
+    "deployment": true,
+    "production_write": true,
+    "external_api_call": true,
+    "network_request": true,
+    "socket_connection": true,
+    "dns_resolution": true,
+    "credential_use": true,
+    "secret_read": true,
+    "environment_read": true,
+    "worker_activation": true,
+    "live_task_routing": true,
+    "full_workforce_activation": true,
+    "background_daemon": true,
+    "scheduler": true,
+    "webhook": true,
+    "database_mutation": true,
+    "protected_baseline_mutation": true,
+    "devinization_overlay_mutation": true,
+    "dashboard_export_mutation": true,
+    "ownership_metadata_mutation": true
+  },
+  "approval_doctrine": {
+    "approval_must_be_explicit": true,
+    "approval_must_be_scoped": true,
+    "approval_must_be_recorded": true,
+    "approval_is_not_blanket_permission": true,
+    "proof_record_approval_is_not_execution_approval": true,
+    "v4_0_requires_separate_approval": true
+  },
+  "operator_stop_rules_defined": true,
+  "audit_requirements_defined": true,
+  "rollback_cleanup_doctrine_defined": true,
+  "human_review_required_before_v4_0": [
+    "confirm exact v4.0 output directory",
+    "confirm exact v4.0 approval token wording",
+    "confirm whether v4.0 only defines candidate or also writes local proof artifact after token",
+    "confirm cleanup policy"
+  ],
+  "non_runtime_blockers": [],
+  "ready_for_v4_0_prompt_after_runtime_hardening": true
+}
