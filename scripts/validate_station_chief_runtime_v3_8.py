@@ -7,7 +7,7 @@ from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-TARGET = REPO_ROOT / "scripts" / "validate_station_chief_runtime_v4_5.py"
+TARGET = REPO_ROOT / "scripts" / "validate_station_chief_runtime_v4_6.py"
 
 
 def main() -> None:

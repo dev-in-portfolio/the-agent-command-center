@@ -24,6 +24,7 @@ SKELETON = REPO_ROOT / "09_exports" / "station_chief_runtime_skeleton_report.md"
 REPORT = REPO_ROOT / "09_exports" / "station_chief_runtime_v4_5_report.md"
 ADAPTERS = REPO_ROOT / "10_runtime" / "station_chief_adapters.py"
 RELEASE_LOCK = REPO_ROOT / "10_runtime" / "station_chief_release_lock.py"
+TARGET = REPO_ROOT / "scripts" / "validate_station_chief_runtime_v4_6.py"
 
 WRAPPER_FILES = [
     REPO_ROOT / "scripts" / "validate_station_chief_runtime_skeleton.py",
@@ -655,24 +656,8 @@ def ensure_wrappers_delegate() -> None:
 
 
 def main() -> None:
-    ensure_required_files()
-    ensure_versions()
-    ensure_cli_flags()
-    ensure_module_exports()
-    ensure_no_forbidden_patterns()
-    task_record_dir, task_record_path_str = ensure_v44_smoke_tests()
-    task_record_path = Path(task_record_path_str)
-    ensure(task_record_path.exists(), "v4.4 task assignment record missing")
-    closeout_task_path, closeout_record_path, closeout_record_digest = ensure_v45_schema_and_gates(task_record_path, task_record_dir)
-    ensure(Path(closeout_task_path).exists(), "referenced v4.4 task assignment record missing after closeout")
-    ensure(Path(closeout_record_path).exists(), "closeout record missing after write")
-    ensure(hashlib.sha256(Path(closeout_record_path).read_text(encoding="utf-8").encode("utf-8")).hexdigest() == closeout_record_digest, "closeout digest mismatch")
-    ensure_v45_artifact_writer(str(task_record_path))
-    ensure_v40_v41_v42_v43_smoke_tests()
-    ensure_docs_and_reports()
-    ensure_no_v46_files()
-    ensure_wrappers_delegate()
-    print("PASS: Station Chief Runtime v4.5 valid.")
+    sys.path.insert(0, str(REPO_ROOT))
+    runpy.run_path(str(TARGET), run_name="__main__")
 
 
 if __name__ == "__main__":

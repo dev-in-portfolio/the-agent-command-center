@@ -210,6 +210,11 @@ from station_chief_task_assignment_audit_closeout_candidate import (
     create_task_assignment_audit_closeout_candidate_bundle,
     create_task_assignment_audit_closeout_candidate_schema,
 )
+from station_chief_non_executing_task_queue_preview_candidate import (
+    NON_EXECUTING_TASK_QUEUE_PREVIEW_CANDIDATE_APPROVAL_TOKEN,
+    create_non_executing_task_queue_preview_candidate_bundle,
+    create_non_executing_task_queue_preview_candidate_schema,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -219,7 +224,7 @@ from station_chief_execution_profiles import (
     select_execution_profile,
 )
 
-STATION_CHIEF_RUNTIME_VERSION = "4.5.0"
+STATION_CHIEF_RUNTIME_VERSION = "4.6.0"
 
 EXPECTED_OVERLAYS = [
     {
@@ -425,7 +430,7 @@ def normalize_command_for_id(command: str) -> str:
 def generate_run_id(command: str, run_label: str = "station-chief-runtime") -> str:
     normalized = normalize_command_for_id(command)
     digest = hashlib.sha256(f"{STATION_CHIEF_RUNTIME_VERSION}:{run_label}:{command}".encode("utf-8")).hexdigest()
-    return f"station-chief-v4-5-{normalized}-{digest[:12]}"
+    return f"station-chief-v4-6-{normalized}-{digest[:12]}"
 
 
 def classify_command(command: str) -> str:
@@ -723,6 +728,27 @@ def build_demo_evidence() -> dict[str, bool]:
         "task_assignment_audit_closeout_candidate_does_not_execute_production": True,
         "task_assignment_audit_closeout_candidate_not_yet_active": True,
         "non_executing_task_queue_preview_candidate_not_yet_active": True,
+        "non_executing_task_queue_preview_candidate_available": True,
+        "non_executing_task_queue_preview_candidate_local_record_only": True,
+        "non_executing_task_queue_preview_candidate_requires_token": True,
+        "non_executing_task_queue_preview_candidate_requires_human_operator": True,
+        "non_executing_task_queue_preview_candidate_writes_one_local_record_only": True,
+        "non_executing_task_queue_preview_candidate_does_not_create_real_queue": True,
+        "non_executing_task_queue_preview_candidate_does_not_write_to_queue": True,
+        "non_executing_task_queue_preview_candidate_does_not_enqueue_tasks": True,
+        "non_executing_task_queue_preview_candidate_does_not_execute_tasks": True,
+        "non_executing_task_queue_preview_candidate_does_not_start_worker_processes": True,
+        "non_executing_task_queue_preview_candidate_does_not_assign_live_tasks": True,
+        "non_executing_task_queue_preview_candidate_does_not_route_workers": True,
+        "non_executing_task_queue_preview_candidate_does_not_call_live_apis": True,
+        "non_executing_task_queue_preview_candidate_does_not_use_network_access": True,
+        "non_executing_task_queue_preview_candidate_does_not_open_sockets": True,
+        "non_executing_task_queue_preview_candidate_does_not_use_credentials": True,
+        "non_executing_task_queue_preview_candidate_does_not_read_secrets": True,
+        "non_executing_task_queue_preview_candidate_does_not_read_environment": True,
+        "non_executing_task_queue_preview_candidate_does_not_deploy": True,
+        "non_executing_task_queue_preview_candidate_does_not_execute_production": True,
+        "task_queue_preview_audit_closeout_candidate_not_yet_active": True,
         "v4_0_does_not_call_live_apis": True,
         "v4_0_does_not_use_network_access": True,
         "v4_0_does_not_open_sockets": True,
@@ -757,7 +783,7 @@ def load_registry(registry_dir: str | Path) -> dict:
     registry_path = Path(registry_dir) / "run_registry.json"
     if not registry_path.exists():
         return {
-            "registry_version": "4.5.0",
+            "registry_version": "4.6.0",
             "runtime_name": "Station Chief Runtime",
             "runs": [],
         }
@@ -774,7 +800,7 @@ def update_registry(registry_dir: str | Path, index_entry: dict) -> dict:
     registry = load_registry(registry_dir)
     runs = [run for run in registry.get("runs", []) if run.get("run_id") != index_entry.get("run_id")]
     runs.append(index_entry)
-    registry["registry_version"] = "4.5.0"
+    registry["registry_version"] = "4.6.0"
     registry["runtime_name"] = "Station Chief Runtime"
     registry["runs"] = runs
     save_registry(registry_dir, registry)
@@ -783,7 +809,7 @@ def update_registry(registry_dir: str | Path, index_entry: dict) -> dict:
 
 def write_runtime_index(registry_dir: str | Path, registry: dict) -> dict:
     index = {
-        "index_version": "4.5.0",
+        "index_version": "4.6.0",
         "runtime_name": "Station Chief Runtime",
         "run_count": len(registry.get("runs", [])),
         "runs": registry.get("runs", []),
@@ -837,7 +863,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
     adapter_result = run_noop_adapter(execution_plan)
     return {
         "station_chief_runtime_version": STATION_CHIEF_RUNTIME_VERSION,
-        "runtime_status": "task_assignment_audit_closeout_candidate",
+        "runtime_status": "non_executing_task_queue_preview_candidate",
         "release_status": "STABLE_LOCKED",
         "command": command,
         "command_type": brief["command_type"],
@@ -946,7 +972,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "v4_0_does_not_activate_production": True,
         "v4_0_does_not_route_live_workers": True,
         "v4_0_does_not_activate_full_workforce": True,
-        "next_step": "Next step: build non-executing task queue preview candidate.",
+        "next_step": "Next step: build task queue preview audit closeout candidate.",
         "external_actions_taken": False,
         "live_api_call_performed": False,
         "network_access_performed": False,
@@ -5121,6 +5147,101 @@ def write_task_assignment_audit_closeout_candidate(
     return result
 
 
+def attach_non_executing_task_queue_preview_candidate(
+    result: dict,
+    queue_preview_label: str | None = None,
+    task_assignment_record_path: str | None = None,
+    expected_task_assignment_output_directory: str | None = None,
+    closeout_record_path: str | None = None,
+    queue_preview_output_directory: str | None = None,
+    queue_preview_record_name: str | None = None,
+    confirmation_token: str | None = None,
+    human_operator: str | None = None,
+    queue_preview_requested: bool = False,
+    write_queue_preview_record: bool = False,
+) -> dict:
+    bundle = create_non_executing_task_queue_preview_candidate_bundle(
+        result,
+        command=result.get("command", "check please"),
+        queue_preview_label=queue_preview_label,
+        task_assignment_record_path=task_assignment_record_path,
+        expected_task_assignment_output_directory=expected_task_assignment_output_directory,
+        closeout_record_path=closeout_record_path,
+        queue_preview_output_directory=queue_preview_output_directory,
+        queue_preview_record_name=queue_preview_record_name,
+        confirmation_token=confirmation_token,
+        human_operator=human_operator,
+        queue_preview_requested=queue_preview_requested,
+        write_queue_preview_record=write_queue_preview_record,
+    )
+    result = dict(result)
+    result["non_executing_task_queue_preview_candidate_bundle"] = bundle
+    result["non_executing_task_queue_preview_candidate_schema"] = bundle["schema"]
+    result["non_executing_task_queue_preview_candidate_approval_gate"] = bundle["non_executing_task_queue_preview_candidate_approval_gate"]
+    result["v4_4_task_assignment_record_reference_contract"] = bundle["v4_4_task_assignment_record_reference_contract"]
+    result["optional_v4_5_closeout_record_reference_contract"] = bundle["optional_v4_5_closeout_record_reference_contract"]
+    result["task_assignment_record_integrity_verification"] = bundle["task_assignment_record_integrity_verification"]
+    result["closeout_record_integrity_verification"] = bundle["closeout_record_integrity_verification"]
+    result["task_assignment_record_path_containment_review"] = bundle["task_assignment_record_path_containment_review"]
+    result["queue_preview_scope_contract"] = bundle["queue_preview_scope_contract"]
+    result["non_execution_queue_boundary"] = bundle["non_execution_queue_boundary"]
+    result["queue_permission_denial_record"] = bundle["queue_permission_denial_record"]
+    result["non_executing_task_queue_preview_candidate_record"] = bundle["local_queue_preview_candidate_record"]
+    result["queue_preview_audit_record"] = bundle["queue_preview_audit_record"]
+    result["queue_preview_ledger"] = bundle["queue_preview_ledger"]
+    result["queue_preview_readiness_summary"] = bundle["queue_preview_readiness_summary"]
+    result["task_queue_preview_audit_closeout_candidate_bridge"] = bundle["task_queue_preview_audit_closeout_candidate_bridge"]
+    result["queue_preview_record_payload"] = bundle["queue_preview_record_payload"]
+    result["queue_preview_write_record"] = bundle["queue_preview_write_record"]
+    result["local_queue_preview_record_written"] = bundle["local_queue_preview_record_written"]
+    result["queue_created"] = False
+    result["queue_write_performed"] = False
+    result["scheduler_write_performed"] = False
+    result["task_executed"] = False
+    result["task_enqueued"] = False
+    result["worker_process_started"] = False
+    result["live_task_assignment_performed"] = False
+    result["live_worker_routing_performed"] = False
+    result["full_workforce_activation_performed"] = False
+    result["referenced_task_assignment_record_mutated"] = False
+    result["referenced_closeout_record_mutated"] = False
+    result["non_executing_task_queue_preview_candidate_write_summary"] = bundle["queue_preview_write_record"]
+    return result
+
+
+def write_non_executing_task_queue_preview_candidate(
+    result: dict,
+    queue_preview_output_directory: str | Path,
+    queue_preview_label: str | None = None,
+    task_assignment_record_path: str | None = None,
+    expected_task_assignment_output_directory: str | None = None,
+    closeout_record_path: str | None = None,
+    queue_preview_record_name: str | None = None,
+    confirmation_token: str | None = None,
+    human_operator: str | None = None,
+    run_label: str = "station-chief-runtime",
+) -> dict:
+    result = attach_non_executing_task_queue_preview_candidate(
+        result,
+        queue_preview_label=queue_preview_label,
+        task_assignment_record_path=task_assignment_record_path,
+        expected_task_assignment_output_directory=expected_task_assignment_output_directory,
+        closeout_record_path=closeout_record_path,
+        queue_preview_output_directory=str(queue_preview_output_directory),
+        queue_preview_record_name=queue_preview_record_name,
+        confirmation_token=confirmation_token,
+        human_operator=human_operator,
+        queue_preview_requested=True,
+        write_queue_preview_record=True,
+    )
+    write_record = result["queue_preview_write_record"]
+    result["non_executing_task_queue_preview_candidate_dir"] = write_record.get("queue_preview_output_directory") or str(queue_preview_output_directory)
+    result["files_written"] = [write_record["record_name"]] if write_record.get("local_queue_preview_record_written") else []
+    result["record_path"] = write_record.get("record_path")
+    result["execution_status"] = write_record.get("write_status")
+    return result
+
+
 def build_runtime_artifacts(result: dict, run_id: str) -> dict:
     adapter_name = result.get("adapter_name", "noop")
     command_brief = result["command_brief"]
@@ -5506,6 +5627,27 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
             "non_executing_task_queue_preview_candidate_bridge.json",
             "task_assignment_audit_closeout_record_payload.json",
             "task_assignment_closeout_write_record.json",
+        ])
+    if result.get("non_executing_task_queue_preview_candidate_bundle"):
+        files_planned.extend([
+            "non_executing_task_queue_preview_candidate_bundle.json",
+            "non_executing_task_queue_preview_candidate_schema.json",
+            "non_executing_task_queue_preview_candidate_approval_gate.json",
+            "v4_4_task_assignment_record_reference_contract.json",
+            "optional_v4_5_closeout_record_reference_contract.json",
+            "task_assignment_record_integrity_verification.json",
+            "closeout_record_integrity_verification.json",
+            "task_assignment_record_path_containment_review.json",
+            "queue_preview_scope_contract.json",
+            "non_execution_queue_boundary.json",
+            "queue_permission_denial_record.json",
+            "non_executing_task_queue_preview_candidate_record.json",
+            "queue_preview_audit_record.json",
+            "queue_preview_ledger.json",
+            "queue_preview_readiness_summary.json",
+            "task_queue_preview_audit_closeout_candidate_bridge.json",
+            "queue_preview_record_payload.json",
+            "queue_preview_write_record.json",
         ])
 
     return {
@@ -5947,6 +6089,29 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "non_executing_task_queue_preview_candidate_bridge": result.get("non_executing_task_queue_preview_candidate_bridge"),
         "task_assignment_audit_closeout_record_payload": result.get("task_assignment_audit_closeout_record_payload"),
         "task_assignment_closeout_write_record": result.get("task_assignment_closeout_write_record"),
+        "non_executing_task_queue_preview_candidate_bundle": result.get("non_executing_task_queue_preview_candidate_bundle"),
+        "non_executing_task_queue_preview_candidate_schema": result.get("non_executing_task_queue_preview_candidate_schema"),
+        "non_executing_task_queue_preview_candidate_approval_gate": result.get("non_executing_task_queue_preview_candidate_approval_gate"),
+        "v4_4_task_assignment_record_reference_contract": result.get("v4_4_task_assignment_record_reference_contract"),
+        "optional_v4_5_closeout_record_reference_contract": result.get("optional_v4_5_closeout_record_reference_contract"),
+        "task_assignment_record_integrity_verification": result.get("task_assignment_record_integrity_verification"),
+        "closeout_record_integrity_verification": result.get("closeout_record_integrity_verification"),
+        "queue_preview_scope_contract": result.get("queue_preview_scope_contract"),
+        "non_execution_queue_boundary": result.get("non_execution_queue_boundary"),
+        "queue_permission_denial_record": result.get("queue_permission_denial_record"),
+        "non_executing_task_queue_preview_candidate_record": result.get("non_executing_task_queue_preview_candidate_record"),
+        "queue_preview_audit_record": result.get("queue_preview_audit_record"),
+        "queue_preview_ledger": result.get("queue_preview_ledger"),
+        "queue_preview_readiness_summary": result.get("queue_preview_readiness_summary"),
+        "task_queue_preview_audit_closeout_candidate_bridge": result.get("task_queue_preview_audit_closeout_candidate_bridge"),
+        "queue_preview_record_payload": result.get("queue_preview_record_payload"),
+        "queue_preview_write_record": result.get("queue_preview_write_record"),
+        "local_queue_preview_record_written": result.get("local_queue_preview_record_written"),
+        "queue_created": result.get("queue_created"),
+        "queue_write_performed": result.get("queue_write_performed"),
+        "scheduler_write_performed": result.get("scheduler_write_performed"),
+        "referenced_task_assignment_record_mutated": result.get("referenced_task_assignment_record_mutated"),
+        "referenced_closeout_record_mutated": result.get("referenced_closeout_record_mutated"),
         "controlled_worker_hiring_activation_pilot_bundle": controlled_worker_hiring_activation_pilot_bundle,
         "controlled_worker_hiring_activation_pilot_schema": result.get("controlled_worker_hiring_activation_pilot_schema"),
         "controlled_worker_hiring_activation_pilot_approval_gate": result.get("controlled_worker_hiring_activation_pilot_approval_gate"),
@@ -5961,8 +6126,8 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "first_supervised_production_dry_run_bridge": result.get("first_supervised_production_dry_run_bridge"),
         "manifest": {
             "run_id": run_id,
-            "runtime_version": "4.5.0",
-            "artifact_type": "station_chief_runtime_v4_5_artifacts",
+            "runtime_version": "4.6.0",
+            "artifact_type": "station_chief_runtime_v4_6_artifacts",
             "files_planned": files_planned,
             "baseline_preserved": True,
             "devinization_overlays_preserved": True,
@@ -6603,6 +6768,24 @@ def write_runtime_artifacts(
         "non_executing_task_queue_preview_candidate_bridge.json": artifacts.get("non_executing_task_queue_preview_candidate_bridge"),
         "task_assignment_audit_closeout_record_payload.json": artifacts.get("task_assignment_audit_closeout_record_payload"),
         "task_assignment_closeout_write_record.json": artifacts.get("task_assignment_closeout_write_record"),
+        "non_executing_task_queue_preview_candidate_bundle.json": artifacts.get("non_executing_task_queue_preview_candidate_bundle"),
+        "non_executing_task_queue_preview_candidate_schema.json": artifacts.get("non_executing_task_queue_preview_candidate_schema"),
+        "non_executing_task_queue_preview_candidate_approval_gate.json": artifacts.get("non_executing_task_queue_preview_candidate_approval_gate"),
+        "v4_4_task_assignment_record_reference_contract.json": artifacts.get("v4_4_task_assignment_record_reference_contract"),
+        "optional_v4_5_closeout_record_reference_contract.json": artifacts.get("optional_v4_5_closeout_record_reference_contract"),
+        "task_assignment_record_integrity_verification.json": artifacts.get("task_assignment_record_integrity_verification"),
+        "closeout_record_integrity_verification.json": artifacts.get("closeout_record_integrity_verification"),
+        "task_assignment_record_path_containment_review.json": artifacts.get("task_assignment_record_path_containment_review"),
+        "queue_preview_scope_contract.json": artifacts.get("queue_preview_scope_contract"),
+        "non_execution_queue_boundary.json": artifacts.get("non_execution_queue_boundary"),
+        "queue_permission_denial_record.json": artifacts.get("queue_permission_denial_record"),
+        "non_executing_task_queue_preview_candidate_record.json": artifacts.get("non_executing_task_queue_preview_candidate_record"),
+        "queue_preview_audit_record.json": artifacts.get("queue_preview_audit_record"),
+        "queue_preview_ledger.json": artifacts.get("queue_preview_ledger"),
+        "queue_preview_readiness_summary.json": artifacts.get("queue_preview_readiness_summary"),
+        "task_queue_preview_audit_closeout_candidate_bridge.json": artifacts.get("task_queue_preview_audit_closeout_candidate_bridge"),
+        "queue_preview_record_payload.json": artifacts.get("queue_preview_record_payload"),
+        "queue_preview_write_record.json": artifacts.get("queue_preview_write_record"),
         "first_supervised_production_dry_run_bundle.json": artifacts.get("first_supervised_production_dry_run_bundle"),
         "first_supervised_production_dry_run_schema.json": artifacts.get("first_supervised_production_dry_run_schema"),
         "first_supervised_production_dry_run_approval_gate.json": artifacts.get("first_supervised_production_dry_run_approval_gate"),
@@ -7344,6 +7527,16 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--v4-closeout-record-name", type=str)
     parser.add_argument("--v4-closeout-confirm-token", type=str)
     parser.add_argument("--v4-closeout-human-operator", type=str)
+    parser.add_argument("--non-executing-task-queue-preview-candidate-schema", action="store_true")
+    parser.add_argument("--non-executing-task-queue-preview-candidate", action="store_true")
+    parser.add_argument("--write-non-executing-task-queue-preview-candidate", metavar="DIR", type=str)
+    parser.add_argument("--v4-queue-preview-label", type=str)
+    parser.add_argument("--v4-queue-preview-task-assignment-record-path", type=str)
+    parser.add_argument("--v4-queue-preview-expected-task-assignment-output-directory", type=str)
+    parser.add_argument("--v4-queue-preview-closeout-record-path", type=str)
+    parser.add_argument("--v4-queue-preview-record-name", type=str)
+    parser.add_argument("--v4-queue-preview-confirm-token", type=str)
+    parser.add_argument("--v4-queue-preview-human-operator", type=str)
     parser.add_argument("--candidate-action-label", type=str)
     parser.add_argument("--required-final-approver", type=str)
     return parser
@@ -7491,6 +7684,10 @@ def main() -> None:
 
     if args.task_assignment_audit_closeout_candidate_schema:
         print(json.dumps(create_task_assignment_audit_closeout_candidate_schema(), indent=2, ensure_ascii=False))
+        return
+
+    if args.non_executing_task_queue_preview_candidate_schema:
+        print(json.dumps(create_non_executing_task_queue_preview_candidate_schema(), indent=2, ensure_ascii=False))
         return
 
     if args.limited_external_tool_supervised_pilot_schema:
@@ -8214,6 +8411,38 @@ def main() -> None:
             human_operator=args.v4_closeout_human_operator,
             closeout_requested=False,
             write_closeout_record=False,
+        )
+
+    non_executing_task_queue_preview_candidate_summary = None
+    if getattr(args, "write_non_executing_task_queue_preview_candidate", False):
+        result = write_non_executing_task_queue_preview_candidate(
+            result,
+            args.write_non_executing_task_queue_preview_candidate,
+            queue_preview_label=args.v4_queue_preview_label,
+            task_assignment_record_path=args.v4_queue_preview_task_assignment_record_path,
+            expected_task_assignment_output_directory=args.v4_queue_preview_expected_task_assignment_output_directory,
+            closeout_record_path=args.v4_queue_preview_closeout_record_path,
+            queue_preview_record_name=args.v4_queue_preview_record_name,
+            confirmation_token=args.v4_queue_preview_confirm_token,
+            human_operator=args.v4_queue_preview_human_operator,
+            run_label=args.run_label,
+        )
+        non_executing_task_queue_preview_candidate_summary = result["queue_preview_write_record"]
+        result = dict(result)
+        result["non_executing_task_queue_preview_candidate_write_summary"] = non_executing_task_queue_preview_candidate_summary
+    elif args.non_executing_task_queue_preview_candidate:
+        result = attach_non_executing_task_queue_preview_candidate(
+            result,
+            queue_preview_label=args.v4_queue_preview_label,
+            task_assignment_record_path=args.v4_queue_preview_task_assignment_record_path,
+            expected_task_assignment_output_directory=args.v4_queue_preview_expected_task_assignment_output_directory,
+            closeout_record_path=args.v4_queue_preview_closeout_record_path,
+            queue_preview_output_directory=None,
+            queue_preview_record_name=args.v4_queue_preview_record_name,
+            confirmation_token=args.v4_queue_preview_confirm_token,
+            human_operator=args.v4_queue_preview_human_operator,
+            queue_preview_requested=False,
+            write_queue_preview_record=False,
         )
 
     artifact_summary = None
