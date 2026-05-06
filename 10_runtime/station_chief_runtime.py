@@ -190,6 +190,11 @@ from station_chief_post_action_verification_and_audit_review import (
     create_post_action_verification_and_audit_review_bundle,
     create_post_action_verification_and_audit_review_schema,
 )
+from station_chief_supervised_rollback_cleanup_candidate import (
+    SUPERVISED_ROLLBACK_CLEANUP_CANDIDATE_APPROVAL_TOKEN,
+    create_supervised_rollback_cleanup_candidate_bundle,
+    create_supervised_rollback_cleanup_candidate_schema,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -199,7 +204,7 @@ from station_chief_execution_profiles import (
     select_execution_profile,
 )
 
-STATION_CHIEF_RUNTIME_VERSION = "4.1.0"
+STATION_CHIEF_RUNTIME_VERSION = "4.2.0"
 
 EXPECTED_OVERLAYS = [
     {
@@ -405,7 +410,7 @@ def normalize_command_for_id(command: str) -> str:
 def generate_run_id(command: str, run_label: str = "station-chief-runtime") -> str:
     normalized = normalize_command_for_id(command)
     digest = hashlib.sha256(f"{STATION_CHIEF_RUNTIME_VERSION}:{run_label}:{command}".encode("utf-8")).hexdigest()
-    return f"station-chief-v4-1-{normalized}-{digest[:12]}"
+    return f"station-chief-v4-2-{normalized}-{digest[:12]}"
 
 
 def classify_command(command: str) -> str:
@@ -633,6 +638,22 @@ def build_demo_evidence() -> dict[str, bool]:
         "first_tiny_real_world_supervised_execution_candidate_local_only": True,
         "first_tiny_real_world_supervised_execution_candidate_requires_token": True,
         "first_tiny_real_world_supervised_execution_candidate_requires_human_operator": True,
+        "supervised_rollback_cleanup_candidate_available": True,
+        "supervised_rollback_cleanup_candidate_local_only": True,
+        "supervised_rollback_cleanup_candidate_requires_token": True,
+        "supervised_rollback_cleanup_candidate_requires_human_operator": True,
+        "supervised_rollback_cleanup_candidate_deletes_only_one_approved_local_artifact": True,
+        "supervised_rollback_cleanup_candidate_does_not_delete_directories": True,
+        "supervised_rollback_cleanup_candidate_does_not_call_live_apis": True,
+        "supervised_rollback_cleanup_candidate_does_not_use_network_access": True,
+        "supervised_rollback_cleanup_candidate_does_not_open_sockets": True,
+        "supervised_rollback_cleanup_candidate_does_not_use_credentials": True,
+        "supervised_rollback_cleanup_candidate_does_not_read_secrets": True,
+        "supervised_rollback_cleanup_candidate_does_not_read_environment": True,
+        "supervised_rollback_cleanup_candidate_does_not_deploy": True,
+        "supervised_rollback_cleanup_candidate_does_not_execute_production": True,
+        "supervised_rollback_cleanup_candidate_does_not_route_live_workers": True,
+        "limited_live_worker_activation_candidate_not_yet_active": True,
         "v4_0_does_not_call_live_apis": True,
         "v4_0_does_not_use_network_access": True,
         "v4_0_does_not_open_sockets": True,
@@ -668,7 +689,7 @@ def load_registry(registry_dir: str | Path) -> dict:
     registry_path = Path(registry_dir) / "run_registry.json"
     if not registry_path.exists():
         return {
-            "registry_version": "4.1.0",
+            "registry_version": "4.2.0",
             "runtime_name": "Station Chief Runtime",
             "runs": [],
         }
@@ -685,7 +706,7 @@ def update_registry(registry_dir: str | Path, index_entry: dict) -> dict:
     registry = load_registry(registry_dir)
     runs = [run for run in registry.get("runs", []) if run.get("run_id") != index_entry.get("run_id")]
     runs.append(index_entry)
-    registry["registry_version"] = "4.1.0"
+    registry["registry_version"] = "4.2.0"
     registry["runtime_name"] = "Station Chief Runtime"
     registry["runs"] = runs
     save_registry(registry_dir, registry)
@@ -694,7 +715,7 @@ def update_registry(registry_dir: str | Path, index_entry: dict) -> dict:
 
 def write_runtime_index(registry_dir: str | Path, registry: dict) -> dict:
     index = {
-        "index_version": "4.1.0",
+        "index_version": "4.2.0",
         "runtime_name": "Station Chief Runtime",
         "run_count": len(registry.get("runs", [])),
         "runs": registry.get("runs", []),
@@ -748,7 +769,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
     adapter_result = run_noop_adapter(execution_plan)
     return {
         "station_chief_runtime_version": STATION_CHIEF_RUNTIME_VERSION,
-        "runtime_status": "post_action_verification_and_audit_review",
+        "runtime_status": "supervised_rollback_cleanup_candidate",
         "release_status": "STABLE_LOCKED",
         "command": command,
         "command_type": brief["command_type"],
@@ -759,6 +780,22 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "first_tiny_real_world_supervised_execution_candidate_local_only": True,
         "first_tiny_real_world_supervised_execution_candidate_requires_token": True,
         "first_tiny_real_world_supervised_execution_candidate_requires_human_operator": True,
+        "supervised_rollback_cleanup_candidate_available": True,
+        "supervised_rollback_cleanup_candidate_local_only": True,
+        "supervised_rollback_cleanup_candidate_requires_token": True,
+        "supervised_rollback_cleanup_candidate_requires_human_operator": True,
+        "supervised_rollback_cleanup_candidate_deletes_only_one_approved_local_artifact": True,
+        "supervised_rollback_cleanup_candidate_does_not_delete_directories": True,
+        "supervised_rollback_cleanup_candidate_does_not_call_live_apis": True,
+        "supervised_rollback_cleanup_candidate_does_not_use_network_access": True,
+        "supervised_rollback_cleanup_candidate_does_not_open_sockets": True,
+        "supervised_rollback_cleanup_candidate_does_not_use_credentials": True,
+        "supervised_rollback_cleanup_candidate_does_not_read_secrets": True,
+        "supervised_rollback_cleanup_candidate_does_not_read_environment": True,
+        "supervised_rollback_cleanup_candidate_does_not_deploy": True,
+        "supervised_rollback_cleanup_candidate_does_not_execute_production": True,
+        "supervised_rollback_cleanup_candidate_does_not_route_live_workers": True,
+        "limited_live_worker_activation_candidate_not_yet_active": True,
         "post_action_verification_and_audit_review_available": True,
         "post_action_verification_and_audit_review_local_only": True,
         "post_action_verification_and_audit_review_requires_token": True,
@@ -788,7 +825,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "v4_0_does_not_activate_production": True,
         "v4_0_does_not_route_live_workers": True,
         "v4_0_does_not_activate_full_workforce": True,
-        "next_step": "Next step: build supervised rollback / cleanup candidate.",
+        "next_step": "Next step: build limited live worker activation candidate.",
         "external_actions_taken": False,
         "live_api_call_performed": False,
         "network_access_performed": False,
@@ -4654,6 +4691,78 @@ def write_post_action_verification_and_audit_review(
     }
 
 
+def attach_supervised_rollback_cleanup_candidate(
+    result: dict,
+    cleanup_label: str | None = None,
+    artifact_path: str | None = None,
+    expected_output_directory: str | None = None,
+    confirmation_token: str | None = None,
+    human_operator: str | None = None,
+    cleanup_requested: bool = False,
+    execute_cleanup: bool = False,
+) -> dict:
+    bundle = create_supervised_rollback_cleanup_candidate_bundle(
+        result,
+        command=result.get("command", "check please"),
+        cleanup_label=cleanup_label,
+        artifact_path=artifact_path,
+        expected_output_directory=expected_output_directory,
+        confirmation_token=confirmation_token,
+        human_operator=human_operator,
+        cleanup_requested=cleanup_requested,
+        execute_cleanup=execute_cleanup,
+    )
+    result = dict(result)
+    result["supervised_rollback_cleanup_candidate_bundle"] = bundle
+    result["supervised_rollback_cleanup_candidate_schema"] = bundle["schema"]
+    result["supervised_rollback_cleanup_candidate_approval_gate"] = bundle["supervised_rollback_cleanup_candidate_approval_gate"]
+    result["cleanup_candidate_contract"] = bundle["cleanup_candidate_contract"]
+    result["artifact_pre_cleanup_verification_record"] = bundle["artifact_pre_cleanup_verification_record"]
+    result["cleanup_path_containment_record"] = bundle["cleanup_path_containment_record"]
+    result["cleanup_scope_envelope"] = bundle["cleanup_scope_envelope"]
+    result["cleanup_execution_record"] = bundle["cleanup_execution_record"]
+    result["post_cleanup_verification_record"] = bundle["post_cleanup_verification_record"]
+    result["cleanup_audit_record"] = bundle["cleanup_audit_record"]
+    result["cleanup_closeout_ledger"] = bundle["cleanup_closeout_ledger"]
+    result["cleanup_readiness_summary"] = bundle["cleanup_readiness_summary"]
+    result["limited_live_worker_activation_candidate_bridge"] = bundle["limited_live_worker_activation_candidate_bridge"]
+    result["supervised_rollback_cleanup_candidate_write_summary"] = bundle["cleanup_execution_record"]
+    return result
+
+
+def write_supervised_rollback_cleanup_candidate(
+    result: dict,
+    cleanup_label: str | None = None,
+    artifact_path: str | None = None,
+    expected_output_directory: str | None = None,
+    confirmation_token: str | None = None,
+    human_operator: str | None = None,
+    run_label: str = "station-chief-runtime",
+) -> dict:
+    result = attach_supervised_rollback_cleanup_candidate(
+        result,
+        cleanup_label=cleanup_label,
+        artifact_path=artifact_path,
+        expected_output_directory=expected_output_directory,
+        confirmation_token=confirmation_token,
+        human_operator=human_operator,
+        cleanup_requested=True,
+        execute_cleanup=True,
+    )
+    bundle = result["supervised_rollback_cleanup_candidate_bundle"]
+    cleanup_record = bundle["cleanup_execution_record"]
+    return {
+        "run_id": generate_run_id(result.get("command", ""), run_label=run_label),
+        "supervised_rollback_cleanup_candidate_dir": cleanup_record.get("expected_output_directory") or str(expected_output_directory),
+        "files_written": [],
+        "local_cleanup_performed": cleanup_record.get("local_cleanup_performed", False),
+        "artifact_deleted": cleanup_record.get("artifact_deleted", False),
+        "deleted_file_count": cleanup_record.get("deleted_file_count", 0),
+        "deleted_artifact_path": cleanup_record.get("deleted_artifact_path"),
+        "execution_status": cleanup_record.get("cleanup_execution_status"),
+    }
+
+
 def build_runtime_artifacts(result: dict, run_id: str) -> dict:
     adapter_name = result.get("adapter_name", "noop")
     command_brief = result["command_brief"]
@@ -4970,6 +5079,22 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
             "post_action_readiness_summary.json",
             "supervised_rollback_cleanup_candidate_bridge.json",
             "post_action_verification_and_audit_review_record.json",
+        ])
+    if result.get("supervised_rollback_cleanup_candidate_bundle"):
+        files_planned.extend([
+            "supervised_rollback_cleanup_candidate_bundle.json",
+            "supervised_rollback_cleanup_candidate_schema.json",
+            "supervised_rollback_cleanup_candidate_approval_gate.json",
+            "cleanup_candidate_contract.json",
+            "artifact_pre_cleanup_verification_record.json",
+            "cleanup_path_containment_record.json",
+            "cleanup_scope_envelope.json",
+            "cleanup_execution_record.json",
+            "post_cleanup_verification_record.json",
+            "cleanup_audit_record.json",
+            "cleanup_closeout_ledger.json",
+            "cleanup_readiness_summary.json",
+            "limited_live_worker_activation_candidate_bridge.json",
         ])
 
     return {
@@ -5355,6 +5480,19 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "post_action_readiness_summary": result.get("post_action_readiness_summary"),
         "supervised_rollback_cleanup_candidate_bridge": result.get("supervised_rollback_cleanup_candidate_bridge"),
         "post_action_verification_and_audit_review_record": result.get("post_action_verification_and_audit_review_record"),
+        "supervised_rollback_cleanup_candidate_bundle": result.get("supervised_rollback_cleanup_candidate_bundle"),
+        "supervised_rollback_cleanup_candidate_schema": result.get("supervised_rollback_cleanup_candidate_schema"),
+        "supervised_rollback_cleanup_candidate_approval_gate": result.get("supervised_rollback_cleanup_candidate_approval_gate"),
+        "cleanup_candidate_contract": result.get("cleanup_candidate_contract"),
+        "artifact_pre_cleanup_verification_record": result.get("artifact_pre_cleanup_verification_record"),
+        "cleanup_path_containment_record": result.get("cleanup_path_containment_record"),
+        "cleanup_scope_envelope": result.get("cleanup_scope_envelope"),
+        "cleanup_execution_record": result.get("cleanup_execution_record"),
+        "post_cleanup_verification_record": result.get("post_cleanup_verification_record"),
+        "cleanup_audit_record": result.get("cleanup_audit_record"),
+        "cleanup_closeout_ledger": result.get("cleanup_closeout_ledger"),
+        "cleanup_readiness_summary": result.get("cleanup_readiness_summary"),
+        "limited_live_worker_activation_candidate_bridge": result.get("limited_live_worker_activation_candidate_bridge"),
         "controlled_worker_hiring_activation_pilot_bundle": controlled_worker_hiring_activation_pilot_bundle,
         "controlled_worker_hiring_activation_pilot_schema": result.get("controlled_worker_hiring_activation_pilot_schema"),
         "controlled_worker_hiring_activation_pilot_approval_gate": result.get("controlled_worker_hiring_activation_pilot_approval_gate"),
@@ -5369,8 +5507,8 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "first_supervised_production_dry_run_bridge": result.get("first_supervised_production_dry_run_bridge"),
         "manifest": {
             "run_id": run_id,
-            "runtime_version": "4.1.0",
-            "artifact_type": "station_chief_runtime_v4_1_artifacts",
+            "runtime_version": "4.2.0",
+            "artifact_type": "station_chief_runtime_v4_2_artifacts",
             "files_planned": files_planned,
             "baseline_preserved": True,
             "devinization_overlays_preserved": True,
@@ -5955,6 +6093,19 @@ def write_runtime_artifacts(
         "post_action_readiness_summary.json": artifacts.get("post_action_readiness_summary"),
         "supervised_rollback_cleanup_candidate_bridge.json": artifacts.get("supervised_rollback_cleanup_candidate_bridge"),
         "post_action_verification_and_audit_review_record.json": artifacts.get("post_action_verification_and_audit_review_record"),
+        "supervised_rollback_cleanup_candidate_bundle.json": artifacts.get("supervised_rollback_cleanup_candidate_bundle"),
+        "supervised_rollback_cleanup_candidate_schema.json": artifacts.get("supervised_rollback_cleanup_candidate_schema"),
+        "supervised_rollback_cleanup_candidate_approval_gate.json": artifacts.get("supervised_rollback_cleanup_candidate_approval_gate"),
+        "cleanup_candidate_contract.json": artifacts.get("cleanup_candidate_contract"),
+        "artifact_pre_cleanup_verification_record.json": artifacts.get("artifact_pre_cleanup_verification_record"),
+        "cleanup_path_containment_record.json": artifacts.get("cleanup_path_containment_record"),
+        "cleanup_scope_envelope.json": artifacts.get("cleanup_scope_envelope"),
+        "cleanup_execution_record.json": artifacts.get("cleanup_execution_record"),
+        "post_cleanup_verification_record.json": artifacts.get("post_cleanup_verification_record"),
+        "cleanup_audit_record.json": artifacts.get("cleanup_audit_record"),
+        "cleanup_closeout_ledger.json": artifacts.get("cleanup_closeout_ledger"),
+        "cleanup_readiness_summary.json": artifacts.get("cleanup_readiness_summary"),
+        "limited_live_worker_activation_candidate_bridge.json": artifacts.get("limited_live_worker_activation_candidate_bridge"),
         "first_supervised_production_dry_run_bundle.json": artifacts.get("first_supervised_production_dry_run_bundle"),
         "first_supervised_production_dry_run_schema.json": artifacts.get("first_supervised_production_dry_run_schema"),
         "first_supervised_production_dry_run_approval_gate.json": artifacts.get("first_supervised_production_dry_run_approval_gate"),
@@ -6664,6 +6815,14 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--v4-review-expected-output-directory", type=str)
     parser.add_argument("--v4-review-confirm-token", type=str)
     parser.add_argument("--v4-review-human-operator", type=str)
+    parser.add_argument("--supervised-rollback-cleanup-candidate-schema", action="store_true")
+    parser.add_argument("--supervised-rollback-cleanup-candidate", action="store_true")
+    parser.add_argument("--execute-supervised-rollback-cleanup-candidate", metavar="DIR", type=str)
+    parser.add_argument("--v4-cleanup-label", type=str)
+    parser.add_argument("--v4-cleanup-artifact-path", type=str)
+    parser.add_argument("--v4-cleanup-expected-output-directory", type=str)
+    parser.add_argument("--v4-cleanup-confirm-token", type=str)
+    parser.add_argument("--v4-cleanup-human-operator", type=str)
     parser.add_argument("--candidate-action-label", type=str)
     parser.add_argument("--required-final-approver", type=str)
     return parser
@@ -6795,6 +6954,10 @@ def main() -> None:
 
     if args.post_action_verification_and_audit_review_schema:
         print(json.dumps(create_post_action_verification_and_audit_review_schema(), indent=2, ensure_ascii=False))
+        return
+
+    if args.supervised_rollback_cleanup_candidate_schema:
+        print(json.dumps(create_supervised_rollback_cleanup_candidate_schema(), indent=2, ensure_ascii=False))
         return
 
     if args.limited_external_tool_supervised_pilot_schema:
@@ -7411,6 +7574,33 @@ def main() -> None:
             confirmation_token=args.v4_review_confirm_token,
             human_operator=args.v4_review_human_operator,
             write_review_records=False,
+        )
+
+    supervised_rollback_cleanup_candidate_summary = None
+    if getattr(args, "execute_supervised_rollback_cleanup_candidate", False):
+        result = attach_supervised_rollback_cleanup_candidate(
+            result,
+            cleanup_label=args.v4_cleanup_label,
+            artifact_path=args.v4_cleanup_artifact_path,
+            expected_output_directory=args.v4_cleanup_expected_output_directory,
+            confirmation_token=args.v4_cleanup_confirm_token,
+            human_operator=args.v4_cleanup_human_operator,
+            cleanup_requested=True,
+            execute_cleanup=True,
+        )
+        supervised_rollback_cleanup_candidate_summary = result["cleanup_execution_record"]
+        result = dict(result)
+        result["supervised_rollback_cleanup_candidate_write_summary"] = supervised_rollback_cleanup_candidate_summary
+    elif args.supervised_rollback_cleanup_candidate:
+        result = attach_supervised_rollback_cleanup_candidate(
+            result,
+            cleanup_label=args.v4_cleanup_label,
+            artifact_path=args.v4_cleanup_artifact_path,
+            expected_output_directory=args.v4_cleanup_expected_output_directory,
+            confirmation_token=args.v4_cleanup_confirm_token,
+            human_operator=args.v4_cleanup_human_operator,
+            cleanup_requested=False,
+            execute_cleanup=False,
         )
 
     artifact_summary = None
