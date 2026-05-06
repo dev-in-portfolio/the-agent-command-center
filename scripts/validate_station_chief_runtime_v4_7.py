@@ -962,12 +962,14 @@ def ensure_no_v48_files() -> None:
         "09_exports/station_chief_runtime_v4_8_report.md",
     ]:
         ensure((REPO_ROOT / relative).exists(), f"missing v4.8 file: {relative}")
+    # Legacy validator may run as a smoke test after later versions have landed.
+    # v4.8 and v4.9 files are no longer forbidden on current master; v5.0+ remains forbidden until landed.
     for relative in [
-        "10_runtime/station_chief_live_queue_orchestration_candidate.py",
-        "scripts/validate_station_chief_runtime_v4_9.py",
-        "09_exports/station_chief_runtime_v4_9_report.md",
+        "10_runtime/station_chief_first_live_queue_execution_candidate.py",
+        "scripts/validate_station_chief_runtime_v5_0.py",
+        "09_exports/station_chief_runtime_v5_0_report.md",
     ]:
-        ensure(not (REPO_ROOT / relative).exists(), f"forbidden v4.9 file exists: {relative}")
+        ensure(not (REPO_ROOT / relative).exists(), f"forbidden v5.0 file exists: {relative}")
 
 
 def ensure_wrappers_delegate() -> None:

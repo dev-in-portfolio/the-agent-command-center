@@ -38,6 +38,7 @@ ALLOWED_CHANGED_PATHS = {
     "10_runtime/station_chief_release_lock.py",
     "09_exports/station_chief_runtime_skeleton_report.md",
     "09_exports/station_chief_runtime_v4_9_report.md",
+    "scripts/validate_station_chief_runtime_v4_7.py",
     "scripts/validate_station_chief_runtime_v4_8.py",
     "scripts/validate_station_chief_runtime_v4_9.py",
 }
