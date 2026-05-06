@@ -3,10 +3,12 @@
 ## Status
 PASS
 
+The earlier false failures were corrected. The gate now accepts the v3.9 fixture-test output, accepts the compact `--brief` command output without forcing runtime version text, accepts version markers from JSON/value surfaces, treats `baseline_preserved: true` as a required positive invariant, accepts denial language in docs, and cleans generated `__pycache__` directories before the final scope check.
+
 ## Current Runtime
 - runtime version detected: 3.9.0
 - runtime status detected: live_external_action_final_preflight_gate
-- current commit before report commit: e568ce72279654e0c791a9d76120db0becf25f3c
+- current commit before report commit: 7993f8395f43b9bda3684d5adfa1dc9f881f40d9
 - branch: master
 
 ## Test Categories
@@ -32,7 +34,7 @@ PASS
 - git cleanliness/scope check: PASS
 
 ## Failures
-- none
+None.
 
 ## Safety Invariants
 - live API calls: false
@@ -63,4 +65,4 @@ PASS
 Only the two quality-gate files were changed.
 
 ## Recommendation
-Recommend writing v4.0 prompt for a local deterministic reversible proof artifact only.
+Recommend writing the v4.0 prompt for a local deterministic reversible proof artifact only.

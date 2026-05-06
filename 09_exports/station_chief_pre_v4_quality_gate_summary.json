@@ -1,5 +1,129 @@
 {
   "branch": "master",
+  "category_details": {
+    "approval_token_paths": {
+      "results": {
+        "credential": "ok",
+        "live": "ok",
+        "monitored": "ok",
+        "network": "ok",
+        "supervised": "ok"
+      },
+      "status": "PASS"
+    },
+    "artifact_write_tests": {
+      "results": {
+        "full_write": "ok",
+        "preflight": "ok"
+      },
+      "status": "PASS"
+    },
+    "core_cli_smoke": {
+      "commands": 9,
+      "results": {
+        "": "json ok",
+        "--command check please --brief": "brief ok",
+        "--command check please --json": "live_external_action_final_preflight_gate",
+        "--demo": "live_external_action_final_preflight_gate",
+        "--fixture-test": "json ok",
+        "--help": "help ok",
+        "--list-adapters": "adapter manifest ok",
+        "--list-overlays": "8 overlays",
+        "--stable-release-manifest": "stable manifest ok"
+      },
+      "status": "PASS"
+    },
+    "determinism_checks": {
+      "status": "PASS"
+    },
+    "documentation_contract": {
+      "issues": [],
+      "status": "PASS"
+    },
+    "forbidden_pattern_scan": {
+      "status": "PASS",
+      "violations": []
+    },
+    "git_scope": {
+      "diff_names": [],
+      "diff_stat": [],
+      "other_changes": [],
+      "status": "PASS",
+      "status_after": []
+    },
+    "import_side_effect_checks": {
+      "status": "PASS"
+    },
+    "json_parse": {
+      "files": [
+        "09_exports/station_chief_pre_v4_non_runtime_readiness_summary.json",
+        "09_exports/station_chief_pre_v4_quality_gate_summary.json",
+        "09_exports/station_chief_pre_v4_readiness_summary.json"
+      ],
+      "status": "PASS",
+      "summary": "parsed 3 JSON files"
+    },
+    "negative_abuse_tests": {
+      "commands": 4,
+      "status": "PASS"
+    },
+    "non_runtime_governance": {
+      "issues": [],
+      "status": "PASS"
+    },
+    "python_syntax": {
+      "commands": 6,
+      "status": "PASS"
+    },
+    "runtime_layer_smoke": {
+      "commands": 30,
+      "status": "PASS"
+    },
+    "runtime_validator_chain": {
+      "commands": 16,
+      "status": "PASS"
+    },
+    "safety_boolean_invariants": {
+      "status": "PASS",
+      "violations": []
+    },
+    "schema_checks": {
+      "results": {
+        "credential": "3.7.0",
+        "live": "3.9.0",
+        "monitored": "3.6.0",
+        "network": "3.8.0",
+        "supervised": "3.6.0"
+      },
+      "status": "PASS"
+    },
+    "starting_state": {
+      "branch": "master",
+      "head_commit": "7993f8395f43b9bda3684d5adfa1dc9f881f40d9",
+      "issues": [],
+      "recent_commits": [
+        "7993f83 Add Station Chief v4 prompt",
+        "9e8b00d Update Station Chief pre-v4 quality gate",
+        "005b502 Add Station Chief pre-v4 quality gate results",
+        "e568ce7 Add Station Chief pre-v4 non-runtime readiness docs",
+        "499291b Harden Station Chief v3.9 pre-v4 readiness"
+      ],
+      "status": "PASS"
+    },
+    "version_prefix_drift_scan": {
+      "status": "PASS",
+      "violations": [],
+      "results": {
+        "index_version": "3.9.0",
+        "registry_version": "3.9.0",
+        "runtime_version": "3.9.0"
+      }
+    },
+    "generated_cache_cleanup": {
+      "status": "PASS",
+      "summary": "cleaned before and after final scope check"
+    }
+  },
   "failures": [],
   "overall_status": "PASS",
   "quality_gate_version": "0.1",
