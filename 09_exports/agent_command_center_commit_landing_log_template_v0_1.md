@@ -8,7 +8,7 @@
 - This document does not authorize runtime behavior.
 
 ## Purpose
-This template provides a consistent way to record commits, files created, scope checks, and parking confirmations after work lands.
+Provide a consistent way to record commits, files created, scope checks, and parking confirmations after work lands.
 
 - this is a template only
 - it does not query GitHub
@@ -82,11 +82,7 @@ Notes:
 
 | Bundle Name | Commit Hash | Files Created | Runtime Files Changed | Validators Changed | Release Locks Changed | v4.8 Created | Landing Status | Notes |
 |---|---|---|---|---|---|---|---|---|
-| Status Doc Bundle | [HASH] | 3 | None | None | None | No | Landed | Bundle 1 |
-| Operator Handbook Bundle | [HASH] | 4 | None | None | None | No | Landed | Bundle 2 |
-| Control Registers Bundle | [HASH] | 4 | None | None | None | No | Landed | Bundle 3 |
-| Command Language Bundle | [HASH] | 5 | None | None | None | No | Landed | Bundle 4 |
-| Reporting Data Bundle | [HASH] | 5 | None | None | None | No | Landed | Bundle 5 |
+| Dashboard Reporting Bundle | [HASH] | 5 | None | None | None | No | Landed | Bundle 6 |
 
 ## Landing Status Definitions
 

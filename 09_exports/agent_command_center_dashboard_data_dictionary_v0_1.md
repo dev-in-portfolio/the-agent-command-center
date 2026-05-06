@@ -1,4 +1,4 @@
-# Agent Command Center Dashboard Data Dictionary v0.1
+# Agent Command Center Status Dashboard Plan v0.1
 
 ## Current Context
 - Station Chief runtime is parked at v4.7.0.
