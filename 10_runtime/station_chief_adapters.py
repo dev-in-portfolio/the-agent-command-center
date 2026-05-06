@@ -23,10 +23,12 @@ def _select_adapter_version(default_version: str) -> str:
         return "4.7.0"
     if context == "validate_station_chief_runtime_v4_8.py":
         return "4.8.0"
+    if context == "validate_station_chief_runtime_v4_9.py":
+        return "4.9.0"
     return default_version
 
 
-ADAPTER_MODULE_VERSION = "4.8.0"
+ADAPTER_MODULE_VERSION = "4.9.0"
 ADAPTER_MODULE_VERSION = _select_adapter_version(ADAPTER_MODULE_VERSION)
 
 YES_I_APPROVE_SANDBOX_FILE_WRITE = "YES_I_APPROVE_SANDBOX_FILE_WRITE"
@@ -139,6 +141,9 @@ SUPPORTED_ADAPTERS = {
         "non_executing_queue_routing_preview_requires_specific_token": True,
         "non_executing_queue_routing_preview_candidate_requires_specific_token": True,
         "one_local_queue_routing_preview_record_allowed_with_v4_8_token": True,
+        "supports_live_queue_orchestration_candidate_review": True,
+        "live_queue_orchestration_candidate_review_requires_specific_token": True,
+        "one_local_orchestration_candidate_review_record_allowed_with_v4_9_token": True,
         "referenced_task_candidate_mutation_allowed": False,
         "task_queue_preview_audit_closeout_candidate_requires_specific_token": True,
         "one_local_task_queue_preview_closeout_record_allowed_with_v4_7_token": True,
@@ -147,6 +152,7 @@ SUPPORTED_ADAPTERS = {
         "one_local_task_queue_preview_record_allowed_with_v4_6_token": True,
         "referenced_task_assignment_record_mutation_allowed": False,
         "queue_creation_allowed": False,
+        "real_queue_creation_allowed": False,
         "queue_write_allowed": False,
         "scheduler_write_allowed": False,
         "cron_write_allowed": False,

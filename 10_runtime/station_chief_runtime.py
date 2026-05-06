@@ -226,6 +226,11 @@ from station_chief_non_executing_queue_routing_preview_candidate import (
     create_non_executing_queue_routing_preview_bundle,
     create_non_executing_queue_routing_preview_schema,
 )
+from station_chief_live_queue_orchestration_candidate_review import (
+    LIVE_QUEUE_ORCHESTRATION_CANDIDATE_REVIEW_APPROVAL_TOKEN,
+    create_live_queue_orchestration_candidate_review_bundle,
+    create_live_queue_orchestration_candidate_review_schema,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -253,10 +258,12 @@ def _select_runtime_version(default_version: str) -> str:
         return "4.7.0"
     if context == "validate_station_chief_runtime_v4_8.py":
         return "4.8.0"
+    if context == "validate_station_chief_runtime_v4_9.py":
+        return "4.9.0"
     return default_version
 
 
-STATION_CHIEF_RUNTIME_VERSION = "4.8.0"
+STATION_CHIEF_RUNTIME_VERSION = "4.9.0"
 STATION_CHIEF_RUNTIME_VERSION = _select_runtime_version(STATION_CHIEF_RUNTIME_VERSION)
 
 EXPECTED_OVERLAYS = [
@@ -920,7 +927,8 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "4.5.0": "task_assignment_audit_closeout_candidate",
         "4.7.0": "task_queue_preview_audit_closeout_candidate",
         "4.8.0": "non_executing_queue_routing_preview_candidate",
-    }.get(STATION_CHIEF_RUNTIME_VERSION, "non_executing_queue_routing_preview_candidate")
+        "4.9.0": "live_queue_orchestration_candidate_review",
+    }.get(STATION_CHIEF_RUNTIME_VERSION, "live_queue_orchestration_candidate_review")
     return {
         "station_chief_runtime_version": STATION_CHIEF_RUNTIME_VERSION,
         "runtime_status": runtime_status,
@@ -1024,6 +1032,30 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "non_executing_queue_routing_preview_does_not_deploy": True,
         "non_executing_queue_routing_preview_does_not_execute_production": True,
         "live_queue_orchestration_candidate_not_yet_active": True,
+        "live_queue_orchestration_candidate_review_available": True,
+        "live_queue_orchestration_candidate_review_local_record_only": True,
+        "live_queue_orchestration_candidate_review_requires_token": True,
+        "live_queue_orchestration_candidate_review_requires_human_operator": True,
+        "live_queue_orchestration_candidate_review_writes_one_local_record_only": True,
+        "live_queue_orchestration_candidate_review_does_not_create_real_queue": True,
+        "live_queue_orchestration_candidate_review_does_not_write_queue": True,
+        "live_queue_orchestration_candidate_review_does_not_write_scheduler_state": True,
+        "live_queue_orchestration_candidate_review_does_not_write_cron_state": True,
+        "live_queue_orchestration_candidate_review_does_not_enqueue_tasks": True,
+        "live_queue_orchestration_candidate_review_does_not_execute_tasks": True,
+        "live_queue_orchestration_candidate_review_does_not_start_worker_processes": True,
+        "live_queue_orchestration_candidate_review_does_not_assign_tasks": True,
+        "live_queue_orchestration_candidate_review_does_not_route_workers": True,
+        "live_queue_orchestration_candidate_review_does_not_orchestrate_live_work": True,
+        "live_queue_orchestration_candidate_review_does_not_call_live_apis": True,
+        "live_queue_orchestration_candidate_review_does_not_use_network_access": True,
+        "live_queue_orchestration_candidate_review_does_not_open_sockets": True,
+        "live_queue_orchestration_candidate_review_does_not_use_credentials": True,
+        "live_queue_orchestration_candidate_review_does_not_read_secrets": True,
+        "live_queue_orchestration_candidate_review_does_not_read_environment": True,
+        "live_queue_orchestration_candidate_review_does_not_deploy": True,
+        "live_queue_orchestration_candidate_review_does_not_execute_production": True,
+        "first_live_queue_execution_candidate_not_yet_active": True,
         "post_action_verification_and_audit_review_available": True,
         "post_action_verification_and_audit_review_local_only": True,
         "post_action_verification_and_audit_review_requires_token": True,
@@ -1052,7 +1084,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "v4_0_does_not_activate_production": True,
         "v4_0_does_not_route_live_workers": True,
         "v4_0_does_not_activate_full_workforce": True,
-        "next_step": "Next step: review live queue orchestration candidate.",
+        "next_step": "Next step: first live queue execution candidate review only.",
         "external_actions_taken": False,
         "live_api_call_performed": False,
         "network_access_performed": False,
@@ -5402,6 +5434,84 @@ def write_non_executing_queue_routing_preview(
     return result
 
 
+def attach_live_queue_orchestration_candidate_review(
+    result: dict,
+    v4_8_routing_preview_reference_label: str | None = None,
+    review_output_directory: str | None = None,
+    review_record_name: str | None = None,
+    confirmation_token: str | None = None,
+    human_operator: str | None = None,
+    review_requested: bool = False,
+    write_review_record: bool = False,
+) -> dict:
+    bundle = create_live_queue_orchestration_candidate_review_bundle(
+        result,
+        command=result.get("command", "check please"),
+        v4_8_routing_preview_reference_label=v4_8_routing_preview_reference_label,
+        review_output_directory=review_output_directory,
+        review_record_name=review_record_name,
+        confirmation_token=confirmation_token,
+        human_operator=human_operator,
+        review_requested=review_requested,
+        write_review_record=write_review_record,
+    )
+    result = dict(result)
+    result["live_queue_orchestration_candidate_review_bundle"] = bundle
+    result["live_queue_orchestration_candidate_review_schema"] = bundle["schema"]
+    result["orchestration_review_approval_gate"] = bundle["orchestration_review_approval_gate"]
+    result["v4_8_queue_routing_preview_reference_contract"] = bundle["v4_8_queue_routing_preview_reference_contract"]
+    result["orchestration_review_scope_contract"] = bundle["orchestration_review_scope_contract"]
+    result["non_execution_orchestration_boundary"] = bundle["non_execution_orchestration_boundary"]
+    result["orchestration_permission_denial_record"] = bundle["orchestration_permission_denial_record"]
+    result["orchestration_candidate_review_record"] = bundle["orchestration_candidate_review_record"]
+    result["orchestration_review_audit_record"] = bundle["orchestration_review_audit_record"]
+    result["orchestration_readiness_summary"] = bundle["orchestration_readiness_summary"]
+    result["first_live_queue_execution_candidate_bridge"] = bundle["first_live_queue_execution_candidate_bridge"]
+    result["orchestration_candidate_review_record_payload"] = bundle["orchestration_candidate_review_record_payload"]
+    result["orchestration_candidate_review_write_record"] = bundle["orchestration_candidate_review_write_record"]
+    result["local_orchestration_review_record_written"] = bundle["local_orchestration_review_record_written"]
+    result["real_queue_created"] = False
+    result["queue_write_performed"] = False
+    result["scheduler_write_performed"] = False
+    result["cron_write_performed"] = False
+    result["task_enqueued"] = False
+    result["task_executed"] = False
+    result["live_task_assignment_performed"] = False
+    result["live_worker_routing_performed"] = False
+    result["live_orchestration_performed"] = False
+    result["worker_process_started"] = False
+    result["full_workforce_activation_performed"] = False
+    return result
+
+
+def write_live_queue_orchestration_candidate_review(
+    result: dict,
+    review_output_directory: str | Path,
+    v4_8_routing_preview_reference_label: str | None = None,
+    review_record_name: str | None = None,
+    confirmation_token: str | None = None,
+    human_operator: str | None = None,
+) -> dict:
+    result = attach_live_queue_orchestration_candidate_review(
+        result,
+        v4_8_routing_preview_reference_label=v4_8_routing_preview_reference_label,
+        review_output_directory=str(review_output_directory),
+        review_record_name=review_record_name,
+        confirmation_token=confirmation_token,
+        human_operator=human_operator,
+        review_requested=True,
+        write_review_record=True,
+    )
+    write_record = result["orchestration_candidate_review_write_record"]
+    result["live_queue_orchestration_candidate_review_dir"] = write_record.get(
+        "review_output_directory"
+    ) or str(review_output_directory)
+    result["files_written"] = [write_record["record_name"]] if write_record.get("local_orchestration_review_record_written") else []
+    result["record_path"] = write_record.get("record_path")
+    result["execution_status"] = write_record.get("write_status")
+    return result
+
+
 def attach_task_queue_preview_audit_closeout_candidate(
     result: dict,
     queue_closeout_label: str | None = None,
@@ -5930,6 +6040,22 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
             "queue_routing_preview_record_payload.json",
             "queue_routing_preview_write_record.json",
         ])
+    if result.get("live_queue_orchestration_candidate_review_bundle"):
+        files_planned.extend([
+            "live_queue_orchestration_candidate_review_bundle.json",
+            "live_queue_orchestration_candidate_review_schema.json",
+            "orchestration_review_approval_gate.json",
+            "v4_8_queue_routing_preview_reference_contract.json",
+            "orchestration_review_scope_contract.json",
+            "non_execution_orchestration_boundary.json",
+            "orchestration_permission_denial_record.json",
+            "orchestration_candidate_review_record.json",
+            "orchestration_review_audit_record.json",
+            "orchestration_readiness_summary.json",
+            "first_live_queue_execution_candidate_bridge.json",
+            "orchestration_candidate_review_record_payload.json",
+            "orchestration_candidate_review_write_record.json",
+        ])
 
     return {
         "run_log": {
@@ -6425,7 +6551,7 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "manifest": {
             "run_id": run_id,
             "runtime_version": STATION_CHIEF_RUNTIME_VERSION,
-            "artifact_type": "station_chief_runtime_v4_8_artifacts",
+            "artifact_type": f"station_chief_runtime_v{STATION_CHIEF_RUNTIME_VERSION.split('.')[0]}_{STATION_CHIEF_RUNTIME_VERSION.split('.')[1]}_artifacts",
             "files_planned": files_planned,
             "baseline_preserved": True,
             "devinization_overlays_preserved": True,
@@ -7099,6 +7225,19 @@ def write_runtime_artifacts(
         "non_executing_worker_routing_preview_candidate_bridge.json": artifacts.get("non_executing_worker_routing_preview_candidate_bridge"),
         "queue_closeout_record_payload.json": artifacts.get("queue_closeout_record_payload"),
         "queue_closeout_write_record.json": artifacts.get("queue_closeout_write_record"),
+        "live_queue_orchestration_candidate_review_bundle.json": artifacts.get("live_queue_orchestration_candidate_review_bundle"),
+        "live_queue_orchestration_candidate_review_schema.json": artifacts.get("live_queue_orchestration_candidate_review_schema"),
+        "orchestration_review_approval_gate.json": artifacts.get("orchestration_review_approval_gate"),
+        "v4_8_queue_routing_preview_reference_contract.json": artifacts.get("v4_8_queue_routing_preview_reference_contract"),
+        "orchestration_review_scope_contract.json": artifacts.get("orchestration_review_scope_contract"),
+        "non_execution_orchestration_boundary.json": artifacts.get("non_execution_orchestration_boundary"),
+        "orchestration_permission_denial_record.json": artifacts.get("orchestration_permission_denial_record"),
+        "orchestration_candidate_review_record.json": artifacts.get("orchestration_candidate_review_record"),
+        "orchestration_review_audit_record.json": artifacts.get("orchestration_review_audit_record"),
+        "orchestration_readiness_summary.json": artifacts.get("orchestration_readiness_summary"),
+        "first_live_queue_execution_candidate_bridge.json": artifacts.get("first_live_queue_execution_candidate_bridge"),
+        "orchestration_candidate_review_record_payload.json": artifacts.get("orchestration_candidate_review_record_payload"),
+        "orchestration_candidate_review_write_record.json": artifacts.get("orchestration_candidate_review_write_record"),
         "first_supervised_production_dry_run_bundle.json": artifacts.get("first_supervised_production_dry_run_bundle"),
         "first_supervised_production_dry_run_schema.json": artifacts.get("first_supervised_production_dry_run_schema"),
         "first_supervised_production_dry_run_approval_gate.json": artifacts.get("first_supervised_production_dry_run_approval_gate"),
@@ -7867,6 +8006,13 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--v4-queue-routing-preview-record-name", type=str)
     parser.add_argument("--v4-queue-routing-preview-confirm-token", type=str)
     parser.add_argument("--v4-queue-routing-preview-human-operator", type=str)
+    parser.add_argument("--live-queue-orchestration-candidate-review-schema", action="store_true")
+    parser.add_argument("--live-queue-orchestration-candidate-review", action="store_true")
+    parser.add_argument("--write-live-queue-orchestration-candidate-review", metavar="DIR", type=str)
+    parser.add_argument("--v4-8-routing-preview-reference-label", type=str)
+    parser.add_argument("--v4-orchestration-review-record-name", type=str)
+    parser.add_argument("--v4-orchestration-review-confirm-token", type=str)
+    parser.add_argument("--v4-orchestration-review-human-operator", type=str)
     parser.add_argument("--candidate-action-label", type=str)
     parser.add_argument("--required-final-approver", type=str)
     return parser
@@ -8026,6 +8172,10 @@ def main() -> None:
 
     if args.non_executing_queue_routing_preview_schema:
         print(json.dumps(create_non_executing_queue_routing_preview_schema(), indent=2, ensure_ascii=False))
+        return
+
+    if args.live_queue_orchestration_candidate_review_schema:
+        print(json.dumps(create_live_queue_orchestration_candidate_review_schema(), indent=2, ensure_ascii=False))
         return
 
     if args.limited_external_tool_supervised_pilot_schema:
@@ -8838,6 +8988,31 @@ def main() -> None:
             human_operator=args.v4_queue_routing_preview_human_operator,
             preview_requested=False,
             write_preview_record=False,
+        )
+
+    live_queue_orchestration_candidate_review_summary = None
+    if getattr(args, "write_live_queue_orchestration_candidate_review", False):
+        result = write_live_queue_orchestration_candidate_review(
+            result,
+            args.write_live_queue_orchestration_candidate_review,
+            v4_8_routing_preview_reference_label=args.v4_8_routing_preview_reference_label,
+            review_record_name=args.v4_orchestration_review_record_name,
+            confirmation_token=args.v4_orchestration_review_confirm_token,
+            human_operator=args.v4_orchestration_review_human_operator,
+        )
+        live_queue_orchestration_candidate_review_summary = result["orchestration_candidate_review_write_record"]
+        result = dict(result)
+        result["live_queue_orchestration_candidate_review_write_summary"] = live_queue_orchestration_candidate_review_summary
+    elif args.live_queue_orchestration_candidate_review:
+        result = attach_live_queue_orchestration_candidate_review(
+            result,
+            v4_8_routing_preview_reference_label=args.v4_8_routing_preview_reference_label,
+            review_output_directory=None,
+            review_record_name=args.v4_orchestration_review_record_name,
+            confirmation_token=args.v4_orchestration_review_confirm_token,
+            human_operator=args.v4_orchestration_review_human_operator,
+            review_requested=False,
+            write_review_record=False,
         )
 
     artifact_summary = None
