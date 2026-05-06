@@ -185,6 +185,11 @@ from station_chief_first_tiny_real_world_supervised_execution_candidate import (
     create_first_tiny_real_world_supervised_execution_candidate_bundle,
     create_first_tiny_real_world_supervised_execution_candidate_schema,
 )
+from station_chief_post_action_verification_and_audit_review import (
+    POST_ACTION_VERIFICATION_AND_AUDIT_REVIEW_APPROVAL_TOKEN,
+    create_post_action_verification_and_audit_review_bundle,
+    create_post_action_verification_and_audit_review_schema,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -194,7 +199,7 @@ from station_chief_execution_profiles import (
     select_execution_profile,
 )
 
-STATION_CHIEF_RUNTIME_VERSION = "4.0.0"
+STATION_CHIEF_RUNTIME_VERSION = "4.1.0"
 
 EXPECTED_OVERLAYS = [
     {
@@ -400,7 +405,7 @@ def normalize_command_for_id(command: str) -> str:
 def generate_run_id(command: str, run_label: str = "station-chief-runtime") -> str:
     normalized = normalize_command_for_id(command)
     digest = hashlib.sha256(f"{STATION_CHIEF_RUNTIME_VERSION}:{run_label}:{command}".encode("utf-8")).hexdigest()
-    return f"station-chief-v4-0-{normalized}-{digest[:12]}"
+    return f"station-chief-v4-1-{normalized}-{digest[:12]}"
 
 
 def classify_command(command: str) -> str:
@@ -640,24 +645,22 @@ def build_demo_evidence() -> dict[str, bool]:
         "v4_0_does_not_activate_production": True,
         "v4_0_does_not_route_live_workers": True,
         "v4_0_does_not_activate_full_workforce": True,
-        "post_action_verification_and_audit_review_not_yet_active": True,
-        "first_tiny_real_world_supervised_execution_candidate_available": True,
-        "first_tiny_real_world_supervised_execution_candidate_local_only": True,
-        "first_tiny_real_world_supervised_execution_candidate_requires_token": True,
-        "first_tiny_real_world_supervised_execution_candidate_requires_human_operator": True,
-        "v4_0_does_not_call_live_apis": True,
-        "v4_0_does_not_use_network_access": True,
-        "v4_0_does_not_open_sockets": True,
-        "v4_0_does_not_resolve_dns": True,
-        "v4_0_does_not_use_credentials": True,
-        "v4_0_does_not_read_secrets": True,
-        "v4_0_does_not_read_environment": True,
-        "v4_0_does_not_deploy": True,
-        "v4_0_does_not_execute_production": True,
-        "v4_0_does_not_activate_production": True,
-        "v4_0_does_not_route_live_workers": True,
-        "v4_0_does_not_activate_full_workforce": True,
-        "post_action_verification_and_audit_review_not_yet_active": True,
+        "post_action_verification_and_audit_review_available": True,
+        "post_action_verification_and_audit_review_local_only": True,
+        "post_action_verification_and_audit_review_requires_token": True,
+        "post_action_verification_and_audit_review_requires_human_operator": True,
+        "post_action_verification_and_audit_review_does_not_execute_new_candidate": True,
+        "post_action_verification_and_audit_review_does_not_perform_cleanup": True,
+        "post_action_verification_and_audit_review_does_not_call_live_apis": True,
+        "post_action_verification_and_audit_review_does_not_use_network_access": True,
+        "post_action_verification_and_audit_review_does_not_open_sockets": True,
+        "post_action_verification_and_audit_review_does_not_use_credentials": True,
+        "post_action_verification_and_audit_review_does_not_read_secrets": True,
+        "post_action_verification_and_audit_review_does_not_read_environment": True,
+        "post_action_verification_and_audit_review_does_not_deploy": True,
+        "post_action_verification_and_audit_review_does_not_execute_production": True,
+        "post_action_verification_and_audit_review_does_not_route_live_workers": True,
+        "supervised_rollback_cleanup_candidate_not_yet_active": True,
     }
 
 
@@ -665,7 +668,7 @@ def load_registry(registry_dir: str | Path) -> dict:
     registry_path = Path(registry_dir) / "run_registry.json"
     if not registry_path.exists():
         return {
-            "registry_version": "4.0.0",
+            "registry_version": "4.1.0",
             "runtime_name": "Station Chief Runtime",
             "runs": [],
         }
@@ -682,7 +685,7 @@ def update_registry(registry_dir: str | Path, index_entry: dict) -> dict:
     registry = load_registry(registry_dir)
     runs = [run for run in registry.get("runs", []) if run.get("run_id") != index_entry.get("run_id")]
     runs.append(index_entry)
-    registry["registry_version"] = "4.0.0"
+    registry["registry_version"] = "4.1.0"
     registry["runtime_name"] = "Station Chief Runtime"
     registry["runs"] = runs
     save_registry(registry_dir, registry)
@@ -691,7 +694,7 @@ def update_registry(registry_dir: str | Path, index_entry: dict) -> dict:
 
 def write_runtime_index(registry_dir: str | Path, registry: dict) -> dict:
     index = {
-        "index_version": "4.0.0",
+        "index_version": "4.1.0",
         "runtime_name": "Station Chief Runtime",
         "run_count": len(registry.get("runs", [])),
         "runs": registry.get("runs", []),
@@ -745,7 +748,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
     adapter_result = run_noop_adapter(execution_plan)
     return {
         "station_chief_runtime_version": STATION_CHIEF_RUNTIME_VERSION,
-        "runtime_status": "first_tiny_real_world_supervised_execution_candidate",
+        "runtime_status": "post_action_verification_and_audit_review",
         "release_status": "STABLE_LOCKED",
         "command": command,
         "command_type": brief["command_type"],
@@ -756,6 +759,22 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "first_tiny_real_world_supervised_execution_candidate_local_only": True,
         "first_tiny_real_world_supervised_execution_candidate_requires_token": True,
         "first_tiny_real_world_supervised_execution_candidate_requires_human_operator": True,
+        "post_action_verification_and_audit_review_available": True,
+        "post_action_verification_and_audit_review_local_only": True,
+        "post_action_verification_and_audit_review_requires_token": True,
+        "post_action_verification_and_audit_review_requires_human_operator": True,
+        "post_action_verification_and_audit_review_does_not_execute_new_candidate": True,
+        "post_action_verification_and_audit_review_does_not_perform_cleanup": True,
+        "post_action_verification_and_audit_review_does_not_call_live_apis": True,
+        "post_action_verification_and_audit_review_does_not_use_network_access": True,
+        "post_action_verification_and_audit_review_does_not_open_sockets": True,
+        "post_action_verification_and_audit_review_does_not_use_credentials": True,
+        "post_action_verification_and_audit_review_does_not_read_secrets": True,
+        "post_action_verification_and_audit_review_does_not_read_environment": True,
+        "post_action_verification_and_audit_review_does_not_deploy": True,
+        "post_action_verification_and_audit_review_does_not_execute_production": True,
+        "post_action_verification_and_audit_review_does_not_route_live_workers": True,
+        "supervised_rollback_cleanup_candidate_not_yet_active": True,
         "recommended_candidate_type": "local_deterministic_reversible_proof_artifact",
         "v4_0_does_not_call_live_apis": True,
         "v4_0_does_not_use_network_access": True,
@@ -769,8 +788,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "v4_0_does_not_activate_production": True,
         "v4_0_does_not_route_live_workers": True,
         "v4_0_does_not_activate_full_workforce": True,
-        "post_action_verification_and_audit_review_not_yet_active": True,
-        "next_step": "Next step: build post-action verification and audit review.",
+        "next_step": "Next step: build supervised rollback / cleanup candidate.",
         "external_actions_taken": False,
         "live_api_call_performed": False,
         "network_access_performed": False,
@@ -4565,6 +4583,77 @@ def write_first_tiny_real_world_supervised_execution_candidate(
     }
 
 
+def attach_post_action_verification_and_audit_review(
+    result: dict,
+    review_label: str | None = None,
+    artifact_path: str | None = None,
+    expected_output_directory: str | None = None,
+    review_output_directory: str | None = None,
+    confirmation_token: str | None = None,
+    human_operator: str | None = None,
+    write_review_records: bool = False,
+) -> dict:
+    bundle = create_post_action_verification_and_audit_review_bundle(
+        result,
+        command=result.get("command", "check please"),
+        review_label=review_label,
+        artifact_path=artifact_path,
+        expected_output_directory=expected_output_directory,
+        review_output_directory=review_output_directory,
+        confirmation_token=confirmation_token,
+        human_operator=human_operator,
+        write_review_records=write_review_records,
+    )
+    result = dict(result)
+    result["post_action_verification_and_audit_review_bundle"] = bundle
+    result["post_action_verification_and_audit_review_schema"] = bundle["schema"]
+    result["post_action_verification_and_audit_review_approval_gate"] = bundle["post_action_verification_and_audit_review_approval_gate"]
+    result["v4_candidate_artifact_reference_contract"] = bundle["v4_candidate_artifact_reference_contract"]
+    result["artifact_integrity_verification_record"] = bundle["artifact_integrity_verification_record"]
+    result["artifact_path_containment_review"] = bundle["artifact_path_containment_review"]
+    result["safety_boolean_review"] = bundle["safety_boolean_review"]
+    result["cleanup_instruction_review"] = bundle["cleanup_instruction_review"]
+    result["operator_review_acknowledgement"] = bundle["operator_review_acknowledgement"]
+    result["post_action_closeout_ledger"] = bundle["post_action_closeout_ledger"]
+    result["post_action_readiness_summary"] = bundle["post_action_readiness_summary"]
+    result["supervised_rollback_cleanup_candidate_bridge"] = bundle["supervised_rollback_cleanup_candidate_bridge"]
+    result["post_action_verification_and_audit_review_record"] = bundle["post_action_verification_and_audit_review_record"]
+    result["post_action_verification_and_audit_review_write_summary"] = bundle["post_action_verification_and_audit_review_record"]
+    return result
+
+
+def write_post_action_verification_and_audit_review(
+    result: dict,
+    review_output_directory: str | Path,
+    review_label: str | None = None,
+    artifact_path: str | None = None,
+    expected_output_directory: str | None = None,
+    confirmation_token: str | None = None,
+    human_operator: str | None = None,
+    run_label: str = "station-chief-runtime",
+) -> dict:
+    result = attach_post_action_verification_and_audit_review(
+        result,
+        review_label=review_label,
+        artifact_path=artifact_path,
+        expected_output_directory=expected_output_directory,
+        review_output_directory=str(review_output_directory),
+        confirmation_token=confirmation_token,
+        human_operator=human_operator,
+        write_review_records=True,
+    )
+    bundle = result["post_action_verification_and_audit_review_bundle"]
+    review_record = bundle["post_action_verification_and_audit_review_record"]
+    return {
+        "run_id": generate_run_id(result.get("command", ""), run_label=run_label),
+        "post_action_verification_and_audit_review_dir": review_record.get("review_output_directory") or str(review_output_directory),
+        "files_written": review_record.get("files_written", []) if review_record.get("local_review_records_written") else [],
+        "local_review_records_written": review_record.get("local_review_records_written", False),
+        "review_record_path": review_record.get("review_record_path"),
+        "execution_status": review_record.get("review_record_status"),
+    }
+
+
 def build_runtime_artifacts(result: dict, run_id: str) -> dict:
     adapter_name = result.get("adapter_name", "noop")
     command_brief = result["command_brief"]
@@ -4848,11 +4937,11 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
             "final_preflight_ledger.json",
             "first_tiny_real_world_supervised_execution_candidate_bridge.json",
         ])
-    if result.get("first_tiny_real_world_supervised_execution_candidate_bundle"):
-        files_planned.extend([
-            "first_tiny_real_world_supervised_execution_candidate_bundle.json",
-            "first_tiny_real_world_supervised_execution_candidate_schema.json",
-            "first_tiny_real_world_supervised_execution_candidate_approval_gate.json",
+        if result.get("first_tiny_real_world_supervised_execution_candidate_bundle"):
+            files_planned.extend([
+                "first_tiny_real_world_supervised_execution_candidate_bundle.json",
+                "first_tiny_real_world_supervised_execution_candidate_schema.json",
+                "first_tiny_real_world_supervised_execution_candidate_approval_gate.json",
             "local_proof_artifact_candidate_contract.json",
             "explicit_output_directory_boundary_contract.json",
             "forbidden_path_contract.json",
@@ -4865,6 +4954,22 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
             "first_tiny_candidate_readiness_summary.json",
             "post_action_verification_and_audit_review_bridge.json",
             "local_proof_artifact_payload.json",
+        ])
+    if result.get("post_action_verification_and_audit_review_bundle"):
+        files_planned.extend([
+            "post_action_verification_and_audit_review_bundle.json",
+            "post_action_verification_and_audit_review_schema.json",
+            "post_action_verification_and_audit_review_approval_gate.json",
+            "v4_candidate_artifact_reference_contract.json",
+            "artifact_integrity_verification_record.json",
+            "artifact_path_containment_review.json",
+            "safety_boolean_review.json",
+            "cleanup_instruction_review.json",
+            "operator_review_acknowledgement.json",
+            "post_action_closeout_ledger.json",
+            "post_action_readiness_summary.json",
+            "supervised_rollback_cleanup_candidate_bridge.json",
+            "post_action_verification_and_audit_review_record.json",
         ])
 
     return {
@@ -5237,6 +5342,19 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "first_tiny_candidate_readiness_summary": result.get("first_tiny_candidate_readiness_summary"),
         "post_action_verification_and_audit_review_bridge": result.get("post_action_verification_and_audit_review_bridge"),
         "local_proof_artifact_payload": result.get("local_proof_artifact_payload"),
+        "post_action_verification_and_audit_review_bundle": result.get("post_action_verification_and_audit_review_bundle"),
+        "post_action_verification_and_audit_review_schema": result.get("post_action_verification_and_audit_review_schema"),
+        "post_action_verification_and_audit_review_approval_gate": result.get("post_action_verification_and_audit_review_approval_gate"),
+        "v4_candidate_artifact_reference_contract": result.get("v4_candidate_artifact_reference_contract"),
+        "artifact_integrity_verification_record": result.get("artifact_integrity_verification_record"),
+        "artifact_path_containment_review": result.get("artifact_path_containment_review"),
+        "safety_boolean_review": result.get("safety_boolean_review"),
+        "cleanup_instruction_review": result.get("cleanup_instruction_review"),
+        "operator_review_acknowledgement": result.get("operator_review_acknowledgement"),
+        "post_action_closeout_ledger": result.get("post_action_closeout_ledger"),
+        "post_action_readiness_summary": result.get("post_action_readiness_summary"),
+        "supervised_rollback_cleanup_candidate_bridge": result.get("supervised_rollback_cleanup_candidate_bridge"),
+        "post_action_verification_and_audit_review_record": result.get("post_action_verification_and_audit_review_record"),
         "controlled_worker_hiring_activation_pilot_bundle": controlled_worker_hiring_activation_pilot_bundle,
         "controlled_worker_hiring_activation_pilot_schema": result.get("controlled_worker_hiring_activation_pilot_schema"),
         "controlled_worker_hiring_activation_pilot_approval_gate": result.get("controlled_worker_hiring_activation_pilot_approval_gate"),
@@ -5251,8 +5369,8 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "first_supervised_production_dry_run_bridge": result.get("first_supervised_production_dry_run_bridge"),
         "manifest": {
             "run_id": run_id,
-            "runtime_version": "4.0.0",
-            "artifact_type": "station_chief_runtime_v4_0_artifacts",
+            "runtime_version": "4.1.0",
+            "artifact_type": "station_chief_runtime_v4_1_artifacts",
             "files_planned": files_planned,
             "baseline_preserved": True,
             "devinization_overlays_preserved": True,
@@ -5824,6 +5942,19 @@ def write_runtime_artifacts(
         "first_tiny_real_world_execution_candidate_audit_proof.json": artifacts.get("first_tiny_real_world_execution_candidate_audit_proof"),
         "final_preflight_ledger.json": artifacts.get("final_preflight_ledger"),
         "first_tiny_real_world_supervised_execution_candidate_bridge.json": artifacts.get("first_tiny_real_world_supervised_execution_candidate_bridge"),
+        "post_action_verification_and_audit_review_bundle.json": artifacts.get("post_action_verification_and_audit_review_bundle"),
+        "post_action_verification_and_audit_review_schema.json": artifacts.get("post_action_verification_and_audit_review_schema"),
+        "post_action_verification_and_audit_review_approval_gate.json": artifacts.get("post_action_verification_and_audit_review_approval_gate"),
+        "v4_candidate_artifact_reference_contract.json": artifacts.get("v4_candidate_artifact_reference_contract"),
+        "artifact_integrity_verification_record.json": artifacts.get("artifact_integrity_verification_record"),
+        "artifact_path_containment_review.json": artifacts.get("artifact_path_containment_review"),
+        "safety_boolean_review.json": artifacts.get("safety_boolean_review"),
+        "cleanup_instruction_review.json": artifacts.get("cleanup_instruction_review"),
+        "operator_review_acknowledgement.json": artifacts.get("operator_review_acknowledgement"),
+        "post_action_closeout_ledger.json": artifacts.get("post_action_closeout_ledger"),
+        "post_action_readiness_summary.json": artifacts.get("post_action_readiness_summary"),
+        "supervised_rollback_cleanup_candidate_bridge.json": artifacts.get("supervised_rollback_cleanup_candidate_bridge"),
+        "post_action_verification_and_audit_review_record.json": artifacts.get("post_action_verification_and_audit_review_record"),
         "first_supervised_production_dry_run_bundle.json": artifacts.get("first_supervised_production_dry_run_bundle"),
         "first_supervised_production_dry_run_schema.json": artifacts.get("first_supervised_production_dry_run_schema"),
         "first_supervised_production_dry_run_approval_gate.json": artifacts.get("first_supervised_production_dry_run_approval_gate"),
@@ -6525,6 +6656,14 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--v4-candidate-confirm-token", type=str)
     parser.add_argument("--v4-human-operator", type=str)
     parser.add_argument("--v4-artifact-name", type=str)
+    parser.add_argument("--post-action-verification-and-audit-review-schema", action="store_true")
+    parser.add_argument("--post-action-verification-and-audit-review", action="store_true")
+    parser.add_argument("--write-post-action-verification-and-audit-review", metavar="DIR", type=str)
+    parser.add_argument("--v4-review-label", type=str)
+    parser.add_argument("--v4-review-artifact-path", type=str)
+    parser.add_argument("--v4-review-expected-output-directory", type=str)
+    parser.add_argument("--v4-review-confirm-token", type=str)
+    parser.add_argument("--v4-review-human-operator", type=str)
     parser.add_argument("--candidate-action-label", type=str)
     parser.add_argument("--required-final-approver", type=str)
     return parser
@@ -6652,6 +6791,10 @@ def main() -> None:
 
     if args.first_tiny_real_world_supervised_execution_candidate_schema:
         print(json.dumps(create_first_tiny_real_world_supervised_execution_candidate_schema(), indent=2, ensure_ascii=False))
+        return
+
+    if args.post_action_verification_and_audit_review_schema:
+        print(json.dumps(create_post_action_verification_and_audit_review_schema(), indent=2, ensure_ascii=False))
         return
 
     if args.limited_external_tool_supervised_pilot_schema:
@@ -7242,6 +7385,32 @@ def main() -> None:
             pilot_label=args.production_gate_pilot_label,
             pilot_worker_limit=args.production_gate_pilot_worker_limit,
             rollback_labels=args.production_gate_rollback_label
+        )
+
+    post_action_verification_and_audit_review_summary = None
+    if getattr(args, "write_post_action_verification_and_audit_review", False):
+        post_action_verification_and_audit_review_summary = write_post_action_verification_and_audit_review(
+            result,
+            args.write_post_action_verification_and_audit_review,
+            review_label=args.v4_review_label,
+            artifact_path=args.v4_review_artifact_path,
+            expected_output_directory=args.v4_review_expected_output_directory,
+            confirmation_token=args.v4_review_confirm_token,
+            human_operator=args.v4_review_human_operator,
+            run_label=args.run_label,
+        )
+        result = dict(result)
+        result["post_action_verification_and_audit_review_write_summary"] = post_action_verification_and_audit_review_summary
+    elif args.post_action_verification_and_audit_review:
+        result = attach_post_action_verification_and_audit_review(
+            result,
+            review_label=args.v4_review_label,
+            artifact_path=args.v4_review_artifact_path,
+            expected_output_directory=args.v4_review_expected_output_directory,
+            review_output_directory=None,
+            confirmation_token=args.v4_review_confirm_token,
+            human_operator=args.v4_review_human_operator,
+            write_review_records=False,
         )
 
     artifact_summary = None
