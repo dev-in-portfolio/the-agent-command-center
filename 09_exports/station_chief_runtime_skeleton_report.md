@@ -1,28 +1,29 @@
 # Station Chief Runtime Skeleton
 
 ## Status
-Station Chief Runtime upgraded to v3.9.0. Locked 175-family baseline preserved. Live external action final preflight gate added.
+Station Chief Runtime upgraded to v4.0.0. Locked 175-family baseline preserved. First tiny real-world supervised execution candidate added.
 
 ## Runtime Capabilities
-- live external action final preflight gate schema
-- live external action final preflight gate approval gate
-- tiny action candidate boundary contract
-- live external action non-execution contract
-- blast-radius ceiling contract
-- human final approval requirement
-- credential/secret/environment re-denial proof
-- network/socket/API re-denial proof
-- deployment/production re-denial proof
-- rollback/recovery availability assertion
-- first tiny real-world execution candidate audit proof
-- final preflight ledger
-- first tiny real-world supervised execution candidate bridge
+- live external action final preflight gate layer preserved as the prior boundary
+- first tiny real-world supervised execution candidate schema
+- first tiny real-world supervised execution candidate approval gate
+- local proof artifact candidate contract
+- explicit output directory boundary contract
+- forbidden path contract
+- local only execution envelope
+- candidate pre-action audit proof
+- local proof artifact execution record
+- post-action verification record
+- cleanup / rollback instruction record
+- first tiny candidate ledger
+- first tiny candidate readiness summary
+- post-action verification and audit review bridge
 
 ## Required Validator
-python3 scripts/validate_station_chief_runtime_v3_9.py
+python3 scripts/validate_station_chief_runtime_v4_0.py
 
 ## Next Recommended Build Step
-Next recommended build step: build first tiny real-world supervised execution candidate.
+Next recommended build step: build post-action verification and audit review.
 
-## Pre-v4.0 Readiness
-Station Chief Runtime v3.9.0 has a Pre-v4.0 readiness hardening pass. The runtime remains a final preflight record layer only. v4.0 is not built. The recommended v4.0 candidate is a local deterministic reversible proof artifact written only to an explicit output directory after separate human approval.
+## v4.0 Doctrine
+Station Chief Runtime v4.0.0 allows exactly one real-world action when separately approved: writing one local deterministic reversible proof artifact to an explicit operator-approved output directory. It does not authorize APIs, network, sockets, DNS resolution, outbound connections, credential use, secret reads, environment variable reads, deployment, production execution, production activation, live task assignment, live worker routing, live orchestration, worker process starts, or full workforce activation. v4.0 does not approve v4.1.

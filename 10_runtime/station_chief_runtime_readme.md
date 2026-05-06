@@ -1,24 +1,23 @@
-# Station Chief Runtime Skeleton
+# Station Chief Runtime v4.0.0
 
 ## Status
-Station Chief Runtime upgraded to v3.9.0. Locked 175-family baseline preserved. Live external action final preflight gate added.
+Station Chief Runtime v4.0.0 delivers the First Tiny Real-World Supervised Execution Candidate layer. It remains locked to the 175-family baseline and keeps broad execution, API access, network access, socket access, credential use, secret reads, environment reads, deployment, production execution, worker activation, and full workforce activation denied by default.
 
 ## What This Adds
-- live external action final preflight gate schema
-- live external action final preflight gate approval gate
-- tiny action candidate boundary contract
-- live external action non-execution contract
-- blast-radius ceiling contract
-- human final approval requirement
-- credential/secret/environment re-denial proof
-- network/socket/API re-denial proof
-- deployment/production re-denial proof
-- rollback/recovery availability assertion
-- first tiny real-world execution candidate audit proof
-- final preflight ledger
-- first tiny real-world supervised execution candidate bridge
-- final preflight artifact writing
-- final preflight manifest
+- live external action final preflight gate layer preserved as the prior boundary
+- first tiny real-world supervised execution candidate schema
+- first tiny real-world supervised execution candidate approval gate
+- local proof artifact candidate contract
+- explicit output directory boundary contract
+- forbidden path contract
+- local only execution envelope
+- candidate pre-action audit proof
+- local proof artifact execution record
+- post-action verification record
+- cleanup / rollback instruction record
+- first tiny candidate ledger
+- first tiny candidate readiness summary
+- post-action verification and audit review bridge
 
 ## What This Does Not Do
 - no live API calls
@@ -33,7 +32,6 @@ Station Chief Runtime upgraded to v3.9.0. Locked 175-family baseline preserved. 
 - no deployment
 - no production execution
 - no production activation
-- no real external tool invocation
 - no live task assignment
 - no live worker routing
 - no live orchestration
@@ -44,28 +42,23 @@ Station Chief Runtime upgraded to v3.9.0. Locked 175-family baseline preserved. 
 - no repo mutation
 - no baseline mutation
 - no Devinization overlay mutation
-- does not build v4.0 yet
+- no v4.1 approval
 
 ## Commands
 
 ```bash
 python3 10_runtime/station_chief_runtime.py --demo
 python3 10_runtime/station_chief_runtime.py --live-external-action-final-preflight-gate-schema
-python3 10_runtime/station_chief_runtime.py --command "check please" --live-external-action-final-preflight-gate
-python3 10_runtime/station_chief_runtime.py --command "check please" --live-external-action-final-preflight-gate --live-external-action-confirm-token YES_I_APPROVE_LIVE_EXTERNAL_ACTION_FINAL_PREFLIGHT_GATE
-python3 10_runtime/station_chief_runtime.py --command "build first tiny real-world supervised execution candidate" --live-external-action-final-preflight-gate --live-external-action-confirm-token YES_I_APPROVE_LIVE_EXTERNAL_ACTION_FINAL_PREFLIGHT_GATE
-python3 10_runtime/station_chief_runtime.py --command "check please" --write-live-external-action-final-preflight-gate /tmp/station_chief_live_external_action_final_preflight_gate --live-external-action-confirm-token YES_I_APPROVE_LIVE_EXTERNAL_ACTION_FINAL_PREFLIGHT_GATE
-python3 10_runtime/station_chief_runtime.py --command "check please" --write-artifacts /tmp/station_chief_runs --registry-dir /tmp/station_chief_registry --live-external-action-final-preflight-gate --live-external-action-confirm-token YES_I_APPROVE_LIVE_EXTERNAL_ACTION_FINAL_PREFLIGHT_GATE
-python3 10_runtime/station_chief_runtime.py --fixture-test
+python3 10_runtime/station_chief_runtime.py --first-tiny-real-world-supervised-execution-candidate-schema
+python3 10_runtime/station_chief_runtime.py --command "check please" --first-tiny-real-world-supervised-execution-candidate
+python3 10_runtime/station_chief_runtime.py --command "check please" --first-tiny-real-world-supervised-execution-candidate --v4-candidate-confirm-token YES_I_APPROVE_FIRST_TINY_REAL_WORLD_SUPERVISED_EXECUTION_CANDIDATE --v4-human-operator "Devin O’Rourke"
+python3 10_runtime/station_chief_runtime.py --command "check please" --write-first-tiny-real-world-supervised-execution-candidate /tmp/station_chief_v4_candidate --v4-candidate-confirm-token YES_I_APPROVE_FIRST_TINY_REAL_WORLD_SUPERVISED_EXECUTION_CANDIDATE --v4-human-operator "Devin O’Rourke"
+python3 10_runtime/station_chief_runtime.py --command "check please" --write-artifacts /tmp/station_chief_runs --registry-dir /tmp/station_chief_registry --first-tiny-real-world-supervised-execution-candidate --v4-candidate-confirm-token YES_I_APPROVE_FIRST_TINY_REAL_WORLD_SUPERVISED_EXECUTION_CANDIDATE --v4-human-operator "Devin O’Rourke"
 python3 10_runtime/station_chief_fixture_tests.py
 ```
 
-## Runtime Doctrine
-
-Station Chief Runtime v3.9.0 adds Live External Action Final Preflight Gate without live API calls, network access, socket access, DNS resolution, outbound connections, inbound connections, webhook calls, credential use, credential vault access, secret reads, environment reads, deployment, deployment rollback, production execution, production activation, real external tool invocation, real task execution, live task assignment, live worker routing, live orchestration, worker process starts, shell command execution, arbitrary code execution, repo mutation, baseline mutation, Devinization overlay mutation, or broad workforce activation. It creates deterministic final-preflight schemas, approval gates, tiny action candidate boundary contracts, non-execution contracts, blast-radius ceiling contracts, human final approval requirements, re-denial proofs, rollback/recovery availability assertions, final preflight audit proofs, ledgers, readiness records, and first tiny real-world supervised execution candidate bridge records only.
+## v4.0 Doctrine
+Station Chief Runtime v4.0.0 allows exactly one real-world action when separately approved: writing one local deterministic reversible proof artifact to an explicit operator-approved output directory. It does not authorize APIs, network, sockets, DNS resolution, outbound connections, credential use, secret reads, environment variable reads, deployment, production execution, production activation, live task assignment, live worker routing, live orchestration, worker process starts, or full workforce activation. v4.0 does not approve v4.1.
 
 ## Next Recommended Step
-Next recommended step: build first tiny real-world supervised execution candidate.
-
-## Pre-v4.0 Readiness
-Station Chief Runtime v3.9.0 has a Pre-v4.0 readiness hardening pass. The runtime remains a final preflight record layer only. v4.0 is not built. The recommended v4.0 candidate is a local deterministic reversible proof artifact written only to an explicit output directory after separate human approval.
+Next recommended step: build post-action verification and audit review.

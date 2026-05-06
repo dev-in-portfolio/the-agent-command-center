@@ -180,6 +180,11 @@ from station_chief_live_external_action_final_preflight_gate import (
     create_live_external_action_final_preflight_gate_bundle,
     create_live_external_action_final_preflight_gate_schema,
 )
+from station_chief_first_tiny_real_world_supervised_execution_candidate import (
+    FIRST_TINY_REAL_WORLD_SUPERVISED_EXECUTION_CANDIDATE_APPROVAL_TOKEN,
+    create_first_tiny_real_world_supervised_execution_candidate_bundle,
+    create_first_tiny_real_world_supervised_execution_candidate_schema,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -189,7 +194,7 @@ from station_chief_execution_profiles import (
     select_execution_profile,
 )
 
-STATION_CHIEF_RUNTIME_VERSION = "3.9.0"
+STATION_CHIEF_RUNTIME_VERSION = "4.0.0"
 
 EXPECTED_OVERLAYS = [
     {
@@ -395,7 +400,7 @@ def normalize_command_for_id(command: str) -> str:
 def generate_run_id(command: str, run_label: str = "station-chief-runtime") -> str:
     normalized = normalize_command_for_id(command)
     digest = hashlib.sha256(f"{STATION_CHIEF_RUNTIME_VERSION}:{run_label}:{command}".encode("utf-8")).hexdigest()
-    return f"station-chief-v3-9-{normalized}-{digest[:12]}"
+    return f"station-chief-v4-0-{normalized}-{digest[:12]}"
 
 
 def classify_command(command: str) -> str:
@@ -619,7 +624,40 @@ def build_demo_evidence() -> dict[str, bool]:
         "live_external_action_final_preflight_gate_does_not_perform_live_orchestration": True,
         "live_external_action_final_preflight_gate_does_not_start_worker_processes": True,
         "live_external_action_final_preflight_gate_does_not_modify_repo_files": True,
-        "first_tiny_real_world_supervised_execution_candidate_not_yet_active": True,
+        "first_tiny_real_world_supervised_execution_candidate_available": True,
+        "first_tiny_real_world_supervised_execution_candidate_local_only": True,
+        "first_tiny_real_world_supervised_execution_candidate_requires_token": True,
+        "first_tiny_real_world_supervised_execution_candidate_requires_human_operator": True,
+        "v4_0_does_not_call_live_apis": True,
+        "v4_0_does_not_use_network_access": True,
+        "v4_0_does_not_open_sockets": True,
+        "v4_0_does_not_resolve_dns": True,
+        "v4_0_does_not_use_credentials": True,
+        "v4_0_does_not_read_secrets": True,
+        "v4_0_does_not_read_environment": True,
+        "v4_0_does_not_deploy": True,
+        "v4_0_does_not_execute_production": True,
+        "v4_0_does_not_activate_production": True,
+        "v4_0_does_not_route_live_workers": True,
+        "v4_0_does_not_activate_full_workforce": True,
+        "post_action_verification_and_audit_review_not_yet_active": True,
+        "first_tiny_real_world_supervised_execution_candidate_available": True,
+        "first_tiny_real_world_supervised_execution_candidate_local_only": True,
+        "first_tiny_real_world_supervised_execution_candidate_requires_token": True,
+        "first_tiny_real_world_supervised_execution_candidate_requires_human_operator": True,
+        "v4_0_does_not_call_live_apis": True,
+        "v4_0_does_not_use_network_access": True,
+        "v4_0_does_not_open_sockets": True,
+        "v4_0_does_not_resolve_dns": True,
+        "v4_0_does_not_use_credentials": True,
+        "v4_0_does_not_read_secrets": True,
+        "v4_0_does_not_read_environment": True,
+        "v4_0_does_not_deploy": True,
+        "v4_0_does_not_execute_production": True,
+        "v4_0_does_not_activate_production": True,
+        "v4_0_does_not_route_live_workers": True,
+        "v4_0_does_not_activate_full_workforce": True,
+        "post_action_verification_and_audit_review_not_yet_active": True,
     }
 
 
@@ -627,7 +665,7 @@ def load_registry(registry_dir: str | Path) -> dict:
     registry_path = Path(registry_dir) / "run_registry.json"
     if not registry_path.exists():
         return {
-            "registry_version": "3.9.0",
+            "registry_version": "4.0.0",
             "runtime_name": "Station Chief Runtime",
             "runs": [],
         }
@@ -644,7 +682,7 @@ def update_registry(registry_dir: str | Path, index_entry: dict) -> dict:
     registry = load_registry(registry_dir)
     runs = [run for run in registry.get("runs", []) if run.get("run_id") != index_entry.get("run_id")]
     runs.append(index_entry)
-    registry["registry_version"] = "3.9.0"
+    registry["registry_version"] = "4.0.0"
     registry["runtime_name"] = "Station Chief Runtime"
     registry["runs"] = runs
     save_registry(registry_dir, registry)
@@ -653,7 +691,7 @@ def update_registry(registry_dir: str | Path, index_entry: dict) -> dict:
 
 def write_runtime_index(registry_dir: str | Path, registry: dict) -> dict:
     index = {
-        "index_version": "3.9.0",
+        "index_version": "4.0.0",
         "runtime_name": "Station Chief Runtime",
         "run_count": len(registry.get("runs", [])),
         "runs": registry.get("runs", []),
@@ -707,14 +745,32 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
     adapter_result = run_noop_adapter(execution_plan)
     return {
         "station_chief_runtime_version": STATION_CHIEF_RUNTIME_VERSION,
-        "runtime_status": "live_external_action_final_preflight_gate",
+        "runtime_status": "first_tiny_real_world_supervised_execution_candidate",
         "release_status": "STABLE_LOCKED",
         "command": command,
         "command_type": brief["command_type"],
         "activation_tier": brief["activation_tier"],
         "baseline_preserved": True,
         "evidence": build_demo_evidence(),
-        "next_step": "Next step: build first tiny real-world supervised execution candidate.",
+        "first_tiny_real_world_supervised_execution_candidate_available": True,
+        "first_tiny_real_world_supervised_execution_candidate_local_only": True,
+        "first_tiny_real_world_supervised_execution_candidate_requires_token": True,
+        "first_tiny_real_world_supervised_execution_candidate_requires_human_operator": True,
+        "recommended_candidate_type": "local_deterministic_reversible_proof_artifact",
+        "v4_0_does_not_call_live_apis": True,
+        "v4_0_does_not_use_network_access": True,
+        "v4_0_does_not_open_sockets": True,
+        "v4_0_does_not_resolve_dns": True,
+        "v4_0_does_not_use_credentials": True,
+        "v4_0_does_not_read_secrets": True,
+        "v4_0_does_not_read_environment": True,
+        "v4_0_does_not_deploy": True,
+        "v4_0_does_not_execute_production": True,
+        "v4_0_does_not_activate_production": True,
+        "v4_0_does_not_route_live_workers": True,
+        "v4_0_does_not_activate_full_workforce": True,
+        "post_action_verification_and_audit_review_not_yet_active": True,
+        "next_step": "Next step: build post-action verification and audit review.",
         "external_actions_taken": False,
         "live_api_call_performed": False,
         "network_access_performed": False,
@@ -4439,6 +4495,76 @@ def write_live_external_action_final_preflight_gate(
     }
 
 
+def attach_first_tiny_real_world_supervised_execution_candidate(
+    result: dict,
+    candidate_label: str | None = None,
+    output_directory: str | None = None,
+    artifact_name: str | None = None,
+    confirmation_token: str | None = None,
+    human_operator: str | None = None,
+    execute_local_proof_artifact_write: bool = False,
+) -> dict:
+    if "live_external_action_final_preflight_gate_bundle" not in result or result.get("live_external_action_final_preflight_gate_bundle") is None:
+        result = attach_live_external_action_final_preflight_gate(result)
+    bundle = create_first_tiny_real_world_supervised_execution_candidate_bundle(
+        result,
+        command=result.get("command", "check please"),
+        candidate_label=candidate_label,
+        output_directory=output_directory,
+        artifact_name=artifact_name,
+        confirmation_token=confirmation_token,
+        human_operator=human_operator,
+        execute_local_proof_artifact_write=execute_local_proof_artifact_write,
+    )
+    result = dict(result)
+    result["first_tiny_real_world_supervised_execution_candidate_bundle"] = bundle
+    result["first_tiny_real_world_supervised_execution_candidate_schema"] = bundle["schema"]
+    result["first_tiny_real_world_supervised_execution_candidate_approval_gate"] = bundle["first_tiny_real_world_supervised_execution_candidate_approval_gate"]
+    result["local_proof_artifact_candidate_contract"] = bundle["local_proof_artifact_candidate_contract"]
+    result["explicit_output_directory_boundary_contract"] = bundle["explicit_output_directory_boundary_contract"]
+    result["forbidden_path_contract"] = bundle["forbidden_path_contract"]
+    result["local_only_execution_envelope"] = bundle["local_only_execution_envelope"]
+    result["candidate_pre_action_audit_proof"] = bundle["candidate_pre_action_audit_proof"]
+    result["local_proof_artifact_execution_record"] = bundle["local_proof_artifact_execution_record"]
+    result["post_action_verification_record"] = bundle["post_action_verification_record"]
+    result["cleanup_rollback_instruction_record"] = bundle["cleanup_rollback_instruction_record"]
+    result["first_tiny_candidate_ledger"] = bundle["first_tiny_candidate_ledger"]
+    result["first_tiny_candidate_readiness_summary"] = bundle["first_tiny_candidate_readiness_summary"]
+    result["post_action_verification_and_audit_review_bridge"] = bundle["post_action_verification_and_audit_review_bridge"]
+    result["first_tiny_real_world_supervised_execution_candidate_write_summary"] = bundle["local_proof_artifact_execution_record"]
+    return result
+
+
+def write_first_tiny_real_world_supervised_execution_candidate(
+    result: dict,
+    output_directory: str | Path,
+    candidate_label: str | None = None,
+    artifact_name: str | None = None,
+    confirmation_token: str | None = None,
+    human_operator: str | None = None,
+    run_label: str = "station-chief-runtime",
+) -> dict:
+    result = attach_first_tiny_real_world_supervised_execution_candidate(
+        result,
+        candidate_label=candidate_label,
+        output_directory=str(output_directory),
+        artifact_name=artifact_name,
+        confirmation_token=confirmation_token,
+        human_operator=human_operator,
+        execute_local_proof_artifact_write=True,
+    )
+    bundle = result["first_tiny_real_world_supervised_execution_candidate_bundle"]
+    execution_record = bundle["local_proof_artifact_execution_record"]
+    return {
+        "run_id": generate_run_id(result.get("command", ""), run_label=run_label),
+        "first_tiny_real_world_supervised_execution_candidate_dir": execution_record.get("resolved_output_directory") or str(output_directory),
+        "files_written": [execution_record["artifact_name"]] if execution_record.get("local_proof_artifact_write_performed") else [],
+        "local_proof_artifact_write_performed": execution_record.get("local_proof_artifact_write_performed", False),
+        "artifact_path": execution_record.get("artifact_path"),
+        "execution_status": execution_record.get("execution_status"),
+    }
+
+
 def build_runtime_artifacts(result: dict, run_id: str) -> dict:
     adapter_name = result.get("adapter_name", "noop")
     command_brief = result["command_brief"]
@@ -4721,6 +4847,24 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
             "first_tiny_real_world_execution_candidate_audit_proof.json",
             "final_preflight_ledger.json",
             "first_tiny_real_world_supervised_execution_candidate_bridge.json",
+        ])
+    if result.get("first_tiny_real_world_supervised_execution_candidate_bundle"):
+        files_planned.extend([
+            "first_tiny_real_world_supervised_execution_candidate_bundle.json",
+            "first_tiny_real_world_supervised_execution_candidate_schema.json",
+            "first_tiny_real_world_supervised_execution_candidate_approval_gate.json",
+            "local_proof_artifact_candidate_contract.json",
+            "explicit_output_directory_boundary_contract.json",
+            "forbidden_path_contract.json",
+            "local_only_execution_envelope.json",
+            "candidate_pre_action_audit_proof.json",
+            "local_proof_artifact_execution_record.json",
+            "post_action_verification_record.json",
+            "cleanup_rollback_instruction_record.json",
+            "first_tiny_candidate_ledger.json",
+            "first_tiny_candidate_readiness_summary.json",
+            "post_action_verification_and_audit_review_bridge.json",
+            "local_proof_artifact_payload.json",
         ])
 
     return {
@@ -5078,6 +5222,21 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "first_tiny_real_world_execution_candidate_audit_proof": result.get("first_tiny_real_world_execution_candidate_audit_proof"),
         "final_preflight_ledger": result.get("final_preflight_ledger"),
         "first_tiny_real_world_supervised_execution_candidate_bridge": result.get("first_tiny_real_world_supervised_execution_candidate_bridge"),
+        "first_tiny_real_world_supervised_execution_candidate_bundle": result.get("first_tiny_real_world_supervised_execution_candidate_bundle"),
+        "first_tiny_real_world_supervised_execution_candidate_schema": result.get("first_tiny_real_world_supervised_execution_candidate_schema"),
+        "first_tiny_real_world_supervised_execution_candidate_approval_gate": result.get("first_tiny_real_world_supervised_execution_candidate_approval_gate"),
+        "local_proof_artifact_candidate_contract": result.get("local_proof_artifact_candidate_contract"),
+        "explicit_output_directory_boundary_contract": result.get("explicit_output_directory_boundary_contract"),
+        "forbidden_path_contract": result.get("forbidden_path_contract"),
+        "local_only_execution_envelope": result.get("local_only_execution_envelope"),
+        "candidate_pre_action_audit_proof": result.get("candidate_pre_action_audit_proof"),
+        "local_proof_artifact_execution_record": result.get("local_proof_artifact_execution_record"),
+        "post_action_verification_record": result.get("post_action_verification_record"),
+        "cleanup_rollback_instruction_record": result.get("cleanup_rollback_instruction_record"),
+        "first_tiny_candidate_ledger": result.get("first_tiny_candidate_ledger"),
+        "first_tiny_candidate_readiness_summary": result.get("first_tiny_candidate_readiness_summary"),
+        "post_action_verification_and_audit_review_bridge": result.get("post_action_verification_and_audit_review_bridge"),
+        "local_proof_artifact_payload": result.get("local_proof_artifact_payload"),
         "controlled_worker_hiring_activation_pilot_bundle": controlled_worker_hiring_activation_pilot_bundle,
         "controlled_worker_hiring_activation_pilot_schema": result.get("controlled_worker_hiring_activation_pilot_schema"),
         "controlled_worker_hiring_activation_pilot_approval_gate": result.get("controlled_worker_hiring_activation_pilot_approval_gate"),
@@ -5092,8 +5251,8 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "first_supervised_production_dry_run_bridge": result.get("first_supervised_production_dry_run_bridge"),
         "manifest": {
             "run_id": run_id,
-            "runtime_version": "3.9.0",
-            "artifact_type": "station_chief_runtime_v3_9_artifacts",
+            "runtime_version": "4.0.0",
+            "artifact_type": "station_chief_runtime_v4_0_artifacts",
             "files_planned": files_planned,
             "baseline_preserved": True,
             "devinization_overlays_preserved": True,
@@ -6359,6 +6518,13 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--write-live-external-action-final-preflight-gate", metavar="DIR", type=str)
     parser.add_argument("--live-external-action-label", type=str)
     parser.add_argument("--live-external-action-confirm-token", type=str)
+    parser.add_argument("--first-tiny-real-world-supervised-execution-candidate-schema", action="store_true")
+    parser.add_argument("--first-tiny-real-world-supervised-execution-candidate", action="store_true")
+    parser.add_argument("--write-first-tiny-real-world-supervised-execution-candidate", metavar="DIR", type=str)
+    parser.add_argument("--v4-candidate-label", type=str)
+    parser.add_argument("--v4-candidate-confirm-token", type=str)
+    parser.add_argument("--v4-human-operator", type=str)
+    parser.add_argument("--v4-artifact-name", type=str)
     parser.add_argument("--candidate-action-label", type=str)
     parser.add_argument("--required-final-approver", type=str)
     return parser
@@ -6482,6 +6648,10 @@ def main() -> None:
 
     if args.live_external_action_final_preflight_gate_schema:
         print(json.dumps(create_live_external_action_final_preflight_gate_schema(), indent=2, ensure_ascii=False))
+        return
+
+    if args.first_tiny_real_world_supervised_execution_candidate_schema:
+        print(json.dumps(create_first_tiny_real_world_supervised_execution_candidate_schema(), indent=2, ensure_ascii=False))
         return
 
     if args.limited_external_tool_supervised_pilot_schema:
@@ -7368,6 +7538,32 @@ def main() -> None:
         )
         result = dict(result)
         result["live_external_action_final_preflight_gate_write_summary"] = live_external_action_final_preflight_gate_write_summary
+
+    if getattr(args, "write_first_tiny_real_world_supervised_execution_candidate", False):
+        result = write_first_tiny_real_world_supervised_execution_candidate(
+            result,
+            args.write_first_tiny_real_world_supervised_execution_candidate,
+            candidate_label=args.v4_candidate_label,
+            artifact_name=args.v4_artifact_name,
+            confirmation_token=args.v4_candidate_confirm_token,
+            human_operator=args.v4_human_operator,
+            run_label=args.run_label,
+        )
+        if "live_external_action_final_preflight_gate_bundle" not in result or result["live_external_action_final_preflight_gate_bundle"] is None:
+            result = attach_live_external_action_final_preflight_gate(result)
+
+    if args.first_tiny_real_world_supervised_execution_candidate:
+        if "live_external_action_final_preflight_gate_bundle" not in result or result["live_external_action_final_preflight_gate_bundle"] is None:
+            result = attach_live_external_action_final_preflight_gate(result)
+        result = attach_first_tiny_real_world_supervised_execution_candidate(
+            result,
+            candidate_label=args.v4_candidate_label,
+            output_directory=None,
+            artifact_name=args.v4_artifact_name,
+            confirmation_token=args.v4_candidate_confirm_token,
+            human_operator=args.v4_human_operator,
+            execute_local_proof_artifact_write=False,
+        )
 
     if args.write_limited_external_tool_supervised_pilot:
         pilot_res = write_limited_external_tool_supervised_pilot(result, args.write_limited_external_tool_supervised_pilot)
