@@ -1,7 +1,7 @@
-# Station Chief Runtime v4.4.0
+# Station Chief Runtime v4.5.0
 
 ## Status
-Station Chief Runtime v4.4.0 delivers the Permissioned Worker Task Assignment Candidate layer. It remains locked to the 175-family baseline and keeps broad execution, API access, network access, socket access, credential use, secret reads, environment reads, deployment, production execution, worker process start, task execution, task enqueue, worker routing, and full workforce activation denied by default.
+Station Chief Runtime upgraded to v4.5.0. Station Chief Runtime v4.5.0 delivers the Task Assignment Audit Closeout Candidate layer. It remains locked to the 175-family baseline and keeps broad execution, API access, network access, socket access, credential use, secret reads, environment reads, deployment, production execution, worker process start, task execution, task enqueue, worker routing, and full workforce activation denied by default.
 
 ## What This Adds
 - live external action final preflight gate layer preserved as the prior boundary
@@ -120,8 +120,8 @@ python3 10_runtime/station_chief_runtime.py --command "check please" --write-per
 python3 10_runtime/station_chief_fixture_tests.py
 ```
 
-## v4.4 Doctrine
-Station Chief Runtime v4.4.0 adds a permissioned worker task assignment candidate that may create or write exactly one deterministic local worker task assignment record for exactly one explicitly named worker template and exactly one explicitly named task label inside an explicit operator-approved output directory after separate approval. It does not execute tasks. It does not enqueue tasks. It does not start worker processes. It does not spawn agents. It does not route workers. It does not activate the full 47,250-worker workforce. It does not authorize APIs, network, sockets, DNS resolution, outbound connections, credential use, secret reads, environment variable reads, deployment, production execution, production activation, worker process start, task execution, task enqueue, or full workforce activation. v4.4 does not approve v4.5.
+## v4.5 Doctrine
+Station Chief Runtime v4.5.0 reviews and closes out one local v4.4 worker task assignment record only. It may create or write exactly one deterministic local task assignment audit closeout record for exactly one explicitly referenced v4.4 task assignment record inside an explicit operator-approved output directory after separate approval. It does not execute tasks. It does not enqueue tasks. It does not start worker processes. It does not spawn agents. It does not route workers. It does not mutate the referenced v4.4 task assignment record. It does not activate the full 47,250-worker workforce. It does not authorize APIs, network, sockets, DNS resolution, outbound connections, credential use, secret reads, environment variable reads, deployment, production execution, production activation, worker process start, task execution, task enqueue, or full workforce activation. v4.5 does not approve v4.6.
 
 ## Next Recommended Step
-Next recommended step: build task assignment audit closeout candidate.
+Next recommended step: build non-executing task queue preview candidate.

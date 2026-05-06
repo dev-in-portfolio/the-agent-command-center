@@ -2,8 +2,8 @@ import json
 import hashlib
 from pathlib import Path
 
-RELEASE_LOCK_MODULE_VERSION = "4.4.0"
-STABLE_RUNTIME_VERSION = "4.4.0"
+RELEASE_LOCK_MODULE_VERSION = "4.5.0"
+STABLE_RUNTIME_VERSION = "4.5.0"
 STABLE_RUNTIME_NAME = "Station Chief Runtime"
 
 def canonical_json(data: object) -> str:
@@ -16,7 +16,7 @@ def sha256_digest(data: object) -> str:
 
 def create_stable_capability_inventory() -> dict:
     return {
-        "capability_inventory_version": "4.4.0",
+        "capability_inventory_version": "4.5.0",
         "runtime_name": STABLE_RUNTIME_NAME,
         "runtime_version": STABLE_RUNTIME_VERSION,
         "capability_groups": {
@@ -134,7 +134,7 @@ def create_stable_capability_inventory() -> dict:
 
 def create_stable_runtime_contract() -> dict:
     return {
-        "runtime_contract_version": "4.4.0",
+        "runtime_contract_version": "4.5.0",
         "runtime_name": STABLE_RUNTIME_NAME,
         "runtime_version": STABLE_RUNTIME_VERSION,
         "contract_status": "STABLE_LOCKED",
@@ -184,7 +184,7 @@ def create_stable_runtime_contract() -> dict:
 
 def create_stable_artifact_contract() -> dict:
     return {
-        "artifact_contract_version": "4.4.0",
+        "artifact_contract_version": "4.5.0",
         "runtime_version": STABLE_RUNTIME_VERSION,
         "artifact_groups": {
             "core_runtime": [
@@ -265,7 +265,7 @@ def create_stable_artifact_contract() -> dict:
 
 def create_stable_adapter_boundary_contract() -> dict:
     return {
-        "adapter_boundary_contract_version": "4.4.0",
+        "adapter_boundary_contract_version": "4.5.0",
         "runtime_version": STABLE_RUNTIME_VERSION,
         "adapters": {
             "noop": {
@@ -309,7 +309,7 @@ def create_stable_adapter_boundary_contract() -> dict:
 
 def create_stable_safety_doctrine_lock() -> dict:
     return {
-        "safety_doctrine_lock_version": "4.4.0",
+        "safety_doctrine_lock_version": "4.5.0",
         "runtime_version": STABLE_RUNTIME_VERSION,
         "safety_status": "LOCKED",
         "rules": [
@@ -348,7 +348,7 @@ def create_stable_safety_doctrine_lock() -> dict:
 
 def create_stable_approval_flow_lock() -> dict:
     return {
-        "approval_flow_lock_version": "4.4.0",
+        "approval_flow_lock_version": "4.5.0",
         "runtime_version": STABLE_RUNTIME_VERSION,
         "approval_flow_steps": [
             "1. command intake",
@@ -375,7 +375,7 @@ def create_stable_approval_flow_lock() -> dict:
 
 def create_known_limitations_record() -> dict:
     return {
-        "known_limitations_version": "4.4.0",
+        "known_limitations_version": "4.5.0",
         "runtime_version": STABLE_RUNTIME_VERSION,
         "limitations": [
             "no production UI/operator console yet",
@@ -404,7 +404,7 @@ def create_known_limitations_record() -> dict:
 
 def create_next_phase_handoff_record() -> dict:
     return {
-        "next_phase_handoff_version": "4.4.0",
+        "next_phase_handoff_version": "4.5.0",
         "runtime_version": STABLE_RUNTIME_VERSION,
         "current_phase": "Live External Action Final Preflight Gate",
         "next_phase": "First Tiny Real-World Supervised Execution Candidate",
@@ -421,7 +421,7 @@ def create_next_phase_handoff_record() -> dict:
 
 def create_release_readiness_summary() -> dict:
     return {
-        "release_readiness_summary_version": "4.4.0",
+        "release_readiness_summary_version": "4.5.0",
         "runtime_version": STABLE_RUNTIME_VERSION,
         "release_readiness_status": "READY_FOR_V1_0_LOCK",
         "required_layers": {
