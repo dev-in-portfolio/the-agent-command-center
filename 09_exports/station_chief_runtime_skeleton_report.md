@@ -1,7 +1,7 @@
 # Station Chief Runtime Skeleton
 
 ## Status
-Station Chief Runtime upgraded to v4.2.0. Locked 175-family baseline preserved. Supervised rollback / cleanup candidate added.
+Station Chief Runtime upgraded to v4.3.0. Locked 175-family baseline preserved. Limited live worker activation candidate added.
 
 ## Runtime Capabilities
 - live external action final preflight gate layer preserved as the prior boundary
@@ -40,12 +40,23 @@ Station Chief Runtime upgraded to v4.2.0. Locked 175-family baseline preserved. 
 - cleanup closeout ledger
 - cleanup readiness summary
 - limited live worker activation candidate bridge
+- limited live worker activation candidate schema
+- limited live worker activation candidate approval gate
+- worker template reference contract
+- one worker activation scope contract
+- non-execution worker boundary
+- worker permission denial record
+- worker activation candidate record
+- worker activation audit record
+- worker activation ledger
+- worker activation readiness summary
+- permissioned worker task assignment candidate bridge
 
 ## Required Validator
-python3 scripts/validate_station_chief_runtime_v4_2.py
+python3 scripts/validate_station_chief_runtime_v4_3.py
 
 ## Next Recommended Build Step
-Next recommended build step: build limited live worker activation candidate.
+Next recommended build step: build permissioned worker task assignment candidate.
 
-## v4.2 Doctrine
-Station Chief Runtime v4.2.0 adds a supervised cleanup candidate that may delete exactly one approved v4.0 local proof artifact inside an explicit expected output directory after separate approval. It does not delete directories. It does not perform production rollback or git reset. It does not terminate processes or workers. It does not authorize APIs, network, sockets, DNS resolution, outbound connections, credential use, secret reads, environment variable reads, deployment, production execution, production activation, live task assignment, live worker routing, live orchestration, worker process starts, or full workforce activation. v4.2 does not approve v4.3.
+## v4.3 Doctrine
+Station Chief Runtime v4.3.0 adds a limited live worker activation candidate that may create or write exactly one deterministic local worker activation record for exactly one explicitly named worker template inside an explicit operator-approved output directory after separate approval. It does not start worker processes. It does not spawn agents. It does not execute tasks. It does not route workers. It does not activate the full 47,250-worker workforce. It does not authorize APIs, network, sockets, DNS resolution, outbound connections, credential use, secret reads, environment variable reads, deployment, production execution, production activation, worker process start, or full workforce activation. v4.3 does not approve v4.4.

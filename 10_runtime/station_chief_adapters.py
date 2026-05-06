@@ -4,7 +4,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-ADAPTER_MODULE_VERSION = "4.2.0"
+ADAPTER_MODULE_VERSION = "4.3.0"
 
 YES_I_APPROVE_SANDBOX_FILE_WRITE = "YES_I_APPROVE_SANDBOX_FILE_WRITE"
 YES_I_APPROVE_SCOPED_REPO_PATCH = "YES_I_APPROVE_SCOPED_REPO_PATCH"
@@ -101,6 +101,9 @@ SUPPORTED_ADAPTERS = {
         "supports_supervised_rollback_cleanup_candidate": True,
         "supervised_rollback_cleanup_candidate_requires_specific_token": True,
         "one_local_artifact_cleanup_allowed_with_v4_2_token": True,
+        "supports_limited_live_worker_activation_candidate": True,
+        "limited_live_worker_activation_candidate_requires_specific_token": True,
+        "one_local_worker_activation_record_allowed_with_v4_3_token": True,
         "cleanup_execution_allowed": False,
         "rollback_execution_allowed": False,
         "new_candidate_execution_allowed": False,
