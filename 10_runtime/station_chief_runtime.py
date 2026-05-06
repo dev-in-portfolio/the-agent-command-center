@@ -175,6 +175,11 @@ from station_chief_network_socket_lockdown_proof import (
     create_network_socket_lockdown_proof_bundle,
     create_network_socket_lockdown_proof_schema,
 )
+from station_chief_live_external_action_final_preflight_gate import (
+    LIVE_EXTERNAL_ACTION_FINAL_PREFLIGHT_GATE_APPROVAL_TOKEN,
+    create_live_external_action_final_preflight_gate_bundle,
+    create_live_external_action_final_preflight_gate_schema,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -184,7 +189,7 @@ from station_chief_execution_profiles import (
     select_execution_profile,
 )
 
-STATION_CHIEF_RUNTIME_VERSION = "3.8.0"
+STATION_CHIEF_RUNTIME_VERSION = "3.9.0"
 
 EXPECTED_OVERLAYS = [
     {
@@ -390,7 +395,7 @@ def normalize_command_for_id(command: str) -> str:
 def generate_run_id(command: str, run_label: str = "station-chief-runtime") -> str:
     normalized = normalize_command_for_id(command)
     digest = hashlib.sha256(f"{STATION_CHIEF_RUNTIME_VERSION}:{run_label}:{command}".encode("utf-8")).hexdigest()
-    return f"station-chief-v3-8-{normalized}-{digest[:12]}"
+    return f"station-chief-v3-9-{normalized}-{digest[:12]}"
 
 
 def classify_command(command: str) -> str:
@@ -587,6 +592,34 @@ def build_demo_evidence() -> dict[str, bool]:
         "network_socket_lockdown_proof_does_not_call_live_apis": True,
         "network_socket_lockdown_proof_does_not_call_webhooks": True,
         "network_socket_lockdown_proof_does_not_invoke_external_tools": True,
+        "live_external_action_final_preflight_gate_available": True,
+        "live_external_action_final_preflight_gate_preview_only": True,
+        "live_external_action_final_preflight_gate_requires_token": True,
+        "tiny_action_candidate_boundary_preview_only": True,
+        "live_external_action_non_execution_required": True,
+        "blast_radius_ceiling_preview_only": True,
+        "human_final_approval_required_for_future_v4_candidate": True,
+        "credential_secret_environment_re_denied": True,
+        "network_socket_api_re_denied": True,
+        "deployment_production_re_denied": True,
+        "rollback_recovery_availability_assertion_only": True,
+        "live_external_action_final_preflight_gate_does_not_call_live_apis": True,
+        "live_external_action_final_preflight_gate_does_not_use_network_access": True,
+        "live_external_action_final_preflight_gate_does_not_open_sockets": True,
+        "live_external_action_final_preflight_gate_does_not_resolve_dns": True,
+        "live_external_action_final_preflight_gate_does_not_make_outbound_connections": True,
+        "live_external_action_final_preflight_gate_does_not_use_credentials": True,
+        "live_external_action_final_preflight_gate_does_not_read_secrets": True,
+        "live_external_action_final_preflight_gate_does_not_read_environment": True,
+        "live_external_action_final_preflight_gate_does_not_deploy": True,
+        "live_external_action_final_preflight_gate_does_not_execute_production": True,
+        "live_external_action_final_preflight_gate_does_not_activate_production": True,
+        "live_external_action_final_preflight_gate_does_not_assign_live_tasks": True,
+        "live_external_action_final_preflight_gate_does_not_route_live_workers": True,
+        "live_external_action_final_preflight_gate_does_not_perform_live_orchestration": True,
+        "live_external_action_final_preflight_gate_does_not_start_worker_processes": True,
+        "live_external_action_final_preflight_gate_does_not_modify_repo_files": True,
+        "first_tiny_real_world_supervised_execution_candidate_not_yet_active": True,
     }
 
 
@@ -594,7 +627,7 @@ def load_registry(registry_dir: str | Path) -> dict:
     registry_path = Path(registry_dir) / "run_registry.json"
     if not registry_path.exists():
         return {
-            "registry_version": "3.8.0",
+            "registry_version": "3.9.0",
             "runtime_name": "Station Chief Runtime",
             "runs": [],
         }
@@ -611,7 +644,7 @@ def update_registry(registry_dir: str | Path, index_entry: dict) -> dict:
     registry = load_registry(registry_dir)
     runs = [run for run in registry.get("runs", []) if run.get("run_id") != index_entry.get("run_id")]
     runs.append(index_entry)
-    registry["registry_version"] = "3.8.0"
+    registry["registry_version"] = "3.9.0"
     registry["runtime_name"] = "Station Chief Runtime"
     registry["runs"] = runs
     save_registry(registry_dir, registry)
@@ -620,7 +653,7 @@ def update_registry(registry_dir: str | Path, index_entry: dict) -> dict:
 
 def write_runtime_index(registry_dir: str | Path, registry: dict) -> dict:
     index = {
-        "index_version": "3.8.0",
+        "index_version": "3.9.0",
         "runtime_name": "Station Chief Runtime",
         "run_count": len(registry.get("runs", [])),
         "runs": registry.get("runs", []),
@@ -674,14 +707,14 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
     adapter_result = run_noop_adapter(execution_plan)
     return {
         "station_chief_runtime_version": STATION_CHIEF_RUNTIME_VERSION,
-        "runtime_status": "network_socket_lockdown_proof",
+        "runtime_status": "live_external_action_final_preflight_gate",
         "release_status": "STABLE_LOCKED",
         "command": command,
         "command_type": brief["command_type"],
         "activation_tier": brief["activation_tier"],
         "baseline_preserved": True,
         "evidence": build_demo_evidence(),
-        "next_step": "Next step: build live external action final preflight gate.",
+        "next_step": "Next step: build first tiny real-world supervised execution candidate.",
         "external_actions_taken": False,
         "live_api_call_performed": False,
         "network_access_performed": False,
@@ -1059,6 +1092,19 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
             "credential_secret_denial_ledger": True,
             "credential_secret_readiness_summary": True,
             "network_socket_lockdown_proof_bridge": True,
+            "live_external_action_final_preflight_gate_schema": True,
+            "live_external_action_final_preflight_gate_approval_gate": True,
+            "tiny_action_candidate_boundary_contract": True,
+            "live_external_action_non_execution_contract": True,
+            "blast_radius_ceiling_contract": True,
+            "human_final_approval_requirement": True,
+            "credential_secret_environment_re_denial_proof": True,
+            "network_socket_api_re_denial_proof": True,
+            "deployment_production_re_denial_proof": True,
+            "rollback_recovery_availability_assertion": True,
+            "first_tiny_real_world_execution_candidate_audit_proof": True,
+            "final_preflight_ledger": True,
+            "first_tiny_real_world_supervised_execution_candidate_bridge": True,
             "operator_approval_queue_enforcement_schema": True,
             "operator_approval_queue_enforcement_approval_gate": True,
             "queued_action_registry": True,
@@ -1210,7 +1256,21 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "post_run_audit_proof": None,
         "worker_execution_ledger": None,
         "single_worker_tool_permission_binding_readiness_bridge": None,
-        "evidence": {
+        "live_external_action_final_preflight_gate_bundle": None,
+        "live_external_action_final_preflight_gate_schema": None,
+        "live_external_action_final_preflight_gate_approval_gate": None,
+        "tiny_action_candidate_boundary_contract": None,
+        "live_external_action_non_execution_contract": None,
+        "blast_radius_ceiling_contract": None,
+        "human_final_approval_requirement": None,
+        "credential_secret_environment_re_denial_proof": None,
+        "network_socket_api_re_denial_proof": None,
+        "deployment_production_re_denial_proof": None,
+        "rollback_recovery_availability_assertion": None,
+        "first_tiny_real_world_execution_candidate_audit_proof": None,
+        "final_preflight_ledger": None,
+        "first_tiny_real_world_supervised_execution_candidate_bridge": None,
+        "evidence": {**build_demo_evidence(),
             "baseline_preserved": True,
             "external_actions_taken": False,
             "live_api_call_performed": False,
@@ -4222,7 +4282,7 @@ def write_network_socket_lockdown_proof(
     manifest = {
         "network_socket_lockdown_proof_manifest_version": "3.8.0",
         "run_id": run_id,
-        "runtime_version": "3.8.0",
+        "runtime_version": "3.9.0",
         "status": "NETWORK_SOCKET_LOCKDOWN_PROOF_PREVIEW_ONLY",
         "files_written": files_written + ["network_socket_lockdown_proof_manifest.json"],
         "baseline_preserved": True,
@@ -4253,6 +4313,128 @@ def write_network_socket_lockdown_proof(
     return {
         "run_id": run_id,
         "network_socket_lockdown_proof_dir": str(proof_dir),
+        "files_written": manifest["files_written"],
+    }
+
+
+def attach_live_external_action_final_preflight_gate(
+    result: dict,
+    live_external_action_label: str | None = None,
+    confirmation_token: str | None = None,
+    candidate_action_label: str | None = None,
+    blast_radius_label: str | None = None,
+    required_final_approver: str | None = None
+) -> dict:
+    if "network_socket_lockdown_proof_bundle" not in result:
+        result = attach_network_socket_lockdown_proof(result)
+
+    bundle = create_live_external_action_final_preflight_gate_bundle(
+        result,
+        command=result.get("command", ""),
+        live_external_action_label=live_external_action_label,
+        confirmation_token=confirmation_token,
+        candidate_action_label=candidate_action_label,
+        blast_radius_label=blast_radius_label,
+        required_final_approver=required_final_approver
+    )
+    result["live_external_action_final_preflight_gate_bundle"] = bundle
+    result["live_external_action_final_preflight_gate_schema"] = bundle["live_external_action_final_preflight_gate_schema"]
+    result["live_external_action_final_preflight_gate_approval_gate"] = bundle["live_external_action_final_preflight_gate_approval_gate"]
+    result["tiny_action_candidate_boundary_contract"] = bundle["tiny_action_candidate_boundary_contract"]
+    result["live_external_action_non_execution_contract"] = bundle["live_external_action_non_execution_contract"]
+    result["blast_radius_ceiling_contract"] = bundle["blast_radius_ceiling_contract"]
+    result["human_final_approval_requirement"] = bundle["human_final_approval_requirement"]
+    result["credential_secret_environment_re_denial_proof"] = bundle["credential_secret_environment_re_denial_proof"]
+    result["network_socket_api_re_denial_proof"] = bundle["network_socket_api_re_denial_proof"]
+    result["deployment_production_re_denial_proof"] = bundle["deployment_production_re_denial_proof"]
+    result["rollback_recovery_availability_assertion"] = bundle["rollback_recovery_availability_assertion"]
+    result["first_tiny_real_world_execution_candidate_audit_proof"] = bundle["first_tiny_real_world_execution_candidate_audit_proof"]
+    result["final_preflight_ledger"] = bundle["final_preflight_ledger"]
+    result["first_tiny_real_world_supervised_execution_candidate_bridge"] = bundle["first_tiny_real_world_supervised_execution_candidate_bridge"]
+    return result
+
+
+def write_live_external_action_final_preflight_gate(
+    result: dict,
+    output_dir: str | Path,
+    run_label: str = "station-chief-runtime",
+) -> dict:
+    if "live_external_action_final_preflight_gate_bundle" not in result:
+        raise ValueError(
+            "live_external_action_final_preflight_gate_bundle not found in result. Call attach_live_external_action_final_preflight_gate first."
+        )
+
+    out_path = Path(output_dir).expanduser().resolve()
+    run_id = generate_run_id(result.get("command", ""), run_label=run_label)
+    proof_dir = out_path / run_id
+    proof_dir.mkdir(parents=True, exist_ok=True)
+
+    files_to_write = {
+        "live_external_action_final_preflight_gate_bundle.json": result["live_external_action_final_preflight_gate_bundle"],
+        "live_external_action_final_preflight_gate_schema.json": result["live_external_action_final_preflight_gate_schema"],
+        "live_external_action_final_preflight_gate_approval_gate.json": result["live_external_action_final_preflight_gate_approval_gate"],
+        "tiny_action_candidate_boundary_contract.json": result["tiny_action_candidate_boundary_contract"],
+        "live_external_action_non_execution_contract.json": result["live_external_action_non_execution_contract"],
+        "blast_radius_ceiling_contract.json": result["blast_radius_ceiling_contract"],
+        "human_final_approval_requirement.json": result["human_final_approval_requirement"],
+        "credential_secret_environment_re_denial_proof.json": result["credential_secret_environment_re_denial_proof"],
+        "network_socket_api_re_denial_proof.json": result["network_socket_api_re_denial_proof"],
+        "deployment_production_re_denial_proof.json": result["deployment_production_re_denial_proof"],
+        "rollback_recovery_availability_assertion.json": result["rollback_recovery_availability_assertion"],
+        "first_tiny_real_world_execution_candidate_audit_proof.json": result["first_tiny_real_world_execution_candidate_audit_proof"],
+        "final_preflight_ledger.json": result["final_preflight_ledger"],
+        "first_tiny_real_world_supervised_execution_candidate_bridge.json": result["first_tiny_real_world_supervised_execution_candidate_bridge"],
+        "live_external_action_final_preflight_gate_audit_proof.json": result["first_tiny_real_world_execution_candidate_audit_proof"],
+        "live_external_action_final_preflight_gate_ledger.json": result["final_preflight_ledger"],
+        "live_external_action_final_preflight_gate_readiness_summary.json": result["first_tiny_real_world_supervised_execution_candidate_bridge"],
+    }
+    files_written = list(files_to_write.keys())
+    for filename, payload in files_to_write.items():
+        _write_json(proof_dir / filename, payload)
+
+    manifest = {
+        "live_external_action_final_preflight_gate_manifest_version": "3.9.0",
+        "run_id": run_id,
+        "runtime_version": "3.9.0",
+        "status": "LIVE_EXTERNAL_ACTION_FINAL_PREFLIGHT_GATE_PREVIEW_ONLY",
+        "files_written": files_written + ["live_external_action_final_preflight_gate_manifest.json"],
+        "baseline_preserved": True,
+        "external_actions_taken": False,
+        "live_external_action_performed": False,
+        "live_api_call_performed": False,
+        "network_access_performed": False,
+        "socket_opened": False,
+        "dns_resolution_performed": False,
+        "outbound_connection_performed": False,
+        "inbound_connection_performed": False,
+        "webhook_call_performed": False,
+        "credential_vault_access_performed": False,
+        "credentials_used": False,
+        "secrets_read": False,
+        "environment_read": False,
+        "deployment_performed": False,
+        "deployment_rollback_performed": False,
+        "production_execution_performed": False,
+        "production_activation_performed": False,
+        "real_external_tool_invocation_performed": False,
+        "real_task_execution_performed": False,
+        "live_task_assignment_performed": False,
+        "live_worker_routing_performed": False,
+        "live_orchestration_performed": False,
+        "worker_processes_started": False,
+        "real_rollback_performed": False,
+        "real_recovery_performed": False,
+        "processes_terminated": False,
+        "workers_terminated": False,
+        "production_state_changed": False,
+        "repo_files_modified": False,
+        "execution_authorized": False,
+        "note": "Live External Action Final Preflight Gate v3.9.0 creates local final-preflight schema, approval gate, tiny action candidate boundary contract, non-execution contract, blast-radius ceiling contract, human final approval requirement, re-denial proofs, rollback/recovery availability assertion, final preflight audit proof, final preflight ledger, and first tiny real-world supervised execution candidate bridge artifacts only. It does not call live APIs, perform network access, open sockets, resolve DNS, make outbound connections, use credentials, read secrets, read environment variables, deploy, execute production, activate production, invoke external tools, assign live tasks, route live workers, perform live orchestration, start worker processes, run shell commands, or modify repo files."
+    }
+    _write_json(proof_dir / "live_external_action_final_preflight_gate_manifest.json", manifest)
+    return {
+        "run_id": run_id,
+        "live_external_action_final_preflight_gate_dir": str(proof_dir),
         "files_written": manifest["files_written"],
     }
 
@@ -4522,6 +4704,24 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         ])
     if controlled_worker_hiring_activation_pilot_bundle:
         files_planned.extend(["controlled_worker_hiring_activation_pilot_bundle.json", "controlled_worker_hiring_activation_pilot_schema.json", "controlled_worker_hiring_activation_pilot_approval_gate.json", "pilot_worker_limit_contract.json", "worker_identity_activation_contract.json", "task_assignment_denial_by_default.json", "human_supervised_pilot_gate.json", "pilot_rollback_abort_preview.json", "pilot_audit_proof.json", "pilot_ledger.json", "pilot_readiness_summary.json", "first_supervised_production_dry_run_bridge.json"])
+
+    if result.get("live_external_action_final_preflight_gate_bundle"):
+        files_planned.extend([
+            "live_external_action_final_preflight_gate_bundle.json",
+            "live_external_action_final_preflight_gate_schema.json",
+            "live_external_action_final_preflight_gate_approval_gate.json",
+            "tiny_action_candidate_boundary_contract.json",
+            "live_external_action_non_execution_contract.json",
+            "blast_radius_ceiling_contract.json",
+            "human_final_approval_requirement.json",
+            "credential_secret_environment_re_denial_proof.json",
+            "network_socket_api_re_denial_proof.json",
+            "deployment_production_re_denial_proof.json",
+            "rollback_recovery_availability_assertion.json",
+            "first_tiny_real_world_execution_candidate_audit_proof.json",
+            "final_preflight_ledger.json",
+            "first_tiny_real_world_supervised_execution_candidate_bridge.json",
+        ])
 
     return {
         "run_log": {
@@ -4864,6 +5064,20 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "credential_secret_denial_ledger": credential_secret_denial_ledger,
         "credential_secret_readiness_summary": credential_secret_readiness_summary,
         "network_socket_lockdown_proof_bridge": network_socket_lockdown_proof_bridge,
+        "live_external_action_final_preflight_gate_bundle": result.get("live_external_action_final_preflight_gate_bundle"),
+        "live_external_action_final_preflight_gate_schema": result.get("live_external_action_final_preflight_gate_schema"),
+        "live_external_action_final_preflight_gate_approval_gate": result.get("live_external_action_final_preflight_gate_approval_gate"),
+        "tiny_action_candidate_boundary_contract": result.get("tiny_action_candidate_boundary_contract"),
+        "live_external_action_non_execution_contract": result.get("live_external_action_non_execution_contract"),
+        "blast_radius_ceiling_contract": result.get("blast_radius_ceiling_contract"),
+        "human_final_approval_requirement": result.get("human_final_approval_requirement"),
+        "credential_secret_environment_re_denial_proof": result.get("credential_secret_environment_re_denial_proof"),
+        "network_socket_api_re_denial_proof": result.get("network_socket_api_re_denial_proof"),
+        "deployment_production_re_denial_proof": result.get("deployment_production_re_denial_proof"),
+        "rollback_recovery_availability_assertion": result.get("rollback_recovery_availability_assertion"),
+        "first_tiny_real_world_execution_candidate_audit_proof": result.get("first_tiny_real_world_execution_candidate_audit_proof"),
+        "final_preflight_ledger": result.get("final_preflight_ledger"),
+        "first_tiny_real_world_supervised_execution_candidate_bridge": result.get("first_tiny_real_world_supervised_execution_candidate_bridge"),
         "controlled_worker_hiring_activation_pilot_bundle": controlled_worker_hiring_activation_pilot_bundle,
         "controlled_worker_hiring_activation_pilot_schema": result.get("controlled_worker_hiring_activation_pilot_schema"),
         "controlled_worker_hiring_activation_pilot_approval_gate": result.get("controlled_worker_hiring_activation_pilot_approval_gate"),
@@ -4878,8 +5092,8 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "first_supervised_production_dry_run_bridge": result.get("first_supervised_production_dry_run_bridge"),
         "manifest": {
             "run_id": run_id,
-            "runtime_version": "3.8.0",
-            "artifact_type": "station_chief_runtime_v3_8_artifacts",
+            "runtime_version": "3.9.0",
+            "artifact_type": "station_chief_runtime_v3_9_artifacts",
             "files_planned": files_planned,
             "baseline_preserved": True,
             "devinization_overlays_preserved": True,
@@ -5437,6 +5651,20 @@ def write_runtime_artifacts(
         "credential_secret_denial_ledger.json": artifacts.get("credential_secret_denial_ledger"),
         "credential_secret_readiness_summary.json": artifacts.get("credential_secret_readiness_summary"),
         "network_socket_lockdown_proof_bridge.json": artifacts.get("network_socket_lockdown_proof_bridge"),
+        "live_external_action_final_preflight_gate_bundle.json": artifacts.get("live_external_action_final_preflight_gate_bundle"),
+        "live_external_action_final_preflight_gate_schema.json": artifacts.get("live_external_action_final_preflight_gate_schema"),
+        "live_external_action_final_preflight_gate_approval_gate.json": artifacts.get("live_external_action_final_preflight_gate_approval_gate"),
+        "tiny_action_candidate_boundary_contract.json": artifacts.get("tiny_action_candidate_boundary_contract"),
+        "live_external_action_non_execution_contract.json": artifacts.get("live_external_action_non_execution_contract"),
+        "blast_radius_ceiling_contract.json": artifacts.get("blast_radius_ceiling_contract"),
+        "human_final_approval_requirement.json": artifacts.get("human_final_approval_requirement"),
+        "credential_secret_environment_re_denial_proof.json": artifacts.get("credential_secret_environment_re_denial_proof"),
+        "network_socket_api_re_denial_proof.json": artifacts.get("network_socket_api_re_denial_proof"),
+        "deployment_production_re_denial_proof.json": artifacts.get("deployment_production_re_denial_proof"),
+        "rollback_recovery_availability_assertion.json": artifacts.get("rollback_recovery_availability_assertion"),
+        "first_tiny_real_world_execution_candidate_audit_proof.json": artifacts.get("first_tiny_real_world_execution_candidate_audit_proof"),
+        "final_preflight_ledger.json": artifacts.get("final_preflight_ledger"),
+        "first_tiny_real_world_supervised_execution_candidate_bridge.json": artifacts.get("first_tiny_real_world_supervised_execution_candidate_bridge"),
         "first_supervised_production_dry_run_bundle.json": artifacts.get("first_supervised_production_dry_run_bundle"),
         "first_supervised_production_dry_run_schema.json": artifacts.get("first_supervised_production_dry_run_schema"),
         "first_supervised_production_dry_run_approval_gate.json": artifacts.get("first_supervised_production_dry_run_approval_gate"),
@@ -6126,6 +6354,13 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--network-socket-confirm-token", type=str)
     parser.add_argument("--network-boundary-label", type=str)
     parser.add_argument("--socket-boundary-label", type=str)
+    parser.add_argument("--live-external-action-final-preflight-gate-schema", action="store_true")
+    parser.add_argument("--live-external-action-final-preflight-gate", action="store_true")
+    parser.add_argument("--write-live-external-action-final-preflight-gate", metavar="DIR", type=str)
+    parser.add_argument("--live-external-action-label", type=str)
+    parser.add_argument("--live-external-action-confirm-token", type=str)
+    parser.add_argument("--candidate-action-label", type=str)
+    parser.add_argument("--required-final-approver", type=str)
     return parser
 
 
@@ -6243,6 +6478,10 @@ def main() -> None:
 
     if args.network_socket_lockdown_proof_schema:
         print(json.dumps(create_network_socket_lockdown_proof_schema(), indent=2, ensure_ascii=False))
+        return
+
+    if args.live_external_action_final_preflight_gate_schema:
+        print(json.dumps(create_live_external_action_final_preflight_gate_schema(), indent=2, ensure_ascii=False))
         return
 
     if args.limited_external_tool_supervised_pilot_schema:
@@ -6749,6 +6988,19 @@ def main() -> None:
             socket_boundary_label=args.socket_boundary_label,
         )
 
+    if getattr(args, "write_live_external_action_final_preflight_gate", False):
+        args.live_external_action_final_preflight_gate = True
+
+    if getattr(args, "live_external_action_final_preflight_gate", False):
+        result = attach_live_external_action_final_preflight_gate(
+            result,
+            live_external_action_label=args.live_external_action_label,
+            confirmation_token=args.live_external_action_confirm_token,
+            candidate_action_label=args.candidate_action_label,
+            blast_radius_label=args.blast_radius_label,
+            required_final_approver=args.required_final_approver,
+        )
+
     if args.write_supervised_production_pilot_readiness_review:
         args.supervised_production_pilot_readiness_review = True
 
@@ -7098,6 +7350,24 @@ def main() -> None:
         )
         result = dict(result)
         result["network_socket_lockdown_proof_write_summary"] = network_socket_lockdown_proof_write_summary
+
+    if getattr(args, "write_live_external_action_final_preflight_gate", False):
+        if "live_external_action_final_preflight_gate_bundle" not in result or result["live_external_action_final_preflight_gate_bundle"] is None:
+            result = attach_live_external_action_final_preflight_gate(
+                result,
+                live_external_action_label=args.live_external_action_label,
+                confirmation_token=args.live_external_action_confirm_token,
+                candidate_action_label=args.candidate_action_label,
+                blast_radius_label=args.blast_radius_label,
+                required_final_approver=args.required_final_approver,
+            )
+        live_external_action_final_preflight_gate_write_summary = write_live_external_action_final_preflight_gate(
+            result,
+            args.write_live_external_action_final_preflight_gate,
+            run_label=args.run_label,
+        )
+        result = dict(result)
+        result["live_external_action_final_preflight_gate_write_summary"] = live_external_action_final_preflight_gate_write_summary
 
     if args.write_limited_external_tool_supervised_pilot:
         pilot_res = write_limited_external_tool_supervised_pilot(result, args.write_limited_external_tool_supervised_pilot)

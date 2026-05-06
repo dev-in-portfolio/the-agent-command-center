@@ -2,8 +2,8 @@ import json
 import hashlib
 from pathlib import Path
 
-RELEASE_LOCK_MODULE_VERSION = "3.8.0"
-STABLE_RUNTIME_VERSION = "3.8.0"
+RELEASE_LOCK_MODULE_VERSION = "3.9.0"
+STABLE_RUNTIME_VERSION = "3.9.0"
 STABLE_RUNTIME_NAME = "Station Chief Runtime"
 
 def canonical_json(data: object) -> str:
@@ -16,7 +16,7 @@ def sha256_digest(data: object) -> str:
 
 def create_stable_capability_inventory() -> dict:
     return {
-        "capability_inventory_version": "3.8.0",
+             "capability_inventory_version": "3.9.0",
         "runtime_name": STABLE_RUNTIME_NAME,
         "runtime_version": STABLE_RUNTIME_VERSION,
         "capability_groups": {
@@ -134,7 +134,7 @@ def create_stable_capability_inventory() -> dict:
 
 def create_stable_runtime_contract() -> dict:
     return {
-        "runtime_contract_version": "3.8.0",
+        "runtime_contract_version": "3.9.0",
         "runtime_name": STABLE_RUNTIME_NAME,
         "runtime_version": STABLE_RUNTIME_VERSION,
         "contract_status": "STABLE_LOCKED",
@@ -184,7 +184,7 @@ def create_stable_runtime_contract() -> dict:
 
 def create_stable_artifact_contract() -> dict:
     return {
-        "artifact_contract_version": "3.8.0",
+        "artifact_contract_version": "3.9.0",
         "runtime_version": STABLE_RUNTIME_VERSION,
         "artifact_groups": {
             "core_runtime": [
@@ -265,7 +265,7 @@ def create_stable_artifact_contract() -> dict:
 
 def create_stable_adapter_boundary_contract() -> dict:
     return {
-        "adapter_boundary_contract_version": "3.8.0",
+        "adapter_boundary_contract_version": "3.9.0",
         "runtime_version": STABLE_RUNTIME_VERSION,
         "adapters": {
             "noop": {
@@ -309,7 +309,7 @@ def create_stable_adapter_boundary_contract() -> dict:
 
 def create_stable_safety_doctrine_lock() -> dict:
     return {
-        "safety_doctrine_lock_version": "3.8.0",
+        "safety_doctrine_lock_version": "3.9.0",
         "runtime_version": STABLE_RUNTIME_VERSION,
         "safety_status": "LOCKED",
         "rules": [
@@ -348,7 +348,7 @@ def create_stable_safety_doctrine_lock() -> dict:
 
 def create_stable_approval_flow_lock() -> dict:
     return {
-        "approval_flow_lock_version": "3.8.0",
+        "approval_flow_lock_version": "3.9.0",
         "runtime_version": STABLE_RUNTIME_VERSION,
         "approval_flow_steps": [
             "1. command intake",
@@ -375,7 +375,7 @@ def create_stable_approval_flow_lock() -> dict:
 
 def create_known_limitations_record() -> dict:
     return {
-        "known_limitations_version": "3.8.0",
+        "known_limitations_version": "3.9.0",
         "runtime_version": STABLE_RUNTIME_VERSION,
         "limitations": [
             "no production UI/operator console yet",
@@ -404,15 +404,15 @@ def create_known_limitations_record() -> dict:
 
 def create_next_phase_handoff_record() -> dict:
     return {
-        "next_phase_handoff_version": "3.8.0",
+        "next_phase_handoff_version": "3.9.0",
         "runtime_version": STABLE_RUNTIME_VERSION,
-        "current_phase": "Network/Socket Lockdown Proof",
-        "next_phase": "Live External Action Final Preflight Gate",
+        "current_phase": "Live External Action Final Preflight Gate",
+        "next_phase": "First Tiny Real-World Supervised Execution Candidate",
         "recommended_next_builds": [
-            "v3.9 live external action final preflight gate",
-            "v3.9 live external action final preflight gate",
-            "v3.9 live external action final preflight gate",
             "v4.0 first tiny real-world supervised execution candidate",
+            "v4.1 post-action verification and audit review",
+            "v4.2 supervised rollback/recovery execution candidate",
+            "v4.3 limited live worker activation candidate",
         ],
         "baseline_preserved": True,
         "external_actions_taken": False,
@@ -421,7 +421,7 @@ def create_next_phase_handoff_record() -> dict:
 
 def create_release_readiness_summary() -> dict:
     return {
-        "release_readiness_summary_version": "3.8.0",
+        "release_readiness_summary_version": "3.9.0",
         "runtime_version": STABLE_RUNTIME_VERSION,
         "release_readiness_status": "READY_FOR_V1_0_LOCK",
         "required_layers": {
@@ -448,7 +448,7 @@ def create_release_readiness_summary() -> dict:
 
 def create_stable_release_manifest() -> dict:
     manifest = {
-        "stable_release_manifest_version": "3.8.0",
+        "stable_release_manifest_version": "3.9.0",
         "runtime_name": STABLE_RUNTIME_NAME,
         "runtime_version": STABLE_RUNTIME_VERSION,
         "release_status": "STABLE_LOCKED",
@@ -464,7 +464,9 @@ def create_stable_release_manifest() -> dict:
         "baseline_preserved": True,
         "external_actions_taken": False,
         "live_worker_agents_activated": False,
-        "execution_authorized": False
+        "execution_authorized": False,
+        "current_phase": "Live External Action Final Preflight Gate",
+        "next_phase": "First Tiny Real-World Supervised Execution Candidate"
     }
     manifest["release_digest"] = sha256_digest(manifest)
     return manifest
@@ -486,7 +488,7 @@ def verify_stable_release_manifest(release_manifest: dict) -> dict:
     pass_all = all([digest_matches, status_ok, version_ok, baseline_ok, external_ok, worker_ok, auth_ok, readiness_ok])
     
     return {
-        "stable_release_verification_version": "3.8.0",
+        "stable_release_verification_version": "3.9.0",
         "verification_status": "PASS" if pass_all else "FAIL",
         "release_digest_matches": digest_matches,
         "release_status": test_manifest.get("release_status"),
@@ -502,7 +504,7 @@ def verify_stable_release_manifest(release_manifest: dict) -> dict:
 def create_release_lock_bundle() -> dict:
     manifest = create_stable_release_manifest()
     return {
-        "release_lock_bundle_version": "3.8.0",
+        "release_lock_bundle_version": "3.9.0",
         "stable_release_manifest": manifest,
         "stable_release_verification": verify_stable_release_manifest(manifest),
         "stable_runtime_contract": manifest["stable_runtime_contract"],
@@ -572,9 +574,9 @@ def write_release_lock(result: dict, output_dir: str | Path, run_label: str = "s
         _write_json(record_dir / filename, payload)
         
     manifest = {
-        "release_lock_manifest_version": "3.8.0",
+        "release_lock_manifest_version": "3.9.0",
         "run_id": run_id,
-        "runtime_version": "3.8.0",
+        "runtime_version": "3.9.0",
         "files_written": files_written + ["release_lock_manifest.json"],
         "baseline_preserved": True,
         "external_actions_taken": False,
