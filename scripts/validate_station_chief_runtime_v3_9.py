@@ -15,6 +15,27 @@ RELEASE_LOCK = REPO_ROOT / "10_runtime" / "station_chief_release_lock.py"
 README = REPO_ROOT / "10_runtime" / "station_chief_runtime_readme.md"
 SKELETON = REPO_ROOT / "09_exports" / "station_chief_runtime_skeleton_report.md"
 REPORT = REPO_ROOT / "09_exports" / "station_chief_runtime_v3_9_report.md"
+PRE_V4_REPORT = REPO_ROOT / "09_exports" / "station_chief_pre_v4_readiness_deep_dive_report.md"
+PRE_V4_SUMMARY = REPO_ROOT / "09_exports" / "station_chief_pre_v4_readiness_summary.json"
+OLDER_VALIDATORS = [
+    REPO_ROOT / "scripts" / "validate_station_chief_runtime_v3_8.py",
+    REPO_ROOT / "scripts" / "validate_station_chief_runtime_v3_7.py",
+    REPO_ROOT / "scripts" / "validate_station_chief_runtime_v3_6.py",
+    REPO_ROOT / "scripts" / "validate_station_chief_runtime_v3_5.py",
+    REPO_ROOT / "scripts" / "validate_station_chief_runtime_v3_4.py",
+    REPO_ROOT / "scripts" / "validate_station_chief_runtime_v3_3.py",
+    REPO_ROOT / "scripts" / "validate_station_chief_runtime_v3_2.py",
+    REPO_ROOT / "scripts" / "validate_station_chief_runtime_v3_1.py",
+    REPO_ROOT / "scripts" / "validate_station_chief_runtime_v3_0.py",
+    REPO_ROOT / "scripts" / "validate_station_chief_runtime_v2_9.py",
+    REPO_ROOT / "scripts" / "validate_station_chief_runtime_v2_8.py",
+    REPO_ROOT / "scripts" / "validate_station_chief_runtime_skeleton.py",
+]
+ACCIDENTAL_V4_FILES = [
+    REPO_ROOT / "10_runtime" / "station_chief_first_tiny_real_world_supervised_execution_candidate.py",
+    REPO_ROOT / "scripts" / "validate_station_chief_runtime_v4_0.py",
+    REPO_ROOT / "09_exports" / "station_chief_runtime_v4_0_report.md",
+]
 
 REQUIRED_FILES = [
     RUNTIME,
@@ -24,6 +45,8 @@ REQUIRED_FILES = [
     README,
     SKELETON,
     REPORT,
+    PRE_V4_REPORT,
+    PRE_V4_SUMMARY,
     REPO_ROOT / "scripts" / "validate_station_chief_runtime_v3_9.py",
 ]
 
@@ -57,6 +80,99 @@ def check_strings(path: Path, required: list[str], forbidden: list[str], errors:
         require(token in text, f"{path.relative_to(REPO_ROOT)} missing required token: {token}", errors)
     for token in forbidden:
         require(token not in text, f"{path.relative_to(REPO_ROOT)} contains forbidden token: {token}", errors)
+
+
+def check_exact_file_strings(path: Path, required: list[str], forbidden: list[str], errors: list[str]) -> None:
+    text = path.read_text(encoding="utf-8")
+    for token in required:
+        require(token in text, f"{path.relative_to(REPO_ROOT)} missing required token: {token}", errors)
+    for token in forbidden:
+        require(token not in text, f"{path.relative_to(REPO_ROOT)} contains forbidden executable pattern: {token}", errors)
+
+
+def check_no_accidental_v4_files(errors: list[str]) -> None:
+    for path in ACCIDENTAL_V4_FILES:
+        require(not path.exists(), f"accidental v4.0 file exists: {path.relative_to(REPO_ROOT)}", errors)
+
+
+def check_prefix_and_bridge_safety(errors: list[str]) -> None:
+    runtime_text = RUNTIME.read_text(encoding="utf-8")
+    module_text = MODULE.read_text(encoding="utf-8")
+    release_lock_text = RELEASE_LOCK.read_text(encoding="utf-8")
+    for text, label in [
+        (runtime_text, "runtime"),
+        (module_text, "live gate module"),
+        (release_lock_text, "release lock"),
+    ]:
+        require("3.9.0" in text, f"{label} missing 3.9.0 marker", errors)
+    for token in [
+        "station-chief-v3-9-",
+        "live-external-action-final-preflight-gate-v3-9-",
+    ]:
+        require(token in runtime_text or token in module_text, f"v3.9 surfaces missing deterministic prefix: {token}", errors)
+    for token in [
+        "v3-8-",
+        "v3-7-",
+        "v3-6-",
+        "v3-5-",
+        "v3-4-",
+    ]:
+        require(token not in module_text, f"live gate module contains stale deterministic prefix: {token}", errors)
+        require(token not in release_lock_text, f"release lock contains stale deterministic prefix: {token}", errors)
+    require('"next_phase": "First Tiny Real-World Supervised Execution Candidate"' in release_lock_text, "release lock next layer incorrect", errors)
+    require("ready_for_first_tiny_real_world_supervised_execution_candidate" in module_text, "live gate bridge key missing", errors)
+
+
+def check_old_validator_delegation(errors: list[str]) -> None:
+    for path in OLDER_VALIDATORS:
+        text = path.read_text(encoding="utf-8")
+        require("validate_station_chief_runtime_v3_9.py" in text, f"{path.relative_to(REPO_ROOT)} does not reference v3.9 validator", errors)
+        require("runpy.run_path" in text, f"{path.relative_to(REPO_ROOT)} does not delegate with runpy.run_path", errors)
+
+
+def check_pre_v4_artifacts(errors: list[str]) -> None:
+    require(PRE_V4_REPORT.exists(), "missing pre-v4 readiness report", errors)
+    require(PRE_V4_SUMMARY.exists(), "missing pre-v4 readiness summary", errors)
+    summary = json.loads(PRE_V4_SUMMARY.read_text(encoding="utf-8"))
+    require(summary.get("pre_v4_readiness_review_version") == "0.1", "pre-v4 summary version incorrect", errors)
+    require(summary.get("runtime_version") == "3.9.0", "pre-v4 summary runtime version incorrect", errors)
+    require(summary.get("current_layer") == "Live External Action Final Preflight Gate", "pre-v4 summary current layer incorrect", errors)
+    require(summary.get("next_layer") == "First Tiny Real-World Supervised Execution Candidate", "pre-v4 summary next layer incorrect", errors)
+    require(summary.get("v4_0_built") is False, "pre-v4 summary v4.0 built should be false", errors)
+    require(summary.get("ready_for_v4_0_prompt") is True, "pre-v4 summary readiness for v4.0 prompt should be true", errors)
+    require(summary.get("ready_for_v4_0_execution") is False, "pre-v4 summary readiness for v4.0 execution should be false", errors)
+    require(summary.get("recommended_v4_0_candidate") == "local deterministic reversible proof artifact in explicit output directory", "pre-v4 recommended candidate incorrect", errors)
+    guards = summary.get("guards", {})
+    for key in [
+        "stale_prefix_scan_passed",
+        "forbidden_pattern_scan_passed",
+        "old_validator_delegation_checked",
+        "artifact_manifest_checked",
+        "registry_index_checked",
+        "v4_accidental_implementation_absent",
+    ]:
+        require(guards.get(key) is True, f"pre-v4 guard false: {key}", errors)
+    scope = summary.get("scope", {})
+    for key in [
+        "baseline_files_modified",
+        "devinization_overlays_modified",
+        "generated_artifact_directories_committed",
+        "dashboard_exports_modified",
+        "ownership_metadata_modified",
+    ]:
+        require(scope.get(key) is False, f"pre-v4 scope flag should be false: {key}", errors)
+    validator_status = summary.get("validator_status", {})
+    require(validator_status.get("v3_9_validator_passed") is True, "pre-v4 validator status v3.9 should be true", errors)
+    require(validator_status.get("validator_chain_passed") is True, "pre-v4 validator chain should be true", errors)
+    blockers = summary.get("blockers", [])
+    require(blockers == [], "pre-v4 summary blockers should be empty", errors)
+
+
+def check_pre_v4_docs(errors: list[str]) -> None:
+    for path in [README, SKELETON, REPORT]:
+        text = path.read_text(encoding="utf-8")
+        require("Pre-v4.0 readiness hardening pass" in text, f"{path.relative_to(REPO_ROOT)} missing pre-v4 note", errors)
+    require("v4.0 is not built" in PRE_V4_REPORT.read_text(encoding="utf-8"), "pre-v4 report missing v4.0 not built statement", errors)
 
 
 def check_demo(errors: list[str]) -> None:
@@ -403,7 +519,7 @@ def check_cli_variants(errors: list[str]) -> None:
 
 def main() -> None:
     errors: list[str] = []
-    print("Manual scope check required: confirm git diff contains only the allowed Station Chief v3.9 runtime files.")
+    print("Manual scope check required: confirm git diff contains only the allowed pre-v4 hardening files.")
 
     for path in REQUIRED_FILES:
         require(path.exists(), f"missing required file: {path.relative_to(REPO_ROOT)}", errors)
@@ -492,6 +608,11 @@ def main() -> None:
         errors,
     )
     check_docs(errors)
+    check_pre_v4_docs(errors)
+    check_prefix_and_bridge_safety(errors)
+    check_old_validator_delegation(errors)
+    check_no_accidental_v4_files(errors)
+    check_pre_v4_artifacts(errors)
 
     check_demo(errors)
     check_fixture_tests(errors)
@@ -508,7 +629,7 @@ def main() -> None:
             print(message)
         sys.exit(1)
 
-    print("PASS: Station Chief Runtime v3.9 valid")
+    print("PASS: Station Chief Runtime v3.9 pre-v4 readiness valid.")
 
 
 if __name__ == "__main__":

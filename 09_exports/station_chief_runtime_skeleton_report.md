@@ -23,3 +23,6 @@ python3 scripts/validate_station_chief_runtime_v3_9.py
 
 ## Next Recommended Build Step
 Next recommended build step: build first tiny real-world supervised execution candidate.
+
+## Pre-v4.0 Readiness
+Station Chief Runtime v3.9.0 has a Pre-v4.0 readiness hardening pass. The runtime remains a final preflight record layer only. v4.0 is not built. The recommended v4.0 candidate is a local deterministic reversible proof artifact written only to an explicit output directory after separate human approval.

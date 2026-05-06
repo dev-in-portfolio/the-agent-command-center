@@ -4,7 +4,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-ADAPTER_MODULE_VERSION = "3.8.0"
+ADAPTER_MODULE_VERSION = "3.9.0"
 
 YES_I_APPROVE_SANDBOX_FILE_WRITE = "YES_I_APPROVE_SANDBOX_FILE_WRITE"
 YES_I_APPROVE_SCOPED_REPO_PATCH = "YES_I_APPROVE_SCOPED_REPO_PATCH"
@@ -32,6 +32,7 @@ YES_I_APPROVE_FIRST_SUPERVISED_PRODUCTION_DRY_RUN = "YES_I_APPROVE_FIRST_SUPERVI
 YES_I_APPROVE_SUPERVISED_EXTERNAL_API_PILOT = "YES_I_APPROVE_SUPERVISED_EXTERNAL_API_PILOT"
 YES_I_APPROVE_MONITORED_ROLLBACK_RECOVERY_DRILL = "YES_I_APPROVE_MONITORED_ROLLBACK_RECOVERY_DRILL"
 YES_I_APPROVE_SUPERVISED_PRODUCTION_PILOT_READINESS_REVIEW = "YES_I_APPROVE_SUPERVISED_PRODUCTION_PILOT_READINESS_REVIEW"
+YES_I_APPROVE_LIVE_EXTERNAL_ACTION_FINAL_PREFLIGHT_GATE = "YES_I_APPROVE_LIVE_EXTERNAL_ACTION_FINAL_PREFLIGHT_GATE"
 
 SAFE_SANDBOX_PATH = "SAFE_SANDBOX_PATH"
 SAFE_REPO_PATCH_PATH = "SAFE_REPO_PATCH_PATH"
@@ -50,6 +51,8 @@ SUPPORTED_ADAPTERS = {
         "supports_tool_permission_binding": True,
         "supports_live_execution_telemetry_abort_controls": True,
         "supports_post_run_audit_expansion": True,
+        "supports_live_external_action_final_preflight_gate": True,
+        "live_external_action_final_preflight_gate_requires_specific_token": True,
         "post_run_audit_expansion_requires_specific_token": True,
         "actual_replay_execution_allowed": False,
         "external_artifact_fetch_allowed": False,
@@ -103,12 +106,18 @@ SUPPORTED_ADAPTERS = {
         "live_api_call_allowed": False,
         "network_access_allowed": False,
         "socket_access_allowed": False,
+        "dns_resolution_allowed": False,
+        "outbound_connection_allowed": False,
+        "inbound_connection_allowed": False,
+        "webhook_call_allowed": False,
         "credential_use_allowed": False,
+        "credential_vault_access_allowed": False,
         "secret_read_allowed": False,
         "environment_read_allowed": False,
         "deployment_allowed": False,
         "deployment_rollback_allowed": False,
         "real_external_tool_invocation_allowed": False,
+        "live_external_action_allowed": False,
         "full_workforce_activation_allowed": False,
         "description": "Safely simulates execution boundaries without performing live work.",
     },
@@ -187,6 +196,8 @@ SUPPORTED_ADAPTERS = {
         "operator_approval_queue_enforcement_requires_separate_gate": True,
         "supports_release_candidate_hardening": False,
         "release_candidate_hardening_requires_separate_gate": True,
+        "supports_live_external_action_final_preflight_gate": False,
+        "live_external_action_final_preflight_gate_requires_separate_gate": True,
         "supports_controlled_production_readiness_gate": False,
         "controlled_production_readiness_gate_requires_separate_gate": True,
         "supports_controlled_worker_hiring_activation_pilot": False,
@@ -214,7 +225,12 @@ SUPPORTED_ADAPTERS = {
         "live_api_call_allowed": False,
         "network_access_allowed": False,
         "socket_access_allowed": False,
+        "dns_resolution_allowed": False,
+        "outbound_connection_allowed": False,
+        "inbound_connection_allowed": False,
+        "webhook_call_allowed": False,
         "credential_use_allowed": False,
+        "credential_vault_access_allowed": False,
         "secret_read_allowed": False,
         "environment_read_allowed": False,
         "deployment_allowed": False,
@@ -295,7 +311,12 @@ def list_adapters() -> dict:
         "full_workforce_activation_allowed": False,
         "live_api_call_allowed": False,
         "socket_access_allowed": False,
+        "dns_resolution_allowed": False,
+        "outbound_connection_allowed": False,
+        "inbound_connection_allowed": False,
+        "webhook_call_allowed": False,
         "credential_use_allowed": False,
+        "credential_vault_access_allowed": False,
         "secret_read_allowed": False,
         "production_execution_allowed": False,
         "production_activation_allowed": False,
