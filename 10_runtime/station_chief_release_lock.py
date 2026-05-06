@@ -2,8 +2,8 @@ import json
 import hashlib
 from pathlib import Path
 
-RELEASE_LOCK_MODULE_VERSION = "4.6.0"
-STABLE_RUNTIME_VERSION = "4.6.0"
+RELEASE_LOCK_MODULE_VERSION = "4.7.0"
+STABLE_RUNTIME_VERSION = "4.7.0"
 STABLE_RUNTIME_NAME = "Station Chief Runtime"
 
 def canonical_json(data: object) -> str:

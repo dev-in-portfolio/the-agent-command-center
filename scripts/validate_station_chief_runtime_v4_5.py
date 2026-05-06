@@ -24,7 +24,7 @@ SKELETON = REPO_ROOT / "09_exports" / "station_chief_runtime_skeleton_report.md"
 REPORT = REPO_ROOT / "09_exports" / "station_chief_runtime_v4_5_report.md"
 ADAPTERS = REPO_ROOT / "10_runtime" / "station_chief_adapters.py"
 RELEASE_LOCK = REPO_ROOT / "10_runtime" / "station_chief_release_lock.py"
-TARGET = REPO_ROOT / "scripts" / "validate_station_chief_runtime_v4_6.py"
+TARGET = REPO_ROOT / "scripts" / "validate_station_chief_runtime_v4_7.py"
 
 WRAPPER_FILES = [
     REPO_ROOT / "scripts" / "validate_station_chief_runtime_skeleton.py",
@@ -640,7 +640,7 @@ def ensure_docs_and_reports() -> None:
 def ensure_no_v46_files() -> None:
     for relative in [
         "10_runtime/station_chief_non_executing_task_queue_preview_candidate.py",
-        "scripts/validate_station_chief_runtime_v4_6.py",
+        "scripts/validate_station_chief_runtime_v4_7.py",
         "09_exports/station_chief_runtime_v4_6_report.md",
     ]:
         ensure(not (REPO_ROOT / relative).exists(), f"forbidden v4.6 file exists: {relative}")
