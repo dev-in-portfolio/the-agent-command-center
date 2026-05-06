@@ -3,11 +3,11 @@
 ## Status
 Station Chief Runtime upgraded to v4.8.0. Locked 175-family baseline preserved. Non-executing queue routing preview candidate added.
 
-## Ownership
+## Ownership Attribution
 Devin O’Rourke
 
 ## Purpose
-Provide a local-only queue/routing preview layer that reviews exactly one hypothetical task candidate and worker template before optionally writing exactly one deterministic queue routing preview record to an explicit operator-approved output directory.
+Add a local-only queue routing preview layer that creates deterministic metadata for one hypothetical task candidate and one explicitly named worker template under a denied-by-default routing contract.
 
 ## Files Created
 - `10_runtime/station_chief_non_executing_queue_routing_preview_candidate.py`
@@ -19,10 +19,11 @@ Provide a local-only queue/routing preview layer that reviews exactly one hypoth
 - `10_runtime/station_chief_runtime_readme.md`
 - `10_runtime/station_chief_adapters.py`
 - `10_runtime/station_chief_release_lock.py`
+- `09_exports/station_chief_runtime_skeleton_report.md`
 - `scripts/validate_station_chief_runtime_v4_7.py`
 
 ## New Runtime Capabilities
-- queue routing preview candidate schema
+- queue routing preview schema
 - queue routing preview approval gate
 - hypothetical task candidate reference
 - worker template reference contract
@@ -32,40 +33,48 @@ Provide a local-only queue/routing preview layer that reviews exactly one hypoth
 - routing preview candidate record
 - routing preview audit record
 - routing preview readiness summary
-- live queue orchestration bridge
-- optional local queue routing preview record write
+- live queue orchestration candidate bridge
+- optional single local queue routing preview record write
 
 ## Runtime Safety Boundaries
-- No real queue creation
-- No queue write
-- No scheduler write
-- No task enqueueing
-- No task execution
-- No worker process start
-- No live task assignment
-- No live worker routing
-- No tool invocation
-- No API access
-- No network access
-- No socket access
-- No DNS resolution
-- No credential use
-- No secret reads
-- No environment variable reads
-- No deployment
-- No production execution
-- No mutation of the referenced v4.6 queue preview record
-- No activation of the 47,250-worker workforce
+- no real queue creation
+- no queue writes
+- no scheduler writes
+- no cron writes
+- no task enqueueing
+- no task execution
+- no worker process start
+- no live task assignment
+- no live worker routing
+- no live orchestration
+- no tool invocation
+- no API access
+- no network access
+- no socket access
+- no DNS resolution
+- no credential use
+- no credential vault access
+- no secret reads
+- no environment variable reads
+- no deployment
+- no production execution
+- no production activation
+- no full workforce activation
+- no mutation of protected baseline files
+- no mutation of Devinization overlays
+- no mutation of dashboard/org/master exports
+- no mutation of ownership metadata
+- no v4.9 files created
 
 ## Required Commands
 ```bash
 python3 10_runtime/station_chief_runtime.py --demo
 python3 10_runtime/station_chief_runtime.py --fixture-test
-python3 10_runtime/station_chief_fixture_tests.py
+python3 10_runtime/station_chief_runtime.py --command check please --brief
 python3 10_runtime/station_chief_runtime.py --non-executing-queue-routing-preview-schema
-python3 10_runtime/station_chief_runtime.py --command "check please" --non-executing-queue-routing-preview --json
-python3 10_runtime/station_chief_runtime.py --command "check please" --non-executing-queue-routing-preview --v4-queue-routing-preview-confirm-token BAD_TOKEN --v4-queue-routing-preview-human-operator "Devin O’Rourke" --v4-queue-routing-preview-task-candidate-label "sandbox observation task" --json
-python3 10_runtime/station_chief_runtime.py --write-non-executing-queue-routing-preview TEMP_DIR --v4-task-candidate-label "sandbox observation task" --v4-worker-template-label "sandbox observer worker" --v4-queue-routing-preview-confirm-token YES_I_APPROVE_NON_EXECUTING_QUEUE_ROUTING_PREVIEW_CANDIDATE --v4-queue-routing-preview-human-operator "Devin O’Rourke"
+python3 10_runtime/station_chief_runtime.py --non-executing-queue-routing-preview --v4-task-candidate-label "sandbox observation task" --v4-worker-template-label "sandbox observer worker"
+python3 10_runtime/station_chief_runtime.py --non-executing-queue-routing-preview --v4-task-candidate-label "sandbox observation task" --v4-worker-template-label "sandbox observer worker" --v4-queue-routing-preview-confirm-token BAD_TOKEN --v4-queue-routing-preview-human-operator Devin
+python3 10_runtime/station_chief_runtime.py --write-non-executing-queue-routing-preview TEMP_DIR --v4-task-candidate-label "sandbox observation task" --v4-worker-template-label "sandbox observer worker" --v4-queue-routing-preview-confirm-token YES_I_APPROVE_NON_EXECUTING_QUEUE_ROUTING_PREVIEW_CANDIDATE --v4-queue-routing-preview-human-operator Devin
 ```
 
 ## Validator Command
@@ -75,3 +84,15 @@ python3 scripts/validate_station_chief_runtime_v4_8.py
 
 ## Next Internal Label
 Live queue orchestration candidate review only.
+live queue orchestration candidate review only.
+
+## Confirmations
+- v4.9 was not built
+- no real queue was created
+- no task was enqueued
+- no task was executed
+- no worker was started
+- no live worker routing occurred
+- no API, network, deployment, or production action was authorized
+- no forbidden protected exports were modified
+- no next task was selected or suggested

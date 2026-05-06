@@ -129,5 +129,20 @@ Station Chief Runtime v4.5.0 reviews and closes out one local v4.4 worker task a
 ## v4.6 Doctrine
 Station Chief Runtime v4.7.0 creates or writes exactly one deterministic local non-executing task queue preview record for exactly one explicitly referenced v4.4 task assignment record and, optionally, one v4.5 closeout record inside an explicit operator-approved output directory after separate approval. It does not create a real queue. It does not write to a real queue. It does not enqueue tasks. It does not execute tasks. It does not start worker processes. It does not route workers. It does not mutate the referenced v4.4 task assignment record or the optional v4.5 closeout record. It does not activate the full 47,250-worker workforce. It does not authorize APIs, network, sockets, DNS resolution, outbound connections, credential use, secret reads, environment variable reads, deployment, production execution, production activation, worker process start, task enqueue, task execution, queue creation, queue writes, scheduler writes, or full workforce activation. v4.6 does not approve v4.7.
 
+## v4.8 Doctrine
+Station Chief Runtime upgraded to v4.8.0. Locked 175-family baseline preserved. Non-executing queue routing preview candidate added.
+v4.8 creates or writes one local queue routing preview record only.
+v4.8 does not create a real queue.
+v4.8 does not enqueue tasks.
+v4.8 does not execute tasks.
+v4.8 does not start worker processes.
+v4.8 does not spawn agents.
+v4.8 does not assign tasks.
+v4.8 does not route workers.
+v4.8 does not activate the 47,250-worker workforce.
+v4.8 does not allow APIs, network, sockets, DNS, credentials, secrets, environment variables, deployment, production execution, worker process start, or full workforce activation.
+v4.8 does not approve v4.9.
+Next recommended internal label: live queue orchestration candidate review only.
+
 ## Next Recommended Step
 Next recommended step: build non-executing worker routing preview candidate.

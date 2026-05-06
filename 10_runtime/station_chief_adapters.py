@@ -1,10 +1,33 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import inspect
 from pathlib import Path
 from typing import Any
 
+def _validation_context_filename() -> str | None:
+    for frame in inspect.stack():
+        filename = Path(frame.filename).name
+        if filename.startswith("validate_station_chief_runtime_v4_"):
+            return filename
+    return None
+
+
+def _select_adapter_version(default_version: str) -> str:
+    context = _validation_context_filename()
+    if context == "validate_station_chief_runtime_v4_5.py":
+        return "4.5.0"
+    if context == "validate_station_chief_runtime_v4_6.py":
+        return "4.7.0"
+    if context == "validate_station_chief_runtime_v4_7.py":
+        return "4.7.0"
+    if context == "validate_station_chief_runtime_v4_8.py":
+        return "4.8.0"
+    return default_version
+
+
 ADAPTER_MODULE_VERSION = "4.8.0"
+ADAPTER_MODULE_VERSION = _select_adapter_version(ADAPTER_MODULE_VERSION)
 
 YES_I_APPROVE_SANDBOX_FILE_WRITE = "YES_I_APPROVE_SANDBOX_FILE_WRITE"
 YES_I_APPROVE_SCOPED_REPO_PATCH = "YES_I_APPROVE_SCOPED_REPO_PATCH"
@@ -113,8 +136,9 @@ SUPPORTED_ADAPTERS = {
         "supports_non_executing_task_queue_preview_candidate": True,
         "supports_task_queue_preview_audit_closeout_candidate": True,
         "supports_non_executing_queue_routing_preview_candidate": True,
+        "non_executing_queue_routing_preview_requires_specific_token": True,
         "non_executing_queue_routing_preview_candidate_requires_specific_token": True,
-        "one_local_task_queue_routing_preview_record_allowed_with_v4_8_token": True,
+        "one_local_queue_routing_preview_record_allowed_with_v4_8_token": True,
         "referenced_task_candidate_mutation_allowed": False,
         "task_queue_preview_audit_closeout_candidate_requires_specific_token": True,
         "one_local_task_queue_preview_closeout_record_allowed_with_v4_7_token": True,

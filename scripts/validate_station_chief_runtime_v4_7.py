@@ -957,15 +957,17 @@ def ensure_docs_and_reports() -> None:
 
 def ensure_no_v48_files() -> None:
     for relative in [
-        "10_runtime/station_chief_non_executing_worker_routing_preview_candidate.py",
+        "10_runtime/station_chief_non_executing_queue_routing_preview_candidate.py",
         "scripts/validate_station_chief_runtime_v4_8.py",
         "09_exports/station_chief_runtime_v4_8_report.md",
     ]:
-        ensure(not (REPO_ROOT / relative).exists(), f"forbidden v4.8 file exists: {relative}")
-    for path in REPO_ROOT.rglob("*v4_8*"):
-        if path.name == "station_chief_v4_8_reentry_preflight_audit.md":
-            continue
-        ensure(False, f"forbidden v4.8 path unexpectedly exists: {path.relative_to(REPO_ROOT)}")
+        ensure((REPO_ROOT / relative).exists(), f"missing v4.8 file: {relative}")
+    for relative in [
+        "10_runtime/station_chief_live_queue_orchestration_candidate.py",
+        "scripts/validate_station_chief_runtime_v4_9.py",
+        "09_exports/station_chief_runtime_v4_9_report.md",
+    ]:
+        ensure(not (REPO_ROOT / relative).exists(), f"forbidden v4.9 file exists: {relative}")
 
 
 def ensure_wrappers_delegate() -> None:

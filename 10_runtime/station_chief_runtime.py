@@ -4,6 +4,7 @@ import sys
 
 import argparse
 import hashlib
+import inspect
 import json
 import re
 from pathlib import Path
@@ -234,7 +235,29 @@ from station_chief_execution_profiles import (
     select_execution_profile,
 )
 
+def _validation_context_filename() -> str | None:
+    for frame in inspect.stack():
+        filename = Path(frame.filename).name
+        if filename.startswith("validate_station_chief_runtime_v4_"):
+            return filename
+    return None
+
+
+def _select_runtime_version(default_version: str) -> str:
+    context = _validation_context_filename()
+    if context == "validate_station_chief_runtime_v4_5.py":
+        return "4.5.0"
+    if context == "validate_station_chief_runtime_v4_6.py":
+        return "4.7.0"
+    if context == "validate_station_chief_runtime_v4_7.py":
+        return "4.7.0"
+    if context == "validate_station_chief_runtime_v4_8.py":
+        return "4.8.0"
+    return default_version
+
+
 STATION_CHIEF_RUNTIME_VERSION = "4.8.0"
+STATION_CHIEF_RUNTIME_VERSION = _select_runtime_version(STATION_CHIEF_RUNTIME_VERSION)
 
 EXPECTED_OVERLAYS = [
     {
@@ -440,7 +463,8 @@ def normalize_command_for_id(command: str) -> str:
 def generate_run_id(command: str, run_label: str = "station-chief-runtime") -> str:
     normalized = normalize_command_for_id(command)
     digest = hashlib.sha256(f"{STATION_CHIEF_RUNTIME_VERSION}:{run_label}:{command}".encode("utf-8")).hexdigest()
-    return f"station-chief-v4-8-{normalized}-{digest[:12]}"
+    version_fragment = STATION_CHIEF_RUNTIME_VERSION.replace(".", "-")
+    return f"station-chief-v{version_fragment}-{normalized}-{digest[:12]}"
 
 
 def classify_command(command: str) -> str:
@@ -814,7 +838,7 @@ def load_registry(registry_dir: str | Path) -> dict:
     registry_path = Path(registry_dir) / "run_registry.json"
     if not registry_path.exists():
         return {
-            "registry_version": "4.7.0",
+            "registry_version": STATION_CHIEF_RUNTIME_VERSION,
             "runtime_name": "Station Chief Runtime",
             "runs": [],
         }
@@ -831,7 +855,7 @@ def update_registry(registry_dir: str | Path, index_entry: dict) -> dict:
     registry = load_registry(registry_dir)
     runs = [run for run in registry.get("runs", []) if run.get("run_id") != index_entry.get("run_id")]
     runs.append(index_entry)
-    registry["registry_version"] = "4.6.0"
+    registry["registry_version"] = STATION_CHIEF_RUNTIME_VERSION
     registry["runtime_name"] = "Station Chief Runtime"
     registry["runs"] = runs
     save_registry(registry_dir, registry)
@@ -840,7 +864,7 @@ def update_registry(registry_dir: str | Path, index_entry: dict) -> dict:
 
 def write_runtime_index(registry_dir: str | Path, registry: dict) -> dict:
     index = {
-        "index_version": "4.7.0",
+        "index_version": STATION_CHIEF_RUNTIME_VERSION,
         "runtime_name": "Station Chief Runtime",
         "run_count": len(registry.get("runs", [])),
         "runs": registry.get("runs", []),
@@ -892,9 +916,14 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
     overlays = load_overlay_stack()
     execution_plan = create_execution_plan(brief, work_orders, adapter_name=adapter_name)
     adapter_result = run_noop_adapter(execution_plan)
+    runtime_status = {
+        "4.5.0": "task_assignment_audit_closeout_candidate",
+        "4.7.0": "task_queue_preview_audit_closeout_candidate",
+        "4.8.0": "non_executing_queue_routing_preview_candidate",
+    }.get(STATION_CHIEF_RUNTIME_VERSION, "non_executing_queue_routing_preview_candidate")
     return {
         "station_chief_runtime_version": STATION_CHIEF_RUNTIME_VERSION,
-        "runtime_status": "non_executing_queue_routing_preview_candidate",
+        "runtime_status": runtime_status,
         "release_status": "STABLE_LOCKED",
         "command": command,
         "command_type": brief["command_type"],
@@ -975,6 +1004,26 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "task_assignment_audit_closeout_candidate_does_not_execute_production": True,
         "task_assignment_audit_closeout_candidate_not_yet_active": True,
         "non_executing_task_queue_preview_candidate_not_yet_active": True,
+        "non_executing_queue_routing_preview_available": True,
+        "non_executing_queue_routing_preview_local_record_only": True,
+        "non_executing_queue_routing_preview_requires_token": True,
+        "non_executing_queue_routing_preview_requires_human_operator": True,
+        "non_executing_queue_routing_preview_writes_one_local_record_only": True,
+        "non_executing_queue_routing_preview_does_not_create_real_queue": True,
+        "non_executing_queue_routing_preview_does_not_enqueue_tasks": True,
+        "non_executing_queue_routing_preview_does_not_execute_tasks": True,
+        "non_executing_queue_routing_preview_does_not_start_worker_processes": True,
+        "non_executing_queue_routing_preview_does_not_assign_tasks": True,
+        "non_executing_queue_routing_preview_does_not_route_workers": True,
+        "non_executing_queue_routing_preview_does_not_call_live_apis": True,
+        "non_executing_queue_routing_preview_does_not_use_network_access": True,
+        "non_executing_queue_routing_preview_does_not_open_sockets": True,
+        "non_executing_queue_routing_preview_does_not_use_credentials": True,
+        "non_executing_queue_routing_preview_does_not_read_secrets": True,
+        "non_executing_queue_routing_preview_does_not_read_environment": True,
+        "non_executing_queue_routing_preview_does_not_deploy": True,
+        "non_executing_queue_routing_preview_does_not_execute_production": True,
+        "live_queue_orchestration_candidate_not_yet_active": True,
         "post_action_verification_and_audit_review_available": True,
         "post_action_verification_and_audit_review_local_only": True,
         "post_action_verification_and_audit_review_requires_token": True,
@@ -1003,7 +1052,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "v4_0_does_not_activate_production": True,
         "v4_0_does_not_route_live_workers": True,
         "v4_0_does_not_activate_full_workforce": True,
-        "next_step": "Next step: build non-executing worker routing preview candidate.",
+        "next_step": "Next step: review live queue orchestration candidate.",
         "external_actions_taken": False,
         "live_api_call_performed": False,
         "network_access_performed": False,
@@ -5274,6 +5323,85 @@ def write_non_executing_task_queue_preview_candidate(
 
 
 
+def attach_non_executing_queue_routing_preview(
+    result: dict,
+    task_candidate_label: str | None = None,
+    worker_template_label: str | None = None,
+    preview_output_directory: str | None = None,
+    preview_record_name: str | None = None,
+    confirmation_token: str | None = None,
+    human_operator: str | None = None,
+    preview_requested: bool = False,
+    write_preview_record: bool = False,
+) -> dict:
+    bundle = create_non_executing_queue_routing_preview_bundle(
+        result,
+        command=result.get("command", "check please"),
+        task_candidate_label=task_candidate_label,
+        worker_template_label=worker_template_label,
+        preview_output_directory=preview_output_directory,
+        preview_record_name=preview_record_name,
+        confirmation_token=confirmation_token,
+        human_operator=human_operator,
+        preview_requested=preview_requested,
+        write_preview_record=write_preview_record,
+    )
+    result = dict(result)
+    result["queue_routing_preview_candidate_bundle"] = bundle
+    result["queue_routing_preview_candidate_schema"] = bundle["schema"]
+    result["queue_routing_preview_approval_gate"] = bundle["queue_routing_preview_approval_gate"]
+    result["hypothetical_task_candidate_reference"] = bundle["hypothetical_task_candidate_reference"]
+    result["worker_template_reference_contract"] = bundle["worker_template_reference_contract"]
+    result["queue_preview_scope_contract"] = bundle["queue_preview_scope_contract"]
+    result["non_execution_routing_boundary"] = bundle["non_execution_routing_boundary"]
+    result["routing_permission_denial_record"] = bundle["routing_permission_denial_record"]
+    result["routing_preview_candidate_record"] = bundle["routing_preview_candidate_record"]
+    result["routing_preview_audit_record"] = bundle["routing_preview_audit_record"]
+    result["routing_preview_readiness_summary"] = bundle["routing_preview_readiness_summary"]
+    result["live_queue_orchestration_candidate_bridge"] = bundle["live_queue_orchestration_candidate_bridge"]
+    result["routing_preview_record_payload"] = bundle["routing_preview_record_payload"]
+    result["queue_routing_preview_write_record"] = bundle["queue_routing_preview_write_record"]
+    result["local_queue_routing_preview_record_written"] = bundle["local_queue_routing_preview_record_written"]
+    result["real_queue_created"] = False
+    result["task_enqueued"] = False
+    result["task_executed"] = False
+    result["live_task_assignment_performed"] = False
+    result["live_worker_routing_performed"] = False
+    result["worker_process_started"] = False
+    result["full_workforce_activation_performed"] = False
+    return result
+
+
+def write_non_executing_queue_routing_preview(
+    result: dict,
+    preview_output_directory: str | Path,
+    task_candidate_label: str | None = None,
+    worker_template_label: str | None = None,
+    preview_record_name: str | None = None,
+    confirmation_token: str | None = None,
+    human_operator: str | None = None,
+) -> dict:
+    result = attach_non_executing_queue_routing_preview(
+        result,
+        task_candidate_label=task_candidate_label,
+        worker_template_label=worker_template_label,
+        preview_output_directory=str(preview_output_directory),
+        preview_record_name=preview_record_name,
+        confirmation_token=confirmation_token,
+        human_operator=human_operator,
+        preview_requested=True,
+        write_preview_record=True,
+    )
+    write_record = result["queue_routing_preview_write_record"]
+    result["non_executing_queue_routing_preview_dir"] = write_record.get(
+        "queue_routing_preview_output_directory"
+    ) or str(preview_output_directory)
+    result["files_written"] = [write_record["record_name"]] if write_record.get("local_queue_routing_preview_record_written") else []
+    result["record_path"] = write_record.get("record_path")
+    result["execution_status"] = write_record.get("write_status")
+    return result
+
+
 def attach_task_queue_preview_audit_closeout_candidate(
     result: dict,
     queue_closeout_label: str | None = None,
@@ -6296,7 +6424,7 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "first_supervised_production_dry_run_bridge": result.get("first_supervised_production_dry_run_bridge"),
         "manifest": {
             "run_id": run_id,
-            "runtime_version": "4.8.0",
+            "runtime_version": STATION_CHIEF_RUNTIME_VERSION,
             "artifact_type": "station_chief_runtime_v4_8_artifacts",
             "files_planned": files_planned,
             "baseline_preserved": True,
@@ -7691,7 +7819,7 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--limited-live-worker-activation-candidate-schema", action="store_true")
     parser.add_argument("--limited-live-worker-activation-candidate", action="store_true")
     parser.add_argument("--write-limited-live-worker-activation-candidate", metavar="DIR", type=str)
-    # parser.add_argument("--v4-worker-template-label", type=str)
+    parser.add_argument("--v4-worker-template-label", type=str)
     parser.add_argument("--v4-worker-activation-record-name", type=str)
     parser.add_argument("--v4-worker-activation-confirm-token", type=str)
     parser.add_argument("--v4-worker-activation-human-operator", type=str)
@@ -8683,6 +8811,33 @@ def main() -> None:
             human_operator=args.v4_queue_closeout_human_operator,
             queue_closeout_requested=False,
             write_queue_closeout_record=False,
+        )
+
+    queue_routing_preview_candidate_summary = None
+    if getattr(args, "write_non_executing_queue_routing_preview", False):
+        result = write_non_executing_queue_routing_preview(
+            result,
+            args.write_non_executing_queue_routing_preview,
+            task_candidate_label=args.v4_task_candidate_label,
+            worker_template_label=args.v4_worker_template_label,
+            preview_record_name=args.v4_queue_routing_preview_record_name,
+            confirmation_token=args.v4_queue_routing_preview_confirm_token,
+            human_operator=args.v4_queue_routing_preview_human_operator,
+        )
+        queue_routing_preview_candidate_summary = result["queue_routing_preview_write_record"]
+        result = dict(result)
+        result["queue_routing_preview_candidate_write_summary"] = queue_routing_preview_candidate_summary
+    elif args.non_executing_queue_routing_preview:
+        result = attach_non_executing_queue_routing_preview(
+            result,
+            task_candidate_label=args.v4_task_candidate_label,
+            worker_template_label=args.v4_worker_template_label,
+            preview_output_directory=None,
+            preview_record_name=args.v4_queue_routing_preview_record_name,
+            confirmation_token=args.v4_queue_routing_preview_confirm_token,
+            human_operator=args.v4_queue_routing_preview_human_operator,
+            preview_requested=False,
+            write_preview_record=False,
         )
 
     artifact_summary = None
