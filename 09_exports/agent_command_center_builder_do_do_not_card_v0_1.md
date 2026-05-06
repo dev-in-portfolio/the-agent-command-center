@@ -3,7 +3,7 @@
 ## Current State
 - Station Chief runtime is parked at v4.7.0.
 - v4.8 was not created.
-- This is planning/governance documentation only.
+- This is non-runtime planning/governance documentation only.
 
 ## Builder Must Do
 - execute assigned task only
@@ -32,21 +32,21 @@
 - production requirements
 
 ## Report-Back Rules
-- Files created/modified.
-- Commit hash.
+- Files created/modified list.
+- Latest commit hash.
 - Confirmation: no runtime files changed.
 - Confirmation: no validators changed.
-- Confirmation: v4.8 was not created.
+- Confirmation: v4.8 not created.
 - Confirmation: planning-only.
-- Confirmation: no next task was selected or suggested.
+- Confirmation: no next task selected or suggested.
 
 ## What This Card Does Not Authorize
-- This card is a reference, not an execution trigger.
-- Does not authorize any API, network, execution, or production changes.
+- This card is a reference only.
+- Does not authorize any API, network, execution, deployment, or production changes.
 
 ## Runtime Authorization Boundary
 - This card is not runtime authorization.
-- Future runtime approval requires explicit operator instruction.
+- Future approval still requires explicit operator instruction.
 
 ## Final Note
-This document is planning-only and should not be treated as runtime authorization.
+This document is planning/governance-only and should not be treated as runtime authorization.
