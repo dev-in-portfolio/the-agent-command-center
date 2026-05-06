@@ -220,6 +220,11 @@ from station_chief_task_queue_preview_audit_closeout_candidate import (
     create_task_queue_preview_audit_closeout_candidate_bundle,
     create_task_queue_preview_audit_closeout_candidate_schema,
 )
+from station_chief_non_executing_queue_routing_preview_candidate import (
+    NON_EXECUTING_QUEUE_ROUTING_PREVIEW_APPROVAL_TOKEN,
+    create_non_executing_queue_routing_preview_bundle,
+    create_non_executing_queue_routing_preview_schema,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -229,7 +234,7 @@ from station_chief_execution_profiles import (
     select_execution_profile,
 )
 
-STATION_CHIEF_RUNTIME_VERSION = "4.7.0"
+STATION_CHIEF_RUNTIME_VERSION = "4.8.0"
 
 EXPECTED_OVERLAYS = [
     {
@@ -435,7 +440,7 @@ def normalize_command_for_id(command: str) -> str:
 def generate_run_id(command: str, run_label: str = "station-chief-runtime") -> str:
     normalized = normalize_command_for_id(command)
     digest = hashlib.sha256(f"{STATION_CHIEF_RUNTIME_VERSION}:{run_label}:{command}".encode("utf-8")).hexdigest()
-    return f"station-chief-v4-7-{normalized}-{digest[:12]}"
+    return f"station-chief-v4-8-{normalized}-{digest[:12]}"
 
 
 def classify_command(command: str) -> str:
@@ -889,7 +894,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
     adapter_result = run_noop_adapter(execution_plan)
     return {
         "station_chief_runtime_version": STATION_CHIEF_RUNTIME_VERSION,
-        "runtime_status": "task_queue_preview_audit_closeout_candidate",
+        "runtime_status": "non_executing_queue_routing_preview_candidate",
         "release_status": "STABLE_LOCKED",
         "command": command,
         "command_type": brief["command_type"],
@@ -5780,6 +5785,23 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
             "queue_closeout_record_payload.json",
             "queue_closeout_write_record.json",
         ])
+    if result.get("queue_routing_preview_candidate_bundle"):
+        files_planned.extend([
+            "queue_routing_preview_candidate_bundle.json",
+            "queue_routing_preview_candidate_schema.json",
+            "queue_routing_preview_approval_gate.json",
+            "hypothetical_task_candidate_reference.json",
+            "worker_template_reference_contract.json",
+            "queue_preview_scope_contract.json",
+            "non_execution_routing_boundary.json",
+            "routing_permission_denial_record.json",
+            "routing_preview_candidate_record.json",
+            "routing_preview_audit_record.json",
+            "routing_preview_readiness_summary.json",
+            "live_queue_orchestration_candidate_bridge.json",
+            "queue_routing_preview_record_payload.json",
+            "queue_routing_preview_write_record.json",
+        ])
 
     return {
         "run_log": {
@@ -6274,8 +6296,8 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "first_supervised_production_dry_run_bridge": result.get("first_supervised_production_dry_run_bridge"),
         "manifest": {
             "run_id": run_id,
-            "runtime_version": "4.7.0",
-            "artifact_type": "station_chief_runtime_v4_7_artifacts",
+            "runtime_version": "4.8.0",
+            "artifact_type": "station_chief_runtime_v4_8_artifacts",
             "files_planned": files_planned,
             "baseline_preserved": True,
             "devinization_overlays_preserved": True,
@@ -7669,7 +7691,7 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--limited-live-worker-activation-candidate-schema", action="store_true")
     parser.add_argument("--limited-live-worker-activation-candidate", action="store_true")
     parser.add_argument("--write-limited-live-worker-activation-candidate", metavar="DIR", type=str)
-    parser.add_argument("--v4-worker-template-label", type=str)
+    # parser.add_argument("--v4-worker-template-label", type=str)
     parser.add_argument("--v4-worker-activation-record-name", type=str)
     parser.add_argument("--v4-worker-activation-confirm-token", type=str)
     parser.add_argument("--v4-worker-activation-human-operator", type=str)
@@ -7709,6 +7731,14 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--v4-queue-closeout-record-name", type=str)
     parser.add_argument("--v4-queue-closeout-confirm-token", type=str)
     parser.add_argument("--v4-queue-closeout-human-operator", type=str)
+    parser.add_argument("--non-executing-queue-routing-preview-schema", action="store_true")
+    parser.add_argument("--non-executing-queue-routing-preview", action="store_true")
+    parser.add_argument("--write-non-executing-queue-routing-preview", metavar="DIR", type=str)
+    parser.add_argument("--v4-task-candidate-label", type=str)
+    # parser.add_argument("--v4-worker-template-label", type=str)
+    parser.add_argument("--v4-queue-routing-preview-record-name", type=str)
+    parser.add_argument("--v4-queue-routing-preview-confirm-token", type=str)
+    parser.add_argument("--v4-queue-routing-preview-human-operator", type=str)
     parser.add_argument("--candidate-action-label", type=str)
     parser.add_argument("--required-final-approver", type=str)
     return parser
@@ -7864,6 +7894,10 @@ def main() -> None:
 
     if args.task_queue_preview_audit_closeout_candidate_schema:
         print(json.dumps(create_task_queue_preview_audit_closeout_candidate_schema(), indent=2, ensure_ascii=False))
+        return
+
+    if args.non_executing_queue_routing_preview_schema:
+        print(json.dumps(create_non_executing_queue_routing_preview_schema(), indent=2, ensure_ascii=False))
         return
 
     if args.limited_external_tool_supervised_pilot_schema:

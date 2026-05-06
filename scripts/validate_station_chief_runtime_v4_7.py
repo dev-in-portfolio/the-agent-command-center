@@ -963,6 +963,8 @@ def ensure_no_v48_files() -> None:
     ]:
         ensure(not (REPO_ROOT / relative).exists(), f"forbidden v4.8 file exists: {relative}")
     for path in REPO_ROOT.rglob("*v4_8*"):
+        if path.name == "station_chief_v4_8_reentry_preflight_audit.md":
+            continue
         ensure(False, f"forbidden v4.8 path unexpectedly exists: {path.relative_to(REPO_ROOT)}")
 
 

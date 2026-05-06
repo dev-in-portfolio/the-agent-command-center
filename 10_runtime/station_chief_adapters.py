@@ -4,7 +4,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-ADAPTER_MODULE_VERSION = "4.7.0"
+ADAPTER_MODULE_VERSION = "4.8.0"
 
 YES_I_APPROVE_SANDBOX_FILE_WRITE = "YES_I_APPROVE_SANDBOX_FILE_WRITE"
 YES_I_APPROVE_SCOPED_REPO_PATCH = "YES_I_APPROVE_SCOPED_REPO_PATCH"
@@ -112,6 +112,10 @@ SUPPORTED_ADAPTERS = {
         "one_local_task_assignment_closeout_record_allowed_with_v4_5_token": True,
         "supports_non_executing_task_queue_preview_candidate": True,
         "supports_task_queue_preview_audit_closeout_candidate": True,
+        "supports_non_executing_queue_routing_preview_candidate": True,
+        "non_executing_queue_routing_preview_candidate_requires_specific_token": True,
+        "one_local_task_queue_routing_preview_record_allowed_with_v4_8_token": True,
+        "referenced_task_candidate_mutation_allowed": False,
         "task_queue_preview_audit_closeout_candidate_requires_specific_token": True,
         "one_local_task_queue_preview_closeout_record_allowed_with_v4_7_token": True,
         "referenced_queue_preview_record_mutation_allowed": False,
