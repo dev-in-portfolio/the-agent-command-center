@@ -52,7 +52,7 @@ def _select_stable_runtime_version(default_version: str) -> str:
     return default_version
 
 
-STABLE_RUNTIME_VERSION = "5.5.0"
+STABLE_RUNTIME_VERSION = "5.6.0"
 STABLE_RUNTIME_VERSION = _select_stable_runtime_version(STABLE_RUNTIME_VERSION)
 
 def canonical_json(data: object) -> str:

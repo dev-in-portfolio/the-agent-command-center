@@ -1,9 +1,34 @@
-# Station Chief Runtime v5.5.0
+# Station Chief Runtime v5.6.0
 
 ## Status
-Station Chief Runtime upgraded to v5.5.0. Locked 175-family baseline preserved. Sandbox Worker Acceptance Candidate Review added.
+Station Chief Runtime upgraded to v5.6.0. Locked 175-family baseline preserved. Sandbox Worker Ready-State Packet Candidate added.
 
 ## What This Adds
+- v5.6 may write exactly one deterministic local sandbox worker ready-state packet candidate only.
+- v5.6 references one sandbox worker label, one v5.3 handoff packet reference label, one v5.4 acknowledgement packet reference label, and one v5.5 acceptance review packet reference label.
+- v5.6 requires a valid v5.6 token, human operator, sandbox worker label, v5.3 handoff packet reference label, v5.4 acknowledgement packet reference label, v5.5 acceptance review packet reference label, and explicit output directory.
+- v5.6 does not create dry-run assignment.
+- v5.6 does not assign a dry-run task.
+- v5.6 does not start a worker.
+- v5.6 does not start an agent.
+- v5.6 does not create a real queue.
+- v5.6 does not write to a real queue.
+- v5.6 does not write scheduler state.
+- v5.6 does not write cron state.
+- v5.6 does not enqueue tasks.
+- v5.6 does not execute arbitrary tasks.
+- v5.6 does not execute user tasks.
+- v5.6 does not start worker processes.
+- v5.6 does not spawn agents.
+- v5.6 does not assign live tasks.
+- v5.6 does not route workers.
+- v5.6 does not orchestrate live work.
+- v5.6 does not activate the 47,250-worker workforce.
+- v5.6 does not allow APIs, network, sockets, DNS, credentials, secrets, environment variables, deployment, production execution, worker process start, queue creation, queue writes, task enqueue, arbitrary task execution, user task execution, live orchestration, or full workforce activation.
+- v5.6 does not approve v5.7.
+- Next internal label:
+  sandbox worker dry-run assignment candidate review only.
+
 - v5.5 may write exactly one deterministic local sandbox worker acceptance candidate review packet only.
 - v5.5 references one sandbox worker label, one v5.3 handoff packet reference label, and one v5.4 acknowledgement packet reference label.
 - v5.5 requires a valid v5.5 token, human operator, sandbox worker label, v5.3 handoff packet reference label, v5.4 acknowledgement packet reference label, and explicit output directory.

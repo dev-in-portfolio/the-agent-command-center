@@ -261,6 +261,11 @@ from station_chief_sandbox_worker_acceptance_candidate_review import (
     create_sandbox_worker_acceptance_candidate_review_bundle,
     create_sandbox_worker_acceptance_candidate_review_schema,
 )
+from station_chief_sandbox_worker_ready_state_packet_candidate import (
+    SANDBOX_WORKER_READY_STATE_PACKET_CANDIDATE_APPROVAL_TOKEN,
+    create_sandbox_worker_ready_state_packet_candidate_bundle,
+    create_sandbox_worker_ready_state_packet_candidate_schema,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -280,6 +285,7 @@ def _validation_context_filename() -> str | None:
             "validate_station_chief_runtime_v5_3.py",
             "validate_station_chief_runtime_v5_4.py",
             "validate_station_chief_runtime_v5_5.py",
+            "validate_station_chief_runtime_v5_6.py",
         }:
             return filename
     return None
@@ -309,10 +315,12 @@ def _select_runtime_version(default_version: str) -> str:
         return "5.4.0"
     if context == "validate_station_chief_runtime_v5_5.py":
         return "5.5.0"
+    if context == "validate_station_chief_runtime_v5_6.py":
+        return "5.6.0"
     return default_version
 
 
-STATION_CHIEF_RUNTIME_VERSION = "5.5.0"
+STATION_CHIEF_RUNTIME_VERSION = "5.6.0"
 STATION_CHIEF_RUNTIME_VERSION = _select_runtime_version(STATION_CHIEF_RUNTIME_VERSION)
 
 EXPECTED_OVERLAYS = [
@@ -984,6 +992,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "5.3.0": "sandbox_worker_handoff_candidate",
         "5.4.0": "sandbox_worker_acknowledgement_candidate",
         "5.5.0": "sandbox_worker_acceptance_candidate_review",
+        "5.6.0": "sandbox_worker_ready_state_packet_candidate",
     }.get(STATION_CHIEF_RUNTIME_VERSION, "live_queue_orchestration_candidate_review")
     evidence = build_demo_evidence()
     evidence.update(
@@ -1129,7 +1138,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "activation_tier": brief["activation_tier"],
         "baseline_preserved": True,
         "evidence": evidence,
-        "next_step": "Next step: sandbox worker ready-state packet candidate review only.",
+        "next_step": "Next step: sandbox worker dry-run assignment candidate review only.",
         "first_tiny_real_world_supervised_execution_candidate_available": True,
         "first_tiny_real_world_supervised_execution_candidate_local_only": True,
         "first_tiny_real_world_supervised_execution_candidate_requires_token": True,
@@ -7568,6 +7577,63 @@ def write_sandbox_worker_acceptance_candidate_review(
     )
 
 
+def attach_sandbox_worker_ready_state_packet_candidate(
+    result: dict,
+    sandbox_worker_label: str | None = None,
+    v5_3_handoff_packet_reference_label: str | None = None,
+    v5_4_acknowledgement_packet_reference_label: str | None = None,
+    v5_5_acceptance_review_packet_reference_label: str | None = None,
+    output_directory: str | None = None,
+    ready_state_packet_name: str | None = None,
+    confirmation_token: str | None = None,
+    human_operator: str | None = None,
+    ready_state_packet_requested: bool = False,
+    write_ready_state_packet: bool = False,
+) -> dict:
+    updated = dict(result)
+    create_sandbox_worker_ready_state_packet_candidate_bundle(
+        updated,
+        command=updated.get("command"),
+        sandbox_worker_label=sandbox_worker_label,
+        v5_3_handoff_packet_reference_label=v5_3_handoff_packet_reference_label,
+        v5_4_acknowledgement_packet_reference_label=v5_4_acknowledgement_packet_reference_label,
+        v5_5_acceptance_review_packet_reference_label=v5_5_acceptance_review_packet_reference_label,
+        output_directory=output_directory,
+        ready_state_packet_name=ready_state_packet_name,
+        confirmation_token=confirmation_token,
+        human_operator=human_operator,
+        ready_state_packet_requested=ready_state_packet_requested,
+        write_ready_state_packet=write_ready_state_packet,
+    )
+    return updated
+
+
+def write_sandbox_worker_ready_state_packet_candidate(
+    result: dict,
+    output_dir: str,
+    sandbox_worker_label: str | None = None,
+    v5_3_handoff_packet_reference_label: str | None = None,
+    v5_4_acknowledgement_packet_reference_label: str | None = None,
+    v5_5_acceptance_review_packet_reference_label: str | None = None,
+    ready_state_packet_name: str | None = None,
+    confirmation_token: str | None = None,
+    human_operator: str | None = None,
+) -> dict:
+    return attach_sandbox_worker_ready_state_packet_candidate(
+        result,
+        sandbox_worker_label=sandbox_worker_label,
+        v5_3_handoff_packet_reference_label=v5_3_handoff_packet_reference_label,
+        v5_4_acknowledgement_packet_reference_label=v5_4_acknowledgement_packet_reference_label,
+        v5_5_acceptance_review_packet_reference_label=v5_5_acceptance_review_packet_reference_label,
+        output_directory=output_dir,
+        ready_state_packet_name=ready_state_packet_name,
+        confirmation_token=confirmation_token,
+        human_operator=human_operator,
+        ready_state_packet_requested=True,
+        write_ready_state_packet=True,
+    )
+
+
 def write_runtime_artifacts(
     result: dict,
     output_dir: str | Path,
@@ -8083,6 +8149,20 @@ def write_runtime_artifacts(
         "sandbox_worker_handoff_candidate_schema.json": artifacts.get("sandbox_worker_handoff_candidate_schema"),
         "sandbox_worker_handoff_approval_gate.json": artifacts.get("sandbox_worker_handoff_approval_gate"),
         "v5_2_repeatability_proof_reference_contract.json": artifacts.get("v5_2_repeatability_proof_reference_contract"),
+        "sandbox_worker_ready_state_packet_candidate_bundle.json": artifacts.get("sandbox_worker_ready_state_packet_candidate_bundle"),
+        "sandbox_worker_ready_state_packet_candidate_schema.json": artifacts.get("sandbox_worker_ready_state_packet_candidate_schema"),
+        "sandbox_worker_ready_state_packet_approval_gate.json": artifacts.get("sandbox_worker_ready_state_packet_approval_gate"),
+        "sandbox_worker_ready_state_reference_contract.json": artifacts.get("sandbox_worker_ready_state_reference_contract"),
+        "ready_state_scope_contract.json": artifacts.get("ready_state_scope_contract"),
+        "non_execution_ready_state_boundary.json": artifacts.get("non_execution_ready_state_boundary"),
+        "ready_state_permission_denial_record.json": artifacts.get("ready_state_permission_denial_record"),
+        "ready_state_plan_record.json": artifacts.get("ready_state_plan_record"),
+        "ready_state_packet_record.json": artifacts.get("ready_state_packet_record"),
+        "ready_state_audit_record.json": artifacts.get("ready_state_audit_record"),
+        "ready_state_readiness_summary.json": artifacts.get("ready_state_readiness_summary"),
+        "sandbox_worker_dry_run_assignment_candidate_bridge.json": artifacts.get("sandbox_worker_dry_run_assignment_candidate_bridge"),
+        "ready_state_packet_payload.json": artifacts.get("ready_state_packet_payload"),
+        "ready_state_packet_write_record.json": artifacts.get("ready_state_packet_write_record"),
         "sandbox_worker_acceptance_candidate_review_bundle.json": artifacts.get("sandbox_worker_acceptance_candidate_review_bundle"),
         "sandbox_worker_acceptance_candidate_review_schema.json": artifacts.get("sandbox_worker_acceptance_candidate_review_schema"),
         "sandbox_worker_acceptance_review_approval_gate.json": artifacts.get("sandbox_worker_acceptance_review_approval_gate"),
@@ -8939,6 +9019,16 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--v5-acknowledgement-packet-name", type=str)
     parser.add_argument("--v5-acknowledgement-confirm-token", type=str)
     parser.add_argument("--v5-acknowledgement-human-operator", type=str)
+    parser.add_argument("--sandbox-worker-ready-state-packet-candidate-schema", action="store_true")
+    parser.add_argument("--sandbox-worker-ready-state-packet-candidate", action="store_true")
+    parser.add_argument("--write-sandbox-worker-ready-state-packet-candidate", metavar="DIR", type=str)
+    parser.add_argument("--v5-ready-sandbox-worker-label", type=str)
+    parser.add_argument("--v5-ready-handoff-packet-reference-label", type=str)
+    parser.add_argument("--v5-ready-acknowledgement-packet-reference-label", type=str)
+    parser.add_argument("--v5-ready-acceptance-review-packet-reference-label", type=str)
+    parser.add_argument("--v5-ready-state-packet-name", type=str)
+    parser.add_argument("--v5-ready-state-confirm-token", type=str)
+    parser.add_argument("--v5-ready-state-human-operator", type=str)
     parser.add_argument("--sandbox-worker-acceptance-candidate-review-schema", action="store_true")
     parser.add_argument("--sandbox-worker-acceptance-candidate-review", action="store_true")
     parser.add_argument("--write-sandbox-worker-acceptance-candidate-review", metavar="DIR", type=str)
@@ -10071,6 +10161,40 @@ def main() -> None:
             human_operator=args.v5_handoff_human_operator,
             handoff_requested=False,
             write_handoff_packet=False,
+        )
+
+    if args.sandbox_worker_ready_state_packet_candidate_schema:
+        print(json.dumps(create_sandbox_worker_ready_state_packet_candidate_schema(), indent=2, ensure_ascii=False))
+        return
+        
+    if getattr(args, "write_sandbox_worker_ready_state_packet_candidate", False):
+        result = write_sandbox_worker_ready_state_packet_candidate(
+            result,
+            args.write_sandbox_worker_ready_state_packet_candidate,
+            sandbox_worker_label=args.v5_ready_sandbox_worker_label,
+            v5_3_handoff_packet_reference_label=args.v5_ready_handoff_packet_reference_label,
+            v5_4_acknowledgement_packet_reference_label=args.v5_ready_acknowledgement_packet_reference_label,
+            v5_5_acceptance_review_packet_reference_label=args.v5_ready_acceptance_review_packet_reference_label,
+            ready_state_packet_name=args.v5_ready_state_packet_name,
+            confirmation_token=args.v5_ready_state_confirm_token,
+            human_operator=args.v5_ready_state_human_operator,
+        )
+        sandbox_worker_ready_state_packet_candidate_summary = result.get("sandbox_worker_ready_state_packet_candidate", {}).get("ready_state_packet_record", {}).get("write_record")
+        result = dict(result)
+        result["sandbox_worker_ready_state_packet_candidate_write_summary"] = sandbox_worker_ready_state_packet_candidate_summary
+    elif args.sandbox_worker_ready_state_packet_candidate:
+        result = attach_sandbox_worker_ready_state_packet_candidate(
+            result,
+            sandbox_worker_label=args.v5_ready_sandbox_worker_label,
+            v5_3_handoff_packet_reference_label=args.v5_ready_handoff_packet_reference_label,
+            v5_4_acknowledgement_packet_reference_label=args.v5_ready_acknowledgement_packet_reference_label,
+            v5_5_acceptance_review_packet_reference_label=args.v5_ready_acceptance_review_packet_reference_label,
+            output_directory=None,
+            ready_state_packet_name=args.v5_ready_state_packet_name,
+            confirmation_token=args.v5_ready_state_confirm_token,
+            human_operator=args.v5_ready_state_human_operator,
+            ready_state_packet_requested=False,
+            write_ready_state_packet=False,
         )
 
     if args.sandbox_worker_acceptance_candidate_review_schema:
