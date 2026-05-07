@@ -63,6 +63,92 @@ Station Chief Runtime upgraded to v4.7.0. Locked 175-family baseline preserved. 
 - task assignment readiness summary
 - task assignment audit closeout candidate bridge
 - task queue preview audit closeout candidate bridge
+
+## v5.0 Doctrine
+Station Chief Runtime upgraded to v5.0.0. Locked 175-family baseline preserved. First Live Queue Execution Candidate Review added.
+v5.0 creates or writes one local execution candidate review record only.
+v5.0 does not create a real queue.
+v5.0 does not write to a real queue.
+v5.0 does not write scheduler state.
+v5.0 does not write cron state.
+v5.0 does not enqueue tasks.
+v5.0 does not execute tasks.
+v5.0 does not start worker processes.
+v5.0 does not spawn agents.
+v5.0 does not route workers.
+v5.0 does not orchestrate live work.
+v5.0 does not activate the 47,250-worker workforce.
+v5.0 does not allow APIs, network, sockets, DNS, credentials, secrets, environment variables, deployment, production execution, worker process start, queue creation, queue writes, task enqueue, arbitrary task execution, user task execution, live orchestration, or full workforce activation.
+v5.0 does not approve v5.1.
+Next internal label: first supervised local execution kernel candidate review only.
+
+## v5.1 Doctrine
+Station Chief Runtime upgraded to v5.1.0. Locked 175-family baseline preserved. First Supervised Local Execution Kernel Candidate added.
+v5.1 may write exactly one deterministic local supervised output record only.
+v5.1 requires a valid v5.1 token, human operator, synthetic task label, and explicit output directory.
+v5.1 does not create a real queue.
+v5.1 does not write to a real queue.
+v5.1 does not write scheduler state.
+v5.1 does not write cron state.
+v5.1 does not enqueue tasks.
+v5.1 does not execute arbitrary tasks.
+v5.1 does not execute user tasks.
+v5.1 does not start worker processes.
+v5.1 does not spawn agents.
+v5.1 does not assign live tasks.
+v5.1 does not route workers.
+v5.1 does not orchestrate live work.
+v5.1 does not activate the 47,250-worker workforce.
+v5.1 does not allow APIs, network, sockets, DNS, credentials, secrets, environment variables, deployment, production execution, worker process start, queue creation, queue writes, task enqueue, arbitrary task execution, user task execution, live orchestration, or full workforce activation.
+v5.1 does not approve v5.2.
+Next internal label: controlled repeatable local execution candidate review only.
+
+## v5.2 Doctrine
+Station Chief Runtime upgraded to v5.2.0. Locked 175-family baseline preserved. Controlled Repeatable Local Execution Candidate added.
+v5.2 is the second controlled local "meat" layer.
+v5.2 may write exactly one deterministic local repeatability proof record only.
+v5.2 may generate bounded deterministic in-memory repeatability entries for one synthetic task.
+v5.2 requires a valid v5.2 token, human operator, synthetic task label, bounded repeatability count, and explicit output directory.
+v5.2 does not create a real queue.
+v5.2 does not write to a real queue.
+v5.2 does not write scheduler state.
+v5.2 does not write cron state.
+v5.2 does not enqueue tasks.
+v5.2 does not execute arbitrary tasks.
+v5.2 does not execute user tasks.
+v5.2 does not start worker processes.
+v5.2 does not spawn agents.
+v5.2 does not assign live tasks.
+v5.2 does not route workers.
+v5.2 does not orchestrate live work.
+v5.2 does not activate the 47,250-worker workforce.
+v5.2 does not allow APIs, network, sockets, DNS, credentials, secrets, environment variables, deployment, production execution, worker process start, queue creation, queue writes, task enqueue, arbitrary task execution, user task execution, live orchestration, or full workforce activation.
+v5.2 does not approve v5.3.
+Next internal label: sandbox worker handoff candidate review only.
+
+## v5.3 Doctrine
+Station Chief Runtime upgraded to v5.3.0. Locked 175-family baseline preserved. Sandbox Worker Handoff Candidate added.
+v5.3 may write exactly one deterministic local sandbox worker handoff packet only.
+v5.3 references one synthetic task label, one sandbox worker label, and one v5.2 repeatability proof reference label.
+v5.3 requires a valid v5.3 token, human operator, synthetic task label, sandbox worker label, v5.2 proof reference label, and explicit output directory.
+v5.3 does not start a worker.
+v5.3 does not start an agent.
+v5.3 does not create a real queue.
+v5.3 does not write to a real queue.
+v5.3 does not write scheduler state.
+v5.3 does not write cron state.
+v5.3 does not enqueue tasks.
+v5.3 does not execute arbitrary tasks.
+v5.3 does not execute user tasks.
+v5.3 does not start worker processes.
+v5.3 does not spawn agents.
+v5.3 does not assign live tasks.
+v5.3 does not route workers.
+v5.3 does not orchestrate live work.
+v5.3 does not activate the 47,250-worker workforce.
+v5.3 does not allow APIs, network, sockets, DNS, credentials, secrets, environment variables, deployment, production execution, worker process start, queue creation, queue writes, task enqueue, arbitrary task execution, user task execution, live orchestration, or full workforce activation.
+v5.3 does not approve v5.4.
+Next internal label: sandbox worker acknowledgement candidate review only.
 - task queue preview audit closeout candidate schema
 - task queue preview audit closeout candidate approval gate
 - non-executing task queue preview candidate bridge

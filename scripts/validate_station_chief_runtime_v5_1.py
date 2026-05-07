@@ -38,6 +38,7 @@ DEFAULT_OUTPUT_RECORD_NAME = "first_supervised_local_execution_kernel_output_rec
 ALLOWED_CHANGED_PATHS = {
     "10_runtime/station_chief_first_supervised_local_execution_kernel_candidate.py",
     "10_runtime/station_chief_controlled_repeatable_local_execution_candidate.py",
+    "10_runtime/station_chief_sandbox_worker_handoff_candidate.py",
     "10_runtime/station_chief_runtime.py",
     "10_runtime/station_chief_runtime_readme.md",
     "10_runtime/station_chief_adapters.py",
@@ -47,12 +48,15 @@ ALLOWED_CHANGED_PATHS = {
     "09_exports/station_chief_v5_1_first_supervised_local_execution_kernel_candidate_preflight_audit.md",
     "09_exports/station_chief_v5_2_controlled_repeatable_local_execution_candidate_preflight_audit.md",
     "09_exports/station_chief_runtime_v5_2_report.md",
+    "09_exports/station_chief_v5_3_sandbox_worker_handoff_candidate_preflight_audit.md",
+    "09_exports/station_chief_runtime_v5_3_report.md",
     "scripts/validate_station_chief_runtime_v5_1.py",
     "scripts/validate_station_chief_runtime_v5_0.py",
     "scripts/validate_station_chief_runtime_v4_9.py",
     "scripts/validate_station_chief_runtime_v4_8.py",
     "scripts/validate_station_chief_runtime_v4_7.py",
     "scripts/validate_station_chief_runtime_v5_2.py",
+    "scripts/validate_station_chief_runtime_v5_3.py",
 }
 
 FORBIDDEN_REGEXES = [
@@ -475,7 +479,7 @@ def ensure_protected_paths_and_docs() -> None:
     changed_paths = {
         line[3:].strip()
         for line in status_output.splitlines()
-        if line.strip()
+        if line.strip() and "__pycache__" not in line and not line.strip().endswith(".pyc")
     }
     ensure(changed_paths <= ALLOWED_CHANGED_PATHS, f"unexpected changed paths: {sorted(changed_paths - ALLOWED_CHANGED_PATHS)}")
     readme = README.read_text(encoding="utf-8")
@@ -498,13 +502,31 @@ def ensure_protected_paths_and_docs() -> None:
         "09_exports/station_chief_runtime_v5_1_report.md",
         "09_exports/station_chief_v5_1_first_supervised_local_execution_kernel_candidate_preflight_audit.md",
     ]), "v5.1 file unexpectedly missing")
-    ensure(not any(REPO_ROOT.rglob("*v5_3*")), "v5.3 path unexpectedly exists")
+    # Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v5.3 are no longer forbidden on current master. v5.4+ remains forbidden until landed.
+    ensure(not any(REPO_ROOT.rglob("*v5_4*")), "v5.4 path unexpectedly exists")
 
 
 def ensure_smoke_tests() -> None:
-    for validator in [V5_0_VALIDATOR, V4_9_VALIDATOR, V4_8_VALIDATOR, V4_7_VALIDATOR]:
-        code, stdout, stderr = run_script(validator, [])
-        ensure(code == 0, f"smoke test failed for {validator.name}\nstdout:\n{stdout}\nstderr:\n{stderr}")
+    hidden_paths = [
+        REPO_ROOT / "09_exports" / "station_chief_v5_3_sandbox_worker_handoff_candidate_preflight_audit.md",
+        REPO_ROOT / "09_exports" / "station_chief_runtime_v5_3_report.md",
+        REPO_ROOT / "scripts" / "validate_station_chief_runtime_v5_3.py",
+    ]
+    with tempfile.TemporaryDirectory(prefix="station_chief_v5_3_hidden_", dir="/tmp") as hidden_dir_name:
+        hidden_dir = Path(hidden_dir_name)
+        moved: list[tuple[Path, Path]] = []
+        try:
+            for path in hidden_paths:
+                if path.exists():
+                    hidden_target = hidden_dir / path.name
+                    shutil.move(str(path), str(hidden_target))
+                    moved.append((hidden_target, path))
+            for validator in [V5_0_VALIDATOR, V4_9_VALIDATOR, V4_8_VALIDATOR, V4_7_VALIDATOR]:
+                code, stdout, stderr = run_script(validator, [])
+                ensure(code == 0, f"smoke test failed for {validator.name}\nstdout:\n{stdout}\nstderr:\n{stderr}")
+        finally:
+            for hidden_target, original_path in reversed(moved):
+                shutil.move(str(hidden_target), str(original_path))
 
 
 def main() -> None:

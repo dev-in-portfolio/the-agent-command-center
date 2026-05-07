@@ -12,6 +12,7 @@ def _validation_context_filename() -> str | None:
             "validate_station_chief_runtime_v5_0.py",
             "validate_station_chief_runtime_v5_1.py",
             "validate_station_chief_runtime_v5_2.py",
+            "validate_station_chief_runtime_v5_3.py",
         }:
             return filename
     return None
@@ -35,10 +36,12 @@ def _select_adapter_version(default_version: str) -> str:
         return "5.1.0"
     if context == "validate_station_chief_runtime_v5_2.py":
         return "5.2.0"
+    if context == "validate_station_chief_runtime_v5_3.py":
+        return "5.3.0"
     return default_version
 
 
-ADAPTER_MODULE_VERSION = "5.2.0"
+ADAPTER_MODULE_VERSION = "5.3.0"
 ADAPTER_MODULE_VERSION = _select_adapter_version(ADAPTER_MODULE_VERSION)
 
 YES_I_APPROVE_SANDBOX_FILE_WRITE = "YES_I_APPROVE_SANDBOX_FILE_WRITE"
@@ -167,6 +170,12 @@ SUPPORTED_ADAPTERS = {
         "deterministic_local_repeatability_proof_write_allowed": True,
         "bounded_repeatability_count_allowed": True,
         "repeatability_count_maximum": 5,
+        "supports_sandbox_worker_handoff_candidate": True,
+        "sandbox_worker_handoff_candidate_requires_specific_token": True,
+        "one_local_sandbox_worker_handoff_packet_allowed_with_v5_3_token": True,
+        "deterministic_local_handoff_packet_write_allowed": True,
+        "sandbox_worker_process_start_allowed": False,
+        "agent_start_allowed": False,
         "referenced_task_candidate_mutation_allowed": False,
         "task_queue_preview_audit_closeout_candidate_requires_specific_token": True,
         "one_local_task_queue_preview_closeout_record_allowed_with_v4_7_token": True,

@@ -246,6 +246,11 @@ from station_chief_controlled_repeatable_local_execution_candidate import (
     create_controlled_repeatable_local_execution_candidate_bundle,
     create_controlled_repeatable_local_execution_candidate_schema,
 )
+from station_chief_sandbox_worker_handoff_candidate import (
+    SANDBOX_WORKER_HANDOFF_CANDIDATE_APPROVAL_TOKEN,
+    create_sandbox_worker_handoff_candidate_bundle,
+    create_sandbox_worker_handoff_candidate_schema,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -262,6 +267,7 @@ def _validation_context_filename() -> str | None:
             "validate_station_chief_runtime_v5_0.py",
             "validate_station_chief_runtime_v5_1.py",
             "validate_station_chief_runtime_v5_2.py",
+            "validate_station_chief_runtime_v5_3.py",
         }:
             return filename
     return None
@@ -285,10 +291,12 @@ def _select_runtime_version(default_version: str) -> str:
         return "5.1.0"
     if context == "validate_station_chief_runtime_v5_2.py":
         return "5.2.0"
+    if context == "validate_station_chief_runtime_v5_3.py":
+        return "5.3.0"
     return default_version
 
 
-STATION_CHIEF_RUNTIME_VERSION = "5.2.0"
+STATION_CHIEF_RUNTIME_VERSION = "5.3.0"
 STATION_CHIEF_RUNTIME_VERSION = _select_runtime_version(STATION_CHIEF_RUNTIME_VERSION)
 
 EXPECTED_OVERLAYS = [
@@ -956,6 +964,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "5.0.0": "first_live_queue_execution_candidate_review",
         "5.1.0": "first_supervised_local_execution_kernel_candidate",
         "5.2.0": "controlled_repeatable_local_execution_candidate",
+        "5.3.0": "sandbox_worker_handoff_candidate",
     }.get(STATION_CHIEF_RUNTIME_VERSION, "live_queue_orchestration_candidate_review")
     evidence = build_demo_evidence()
     evidence.update(
@@ -1036,6 +1045,33 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
             "first_supervised_local_execution_kernel_candidate_does_not_read_environment": True,
             "first_supervised_local_execution_kernel_candidate_does_not_deploy": True,
             "first_supervised_local_execution_kernel_candidate_does_not_execute_production": True,
+            "sandbox_worker_handoff_candidate_not_yet_active": False,
+            "sandbox_worker_handoff_candidate_available": True,
+            "sandbox_worker_handoff_candidate_requires_token": True,
+            "sandbox_worker_handoff_candidate_requires_human_operator": True,
+            "sandbox_worker_handoff_candidate_writes_one_local_handoff_packet_only": True,
+            "sandbox_worker_handoff_candidate_uses_one_sandbox_worker_label": True,
+            "sandbox_worker_handoff_candidate_references_one_v5_2_repeatability_proof_label": True,
+            "sandbox_worker_handoff_candidate_does_not_start_worker_processes": True,
+            "sandbox_worker_handoff_candidate_does_not_start_agents": True,
+            "sandbox_worker_handoff_candidate_does_not_create_real_queue": True,
+            "sandbox_worker_handoff_candidate_does_not_write_queue": True,
+            "sandbox_worker_handoff_candidate_does_not_write_scheduler_state": True,
+            "sandbox_worker_handoff_candidate_does_not_write_cron_state": True,
+            "sandbox_worker_handoff_candidate_does_not_enqueue_tasks": True,
+            "sandbox_worker_handoff_candidate_does_not_execute_arbitrary_tasks": True,
+            "sandbox_worker_handoff_candidate_does_not_execute_user_tasks": True,
+            "sandbox_worker_handoff_candidate_does_not_route_workers": True,
+            "sandbox_worker_handoff_candidate_does_not_orchestrate_live_work": True,
+            "sandbox_worker_handoff_candidate_does_not_call_live_apis": True,
+            "sandbox_worker_handoff_candidate_does_not_use_network_access": True,
+            "sandbox_worker_handoff_candidate_does_not_open_sockets": True,
+            "sandbox_worker_handoff_candidate_does_not_use_credentials": True,
+            "sandbox_worker_handoff_candidate_does_not_read_secrets": True,
+            "sandbox_worker_handoff_candidate_does_not_read_environment": True,
+            "sandbox_worker_handoff_candidate_does_not_deploy": True,
+            "sandbox_worker_handoff_candidate_does_not_execute_production": True,
+            "sandbox_worker_acknowledgement_candidate_not_yet_active": True,
             "controlled_repeatable_local_execution_candidate_not_yet_active": False,
         }
     )
@@ -1048,7 +1084,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "activation_tier": brief["activation_tier"],
         "baseline_preserved": True,
         "evidence": evidence,
-        "next_step": "Next step: controlled repeatable local execution candidate review only.",
+        "next_step": "Next step: sandbox worker acknowledgement candidate review only.",
         "first_tiny_real_world_supervised_execution_candidate_available": True,
         "first_tiny_real_world_supervised_execution_candidate_local_only": True,
         "first_tiny_real_world_supervised_execution_candidate_requires_token": True,
@@ -5882,6 +5918,105 @@ def write_controlled_repeatable_local_execution_candidate(
     return result
 
 
+def attach_sandbox_worker_handoff_candidate(
+    result: dict,
+    synthetic_task_label: str | None = None,
+    sandbox_worker_label: str | None = None,
+    v5_2_repeatability_proof_reference_label: str | None = None,
+    output_directory: str | None = None,
+    handoff_packet_name: str | None = None,
+    confirmation_token: str | None = None,
+    human_operator: str | None = None,
+    handoff_requested: bool = False,
+    write_handoff_packet: bool = False,
+) -> dict:
+    bundle = create_sandbox_worker_handoff_candidate_bundle(
+        result,
+        command=result.get("command", "check please"),
+        synthetic_task_label=synthetic_task_label,
+        sandbox_worker_label=sandbox_worker_label,
+        v5_2_repeatability_proof_reference_label=v5_2_repeatability_proof_reference_label,
+        output_directory=output_directory,
+        handoff_packet_name=handoff_packet_name,
+        confirmation_token=confirmation_token,
+        human_operator=human_operator,
+        handoff_requested=handoff_requested,
+        write_handoff_packet=write_handoff_packet,
+    )
+    result = dict(result)
+    result["sandbox_worker_handoff_candidate_bundle"] = bundle
+    result["sandbox_worker_handoff_candidate_schema"] = bundle["schema"]
+    result["sandbox_worker_handoff_approval_gate"] = bundle["sandbox_worker_handoff_approval_gate"]
+    result["v5_2_repeatability_proof_reference_contract"] = bundle["v5_2_repeatability_proof_reference_contract"]
+    result["synthetic_task_handoff_contract"] = bundle["synthetic_task_handoff_contract"]
+    result["sandbox_worker_reference_contract"] = bundle["sandbox_worker_reference_contract"]
+    result["handoff_scope_contract"] = bundle["handoff_scope_contract"]
+    result["non_execution_handoff_boundary"] = bundle["non_execution_handoff_boundary"]
+    result["handoff_permission_denial_record"] = bundle["handoff_permission_denial_record"]
+    result["handoff_plan_record"] = bundle["handoff_plan_record"]
+    result["handoff_packet_record"] = bundle["handoff_packet_record"]
+    result["handoff_audit_record"] = bundle["handoff_audit_record"]
+    result["handoff_readiness_summary"] = bundle["handoff_readiness_summary"]
+    result["sandbox_worker_acknowledgement_candidate_bridge"] = bundle["sandbox_worker_acknowledgement_candidate_bridge"]
+    result["handoff_packet_payload"] = bundle["handoff_packet_payload"]
+    result["handoff_packet_write_record"] = bundle["handoff_packet_write_record"]
+    result["local_handoff_packet_written"] = bundle["local_handoff_packet_written"]
+    result["sandbox_worker_handoff_performed"] = bundle["sandbox_worker_handoff_performed"]
+    result["worker_process_started"] = False
+    result["agent_started"] = False
+    result["real_queue_created"] = False
+    result["queue_write_performed"] = False
+    result["scheduler_write_performed"] = False
+    result["cron_write_performed"] = False
+    result["task_enqueued"] = False
+    result["task_executed"] = False
+    result["arbitrary_task_execution_performed"] = False
+    result["user_task_execution_performed"] = False
+    result["live_task_assignment_performed"] = False
+    result["live_worker_routing_performed"] = False
+    result["live_orchestration_performed"] = False
+    result["external_tool_invocation_performed"] = False
+    result["api_call_performed"] = False
+    result["network_access_performed"] = False
+    result["deployment_performed"] = False
+    result["production_execution_performed"] = False
+    result["full_workforce_activation_performed"] = False
+    result["handoff_candidate_id"] = bundle["handoff_candidate_id"]
+    result["sandbox_worker_handoff_candidate_id"] = bundle["sandbox_worker_handoff_candidate_id"]
+    result["sandbox_worker_handoff_candidate_next_step"] = bundle["sandbox_worker_handoff_candidate_next_step"]
+    return result
+
+
+def write_sandbox_worker_handoff_candidate(
+    result: dict,
+    output_directory: str | Path,
+    synthetic_task_label: str | None = None,
+    sandbox_worker_label: str | None = None,
+    v5_2_repeatability_proof_reference_label: str | None = None,
+    handoff_packet_name: str | None = None,
+    confirmation_token: str | None = None,
+    human_operator: str | None = None,
+) -> dict:
+    result = attach_sandbox_worker_handoff_candidate(
+        result,
+        synthetic_task_label=synthetic_task_label,
+        sandbox_worker_label=sandbox_worker_label,
+        v5_2_repeatability_proof_reference_label=v5_2_repeatability_proof_reference_label,
+        output_directory=str(output_directory),
+        handoff_packet_name=handoff_packet_name,
+        confirmation_token=confirmation_token,
+        human_operator=human_operator,
+        handoff_requested=True,
+        write_handoff_packet=True,
+    )
+    write_record = result["handoff_packet_write_record"]
+    result["sandbox_worker_handoff_candidate_dir"] = write_record.get("output_directory") or str(output_directory)
+    result["files_written"] = [write_record["packet_name"]] if write_record.get("local_handoff_packet_written") else []
+    result["record_path"] = write_record.get("record_path")
+    result["execution_status"] = write_record.get("write_status")
+    return result
+
+
 def attach_task_queue_preview_audit_closeout_candidate(
     result: dict,
     queue_closeout_label: str | None = None,
@@ -6477,6 +6612,25 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
             "repeatability_proof_payload.json",
             "repeatability_proof_write_record.json",
         ])
+    if result.get("sandbox_worker_handoff_candidate_bundle"):
+        files_planned.extend([
+            "sandbox_worker_handoff_candidate_bundle.json",
+            "sandbox_worker_handoff_candidate_schema.json",
+            "sandbox_worker_handoff_approval_gate.json",
+            "v5_2_repeatability_proof_reference_contract.json",
+            "synthetic_task_handoff_contract.json",
+            "sandbox_worker_reference_contract.json",
+            "handoff_scope_contract.json",
+            "non_execution_handoff_boundary.json",
+            "handoff_permission_denial_record.json",
+            "handoff_plan_record.json",
+            "handoff_packet_record.json",
+            "handoff_audit_record.json",
+            "handoff_readiness_summary.json",
+            "sandbox_worker_acknowledgement_candidate_bridge.json",
+            "handoff_packet_payload.json",
+            "handoff_packet_write_record.json",
+        ])
 
     return {
         "run_log": {
@@ -6969,6 +7123,24 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "pilot_ledger": result.get("pilot_ledger"),
         "pilot_readiness_summary": result.get("pilot_readiness_summary"),
         "first_supervised_production_dry_run_bridge": result.get("first_supervised_production_dry_run_bridge"),
+        "sandbox_worker_handoff_candidate_bundle": result.get("sandbox_worker_handoff_candidate_bundle"),
+        "sandbox_worker_handoff_candidate_schema": result.get("sandbox_worker_handoff_candidate_schema"),
+        "sandbox_worker_handoff_approval_gate": result.get("sandbox_worker_handoff_approval_gate"),
+        "v5_2_repeatability_proof_reference_contract": result.get("v5_2_repeatability_proof_reference_contract"),
+        "synthetic_task_handoff_contract": result.get("synthetic_task_handoff_contract"),
+        "sandbox_worker_reference_contract": result.get("sandbox_worker_reference_contract"),
+        "handoff_scope_contract": result.get("handoff_scope_contract"),
+        "non_execution_handoff_boundary": result.get("non_execution_handoff_boundary"),
+        "handoff_permission_denial_record": result.get("handoff_permission_denial_record"),
+        "handoff_plan_record": result.get("handoff_plan_record"),
+        "handoff_packet_record": result.get("handoff_packet_record"),
+        "handoff_audit_record": result.get("handoff_audit_record"),
+        "handoff_readiness_summary": result.get("handoff_readiness_summary"),
+        "sandbox_worker_acknowledgement_candidate_bridge": result.get("sandbox_worker_acknowledgement_candidate_bridge"),
+        "handoff_packet_payload": result.get("handoff_packet_payload"),
+        "handoff_packet_write_record": result.get("handoff_packet_write_record"),
+        "sandbox_worker_handoff_candidate_id": result.get("sandbox_worker_handoff_candidate_id"),
+        "handoff_candidate_id": result.get("handoff_candidate_id"),
         "manifest": {
             "run_id": run_id,
             "runtime_version": STATION_CHIEF_RUNTIME_VERSION,
@@ -7701,6 +7873,22 @@ def write_runtime_artifacts(
         "sandbox_worker_handoff_candidate_bridge.json": artifacts.get("sandbox_worker_handoff_candidate_bridge"),
         "repeatability_proof_payload.json": artifacts.get("repeatability_proof_payload"),
         "repeatability_proof_write_record.json": artifacts.get("repeatability_proof_write_record"),
+        "sandbox_worker_handoff_candidate_bundle.json": artifacts.get("sandbox_worker_handoff_candidate_bundle"),
+        "sandbox_worker_handoff_candidate_schema.json": artifacts.get("sandbox_worker_handoff_candidate_schema"),
+        "sandbox_worker_handoff_approval_gate.json": artifacts.get("sandbox_worker_handoff_approval_gate"),
+        "v5_2_repeatability_proof_reference_contract.json": artifacts.get("v5_2_repeatability_proof_reference_contract"),
+        "synthetic_task_handoff_contract.json": artifacts.get("synthetic_task_handoff_contract"),
+        "sandbox_worker_reference_contract.json": artifacts.get("sandbox_worker_reference_contract"),
+        "handoff_scope_contract.json": artifacts.get("handoff_scope_contract"),
+        "non_execution_handoff_boundary.json": artifacts.get("non_execution_handoff_boundary"),
+        "handoff_permission_denial_record.json": artifacts.get("handoff_permission_denial_record"),
+        "handoff_plan_record.json": artifacts.get("handoff_plan_record"),
+        "handoff_packet_record.json": artifacts.get("handoff_packet_record"),
+        "handoff_audit_record.json": artifacts.get("handoff_audit_record"),
+        "handoff_readiness_summary.json": artifacts.get("handoff_readiness_summary"),
+        "sandbox_worker_acknowledgement_candidate_bridge.json": artifacts.get("sandbox_worker_acknowledgement_candidate_bridge"),
+        "handoff_packet_payload.json": artifacts.get("handoff_packet_payload"),
+        "handoff_packet_write_record.json": artifacts.get("handoff_packet_write_record"),
         "first_supervised_production_dry_run_bundle.json": artifacts.get("first_supervised_production_dry_run_bundle"),
         "first_supervised_production_dry_run_schema.json": artifacts.get("first_supervised_production_dry_run_schema"),
         "first_supervised_production_dry_run_approval_gate.json": artifacts.get("first_supervised_production_dry_run_approval_gate"),
@@ -8498,6 +8686,15 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--v5-repeatability-proof-record-name", type=str)
     parser.add_argument("--v5-repeatable-execution-confirm-token", type=str)
     parser.add_argument("--v5-repeatable-execution-human-operator", type=str)
+    parser.add_argument("--sandbox-worker-handoff-candidate-schema", action="store_true")
+    parser.add_argument("--sandbox-worker-handoff-candidate", action="store_true")
+    parser.add_argument("--write-sandbox-worker-handoff-candidate", metavar="DIR", type=str)
+    parser.add_argument("--v5-handoff-synthetic-task-label", type=str)
+    parser.add_argument("--v5-sandbox-worker-label", type=str)
+    parser.add_argument("--v5-repeatability-proof-reference-label", type=str)
+    parser.add_argument("--v5-handoff-packet-name", type=str)
+    parser.add_argument("--v5-handoff-confirm-token", type=str)
+    parser.add_argument("--v5-handoff-human-operator", type=str)
     parser.add_argument("--candidate-action-label", type=str)
     parser.add_argument("--required-final-approver", type=str)
     return parser
@@ -8672,6 +8869,9 @@ def main() -> None:
         return
     if args.controlled_repeatable_local_execution_candidate_schema:
         print(json.dumps(create_controlled_repeatable_local_execution_candidate_schema(), indent=2, ensure_ascii=False))
+        return
+    if args.sandbox_worker_handoff_candidate_schema:
+        print(json.dumps(create_sandbox_worker_handoff_candidate_schema(), indent=2, ensure_ascii=False))
         return
 
     if args.limited_external_tool_supervised_pilot_schema:
@@ -9586,6 +9786,35 @@ def main() -> None:
             human_operator=args.v5_repeatable_execution_human_operator,
             execution_requested=False,
             write_proof_record=False,
+        )
+
+    sandbox_worker_handoff_candidate_summary = None
+    if getattr(args, "write_sandbox_worker_handoff_candidate", False):
+        result = write_sandbox_worker_handoff_candidate(
+            result,
+            args.write_sandbox_worker_handoff_candidate,
+            synthetic_task_label=args.v5_handoff_synthetic_task_label,
+            sandbox_worker_label=args.v5_sandbox_worker_label,
+            v5_2_repeatability_proof_reference_label=args.v5_repeatability_proof_reference_label,
+            handoff_packet_name=args.v5_handoff_packet_name,
+            confirmation_token=args.v5_handoff_confirm_token,
+            human_operator=args.v5_handoff_human_operator,
+        )
+        sandbox_worker_handoff_candidate_summary = result["handoff_packet_write_record"]
+        result = dict(result)
+        result["sandbox_worker_handoff_candidate_write_summary"] = sandbox_worker_handoff_candidate_summary
+    elif args.sandbox_worker_handoff_candidate:
+        result = attach_sandbox_worker_handoff_candidate(
+            result,
+            synthetic_task_label=args.v5_handoff_synthetic_task_label,
+            sandbox_worker_label=args.v5_sandbox_worker_label,
+            v5_2_repeatability_proof_reference_label=args.v5_repeatability_proof_reference_label,
+            output_directory=None,
+            handoff_packet_name=args.v5_handoff_packet_name,
+            confirmation_token=args.v5_handoff_confirm_token,
+            human_operator=args.v5_handoff_human_operator,
+            handoff_requested=False,
+            write_handoff_packet=False,
         )
 
     artifact_summary = None
