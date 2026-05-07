@@ -37,6 +37,11 @@ SYNTHETIC_TASK_LABEL = "sandbox status note"
 DEFAULT_OUTPUT_RECORD_NAME = "first_supervised_local_execution_kernel_output_record.json"
 
 ALLOWED_CHANGED_PATHS = {
+    "10_runtime/__pycache__/",
+    "scripts/validate_station_chief_runtime_v5_5.py",
+    "10_runtime/station_chief_sandbox_worker_acceptance_candidate_review.py",
+    "09_exports/station_chief_v5_5_sandbox_worker_acceptance_candidate_review_preflight_audit.md",
+    "09_exports/station_chief_runtime_v5_5_report.md",
     "10_runtime/station_chief_first_supervised_local_execution_kernel_candidate.py",
     "10_runtime/station_chief_controlled_repeatable_local_execution_candidate.py",
     "10_runtime/station_chief_sandbox_worker_handoff_candidate.py",
@@ -508,7 +513,7 @@ def ensure_protected_paths_and_docs() -> None:
         "09_exports/station_chief_v5_1_first_supervised_local_execution_kernel_candidate_preflight_audit.md",
     ]), "v5.1 file unexpectedly missing")
     # Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v5.3 are no longer forbidden on current master. v5.4+ remains forbidden until landed.
-    ensure(not any(REPO_ROOT.rglob("*v5_5*")), "v5.5 path unexpectedly exists")
+    ensure(not any(REPO_ROOT.rglob("*v5_6*")), "v5.6 path unexpectedly exists")
 
 
 def ensure_smoke_tests() -> None:

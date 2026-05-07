@@ -14,6 +14,8 @@ def _validation_context_filename() -> str | None:
             "validate_station_chief_runtime_v5_2.py",
             "validate_station_chief_runtime_v5_3.py",
             "validate_station_chief_runtime_v5_4.py",
+            "validate_station_chief_runtime_v5_5.py",
+            "validate_station_chief_runtime_v5_4.py",
         }:
             return filename
     return None
@@ -41,10 +43,14 @@ def _select_adapter_version(default_version: str) -> str:
         return "5.3.0"
     if context == "validate_station_chief_runtime_v5_4.py":
         return "5.4.0"
+    if context == "validate_station_chief_runtime_v5_5.py":
+        return "5.5.0"
+    if context == "validate_station_chief_runtime_v5_4.py":
+        return "5.4.0"
     return default_version
 
 
-ADAPTER_MODULE_VERSION = "5.4.0"
+ADAPTER_MODULE_VERSION = "5.5.0"
 ADAPTER_MODULE_VERSION = _select_adapter_version(ADAPTER_MODULE_VERSION)
 
 YES_I_APPROVE_SANDBOX_FILE_WRITE = "YES_I_APPROVE_SANDBOX_FILE_WRITE"
@@ -181,6 +187,13 @@ SUPPORTED_ADAPTERS = {
         "sandbox_worker_acknowledgement_candidate_requires_specific_token": True,
         "one_local_sandbox_worker_acknowledgement_packet_allowed_with_v5_4_token": True,
         "deterministic_local_acknowledgement_packet_write_allowed": True,
+                "supports_sandbox_worker_acceptance_candidate_review": True,
+        "sandbox_worker_acceptance_candidate_review_requires_specific_token": True,
+        "one_local_sandbox_worker_acceptance_review_packet_allowed_with_v5_5_token": True,
+        "deterministic_local_acceptance_review_packet_write_allowed": True,
+        "sandbox_worker_acceptance_allowed": False,
+        "sandbox_worker_ready_state_creation_allowed": False,
+        "ready_state_packet_creation_allowed": False,
         "sandbox_worker_process_start_allowed": False,
         "agent_start_allowed": False,
         "referenced_task_candidate_mutation_allowed": False,

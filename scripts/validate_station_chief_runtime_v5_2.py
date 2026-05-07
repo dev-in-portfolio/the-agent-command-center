@@ -34,6 +34,11 @@ SYNTHETIC_TASK_LABEL = "sandbox repeatability status note"
 DEFAULT_PROOF_RECORD_NAME = "controlled_repeatable_local_execution_proof_record.json"
 
 ALLOWED_CHANGED_PATHS = {
+    "10_runtime/__pycache__/",
+    "scripts/validate_station_chief_runtime_v5_5.py",
+    "10_runtime/station_chief_sandbox_worker_acceptance_candidate_review.py",
+    "09_exports/station_chief_v5_5_sandbox_worker_acceptance_candidate_review_preflight_audit.md",
+    "09_exports/station_chief_runtime_v5_5_report.md",
     "10_runtime/station_chief_controlled_repeatable_local_execution_candidate.py",
     "10_runtime/station_chief_sandbox_worker_handoff_candidate.py",
     "10_runtime/station_chief_sandbox_worker_acknowledgement_candidate.py",
@@ -512,9 +517,10 @@ def ensure_docs_and_reports() -> None:
     ensure("READY_FOR_CONTROLLED_REPEATABLE_LOCAL_EXECUTION_CANDIDATE_BUILD" in audit, "v5.2 audit missing readiness verdict")
 
 
+# Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v5.5 are no longer forbidden on current master. v5.6+ remains forbidden until landed.
 def ensure_no_v54_files() -> None:
     # Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v5.3 are no longer forbidden on current master. v5.4+ remains forbidden until landed.
-    ensure(not any(REPO_ROOT.rglob("*v5_5*")), "v5.5 path unexpectedly exists")
+    ensure(not any(REPO_ROOT.rglob("*v5_6*")), "v5.6 path unexpectedly exists")
 
 
 def ensure_changed_paths() -> None:
