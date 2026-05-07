@@ -171,3 +171,26 @@ v5.1 does not activate the 47,250-worker workforce.
 v5.1 does not allow APIs, network, sockets, DNS, credentials, secrets, environment variables, deployment, production execution, worker process start, queue creation, queue writes, task enqueue, arbitrary task execution, user task execution, live orchestration, or full workforce activation.
 v5.1 does not approve v5.2.
 Next internal label: controlled repeatable local execution candidate review only.
+
+## v5.2 Doctrine
+Station Chief Runtime upgraded to v5.2.0. Locked 175-family baseline preserved. Controlled Repeatable Local Execution Candidate added.
+v5.2 is the second controlled local “meat” layer.
+v5.2 may write exactly one deterministic local repeatability proof record only.
+v5.2 may generate bounded deterministic in-memory repeatability entries for one synthetic task.
+v5.2 requires a valid v5.2 token, human operator, synthetic task label, bounded repeatability count, and explicit output directory.
+v5.2 does not create a real queue.
+v5.2 does not write to a real queue.
+v5.2 does not write scheduler state.
+v5.2 does not write cron state.
+v5.2 does not enqueue tasks.
+v5.2 does not execute arbitrary tasks.
+v5.2 does not execute user tasks.
+v5.2 does not start worker processes.
+v5.2 does not spawn agents.
+v5.2 does not assign live tasks.
+v5.2 does not route workers.
+v5.2 does not orchestrate live work.
+v5.2 does not activate the 47,250-worker workforce.
+v5.2 does not allow APIs, network, sockets, DNS, credentials, secrets, environment variables, deployment, production execution, worker process start, queue creation, queue writes, task enqueue, arbitrary task execution, user task execution, live orchestration, or full workforce activation.
+v5.2 does not approve v5.3.
+Next internal label: sandbox worker handoff candidate review only.

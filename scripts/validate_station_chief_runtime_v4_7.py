@@ -964,9 +964,8 @@ def ensure_no_v48_files() -> None:
         "09_exports/station_chief_runtime_v4_8_report.md",
     ]:
         ensure((REPO_ROOT / relative).exists(), f"missing v4.8 file: {relative}")
-    # Legacy validator is allowed to run as a smoke test after later versions have landed.
-    # v4.8, v4.9, v5.0, and v5.1 files are no longer forbidden on current master; v5.2+ remains forbidden until landed.
-    ensure(not any(REPO_ROOT.rglob("*v5_2*")), "forbidden v5.2 path exists")
+    # Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v5.2 are no longer forbidden on current master. v5.3+ remains forbidden until landed.
+    ensure(not any(REPO_ROOT.rglob("*v5_3*")), "forbidden v5.3 path exists")
 
 
 def ensure_wrappers_delegate() -> None:

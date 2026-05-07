@@ -241,6 +241,11 @@ from station_chief_first_supervised_local_execution_kernel_candidate import (
     create_first_supervised_local_execution_kernel_candidate_bundle,
     create_first_supervised_local_execution_kernel_candidate_schema,
 )
+from station_chief_controlled_repeatable_local_execution_candidate import (
+    CONTROLLED_REPEATABLE_LOCAL_EXECUTION_CANDIDATE_APPROVAL_TOKEN,
+    create_controlled_repeatable_local_execution_candidate_bundle,
+    create_controlled_repeatable_local_execution_candidate_schema,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -256,6 +261,7 @@ def _validation_context_filename() -> str | None:
         if filename.startswith("validate_station_chief_runtime_v4_") or filename in {
             "validate_station_chief_runtime_v5_0.py",
             "validate_station_chief_runtime_v5_1.py",
+            "validate_station_chief_runtime_v5_2.py",
         }:
             return filename
     return None
@@ -277,10 +283,12 @@ def _select_runtime_version(default_version: str) -> str:
         return "5.0.0"
     if context == "validate_station_chief_runtime_v5_1.py":
         return "5.1.0"
+    if context == "validate_station_chief_runtime_v5_2.py":
+        return "5.2.0"
     return default_version
 
 
-STATION_CHIEF_RUNTIME_VERSION = "5.1.0"
+STATION_CHIEF_RUNTIME_VERSION = "5.2.0"
 STATION_CHIEF_RUNTIME_VERSION = _select_runtime_version(STATION_CHIEF_RUNTIME_VERSION)
 
 EXPECTED_OVERLAYS = [
@@ -947,10 +955,37 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "4.9.0": "live_queue_orchestration_candidate_review",
         "5.0.0": "first_live_queue_execution_candidate_review",
         "5.1.0": "first_supervised_local_execution_kernel_candidate",
+        "5.2.0": "controlled_repeatable_local_execution_candidate",
     }.get(STATION_CHIEF_RUNTIME_VERSION, "live_queue_orchestration_candidate_review")
     evidence = build_demo_evidence()
     evidence.update(
         {
+            "controlled_repeatable_local_execution_candidate_not_yet_active": False,
+            "controlled_repeatable_local_execution_candidate_available": True,
+            "controlled_repeatable_local_execution_candidate_requires_token": True,
+            "controlled_repeatable_local_execution_candidate_requires_human_operator": True,
+            "controlled_repeatable_local_execution_candidate_writes_one_local_proof_record_only": True,
+            "controlled_repeatable_local_execution_candidate_uses_bounded_repeatability_count": True,
+            "controlled_repeatable_local_execution_candidate_allows_only_deterministic_local_proof_write": True,
+            "controlled_repeatable_local_execution_candidate_does_not_create_real_queue": True,
+            "controlled_repeatable_local_execution_candidate_does_not_write_queue": True,
+            "controlled_repeatable_local_execution_candidate_does_not_write_scheduler_state": True,
+            "controlled_repeatable_local_execution_candidate_does_not_write_cron_state": True,
+            "controlled_repeatable_local_execution_candidate_does_not_enqueue_tasks": True,
+            "controlled_repeatable_local_execution_candidate_does_not_execute_arbitrary_tasks": True,
+            "controlled_repeatable_local_execution_candidate_does_not_execute_user_tasks": True,
+            "controlled_repeatable_local_execution_candidate_does_not_start_worker_processes": True,
+            "controlled_repeatable_local_execution_candidate_does_not_assign_tasks": True,
+            "controlled_repeatable_local_execution_candidate_does_not_route_workers": True,
+            "controlled_repeatable_local_execution_candidate_does_not_orchestrate_live_work": True,
+            "controlled_repeatable_local_execution_candidate_does_not_call_live_apis": True,
+            "controlled_repeatable_local_execution_candidate_does_not_use_network_access": True,
+            "controlled_repeatable_local_execution_candidate_does_not_open_sockets": True,
+            "controlled_repeatable_local_execution_candidate_does_not_use_credentials": True,
+            "controlled_repeatable_local_execution_candidate_does_not_read_secrets": True,
+            "controlled_repeatable_local_execution_candidate_does_not_read_environment": True,
+            "controlled_repeatable_local_execution_candidate_does_not_deploy": True,
+            "controlled_repeatable_local_execution_candidate_does_not_execute_production": True,
             "first_live_queue_execution_candidate_review_available": True,
             "first_live_queue_execution_candidate_review_local_record_only": True,
             "first_live_queue_execution_candidate_review_requires_token": True,
@@ -1001,7 +1036,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
             "first_supervised_local_execution_kernel_candidate_does_not_read_environment": True,
             "first_supervised_local_execution_kernel_candidate_does_not_deploy": True,
             "first_supervised_local_execution_kernel_candidate_does_not_execute_production": True,
-            "controlled_repeatable_local_execution_candidate_not_yet_active": True,
+            "controlled_repeatable_local_execution_candidate_not_yet_active": False,
         }
     )
     return {
@@ -2047,7 +2082,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "monitored_rollback_recovery_drill_does_not_execute_production": True,
         "monitored_rollback_recovery_drill_does_not_modify_repo_files": True,
         },
-        "next_step": "Next step: build supervised production pilot readiness review.",
+        "next_step": "Next step: sandbox worker handoff candidate review only.",
     }
 
 
@@ -5753,6 +5788,100 @@ def write_first_supervised_local_execution_kernel_candidate(
     return result
 
 
+def attach_controlled_repeatable_local_execution_candidate(
+    result: dict,
+    synthetic_task_label: str | None = None,
+    output_directory: str | None = None,
+    output_record_name: str | None = None,
+    repeatability_count: int | None = None,
+    confirmation_token: str | None = None,
+    human_operator: str | None = None,
+    execution_requested: bool = False,
+    write_proof_record: bool = False,
+) -> dict:
+    bundle = create_controlled_repeatable_local_execution_candidate_bundle(
+        result,
+        command=result.get("command", "check please"),
+        synthetic_task_label=synthetic_task_label,
+        output_directory=output_directory,
+        output_record_name=output_record_name,
+        repeatability_count=repeatability_count,
+        confirmation_token=confirmation_token,
+        human_operator=human_operator,
+        execution_requested=execution_requested,
+        write_proof_record=write_proof_record,
+    )
+    result = dict(result)
+    result["controlled_repeatable_local_execution_candidate_bundle"] = bundle
+    result["controlled_repeatable_local_execution_candidate_schema"] = bundle["schema"]
+    result["repeatable_execution_approval_gate"] = bundle["repeatable_execution_approval_gate"]
+    result["synthetic_repeatable_task_contract"] = bundle["synthetic_repeatable_task_contract"]
+    result["repeatability_scope_contract"] = bundle["repeatability_scope_contract"]
+    result["non_external_repeatability_boundary"] = bundle["non_external_repeatability_boundary"]
+    result["repeatability_permission_denial_record"] = bundle["repeatability_permission_denial_record"]
+    result["repeatability_plan_record"] = bundle["repeatability_plan_record"]
+    result["repeatability_entries_record"] = bundle["repeatability_entries_record"]
+    result["repeatability_proof_result_record"] = bundle["repeatability_proof_result_record"]
+    result["repeatability_audit_record"] = bundle["repeatability_audit_record"]
+    result["repeatability_readiness_summary"] = bundle["repeatability_readiness_summary"]
+    result["sandbox_worker_handoff_candidate_bridge"] = bundle["sandbox_worker_handoff_candidate_bridge"]
+    result["repeatability_proof_payload"] = bundle["repeatability_proof_payload"]
+    result["repeatability_proof_write_record"] = bundle["repeatability_proof_write_record"]
+    result["local_repeatability_proof_record_written"] = bundle["local_repeatability_proof_record_written"]
+    result["controlled_repeatable_local_execution_performed"] = bundle["controlled_repeatable_local_execution_performed"]
+    result["supervised_local_execution_performed"] = bundle["supervised_local_execution_performed"]
+    result["repeatability_count"] = bundle["repeatability_count"]
+    result["repeatability_status"] = bundle["repeatability_status"]
+    result["repeatable_execution_candidate_id"] = bundle["repeatable_execution_candidate_id"]
+    result["real_queue_created"] = False
+    result["queue_write_performed"] = False
+    result["scheduler_write_performed"] = False
+    result["cron_write_performed"] = False
+    result["task_enqueued"] = False
+    result["task_executed"] = False
+    result["arbitrary_task_execution_performed"] = False
+    result["user_task_execution_performed"] = False
+    result["live_task_assignment_performed"] = False
+    result["live_worker_routing_performed"] = False
+    result["live_orchestration_performed"] = False
+    result["worker_process_started"] = False
+    result["external_tool_invocation_performed"] = False
+    result["api_call_performed"] = False
+    result["network_access_performed"] = False
+    result["deployment_performed"] = False
+    result["production_execution_performed"] = False
+    result["full_workforce_activation_performed"] = False
+    return result
+
+
+def write_controlled_repeatable_local_execution_candidate(
+    result: dict,
+    output_directory: str | Path,
+    synthetic_task_label: str | None = None,
+    output_record_name: str | None = None,
+    repeatability_count: int | None = None,
+    confirmation_token: str | None = None,
+    human_operator: str | None = None,
+) -> dict:
+    result = attach_controlled_repeatable_local_execution_candidate(
+        result,
+        synthetic_task_label=synthetic_task_label,
+        output_directory=str(output_directory),
+        output_record_name=output_record_name,
+        repeatability_count=repeatability_count,
+        confirmation_token=confirmation_token,
+        human_operator=human_operator,
+        execution_requested=True,
+        write_proof_record=True,
+    )
+    write_record = result["repeatability_proof_write_record"]
+    result["controlled_repeatable_local_execution_candidate_dir"] = write_record.get("output_directory") or str(output_directory)
+    result["files_written"] = [write_record["record_name"]] if write_record.get("local_repeatability_proof_record_written") else []
+    result["record_path"] = write_record.get("record_path")
+    result["execution_status"] = write_record.get("write_status")
+    return result
+
+
 def attach_task_queue_preview_audit_closeout_candidate(
     result: dict,
     queue_closeout_label: str | None = None,
@@ -6329,6 +6458,24 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
             "controlled_repeatable_local_execution_candidate_bridge.json",
             "supervised_local_execution_output_payload.json",
             "supervised_local_execution_write_record.json",
+        ])
+    if result.get("controlled_repeatable_local_execution_candidate_bundle"):
+        files_planned.extend([
+            "controlled_repeatable_local_execution_candidate_bundle.json",
+            "controlled_repeatable_local_execution_candidate_schema.json",
+            "repeatable_execution_approval_gate.json",
+            "synthetic_repeatable_task_contract.json",
+            "repeatability_scope_contract.json",
+            "non_external_repeatability_boundary.json",
+            "repeatability_permission_denial_record.json",
+            "repeatability_plan_record.json",
+            "repeatability_entries_record.json",
+            "repeatability_proof_result_record.json",
+            "repeatability_audit_record.json",
+            "repeatability_readiness_summary.json",
+            "sandbox_worker_handoff_candidate_bridge.json",
+            "repeatability_proof_payload.json",
+            "repeatability_proof_write_record.json",
         ])
 
     return {
@@ -7539,6 +7686,21 @@ def write_runtime_artifacts(
         "controlled_repeatable_local_execution_candidate_bridge.json": artifacts.get("controlled_repeatable_local_execution_candidate_bridge"),
         "supervised_local_execution_output_payload.json": artifacts.get("supervised_local_execution_output_payload"),
         "supervised_local_execution_write_record.json": artifacts.get("supervised_local_execution_write_record"),
+        "controlled_repeatable_local_execution_candidate_bundle.json": artifacts.get("controlled_repeatable_local_execution_candidate_bundle"),
+        "controlled_repeatable_local_execution_candidate_schema.json": artifacts.get("controlled_repeatable_local_execution_candidate_schema"),
+        "repeatable_execution_approval_gate.json": artifacts.get("repeatable_execution_approval_gate"),
+        "synthetic_repeatable_task_contract.json": artifacts.get("synthetic_repeatable_task_contract"),
+        "repeatability_scope_contract.json": artifacts.get("repeatability_scope_contract"),
+        "non_external_repeatability_boundary.json": artifacts.get("non_external_repeatability_boundary"),
+        "repeatability_permission_denial_record.json": artifacts.get("repeatability_permission_denial_record"),
+        "repeatability_plan_record.json": artifacts.get("repeatability_plan_record"),
+        "repeatability_entries_record.json": artifacts.get("repeatability_entries_record"),
+        "repeatability_proof_result_record.json": artifacts.get("repeatability_proof_result_record"),
+        "repeatability_audit_record.json": artifacts.get("repeatability_audit_record"),
+        "repeatability_readiness_summary.json": artifacts.get("repeatability_readiness_summary"),
+        "sandbox_worker_handoff_candidate_bridge.json": artifacts.get("sandbox_worker_handoff_candidate_bridge"),
+        "repeatability_proof_payload.json": artifacts.get("repeatability_proof_payload"),
+        "repeatability_proof_write_record.json": artifacts.get("repeatability_proof_write_record"),
         "first_supervised_production_dry_run_bundle.json": artifacts.get("first_supervised_production_dry_run_bundle"),
         "first_supervised_production_dry_run_schema.json": artifacts.get("first_supervised_production_dry_run_schema"),
         "first_supervised_production_dry_run_approval_gate.json": artifacts.get("first_supervised_production_dry_run_approval_gate"),
@@ -8328,6 +8490,14 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--v5-supervised-output-record-name", type=str)
     parser.add_argument("--v5-supervised-execution-confirm-token", type=str)
     parser.add_argument("--v5-supervised-execution-human-operator", type=str)
+    parser.add_argument("--controlled-repeatable-local-execution-candidate-schema", action="store_true")
+    parser.add_argument("--controlled-repeatable-local-execution-candidate", action="store_true")
+    parser.add_argument("--write-controlled-repeatable-local-execution-candidate", metavar="DIR", type=str)
+    parser.add_argument("--v5-repeatable-synthetic-task-label", type=str)
+    parser.add_argument("--v5-repeatability-count", type=int)
+    parser.add_argument("--v5-repeatability-proof-record-name", type=str)
+    parser.add_argument("--v5-repeatable-execution-confirm-token", type=str)
+    parser.add_argument("--v5-repeatable-execution-human-operator", type=str)
     parser.add_argument("--candidate-action-label", type=str)
     parser.add_argument("--required-final-approver", type=str)
     return parser
@@ -8499,6 +8669,9 @@ def main() -> None:
 
     if args.first_supervised_local_execution_kernel_candidate_schema:
         print(json.dumps(create_first_supervised_local_execution_kernel_candidate_schema(), indent=2, ensure_ascii=False))
+        return
+    if args.controlled_repeatable_local_execution_candidate_schema:
+        print(json.dumps(create_controlled_repeatable_local_execution_candidate_schema(), indent=2, ensure_ascii=False))
         return
 
     if args.limited_external_tool_supervised_pilot_schema:
@@ -9386,6 +9559,33 @@ def main() -> None:
             human_operator=args.v5_supervised_execution_human_operator,
             execution_requested=False,
             write_output_record=False,
+        )
+
+    controlled_repeatable_local_execution_candidate_summary = None
+    if getattr(args, "write_controlled_repeatable_local_execution_candidate", False):
+        result = write_controlled_repeatable_local_execution_candidate(
+            result,
+            args.write_controlled_repeatable_local_execution_candidate,
+            synthetic_task_label=args.v5_repeatable_synthetic_task_label,
+            output_record_name=args.v5_repeatability_proof_record_name,
+            repeatability_count=args.v5_repeatability_count,
+            confirmation_token=args.v5_repeatable_execution_confirm_token,
+            human_operator=args.v5_repeatable_execution_human_operator,
+        )
+        controlled_repeatable_local_execution_candidate_summary = result["repeatability_proof_write_record"]
+        result = dict(result)
+        result["controlled_repeatable_local_execution_candidate_write_summary"] = controlled_repeatable_local_execution_candidate_summary
+    elif args.controlled_repeatable_local_execution_candidate:
+        result = attach_controlled_repeatable_local_execution_candidate(
+            result,
+            synthetic_task_label=args.v5_repeatable_synthetic_task_label,
+            output_directory=None,
+            output_record_name=args.v5_repeatability_proof_record_name,
+            repeatability_count=args.v5_repeatability_count,
+            confirmation_token=args.v5_repeatable_execution_confirm_token,
+            human_operator=args.v5_repeatable_execution_human_operator,
+            execution_requested=False,
+            write_proof_record=False,
         )
 
     artifact_summary = None

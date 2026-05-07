@@ -37,6 +37,7 @@ DEFAULT_REVIEW_RECORD_NAME = "first_live_queue_execution_candidate_review_record
 ALLOWED_CHANGED_PATHS = {
     "10_runtime/station_chief_first_live_queue_execution_candidate_review.py",
     "10_runtime/station_chief_first_supervised_local_execution_kernel_candidate.py",
+    "10_runtime/station_chief_controlled_repeatable_local_execution_candidate.py",
     "10_runtime/station_chief_runtime.py",
     "10_runtime/station_chief_runtime_readme.md",
     "10_runtime/station_chief_adapters.py",
@@ -45,12 +46,15 @@ ALLOWED_CHANGED_PATHS = {
     "09_exports/station_chief_runtime_v5_0_report.md",
     "09_exports/station_chief_runtime_v5_1_report.md",
     "09_exports/station_chief_v5_1_first_supervised_local_execution_kernel_candidate_preflight_audit.md",
+    "09_exports/station_chief_v5_2_controlled_repeatable_local_execution_candidate_preflight_audit.md",
+    "09_exports/station_chief_runtime_v5_2_report.md",
     "scripts/validate_station_chief_runtime_v4_7.py",
     "scripts/validate_station_chief_runtime_v4_8.py",
     "09_exports/station_chief_v5_0_first_live_queue_execution_candidate_review_preflight_audit.md",
     "scripts/validate_station_chief_runtime_v4_9.py",
     "scripts/validate_station_chief_runtime_v5_0.py",
     "scripts/validate_station_chief_runtime_v5_1.py",
+    "scripts/validate_station_chief_runtime_v5_2.py",
 }
 
 FORBIDDEN_REGEXES = [
@@ -451,7 +455,7 @@ def ensure_protected_paths_and_docs() -> None:
     ensure("Station Chief Runtime v5.0.0 Report" in report, "v5.0 report missing header")
     ensure("Devin O’Rourke" in report, "v5.0 report missing ownership attribution")
     ensure("first supervised local execution kernel candidate review only" in report, "v5.0 report missing next label")
-    ensure(not any(REPO_ROOT.rglob("*v5_2*")), "v5.2 path unexpectedly exists")
+    ensure(not any(REPO_ROOT.rglob("*v5_3*")), "v5.3 path unexpectedly exists")
 
 
 def ensure_smoke_tests() -> None:

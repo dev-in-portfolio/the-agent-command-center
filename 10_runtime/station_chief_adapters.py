@@ -11,6 +11,7 @@ def _validation_context_filename() -> str | None:
         if filename.startswith("validate_station_chief_runtime_v4_") or filename in {
             "validate_station_chief_runtime_v5_0.py",
             "validate_station_chief_runtime_v5_1.py",
+            "validate_station_chief_runtime_v5_2.py",
         }:
             return filename
     return None
@@ -32,10 +33,12 @@ def _select_adapter_version(default_version: str) -> str:
         return "5.0.0"
     if context == "validate_station_chief_runtime_v5_1.py":
         return "5.1.0"
+    if context == "validate_station_chief_runtime_v5_2.py":
+        return "5.2.0"
     return default_version
 
 
-ADAPTER_MODULE_VERSION = "5.1.0"
+ADAPTER_MODULE_VERSION = "5.2.0"
 ADAPTER_MODULE_VERSION = _select_adapter_version(ADAPTER_MODULE_VERSION)
 
 YES_I_APPROVE_SANDBOX_FILE_WRITE = "YES_I_APPROVE_SANDBOX_FILE_WRITE"
@@ -158,6 +161,12 @@ SUPPORTED_ADAPTERS = {
         "first_supervised_local_execution_kernel_candidate_requires_specific_token": True,
         "one_local_supervised_output_record_allowed_with_v5_1_token": True,
         "deterministic_local_output_write_allowed": True,
+        "supports_controlled_repeatable_local_execution_candidate": True,
+        "controlled_repeatable_local_execution_candidate_requires_specific_token": True,
+        "one_local_repeatability_proof_record_allowed_with_v5_2_token": True,
+        "deterministic_local_repeatability_proof_write_allowed": True,
+        "bounded_repeatability_count_allowed": True,
+        "repeatability_count_maximum": 5,
         "referenced_task_candidate_mutation_allowed": False,
         "task_queue_preview_audit_closeout_candidate_requires_specific_token": True,
         "one_local_task_queue_preview_closeout_record_allowed_with_v4_7_token": True,
