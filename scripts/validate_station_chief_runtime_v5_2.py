@@ -34,6 +34,7 @@ SYNTHETIC_TASK_LABEL = "sandbox repeatability status note"
 DEFAULT_PROOF_RECORD_NAME = "controlled_repeatable_local_execution_proof_record.json"
 
 ALLOWED_CHANGED_PATHS = {
+    "09_exports/station_chief_runtime_v5_6_2_repair_report.md",
     "09_exports/station_chief_runtime_v5_6_1_repair_report.md",
     "scripts/validate_station_chief_runtime_v4_5.py",
     "scripts/validate_station_chief_runtime_v5_6.py",

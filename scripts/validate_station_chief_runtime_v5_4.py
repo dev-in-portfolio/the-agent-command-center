@@ -37,6 +37,7 @@ V5_3_REFERENCE_LABEL = "handoff packet reference alpha"
 DEFAULT_PACKET_NAME = "sandbox_worker_acknowledgement_candidate_packet.json"
 
 ALLOWED_CHANGED_PATHS = {
+    "09_exports/station_chief_runtime_v5_6_2_repair_report.md",
     "09_exports/station_chief_runtime_v5_6_1_repair_report.md",
     "scripts/validate_station_chief_runtime_v4_5.py",
     "scripts/validate_station_chief_runtime_v5_6.py",

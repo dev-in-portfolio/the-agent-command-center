@@ -7621,9 +7621,15 @@ def write_sandbox_worker_acceptance_candidate_review(
     )
     write_record = result["acceptance_review_packet_write_record"]
     result["sandbox_worker_acceptance_candidate_review_write_summary"] = write_record
-    result["sandbox_worker_acceptance_candidate_review_dir"] = str(output_dir)
-    result["files_written"] = [write_record.get("record_name")] if result.get("local_acceptance_review_packet_written") else []
-    result["record_path"] = write_record.get("record_path")
+    result["sandbox_worker_acceptance_candidate_review_dir"] = write_record.get("output_directory") or str(output_dir)
+    if result.get("local_acceptance_review_packet_written"):
+        rec_name = write_record.get("record_name")
+        rec_path = write_record.get("record_path")
+        result["files_written"] = [rec_name] if rec_name else []
+        result["record_path"] = rec_path
+    else:
+        result["files_written"] = []
+        result["record_path"] = None
     result["execution_status"] = write_record.get("write_status")
     return result
 
@@ -7730,9 +7736,15 @@ def write_sandbox_worker_ready_state_packet_candidate(
     )
     write_record = result["ready_state_packet_write_record"]
     result["sandbox_worker_ready_state_packet_candidate_write_summary"] = write_record
-    result["sandbox_worker_ready_state_packet_candidate_dir"] = str(output_dir)
-    result["files_written"] = [write_record.get("record_name")] if result.get("local_ready_state_packet_written") else []
-    result["record_path"] = write_record.get("record_path")
+    result["sandbox_worker_ready_state_packet_candidate_dir"] = write_record.get("output_directory") or str(output_dir)
+    if result.get("local_ready_state_packet_written"):
+        rec_name = write_record.get("record_name")
+        rec_path = write_record.get("record_path")
+        result["files_written"] = [rec_name] if rec_name else []
+        result["record_path"] = rec_path
+    else:
+        result["files_written"] = []
+        result["record_path"] = None
     result["execution_status"] = write_record.get("write_status")
     return result
 

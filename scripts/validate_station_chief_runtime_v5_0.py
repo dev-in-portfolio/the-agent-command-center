@@ -36,6 +36,7 @@ V4_9_REFERENCE_LABEL = "sandbox orchestration review reference"
 DEFAULT_REVIEW_RECORD_NAME = "first_live_queue_execution_candidate_review_record.json"
 
 ALLOWED_CHANGED_PATHS = {
+    "09_exports/station_chief_runtime_v5_6_2_repair_report.md",
     "09_exports/station_chief_runtime_v5_6_1_repair_report.md",
     "scripts/validate_station_chief_runtime_v4_5.py",
     "scripts/validate_station_chief_runtime_v5_6.py",

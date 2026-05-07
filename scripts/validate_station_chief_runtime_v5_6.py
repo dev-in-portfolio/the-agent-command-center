@@ -41,6 +41,7 @@ V5_5_REFERENCE_LABEL = "acceptance review packet reference alpha"
 DEFAULT_PACKET_NAME = "sandbox_worker_ready_state_packet_candidate.json"
 
 ALLOWED_CHANGED_PATHS = {
+    "09_exports/station_chief_runtime_v5_6_2_repair_report.md",
     "09_exports/station_chief_runtime_v5_6_1_repair_report.md",
     "scripts/validate_station_chief_runtime_v4_5.py",
     "09_exports/station_chief_v5_6_sandbox_worker_ready_state_packet_candidate_preflight_audit.md",
@@ -508,10 +509,45 @@ def ensure_runtime_wrapper_integration() -> None:
         )
         
         ensure(res2["local_ready_state_packet_written"] is True, "write path should mark written")
+        ensure(res2["sandbox_worker_ready_state_packet_created"] is True, "ready state should be created")
+        ensure(res2["sandbox_worker_ready_state_candidate_recorded"] is True, "ready state candidate should be recorded")
+        ensure(res2["dry_run_assignment_created"] is False, "dry run assignment should not be created")
+        ensure(res2["dry_run_task_assigned"] is False, "dry run task should not be assigned")
         ensure("sandbox_worker_ready_state_packet_candidate_write_summary" in res2, "write path should include write summary")
-        ensure(len(res2.get("files_written", [])) == 1, "write path should report one file written")
+        ensure("ready_state_packet_write_record" in res2, "write path should include packet write record")
         
-        # Verify dangerous booleans
+        write_record = res2["ready_state_packet_write_record"]
+        ensure(write_record["write_status"] == "SANDBOX_WORKER_READY_STATE_PACKET_CANDIDATE_WRITTEN", "write status mismatch")
+        ensure(isinstance(write_record.get("record_name"), str) and len(write_record["record_name"]) > 0, "missing record name")
+        ensure(write_record["record_name"].endswith(".json"), "record name should end in .json")
+        ensure(write_record["packet_name"] == write_record["record_name"], "packet name mismatch")
+        ensure(isinstance(write_record.get("record_path"), str) and len(write_record["record_path"]) > 0, "missing record path")
+        ensure(isinstance(write_record.get("output_directory"), str) and len(write_record["output_directory"]) > 0, "missing output directory")
+        ensure(write_record["files_written_count"] == 1, "files written count mismatch")
+        ensure(write_record["files_written"] == [write_record["record_name"]], "files written mismatch")
+        
+        ensure(res2["files_written"] == [write_record["record_name"]], "result files written mismatch")
+        ensure(res2["files_written"] != [None], "result files written contains None")
+        ensure(res2["record_path"] == write_record["record_path"], "result record path mismatch")
+        ensure(res2["record_path"] is not None, "result record path is None")
+        ensure(res2["execution_status"] == write_record["write_status"], "result execution status mismatch")
+        
+        packet_path = Path(res2["record_path"])
+        ensure(packet_path.exists(), "packet file does not exist")
+        ensure(packet_path.is_file(), "packet is not a file")
+        ensure(packet_path.resolve().is_relative_to(Path(tmpdir).resolve()), "packet escaped output directory")
+        
+        with open(packet_path) as pf:
+            packet_data = json.load(pf)
+            ensure(packet_data["runtime_version"] == "5.6.0", "payload version mismatch")
+            ensure(packet_data["ready_state_type"] == "sandbox_worker_ready_state_packet_candidate", "payload type mismatch")
+            ensure(packet_data["local_ready_state_packet_written"] is True, "payload write flag mismatch")
+            ensure(packet_data["sandbox_worker_ready_state_packet_created"] is True, "payload created flag mismatch")
+            ensure(packet_data["sandbox_worker_ready_state_candidate_recorded"] is True, "payload recorded flag mismatch")
+            for key in ["dry_run_assignment_created", "dry_run_task_assigned", "worker_process_started", "agent_started", "task_executed"]:
+                ensure(packet_data.get(key) is False, f"payload dangerous flag {key} must be false")
+        
+        # Verify dangerous booleans in result
         for key in ["worker_process_started", "agent_started", "dry_run_assignment_created"]:
             ensure(res2.get(key) is False, f"dangerous boolean {key} must be false")
 
