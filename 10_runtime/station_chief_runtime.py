@@ -251,6 +251,11 @@ from station_chief_sandbox_worker_handoff_candidate import (
     create_sandbox_worker_handoff_candidate_bundle,
     create_sandbox_worker_handoff_candidate_schema,
 )
+from station_chief_sandbox_worker_acknowledgement_candidate import (
+    SANDBOX_WORKER_ACKNOWLEDGEMENT_CANDIDATE_APPROVAL_TOKEN,
+    create_sandbox_worker_acknowledgement_candidate_bundle,
+    create_sandbox_worker_acknowledgement_candidate_schema,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -296,7 +301,7 @@ def _select_runtime_version(default_version: str) -> str:
     return default_version
 
 
-STATION_CHIEF_RUNTIME_VERSION = "5.3.0"
+STATION_CHIEF_RUNTIME_VERSION = "5.4.0"
 STATION_CHIEF_RUNTIME_VERSION = _select_runtime_version(STATION_CHIEF_RUNTIME_VERSION)
 
 EXPECTED_OVERLAYS = [
@@ -937,6 +942,7 @@ def build_runtime_index_entry(result: dict, run_id: str, artifact_dir: str | Non
     return {
         "run_id": run_id,
         "runtime_version": STATION_CHIEF_RUNTIME_VERSION,
+        "artifact_type": f"station_chief_runtime_v{STATION_CHIEF_RUNTIME_VERSION.split('.')[0]}_{STATION_CHIEF_RUNTIME_VERSION.split('.')[1]}_artifacts",
         "command": result["command"],
         "command_type": result["command_type"],
         "activation_tier": result["activation_tier"]["name"],
@@ -965,6 +971,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "5.1.0": "first_supervised_local_execution_kernel_candidate",
         "5.2.0": "controlled_repeatable_local_execution_candidate",
         "5.3.0": "sandbox_worker_handoff_candidate",
+        "5.4.0": "sandbox_worker_acknowledgement_candidate",
     }.get(STATION_CHIEF_RUNTIME_VERSION, "live_queue_orchestration_candidate_review")
     evidence = build_demo_evidence()
     evidence.update(
@@ -1071,7 +1078,33 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
             "sandbox_worker_handoff_candidate_does_not_read_environment": True,
             "sandbox_worker_handoff_candidate_does_not_deploy": True,
             "sandbox_worker_handoff_candidate_does_not_execute_production": True,
-            "sandbox_worker_acknowledgement_candidate_not_yet_active": True,
+            "sandbox_worker_acknowledgement_candidate_not_yet_active": False,
+            "sandbox_worker_acknowledgement_candidate_available": True,
+            "sandbox_worker_acknowledgement_candidate_requires_token": True,
+            "sandbox_worker_acknowledgement_candidate_requires_human_operator": True,
+            "sandbox_worker_acknowledgement_candidate_writes_one_local_acknowledgement_packet_only": True,
+            "sandbox_worker_acknowledgement_candidate_uses_one_sandbox_worker_label": True,
+            "sandbox_worker_acknowledgement_candidate_references_one_v5_3_handoff_packet_label": True,
+            "sandbox_worker_acknowledgement_candidate_does_not_start_worker_processes": True,
+            "sandbox_worker_acknowledgement_candidate_does_not_start_agents": True,
+            "sandbox_worker_acknowledgement_candidate_does_not_create_real_queue": True,
+            "sandbox_worker_acknowledgement_candidate_does_not_write_queue": True,
+            "sandbox_worker_acknowledgement_candidate_does_not_write_scheduler_state": True,
+            "sandbox_worker_acknowledgement_candidate_does_not_write_cron_state": True,
+            "sandbox_worker_acknowledgement_candidate_does_not_enqueue_tasks": True,
+            "sandbox_worker_acknowledgement_candidate_does_not_execute_arbitrary_tasks": True,
+            "sandbox_worker_acknowledgement_candidate_does_not_execute_user_tasks": True,
+            "sandbox_worker_acknowledgement_candidate_does_not_route_workers": True,
+            "sandbox_worker_acknowledgement_candidate_does_not_orchestrate_live_work": True,
+            "sandbox_worker_acknowledgement_candidate_does_not_call_live_apis": True,
+            "sandbox_worker_acknowledgement_candidate_does_not_use_network_access": True,
+            "sandbox_worker_acknowledgement_candidate_does_not_open_sockets": True,
+            "sandbox_worker_acknowledgement_candidate_does_not_use_credentials": True,
+            "sandbox_worker_acknowledgement_candidate_does_not_read_secrets": True,
+            "sandbox_worker_acknowledgement_candidate_does_not_read_environment": True,
+            "sandbox_worker_acknowledgement_candidate_does_not_deploy": True,
+            "sandbox_worker_acknowledgement_candidate_does_not_execute_production": True,
+            "sandbox_worker_acceptance_candidate_not_yet_active": True,
             "controlled_repeatable_local_execution_candidate_not_yet_active": False,
         }
     )
@@ -1084,7 +1117,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "activation_tier": brief["activation_tier"],
         "baseline_preserved": True,
         "evidence": evidence,
-        "next_step": "Next step: sandbox worker acknowledgement candidate review only.",
+        "next_step": "Next step: sandbox worker acceptance candidate review only.",
         "first_tiny_real_world_supervised_execution_candidate_available": True,
         "first_tiny_real_world_supervised_execution_candidate_local_only": True,
         "first_tiny_real_world_supervised_execution_candidate_requires_token": True,
@@ -6017,6 +6050,100 @@ def write_sandbox_worker_handoff_candidate(
     return result
 
 
+def attach_sandbox_worker_acknowledgement_candidate(
+    result: dict,
+    sandbox_worker_label: str | None = None,
+    v5_3_handoff_packet_reference_label: str | None = None,
+    output_directory: str | None = None,
+    acknowledgement_packet_name: str | None = None,
+    confirmation_token: str | None = None,
+    human_operator: str | None = None,
+    acknowledgement_requested: bool = False,
+    write_acknowledgement_packet: bool = False,
+) -> dict:
+    bundle = create_sandbox_worker_acknowledgement_candidate_bundle(
+        result,
+        command=result.get("command", "check please"),
+        sandbox_worker_label=sandbox_worker_label,
+        v5_3_handoff_packet_reference_label=v5_3_handoff_packet_reference_label,
+        output_directory=output_directory,
+        acknowledgement_packet_name=acknowledgement_packet_name,
+        confirmation_token=confirmation_token,
+        human_operator=human_operator,
+        acknowledgement_requested=acknowledgement_requested,
+        write_acknowledgement_packet=write_acknowledgement_packet,
+    )
+    result = dict(result)
+    result["sandbox_worker_acknowledgement_candidate_bundle"] = bundle
+    result["sandbox_worker_acknowledgement_candidate_schema"] = bundle["schema"]
+    result["sandbox_worker_acknowledgement_approval_gate"] = bundle["sandbox_worker_acknowledgement_approval_gate"]
+    result["v5_3_handoff_packet_reference_contract"] = bundle["v5_3_handoff_packet_reference_contract"]
+    result["sandbox_worker_acknowledgement_reference_contract"] = bundle["sandbox_worker_acknowledgement_reference_contract"]
+    result["acknowledgement_scope_contract"] = bundle["acknowledgement_scope_contract"]
+    result["non_execution_acknowledgement_boundary"] = bundle["non_execution_acknowledgement_boundary"]
+    result["acknowledgement_permission_denial_record"] = bundle["acknowledgement_permission_denial_record"]
+    result["acknowledgement_plan_record"] = bundle["acknowledgement_plan_record"]
+    result["acknowledgement_packet_record"] = bundle["acknowledgement_packet_record"]
+    result["acknowledgement_audit_record"] = bundle["acknowledgement_audit_record"]
+    result["acknowledgement_readiness_summary"] = bundle["acknowledgement_readiness_summary"]
+    result["sandbox_worker_acceptance_candidate_bridge"] = bundle["sandbox_worker_acceptance_candidate_bridge"]
+    result["acknowledgement_packet_payload"] = bundle["acknowledgement_packet_payload"]
+    result["acknowledgement_packet_write_record"] = bundle["acknowledgement_packet_write_record"]
+    result["local_acknowledgement_packet_written"] = bundle["local_acknowledgement_packet_written"]
+    result["sandbox_worker_acknowledgement_performed"] = bundle["sandbox_worker_acknowledgement_performed"]
+    result["worker_process_started"] = False
+    result["agent_started"] = False
+    result["real_queue_created"] = False
+    result["queue_write_performed"] = False
+    result["scheduler_write_performed"] = False
+    result["cron_write_performed"] = False
+    result["task_enqueued"] = False
+    result["task_executed"] = False
+    result["arbitrary_task_execution_performed"] = False
+    result["user_task_execution_performed"] = False
+    result["live_task_assignment_performed"] = False
+    result["live_worker_routing_performed"] = False
+    result["live_orchestration_performed"] = False
+    result["external_tool_invocation_performed"] = False
+    result["api_call_performed"] = False
+    result["network_access_performed"] = False
+    result["deployment_performed"] = False
+    result["production_execution_performed"] = False
+    result["full_workforce_activation_performed"] = False
+    result["acknowledgement_candidate_id"] = bundle["sandbox_worker_acknowledgement_candidate_id"]
+    result["sandbox_worker_acknowledgement_candidate_id"] = bundle["sandbox_worker_acknowledgement_candidate_id"]
+    result["sandbox_worker_acknowledgement_candidate_next_step"] = bundle["acknowledgement_candidate_next_step"]
+    return result
+
+
+def write_sandbox_worker_acknowledgement_candidate(
+    result: dict,
+    output_directory: str | Path,
+    sandbox_worker_label: str | None = None,
+    v5_3_handoff_packet_reference_label: str | None = None,
+    acknowledgement_packet_name: str | None = None,
+    confirmation_token: str | None = None,
+    human_operator: str | None = None,
+) -> dict:
+    result = attach_sandbox_worker_acknowledgement_candidate(
+        result,
+        sandbox_worker_label=sandbox_worker_label,
+        v5_3_handoff_packet_reference_label=v5_3_handoff_packet_reference_label,
+        output_directory=str(output_directory),
+        acknowledgement_packet_name=acknowledgement_packet_name,
+        confirmation_token=confirmation_token,
+        human_operator=human_operator,
+        acknowledgement_requested=True,
+        write_acknowledgement_packet=True,
+    )
+    write_record = result["acknowledgement_packet_write_record"]
+    result["sandbox_worker_acknowledgement_candidate_dir"] = write_record.get("output_directory") or str(output_directory)
+    result["files_written"] = [write_record["record_name"]] if write_record.get("local_acknowledgement_packet_written") else []
+    result["record_path"] = write_record.get("record_path")
+    result["execution_status"] = write_record.get("write_status")
+    return result
+
+
 def attach_task_queue_preview_audit_closeout_candidate(
     result: dict,
     queue_closeout_label: str | None = None,
@@ -7127,6 +7254,19 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "sandbox_worker_handoff_candidate_schema": result.get("sandbox_worker_handoff_candidate_schema"),
         "sandbox_worker_handoff_approval_gate": result.get("sandbox_worker_handoff_approval_gate"),
         "v5_2_repeatability_proof_reference_contract": result.get("v5_2_repeatability_proof_reference_contract"),
+        "sandbox_worker_acknowledgement_candidate_bundle": result.get("sandbox_worker_acknowledgement_candidate_bundle"),
+        "sandbox_worker_acknowledgement_candidate_schema": result.get("sandbox_worker_acknowledgement_candidate_schema"),
+        "sandbox_worker_acknowledgement_approval_gate": result.get("sandbox_worker_acknowledgement_approval_gate"),
+        "v5_3_handoff_packet_reference_contract": result.get("v5_3_handoff_packet_reference_contract"),
+        "sandbox_worker_acknowledgement_reference_contract": result.get("sandbox_worker_acknowledgement_reference_contract"),
+        "acknowledgement_scope_contract": result.get("acknowledgement_scope_contract"),
+        "non_execution_acknowledgement_boundary": result.get("non_execution_acknowledgement_boundary"),
+        "acknowledgement_permission_denial_record": result.get("acknowledgement_permission_denial_record"),
+        "acknowledgement_plan_record": result.get("acknowledgement_plan_record"),
+        "acknowledgement_packet_record": result.get("acknowledgement_packet_record"),
+        "acknowledgement_audit_record": result.get("acknowledgement_audit_record"),
+        "acknowledgement_readiness_summary": result.get("acknowledgement_readiness_summary"),
+        "sandbox_worker_acceptance_candidate_bridge": result.get("sandbox_worker_acceptance_candidate_bridge"),
         "synthetic_task_handoff_contract": result.get("synthetic_task_handoff_contract"),
         "sandbox_worker_reference_contract": result.get("sandbox_worker_reference_contract"),
         "handoff_scope_contract": result.get("handoff_scope_contract"),
@@ -7141,6 +7281,7 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "handoff_packet_write_record": result.get("handoff_packet_write_record"),
         "sandbox_worker_handoff_candidate_id": result.get("sandbox_worker_handoff_candidate_id"),
         "handoff_candidate_id": result.get("handoff_candidate_id"),
+        "runtime_index_entry": runtime_index_entry,
         "manifest": {
             "run_id": run_id,
             "runtime_version": STATION_CHIEF_RUNTIME_VERSION,
@@ -7877,6 +8018,21 @@ def write_runtime_artifacts(
         "sandbox_worker_handoff_candidate_schema.json": artifacts.get("sandbox_worker_handoff_candidate_schema"),
         "sandbox_worker_handoff_approval_gate.json": artifacts.get("sandbox_worker_handoff_approval_gate"),
         "v5_2_repeatability_proof_reference_contract.json": artifacts.get("v5_2_repeatability_proof_reference_contract"),
+        "sandbox_worker_acknowledgement_candidate_bundle.json": artifacts.get("sandbox_worker_acknowledgement_candidate_bundle"),
+        "sandbox_worker_acknowledgement_candidate_schema.json": artifacts.get("sandbox_worker_acknowledgement_candidate_schema"),
+        "sandbox_worker_acknowledgement_approval_gate.json": artifacts.get("sandbox_worker_acknowledgement_approval_gate"),
+        "v5_3_handoff_packet_reference_contract.json": artifacts.get("v5_3_handoff_packet_reference_contract"),
+        "sandbox_worker_acknowledgement_reference_contract.json": artifacts.get("sandbox_worker_acknowledgement_reference_contract"),
+        "acknowledgement_scope_contract.json": artifacts.get("acknowledgement_scope_contract"),
+        "non_execution_acknowledgement_boundary.json": artifacts.get("non_execution_acknowledgement_boundary"),
+        "acknowledgement_permission_denial_record.json": artifacts.get("acknowledgement_permission_denial_record"),
+        "acknowledgement_plan_record.json": artifacts.get("acknowledgement_plan_record"),
+        "acknowledgement_packet_record.json": artifacts.get("acknowledgement_packet_record"),
+        "acknowledgement_audit_record.json": artifacts.get("acknowledgement_audit_record"),
+        "acknowledgement_readiness_summary.json": artifacts.get("acknowledgement_readiness_summary"),
+        "sandbox_worker_acceptance_candidate_bridge.json": artifacts.get("sandbox_worker_acceptance_candidate_bridge"),
+        "acknowledgement_packet_payload.json": artifacts.get("acknowledgement_packet_payload"),
+        "acknowledgement_packet_write_record.json": artifacts.get("acknowledgement_packet_write_record"),
         "synthetic_task_handoff_contract.json": artifacts.get("synthetic_task_handoff_contract"),
         "sandbox_worker_reference_contract.json": artifacts.get("sandbox_worker_reference_contract"),
         "handoff_scope_contract.json": artifacts.get("handoff_scope_contract"),
@@ -7937,6 +8093,7 @@ def write_runtime_artifacts(
         "run_id": run_id,
         "artifact_dir": str(artifact_dir),
         "files_written": files_written,
+        "runtime_index_entry": artifacts["runtime_index_entry"],
         "registry_updated": registry_updated,
         "registry_dir": registry_dir_str,
     }
@@ -8695,6 +8852,14 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--v5-handoff-packet-name", type=str)
     parser.add_argument("--v5-handoff-confirm-token", type=str)
     parser.add_argument("--v5-handoff-human-operator", type=str)
+    parser.add_argument("--sandbox-worker-acknowledgement-candidate-schema", action="store_true")
+    parser.add_argument("--sandbox-worker-acknowledgement-candidate", action="store_true")
+    parser.add_argument("--write-sandbox-worker-acknowledgement-candidate", metavar="DIR", type=str)
+    parser.add_argument("--v5-ack-sandbox-worker-label", type=str)
+    parser.add_argument("--v5-handoff-packet-reference-label", type=str)
+    parser.add_argument("--v5-acknowledgement-packet-name", type=str)
+    parser.add_argument("--v5-acknowledgement-confirm-token", type=str)
+    parser.add_argument("--v5-acknowledgement-human-operator", type=str)
     parser.add_argument("--candidate-action-label", type=str)
     parser.add_argument("--required-final-approver", type=str)
     return parser
@@ -8872,6 +9037,9 @@ def main() -> None:
         return
     if args.sandbox_worker_handoff_candidate_schema:
         print(json.dumps(create_sandbox_worker_handoff_candidate_schema(), indent=2, ensure_ascii=False))
+        return
+    if args.sandbox_worker_acknowledgement_candidate_schema:
+        print(json.dumps(create_sandbox_worker_acknowledgement_candidate_schema(), indent=2, ensure_ascii=False))
         return
 
     if args.limited_external_tool_supervised_pilot_schema:
@@ -9815,6 +9983,33 @@ def main() -> None:
             human_operator=args.v5_handoff_human_operator,
             handoff_requested=False,
             write_handoff_packet=False,
+        )
+
+    sandbox_worker_acknowledgement_candidate_summary = None
+    if getattr(args, "write_sandbox_worker_acknowledgement_candidate", False):
+        result = write_sandbox_worker_acknowledgement_candidate(
+            result,
+            args.write_sandbox_worker_acknowledgement_candidate,
+            sandbox_worker_label=args.v5_ack_sandbox_worker_label,
+            v5_3_handoff_packet_reference_label=args.v5_handoff_packet_reference_label,
+            acknowledgement_packet_name=args.v5_acknowledgement_packet_name,
+            confirmation_token=args.v5_acknowledgement_confirm_token,
+            human_operator=args.v5_acknowledgement_human_operator,
+        )
+        sandbox_worker_acknowledgement_candidate_summary = result["acknowledgement_packet_write_record"]
+        result = dict(result)
+        result["sandbox_worker_acknowledgement_candidate_write_summary"] = sandbox_worker_acknowledgement_candidate_summary
+    elif args.sandbox_worker_acknowledgement_candidate:
+        result = attach_sandbox_worker_acknowledgement_candidate(
+            result,
+            sandbox_worker_label=args.v5_ack_sandbox_worker_label,
+            v5_3_handoff_packet_reference_label=args.v5_handoff_packet_reference_label,
+            output_directory=None,
+            acknowledgement_packet_name=args.v5_acknowledgement_packet_name,
+            confirmation_token=args.v5_acknowledgement_confirm_token,
+            human_operator=args.v5_acknowledgement_human_operator,
+            acknowledgement_requested=False,
+            write_acknowledgement_packet=False,
         )
 
     artifact_summary = None

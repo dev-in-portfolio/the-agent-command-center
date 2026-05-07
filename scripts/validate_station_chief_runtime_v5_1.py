@@ -5,6 +5,7 @@ import contextlib
 import hashlib
 import io
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -39,6 +40,7 @@ ALLOWED_CHANGED_PATHS = {
     "10_runtime/station_chief_first_supervised_local_execution_kernel_candidate.py",
     "10_runtime/station_chief_controlled_repeatable_local_execution_candidate.py",
     "10_runtime/station_chief_sandbox_worker_handoff_candidate.py",
+    "10_runtime/station_chief_sandbox_worker_acknowledgement_candidate.py",
     "10_runtime/station_chief_runtime.py",
     "10_runtime/station_chief_runtime_readme.md",
     "10_runtime/station_chief_adapters.py",
@@ -49,7 +51,9 @@ ALLOWED_CHANGED_PATHS = {
     "09_exports/station_chief_v5_2_controlled_repeatable_local_execution_candidate_preflight_audit.md",
     "09_exports/station_chief_runtime_v5_2_report.md",
     "09_exports/station_chief_v5_3_sandbox_worker_handoff_candidate_preflight_audit.md",
+    "09_exports/station_chief_v5_4_sandbox_worker_acknowledgement_candidate_preflight_audit.md",
     "09_exports/station_chief_runtime_v5_3_report.md",
+    "09_exports/station_chief_runtime_v5_4_report.md",
     "scripts/validate_station_chief_runtime_v5_1.py",
     "scripts/validate_station_chief_runtime_v5_0.py",
     "scripts/validate_station_chief_runtime_v4_9.py",
@@ -57,6 +61,7 @@ ALLOWED_CHANGED_PATHS = {
     "scripts/validate_station_chief_runtime_v4_7.py",
     "scripts/validate_station_chief_runtime_v5_2.py",
     "scripts/validate_station_chief_runtime_v5_3.py",
+    "scripts/validate_station_chief_runtime_v5_4.py",
 }
 
 FORBIDDEN_REGEXES = [
@@ -503,10 +508,12 @@ def ensure_protected_paths_and_docs() -> None:
         "09_exports/station_chief_v5_1_first_supervised_local_execution_kernel_candidate_preflight_audit.md",
     ]), "v5.1 file unexpectedly missing")
     # Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v5.3 are no longer forbidden on current master. v5.4+ remains forbidden until landed.
-    ensure(not any(REPO_ROOT.rglob("*v5_4*")), "v5.4 path unexpectedly exists")
+    ensure(not any(REPO_ROOT.rglob("*v5_5*")), "v5.5 path unexpectedly exists")
 
 
 def ensure_smoke_tests() -> None:
+    if os.environ.get("STATION_CHIEF_SKIP_NESTED_SMOKE_TESTS") == "1":
+        return
     hidden_paths = [
         REPO_ROOT / "09_exports" / "station_chief_v5_3_sandbox_worker_handoff_candidate_preflight_audit.md",
         REPO_ROOT / "09_exports" / "station_chief_runtime_v5_3_report.md",

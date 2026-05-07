@@ -318,3 +318,27 @@ v5.2 does not activate the 47,250-worker workforce.
 v5.2 does not allow APIs, network, sockets, DNS, credentials, secrets, environment variables, deployment, production execution, worker process start, queue creation, queue writes, task enqueue, arbitrary task execution, user task execution, live orchestration, or full workforce activation.
 v5.2 does not approve v5.3.
 Next internal label: sandbox worker handoff candidate review only.
+
+Station Chief Runtime upgraded to v5.4.0. Locked 175-family baseline preserved. Sandbox Worker Acknowledgement Candidate added.
+
+- v5.4 may write exactly one deterministic local sandbox worker acknowledgement packet only.
+- v5.4 references one sandbox worker label and one v5.3 handoff packet reference label.
+- v5.4 requires a valid v5.4 token, human operator, sandbox worker label, v5.3 handoff packet reference label, and explicit output directory.
+- v5.4 does not start a worker.
+- v5.4 does not start an agent.
+- v5.4 does not create a real queue.
+- v5.4 does not write to a real queue.
+- v5.4 does not write scheduler state.
+- v5.4 does not write cron state.
+- v5.4 does not enqueue tasks.
+- v5.4 does not execute arbitrary tasks.
+- v5.4 does not execute user tasks.
+- v5.4 does not start worker processes.
+- v5.4 does not spawn agents.
+- v5.4 does not assign live tasks.
+- v5.4 does not route workers.
+- v5.4 does not orchestrate live work.
+- v5.4 does not activate the 47,250-worker workforce.
+- v5.4 does not allow APIs, network, sockets, DNS, credentials, secrets, environment variables, deployment, production execution, worker process start, queue creation, queue writes, task enqueue, arbitrary task execution, user task execution, live orchestration, or full workforce activation.
+- v5.4 does not approve v5.5.
+- Next internal label: sandbox worker acceptance candidate review only.

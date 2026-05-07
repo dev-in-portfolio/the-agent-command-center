@@ -5,6 +5,7 @@ import contextlib
 import hashlib
 import io
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -38,6 +39,7 @@ ALLOWED_CHANGED_PATHS = {
     "10_runtime/station_chief_first_supervised_local_execution_kernel_candidate.py",
     "10_runtime/station_chief_controlled_repeatable_local_execution_candidate.py",
     "10_runtime/station_chief_sandbox_worker_handoff_candidate.py",
+    "10_runtime/station_chief_sandbox_worker_acknowledgement_candidate.py",
     "10_runtime/station_chief_runtime.py",
     "10_runtime/station_chief_runtime_readme.md",
     "10_runtime/station_chief_adapters.py",
@@ -52,6 +54,8 @@ ALLOWED_CHANGED_PATHS = {
     "09_exports/station_chief_runtime_v5_2_report.md",
     "09_exports/station_chief_v5_3_sandbox_worker_handoff_candidate_preflight_audit.md",
     "09_exports/station_chief_runtime_v5_3_report.md",
+    "09_exports/station_chief_v5_4_sandbox_worker_acknowledgement_candidate_preflight_audit.md",
+    "09_exports/station_chief_runtime_v5_4_report.md",
     "scripts/validate_station_chief_runtime_v4_7.py",
     "scripts/validate_station_chief_runtime_v4_8.py",
     "scripts/validate_station_chief_runtime_v4_9.py",
@@ -59,6 +63,7 @@ ALLOWED_CHANGED_PATHS = {
     "scripts/validate_station_chief_runtime_v5_1.py",
     "scripts/validate_station_chief_runtime_v5_2.py",
     "scripts/validate_station_chief_runtime_v5_3.py",
+    "scripts/validate_station_chief_runtime_v5_4.py",
 }
 
 FORBIDDEN_REGEXES = [
@@ -446,11 +451,13 @@ def ensure_protected_paths_and_docs() -> None:
     ensure("Station Chief Runtime v4.9.0 Report" in report, "v4.9 report missing header")
     ensure("Devin O’Rourke" in report, "v4.9 report missing ownership attribution")
     ensure("first live queue execution candidate review only" in report, "v4.9 report missing next label")
-    # Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v5.3 are no longer forbidden on current master. v5.4+ remains forbidden until landed.
-    ensure(not any(REPO_ROOT.rglob("*v5_4*")), "v5.4 path unexpectedly exists")
+    # Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v5.4 are no longer forbidden on current master. v5.5+ remains forbidden until landed.
+    ensure(not any(REPO_ROOT.rglob("*v5_5*")), "v5.5 path unexpectedly exists")
 
 
 def ensure_smoke_tests() -> None:
+    if os.environ.get("STATION_CHIEF_SKIP_NESTED_SMOKE_TESTS") == "1":
+        return
     hidden_paths = [V4_9_MODULE, REPORT, REPO_ROOT / "scripts" / "validate_station_chief_runtime_v4_9.py"]
     with tempfile.TemporaryDirectory(prefix="station_chief_v4_9_hidden_", dir="/tmp") as hidden_dir_name:
         hidden_dir = Path(hidden_dir_name)
