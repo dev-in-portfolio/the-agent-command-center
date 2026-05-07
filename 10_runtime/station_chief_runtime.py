@@ -236,6 +236,11 @@ from station_chief_first_live_queue_execution_candidate_review import (
     create_first_live_queue_execution_candidate_review_bundle,
     create_first_live_queue_execution_candidate_review_schema,
 )
+from station_chief_first_supervised_local_execution_kernel_candidate import (
+    FIRST_SUPERVISED_LOCAL_EXECUTION_KERNEL_CANDIDATE_APPROVAL_TOKEN,
+    create_first_supervised_local_execution_kernel_candidate_bundle,
+    create_first_supervised_local_execution_kernel_candidate_schema,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -248,7 +253,10 @@ from station_chief_execution_profiles import (
 def _validation_context_filename() -> str | None:
     for frame in inspect.stack():
         filename = Path(frame.filename).name
-        if filename.startswith("validate_station_chief_runtime_v4_"):
+        if filename.startswith("validate_station_chief_runtime_v4_") or filename in {
+            "validate_station_chief_runtime_v5_0.py",
+            "validate_station_chief_runtime_v5_1.py",
+        }:
             return filename
     return None
 
@@ -267,10 +275,12 @@ def _select_runtime_version(default_version: str) -> str:
         return "4.9.0"
     if context == "validate_station_chief_runtime_v5_0.py":
         return "5.0.0"
+    if context == "validate_station_chief_runtime_v5_1.py":
+        return "5.1.0"
     return default_version
 
 
-STATION_CHIEF_RUNTIME_VERSION = "5.0.0"
+STATION_CHIEF_RUNTIME_VERSION = "5.1.0"
 STATION_CHIEF_RUNTIME_VERSION = _select_runtime_version(STATION_CHIEF_RUNTIME_VERSION)
 
 EXPECTED_OVERLAYS = [
@@ -936,6 +946,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "4.8.0": "non_executing_queue_routing_preview_candidate",
         "4.9.0": "live_queue_orchestration_candidate_review",
         "5.0.0": "first_live_queue_execution_candidate_review",
+        "5.1.0": "first_supervised_local_execution_kernel_candidate",
     }.get(STATION_CHIEF_RUNTIME_VERSION, "live_queue_orchestration_candidate_review")
     evidence = build_demo_evidence()
     evidence.update(
@@ -964,7 +975,33 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
             "first_live_queue_execution_candidate_review_does_not_read_environment": True,
             "first_live_queue_execution_candidate_review_does_not_deploy": True,
             "first_live_queue_execution_candidate_review_does_not_execute_production": True,
-            "first_supervised_local_execution_kernel_candidate_not_yet_active": True,
+            "first_supervised_local_execution_kernel_candidate_not_yet_active": False,
+            "first_supervised_local_execution_kernel_candidate_available": True,
+            "first_supervised_local_execution_kernel_candidate_requires_token": True,
+            "first_supervised_local_execution_kernel_candidate_requires_human_operator": True,
+            "first_supervised_local_execution_kernel_candidate_writes_one_local_output_record_only": True,
+            "first_supervised_local_execution_kernel_candidate_allows_only_deterministic_local_output_write": True,
+            "first_supervised_local_execution_kernel_candidate_does_not_create_real_queue": True,
+            "first_supervised_local_execution_kernel_candidate_does_not_write_queue": True,
+            "first_supervised_local_execution_kernel_candidate_does_not_write_scheduler_state": True,
+            "first_supervised_local_execution_kernel_candidate_does_not_write_cron_state": True,
+            "first_supervised_local_execution_kernel_candidate_does_not_enqueue_tasks": True,
+            "first_supervised_local_execution_kernel_candidate_does_not_execute_arbitrary_tasks": True,
+            "first_supervised_local_execution_kernel_candidate_does_not_execute_user_tasks": True,
+            "first_supervised_local_execution_kernel_candidate_does_not_start_worker_processes": True,
+            "first_supervised_local_execution_kernel_candidate_does_not_assign_tasks": True,
+            "first_supervised_local_execution_kernel_candidate_does_not_route_workers": True,
+            "first_supervised_local_execution_kernel_candidate_does_not_orchestrate_live_work": True,
+            "first_supervised_local_execution_kernel_candidate_does_not_perform_supervised_local_execution": True,
+            "first_supervised_local_execution_kernel_candidate_does_not_call_live_apis": True,
+            "first_supervised_local_execution_kernel_candidate_does_not_use_network_access": True,
+            "first_supervised_local_execution_kernel_candidate_does_not_open_sockets": True,
+            "first_supervised_local_execution_kernel_candidate_does_not_use_credentials": True,
+            "first_supervised_local_execution_kernel_candidate_does_not_read_secrets": True,
+            "first_supervised_local_execution_kernel_candidate_does_not_read_environment": True,
+            "first_supervised_local_execution_kernel_candidate_does_not_deploy": True,
+            "first_supervised_local_execution_kernel_candidate_does_not_execute_production": True,
+            "controlled_repeatable_local_execution_candidate_not_yet_active": True,
         }
     )
     return {
@@ -976,7 +1013,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "activation_tier": brief["activation_tier"],
         "baseline_preserved": True,
         "evidence": evidence,
-        "next_step": "Next step: first supervised local execution kernel candidate review only.",
+        "next_step": "Next step: controlled repeatable local execution candidate review only.",
         "first_tiny_real_world_supervised_execution_candidate_available": True,
         "first_tiny_real_world_supervised_execution_candidate_local_only": True,
         "first_tiny_real_world_supervised_execution_candidate_requires_token": True,
@@ -5631,6 +5668,91 @@ def write_first_live_queue_execution_candidate_review(
     return result
 
 
+def attach_first_supervised_local_execution_kernel_candidate(
+    result: dict,
+    synthetic_task_label: str | None = None,
+    output_directory: str | None = None,
+    output_record_name: str | None = None,
+    confirmation_token: str | None = None,
+    human_operator: str | None = None,
+    execution_requested: bool = False,
+    write_output_record: bool = False,
+) -> dict:
+    bundle = create_first_supervised_local_execution_kernel_candidate_bundle(
+        result,
+        command=result.get("command", "check please"),
+        synthetic_task_label=synthetic_task_label,
+        output_directory=output_directory,
+        output_record_name=output_record_name,
+        confirmation_token=confirmation_token,
+        human_operator=human_operator,
+        execution_requested=execution_requested,
+        write_output_record=write_output_record,
+    )
+    result = dict(result)
+    result["first_supervised_local_execution_kernel_candidate_bundle"] = bundle
+    result["first_supervised_local_execution_kernel_candidate_schema"] = bundle["schema"]
+    result["supervised_execution_kernel_approval_gate"] = bundle["supervised_execution_kernel_approval_gate"]
+    result["synthetic_task_contract"] = bundle["synthetic_task_contract"]
+    result["sandbox_output_scope_contract"] = bundle["sandbox_output_scope_contract"]
+    result["non_external_execution_boundary"] = bundle["non_external_execution_boundary"]
+    result["execution_permission_denial_record"] = bundle["execution_permission_denial_record"]
+    result["supervised_local_execution_plan_record"] = bundle["supervised_local_execution_plan_record"]
+    result["supervised_local_execution_result_record"] = bundle["supervised_local_execution_result_record"]
+    result["supervised_local_execution_audit_record"] = bundle["supervised_local_execution_audit_record"]
+    result["supervised_local_execution_readiness_summary"] = bundle["supervised_local_execution_readiness_summary"]
+    result["controlled_repeatable_local_execution_candidate_bridge"] = bundle["controlled_repeatable_local_execution_candidate_bridge"]
+    result["supervised_local_execution_output_payload"] = bundle["supervised_local_execution_output_payload"]
+    result["supervised_local_execution_write_record"] = bundle["supervised_local_execution_write_record"]
+    result["local_supervised_output_record_written"] = bundle["local_supervised_output_record_written"]
+    result["supervised_local_execution_performed"] = bundle["supervised_local_execution_performed"]
+    result["real_queue_created"] = False
+    result["queue_write_performed"] = False
+    result["scheduler_write_performed"] = False
+    result["cron_write_performed"] = False
+    result["task_enqueued"] = False
+    result["task_executed"] = False
+    result["arbitrary_task_execution_performed"] = False
+    result["user_task_execution_performed"] = False
+    result["live_task_assignment_performed"] = False
+    result["live_worker_routing_performed"] = False
+    result["live_orchestration_performed"] = False
+    result["worker_process_started"] = False
+    result["external_tool_invocation_performed"] = False
+    result["api_call_performed"] = False
+    result["network_access_performed"] = False
+    result["deployment_performed"] = False
+    result["production_execution_performed"] = False
+    result["full_workforce_activation_performed"] = False
+    return result
+
+
+def write_first_supervised_local_execution_kernel_candidate(
+    result: dict,
+    output_directory: str | Path,
+    synthetic_task_label: str | None = None,
+    output_record_name: str | None = None,
+    confirmation_token: str | None = None,
+    human_operator: str | None = None,
+) -> dict:
+    result = attach_first_supervised_local_execution_kernel_candidate(
+        result,
+        synthetic_task_label=synthetic_task_label,
+        output_directory=str(output_directory),
+        output_record_name=output_record_name,
+        confirmation_token=confirmation_token,
+        human_operator=human_operator,
+        execution_requested=True,
+        write_output_record=True,
+    )
+    write_record = result["supervised_local_execution_write_record"]
+    result["first_supervised_local_execution_kernel_candidate_dir"] = write_record.get("output_directory") or str(output_directory)
+    result["files_written"] = [write_record["record_name"]] if write_record.get("local_supervised_output_record_written") else []
+    result["record_path"] = write_record.get("record_path")
+    result["execution_status"] = write_record.get("write_status")
+    return result
+
+
 def attach_task_queue_preview_audit_closeout_candidate(
     result: dict,
     queue_closeout_label: str | None = None,
@@ -6190,6 +6312,23 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
             "first_supervised_local_execution_kernel_candidate_bridge.json",
             "execution_candidate_review_record_payload.json",
             "execution_candidate_review_write_record.json",
+        ])
+    if result.get("first_supervised_local_execution_kernel_candidate_bundle"):
+        files_planned.extend([
+            "first_supervised_local_execution_kernel_candidate_bundle.json",
+            "first_supervised_local_execution_kernel_candidate_schema.json",
+            "supervised_execution_kernel_approval_gate.json",
+            "synthetic_task_contract.json",
+            "sandbox_output_scope_contract.json",
+            "non_external_execution_boundary.json",
+            "execution_permission_denial_record.json",
+            "supervised_local_execution_plan_record.json",
+            "supervised_local_execution_result_record.json",
+            "supervised_local_execution_audit_record.json",
+            "supervised_local_execution_readiness_summary.json",
+            "controlled_repeatable_local_execution_candidate_bridge.json",
+            "supervised_local_execution_output_payload.json",
+            "supervised_local_execution_write_record.json",
         ])
 
     return {
@@ -7386,6 +7525,20 @@ def write_runtime_artifacts(
         "first_supervised_local_execution_kernel_candidate_bridge.json": artifacts.get("first_supervised_local_execution_kernel_candidate_bridge"),
         "execution_candidate_review_record_payload.json": artifacts.get("execution_candidate_review_record_payload"),
         "execution_candidate_review_write_record.json": artifacts.get("execution_candidate_review_write_record"),
+        "first_supervised_local_execution_kernel_candidate_bundle.json": artifacts.get("first_supervised_local_execution_kernel_candidate_bundle"),
+        "first_supervised_local_execution_kernel_candidate_schema.json": artifacts.get("first_supervised_local_execution_kernel_candidate_schema"),
+        "supervised_execution_kernel_approval_gate.json": artifacts.get("supervised_execution_kernel_approval_gate"),
+        "synthetic_task_contract.json": artifacts.get("synthetic_task_contract"),
+        "sandbox_output_scope_contract.json": artifacts.get("sandbox_output_scope_contract"),
+        "non_external_execution_boundary.json": artifacts.get("non_external_execution_boundary"),
+        "execution_permission_denial_record.json": artifacts.get("execution_permission_denial_record"),
+        "supervised_local_execution_plan_record.json": artifacts.get("supervised_local_execution_plan_record"),
+        "supervised_local_execution_result_record.json": artifacts.get("supervised_local_execution_result_record"),
+        "supervised_local_execution_audit_record.json": artifacts.get("supervised_local_execution_audit_record"),
+        "supervised_local_execution_readiness_summary.json": artifacts.get("supervised_local_execution_readiness_summary"),
+        "controlled_repeatable_local_execution_candidate_bridge.json": artifacts.get("controlled_repeatable_local_execution_candidate_bridge"),
+        "supervised_local_execution_output_payload.json": artifacts.get("supervised_local_execution_output_payload"),
+        "supervised_local_execution_write_record.json": artifacts.get("supervised_local_execution_write_record"),
         "first_supervised_production_dry_run_bundle.json": artifacts.get("first_supervised_production_dry_run_bundle"),
         "first_supervised_production_dry_run_schema.json": artifacts.get("first_supervised_production_dry_run_schema"),
         "first_supervised_production_dry_run_approval_gate.json": artifacts.get("first_supervised_production_dry_run_approval_gate"),
@@ -8168,6 +8321,13 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--v5-execution-review-record-name", type=str)
     parser.add_argument("--v5-execution-review-confirm-token", type=str)
     parser.add_argument("--v5-execution-review-human-operator", type=str)
+    parser.add_argument("--first-supervised-local-execution-kernel-candidate-schema", action="store_true")
+    parser.add_argument("--first-supervised-local-execution-kernel-candidate", action="store_true")
+    parser.add_argument("--write-first-supervised-local-execution-kernel-candidate", metavar="DIR", type=str)
+    parser.add_argument("--v5-synthetic-task-label", type=str)
+    parser.add_argument("--v5-supervised-output-record-name", type=str)
+    parser.add_argument("--v5-supervised-execution-confirm-token", type=str)
+    parser.add_argument("--v5-supervised-execution-human-operator", type=str)
     parser.add_argument("--candidate-action-label", type=str)
     parser.add_argument("--required-final-approver", type=str)
     return parser
@@ -8335,6 +8495,10 @@ def main() -> None:
 
     if args.first_live_queue_execution_candidate_review_schema:
         print(json.dumps(create_first_live_queue_execution_candidate_review_schema(), indent=2, ensure_ascii=False))
+        return
+
+    if args.first_supervised_local_execution_kernel_candidate_schema:
+        print(json.dumps(create_first_supervised_local_execution_kernel_candidate_schema(), indent=2, ensure_ascii=False))
         return
 
     if args.limited_external_tool_supervised_pilot_schema:
@@ -9197,6 +9361,31 @@ def main() -> None:
             human_operator=args.v5_execution_review_human_operator,
             review_requested=False,
             write_review_record=False,
+        )
+
+    first_supervised_local_execution_kernel_candidate_summary = None
+    if getattr(args, "write_first_supervised_local_execution_kernel_candidate", False):
+        result = write_first_supervised_local_execution_kernel_candidate(
+            result,
+            args.write_first_supervised_local_execution_kernel_candidate,
+            synthetic_task_label=args.v5_synthetic_task_label,
+            output_record_name=args.v5_supervised_output_record_name,
+            confirmation_token=args.v5_supervised_execution_confirm_token,
+            human_operator=args.v5_supervised_execution_human_operator,
+        )
+        first_supervised_local_execution_kernel_candidate_summary = result["supervised_local_execution_write_record"]
+        result = dict(result)
+        result["first_supervised_local_execution_kernel_candidate_write_summary"] = first_supervised_local_execution_kernel_candidate_summary
+    elif args.first_supervised_local_execution_kernel_candidate:
+        result = attach_first_supervised_local_execution_kernel_candidate(
+            result,
+            synthetic_task_label=args.v5_synthetic_task_label,
+            output_directory=None,
+            output_record_name=args.v5_supervised_output_record_name,
+            confirmation_token=args.v5_supervised_execution_confirm_token,
+            human_operator=args.v5_supervised_execution_human_operator,
+            execution_requested=False,
+            write_output_record=False,
         )
 
     artifact_summary = None

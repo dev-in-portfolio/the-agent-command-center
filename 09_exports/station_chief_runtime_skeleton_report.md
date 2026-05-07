@@ -149,3 +149,25 @@ v5.0 does not activate the 47,250-worker workforce.
 v5.0 does not allow APIs, network, sockets, DNS, credentials, secrets, environment variables, deployment, production execution, worker process start, queue creation, queue writes, task enqueue, task execution, live orchestration, supervised local execution, or full workforce activation.
 v5.0 does not approve v5.1.
 Next internal label: first supervised local execution kernel candidate review only.
+
+## v5.1 Doctrine
+Station Chief Runtime upgraded to v5.1.0. Locked 175-family baseline preserved. First Supervised Local Execution Kernel Candidate added.
+v5.1 is the first controlled local “meat” layer.
+v5.1 may write exactly one deterministic local supervised output record only.
+v5.1 requires a valid v5.1 token, human operator, synthetic task label, and explicit output directory.
+v5.1 does not create a real queue.
+v5.1 does not write to a real queue.
+v5.1 does not write scheduler state.
+v5.1 does not write cron state.
+v5.1 does not enqueue tasks.
+v5.1 does not execute arbitrary tasks.
+v5.1 does not execute user tasks.
+v5.1 does not start worker processes.
+v5.1 does not spawn agents.
+v5.1 does not assign live tasks.
+v5.1 does not route workers.
+v5.1 does not orchestrate live work.
+v5.1 does not activate the 47,250-worker workforce.
+v5.1 does not allow APIs, network, sockets, DNS, credentials, secrets, environment variables, deployment, production execution, worker process start, queue creation, queue writes, task enqueue, arbitrary task execution, user task execution, live orchestration, or full workforce activation.
+v5.1 does not approve v5.2.
+Next internal label: controlled repeatable local execution candidate review only.

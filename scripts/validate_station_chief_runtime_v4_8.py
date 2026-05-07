@@ -12,6 +12,8 @@ import sys
 import tempfile
 from pathlib import Path
 
+sys.dont_write_bytecode = True
+
 REPO_ROOT = Path(__file__).resolve().parent.parent
 RUNTIME = REPO_ROOT / "10_runtime" / "station_chief_runtime.py"
 V4_8_MODULE = REPO_ROOT / "10_runtime" / "station_chief_non_executing_queue_routing_preview_candidate.py"
@@ -38,12 +40,16 @@ ALLOWED_CHANGED_PATHS = {
     "09_exports/station_chief_runtime_skeleton_report.md",
     "09_exports/station_chief_runtime_v4_8_report.md",
     "10_runtime/station_chief_first_live_queue_execution_candidate_review.py",
+    "10_runtime/station_chief_first_supervised_local_execution_kernel_candidate.py",
     "09_exports/station_chief_v5_0_first_live_queue_execution_candidate_review_preflight_audit.md",
     "09_exports/station_chief_runtime_v5_0_report.md",
+    "09_exports/station_chief_v5_1_first_supervised_local_execution_kernel_candidate_preflight_audit.md",
+    "09_exports/station_chief_runtime_v5_1_report.md",
     "scripts/validate_station_chief_runtime_v4_7.py",
     "scripts/validate_station_chief_runtime_v4_8.py",
     "scripts/validate_station_chief_runtime_v4_9.py",
     "scripts/validate_station_chief_runtime_v5_0.py",
+    "scripts/validate_station_chief_runtime_v5_1.py",
 }
 
 FORBIDDEN_REGEXES = [

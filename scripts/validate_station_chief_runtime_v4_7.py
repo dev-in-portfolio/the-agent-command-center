@@ -11,6 +11,8 @@ import sys
 import tempfile
 from pathlib import Path
 
+sys.dont_write_bytecode = True
+
 REPO_ROOT = Path(__file__).resolve().parents[1]
 RUNTIME = REPO_ROOT / "10_runtime" / "station_chief_runtime.py"
 V4_6_MODULE = REPO_ROOT / "10_runtime" / "station_chief_non_executing_task_queue_preview_candidate.py"
@@ -962,14 +964,9 @@ def ensure_no_v48_files() -> None:
         "09_exports/station_chief_runtime_v4_8_report.md",
     ]:
         ensure((REPO_ROOT / relative).exists(), f"missing v4.8 file: {relative}")
-    # Legacy validator may run as a smoke test after later versions have landed.
-    # v4.8, v4.9, and v5.0 files are no longer forbidden on current master; v5.1+ remains forbidden until landed.
-    for relative in [
-        "10_runtime/station_chief_first_live_queue_execution_candidate.py",
-        "scripts/validate_station_chief_runtime_v5_1.py",
-        "09_exports/station_chief_runtime_v5_1_report.md",
-    ]:
-        ensure(not (REPO_ROOT / relative).exists(), f"forbidden v5.1 file exists: {relative}")
+    # Legacy validator is allowed to run as a smoke test after later versions have landed.
+    # v4.8, v4.9, v5.0, and v5.1 files are no longer forbidden on current master; v5.2+ remains forbidden until landed.
+    ensure(not any(REPO_ROOT.rglob("*v5_2*")), "forbidden v5.2 path exists")
 
 
 def ensure_wrappers_delegate() -> None:

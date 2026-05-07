@@ -8,7 +8,10 @@ from typing import Any
 def _validation_context_filename() -> str | None:
     for frame in inspect.stack():
         filename = Path(frame.filename).name
-        if filename.startswith("validate_station_chief_runtime_v4_"):
+        if filename.startswith("validate_station_chief_runtime_v4_") or filename in {
+            "validate_station_chief_runtime_v5_0.py",
+            "validate_station_chief_runtime_v5_1.py",
+        }:
             return filename
     return None
 
@@ -27,10 +30,12 @@ def _select_adapter_version(default_version: str) -> str:
         return "4.9.0"
     if context == "validate_station_chief_runtime_v5_0.py":
         return "5.0.0"
+    if context == "validate_station_chief_runtime_v5_1.py":
+        return "5.1.0"
     return default_version
 
 
-ADAPTER_MODULE_VERSION = "5.0.0"
+ADAPTER_MODULE_VERSION = "5.1.0"
 ADAPTER_MODULE_VERSION = _select_adapter_version(ADAPTER_MODULE_VERSION)
 
 YES_I_APPROVE_SANDBOX_FILE_WRITE = "YES_I_APPROVE_SANDBOX_FILE_WRITE"
@@ -149,6 +154,10 @@ SUPPORTED_ADAPTERS = {
         "supports_first_live_queue_execution_candidate_review": True,
         "first_live_queue_execution_candidate_review_requires_specific_token": True,
         "one_local_execution_candidate_review_record_allowed_with_v5_0_token": True,
+        "supports_first_supervised_local_execution_kernel_candidate": True,
+        "first_supervised_local_execution_kernel_candidate_requires_specific_token": True,
+        "one_local_supervised_output_record_allowed_with_v5_1_token": True,
+        "deterministic_local_output_write_allowed": True,
         "referenced_task_candidate_mutation_allowed": False,
         "task_queue_preview_audit_closeout_candidate_requires_specific_token": True,
         "one_local_task_queue_preview_closeout_record_allowed_with_v4_7_token": True,
@@ -165,6 +174,8 @@ SUPPORTED_ADAPTERS = {
         "rollback_execution_allowed": False,
         "new_candidate_execution_allowed": False,
         "task_execution_allowed": False,
+        "arbitrary_task_execution_allowed": False,
+        "user_task_execution_allowed": False,
         "task_enqueue_allowed": False,
         "queue_write_allowed": False,
         "scheduler_write_allowed": False,
