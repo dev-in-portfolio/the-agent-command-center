@@ -167,3 +167,23 @@ Next internal label: first live queue execution candidate review only.
 first live queue execution candidate review only.
 
 Legacy v4.7 next step: Next recommended step: build non-executing worker routing preview candidate.
+
+## v5.0 Doctrine
+Station Chief Runtime upgraded to v5.0.0. Locked 175-family baseline preserved. First Live Queue Execution Candidate Review added.
+v5.0 creates or writes one local first live queue execution candidate review record only.
+v5.0 does not create a real queue.
+v5.0 does not write to a real queue.
+v5.0 does not write scheduler state.
+v5.0 does not write cron state.
+v5.0 does not enqueue tasks.
+v5.0 does not execute tasks.
+v5.0 does not start worker processes.
+v5.0 does not spawn agents.
+v5.0 does not assign tasks.
+v5.0 does not route workers.
+v5.0 does not orchestrate live work.
+v5.0 does not perform supervised local execution.
+v5.0 does not activate the 47,250-worker workforce.
+v5.0 does not allow APIs, network, sockets, DNS, credentials, secrets, environment variables, deployment, production execution, worker process start, queue creation, queue writes, task enqueue, task execution, live orchestration, supervised local execution, or full workforce activation.
+v5.0 does not approve v5.1.
+Next internal label: first supervised local execution kernel candidate review only.

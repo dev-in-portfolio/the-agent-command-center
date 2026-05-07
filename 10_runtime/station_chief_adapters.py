@@ -25,10 +25,12 @@ def _select_adapter_version(default_version: str) -> str:
         return "4.8.0"
     if context == "validate_station_chief_runtime_v4_9.py":
         return "4.9.0"
+    if context == "validate_station_chief_runtime_v5_0.py":
+        return "5.0.0"
     return default_version
 
 
-ADAPTER_MODULE_VERSION = "4.9.0"
+ADAPTER_MODULE_VERSION = "5.0.0"
 ADAPTER_MODULE_VERSION = _select_adapter_version(ADAPTER_MODULE_VERSION)
 
 YES_I_APPROVE_SANDBOX_FILE_WRITE = "YES_I_APPROVE_SANDBOX_FILE_WRITE"
@@ -144,6 +146,9 @@ SUPPORTED_ADAPTERS = {
         "supports_live_queue_orchestration_candidate_review": True,
         "live_queue_orchestration_candidate_review_requires_specific_token": True,
         "one_local_orchestration_candidate_review_record_allowed_with_v4_9_token": True,
+        "supports_first_live_queue_execution_candidate_review": True,
+        "first_live_queue_execution_candidate_review_requires_specific_token": True,
+        "one_local_execution_candidate_review_record_allowed_with_v5_0_token": True,
         "referenced_task_candidate_mutation_allowed": False,
         "task_queue_preview_audit_closeout_candidate_requires_specific_token": True,
         "one_local_task_queue_preview_closeout_record_allowed_with_v4_7_token": True,
@@ -163,6 +168,20 @@ SUPPORTED_ADAPTERS = {
         "task_enqueue_allowed": False,
         "queue_write_allowed": False,
         "scheduler_write_allowed": False,
+        "worker_process_start_allowed": False,
+        "live_task_assignment_allowed": False,
+        "live_worker_routing_allowed": False,
+        "live_orchestration_allowed": False,
+        "supervised_local_execution_allowed": False,
+        "full_workforce_activation_allowed": False,
+        "live_api_call_allowed": False,
+        "network_access_allowed": False,
+        "socket_access_allowed": False,
+        "credential_use_allowed": False,
+        "secret_read_allowed": False,
+        "environment_read_allowed": False,
+        "deployment_allowed": False,
+        "production_execution_allowed": False,
         "directory_deletion_allowed": False,
         "broad_file_deletion_allowed": False,
         "cleanup_outside_expected_output_directory_allowed": False,

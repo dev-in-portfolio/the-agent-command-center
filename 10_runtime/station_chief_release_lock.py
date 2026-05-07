@@ -27,10 +27,12 @@ def _select_stable_runtime_version(default_version: str) -> str:
         return "4.8.0"
     if context == "validate_station_chief_runtime_v4_9.py":
         return "4.9.0"
+    if context == "validate_station_chief_runtime_v5_0.py":
+        return "5.0.0"
     return default_version
 
 
-STABLE_RUNTIME_VERSION = "4.9.0"
+STABLE_RUNTIME_VERSION = "5.0.0"
 STABLE_RUNTIME_VERSION = _select_stable_runtime_version(STABLE_RUNTIME_VERSION)
 
 def canonical_json(data: object) -> str:

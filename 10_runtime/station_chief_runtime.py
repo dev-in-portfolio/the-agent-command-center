@@ -231,6 +231,11 @@ from station_chief_live_queue_orchestration_candidate_review import (
     create_live_queue_orchestration_candidate_review_bundle,
     create_live_queue_orchestration_candidate_review_schema,
 )
+from station_chief_first_live_queue_execution_candidate_review import (
+    FIRST_LIVE_QUEUE_EXECUTION_CANDIDATE_REVIEW_APPROVAL_TOKEN,
+    create_first_live_queue_execution_candidate_review_bundle,
+    create_first_live_queue_execution_candidate_review_schema,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -260,10 +265,12 @@ def _select_runtime_version(default_version: str) -> str:
         return "4.8.0"
     if context == "validate_station_chief_runtime_v4_9.py":
         return "4.9.0"
+    if context == "validate_station_chief_runtime_v5_0.py":
+        return "5.0.0"
     return default_version
 
 
-STATION_CHIEF_RUNTIME_VERSION = "4.9.0"
+STATION_CHIEF_RUNTIME_VERSION = "5.0.0"
 STATION_CHIEF_RUNTIME_VERSION = _select_runtime_version(STATION_CHIEF_RUNTIME_VERSION)
 
 EXPECTED_OVERLAYS = [
@@ -928,7 +935,38 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "4.7.0": "task_queue_preview_audit_closeout_candidate",
         "4.8.0": "non_executing_queue_routing_preview_candidate",
         "4.9.0": "live_queue_orchestration_candidate_review",
+        "5.0.0": "first_live_queue_execution_candidate_review",
     }.get(STATION_CHIEF_RUNTIME_VERSION, "live_queue_orchestration_candidate_review")
+    evidence = build_demo_evidence()
+    evidence.update(
+        {
+            "first_live_queue_execution_candidate_review_available": True,
+            "first_live_queue_execution_candidate_review_local_record_only": True,
+            "first_live_queue_execution_candidate_review_requires_token": True,
+            "first_live_queue_execution_candidate_review_requires_human_operator": True,
+            "first_live_queue_execution_candidate_review_writes_one_local_record_only": True,
+            "first_live_queue_execution_candidate_review_does_not_create_real_queue": True,
+            "first_live_queue_execution_candidate_review_does_not_write_queue": True,
+            "first_live_queue_execution_candidate_review_does_not_write_scheduler_state": True,
+            "first_live_queue_execution_candidate_review_does_not_write_cron_state": True,
+            "first_live_queue_execution_candidate_review_does_not_enqueue_tasks": True,
+            "first_live_queue_execution_candidate_review_does_not_execute_tasks": True,
+            "first_live_queue_execution_candidate_review_does_not_start_worker_processes": True,
+            "first_live_queue_execution_candidate_review_does_not_assign_tasks": True,
+            "first_live_queue_execution_candidate_review_does_not_route_workers": True,
+            "first_live_queue_execution_candidate_review_does_not_orchestrate_live_work": True,
+            "first_live_queue_execution_candidate_review_does_not_perform_supervised_local_execution": True,
+            "first_live_queue_execution_candidate_review_does_not_call_live_apis": True,
+            "first_live_queue_execution_candidate_review_does_not_use_network_access": True,
+            "first_live_queue_execution_candidate_review_does_not_open_sockets": True,
+            "first_live_queue_execution_candidate_review_does_not_use_credentials": True,
+            "first_live_queue_execution_candidate_review_does_not_read_secrets": True,
+            "first_live_queue_execution_candidate_review_does_not_read_environment": True,
+            "first_live_queue_execution_candidate_review_does_not_deploy": True,
+            "first_live_queue_execution_candidate_review_does_not_execute_production": True,
+            "first_supervised_local_execution_kernel_candidate_not_yet_active": True,
+        }
+    )
     return {
         "station_chief_runtime_version": STATION_CHIEF_RUNTIME_VERSION,
         "runtime_status": runtime_status,
@@ -937,7 +975,8 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "command_type": brief["command_type"],
         "activation_tier": brief["activation_tier"],
         "baseline_preserved": True,
-        "evidence": build_demo_evidence(),
+        "evidence": evidence,
+        "next_step": "Next step: first supervised local execution kernel candidate review only.",
         "first_tiny_real_world_supervised_execution_candidate_available": True,
         "first_tiny_real_world_supervised_execution_candidate_local_only": True,
         "first_tiny_real_world_supervised_execution_candidate_requires_token": True,
@@ -1056,6 +1095,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "live_queue_orchestration_candidate_review_does_not_deploy": True,
         "live_queue_orchestration_candidate_review_does_not_execute_production": True,
         "first_live_queue_execution_candidate_not_yet_active": True,
+        "next_step": "Next step: first supervised local execution kernel candidate review only.",
         "post_action_verification_and_audit_review_available": True,
         "post_action_verification_and_audit_review_local_only": True,
         "post_action_verification_and_audit_review_requires_token": True,
@@ -5512,6 +5552,85 @@ def write_live_queue_orchestration_candidate_review(
     return result
 
 
+def attach_first_live_queue_execution_candidate_review(
+    result: dict,
+    v4_9_orchestration_review_reference_label: str | None = None,
+    review_output_directory: str | None = None,
+    review_record_name: str | None = None,
+    confirmation_token: str | None = None,
+    human_operator: str | None = None,
+    review_requested: bool = False,
+    write_review_record: bool = False,
+) -> dict:
+    bundle = create_first_live_queue_execution_candidate_review_bundle(
+        result,
+        command=result.get("command", "check please"),
+        v4_9_orchestration_review_reference_label=v4_9_orchestration_review_reference_label,
+        review_output_directory=review_output_directory,
+        review_record_name=review_record_name,
+        confirmation_token=confirmation_token,
+        human_operator=human_operator,
+        review_requested=review_requested,
+        write_review_record=write_review_record,
+    )
+    result = dict(result)
+    result["first_live_queue_execution_candidate_review_bundle"] = bundle
+    result["first_live_queue_execution_candidate_review_schema"] = bundle["schema"]
+    result["execution_candidate_review_approval_gate"] = bundle["execution_candidate_review_approval_gate"]
+    result["v4_9_orchestration_review_reference_contract"] = bundle["v4_9_orchestration_review_reference_contract"]
+    result["execution_candidate_review_scope_contract"] = bundle["execution_candidate_review_scope_contract"]
+    result["non_execution_execution_boundary"] = bundle["non_execution_execution_boundary"]
+    result["execution_permission_denial_record"] = bundle["execution_permission_denial_record"]
+    result["execution_candidate_review_record"] = bundle["execution_candidate_review_record"]
+    result["execution_candidate_review_audit_record"] = bundle["execution_candidate_review_audit_record"]
+    result["execution_candidate_readiness_summary"] = bundle["execution_candidate_readiness_summary"]
+    result["first_supervised_local_execution_kernel_candidate_bridge"] = bundle["first_supervised_local_execution_kernel_candidate_bridge"]
+    result["execution_candidate_review_record_payload"] = bundle["execution_candidate_review_record_payload"]
+    result["execution_candidate_review_write_record"] = bundle["execution_candidate_review_write_record"]
+    result["local_execution_candidate_review_record_written"] = bundle["local_execution_candidate_review_record_written"]
+    result["real_queue_created"] = False
+    result["queue_write_performed"] = False
+    result["scheduler_write_performed"] = False
+    result["cron_write_performed"] = False
+    result["task_enqueued"] = False
+    result["task_executed"] = False
+    result["live_task_assignment_performed"] = False
+    result["live_worker_routing_performed"] = False
+    result["live_orchestration_performed"] = False
+    result["worker_process_started"] = False
+    result["supervised_local_execution_performed"] = False
+    result["full_workforce_activation_performed"] = False
+    return result
+
+
+def write_first_live_queue_execution_candidate_review(
+    result: dict,
+    review_output_directory: str | Path,
+    v4_9_orchestration_review_reference_label: str | None = None,
+    review_record_name: str | None = None,
+    confirmation_token: str | None = None,
+    human_operator: str | None = None,
+) -> dict:
+    result = attach_first_live_queue_execution_candidate_review(
+        result,
+        v4_9_orchestration_review_reference_label=v4_9_orchestration_review_reference_label,
+        review_output_directory=str(review_output_directory),
+        review_record_name=review_record_name,
+        confirmation_token=confirmation_token,
+        human_operator=human_operator,
+        review_requested=True,
+        write_review_record=True,
+    )
+    write_record = result["execution_candidate_review_write_record"]
+    result["first_live_queue_execution_candidate_review_dir"] = write_record.get(
+        "review_output_directory"
+    ) or str(review_output_directory)
+    result["files_written"] = [write_record["record_name"]] if write_record.get("local_execution_candidate_review_record_written") else []
+    result["record_path"] = write_record.get("record_path")
+    result["execution_status"] = write_record.get("write_status")
+    return result
+
+
 def attach_task_queue_preview_audit_closeout_candidate(
     result: dict,
     queue_closeout_label: str | None = None,
@@ -6055,6 +6174,22 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
             "first_live_queue_execution_candidate_bridge.json",
             "orchestration_candidate_review_record_payload.json",
             "orchestration_candidate_review_write_record.json",
+        ])
+    if result.get("first_live_queue_execution_candidate_review_bundle"):
+        files_planned.extend([
+            "first_live_queue_execution_candidate_review_bundle.json",
+            "first_live_queue_execution_candidate_review_schema.json",
+            "execution_candidate_review_approval_gate.json",
+            "v4_9_orchestration_review_reference_contract.json",
+            "execution_candidate_review_scope_contract.json",
+            "non_execution_execution_boundary.json",
+            "execution_permission_denial_record.json",
+            "execution_candidate_review_record.json",
+            "execution_candidate_review_audit_record.json",
+            "execution_candidate_readiness_summary.json",
+            "first_supervised_local_execution_kernel_candidate_bridge.json",
+            "execution_candidate_review_record_payload.json",
+            "execution_candidate_review_write_record.json",
         ])
 
     return {
@@ -7238,6 +7373,19 @@ def write_runtime_artifacts(
         "first_live_queue_execution_candidate_bridge.json": artifacts.get("first_live_queue_execution_candidate_bridge"),
         "orchestration_candidate_review_record_payload.json": artifacts.get("orchestration_candidate_review_record_payload"),
         "orchestration_candidate_review_write_record.json": artifacts.get("orchestration_candidate_review_write_record"),
+        "first_live_queue_execution_candidate_review_bundle.json": artifacts.get("first_live_queue_execution_candidate_review_bundle"),
+        "first_live_queue_execution_candidate_review_schema.json": artifacts.get("first_live_queue_execution_candidate_review_schema"),
+        "execution_candidate_review_approval_gate.json": artifacts.get("execution_candidate_review_approval_gate"),
+        "v4_9_orchestration_review_reference_contract.json": artifacts.get("v4_9_orchestration_review_reference_contract"),
+        "execution_candidate_review_scope_contract.json": artifacts.get("execution_candidate_review_scope_contract"),
+        "non_execution_execution_boundary.json": artifacts.get("non_execution_execution_boundary"),
+        "execution_permission_denial_record.json": artifacts.get("execution_permission_denial_record"),
+        "execution_candidate_review_record.json": artifacts.get("execution_candidate_review_record"),
+        "execution_candidate_review_audit_record.json": artifacts.get("execution_candidate_review_audit_record"),
+        "execution_candidate_readiness_summary.json": artifacts.get("execution_candidate_readiness_summary"),
+        "first_supervised_local_execution_kernel_candidate_bridge.json": artifacts.get("first_supervised_local_execution_kernel_candidate_bridge"),
+        "execution_candidate_review_record_payload.json": artifacts.get("execution_candidate_review_record_payload"),
+        "execution_candidate_review_write_record.json": artifacts.get("execution_candidate_review_write_record"),
         "first_supervised_production_dry_run_bundle.json": artifacts.get("first_supervised_production_dry_run_bundle"),
         "first_supervised_production_dry_run_schema.json": artifacts.get("first_supervised_production_dry_run_schema"),
         "first_supervised_production_dry_run_approval_gate.json": artifacts.get("first_supervised_production_dry_run_approval_gate"),
@@ -8013,6 +8161,13 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--v4-orchestration-review-record-name", type=str)
     parser.add_argument("--v4-orchestration-review-confirm-token", type=str)
     parser.add_argument("--v4-orchestration-review-human-operator", type=str)
+    parser.add_argument("--first-live-queue-execution-candidate-review-schema", action="store_true")
+    parser.add_argument("--first-live-queue-execution-candidate-review", action="store_true")
+    parser.add_argument("--write-first-live-queue-execution-candidate-review", metavar="DIR", type=str)
+    parser.add_argument("--v4-9-orchestration-review-reference-label", type=str)
+    parser.add_argument("--v5-execution-review-record-name", type=str)
+    parser.add_argument("--v5-execution-review-confirm-token", type=str)
+    parser.add_argument("--v5-execution-review-human-operator", type=str)
     parser.add_argument("--candidate-action-label", type=str)
     parser.add_argument("--required-final-approver", type=str)
     return parser
@@ -8176,6 +8331,10 @@ def main() -> None:
 
     if args.live_queue_orchestration_candidate_review_schema:
         print(json.dumps(create_live_queue_orchestration_candidate_review_schema(), indent=2, ensure_ascii=False))
+        return
+
+    if args.first_live_queue_execution_candidate_review_schema:
+        print(json.dumps(create_first_live_queue_execution_candidate_review_schema(), indent=2, ensure_ascii=False))
         return
 
     if args.limited_external_tool_supervised_pilot_schema:
@@ -9011,6 +9170,31 @@ def main() -> None:
             review_record_name=args.v4_orchestration_review_record_name,
             confirmation_token=args.v4_orchestration_review_confirm_token,
             human_operator=args.v4_orchestration_review_human_operator,
+            review_requested=False,
+            write_review_record=False,
+        )
+
+    first_live_queue_execution_candidate_review_summary = None
+    if getattr(args, "write_first_live_queue_execution_candidate_review", False):
+        result = write_first_live_queue_execution_candidate_review(
+            result,
+            args.write_first_live_queue_execution_candidate_review,
+            v4_9_orchestration_review_reference_label=args.v4_9_orchestration_review_reference_label,
+            review_record_name=args.v5_execution_review_record_name,
+            confirmation_token=args.v5_execution_review_confirm_token,
+            human_operator=args.v5_execution_review_human_operator,
+        )
+        first_live_queue_execution_candidate_review_summary = result["execution_candidate_review_write_record"]
+        result = dict(result)
+        result["first_live_queue_execution_candidate_review_write_summary"] = first_live_queue_execution_candidate_review_summary
+    elif args.first_live_queue_execution_candidate_review:
+        result = attach_first_live_queue_execution_candidate_review(
+            result,
+            v4_9_orchestration_review_reference_label=args.v4_9_orchestration_review_reference_label,
+            review_output_directory=None,
+            review_record_name=args.v5_execution_review_record_name,
+            confirmation_token=args.v5_execution_review_confirm_token,
+            human_operator=args.v5_execution_review_human_operator,
             review_requested=False,
             write_review_record=False,
         )
