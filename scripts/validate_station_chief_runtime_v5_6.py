@@ -41,6 +41,7 @@ V5_5_REFERENCE_LABEL = "acceptance review packet reference alpha"
 DEFAULT_PACKET_NAME = "sandbox_worker_ready_state_packet_candidate.json"
 
 ALLOWED_CHANGED_PATHS = {
+    "09_exports/station_chief_runtime_v5_6_1_repair_report.md",
     "scripts/validate_station_chief_runtime_v4_5.py",
     "09_exports/station_chief_v5_6_sandbox_worker_ready_state_packet_candidate_preflight_audit.md",
     "10_runtime/station_chief_sandbox_worker_ready_state_packet_candidate.py",
@@ -471,6 +472,50 @@ def ensure_changed_paths() -> None:
     ensure(changed_paths <= ALLOWED_CHANGED_PATHS, f"unexpected changed paths: {sorted(changed_paths - ALLOWED_CHANGED_PATHS)}")
 
 
+
+def ensure_runtime_wrapper_integration() -> None:
+    runtime = load_script(RUNTIME)
+    
+    # 1. Test attach (no-write)
+    res = runtime["run_station_chief"]("check please")
+    res = runtime["attach_sandbox_worker_ready_state_packet_candidate"](
+        res,
+        sandbox_worker_label=SANDBOX_WORKER_LABEL,
+        v5_3_handoff_packet_reference_label=V5_3_REFERENCE_LABEL,
+        v5_4_acknowledgement_packet_reference_label=V5_4_REFERENCE_LABEL,
+        v5_5_acceptance_review_packet_reference_label=V5_5_REFERENCE_LABEL,
+        confirmation_token=EXPECTED_TOKEN,
+        human_operator=HUMAN_OPERATOR
+    )
+    
+    ensure("sandbox_worker_ready_state_packet_candidate_bundle" in res, "attach should include bundle")
+    ensure("ready_state_packet_record" in res, "attach should include packet record")
+    ensure("sandbox_worker_ready_state_packet_candidate" in res, "attach should include compatibility object")
+    ensure(res["local_ready_state_packet_written"] is False, "attach no-write should not mark written")
+    
+    # 2. Test write
+    with tempfile.TemporaryDirectory(prefix="station_chief_repair_v5_6_") as tmpdir:
+        res2 = runtime["run_station_chief"]("check please")
+        res2 = runtime["write_sandbox_worker_ready_state_packet_candidate"](
+            res2,
+            output_dir=tmpdir,
+            sandbox_worker_label=SANDBOX_WORKER_LABEL,
+            v5_3_handoff_packet_reference_label=V5_3_REFERENCE_LABEL,
+            v5_4_acknowledgement_packet_reference_label=V5_4_REFERENCE_LABEL,
+            v5_5_acceptance_review_packet_reference_label=V5_5_REFERENCE_LABEL,
+            confirmation_token=EXPECTED_TOKEN,
+            human_operator=HUMAN_OPERATOR
+        )
+        
+        ensure(res2["local_ready_state_packet_written"] is True, "write path should mark written")
+        ensure("sandbox_worker_ready_state_packet_candidate_write_summary" in res2, "write path should include write summary")
+        ensure(len(res2.get("files_written", [])) == 1, "write path should report one file written")
+        
+        # Verify dangerous booleans
+        for key in ["worker_process_started", "agent_started", "dry_run_assignment_created"]:
+            ensure(res2.get(key) is False, f"dangerous boolean {key} must be false")
+
+
 def ensure_smoke_tests() -> None:
     for validator in [V5_5_VALIDATOR, V5_4_VALIDATOR, V5_3_VALIDATOR, V5_2_VALIDATOR, V5_1_VALIDATOR, V5_0_VALIDATOR]:
         code, stdout, stderr = run_script(validator, [])
@@ -488,6 +533,7 @@ def main() -> None:
     ensure_no_v57_files()
     ensure_changed_paths()
     ensure_smoke_tests()
+    ensure_runtime_wrapper_integration()
     print("STATION_CHIEF_RUNTIME_V5_6_VALIDATION_PASS")
 
 

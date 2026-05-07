@@ -7536,10 +7536,9 @@ def attach_sandbox_worker_acceptance_candidate_review(
     acceptance_review_requested: bool = False,
     write_acceptance_review_packet: bool = False,
 ) -> dict:
-    updated = dict(result)
-    create_sandbox_worker_acceptance_candidate_review_bundle(
-        updated,
-        command=updated.get("command"),
+    bundle = create_sandbox_worker_acceptance_candidate_review_bundle(
+        result,
+        command=result.get("command"),
         sandbox_worker_label=sandbox_worker_label,
         v5_3_handoff_packet_reference_label=v5_3_handoff_packet_reference_label,
         v5_4_acknowledgement_packet_reference_label=v5_4_acknowledgement_packet_reference_label,
@@ -7550,7 +7549,52 @@ def attach_sandbox_worker_acceptance_candidate_review(
         acceptance_review_requested=acceptance_review_requested,
         write_acceptance_review_packet=write_acceptance_review_packet,
     )
-    return updated
+    result = dict(result)
+    result["sandbox_worker_acceptance_candidate_review_bundle"] = bundle
+    result["sandbox_worker_acceptance_candidate_review_schema"] = bundle["schema"]
+    result["sandbox_worker_acceptance_review_approval_gate"] = bundle["approval_gate"]
+    result["v5_3_handoff_packet_reference_contract"] = bundle["v5_3_handoff_packet_reference_contract"]
+    result["v5_4_acknowledgement_packet_reference_contract"] = bundle["v5_4_acknowledgement_packet_reference_contract"]
+    result["sandbox_worker_acceptance_review_reference_contract"] = bundle["sandbox_worker_acceptance_review_reference_contract"]
+    result["acceptance_review_scope_contract"] = bundle["acceptance_review_scope_contract"]
+    result["non_execution_acceptance_review_boundary"] = bundle["non_execution_acceptance_review_boundary"]
+    result["acceptance_review_permission_denial_record"] = bundle["acceptance_review_permission_denial_record"]
+    result["acceptance_review_plan_record"] = bundle["acceptance_review_plan_record"]
+    result["acceptance_review_packet_record"] = bundle["acceptance_review_packet_record"]
+    result["acceptance_review_audit_record"] = bundle["acceptance_review_audit_record"]
+    result["acceptance_review_readiness_summary"] = bundle["acceptance_review_readiness_summary"]
+    result["sandbox_worker_ready_state_packet_candidate_bridge"] = bundle["sandbox_worker_ready_state_packet_candidate_bridge"]
+    result["acceptance_review_packet_payload"] = bundle.get("acceptance_review_packet_payload")
+    result["acceptance_review_packet_write_record"] = bundle.get("acceptance_review_packet_record", {}).get("write_record")
+    result["local_acceptance_review_packet_written"] = bundle["local_acceptance_review_packet_written"]
+    result["sandbox_worker_acceptance_review_performed"] = bundle["sandbox_worker_acceptance_review_performed"]
+    result["sandbox_worker_accepted"] = False
+    result["sandbox_worker_ready_state_created"] = False
+    result["ready_state_packet_written"] = False
+    result["worker_process_started"] = False
+    result["agent_started"] = False
+    result["real_queue_created"] = False
+    result["queue_write_performed"] = False
+    result["scheduler_write_performed"] = False
+    result["cron_write_performed"] = False
+    result["task_enqueued"] = False
+    result["task_executed"] = False
+    result["arbitrary_task_execution_performed"] = False
+    result["user_task_execution_performed"] = False
+    result["live_task_assignment_performed"] = False
+    result["live_worker_routing_performed"] = False
+    result["live_orchestration_performed"] = False
+    result["external_tool_invocation_performed"] = False
+    result["api_call_performed"] = False
+    result["network_access_performed"] = False
+    result["deployment_performed"] = False
+    result["production_execution_performed"] = False
+    result["full_workforce_activation_performed"] = False
+    
+    # Compatibility object
+    result["sandbox_worker_acceptance_candidate_review"] = bundle
+    
+    return result
 
 
 def write_sandbox_worker_acceptance_candidate_review(
@@ -7563,7 +7607,7 @@ def write_sandbox_worker_acceptance_candidate_review(
     confirmation_token: str | None = None,
     human_operator: str | None = None,
 ) -> dict:
-    return attach_sandbox_worker_acceptance_candidate_review(
+    result = attach_sandbox_worker_acceptance_candidate_review(
         result,
         sandbox_worker_label=sandbox_worker_label,
         v5_3_handoff_packet_reference_label=v5_3_handoff_packet_reference_label,
@@ -7575,6 +7619,13 @@ def write_sandbox_worker_acceptance_candidate_review(
         acceptance_review_requested=True,
         write_acceptance_review_packet=True,
     )
+    write_record = result["acceptance_review_packet_write_record"]
+    result["sandbox_worker_acceptance_candidate_review_write_summary"] = write_record
+    result["sandbox_worker_acceptance_candidate_review_dir"] = str(output_dir)
+    result["files_written"] = [write_record.get("record_name")] if result.get("local_acceptance_review_packet_written") else []
+    result["record_path"] = write_record.get("record_path")
+    result["execution_status"] = write_record.get("write_status")
+    return result
 
 
 def attach_sandbox_worker_ready_state_packet_candidate(
@@ -7590,10 +7641,9 @@ def attach_sandbox_worker_ready_state_packet_candidate(
     ready_state_packet_requested: bool = False,
     write_ready_state_packet: bool = False,
 ) -> dict:
-    updated = dict(result)
-    create_sandbox_worker_ready_state_packet_candidate_bundle(
-        updated,
-        command=updated.get("command"),
+    bundle = create_sandbox_worker_ready_state_packet_candidate_bundle(
+        result,
+        command=result.get("command"),
         sandbox_worker_label=sandbox_worker_label,
         v5_3_handoff_packet_reference_label=v5_3_handoff_packet_reference_label,
         v5_4_acknowledgement_packet_reference_label=v5_4_acknowledgement_packet_reference_label,
@@ -7605,7 +7655,53 @@ def attach_sandbox_worker_ready_state_packet_candidate(
         ready_state_packet_requested=ready_state_packet_requested,
         write_ready_state_packet=write_ready_state_packet,
     )
-    return updated
+    result = dict(result)
+    result["sandbox_worker_ready_state_packet_candidate_bundle"] = bundle
+    result["sandbox_worker_ready_state_packet_candidate_schema"] = bundle["schema"]
+    result["sandbox_worker_ready_state_packet_approval_gate"] = bundle["approval_gate"]
+    result["v5_3_handoff_packet_reference_contract"] = bundle["v5_3_handoff_packet_reference_contract"]
+    result["v5_4_acknowledgement_packet_reference_contract"] = bundle["v5_4_acknowledgement_packet_reference_contract"]
+    result["v5_5_acceptance_review_packet_reference_contract"] = bundle["v5_5_acceptance_review_packet_reference_contract"]
+    result["sandbox_worker_ready_state_reference_contract"] = bundle["sandbox_worker_ready_state_reference_contract"]
+    result["ready_state_scope_contract"] = bundle["ready_state_scope_contract"]
+    result["non_execution_ready_state_boundary"] = bundle["non_execution_ready_state_boundary"]
+    result["ready_state_permission_denial_record"] = bundle["ready_state_permission_denial_record"]
+    result["ready_state_plan_record"] = bundle["ready_state_plan_record"]
+    result["ready_state_packet_record"] = bundle["ready_state_packet_record"]
+    result["ready_state_audit_record"] = bundle["ready_state_audit_record"]
+    result["ready_state_readiness_summary"] = bundle["ready_state_readiness_summary"]
+    result["sandbox_worker_dry_run_assignment_candidate_bridge"] = bundle["sandbox_worker_dry_run_assignment_candidate_bridge"]
+    result["ready_state_packet_payload"] = bundle.get("ready_state_packet_payload")
+    result["ready_state_packet_write_record"] = bundle.get("ready_state_packet_record", {}).get("write_record")
+    result["local_ready_state_packet_written"] = bundle["local_ready_state_packet_written"]
+    result["sandbox_worker_ready_state_packet_created"] = bundle["sandbox_worker_ready_state_packet_created"]
+    result["sandbox_worker_ready_state_candidate_recorded"] = bundle["sandbox_worker_ready_state_candidate_recorded"]
+    result["dry_run_assignment_created"] = False
+    result["dry_run_task_assigned"] = False
+    result["worker_process_started"] = False
+    result["agent_started"] = False
+    result["real_queue_created"] = False
+    result["queue_write_performed"] = False
+    result["scheduler_write_performed"] = False
+    result["cron_write_performed"] = False
+    result["task_enqueued"] = False
+    result["task_executed"] = False
+    result["arbitrary_task_execution_performed"] = False
+    result["user_task_execution_performed"] = False
+    result["live_task_assignment_performed"] = False
+    result["live_worker_routing_performed"] = False
+    result["live_orchestration_performed"] = False
+    result["external_tool_invocation_performed"] = False
+    result["api_call_performed"] = False
+    result["network_access_performed"] = False
+    result["deployment_performed"] = False
+    result["production_execution_performed"] = False
+    result["full_workforce_activation_performed"] = False
+    
+    # Compatibility object
+    result["sandbox_worker_ready_state_packet_candidate"] = bundle
+    
+    return result
 
 
 def write_sandbox_worker_ready_state_packet_candidate(
@@ -7619,7 +7715,7 @@ def write_sandbox_worker_ready_state_packet_candidate(
     confirmation_token: str | None = None,
     human_operator: str | None = None,
 ) -> dict:
-    return attach_sandbox_worker_ready_state_packet_candidate(
+    result = attach_sandbox_worker_ready_state_packet_candidate(
         result,
         sandbox_worker_label=sandbox_worker_label,
         v5_3_handoff_packet_reference_label=v5_3_handoff_packet_reference_label,
@@ -7632,6 +7728,13 @@ def write_sandbox_worker_ready_state_packet_candidate(
         ready_state_packet_requested=True,
         write_ready_state_packet=True,
     )
+    write_record = result["ready_state_packet_write_record"]
+    result["sandbox_worker_ready_state_packet_candidate_write_summary"] = write_record
+    result["sandbox_worker_ready_state_packet_candidate_dir"] = str(output_dir)
+    result["files_written"] = [write_record.get("record_name")] if result.get("local_ready_state_packet_written") else []
+    result["record_path"] = write_record.get("record_path")
+    result["execution_status"] = write_record.get("write_status")
+    return result
 
 
 def write_runtime_artifacts(

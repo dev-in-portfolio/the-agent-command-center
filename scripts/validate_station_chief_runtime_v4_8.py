@@ -32,6 +32,7 @@ TASK_CANDIDATE_LABEL = "sandbox observation task"
 WORKER_TEMPLATE_LABEL = "sandbox observer worker"
 DEFAULT_QUEUE_ROUTING_PREVIEW_RECORD_NAME = "non_executing_queue_routing_preview_candidate_record.json"
 ALLOWED_CHANGED_PATHS = {
+    "09_exports/station_chief_runtime_v5_6_1_repair_report.md",
     "scripts/validate_station_chief_runtime_v4_5.py",
     "scripts/validate_station_chief_runtime_v5_6.py",
     "10_runtime/station_chief_sandbox_worker_ready_state_packet_candidate.py",

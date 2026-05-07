@@ -34,6 +34,7 @@ V4_8_REFERENCE_LABEL = "sandbox routing preview reference"
 DEFAULT_REVIEW_RECORD_NAME = "live_queue_orchestration_candidate_review_record.json"
 
 ALLOWED_CHANGED_PATHS = {
+    "09_exports/station_chief_runtime_v5_6_1_repair_report.md",
     "scripts/validate_station_chief_runtime_v4_5.py",
     "scripts/validate_station_chief_runtime_v5_6.py",
     "10_runtime/station_chief_sandbox_worker_ready_state_packet_candidate.py",
