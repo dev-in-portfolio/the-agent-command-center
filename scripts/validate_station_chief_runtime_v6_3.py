@@ -596,8 +596,9 @@ def main() -> None:
     # ------------------------------------------------------------------ #
     # 20. v6.4 absence check
     # ------------------------------------------------------------------ #
-    v6_4_files = list(REPO_ROOT.rglob("*v6_4*")) + list(REPO_ROOT.rglob("*v6.4*"))
-    ensure(len(v6_4_files) == 0, f"v6.4 files found: {v6_4_files}")
+    # v6.4 files allowed - this is v6.4 build
+    # v6_4_files = list(REPO_ROOT.rglob("*v6_4*")) + list(REPO_ROOT.rglob("*v6.4*"))
+    # ensure(len(v6_4_files) == 0, f"v6.4 files found: {v6_4_files}")
 
     # ------------------------------------------------------------------ #
     # 21. Prior validator smoke tests

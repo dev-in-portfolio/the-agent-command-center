@@ -301,6 +301,11 @@ from station_chief_v6_3_post_mvp_expansion_lane_readiness import (
     create_station_chief_v6_3_post_mvp_expansion_lane_readiness_bundle,
     create_station_chief_v6_3_post_mvp_expansion_lane_readiness_schema,
 )
+from station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan import (
+    STATION_CHIEF_V6_4_POST_MVP_EXPANSION_LANE_NON_EXECUTING_IMPLEMENTATION_PLAN_APPROVAL_TOKEN,
+    create_station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan_bundle,
+    create_station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan_schema,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -328,6 +333,7 @@ def _validation_context_filename() -> str | None:
             "validate_station_chief_runtime_v6_1.py",
             "validate_station_chief_runtime_v6_2.py",
             "validate_station_chief_runtime_v6_3.py",
+            "validate_station_chief_runtime_v6_4.py",
         }:
             return filename
     return None
@@ -376,7 +382,7 @@ def _select_runtime_version(default_version: str) -> str:
     return default_version
 
 
-STATION_CHIEF_RUNTIME_VERSION = "6.3.0"
+STATION_CHIEF_RUNTIME_VERSION = "6.4.0"
 STATION_CHIEF_RUNTIME_VERSION = _select_runtime_version(STATION_CHIEF_RUNTIME_VERSION)
 
 EXPECTED_OVERLAYS = [
@@ -1056,6 +1062,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "6.1.0": "station_chief_v6_1_post_mvp_expansion_review",
         "6.2.0": "station_chief_v6_2_post_mvp_expansion_lane_scope",
         "6.3.0": "station_chief_v6_3_post_mvp_expansion_lane_readiness",
+        "6.4.0": "station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan",
     }.get(STATION_CHIEF_RUNTIME_VERSION, "live_queue_orchestration_candidate_review")
     evidence = build_demo_evidence()
     evidence.update(
@@ -1347,6 +1354,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_deploy": True,
         "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_execute_production": True,
         "v6_3_not_yet_active": False,
+        "v6_4_not_yet_active": False,
         "v6_2_not_yet_active": True,
         "station_chief_v6_0_mvp_lock_requires_token": True,
         "station_chief_v6_0_mvp_lock_requires_human_operator": True,
@@ -8471,6 +8479,102 @@ def write_station_chief_v6_3_post_mvp_expansion_lane_readiness(
     return result
 
 
+def attach_station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan(
+    result: dict,
+    v6_3_readiness_packet_reference_label: str | None = None,
+    v6_2_lane_scope_packet_reference_label: str | None = None,
+    selected_expansion_lane_label: str | None = None,
+    implementation_plan_label: str | None = None,
+    implementation_step_list_label: str | None = None,
+    implementation_risk_register_label: str | None = None,
+    implementation_rollback_plan_label: str | None = None,
+    implementation_non_execution_boundary_label: str | None = None,
+    output_directory: str | None = None,
+    implementation_plan_packet_name: str | None = None,
+    confirmation_token: str | None = None,
+    human_operator: str | None = None,
+    implementation_plan_requested: bool = False,
+    write_implementation_plan_packet: bool = False,
+) -> dict:
+    bundle = create_station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan_bundle(
+        result,
+        command=result.get("command"),
+        v6_3_readiness_packet_reference_label=v6_3_readiness_packet_reference_label,
+        v6_2_lane_scope_packet_reference_label=v6_2_lane_scope_packet_reference_label,
+        selected_expansion_lane_label=selected_expansion_lane_label,
+        implementation_plan_label=implementation_plan_label,
+        implementation_step_list_label=implementation_step_list_label,
+        implementation_risk_register_label=implementation_risk_register_label,
+        implementation_rollback_plan_label=implementation_rollback_plan_label,
+        implementation_non_execution_boundary_label=implementation_non_execution_boundary_label,
+        output_directory=output_directory,
+        implementation_plan_packet_name=implementation_plan_packet_name,
+        confirmation_token=confirmation_token,
+        human_operator=human_operator,
+        implementation_plan_requested=implementation_plan_requested,
+        write_implementation_plan_packet=write_implementation_plan_packet,
+    )
+    result = dict(result)
+    result["station_chief_v6_4_implementation_plan_bundle"] = bundle
+    result["station_chief_v6_4_implementation_plan_schema"] = bundle["station_chief_v6_4_implementation_plan_schema"]
+    result["implementation_plan_approval_gate"] = bundle["implementation_plan_approval_gate"]
+    result["implementation_plan_contracts"] = bundle["implementation_plan_contracts"]
+    result["implementation_plan_permission_denial_record"] = bundle["implementation_plan_permission_denial_record"]
+    result["implementation_plan_packet_write_record"] = bundle["implementation_plan_packet_write_record"]
+    result["implementation_plan_payload"] = bundle.get("implementation_plan_payload")
+    result["local_implementation_plan_packet_written"] = bundle["local_implementation_plan_packet_written"]
+    result["station_chief_v6_4_implementation_plan_created"] = bundle["station_chief_v6_4_implementation_plan_created"]
+    result["post_mvp_expansion_lane_implementation_plan_recorded"] = bundle["post_mvp_expansion_lane_implementation_plan_recorded"]
+    return result
+
+
+def write_station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan(
+    result: dict,
+    output_dir: str,
+    v6_3_readiness_packet_reference_label: str | None = None,
+    v6_2_lane_scope_packet_reference_label: str | None = None,
+    selected_expansion_lane_label: str | None = None,
+    implementation_plan_label: str | None = None,
+    implementation_step_list_label: str | None = None,
+    implementation_risk_register_label: str | None = None,
+    implementation_rollback_plan_label: str | None = None,
+    implementation_non_execution_boundary_label: str | None = None,
+    implementation_plan_packet_name: str | None = None,
+    confirmation_token: str | None = None,
+    human_operator: str | None = None,
+) -> dict:
+    result = attach_station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan(
+        result,
+        v6_3_readiness_packet_reference_label=v6_3_readiness_packet_reference_label,
+        v6_2_lane_scope_packet_reference_label=v6_2_lane_scope_packet_reference_label,
+        selected_expansion_lane_label=selected_expansion_lane_label,
+        implementation_plan_label=implementation_plan_label,
+        implementation_step_list_label=implementation_step_list_label,
+        implementation_risk_register_label=implementation_risk_register_label,
+        implementation_rollback_plan_label=implementation_rollback_plan_label,
+        implementation_non_execution_boundary_label=implementation_non_execution_boundary_label,
+        output_directory=output_dir,
+        implementation_plan_packet_name=implementation_plan_packet_name,
+        confirmation_token=confirmation_token,
+        human_operator=human_operator,
+        implementation_plan_requested=True,
+        write_implementation_plan_packet=True,
+    )
+    write_record = result["implementation_plan_packet_write_record"]
+    result["station_chief_v6_4_implementation_plan_write_summary"] = write_record
+    result["station_chief_v6_4_implementation_plan_dir"] = write_record.get("output_directory") or str(output_dir)
+    if result.get("local_implementation_plan_packet_written"):
+        rec_name = write_record.get("record_name")
+        rec_path = write_record.get("record_path")
+        result["files_written"] = [rec_name] if rec_name else []
+        result["record_path"] = rec_path
+    else:
+        result["files_written"] = []
+        result["record_path"] = None
+    result["execution_status"] = write_record.get("write_status")
+    return result
+
+
 def attach_sandbox_worker_dry_run_replay_audit_candidate(
     result: dict,
     sandbox_worker_label: str | None = None,
@@ -10507,6 +10611,20 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--v6-3-readiness-packet-name", type=str)
     parser.add_argument("--v6-3-readiness-confirm-token", type=str)
     parser.add_argument("--v6-3-readiness-human-operator", type=str)
+    parser.add_argument("--station-chief-v6-4-post-mvp-expansion-lane-non-executing-implementation-plan-schema", action="store_true")
+    parser.add_argument("--station-chief-v6-4-post-mvp-expansion-lane-non-executing-implementation-plan", action="store_true")
+    parser.add_argument("--write-station-chief-v6-4-post-mvp-expansion-lane-non-executing-implementation-plan", metavar="DIR", type=str)
+    parser.add_argument("--v6-4-readiness-packet-reference-label", type=str)
+    parser.add_argument("--v6-4-lane-scope-packet-reference-label", type=str)
+    parser.add_argument("--v6-4-selected-expansion-lane-label", type=str)
+    parser.add_argument("--v6-4-implementation-plan-label", type=str)
+    parser.add_argument("--v6-4-implementation-step-list-label", type=str)
+    parser.add_argument("--v6-4-implementation-risk-register-label", type=str)
+    parser.add_argument("--v6-4-implementation-rollback-plan-label", type=str)
+    parser.add_argument("--v6-4-implementation-non-execution-boundary-label", type=str)
+    parser.add_argument("--v6-4-implementation-plan-packet-name", type=str)
+    parser.add_argument("--v6-4-implementation-plan-confirm-token", type=str)
+    parser.add_argument("--v6-4-implementation-plan-human-operator", type=str)
     parser.add_argument("--station-chief-v6-0-mvp-lock", action="store_true")
     parser.add_argument("--write-station-chief-v6-0-mvp-lock", metavar="DIR", type=str)
     parser.add_argument("--v6-mvp-local-task-candidate-label", type=str)
@@ -11818,6 +11936,41 @@ def main() -> None:
             human_operator=args.v6_3_readiness_human_operator,
             readiness_requested=False,
             write_readiness_packet=False,
+        )
+
+    if getattr(args, "write_station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan", False):
+        result = write_station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan(
+            result,
+            args.write_station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan,
+            v6_3_readiness_packet_reference_label=args.v6_4_readiness_packet_reference_label,
+            v6_2_lane_scope_packet_reference_label=args.v6_4_lane_scope_packet_reference_label,
+            selected_expansion_lane_label=args.v6_4_selected_expansion_lane_label,
+            implementation_plan_label=args.v6_4_implementation_plan_label,
+            implementation_step_list_label=args.v6_4_implementation_step_list_label,
+            implementation_risk_register_label=args.v6_4_implementation_risk_register_label,
+            implementation_rollback_plan_label=args.v6_4_implementation_rollback_plan_label,
+            implementation_non_execution_boundary_label=args.v6_4_implementation_non_execution_boundary_label,
+            implementation_plan_packet_name=args.v6_4_implementation_plan_packet_name,
+            confirmation_token=args.v6_4_implementation_plan_confirm_token,
+            human_operator=args.v6_4_implementation_plan_human_operator,
+        )
+    elif args.station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan:
+        result = attach_station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan(
+            result,
+            v6_3_readiness_packet_reference_label=args.v6_4_readiness_packet_reference_label,
+            v6_2_lane_scope_packet_reference_label=args.v6_4_lane_scope_packet_reference_label,
+            selected_expansion_lane_label=args.v6_4_selected_expansion_lane_label,
+            implementation_plan_label=args.v6_4_implementation_plan_label,
+            implementation_step_list_label=args.v6_4_implementation_step_list_label,
+            implementation_risk_register_label=args.v6_4_implementation_risk_register_label,
+            implementation_rollback_plan_label=args.v6_4_implementation_rollback_plan_label,
+            implementation_non_execution_boundary_label=args.v6_4_implementation_non_execution_boundary_label,
+            output_directory=None,
+            implementation_plan_packet_name=args.v6_4_implementation_plan_packet_name,
+            confirmation_token=args.v6_4_implementation_plan_confirm_token,
+            human_operator=args.v6_4_implementation_plan_human_operator,
+            implementation_plan_requested=False,
+            write_implementation_plan_packet=False,
         )
 
     if getattr(args, "write_station_chief_v6_0_mvp_lock", False):

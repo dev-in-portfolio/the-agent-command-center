@@ -71,7 +71,7 @@ def _select_adapter_version(default_version: str) -> str:
     return default_version
 
 
-ADAPTER_MODULE_VERSION = "6.3.0"
+ADAPTER_MODULE_VERSION = "6.4.0"
 ADAPTER_MODULE_VERSION = _select_adapter_version(ADAPTER_MODULE_VERSION)
 
 YES_I_APPROVE_SANDBOX_FILE_WRITE = "YES_I_APPROVE_SANDBOX_FILE_WRITE"

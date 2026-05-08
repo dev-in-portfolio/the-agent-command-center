@@ -1,7 +1,11 @@
 # Station Chief Runtime v6.3.0
 
+Station Chief Runtime upgraded to v6.4.0. Locked 175-family baseline preserved. Station Chief v6.4 Post-MVP Expansion Lane Non-Executing Implementation Plan Candidate added.
+
 ## Status
 Station Chief Runtime upgraded to v6.3.0. Locked 175-family baseline preserved. Station Chief v6.3 Post-MVP Expansion Lane Readiness Packet Candidate added.
+
+Station Chief Runtime upgraded to v6.4.0. Locked 175-family baseline preserved. Station Chief v6.4 Post-MVP Expansion Lane Non-Executing Implementation Plan Candidate added.
 
 ## What This Adds
 - v6.3 may write exactly one deterministic local Station Chief post-MVP expansion lane readiness packet only.
@@ -44,7 +48,11 @@ Station Chief Runtime upgraded to v6.3.0. Locked 175-family baseline preserved. 
 
 ## History
 ### v6.3.0
+
+Station Chief Runtime upgraded to v6.4.0. Locked 175-family baseline preserved. Station Chief v6.4 Post-MVP Expansion Lane Non-Executing Implementation Plan Candidate added.
 Station Chief Runtime upgraded to v6.3.0. Locked 175-family baseline preserved. Station Chief v6.3 Post-MVP Expansion Lane Readiness Packet Candidate added.
+
+Station Chief Runtime upgraded to v6.4.0. Locked 175-family baseline preserved. Station Chief v6.4 Post-MVP Expansion Lane Non-Executing Implementation Plan Candidate added.
 
 - v6.3 may write exactly one deterministic local Station Chief post-MVP expansion lane readiness packet only.
 - v6.3 records a post-MVP expansion lane readiness candidate as metadata only.
