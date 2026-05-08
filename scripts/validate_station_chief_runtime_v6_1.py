@@ -165,6 +165,8 @@ def ensure_doctrine() -> None:
     ensure("Station Chief runtime version is 6.1.0" in report_content, "Missing version doctrine in report")
     
     report_checks = [
+        "Station Chief runtime version is 6.1.0: YES",
+        "release lock is 6.1.0: YES",
         "post-MVP expansion review was recorded as metadata only: YES",
         "post-MVP expansion was not executed: YES",
         "selected expansion lane was not executed: YES",
@@ -234,7 +236,7 @@ def ensure_wrapper_integration() -> None:
     
     # 1. run_station_chief("check please")
     res = station_chief_runtime.run_station_chief("check please")
-    # ensure(res["station_chief_runtime_version"] == "6.1.0", "Runtime version mismatch in wrapper")
+    ensure(res["station_chief_runtime_version"] == "6.1.0", "Runtime version mismatch in wrapper")
     
     # 2. attach (no-write)
     result = {"command": "check please"}
@@ -307,7 +309,7 @@ def ensure_wrapper_integration() -> None:
         
         # Payload check
         payload = json.loads(Path(write_res["record_path"]).read_text(encoding="utf-8"))
-        # ensure(payload["runtime_version"] == "6.1.0", "Payload runtime version mismatch")
+        ensure(payload["runtime_version"] == "6.1.0", "Payload runtime version mismatch")
         ensure(payload["local_post_mvp_expansion_review_packet_written"] is True, "Payload write flag mismatch")
         for key in ["post_mvp_expansion_executed", "dry_run_task_executed", "real_worker_result_created", "worker_process_started"]:
             ensure(payload.get(key) is False, f"Dangerous flag '{key}' must be False in payload")
@@ -337,13 +339,13 @@ def validate_v6_1() -> None:
     
     # Version checks
     runtime_code = RUNTIME_PATH.read_text(encoding="utf-8")
-    # ensure('STATION_CHIEF_RUNTIME_VERSION = "6.1.0"' in runtime_code, "runtime version mismatch")
+    ensure('STATION_CHIEF_RUNTIME_VERSION = "6.1.0"' in runtime_code, "runtime version mismatch")
     
     adapters_code = ADAPTERS.read_text(encoding="utf-8")
-    # ensure('ADAPTER_MODULE_VERSION = "6.1.0"' in adapters_code, "adapter version mismatch")
+    ensure('ADAPTER_MODULE_VERSION = "6.1.0"' in adapters_code, "adapter version mismatch")
     
     lock_code = RELEASE_LOCK.read_text(encoding="utf-8")
-    # ensure('STABLE_RUNTIME_VERSION = "6.1.0"' in lock_code, "release lock version mismatch")
+    ensure('STABLE_RUNTIME_VERSION = "6.1.0"' in lock_code, "release lock version mismatch")
     
     # Module constants
     module_code = V6_1_MODULE.read_text(encoding="utf-8")

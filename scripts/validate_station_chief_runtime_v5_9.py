@@ -203,6 +203,7 @@ def ensure_protected_paths() -> None:
             if indicator in path.lower():
                 # Allow specifically expected files
                 allowed_exceptions = [
+                    "09_exports/station_chief_runtime_v6_1_1_validator_version_assertion_repair_report.md",
                     "scripts/validate_station_chief_runtime_v6_1.py",
                     "09_exports/station_chief_runtime_v6_1_report.md",
                     "10_runtime/station_chief_v6_1_post_mvp_expansion_review.py",

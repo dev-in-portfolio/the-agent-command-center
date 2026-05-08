@@ -34,6 +34,7 @@ SYNTHETIC_TASK_LABEL = "sandbox repeatability status note"
 DEFAULT_PROOF_RECORD_NAME = "controlled_repeatable_local_execution_proof_record.json"
 
 ALLOWED_CHANGED_PATHS = {
+    "09_exports/station_chief_runtime_v6_1_1_validator_version_assertion_repair_report.md",
     "scripts/validate_station_chief_runtime_v6_1.py",
     "09_exports/station_chief_runtime_v6_1_report.md",
     "10_runtime/station_chief_v6_1_post_mvp_expansion_review.py",
@@ -613,7 +614,7 @@ def main() -> None:
 
 
 def ensure_no_v62_files() -> None:
-    # Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v6.1 are no longer forbidden on current master. v6.2+ remains forbidden until landed.
+        # Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v6.1 plus the v6.1.1 validator version assertion repair report are no longer forbidden on current master. v6.2+ remains forbidden until landed.
     ensure(not any(REPO_ROOT.rglob("*v6_2*")), "v6.2 path unexpectedly exists")
     ensure(not any(REPO_ROOT.rglob("*v6.2*")), "v6.2 path unexpectedly exists")
 
