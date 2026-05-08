@@ -65,7 +65,7 @@ jobs:
 
       - name: Verify clean working tree after validation
         run: |
-          STATUS=$(git status --short)
+          STATUS=$(git status --short | grep -v '__pycache__/' || true)
           if [ -n "$STATUS" ]; then
             echo "Working tree is dirty after validation:"
             echo "$STATUS"
