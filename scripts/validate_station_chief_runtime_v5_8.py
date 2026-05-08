@@ -49,6 +49,7 @@ DRY_RUN_TASK_LABEL = "synthetic dry run task alpha"
 DEFAULT_PACKET_NAME = "sandbox_worker_dry_run_result_candidate_packet.json"
 
 ALLOWED_CHANGED_PATHS = {
+    "09_exports/station_chief_runtime_v5_9_1_validator_hardening_repair_report.md",
     "10_runtime/__pycache__/",
     "scripts/__pycache__/",
     "09_exports/station_chief_v5_9_sandbox_worker_dry_run_replay_audit_candidate_preflight_audit.md",
@@ -502,7 +503,7 @@ def ensure_docs_and_reports() -> None:
 
 
 def ensure_no_v57_files() -> None:
-    # Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v5.9 are no longer forbidden on current master. v6.0+ remains forbidden until landed.
+        # Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v5.9 and the v5.9.1 validator-hardening repair report are no longer forbidden on current master. v6.0+ remains forbidden until landed.
     ensure(not any(REPO_ROOT.rglob("*v6_0*")), "v6.0 path unexpectedly exists")
     ensure(not any(REPO_ROOT.rglob("*v6.0*")), "v6.0 path unexpectedly exists")
 
