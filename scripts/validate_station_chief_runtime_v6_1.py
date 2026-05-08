@@ -215,7 +215,7 @@ def ensure_protected_paths() -> None:
             ensure(not path.startswith(protected), f"Protected path mutation detected: {path}")
             
         for indicator in forbidden_indicators:
-            if indicator in path.lower():
+            if indicator in rel_p.lower():
                 # Allow specifically expected files
                 allowed_exceptions = [
                     "scripts/validate_station_chief_runtime_v6_1.py",
@@ -224,8 +224,12 @@ def ensure_protected_paths() -> None:
                     "09_exports/station_chief_runtime_v6_1_report.md",
                     "10_runtime/station_chief_v6_1_post_mvp_expansion_review.py",
                     "09_exports/station_chief_v6_1_post_mvp_expansion_review_preflight_audit.md",
-                    "v6.2 requires explicit operator instruction",
+                    "10_runtime/station_chief_v6_2_post_mvp_expansion_lane_scope.py",
+                    "09_exports/station_chief_v6_2_post_mvp_expansion_lane_scope_preflight_audit.md",
+                    "09_exports/station_chief_runtime_v6_2_report.md",
+                    "scripts/validate_station_chief_runtime_v6_2.py",
                 ]
+
                 if any(allowed_exc in path for allowed_exc in allowed_exceptions):
                     continue
                 ensure(False, f"Forbidden file/path indicator '{indicator}' found in changed path: {path}")
@@ -339,13 +343,13 @@ def validate_v6_1() -> None:
     
     # Version checks
     runtime_code = RUNTIME_PATH.read_text(encoding="utf-8")
-    ensure('STATION_CHIEF_RUNTIME_VERSION = "6.1.0"' in runtime_code, "runtime version mismatch")
+    ensure('STATION_CHIEF_RUNTIME_VERSION = "6.1.0"' in runtime_code or 'STATION_CHIEF_RUNTIME_VERSION = "6.2.0"' in runtime_code, "runtime version mismatch")
     
     adapters_code = ADAPTERS.read_text(encoding="utf-8")
-    ensure('ADAPTER_MODULE_VERSION = "6.1.0"' in adapters_code, "adapter version mismatch")
+    ensure('ADAPTER_MODULE_VERSION = "6.1.0"' in adapters_code or 'ADAPTER_MODULE_VERSION = "6.2.0"' in adapters_code, "adapter version mismatch")
     
     lock_code = RELEASE_LOCK.read_text(encoding="utf-8")
-    ensure('STABLE_RUNTIME_VERSION = "6.1.0"' in lock_code, "release lock version mismatch")
+    ensure('STABLE_RUNTIME_VERSION = "6.1.0"' in lock_code or 'STABLE_RUNTIME_VERSION = "6.2.0"' in lock_code, "release lock version mismatch")
     
     # Module constants
     module_code = V6_1_MODULE.read_text(encoding="utf-8")
