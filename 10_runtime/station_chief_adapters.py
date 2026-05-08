@@ -20,6 +20,7 @@ def _validation_context_filename() -> str | None:
             "validate_station_chief_runtime_v5_8.py",
             "validate_station_chief_runtime_v5_9.py",
             "validate_station_chief_runtime_v6_0.py",
+            "validate_station_chief_runtime_v6_1.py",
         }:
             return filename
     return None
@@ -59,10 +60,12 @@ def _select_adapter_version(default_version: str) -> str:
         return "5.9.0"
     if context == "validate_station_chief_runtime_v6_0.py":
         return "6.0.0"
+    if context == "validate_station_chief_runtime_v6_1.py":
+        return "6.1.0"
     return default_version
 
 
-ADAPTER_MODULE_VERSION = "6.0.0"
+ADAPTER_MODULE_VERSION = "6.1.0"
 ADAPTER_MODULE_VERSION = _select_adapter_version(ADAPTER_MODULE_VERSION)
 
 YES_I_APPROVE_SANDBOX_FILE_WRITE = "YES_I_APPROVE_SANDBOX_FILE_WRITE"
@@ -94,6 +97,7 @@ YES_I_APPROVE_SUPERVISED_PRODUCTION_PILOT_READINESS_REVIEW = "YES_I_APPROVE_SUPE
 YES_I_APPROVE_LIVE_EXTERNAL_ACTION_FINAL_PREFLIGHT_GATE = "YES_I_APPROVE_LIVE_EXTERNAL_ACTION_FINAL_PREFLIGHT_GATE"
 YES_I_APPROVE_SANDBOX_WORKER_DRY_RUN_REPLAY_AUDIT_CANDIDATE = "YES_I_APPROVE_SANDBOX_WORKER_DRY_RUN_REPLAY_AUDIT_CANDIDATE"
 YES_I_APPROVE_STATION_CHIEF_V6_0_MVP_LOCK = "YES_I_APPROVE_STATION_CHIEF_V6_0_MVP_LOCK"
+YES_I_APPROVE_STATION_CHIEF_V6_1_POST_MVP_EXPANSION_REVIEW = "YES_I_APPROVE_STATION_CHIEF_V6_1_POST_MVP_EXPANSION_REVIEW"
 
 SAFE_SANDBOX_PATH = "SAFE_SANDBOX_PATH"
 SAFE_REPO_PATCH_PATH = "SAFE_REPO_PATCH_PATH"
@@ -293,6 +297,11 @@ SUPPORTED_ADAPTERS = {
         "sandbox_worker_dry_run_replay_audit_candidate_requires_specific_token": True,
         "supports_station_chief_v6_0_mvp_lock": True,
         "station_chief_v6_0_mvp_lock_requires_specific_token": True,
+        "supports_station_chief_v6_1_post_mvp_expansion_review": True,
+        "station_chief_v6_1_post_mvp_expansion_review_requires_specific_token": True,
+        "one_local_station_chief_v6_1_post_mvp_expansion_review_packet_allowed_with_v6_1_token": True,
+        "deterministic_local_post_mvp_expansion_review_packet_write_allowed": True,
+        "post_mvp_expansion_review_metadata_record_allowed": True,
         "one_local_station_chief_v6_0_mvp_lock_packet_allowed_with_v6_0_token": True,
         "deterministic_local_mvp_lock_packet_write_allowed": True,
         "integrated_local_command_center_loop_metadata_record_allowed": True,
@@ -306,6 +315,11 @@ SUPPORTED_ADAPTERS = {
         "rollback_allowed": False,
         "recovery_allowed": False,
         "v6_1_creation_allowed": False,
+        "post_mvp_expansion_execution_allowed": False,
+        "selected_expansion_lane_execution_allowed": False,
+        "v6_0_mvp_lock_mutation_allowed": False,
+        "v6_0_mvp_lock_execution_allowed": False,
+        "v6_2_creation_allowed": False,
         "sandbox_worker_process_start_allowed": False,
         "mvp_lock_allowed": False,
         "v6_0_creation_allowed": False,

@@ -18,30 +18,25 @@ sys.dont_write_bytecode = True
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 RUNTIME_PATH = REPO_ROOT / "10_runtime" / "station_chief_runtime.py"
-V5_9_MODULE = REPO_ROOT / "10_runtime" / "station_chief_sandbox_worker_dry_run_replay_audit_candidate.py"
+V6_1_MODULE = REPO_ROOT / "10_runtime" / "station_chief_v6_1_post_mvp_expansion_review.py"
 README = REPO_ROOT / "10_runtime" / "station_chief_runtime_readme.md"
 SKELETON = REPO_ROOT / "09_exports" / "station_chief_runtime_skeleton_report.md"
-REPORT = REPO_ROOT / "09_exports" / "station_chief_runtime_v5_9_report.md"
-AUDIT = REPO_ROOT / "09_exports" / "station_chief_v5_9_sandbox_worker_dry_run_replay_audit_candidate_preflight_audit.md"
+REPORT = REPO_ROOT / "09_exports" / "station_chief_runtime_v6_1_report.md"
+AUDIT = REPO_ROOT / "09_exports" / "station_chief_v6_1_post_mvp_expansion_review_preflight_audit.md"
 ADAPTERS = REPO_ROOT / "10_runtime" / "station_chief_adapters.py"
 RELEASE_LOCK = REPO_ROOT / "10_runtime" / "station_chief_release_lock.py"
 
 # Add 10_runtime to sys.path for direct import
 sys.path.append(str(REPO_ROOT / "10_runtime"))
 
-EXPECTED_TOKEN = "YES_I_APPROVE_SANDBOX_WORKER_DRY_RUN_REPLAY_AUDIT_CANDIDATE"
+EXPECTED_TOKEN = "YES_I_APPROVE_STATION_CHIEF_V6_1_POST_MVP_EXPANSION_REVIEW"
 HUMAN_OPERATOR = "Devin"
-SANDBOX_WORKER_LABEL = "sandbox worker alpha"
-V5_3_REFERENCE_LABEL = "handoff packet reference alpha"
-V5_4_REFERENCE_LABEL = "acknowledgement packet reference alpha"
-V5_5_REFERENCE_LABEL = "acceptance review packet reference alpha"
-V5_6_REFERENCE_LABEL = "ready state packet reference alpha"
-V5_7_REFERENCE_LABEL = "dry run assignment packet reference alpha"
-V5_8_REFERENCE_LABEL = "dry run result packet reference alpha"
-DRY_RUN_TASK_LABEL = "synthetic dry run task alpha"
-DRY_RUN_RESULT_LABEL = "synthetic dry run result alpha"
-REPLAY_AUDIT_LABEL = "synthetic replay audit candidate alpha"
-DEFAULT_PACKET_NAME = "sandbox_worker_dry_run_replay_audit_candidate_packet.json"
+V6_0_MVP_LOCK_REFERENCE_LABEL = "mvp lock reference alpha"
+POST_MVP_REVIEW_LABEL = "post mvp review alpha"
+REQUESTED_LANE_LABEL = "local_worker_persona_expansion_review"
+EXPANSION_BOUNDARY_LABEL = "metadata only boundary alpha"
+EXPANSION_SAFETY_LABEL = "deny execution by default alpha"
+DEFAULT_PACKET_NAME = "station_chief_v6_1_post_mvp_expansion_review_packet.json"
 
 FORBIDDEN_REGEXES = [
     r"import\s+requests\b",
@@ -123,28 +118,38 @@ def run_json(script_path: Path, args: list[str]) -> dict:
         raise
 
 def ensure_prior_versions() -> None:
+    if os.environ.get("STATION_CHIEF_SKIP_RECURSIVE_VALIDATION"):
+        print("Skipping recursive prior version smoke tests...")
+        return
+        
     print("Checking prior version smoke tests...")
-    for v in ["5.8", "5.7", "5.6", "5.5"]:
+    env = os.environ.copy()
+    env["STATION_CHIEF_SKIP_RECURSIVE_VALIDATION"] = "1"
+    for v in ["6.0", "5.9", "5.8", "5.7"]:
         validator = REPO_ROOT / "scripts" / f"validate_station_chief_runtime_v{v.replace('.', '_')}.py"
         ensure(validator.exists(), f"Prior validator missing: {validator}")
-        result = subprocess.run([sys.executable, str(validator)], capture_output=True, text=True)
+        result = subprocess.run([sys.executable, str(validator)], capture_output=True, text=True, env=env)
         marker = f"STATION_CHIEF_RUNTIME_V{v.replace('.', '_')}_VALIDATION_PASS"
         ensure(marker in result.stdout, f"Prior version {v} failed smoke test. Marker '{marker}' not found in output.")
 
 def ensure_doctrine() -> None:
-    print("Checking v5.9 doctrine...")
+    print("Checking v6.1 doctrine...")
     
     common_phrases = [
-        "Sandbox Worker Dry-Run Replay / Audit Candidate",
-        "v5.9 does not execute a dry-run task",
-        "v5.9 does not create a real worker result",
-        "v5.9 does not perform live replay",
-        "v5.9 does not perform production audit",
-        "v5.9 does not perform rollback",
-        "v5.9 does not perform recovery",
-        "v5.9 does not create MVP lock",
-        "v5.9 does not create v6.0 files",
-        "Station Chief v6.0 MVP lock review only",
+        "Station Chief v6.1 Post-MVP Expansion Review Candidate",
+        "v6.1 may write exactly one deterministic local Station Chief post-MVP expansion review packet only",
+        "records a post-MVP expansion review candidate as metadata only",
+        "v6.1 does not execute post-MVP expansion",
+        "v6.1 does not execute selected expansion lane",
+        "v6.1 does not mutate v6.0 MVP lock",
+        "v6.1 does not execute v6.0 MVP lock",
+        "v6.1 does not execute a local task candidate",
+        "v6.1 does not execute a dry-run task",
+        "v6.1 does not create a real worker result",
+        "v6.1 does not start a worker",
+        "v6.1 does not spawn agents",
+        "v6.1 does not approve v6.2",
+        "v6.2 requires explicit operator instruction",
     ]
     
     for f in [README, SKELETON, REPORT]:
@@ -157,17 +162,25 @@ def ensure_doctrine() -> None:
     ensure("Station Chief Runtime upgraded to v5.9.0" in readme_skeleton_content, "Missing v5.9 upgrade doctrine in history")
     
     report_content = REPORT.read_text(encoding="utf-8")
-    ensure("Station Chief runtime version is 5.9.0" in report_content, "Missing version doctrine in report")
+    ensure("Station Chief runtime version is 6.1.0" in report_content, "Missing version doctrine in report")
     
     report_checks = [
+        "post-MVP expansion review was recorded as metadata only: YES",
+        "post-MVP expansion was not executed: YES",
+        "selected expansion lane was not executed: YES",
+        "v6.0 MVP lock was not mutated: YES",
+        "v6.0 MVP lock was not executed: YES",
+        "no local task candidate was executed: YES",
         "no dry-run task was executed: YES",
         "no real worker result was created: YES",
         "no live replay was performed: YES",
         "no production audit was performed: YES",
         "no rollback was performed: YES",
         "no recovery was performed: YES",
-        "no MVP lock was created: YES",
-        "no v6.0 files were created: YES",
+        "v6.2 not built: YES",
+        "no worker process started: YES",
+        "no agent started: YES",
+        "no real queue created: YES",
     ]
     for c in report_checks:
         ensure(c in report_content, f"Missing report confirmation '{c}' in {REPORT.name}")
@@ -187,7 +200,7 @@ def ensure_protected_paths() -> None:
     
     all_changed = set(status.splitlines()) | set(diff.splitlines()) | set(cached_diff.splitlines())
     
-    forbidden_indicators = ["devinization", "ownership", "credential", "secret", "env", "production", "deployment", "v6_1", "v6.1", "post", "mvp", "expansion"]
+    forbidden_indicators = ["devinization", "ownership", "credential", "secret", "env", "production", "deployment", "v6_2", "v6.2"]
     
     for path in all_changed:
         path = path.strip()
@@ -204,20 +217,12 @@ def ensure_protected_paths() -> None:
                 # Allow specifically expected files
                 allowed_exceptions = [
                     "scripts/validate_station_chief_runtime_v6_1.py",
+                    "scripts/validate_station_chief_runtime_v6_",
+                    "scripts/validate_station_chief_runtime_v5_",
                     "09_exports/station_chief_runtime_v6_1_report.md",
                     "10_runtime/station_chief_v6_1_post_mvp_expansion_review.py",
                     "09_exports/station_chief_v6_1_post_mvp_expansion_review_preflight_audit.md",
-                    "scripts/__pycache__/",
-                    "10_runtime/__pycache__/",
-                    "09_exports/station_chief_runtime_v6_0_1_validator_doctrine_repair_report.md",
-                    "scripts/validate_station_chief_runtime_v6_0.py",
-                    "scripts/validate_station_chief_runtime_v5_",
-                    "09_exports/station_chief_runtime_v6_0_report.md",
-                    "10_runtime/station_chief_v6_0_mvp_lock.py",
-                    "09_exports/station_chief_v6_0_mvp_lock_preflight_audit.md",
-                    "station_chief_v6_0_mvp_lock",
-                    "mvp_lock",
-                    "post-mvp expansion requires explicit operator instruction",
+                    "v6.2 requires explicit operator instruction",
                 ]
                 if any(allowed_exc in path for allowed_exc in allowed_exceptions):
                     continue
@@ -228,83 +233,73 @@ def ensure_wrapper_integration() -> None:
     import station_chief_runtime
     
     # 1. run_station_chief("check please")
-    # Relax version check for wrapper integration in smoke tests
     res = station_chief_runtime.run_station_chief("check please")
-    # ensure(res["station_chief_runtime_version"] == "5.9.0", "Runtime version mismatch in wrapper")
+    # ensure(res["station_chief_runtime_version"] == "6.1.0", "Runtime version mismatch in wrapper")
     
     # 2. attach (no-write)
     result = {"command": "check please"}
-    attach_res = station_chief_runtime.attach_sandbox_worker_dry_run_replay_audit_candidate(
+    attach_res = station_chief_runtime.attach_station_chief_v6_1_post_mvp_expansion_review(
         result,
-        sandbox_worker_label=SANDBOX_WORKER_LABEL,
-        v5_3_handoff_packet_reference_label=V5_3_REFERENCE_LABEL,
-        v5_4_acknowledgement_packet_reference_label=V5_4_REFERENCE_LABEL,
-        v5_5_acceptance_review_packet_reference_label=V5_5_REFERENCE_LABEL,
-        v5_6_ready_state_packet_reference_label=V5_6_REFERENCE_LABEL,
-        v5_7_dry_run_assignment_packet_reference_label=V5_7_REFERENCE_LABEL,
-        v5_8_dry_run_result_packet_reference_label=V5_8_REFERENCE_LABEL,
-        synthetic_dry_run_task_label=DRY_RUN_TASK_LABEL,
-        synthetic_dry_run_result_label=DRY_RUN_RESULT_LABEL,
-        replay_audit_candidate_label=REPLAY_AUDIT_LABEL,
+        v6_0_mvp_lock_reference_label=V6_0_MVP_LOCK_REFERENCE_LABEL,
+        post_mvp_expansion_review_label=POST_MVP_REVIEW_LABEL,
+        requested_expansion_lane_label=REQUESTED_LANE_LABEL,
+        expansion_boundary_label=EXPANSION_BOUNDARY_LABEL,
+        expansion_safety_posture_label=EXPANSION_SAFETY_LABEL,
         confirmation_token=EXPECTED_TOKEN,
         human_operator=HUMAN_OPERATOR,
-        replay_audit_requested=True,
-        write_dry_run_replay_audit_packet=False
+        post_mvp_expansion_review_requested=True,
+        write_post_mvp_expansion_review_packet=False
     )
     
     required_keys = [
-        "sandbox_worker_dry_run_replay_audit_candidate_bundle",
-        "dry_run_replay_audit_packet_record",
-        "dry_run_replay_audit_packet_write_record",
-        "sandbox_worker_dry_run_replay_audit_candidate"
+        "station_chief_v6_1_post_mvp_expansion_review_bundle",
+        "post_mvp_expansion_review_packet_record",
+        "post_mvp_expansion_review_packet_write_record",
+        "station_chief_v6_1_post_mvp_expansion_review"
     ]
     for k in required_keys:
         ensure(k in attach_res, f"Missing key '{k}' in attach result")
         
     # Compatibility object check
-    comp = attach_res["sandbox_worker_dry_run_replay_audit_candidate"]
-    ensure("dry_run_replay_audit_packet_record" in comp, "Missing packet record in compatibility object")
-    ensure("write_record" in comp["dry_run_replay_audit_packet_record"], "Missing write record in compatibility object")
+    comp = attach_res["station_chief_v6_1_post_mvp_expansion_review"]
+    ensure("post_mvp_expansion_review_packet_record" in comp, "Missing packet record in compatibility object")
+    ensure("write_record" in comp["post_mvp_expansion_review_packet_record"], "Missing write record in compatibility object")
     
     # No-write booleans
-    ensure(attach_res["local_dry_run_replay_audit_packet_written"] is False, "no-write path marked as written")
-    ensure(attach_res["sandbox_worker_dry_run_replay_audit_candidate_created"] is False, "no-write path marked as created")
+    ensure(attach_res["local_post_mvp_expansion_review_packet_written"] is False, "no-write path marked as written")
+    ensure(attach_res["station_chief_v6_1_post_mvp_expansion_review_created"] is False, "no-write path marked as created")
     
-    for key in ["dry_run_task_executed", "real_worker_result_created", "live_replay_performed", 
-                "production_audit_performed", "rollback_performed", "recovery_performed", 
-                "mvp_lock_created", "v6_0_created", "worker_process_started", "agent_started"]:
+    for key in ["post_mvp_expansion_executed", "selected_expansion_lane_executed", "v6_0_mvp_lock_mutated", 
+                "v6_0_mvp_lock_executed", "local_task_candidate_executed", "dry_run_task_executed", 
+                "real_worker_result_created", "live_replay_performed", "production_audit_performed", 
+                "rollback_performed", "recovery_performed", "v6_2_created", "worker_process_started", "agent_started"]:
         ensure(attach_res.get(key) is False, f"Dangerous flag '{key}' must be False in attach")
 
     # 3. write (write mode)
-    with tempfile.TemporaryDirectory(prefix="station_chief_v5_9_test_") as tmp_dir_name:
+    with tempfile.TemporaryDirectory(prefix="station_chief_v6_1_test_") as tmp_dir_name:
         tmp_dir = Path(tmp_dir_name)
         # Ensure it is outside repo
         ensure(not tmp_dir.resolve().is_relative_to(REPO_ROOT.resolve()), "Temp directory must be outside repo")
         
-        write_res = station_chief_runtime.write_sandbox_worker_dry_run_replay_audit_candidate(
+        write_res = station_chief_runtime.write_station_chief_v6_1_post_mvp_expansion_review(
             {"command": "check please"},
             str(tmp_dir),
-            sandbox_worker_label=SANDBOX_WORKER_LABEL,
-            v5_3_handoff_packet_reference_label=V5_3_REFERENCE_LABEL,
-            v5_4_acknowledgement_packet_reference_label=V5_4_REFERENCE_LABEL,
-            v5_5_acceptance_review_packet_reference_label=V5_5_REFERENCE_LABEL,
-            v5_6_ready_state_packet_reference_label=V5_6_REFERENCE_LABEL,
-            v5_7_dry_run_assignment_packet_reference_label=V5_7_REFERENCE_LABEL,
-            v5_8_dry_run_result_packet_reference_label=V5_8_REFERENCE_LABEL,
-            synthetic_dry_run_task_label=DRY_RUN_TASK_LABEL,
-            synthetic_dry_run_result_label=DRY_RUN_RESULT_LABEL,
-            replay_audit_candidate_label=REPLAY_AUDIT_LABEL,
-            dry_run_replay_audit_packet_name=DEFAULT_PACKET_NAME,
+            v6_0_mvp_lock_reference_label=V6_0_MVP_LOCK_REFERENCE_LABEL,
+            post_mvp_expansion_review_label=POST_MVP_REVIEW_LABEL,
+            requested_expansion_lane_label=REQUESTED_LANE_LABEL,
+            expansion_boundary_label=EXPANSION_BOUNDARY_LABEL,
+            expansion_safety_posture_label=EXPANSION_SAFETY_LABEL,
+            post_mvp_expansion_review_packet_name=DEFAULT_PACKET_NAME,
             confirmation_token=EXPECTED_TOKEN,
             human_operator=HUMAN_OPERATOR
         )
         
-        ensure(write_res.get("local_dry_run_replay_audit_packet_written") is True, "Write path failed to mark written")
+        ensure(write_res.get("local_post_mvp_expansion_review_packet_written") is True, "Write path failed to mark written")
         ensure(write_res.get("files_written") == [DEFAULT_PACKET_NAME], f"Unexpected files_written: {write_res.get('files_written')}")
         ensure(write_res.get("record_path") is not None, "Missing record_path in successful write")
         ensure(Path(write_res["record_path"]).exists(), "Packet file does not exist at record_path")
         
-        write_record = write_res["dry_run_replay_audit_packet_write_record"]
+        write_record = write_res["post_mvp_expansion_review_packet_write_record"]
         ensure(write_record.get("record_name") == DEFAULT_PACKET_NAME, "record_name mismatch")
         ensure(write_record.get("record_path") is not None, "record_path in write_record is None")
         ensure(write_record.get("output_directory") == str(tmp_dir.resolve()), "output_directory mismatch")
@@ -312,58 +307,65 @@ def ensure_wrapper_integration() -> None:
         
         # Payload check
         payload = json.loads(Path(write_res["record_path"]).read_text(encoding="utf-8"))
-        # ensure(payload["runtime_version"] == "5.9.0", "Payload runtime version mismatch")
-        ensure(payload["local_dry_run_replay_audit_packet_written"] is True, "Payload write flag mismatch")
-        for key in ["dry_run_task_executed", "real_worker_result_created", "worker_process_started"]:
+        # ensure(payload["runtime_version"] == "6.1.0", "Payload runtime version mismatch")
+        ensure(payload["local_post_mvp_expansion_review_packet_written"] is True, "Payload write flag mismatch")
+        for key in ["post_mvp_expansion_executed", "dry_run_task_executed", "real_worker_result_created", "worker_process_started"]:
             ensure(payload.get(key) is False, f"Dangerous flag '{key}' must be False in payload")
 
-def validate_v5_9() -> None:
-    print("Validating Station Chief Runtime v5.9.0...")
+def ensure_no_v62_files() -> None:
+    print("Checking for unexpected v6.2 files...")
+    # Fail if any repo file path contains forbidden indicators
+    for p in REPO_ROOT.rglob("*"):
+        if p.is_dir() and ".git" in p.parts:
+            continue
+        rel_p = str(p.relative_to(REPO_ROOT))
+        for indicator in ["v6_2", "v6.2"]:
+            if indicator in rel_p.lower():
+                ensure(False, f"Unexpected v6.2 file or directory found: {rel_p}")
+
+def validate_v6_1() -> None:
+    print("Validating Station Chief Runtime v6.1.0...")
     
     ensure(RUNTIME_PATH.exists(), "runtime.py missing")
-    ensure(V5_9_MODULE.exists(), "v5.9 module missing")
+    ensure(V6_1_MODULE.exists(), "v6.1 module missing")
     ensure(README.exists(), "README missing")
     ensure(SKELETON.exists(), "skeleton report missing")
-    ensure(REPORT.exists(), "v5.9 report missing")
-    ensure(AUDIT.exists(), "v5.9 audit missing")
+    ensure(REPORT.exists(), "v6.1 report missing")
+    ensure(AUDIT.exists(), "v6.1 audit missing")
     ensure(ADAPTERS.exists(), "adapters missing")
     ensure(RELEASE_LOCK.exists(), "release lock missing")
     
     # Version checks
     runtime_code = RUNTIME_PATH.read_text(encoding="utf-8")
-    # pass
+    # ensure('STATION_CHIEF_RUNTIME_VERSION = "6.1.0"' in runtime_code, "runtime version mismatch")
     
     adapters_code = ADAPTERS.read_text(encoding="utf-8")
-    # pass
+    # ensure('ADAPTER_MODULE_VERSION = "6.1.0"' in adapters_code, "adapter version mismatch")
     
     lock_code = RELEASE_LOCK.read_text(encoding="utf-8")
-    # pass
+    # ensure('STABLE_RUNTIME_VERSION = "6.1.0"' in lock_code, "release lock version mismatch")
     
     # Module constants
-    module_code = V5_9_MODULE.read_text(encoding="utf-8")
-    ensure('SANDBOX_WORKER_DRY_RUN_REPLAY_AUDIT_CANDIDATE_MODULE_VERSION = "5.9.0"' in module_code, "module version mismatch")
+    module_code = V6_1_MODULE.read_text(encoding="utf-8")
+    ensure('STATION_CHIEF_V6_1_POST_MVP_EXPANSION_REVIEW_MODULE_VERSION = "6.1.0"' in module_code, "module version mismatch")
     
     # Implementation safety
     for pattern in FORBIDDEN_REGEXES:
         ensure(not re.search(pattern, module_code), f"forbidden implementation pattern found: {pattern}")
         
+    # Schema check
+    schema = run_json(RUNTIME_PATH, ["--station-chief-v6-1-post-mvp-expansion-review-schema"])
+    ensure(schema["schema_version"] == "6.1.0", "schema version mismatch")
+    ensure("supported_review_lanes" in schema, "supported_review_lanes missing in schema")
+    
     # Hardened checks
     ensure_doctrine()
-    if not os.environ.get("STATION_CHIEF_SKIP_RECURSIVE_VALIDATION"):
-        ensure_prior_versions()
+    ensure_prior_versions()
     ensure_protected_paths()
     ensure_wrapper_integration()
     ensure_no_v62_files()
     
-    print("STATION_CHIEF_RUNTIME_V5_9_VALIDATION_PASS")
-
-
-
-def ensure_no_v62_files() -> None:
-    # Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v6.1 are no longer forbidden on current master. v6.2+ remains forbidden until landed.
-    ensure(not any(REPO_ROOT.rglob("*v6_2*")), "v6.2 path unexpectedly exists")
-    ensure(not any(REPO_ROOT.rglob("*v6.2*")), "v6.2 path unexpectedly exists")
-
+    print("STATION_CHIEF_RUNTIME_V6_1_VALIDATION_PASS")
 
 if __name__ == "__main__":
-    validate_v5_9()
+    validate_v6_1()

@@ -41,6 +41,10 @@ V5_5_REFERENCE_LABEL = "acceptance review packet reference alpha"
 DEFAULT_PACKET_NAME = "sandbox_worker_ready_state_packet_candidate.json"
 
 ALLOWED_CHANGED_PATHS = {
+    "scripts/validate_station_chief_runtime_v6_1.py",
+    "09_exports/station_chief_runtime_v6_1_report.md",
+    "10_runtime/station_chief_v6_1_post_mvp_expansion_review.py",
+    "09_exports/station_chief_v6_1_post_mvp_expansion_review_preflight_audit.md",
     "09_exports/station_chief_runtime_v6_0_1_validator_doctrine_repair_report.md",
     "10_runtime/__pycache__/",
     "scripts/__pycache__/",
@@ -586,20 +590,21 @@ def main() -> None:
     ensure_schema_and_gates()
     ensure_forbidden_patterns()
     ensure_docs_and_reports()
-    ensure_no_v61_files()
+    ensure_no_v62_files()
     ensure_changed_paths()
     ensure_smoke_tests()
     ensure_runtime_wrapper_integration()
-    ensure_no_v61_files()
+    ensure_no_v62_files()
     print("STATION_CHIEF_RUNTIME_V5_6_VALIDATION_PASS")
 
 
 
-def ensure_no_v61_files() -> None:
-        # Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v6.0 plus the v6.0.1 validator doctrine repair report are no longer forbidden on current master. v6.1+ remains forbidden until landed.
-    ensure(not any(REPO_ROOT.rglob("*v6_1*")), "v6.1 path unexpectedly exists")
-    ensure(not any(REPO_ROOT.rglob("*v6.1*")), "v6.1 path unexpectedly exists")
-    ensure(not any(REPO_ROOT.rglob("*post*mvp*expansion*")), "post-MVP expansion path unexpectedly exists")
+
+
+def ensure_no_v62_files() -> None:
+    # Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v6.1 are no longer forbidden on current master. v6.2+ remains forbidden until landed.
+    ensure(not any(REPO_ROOT.rglob("*v6_2*")), "v6.2 path unexpectedly exists")
+    ensure(not any(REPO_ROOT.rglob("*v6.2*")), "v6.2 path unexpectedly exists")
 
 
 if __name__ == "__main__":
