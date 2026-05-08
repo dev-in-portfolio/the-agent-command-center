@@ -208,7 +208,7 @@ def ensure_protected_paths() -> None:
                     "09_exports/station_chief_runtime_v5_9_1_validator_hardening_repair_report.md",
                     "scripts/validate_station_chief_runtime_v5_",
                 ]
-                if any(exc in path for allowed_exc in allowed_exceptions):
+                if any(allowed_exc in path for allowed_exc in allowed_exceptions):
                     continue
                 ensure(False, f"Forbidden file/path indicator '{indicator}' found in changed path: {path}")
 

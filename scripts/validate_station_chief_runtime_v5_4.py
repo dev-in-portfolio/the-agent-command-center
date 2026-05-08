@@ -37,6 +37,7 @@ V5_3_REFERENCE_LABEL = "handoff packet reference alpha"
 DEFAULT_PACKET_NAME = "sandbox_worker_acknowledgement_candidate_packet.json"
 
 ALLOWED_CHANGED_PATHS = {
+    "09_exports/station_chief_runtime_v5_9_2_validator_typo_repair_report.md",
     "09_exports/station_chief_runtime_v5_9_1_validator_hardening_repair_report.md",
     "10_runtime/__pycache__/",
     "scripts/__pycache__/",
@@ -488,9 +489,9 @@ def ensure_docs_and_reports() -> None:
     pass
 
 
-        # Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v5.9 and the v5.9.1 validator-hardening repair report are no longer forbidden on current master. v6.0+ remains forbidden until landed.
-        # Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v5.9 and the v5.9.1 validator-hardening repair report are no longer forbidden on current master. v6.0+ remains forbidden until landed.
-        # Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v5.9 and the v5.9.1 validator-hardening repair report are no longer forbidden on current master. v6.0+ remains forbidden until landed.
+            # Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v5.9 plus v5.9.1 and v5.9.2 validator repair reports are no longer forbidden on current master. v6.0+ remains forbidden until landed.
+            # Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v5.9 plus v5.9.1 and v5.9.2 validator repair reports are no longer forbidden on current master. v6.0+ remains forbidden until landed.
+            # Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v5.9 plus v5.9.1 and v5.9.2 validator repair reports are no longer forbidden on current master. v6.0+ remains forbidden until landed.
 def ensure_no_v55_files() -> None:
     ensure(not any(REPO_ROOT.rglob("*v6_0*")), "v6.0 path unexpectedly exists")
 
