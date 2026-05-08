@@ -1,48 +1,50 @@
-# Station Chief Runtime v6.4.0
+# Station Chief Runtime v6.5.0
 
 ## Status
-Station Chief Runtime upgraded to v6.4.0. Locked 175-family baseline preserved. Station Chief v6.4 Post-MVP Expansion Lane Non-Executing Implementation Plan Candidate added.
+Station Chief Runtime upgraded to v6.5.0. Locked 175-family baseline preserved. Station Chief v6.5 Post-MVP Expansion Lane Non-Executing Implementation Plan Review Candidate added.
 
 ## What This Adds
-- v6.3 may write exactly one deterministic local Station Chief post-MVP expansion lane readiness packet only.
-- v6.3 records a post-MVP expansion lane readiness candidate as metadata only.
-- v6.3 references one v6.2 lane scope packet reference label, one selected expansion lane label, one readiness checklist label, one readiness blocker label, one readiness evidence label, and one readiness non-execution boundary label.
-- v6.3 requires a valid v6.3 token, human operator, v6.2 lane scope packet reference label, selected expansion lane label, readiness checklist label, readiness blocker label, readiness evidence label, readiness non-execution boundary label, and explicit output directory.
-- v6.3 does not implement selected expansion lane.
-- v6.3 does not execute selected expansion lane.
-- v6.3 does not execute post-MVP expansion.
-- v6.3 does not mutate v6.2 lane scope packet.
-- v6.3 does not execute v6.2 lane scope packet.
-- v6.3 does not mutate v6.1 review packet.
-- v6.3 does not execute v6.1 review packet.
-- v6.3 does not mutate v6.0 MVP lock.
-- v6.3 does not execute v6.0 MVP lock.
-- v6.3 does not execute a local task candidate.
-- v6.3 does not execute a dry-run task.
-- v6.3 does not create a real worker result.
-- v6.3 does not perform live replay.
-- v6.3 does not perform production audit.
-- v6.3 does not perform rollback.
-- v6.3 does not perform recovery.
-- v6.3 does not start a worker.
-- v6.3 does not start an agent.
-- v6.3 does not create a real queue.
-- v6.3 does not write to a real queue.
-- v6.3 does not write scheduler state.
-- v6.3 does not write cron state.
-- v6.3 does not enqueue tasks.
-- v6.3 does not execute arbitrary tasks.
-- v6.3 does not execute user tasks.
-- v6.3 does not assign live tasks.
-- v6.3 does not route workers.
-- v6.3 does not orchestrate live work.
-- v6.3 does not activate the 47,250-worker workforce.
-- v6.3 does not allow APIs, network, sockets, DNS, credentials, secrets, environment variables, deployment, production execution, worker process start, queue creation, queue writes, task enqueue, arbitrary task execution, user task execution, live orchestration, replay execution, production audit execution, rollback/recovery, v6.4 creation, or full workforce activation.
-- v6.3 does not approve v6.4.
+- v6.5 may write exactly one deterministic local non-executing implementation plan review packet only
+- v6.5 records implementation plan review metadata only
+- v6.5 references one v6.4 implementation plan packet reference label
+- v6.5 references one v6.3 readiness packet reference label
+- v6.5 references one v6.2 lane scope packet reference label
+- v6.5 requires token, human operator, labels, and explicit output directory
+- v6.5 does not implement or execute selected lane
+- v6.5 does not execute implementation plan
+- v6.5 does not execute implementation steps
+- v6.5 does not execute review findings/decisions beyond metadata
+- v6.5 does not execute rollback
+- v6.5 does not start worker/agent
+- v6.5 does not create queues
+- v6.5 does not enqueue or execute tasks
+- v6.5 does not call APIs/network/deployment/production
+- v6.5 does not create v6.6
 - Next internal label:
-  v6.4 requires explicit operator instruction.
+  v6.6 requires explicit operator instruction
 
 ## History
+### v6.5.0
+Station Chief Runtime upgraded to v6.5.0. Locked 175-family baseline preserved. Station Chief v6.5 Post-MVP Expansion Lane Non-Executing Implementation Plan Review Candidate added.
+- v6.5 may write exactly one deterministic local non-executing implementation plan review packet only
+- v6.5 records implementation plan review metadata only
+- v6.5 references one v6.4 implementation plan packet reference label
+- v6.5 references one v6.3 readiness packet reference label
+- v6.5 references one v6.2 lane scope packet reference label
+- v6.5 requires token, human operator, labels, and explicit output directory
+- v6.5 does not implement or execute selected lane
+- v6.5 does not execute implementation plan
+- v6.5 does not execute implementation steps
+- v6.5 does not execute review findings/decisions beyond metadata
+- v6.5 does not execute rollback
+- v6.5 does not start worker/agent
+- v6.5 does not create queues
+- v6.5 does not enqueue or execute tasks
+- v6.5 does not call APIs/network/deployment/production
+- v6.5 does not create v6.6
+- Next internal label:
+  v6.6 requires explicit operator instruction
+
 ### v6.4.0
 Station Chief Runtime upgraded to v6.4.0. Locked 175-family baseline preserved. Station Chief v6.4 Post-MVP Expansion Lane Non-Executing Implementation Plan Candidate added.
 - v6.4 may write exactly one deterministic local non-executing implementation plan packet only.

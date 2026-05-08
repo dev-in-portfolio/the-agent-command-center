@@ -301,6 +301,13 @@ from station_chief_v6_3_post_mvp_expansion_lane_readiness import (
     create_station_chief_v6_3_post_mvp_expansion_lane_readiness_bundle,
     create_station_chief_v6_3_post_mvp_expansion_lane_readiness_schema,
 )
+
+from station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review import (
+    STATION_CHIEF_V6_5_POST_MVP_EXPANSION_LANE_NON_EXECUTING_IMPLEMENTATION_PLAN_REVIEW_APPROVAL_TOKEN,
+    create_station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review_schema,
+    create_station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review_bundle
+)
+
 from station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan import (
     STATION_CHIEF_V6_4_POST_MVP_EXPANSION_LANE_NON_EXECUTING_IMPLEMENTATION_PLAN_APPROVAL_TOKEN,
     create_station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan_bundle,
@@ -382,7 +389,7 @@ def _select_runtime_version(default_version: str) -> str:
     return default_version
 
 
-STATION_CHIEF_RUNTIME_VERSION = "6.4.0"
+STATION_CHIEF_RUNTIME_VERSION = "6.5.0"
 STATION_CHIEF_RUNTIME_VERSION = _select_runtime_version(STATION_CHIEF_RUNTIME_VERSION)
 
 EXPECTED_OVERLAYS = [
@@ -1036,6 +1043,44 @@ def build_runtime_index_entry(result: dict, run_id: str, artifact_dir: str | Non
         "runtime_status": result["runtime_status"],
     }
 
+
+
+def attach_station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review(result: dict, args) -> dict:
+    if not (args.station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review or args.write_station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review):
+        return result
+    
+    return create_station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review_bundle(
+        result=result,
+        command=" ".join(sys.argv),
+        v6_4_implementation_plan_packet_reference_label=args.v6_5_implementation_plan_packet_reference_label,
+        v6_3_readiness_packet_reference_label=args.v6_5_readiness_packet_reference_label,
+        v6_2_lane_scope_packet_reference_label=args.v6_5_lane_scope_packet_reference_label,
+        selected_expansion_lane_label=args.v6_5_selected_expansion_lane_label,
+        implementation_plan_review_label=args.v6_5_implementation_plan_review_label,
+        review_finding_list_label=args.v6_5_review_finding_list_label,
+        review_decision_label=args.v6_5_review_decision_label,
+        review_risk_disposition_label=args.v6_5_review_risk_disposition_label,
+        review_non_execution_boundary_label=args.v6_5_review_non_execution_boundary_label,
+        output_directory=args.write_station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review,
+        implementation_plan_review_packet_name=args.v6_5_implementation_plan_review_packet_name,
+        confirmation_token=args.v6_5_implementation_plan_review_confirm_token,
+        human_operator=args.v6_5_implementation_plan_review_human_operator,
+        implementation_plan_review_requested=bool(args.station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review or args.write_station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review),
+        write_implementation_plan_review_packet=bool(args.write_station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review)
+    )
+
+def write_station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review(result: dict) -> dict:
+    bundle = result.get("station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review")
+    if not bundle:
+        return result
+    wrec = bundle.get("implementation_plan_review_packet_write_record")
+    if wrec and wrec.get("write_status") == "STATION_CHIEF_V6_5_POST_MVP_EXPANSION_LANE_NON_EXECUTING_IMPLEMENTATION_PLAN_REVIEW_PACKET_WRITTEN":
+        result["files_written"] = wrec.get("files_written", [])
+        result["record_path"] = wrec.get("record_path")
+    else:
+        result["files_written"] = []
+        result["record_path"] = None
+    return result
 
 def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any]:
     brief = create_command_brief(command)
@@ -10611,6 +10656,23 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--v6-3-readiness-packet-name", type=str)
     parser.add_argument("--v6-3-readiness-confirm-token", type=str)
     parser.add_argument("--v6-3-readiness-human-operator", type=str)
+
+    parser.add_argument("--station-chief-v6-5-post-mvp-expansion-lane-non-executing-implementation-plan-review-schema", action="store_true")
+    parser.add_argument("--station-chief-v6-5-post-mvp-expansion-lane-non-executing-implementation-plan-review", action="store_true")
+    parser.add_argument("--write-station-chief-v6-5-post-mvp-expansion-lane-non-executing-implementation-plan-review", type=str)
+    parser.add_argument("--v6-5-implementation-plan-packet-reference-label", type=str)
+    parser.add_argument("--v6-5-readiness-packet-reference-label", type=str)
+    parser.add_argument("--v6-5-lane-scope-packet-reference-label", type=str)
+    parser.add_argument("--v6-5-selected-expansion-lane-label", type=str)
+    parser.add_argument("--v6-5-implementation-plan-review-label", type=str)
+    parser.add_argument("--v6-5-review-finding-list-label", type=str)
+    parser.add_argument("--v6-5-review-decision-label", type=str)
+    parser.add_argument("--v6-5-review-risk-disposition-label", type=str)
+    parser.add_argument("--v6-5-review-non-execution-boundary-label", type=str)
+    parser.add_argument("--v6-5-implementation-plan-review-packet-name", type=str)
+    parser.add_argument("--v6-5-implementation-plan-review-confirm-token", type=str)
+    parser.add_argument("--v6-5-implementation-plan-review-human-operator", type=str)
+
     parser.add_argument("--station-chief-v6-4-post-mvp-expansion-lane-non-executing-implementation-plan-schema", action="store_true")
     parser.add_argument("--station-chief-v6-4-post-mvp-expansion-lane-non-executing-implementation-plan", action="store_true")
     parser.add_argument("--write-station-chief-v6-4-post-mvp-expansion-lane-non-executing-implementation-plan", metavar="DIR", type=str)

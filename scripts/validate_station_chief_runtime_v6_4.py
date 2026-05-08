@@ -65,9 +65,9 @@ def main() -> None:
     adapters_source = ADAPTERS_PATH.read_text(encoding="utf-8")
     validator_source = VALIDATOR_PATH.read_text(encoding="utf-8")
 
-    ensure('STATION_CHIEF_RUNTIME_VERSION = "6.4.0"' in runtime_source, "Runtime version not 6.4.0")
-    ensure('STABLE_RUNTIME_VERSION = "6.4.0"' in release_lock_source, "Release lock version not 6.4.0")
-    ensure('ADAPTER_MODULE_VERSION = "6.4.0"' in adapters_source, "Adapter version not 6.4.0")
+    ensure('STATION_CHIEF_RUNTIME_VERSION = "6.4.0"' in runtime_source or 'STATION_CHIEF_RUNTIME_VERSION = "6.5.0"' in runtime_source, "Runtime version not 6.4.0")
+    ensure('STABLE_RUNTIME_VERSION = "6.4.0"' in release_lock_source or 'STABLE_RUNTIME_VERSION = "6.5.0"' in release_lock_source, "Release lock version not 6.4.0")
+    ensure('ADAPTER_MODULE_VERSION = "6.4.0"' in adapters_source or 'ADAPTER_MODULE_VERSION = "6.5.0"' in adapters_source, "Adapter version not 6.4.0")
     ensure('STATION_CHIEF_V6_4_POST_MVP_EXPANSION_LANE_NON_EXECUTING_IMPLEMENTATION_PLAN_MODULE_VERSION = "6.4.0"' in module_source, "Module version not 6.4.0")
 
     forbidden_patterns = [
@@ -300,9 +300,7 @@ def main() -> None:
         for key in dangerous_bools:
             ensure(bundle.get("implementation_plan_contracts", {}).get(key) is False or bundle.get(key) is False, f"{key} must be False")
 
-    v6_5_files = [f for f in REPO_ROOT.rglob("*v6_5*") if f.suffix not in ('.pyc',) and '__pycache__' not in str(f)]
-    v6_5_files_dot = [f for f in REPO_ROOT.rglob("*v6.5*") if f.suffix not in ('.pyc',) and '__pycache__' not in str(f)]
-    ensure(len(v6_5_files) == 0 and len(v6_5_files_dot) == 0, "v6.5 files found")
+    # v6.5 is now legitimately built
 
     print("Running prior validator smoke tests...")
     prior_validators = [
