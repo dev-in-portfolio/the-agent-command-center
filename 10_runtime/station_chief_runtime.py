@@ -1284,17 +1284,18 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "station_chief_v6_3_post_mvp_expansion_lane_readiness_requires_token": True,
         "station_chief_v6_3_post_mvp_expansion_lane_readiness_requires_human_operator": True,
         "station_chief_v6_3_post_mvp_expansion_lane_readiness_writes_one_local_packet_only": True,
-        "station_chief_v6_3_post_mvp_expansion_lane_readiness_references_one_v6_2_lane_scope_reference_label": True,
-        "station_chief_v6_3_post_mvp_expansion_lane_readiness_uses_one_readiness_review_label": True,
-        "station_chief_v6_3_post_mvp_expansion_lane_readiness_uses_one_readiness_scope_label": True,
-        "station_chief_v6_3_post_mvp_expansion_lane_readiness_uses_one_readiness_constraint_label": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_references_one_v6_2_lane_scope_packet_reference_label": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_uses_one_selected_expansion_lane_label": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_uses_one_readiness_checklist_label": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_uses_one_readiness_blocker_label": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_uses_one_readiness_evidence_label": True,
         "station_chief_v6_3_post_mvp_expansion_lane_readiness_uses_one_readiness_non_execution_boundary_label": True,
         "station_chief_v6_3_post_mvp_expansion_lane_readiness_records_metadata_only": True,
         "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_implement_selected_expansion_lane": True,
         "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_execute_selected_expansion_lane": True,
         "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_execute_post_mvp_expansion": True,
-        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_mutate_v6_2_lane_scope": True,
-        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_execute_v6_2_lane_scope": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_mutate_v6_2_lane_scope_packet": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_execute_v6_2_lane_scope_packet": True,
         "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_mutate_v6_1_review_packet": True,
         "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_execute_v6_1_review_packet": True,
         "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_mutate_v6_0_mvp_lock": True,
@@ -8342,6 +8343,134 @@ def write_station_chief_v6_2_post_mvp_expansion_lane_scope(
     return result
 
 
+def attach_station_chief_v6_3_post_mvp_expansion_lane_readiness(
+    result: dict,
+    v6_2_lane_scope_packet_reference_label: str | None = None,
+    selected_expansion_lane_label: str | None = None,
+    readiness_checklist_label: str | None = None,
+    readiness_blocker_label: str | None = None,
+    readiness_evidence_label: str | None = None,
+    readiness_non_execution_boundary_label: str | None = None,
+    output_directory: str | None = None,
+    readiness_packet_name: str | None = None,
+    confirmation_token: str | None = None,
+    human_operator: str | None = None,
+    readiness_requested: bool = False,
+    write_readiness_packet: bool = False,
+) -> dict:
+    bundle = create_station_chief_v6_3_post_mvp_expansion_lane_readiness_bundle(
+        result,
+        command=result.get("command"),
+        v6_2_lane_scope_packet_reference_label=v6_2_lane_scope_packet_reference_label,
+        selected_expansion_lane_label=selected_expansion_lane_label,
+        readiness_checklist_label=readiness_checklist_label,
+        readiness_blocker_label=readiness_blocker_label,
+        readiness_evidence_label=readiness_evidence_label,
+        readiness_non_execution_boundary_label=readiness_non_execution_boundary_label,
+        output_directory=output_directory,
+        readiness_packet_name=readiness_packet_name,
+        confirmation_token=confirmation_token,
+        human_operator=human_operator,
+        readiness_requested=readiness_requested,
+        write_readiness_packet=write_readiness_packet,
+    )
+    result = dict(result)
+    result["station_chief_v6_3_post_mvp_expansion_lane_readiness_bundle"] = bundle
+    result["station_chief_v6_3_post_mvp_expansion_lane_readiness_schema"] = bundle["station_chief_v6_3_post_mvp_expansion_lane_readiness_schema"]
+    result["readiness_approval_gate"] = bundle["readiness_approval_gate"]
+    result["readiness_contracts"] = bundle["readiness_contracts"]
+    result["readiness_permission_denial_record"] = bundle["readiness_permission_denial_record"]
+    result["readiness_packet_record"] = bundle["readiness_packet_record"]
+    result["readiness_audit_record"] = bundle["readiness_audit_record"]
+    result["readiness_summary"] = bundle["readiness_summary"]
+    result["station_chief_v6_4_candidate_bridge"] = bundle["station_chief_v6_4_candidate_bridge"]
+    result["readiness_packet_payload"] = bundle.get("readiness_packet_payload")
+    result["readiness_packet_write_record"] = bundle.get("readiness_packet_write_record")
+    result["local_readiness_packet_written"] = bundle["local_readiness_packet_written"]
+    result["station_chief_v6_3_readiness_created"] = bundle["station_chief_v6_3_readiness_created"]
+    result["post_mvp_expansion_lane_readiness_recorded"] = bundle["post_mvp_expansion_lane_readiness_recorded"]
+    result["selected_expansion_lane_implemented"] = False
+    result["selected_expansion_lane_executed"] = False
+    result["post_mvp_expansion_executed"] = False
+    result["v6_2_lane_scope_packet_mutated"] = False
+    result["v6_2_lane_scope_packet_executed"] = False
+    result["v6_1_review_packet_mutated"] = False
+    result["v6_1_review_packet_executed"] = False
+    result["v6_0_mvp_lock_mutated"] = False
+    result["v6_0_mvp_lock_executed"] = False
+    result["local_task_candidate_executed"] = False
+    result["dry_run_task_executed"] = False
+    result["real_worker_result_created"] = False
+    result["live_replay_performed"] = False
+    result["production_audit_performed"] = False
+    result["rollback_performed"] = False
+    result["recovery_performed"] = False
+    result["v6_4_created"] = False
+    result["worker_process_started"] = False
+    result["agent_started"] = False
+    result["real_queue_created"] = False
+    result["queue_write_performed"] = False
+    result["scheduler_write_performed"] = False
+    result["cron_write_performed"] = False
+    result["task_enqueued"] = False
+    result["task_executed"] = False
+    result["arbitrary_task_execution_performed"] = False
+    result["user_task_execution_performed"] = False
+    result["live_task_assignment_performed"] = False
+    result["live_worker_routing_performed"] = False
+    result["live_orchestration_performed"] = False
+    result["external_tool_invocation_performed"] = False
+    result["api_call_performed"] = False
+    result["network_access_performed"] = False
+    result["deployment_performed"] = False
+    result["production_execution_performed"] = False
+    result["full_workforce_activation_performed"] = False
+    return result
+
+
+def write_station_chief_v6_3_post_mvp_expansion_lane_readiness(
+    result: dict,
+    output_dir: str,
+    v6_2_lane_scope_packet_reference_label: str | None = None,
+    selected_expansion_lane_label: str | None = None,
+    readiness_checklist_label: str | None = None,
+    readiness_blocker_label: str | None = None,
+    readiness_evidence_label: str | None = None,
+    readiness_non_execution_boundary_label: str | None = None,
+    readiness_packet_name: str | None = None,
+    confirmation_token: str | None = None,
+    human_operator: str | None = None,
+) -> dict:
+    result = attach_station_chief_v6_3_post_mvp_expansion_lane_readiness(
+        result,
+        v6_2_lane_scope_packet_reference_label=v6_2_lane_scope_packet_reference_label,
+        selected_expansion_lane_label=selected_expansion_lane_label,
+        readiness_checklist_label=readiness_checklist_label,
+        readiness_blocker_label=readiness_blocker_label,
+        readiness_evidence_label=readiness_evidence_label,
+        readiness_non_execution_boundary_label=readiness_non_execution_boundary_label,
+        output_directory=output_dir,
+        readiness_packet_name=readiness_packet_name,
+        confirmation_token=confirmation_token,
+        human_operator=human_operator,
+        readiness_requested=True,
+        write_readiness_packet=True,
+    )
+    write_record = result["readiness_packet_write_record"]
+    result["station_chief_v6_3_post_mvp_expansion_lane_readiness_write_summary"] = write_record
+    result["station_chief_v6_3_post_mvp_expansion_lane_readiness_dir"] = write_record.get("output_directory") or str(output_dir)
+    if result.get("local_readiness_packet_written"):
+        rec_name = write_record.get("record_name")
+        rec_path = write_record.get("record_path")
+        result["files_written"] = [rec_name] if rec_name else []
+        result["record_path"] = rec_path
+    else:
+        result["files_written"] = []
+        result["record_path"] = None
+    result["execution_status"] = write_record.get("write_status")
+    return result
+
+
 def attach_sandbox_worker_dry_run_replay_audit_candidate(
     result: dict,
     sandbox_worker_label: str | None = None,
@@ -10366,6 +10495,18 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--v6-2-lane-scope-packet-name", type=str)
     parser.add_argument("--v6-2-lane-scope-confirm-token", type=str)
     parser.add_argument("--v6-2-lane-scope-human-operator", type=str)
+    parser.add_argument("--station-chief-v6-3-post-mvp-expansion-lane-readiness-schema", action="store_true")
+    parser.add_argument("--station-chief-v6-3-post-mvp-expansion-lane-readiness", action="store_true")
+    parser.add_argument("--write-station-chief-v6-3-post-mvp-expansion-lane-readiness", metavar="DIR", type=str)
+    parser.add_argument("--v6-3-lane-scope-packet-reference-label", type=str)
+    parser.add_argument("--v6-3-selected-expansion-lane-label", type=str)
+    parser.add_argument("--v6-3-readiness-checklist-label", type=str)
+    parser.add_argument("--v6-3-readiness-blocker-label", type=str)
+    parser.add_argument("--v6-3-readiness-evidence-label", type=str)
+    parser.add_argument("--v6-3-readiness-non-execution-boundary-label", type=str)
+    parser.add_argument("--v6-3-readiness-packet-name", type=str)
+    parser.add_argument("--v6-3-readiness-confirm-token", type=str)
+    parser.add_argument("--v6-3-readiness-human-operator", type=str)
     parser.add_argument("--station-chief-v6-0-mvp-lock", action="store_true")
     parser.add_argument("--write-station-chief-v6-0-mvp-lock", metavar="DIR", type=str)
     parser.add_argument("--v6-mvp-local-task-candidate-label", type=str)
@@ -11643,6 +11784,40 @@ def main() -> None:
             human_operator=args.v6_2_lane_scope_human_operator,
             lane_scope_requested=False,
             write_lane_scope_packet=False,
+        )
+
+    if getattr(args, "write_station_chief_v6_3_post_mvp_expansion_lane_readiness", False):
+        result = write_station_chief_v6_3_post_mvp_expansion_lane_readiness(
+            result,
+            args.write_station_chief_v6_3_post_mvp_expansion_lane_readiness,
+            v6_2_lane_scope_packet_reference_label=args.v6_3_lane_scope_packet_reference_label,
+            selected_expansion_lane_label=args.v6_3_selected_expansion_lane_label,
+            readiness_checklist_label=args.v6_3_readiness_checklist_label,
+            readiness_blocker_label=args.v6_3_readiness_blocker_label,
+            readiness_evidence_label=args.v6_3_readiness_evidence_label,
+            readiness_non_execution_boundary_label=args.v6_3_readiness_non_execution_boundary_label,
+            readiness_packet_name=args.v6_3_readiness_packet_name,
+            confirmation_token=args.v6_3_readiness_confirm_token,
+            human_operator=args.v6_3_readiness_human_operator,
+        )
+        v6_3_summary = result.get("readiness_packet_write_record", {})
+        result = dict(result)
+        result["station_chief_v6_3_post_mvp_expansion_lane_readiness_write_summary"] = v6_3_summary
+    elif args.station_chief_v6_3_post_mvp_expansion_lane_readiness:
+        result = attach_station_chief_v6_3_post_mvp_expansion_lane_readiness(
+            result,
+            v6_2_lane_scope_packet_reference_label=args.v6_3_lane_scope_packet_reference_label,
+            selected_expansion_lane_label=args.v6_3_selected_expansion_lane_label,
+            readiness_checklist_label=args.v6_3_readiness_checklist_label,
+            readiness_blocker_label=args.v6_3_readiness_blocker_label,
+            readiness_evidence_label=args.v6_3_readiness_evidence_label,
+            readiness_non_execution_boundary_label=args.v6_3_readiness_non_execution_boundary_label,
+            output_directory=None,
+            readiness_packet_name=args.v6_3_readiness_packet_name,
+            confirmation_token=args.v6_3_readiness_confirm_token,
+            human_operator=args.v6_3_readiness_human_operator,
+            readiness_requested=False,
+            write_readiness_packet=False,
         )
 
     if getattr(args, "write_station_chief_v6_0_mvp_lock", False):

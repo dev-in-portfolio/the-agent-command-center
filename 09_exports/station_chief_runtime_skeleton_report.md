@@ -6,13 +6,13 @@ Station Chief Runtime upgraded to v6.3.0. Locked 175-family baseline preserved. 
 ## What This Adds
 - v6.3 may write exactly one deterministic local Station Chief post-MVP expansion lane readiness packet only.
 - v6.3 records a post-MVP expansion lane readiness candidate as metadata only.
-- v6.3 references one v6.2 lane scope reference label, one readiness review label, one readiness scope label, one readiness constraint label, and one readiness non-execution boundary label.
-- v6.3 requires a valid v6.3 token, human operator, v6.2 lane scope reference label, readiness review label, readiness scope label, readiness constraint label, readiness non-execution boundary label, and explicit output directory.
+- v6.3 references one v6.2 lane scope packet reference label, one selected expansion lane label, one readiness checklist label, one readiness blocker label, one readiness evidence label, and one readiness non-execution boundary label.
+- v6.3 requires a valid v6.3 token, human operator, v6.2 lane scope packet reference label, selected expansion lane label, readiness checklist label, readiness blocker label, readiness evidence label, readiness non-execution boundary label, and explicit output directory.
 - v6.3 does not implement selected expansion lane.
 - v6.3 does not execute selected expansion lane.
 - v6.3 does not execute post-MVP expansion.
-- v6.3 does not mutate v6.2 lane scope.
-- v6.3 does not execute v6.2 lane scope.
+- v6.3 does not mutate v6.2 lane scope packet.
+- v6.3 does not execute v6.2 lane scope packet.
 - v6.3 does not mutate v6.1 review packet.
 - v6.3 does not execute v6.1 review packet.
 - v6.3 does not mutate v6.0 MVP lock.
@@ -47,13 +47,13 @@ Station Chief Runtime upgraded to v6.3.0. Locked 175-family baseline preserved. 
 Station Chief Runtime upgraded to v6.3.0. Locked 175-family baseline preserved. Station Chief v6.3 Post-MVP Expansion Lane Readiness Packet Candidate added.
 - v6.3 may write exactly one deterministic local Station Chief post-MVP expansion lane readiness packet only.
 - v6.3 records a post-MVP expansion lane readiness candidate as metadata only.
-- v6.3 references one v6.2 lane scope reference label, one readiness review label, one readiness scope label, one readiness constraint label, and one readiness non-execution boundary label.
-- v6.3 requires a valid v6.3 token, human operator, v6.2 lane scope reference label, readiness review label, readiness scope label, readiness constraint label, readiness non-execution boundary label, and explicit output directory.
+- v6.3 references one v6.2 lane scope packet reference label, one selected expansion lane label, one readiness checklist label, one readiness blocker label, one readiness evidence label, and one readiness non-execution boundary label.
+- v6.3 requires a valid v6.3 token, human operator, v6.2 lane scope packet reference label, selected expansion lane label, readiness checklist label, readiness blocker label, readiness evidence label, readiness non-execution boundary label, and explicit output directory.
 - v6.3 does not implement selected expansion lane.
 - v6.3 does not execute selected expansion lane.
 - v6.3 does not execute post-MVP expansion.
-- v6.3 does not mutate v6.2 lane scope.
-- v6.3 does not execute v6.2 lane scope.
+- v6.3 does not mutate v6.2 lane scope packet.
+- v6.3 does not execute v6.2 lane scope packet.
 - v6.3 does not mutate v6.1 review packet.
 - v6.3 does not execute v6.1 review packet.
 - v6.3 does not mutate v6.0 MVP lock.

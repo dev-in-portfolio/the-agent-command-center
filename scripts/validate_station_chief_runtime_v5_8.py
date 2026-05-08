@@ -53,6 +53,7 @@ DEFAULT_PACKET_NAME = "sandbox_worker_dry_run_result_candidate_packet.json"
 ALLOWED_CHANGED_PATHS = {
     "scripts/validate_station_chief_runtime_v6_3.py",
     "09_exports/station_chief_runtime_v6_3_report.md",
+    "09_exports/station_chief_runtime_v6_3_1_contract_repair_report.md",
     "10_runtime/station_chief_v6_3_post_mvp_expansion_lane_readiness.py",
     "09_exports/station_chief_v6_3_post_mvp_expansion_lane_readiness_preflight_audit.md",
     "09_exports/station_chief_runtime_v6_1_1_validator_version_assertion_repair_report.md",
