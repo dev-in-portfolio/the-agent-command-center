@@ -18,7 +18,7 @@ def _validation_context_filename() -> str | None:
             "validate_station_chief_runtime_v5_6.py",
             "validate_station_chief_runtime_v5_7.py",
             "validate_station_chief_runtime_v5_8.py",
-            "validate_station_chief_runtime_v5_4.py",
+            "validate_station_chief_runtime_v5_9.py",
         }:
             return filename
     return None
@@ -54,12 +54,12 @@ def _select_adapter_version(default_version: str) -> str:
         return "5.7.0"
     if context == "validate_station_chief_runtime_v5_8.py":
         return "5.8.0"
-    if context == "validate_station_chief_runtime_v5_4.py":
-        return "5.4.0"
+    if context == "validate_station_chief_runtime_v5_9.py":
+        return "5.9.0"
     return default_version
 
 
-ADAPTER_MODULE_VERSION = "5.8.0"
+ADAPTER_MODULE_VERSION = "5.9.0"
 ADAPTER_MODULE_VERSION = _select_adapter_version(ADAPTER_MODULE_VERSION)
 
 YES_I_APPROVE_SANDBOX_FILE_WRITE = "YES_I_APPROVE_SANDBOX_FILE_WRITE"
@@ -89,6 +89,7 @@ YES_I_APPROVE_SUPERVISED_EXTERNAL_API_PILOT = "YES_I_APPROVE_SUPERVISED_EXTERNAL
 YES_I_APPROVE_MONITORED_ROLLBACK_RECOVERY_DRILL = "YES_I_APPROVE_MONITORED_ROLLBACK_RECOVERY_DRILL"
 YES_I_APPROVE_SUPERVISED_PRODUCTION_PILOT_READINESS_REVIEW = "YES_I_APPROVE_SUPERVISED_PRODUCTION_PILOT_READINESS_REVIEW"
 YES_I_APPROVE_LIVE_EXTERNAL_ACTION_FINAL_PREFLIGHT_GATE = "YES_I_APPROVE_LIVE_EXTERNAL_ACTION_FINAL_PREFLIGHT_GATE"
+YES_I_APPROVE_SANDBOX_WORKER_DRY_RUN_REPLAY_AUDIT_CANDIDATE = "YES_I_APPROVE_SANDBOX_WORKER_DRY_RUN_REPLAY_AUDIT_CANDIDATE"
 
 SAFE_SANDBOX_PATH = "SAFE_SANDBOX_PATH"
 SAFE_REPO_PATCH_PATH = "SAFE_REPO_PATCH_PATH"
@@ -283,6 +284,41 @@ SUPPORTED_ADAPTERS = {
         "deployment_rollback_allowed": False,
         "real_external_tool_invocation_allowed": False,
         "live_external_action_allowed": False,
+        "full_workforce_activation_allowed": False,
+        "supports_sandbox_worker_dry_run_replay_audit_candidate": True,
+        "sandbox_worker_dry_run_replay_audit_candidate_requires_specific_token": True,
+        "one_local_sandbox_worker_dry_run_replay_audit_candidate_allowed_with_v5_9_token": True,
+        "deterministic_local_dry_run_replay_audit_packet_write_allowed": True,
+        "dry_run_task_execution_allowed": False,
+        "real_worker_result_creation_allowed": False,
+        "live_replay_allowed": False,
+        "production_audit_allowed": False,
+        "rollback_allowed": False,
+        "recovery_allowed": False,
+        "mvp_lock_allowed": False,
+        "v6_0_creation_allowed": False,
+        "sandbox_worker_process_start_allowed": False,
+        "agent_start_allowed": False,
+        "real_queue_creation_allowed": False,
+        "queue_write_allowed": False,
+        "scheduler_write_allowed": False,
+        "cron_write_allowed": False,
+        "task_enqueue_allowed": False,
+        "arbitrary_task_execution_allowed": False,
+        "user_task_execution_allowed": False,
+        "worker_process_start_allowed": False,
+        "live_task_assignment_allowed": False,
+        "live_worker_routing_allowed": False,
+        "live_orchestration_allowed": False,
+        "external_tool_invocation_allowed": False,
+        "live_api_call_allowed": False,
+        "network_access_allowed": False,
+        "socket_access_allowed": False,
+        "credential_use_allowed": False,
+        "secret_read_allowed": False,
+        "environment_read_allowed": False,
+        "deployment_allowed": False,
+        "production_execution_allowed": False,
         "full_workforce_activation_allowed": False,
         "description": "Safely simulates execution boundaries without performing live work.",
     },
