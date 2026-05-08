@@ -38,6 +38,10 @@ V5_4_REFERENCE_LABEL = "acknowledgement packet reference alpha"
 DEFAULT_PACKET_NAME = "sandbox_worker_acceptance_candidate_review_packet.json"
 
 ALLOWED_CHANGED_PATHS = {
+    "scripts/validate_station_chief_runtime_v5_7.py",
+    "10_runtime/station_chief_sandbox_worker_dry_run_assignment_candidate.py",
+    "09_exports/station_chief_v5_7_sandbox_worker_dry_run_assignment_candidate_preflight_audit.md",
+    "09_exports/station_chief_runtime_v5_7_report.md",
     "09_exports/station_chief_runtime_v5_6_2_repair_report.md",
     "09_exports/station_chief_runtime_v5_6_1_repair_report.md",
     "scripts/validate_station_chief_runtime_v4_5.py",
@@ -471,8 +475,9 @@ def ensure_docs_and_reports() -> None:
     pass
 
 
+# Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v5.7 are no longer forbidden on current master. v5.8+ remains forbidden until landed.
 def ensure_no_v55_files() -> None:
-    ensure(not any(REPO_ROOT.rglob("*v5_7*")), "v5.7 path unexpectedly exists")
+    ensure(not any(REPO_ROOT.rglob("*v5_8*")), "v5.8 path unexpectedly exists")
 
 
 def ensure_smoke_tests() -> None:

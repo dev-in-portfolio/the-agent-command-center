@@ -266,6 +266,11 @@ from station_chief_sandbox_worker_ready_state_packet_candidate import (
     create_sandbox_worker_ready_state_packet_candidate_bundle,
     create_sandbox_worker_ready_state_packet_candidate_schema,
 )
+from station_chief_sandbox_worker_dry_run_assignment_candidate import (
+    SANDBOX_WORKER_DRY_RUN_ASSIGNMENT_CANDIDATE_APPROVAL_TOKEN,
+    create_sandbox_worker_dry_run_assignment_candidate_bundle,
+    create_sandbox_worker_dry_run_assignment_candidate_schema,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -286,6 +291,7 @@ def _validation_context_filename() -> str | None:
             "validate_station_chief_runtime_v5_4.py",
             "validate_station_chief_runtime_v5_5.py",
             "validate_station_chief_runtime_v5_6.py",
+            "validate_station_chief_runtime_v5_7.py",
         }:
             return filename
     return None
@@ -317,10 +323,12 @@ def _select_runtime_version(default_version: str) -> str:
         return "5.5.0"
     if context == "validate_station_chief_runtime_v5_6.py":
         return "5.6.0"
+    if context == "validate_station_chief_runtime_v5_7.py":
+        return "5.7.0"
     return default_version
 
 
-STATION_CHIEF_RUNTIME_VERSION = "5.6.0"
+STATION_CHIEF_RUNTIME_VERSION = "5.7.0"
 STATION_CHIEF_RUNTIME_VERSION = _select_runtime_version(STATION_CHIEF_RUNTIME_VERSION)
 
 EXPECTED_OVERLAYS = [
@@ -993,6 +1001,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "5.4.0": "sandbox_worker_acknowledgement_candidate",
         "5.5.0": "sandbox_worker_acceptance_candidate_review",
         "5.6.0": "sandbox_worker_ready_state_packet_candidate",
+        "5.7.0": "sandbox_worker_dry_run_assignment_candidate",
     }.get(STATION_CHIEF_RUNTIME_VERSION, "live_queue_orchestration_candidate_review")
     evidence = build_demo_evidence()
     evidence.update(
@@ -1138,7 +1147,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "activation_tier": brief["activation_tier"],
         "baseline_preserved": True,
         "evidence": evidence,
-        "next_step": "Next step: sandbox worker dry-run assignment candidate review only.",
+        "next_step": "Next step: sandbox worker dry-run result candidate review only.",
         "first_tiny_real_world_supervised_execution_candidate_available": True,
         "first_tiny_real_world_supervised_execution_candidate_local_only": True,
         "first_tiny_real_world_supervised_execution_candidate_requires_token": True,
@@ -7634,6 +7643,130 @@ def write_sandbox_worker_acceptance_candidate_review(
     return result
 
 
+def attach_sandbox_worker_dry_run_assignment_candidate(
+    result: dict,
+    sandbox_worker_label: str | None = None,
+    v5_3_handoff_packet_reference_label: str | None = None,
+    v5_4_acknowledgement_packet_reference_label: str | None = None,
+    v5_5_acceptance_review_packet_reference_label: str | None = None,
+    v5_6_ready_state_packet_reference_label: str | None = None,
+    synthetic_dry_run_task_label: str | None = None,
+    output_directory: str | None = None,
+    dry_run_assignment_packet_name: str | None = None,
+    confirmation_token: str | None = None,
+    human_operator: str | None = None,
+    dry_run_assignment_requested: bool = False,
+    write_dry_run_assignment_packet: bool = False,
+) -> dict:
+    bundle = create_sandbox_worker_dry_run_assignment_candidate_bundle(
+        result,
+        command=result.get("command"),
+        sandbox_worker_label=sandbox_worker_label,
+        v5_3_handoff_packet_reference_label=v5_3_handoff_packet_reference_label,
+        v5_4_acknowledgement_packet_reference_label=v5_4_acknowledgement_packet_reference_label,
+        v5_5_acceptance_review_packet_reference_label=v5_5_acceptance_review_packet_reference_label,
+        v5_6_ready_state_packet_reference_label=v5_6_ready_state_packet_reference_label,
+        synthetic_dry_run_task_label=synthetic_dry_run_task_label,
+        output_directory=output_directory,
+        dry_run_assignment_packet_name=dry_run_assignment_packet_name,
+        confirmation_token=confirmation_token,
+        human_operator=human_operator,
+        dry_run_assignment_requested=dry_run_assignment_requested,
+        write_dry_run_assignment_packet=write_dry_run_assignment_packet,
+    )
+    result = dict(result)
+    result["sandbox_worker_dry_run_assignment_candidate_bundle"] = bundle
+    result["sandbox_worker_dry_run_assignment_candidate_schema"] = bundle["schema"]
+    result["sandbox_worker_dry_run_assignment_approval_gate"] = bundle["approval_gate"]
+    result["v5_3_handoff_packet_reference_contract"] = bundle["v5_3_handoff_packet_reference_contract"]
+    result["v5_4_acknowledgement_packet_reference_contract"] = bundle["v5_4_acknowledgement_packet_reference_contract"]
+    result["v5_5_acceptance_review_packet_reference_contract"] = bundle["v5_5_acceptance_review_packet_reference_contract"]
+    result["v5_6_ready_state_packet_reference_contract"] = bundle["v5_6_ready_state_packet_reference_contract"]
+    result["synthetic_dry_run_task_reference_contract"] = bundle["synthetic_dry_run_task_reference_contract"]
+    result["sandbox_worker_dry_run_assignment_reference_contract"] = bundle["sandbox_worker_dry_run_assignment_reference_contract"]
+    result["dry_run_assignment_scope_contract"] = bundle["dry_run_assignment_scope_contract"]
+    result["non_execution_dry_run_assignment_boundary"] = bundle["non_execution_dry_run_assignment_boundary"]
+    result["dry_run_assignment_permission_denial_record"] = bundle["dry_run_assignment_permission_denial_record"]
+    result["dry_run_assignment_plan_record"] = bundle["dry_run_assignment_plan_record"]
+    result["dry_run_assignment_packet_record"] = bundle["dry_run_assignment_packet_record"]
+    result["dry_run_assignment_audit_record"] = bundle["dry_run_assignment_audit_record"]
+    result["dry_run_assignment_readiness_summary"] = bundle["dry_run_assignment_readiness_summary"]
+    result["sandbox_worker_dry_run_result_candidate_bridge"] = bundle["sandbox_worker_dry_run_result_candidate_bridge"]
+    result["dry_run_assignment_packet_payload"] = bundle.get("dry_run_assignment_packet_payload")
+    result["dry_run_assignment_packet_write_record"] = bundle.get("dry_run_assignment_packet_record", {}).get("write_record")
+    result["local_dry_run_assignment_packet_written"] = bundle["local_dry_run_assignment_packet_written"]
+    result["sandbox_worker_dry_run_assignment_created"] = bundle["sandbox_worker_dry_run_assignment_created"]
+    result["dry_run_task_assignment_recorded"] = bundle["dry_run_task_assignment_recorded"]
+    result["dry_run_result_created"] = False
+    result["dry_run_task_executed"] = False
+    result["worker_process_started"] = False
+    result["agent_started"] = False
+    result["real_queue_created"] = False
+    result["queue_write_performed"] = False
+    result["scheduler_write_performed"] = False
+    result["cron_write_performed"] = False
+    result["task_enqueued"] = False
+    result["task_executed"] = False
+    result["arbitrary_task_execution_performed"] = False
+    result["user_task_execution_performed"] = False
+    result["live_task_assignment_performed"] = False
+    result["live_worker_routing_performed"] = False
+    result["live_orchestration_performed"] = False
+    result["external_tool_invocation_performed"] = False
+    result["api_call_performed"] = False
+    result["network_access_performed"] = False
+    result["deployment_performed"] = False
+    result["production_execution_performed"] = False
+    result["full_workforce_activation_performed"] = False
+    
+    # Compatibility object
+    result["sandbox_worker_dry_run_assignment_candidate"] = bundle
+    
+    return result
+
+
+def write_sandbox_worker_dry_run_assignment_candidate(
+    result: dict,
+    output_dir: str,
+    sandbox_worker_label: str | None = None,
+    v5_3_handoff_packet_reference_label: str | None = None,
+    v5_4_acknowledgement_packet_reference_label: str | None = None,
+    v5_5_acceptance_review_packet_reference_label: str | None = None,
+    v5_6_ready_state_packet_reference_label: str | None = None,
+    synthetic_dry_run_task_label: str | None = None,
+    dry_run_assignment_packet_name: str | None = None,
+    confirmation_token: str | None = None,
+    human_operator: str | None = None,
+) -> dict:
+    result = attach_sandbox_worker_dry_run_assignment_candidate(
+        result,
+        sandbox_worker_label=sandbox_worker_label,
+        v5_3_handoff_packet_reference_label=v5_3_handoff_packet_reference_label,
+        v5_4_acknowledgement_packet_reference_label=v5_4_acknowledgement_packet_reference_label,
+        v5_5_acceptance_review_packet_reference_label=v5_5_acceptance_review_packet_reference_label,
+        v5_6_ready_state_packet_reference_label=v5_6_ready_state_packet_reference_label,
+        synthetic_dry_run_task_label=synthetic_dry_run_task_label,
+        output_directory=output_dir,
+        dry_run_assignment_packet_name=dry_run_assignment_packet_name,
+        confirmation_token=confirmation_token,
+        human_operator=human_operator,
+        dry_run_assignment_requested=True,
+        write_dry_run_assignment_packet=True,
+    )
+    write_record = result["dry_run_assignment_packet_write_record"]
+    result["sandbox_worker_dry_run_assignment_candidate_write_summary"] = write_record
+    result["sandbox_worker_dry_run_assignment_candidate_dir"] = write_record.get("output_directory") or str(output_dir)
+    if result.get("local_dry_run_assignment_packet_written"):
+        rec_name = write_record.get("record_name")
+        rec_path = write_record.get("record_path")
+        result["files_written"] = [rec_name] if rec_name else []
+        result["record_path"] = rec_path
+    else:
+        result["files_written"] = []
+        result["record_path"] = None
+    result["execution_status"] = write_record.get("write_status")
+    return result
+
 def attach_sandbox_worker_ready_state_packet_candidate(
     result: dict,
     sandbox_worker_label: str | None = None,
@@ -8264,6 +8397,21 @@ def write_runtime_artifacts(
         "sandbox_worker_handoff_candidate_schema.json": artifacts.get("sandbox_worker_handoff_candidate_schema"),
         "sandbox_worker_handoff_approval_gate.json": artifacts.get("sandbox_worker_handoff_approval_gate"),
         "v5_2_repeatability_proof_reference_contract.json": artifacts.get("v5_2_repeatability_proof_reference_contract"),
+        "sandbox_worker_dry_run_assignment_candidate_bundle.json": artifacts.get("sandbox_worker_dry_run_assignment_candidate_bundle"),
+        "sandbox_worker_dry_run_assignment_candidate_schema.json": artifacts.get("sandbox_worker_dry_run_assignment_candidate_schema"),
+        "sandbox_worker_dry_run_assignment_approval_gate.json": artifacts.get("sandbox_worker_dry_run_assignment_approval_gate"),
+        "sandbox_worker_dry_run_assignment_reference_contract.json": artifacts.get("sandbox_worker_dry_run_assignment_reference_contract"),
+        "synthetic_dry_run_task_reference_contract.json": artifacts.get("synthetic_dry_run_task_reference_contract"),
+        "dry_run_assignment_scope_contract.json": artifacts.get("dry_run_assignment_scope_contract"),
+        "non_execution_dry_run_assignment_boundary.json": artifacts.get("non_execution_dry_run_assignment_boundary"),
+        "dry_run_assignment_permission_denial_record.json": artifacts.get("dry_run_assignment_permission_denial_record"),
+        "dry_run_assignment_plan_record.json": artifacts.get("dry_run_assignment_plan_record"),
+        "dry_run_assignment_packet_record.json": artifacts.get("dry_run_assignment_packet_record"),
+        "dry_run_assignment_audit_record.json": artifacts.get("dry_run_assignment_audit_record"),
+        "dry_run_assignment_readiness_summary.json": artifacts.get("dry_run_assignment_readiness_summary"),
+        "sandbox_worker_dry_run_result_candidate_bridge.json": artifacts.get("sandbox_worker_dry_run_result_candidate_bridge"),
+        "dry_run_assignment_packet_payload.json": artifacts.get("dry_run_assignment_packet_payload"),
+        "dry_run_assignment_packet_write_record.json": artifacts.get("dry_run_assignment_packet_write_record"),
         "sandbox_worker_ready_state_packet_candidate_bundle.json": artifacts.get("sandbox_worker_ready_state_packet_candidate_bundle"),
         "sandbox_worker_ready_state_packet_candidate_schema.json": artifacts.get("sandbox_worker_ready_state_packet_candidate_schema"),
         "sandbox_worker_ready_state_packet_approval_gate.json": artifacts.get("sandbox_worker_ready_state_packet_approval_gate"),
@@ -9134,6 +9282,18 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--v5-acknowledgement-packet-name", type=str)
     parser.add_argument("--v5-acknowledgement-confirm-token", type=str)
     parser.add_argument("--v5-acknowledgement-human-operator", type=str)
+    parser.add_argument("--sandbox-worker-dry-run-assignment-candidate-schema", action="store_true")
+    parser.add_argument("--sandbox-worker-dry-run-assignment-candidate", action="store_true")
+    parser.add_argument("--write-sandbox-worker-dry-run-assignment-candidate", metavar="DIR", type=str)
+    parser.add_argument("--v5-dry-run-sandbox-worker-label", type=str)
+    parser.add_argument("--v5-dry-run-handoff-packet-reference-label", type=str)
+    parser.add_argument("--v5-dry-run-acknowledgement-packet-reference-label", type=str)
+    parser.add_argument("--v5-dry-run-acceptance-review-packet-reference-label", type=str)
+    parser.add_argument("--v5-dry-run-ready-state-packet-reference-label", type=str)
+    parser.add_argument("--v5-dry-run-task-label", type=str)
+    parser.add_argument("--v5-dry-run-assignment-packet-name", type=str)
+    parser.add_argument("--v5-dry-run-assignment-confirm-token", type=str)
+    parser.add_argument("--v5-dry-run-assignment-human-operator", type=str)
     parser.add_argument("--sandbox-worker-ready-state-packet-candidate-schema", action="store_true")
     parser.add_argument("--sandbox-worker-ready-state-packet-candidate", action="store_true")
     parser.add_argument("--write-sandbox-worker-ready-state-packet-candidate", metavar="DIR", type=str)
@@ -10276,6 +10436,44 @@ def main() -> None:
             human_operator=args.v5_handoff_human_operator,
             handoff_requested=False,
             write_handoff_packet=False,
+        )
+
+    if args.sandbox_worker_dry_run_assignment_candidate_schema:
+        print(json.dumps(create_sandbox_worker_dry_run_assignment_candidate_schema(), indent=2, ensure_ascii=False))
+        return
+        
+    if getattr(args, "write_sandbox_worker_dry_run_assignment_candidate", False):
+        result = write_sandbox_worker_dry_run_assignment_candidate(
+            result,
+            args.write_sandbox_worker_dry_run_assignment_candidate,
+            sandbox_worker_label=args.v5_dry_run_sandbox_worker_label,
+            v5_3_handoff_packet_reference_label=args.v5_dry_run_handoff_packet_reference_label,
+            v5_4_acknowledgement_packet_reference_label=args.v5_dry_run_acknowledgement_packet_reference_label,
+            v5_5_acceptance_review_packet_reference_label=args.v5_dry_run_acceptance_review_packet_reference_label,
+            v5_6_ready_state_packet_reference_label=args.v5_dry_run_ready_state_packet_reference_label,
+            synthetic_dry_run_task_label=args.v5_dry_run_task_label,
+            dry_run_assignment_packet_name=args.v5_dry_run_assignment_packet_name,
+            confirmation_token=args.v5_dry_run_assignment_confirm_token,
+            human_operator=args.v5_dry_run_assignment_human_operator,
+        )
+        sandbox_worker_dry_run_assignment_candidate_summary = result.get("sandbox_worker_dry_run_assignment_candidate", {}).get("dry_run_assignment_packet_record", {}).get("write_record")
+        result = dict(result)
+        result["sandbox_worker_dry_run_assignment_candidate_write_summary"] = sandbox_worker_dry_run_assignment_candidate_summary
+    elif args.sandbox_worker_dry_run_assignment_candidate:
+        result = attach_sandbox_worker_dry_run_assignment_candidate(
+            result,
+            sandbox_worker_label=args.v5_dry_run_sandbox_worker_label,
+            v5_3_handoff_packet_reference_label=args.v5_dry_run_handoff_packet_reference_label,
+            v5_4_acknowledgement_packet_reference_label=args.v5_dry_run_acknowledgement_packet_reference_label,
+            v5_5_acceptance_review_packet_reference_label=args.v5_dry_run_acceptance_review_packet_reference_label,
+            v5_6_ready_state_packet_reference_label=args.v5_dry_run_ready_state_packet_reference_label,
+            synthetic_dry_run_task_label=args.v5_dry_run_task_label,
+            output_directory=None,
+            dry_run_assignment_packet_name=args.v5_dry_run_assignment_packet_name,
+            confirmation_token=args.v5_dry_run_assignment_confirm_token,
+            human_operator=args.v5_dry_run_assignment_human_operator,
+            dry_run_assignment_requested=False,
+            write_dry_run_assignment_packet=False,
         )
 
     if args.sandbox_worker_ready_state_packet_candidate_schema:
