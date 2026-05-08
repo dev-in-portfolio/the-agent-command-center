@@ -37,6 +37,7 @@ SYNTHETIC_TASK_LABEL = "sandbox status note"
 DEFAULT_OUTPUT_RECORD_NAME = "first_supervised_local_execution_kernel_output_record.json"
 
 ALLOWED_CHANGED_PATHS = {
+    "09_exports/station_chief_runtime_v6_0_1_validator_doctrine_repair_report.md",
     "10_runtime/__pycache__/",
     "scripts/__pycache__/",
     "09_exports/station_chief_v6_0_mvp_lock_preflight_audit.md",
@@ -542,7 +543,7 @@ def ensure_protected_paths_and_docs() -> None:
         "09_exports/station_chief_v5_1_first_supervised_local_execution_kernel_candidate_preflight_audit.md",
     ]), "v5.1 file unexpectedly missing")
                 # Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v5.9 plus v5.9.1 and v5.9.2 validator repair reports are no longer forbidden on current master. v6.0+ remains forbidden until landed.
-        # Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v6.0 are no longer forbidden on current master. v6.1+ remains forbidden until landed.
+            # Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v6.0 plus the v6.0.1 validator doctrine repair report are no longer forbidden on current master. v6.1+ remains forbidden until landed.
 
 
 def ensure_smoke_tests() -> None:
@@ -586,7 +587,7 @@ def main() -> None:
 
 
 def ensure_no_v61_files() -> None:
-    # Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v6.0 are no longer forbidden on current master. v6.1+ remains forbidden until landed.
+        # Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v6.0 plus the v6.0.1 validator doctrine repair report are no longer forbidden on current master. v6.1+ remains forbidden until landed.
     ensure(not any(REPO_ROOT.rglob("*v6_1*")), "v6.1 path unexpectedly exists")
     ensure(not any(REPO_ROOT.rglob("*v6.1*")), "v6.1 path unexpectedly exists")
     ensure(not any(REPO_ROOT.rglob("*post*mvp*expansion*")), "post-MVP expansion path unexpectedly exists")

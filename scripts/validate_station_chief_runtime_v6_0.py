@@ -164,26 +164,77 @@ def ensure_doctrine() -> None:
     report_content = REPORT.read_text(encoding="utf-8")
     ensure("Station Chief runtime version is 6.0.0" in report_content, "Missing version doctrine in report")
     
-    report_checks = [
+    # Correct v6.0 Report confirmations
+    report_phrases = [
+        "Station Chief runtime version is 6.0.0: YES",
+        "release lock is 6.0.0: YES",
+        "v6.1 not built: YES",
+        "post-MVP expansion was not created: YES",
+        "exactly one deterministic local Station Chief v6.0 MVP lock packet is permitted only under token-gated temp-dir write path: YES",
+        "integrated local command-center loop was recorded as metadata only: YES",
+        "MVP DONE was recorded as metadata only: YES",
         "no local task candidate was executed: YES",
+        "no handoff packet was executed: YES",
+        "no acknowledgement packet was executed: YES",
+        "no acceptance review packet was executed: YES",
+        "no ready-state packet was executed: YES",
+        "no dry-run assignment packet was executed: YES",
+        "no dry-run result packet was executed: YES",
+        "no dry-run replay/audit packet was executed: YES",
         "no dry-run task was executed: YES",
         "no real worker result was created: YES",
         "no live replay was performed: YES",
         "no production audit was performed: YES",
         "no rollback was performed: YES",
         "no recovery was performed: YES",
-        "no v6.1 not built: YES" if "v6.1 not built: YES" in report_content else "v6.1 not built: YES", # Special case for plural/singular check if needed
-        "no MVP lock was created: YES",
-        "no v6.0 files were created: YES",
+        "no worker process started: YES",
+        "no agent started: YES",
+        "no real queue created: YES",
+        "no queue write performed: YES",
+        "no scheduler write performed: YES",
+        "no cron write performed: YES",
+        "no task enqueued: YES",
+        "no arbitrary task execution performed: YES",
+        "no user task execution performed: YES",
+        "no live worker routing occurred: YES",
+        "no live orchestration occurred: YES",
+        "no forbidden protected exports were modified: YES",
+        "no next task was selected or suggested: YES",
     ]
-    # Handle the v6.1 confirmation carefully as prompt had a small typo in phrasing "confirmation v6.1 not built" vs report requirements
-    ensure("v6.1 not built: YES" in report_content, f"Missing report confirmation about v6.1 in {REPORT.name}")
-    
+    for p in report_phrases:
+        ensure(p in report_content, f"Missing report confirmation '{p}' in {REPORT.name}")
+
     ensure(
         "no APIs/network/deployment/production behavior authorized: YES" in report_content or
         "no API/network/deployment/production behavior authorized: YES" in report_content,
         f"Missing report confirmation about API/network behavior in {REPORT.name}"
     )
+
+    # Files Created section checks
+    files_created = [
+        "10_runtime/station_chief_v6_0_mvp_lock.py",
+        "09_exports/station_chief_v6_0_mvp_lock_preflight_audit.md",
+        "09_exports/station_chief_runtime_v6_0_report.md",
+        "scripts/validate_station_chief_runtime_v6_0.py",
+    ]
+    for f in files_created:
+        ensure(f in report_content, f"Report missing created file: {f}")
+
+    # Files Modified section checks
+    files_modified = [
+        "10_runtime/station_chief_runtime.py",
+        "10_runtime/station_chief_runtime_readme.md",
+        "10_runtime/station_chief_adapters.py",
+        "10_runtime/station_chief_release_lock.py",
+        "09_exports/station_chief_runtime_skeleton_report.md",
+    ]
+    for f in files_modified:
+        ensure(f in report_content, f"Report missing modified file: {f}")
+
+    # Negative checks against contradictory phrases
+    ensure("no MVP lock was created: YES" not in report_content, "Report incorrectly claims no MVP lock was created")
+    ensure("no v6.0 files were created: YES" not in report_content, "Report incorrectly claims no v6.0 files were created")
+
 
 def ensure_protected_paths() -> None:
     print("Checking protected paths...")
@@ -210,6 +261,7 @@ def ensure_protected_paths() -> None:
             if indicator in path.lower():
                 # Allow specifically expected files
                 allowed_exceptions = [
+                    "09_exports/station_chief_runtime_v6_0_1_validator_doctrine_repair_report.md",
                     "scripts/validate_station_chief_runtime_v6_0.py",
                     "scripts/validate_station_chief_runtime_v5_",
                     "09_exports/station_chief_runtime_v6_0_report.md",
@@ -318,11 +370,17 @@ def ensure_wrapper_integration() -> None:
         for key in ["local_task_candidate_executed", "dry_run_task_executed", "real_worker_result_created", "worker_process_started"]:
             ensure(payload.get(key) is False, f"Dangerous flag '{key}' must be False in payload")
 
-def ensure_no_v6_1_files() -> None:
+def ensure_no_v61_files() -> None:
     print("Checking for unexpected v6.1/post-MVP expansion files...")
-    v6_1_files = list(REPO_ROOT.rglob("*v6_1*")) + list(REPO_ROOT.rglob("*v6.1*")) + list(REPO_ROOT.rglob("*post*mvp*expansion*"))
-    actual_files = [f for f in v6_1_files if f.is_file() or f.is_dir()]
-    ensure(len(actual_files) == 0, f"Unexpected v6.1/post-MVP expansion files found: {actual_files}")
+    # Fail if any repo file path contains forbidden indicators
+    for p in REPO_ROOT.rglob("*"):
+        if p.is_dir() and ".git" in p.parts:
+            continue
+        rel_p = str(p.relative_to(REPO_ROOT))
+        for indicator in ["v6_1", "v6.1", "post_mvp_expansion", "post-mvp-expansion"]:
+            if indicator in rel_p.lower():
+                ensure(False, f"Unexpected v6.1/post-MVP expansion file or directory found: {rel_p}")
+
 
 def validate_v6_0() -> None:
     print("Validating Station Chief Runtime v6.0.0...")
@@ -359,7 +417,7 @@ def validate_v6_0() -> None:
     ensure_prior_versions()
     ensure_protected_paths()
     ensure_wrapper_integration()
-    ensure_no_v6_1_files()
+    ensure_no_v61_files()
     
     print("STATION_CHIEF_RUNTIME_V6_0_VALIDATION_PASS")
 

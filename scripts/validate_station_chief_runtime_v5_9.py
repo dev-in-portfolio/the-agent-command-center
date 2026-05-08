@@ -203,6 +203,7 @@ def ensure_protected_paths() -> None:
             if indicator in path.lower():
                 # Allow specifically expected files
                 allowed_exceptions = [
+                    "09_exports/station_chief_runtime_v6_0_1_validator_doctrine_repair_report.md",
                     "scripts/validate_station_chief_runtime_v6_0.py",
                     "scripts/validate_station_chief_runtime_v5_",
                     "09_exports/station_chief_runtime_v6_0_report.md",
