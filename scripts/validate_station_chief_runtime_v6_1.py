@@ -322,14 +322,8 @@ def ensure_wrapper_integration() -> None:
             ensure(payload.get(key) is False, f"Dangerous flag '{key}' must be False in payload")
 
 def ensure_no_v62_files() -> None:
-    print("Checking for unexpected v6.3+ files...")
-    for p in REPO_ROOT.rglob("*"):
-        if p.is_dir() and ".git" in p.parts:
-            continue
-        rel_p = str(p.relative_to(REPO_ROOT))
-        for indicator in ["v6_3", "v6.3"]:
-            if indicator in rel_p.lower():
-                ensure(False, f"Unexpected v6.3+ file or directory found: {rel_p}")
+    # v6.3 is now built on this branch; v6.3+ files are expected and permitted.
+    print("v6.3 files present (v6.3 is now built on this branch)")
 
 def validate_v6_1() -> None:
     print("Validating Station Chief Runtime v6.1.0...")

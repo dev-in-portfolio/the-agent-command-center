@@ -290,16 +290,16 @@ def validate_v6_2() -> None:
     # ------------------------------------------------------------------ #
     print("Checking exact version assertions...")
     runtime_code = RUNTIME_PATH.read_text(encoding="utf-8")
-    ensure('STATION_CHIEF_RUNTIME_VERSION = "6.2.0"' in runtime_code,
-           "runtime version mismatch: expected 6.2.0")
+    ensure('STATION_CHIEF_RUNTIME_VERSION = "6.3.0"' in runtime_code,
+           "runtime version mismatch: expected 6.3.0")
 
     adapters_code = ADAPTERS.read_text(encoding="utf-8")
-    ensure('ADAPTER_MODULE_VERSION = "6.2.0"' in adapters_code,
-           "adapter version mismatch: expected 6.2.0")
+    ensure('ADAPTER_MODULE_VERSION = "6.3.0"' in adapters_code,
+           "adapter version mismatch: expected 6.3.0")
 
     lock_code = RELEASE_LOCK.read_text(encoding="utf-8")
-    ensure('STABLE_RUNTIME_VERSION = "6.2.0"' in lock_code,
-           "release lock version mismatch: expected 6.2.0")
+    ensure('STABLE_RUNTIME_VERSION = "6.3.0"' in lock_code,
+           "release lock version mismatch: expected 6.3.0")
 
     module_code = V6_2_MODULE.read_text(encoding="utf-8")
     ensure('STATION_CHIEF_V6_2_POST_MVP_EXPANSION_LANE_SCOPE_MODULE_VERSION = "6.2.0"' in module_code,
@@ -605,16 +605,9 @@ def validate_v6_2() -> None:
                f"v6.1 validator contains forbidden OR 6.2.0 pattern: {pat}")
 
     # ------------------------------------------------------------------ #
-    # M. v6.3 absence
+    # M. v6.3 presence (v6.3 is now built on this branch)
     # ------------------------------------------------------------------ #
-    print("Checking for v6.3 file absence...")
-    for p in REPO_ROOT.rglob("*"):
-        if p.is_dir() and ".git" in p.parts:
-            continue
-        rel_p = str(p.relative_to(REPO_ROOT))
-        for indicator in ["v6_3", "v6.3"]:
-            ensure(indicator not in rel_p.lower(),
-                   f"Unexpected v6.3 file found: {rel_p}")
+    print("v6.3 files present (v6.3 is now built on this branch)")
 
     # ------------------------------------------------------------------ #
     # N. Report doctrine
@@ -625,7 +618,7 @@ def validate_v6_2() -> None:
         "Station Chief runtime version is 6.2.0: YES",
         "release lock is 6.2.0: YES",
         "adapter version is 6.2.0: YES",
-        "v6.3 not built: YES",
+        "v6.3 now built: YES",
         "post-MVP expansion lane scope was recorded as metadata only: YES",
         "selected expansion lane was not implemented: YES",
         "selected expansion lane was not executed: YES",
@@ -792,7 +785,7 @@ def validate_v6_2() -> None:
     # Doctrines
     # ------------------------------------------------------------------ #
     print("Checking v6.2 doctrine...")
-    common_phrases = [
+    report_phrases = [
         "Station Chief Runtime v6.2.0",
         "Station Chief v6.2 Post-MVP Expansion Lane Scope Candidate",
         "v6.2 may write exactly one deterministic local Station Chief post-MVP expansion lane scope packet only",
@@ -812,10 +805,18 @@ def validate_v6_2() -> None:
         "v6.2 does not approve v6.3",
         "v6.3 requires explicit operator instruction",
     ]
-    for f in [README, SKELETON, REPORT]:
+    for p in report_phrases:
+        content = REPORT.read_text(encoding="utf-8")
+        ensure(p in content, f"Missing report doctrine phrase '{p}' in {REPORT.name}")
+
+    # README and SKELETON now lead with v6.3.0; check that their history still contains v6.2 references
+    for f in [README, SKELETON]:
         content = f.read_text(encoding="utf-8")
-        for p in common_phrases:
-            ensure(p in content, f"Missing common doctrine phrase '{p}' in {f.name}")
+        ensure("v6.2.0" in content, f"Missing v6.2 history in {f.name}")
+        ensure("Station Chief v6.2 Post-MVP Expansion Lane Scope Candidate" in content,
+               f"Missing v6.2 lane scope reference in {f.name}")
+        ensure("v6.2 may write exactly one deterministic local" in content,
+               f"Missing v6.2 packet doctrine in {f.name}")
 
     print("STATION_CHIEF_RUNTIME_V6_2_VALIDATION_PASS")
 

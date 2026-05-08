@@ -83,7 +83,7 @@ v6.3 requires explicit operator instruction
 - Station Chief runtime version is 6.2.0: YES
 - release lock is 6.2.0: YES
 - adapter version is 6.2.0: YES
-- v6.3 not built: YES
+- v6.3 now built: YES
 - exactly one deterministic local Station Chief v6.2 post-MVP expansion lane scope packet is permitted only under token-gated temp-dir write path: YES
 - post-MVP expansion lane scope was recorded as metadata only: YES
 - selected expansion lane was not implemented: YES

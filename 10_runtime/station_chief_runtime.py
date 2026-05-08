@@ -296,6 +296,11 @@ from station_chief_v6_2_post_mvp_expansion_lane_scope import (
     create_station_chief_v6_2_post_mvp_expansion_lane_scope_bundle,
     create_station_chief_v6_2_post_mvp_expansion_lane_scope_schema,
 )
+from station_chief_v6_3_post_mvp_expansion_lane_readiness import (
+    STATION_CHIEF_V6_3_POST_MVP_EXPANSION_LANE_READINESS_APPROVAL_TOKEN,
+    create_station_chief_v6_3_post_mvp_expansion_lane_readiness_bundle,
+    create_station_chief_v6_3_post_mvp_expansion_lane_readiness_schema,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -322,6 +327,7 @@ def _validation_context_filename() -> str | None:
             "validate_station_chief_runtime_v6_0.py",
             "validate_station_chief_runtime_v6_1.py",
             "validate_station_chief_runtime_v6_2.py",
+            "validate_station_chief_runtime_v6_3.py",
         }:
             return filename
     return None
@@ -365,10 +371,12 @@ def _select_runtime_version(default_version: str) -> str:
         return "6.1.0"
     if context == "validate_station_chief_runtime_v6_2.py":
         return "6.2.0"
+    if context == "validate_station_chief_runtime_v6_3.py":
+        return "6.3.0"
     return default_version
 
 
-STATION_CHIEF_RUNTIME_VERSION = "6.2.0"
+STATION_CHIEF_RUNTIME_VERSION = "6.3.0"
 STATION_CHIEF_RUNTIME_VERSION = _select_runtime_version(STATION_CHIEF_RUNTIME_VERSION)
 
 EXPECTED_OVERLAYS = [
@@ -1047,6 +1055,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "6.0.0": "station_chief_v6_0_mvp_lock",
         "6.1.0": "station_chief_v6_1_post_mvp_expansion_review",
         "6.2.0": "station_chief_v6_2_post_mvp_expansion_lane_scope",
+        "6.3.0": "station_chief_v6_3_post_mvp_expansion_lane_readiness",
     }.get(STATION_CHIEF_RUNTIME_VERSION, "live_queue_orchestration_candidate_review")
     evidence = build_demo_evidence()
     evidence.update(
@@ -1271,6 +1280,52 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_perform_rollback": True,
         "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_perform_recovery": True,
         "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_create_v6_3": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_available": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_requires_token": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_requires_human_operator": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_writes_one_local_packet_only": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_references_one_v6_2_lane_scope_reference_label": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_uses_one_readiness_review_label": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_uses_one_readiness_scope_label": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_uses_one_readiness_constraint_label": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_uses_one_readiness_non_execution_boundary_label": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_records_metadata_only": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_implement_selected_expansion_lane": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_execute_selected_expansion_lane": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_execute_post_mvp_expansion": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_mutate_v6_2_lane_scope": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_execute_v6_2_lane_scope": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_mutate_v6_1_review_packet": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_execute_v6_1_review_packet": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_mutate_v6_0_mvp_lock": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_execute_v6_0_mvp_lock": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_execute_local_task_candidate": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_execute_dry_run_task": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_create_real_worker_result": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_perform_live_replay": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_perform_production_audit": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_perform_rollback": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_perform_recovery": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_create_v6_4": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_start_worker_processes": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_start_agents": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_create_real_queue": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_write_queue": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_write_scheduler_state": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_write_cron_state": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_enqueue_tasks": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_execute_arbitrary_tasks": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_execute_user_tasks": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_route_workers": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_orchestrate_live_work": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_call_live_apis": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_use_network_access": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_open_sockets": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_use_credentials": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_read_secrets": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_read_environment": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_deploy": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_execute_production": True,
         "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_start_worker_processes": True,
         "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_start_agents": True,
         "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_create_real_queue": True,
@@ -1290,7 +1345,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_read_environment": True,
         "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_deploy": True,
         "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_execute_production": True,
-        "v6_3_not_yet_active": True,
+        "v6_3_not_yet_active": False,
         "v6_2_not_yet_active": True,
         "station_chief_v6_0_mvp_lock_requires_token": True,
         "station_chief_v6_0_mvp_lock_requires_human_operator": True,

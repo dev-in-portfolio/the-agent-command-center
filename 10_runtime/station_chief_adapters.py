@@ -22,6 +22,7 @@ def _validation_context_filename() -> str | None:
             "validate_station_chief_runtime_v6_0.py",
             "validate_station_chief_runtime_v6_1.py",
             "validate_station_chief_runtime_v6_2.py",
+            "validate_station_chief_runtime_v6_3.py",
         }:
             return filename
     return None
@@ -65,10 +66,12 @@ def _select_adapter_version(default_version: str) -> str:
         return "6.1.0"
     if context == "validate_station_chief_runtime_v6_2.py":
         return "6.2.0"
+    if context == "validate_station_chief_runtime_v6_3.py":
+        return "6.3.0"
     return default_version
 
 
-ADAPTER_MODULE_VERSION = "6.2.0"
+ADAPTER_MODULE_VERSION = "6.3.0"
 ADAPTER_MODULE_VERSION = _select_adapter_version(ADAPTER_MODULE_VERSION)
 
 YES_I_APPROVE_SANDBOX_FILE_WRITE = "YES_I_APPROVE_SANDBOX_FILE_WRITE"
@@ -101,6 +104,7 @@ YES_I_APPROVE_LIVE_EXTERNAL_ACTION_FINAL_PREFLIGHT_GATE = "YES_I_APPROVE_LIVE_EX
 YES_I_APPROVE_SANDBOX_WORKER_DRY_RUN_REPLAY_AUDIT_CANDIDATE = "YES_I_APPROVE_SANDBOX_WORKER_DRY_RUN_REPLAY_AUDIT_CANDIDATE"
 YES_I_APPROVE_STATION_CHIEF_V6_0_MVP_LOCK = "YES_I_APPROVE_STATION_CHIEF_V6_0_MVP_LOCK"
 YES_I_APPROVE_STATION_CHIEF_V6_1_POST_MVP_EXPANSION_REVIEW = "YES_I_APPROVE_STATION_CHIEF_V6_1_POST_MVP_EXPANSION_REVIEW"
+YES_I_APPROVE_STATION_CHIEF_V6_3_POST_MVP_EXPANSION_LANE_READINESS = "YES_I_APPROVE_STATION_CHIEF_V6_3_POST_MVP_EXPANSION_LANE_READINESS_PACKET"
 
 SAFE_SANDBOX_PATH = "SAFE_SANDBOX_PATH"
 SAFE_REPO_PATCH_PATH = "SAFE_REPO_PATCH_PATH"
@@ -310,6 +314,11 @@ SUPPORTED_ADAPTERS = {
         "one_local_station_chief_v6_2_post_mvp_expansion_lane_scope_packet_allowed_with_v6_2_token": True,
         "deterministic_local_post_mvp_expansion_lane_scope_packet_write_allowed": True,
         "post_mvp_expansion_lane_scope_metadata_record_allowed": True,
+        "supports_station_chief_v6_3_post_mvp_expansion_lane_readiness": True,
+        "station_chief_v6_3_post_mvp_expansion_lane_readiness_requires_specific_token": True,
+        "one_local_station_chief_v6_3_post_mvp_expansion_lane_readiness_packet_allowed_with_v6_3_token": True,
+        "deterministic_local_post_mvp_expansion_lane_readiness_packet_write_allowed": True,
+        "post_mvp_expansion_lane_readiness_metadata_record_allowed": True,
         "selected_expansion_lane_implementation_allowed": False,
         "selected_expansion_lane_execution_allowed": False,
         "one_local_station_chief_v6_0_mvp_lock_packet_allowed_with_v6_0_token": True,
