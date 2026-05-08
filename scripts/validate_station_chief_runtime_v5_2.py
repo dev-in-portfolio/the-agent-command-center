@@ -34,6 +34,10 @@ SYNTHETIC_TASK_LABEL = "sandbox repeatability status note"
 DEFAULT_PROOF_RECORD_NAME = "controlled_repeatable_local_execution_proof_record.json"
 
 ALLOWED_CHANGED_PATHS = {
+    "scripts/validate_station_chief_runtime_v5_8.py",
+    "10_runtime/station_chief_sandbox_worker_dry_run_result_candidate.py",
+    "09_exports/station_chief_v5_8_sandbox_worker_dry_run_result_candidate_preflight_audit.md",
+    "09_exports/station_chief_runtime_v5_8_report.md",
     "scripts/validate_station_chief_runtime_v5_7.py",
     "10_runtime/station_chief_sandbox_worker_dry_run_assignment_candidate.py",
     "09_exports/station_chief_v5_7_sandbox_worker_dry_run_assignment_candidate_preflight_audit.md",
@@ -530,9 +534,10 @@ def ensure_docs_and_reports() -> None:
 
 # Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v5.5 are no longer forbidden on current master. v5.6+ remains forbidden until landed.
 # Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v5.7 are no longer forbidden on current master. v5.8+ remains forbidden until landed.
+# Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v5.8 are no longer forbidden on current master. v5.9+ remains forbidden until landed.
 def ensure_no_v54_files() -> None:
     # Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v5.3 are no longer forbidden on current master. v5.4+ remains forbidden until landed.
-    ensure(not any(REPO_ROOT.rglob("*v5_8*")), "v5.8 path unexpectedly exists")
+    ensure(not any(REPO_ROOT.rglob("*v5_9*")), "v5.9 path unexpectedly exists")
 
 
 def ensure_changed_paths() -> None:

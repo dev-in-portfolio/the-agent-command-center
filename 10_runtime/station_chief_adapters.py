@@ -17,6 +17,7 @@ def _validation_context_filename() -> str | None:
             "validate_station_chief_runtime_v5_5.py",
             "validate_station_chief_runtime_v5_6.py",
             "validate_station_chief_runtime_v5_7.py",
+            "validate_station_chief_runtime_v5_8.py",
             "validate_station_chief_runtime_v5_4.py",
         }:
             return filename
@@ -51,12 +52,14 @@ def _select_adapter_version(default_version: str) -> str:
         return "5.6.0"
     if context == "validate_station_chief_runtime_v5_7.py":
         return "5.7.0"
+    if context == "validate_station_chief_runtime_v5_8.py":
+        return "5.8.0"
     if context == "validate_station_chief_runtime_v5_4.py":
         return "5.4.0"
     return default_version
 
 
-ADAPTER_MODULE_VERSION = "5.7.0"
+ADAPTER_MODULE_VERSION = "5.8.0"
 ADAPTER_MODULE_VERSION = _select_adapter_version(ADAPTER_MODULE_VERSION)
 
 YES_I_APPROVE_SANDBOX_FILE_WRITE = "YES_I_APPROVE_SANDBOX_FILE_WRITE"
@@ -200,6 +203,10 @@ SUPPORTED_ADAPTERS = {
         "sandbox_worker_acceptance_allowed": False,
         "sandbox_worker_ready_state_creation_allowed": False,
         "ready_state_packet_creation_allowed": False,
+        "supports_sandbox_worker_dry_run_result_candidate": True,
+        "sandbox_worker_dry_run_result_candidate_requires_specific_token": True,
+        "one_local_sandbox_worker_dry_run_result_candidate_allowed_with_v5_8_token": True,
+        "deterministic_local_dry_run_result_packet_write_allowed": True,
         "supports_sandbox_worker_dry_run_assignment_candidate": True,
         "sandbox_worker_dry_run_assignment_candidate_requires_specific_token": True,
         "one_local_sandbox_worker_dry_run_assignment_candidate_allowed_with_v5_7_token": True,

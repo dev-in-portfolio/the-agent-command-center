@@ -958,6 +958,7 @@ def ensure_docs_and_reports() -> None:
 
 
 # Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v5.7 are no longer forbidden on current master. v5.8+ remains forbidden until landed.
+# Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v5.8 are no longer forbidden on current master. v5.9+ remains forbidden until landed.
 def ensure_no_v48_files() -> None:
     for relative in [
         "10_runtime/station_chief_non_executing_queue_routing_preview_candidate.py",
@@ -966,7 +967,7 @@ def ensure_no_v48_files() -> None:
     ]:
         ensure((REPO_ROOT / relative).exists(), f"missing v4.8 file: {relative}")
     # Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v5.4 are no longer forbidden on current master. v5.5+ remains forbidden until landed.
-    ensure(not any(REPO_ROOT.rglob("*v5_8*")), "forbidden v5.6 path exists")
+    ensure(not any(REPO_ROOT.rglob("*v5_9*")), "forbidden v5.6 path exists")
 
 
 def ensure_wrappers_delegate() -> None:
