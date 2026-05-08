@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v6.2 plus the v6.2.1 validator hardening repair report are no longer forbidden on current master. v6.3+ remains forbidden until landed.
+# Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v6.2, the v6.2.1 validator hardening repair report, and the GitHub Actions validation workflow setup report are no longer forbidden on current master. v6.3+ remains forbidden until landed.
 
 from __future__ import annotations
 
@@ -96,6 +96,9 @@ ALLOWED_CHANGED_PATHS = {
     "scripts/validate_station_chief_runtime_v4_7.py",
     "scripts/validate_station_chief_runtime_v4_8.py",
     "scripts/validate_station_chief_runtime_v4_9.py",
+    "README.md",
+    ".github/",
+    "09_exports/station_chief_github_actions_validation_setup_report.md",
 }
 
 FORBIDDEN_REGEXES = [

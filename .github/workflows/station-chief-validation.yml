@@ -1,0 +1,81 @@
+name: Station Chief Validation
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+env:
+  STATION_CHIEF_SKIP_RECURSIVE_VALIDATION: "1"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Check Python version
+        run: python3 --version
+
+      - name: Run v6.2 validator
+        run: python3 scripts/validate_station_chief_runtime_v6_2.py
+
+      - name: Run v6.1 validator
+        run: python3 scripts/validate_station_chief_runtime_v6_1.py
+
+      - name: Run v6.0 validator
+        run: python3 scripts/validate_station_chief_runtime_v6_0.py
+
+      - name: Run v5.9 validator
+        run: python3 scripts/validate_station_chief_runtime_v5_9.py
+
+      - name: Run v5.8 validator
+        run: python3 scripts/validate_station_chief_runtime_v5_8.py
+
+      - name: Run v5.7 validator
+        run: python3 scripts/validate_station_chief_runtime_v5_7.py
+
+      - name: Run v5.6 validator
+        run: python3 scripts/validate_station_chief_runtime_v5_6.py
+
+      - name: Run v5.5 validator
+        run: python3 scripts/validate_station_chief_runtime_v5_5.py
+
+      - name: Run v5.4 validator
+        run: python3 scripts/validate_station_chief_runtime_v5_4.py
+
+      - name: Run v5.3 validator
+        run: python3 scripts/validate_station_chief_runtime_v5_3.py
+
+      - name: Run v5.2 validator
+        run: python3 scripts/validate_station_chief_runtime_v5_2.py
+
+      - name: Run v5.1 validator
+        run: python3 scripts/validate_station_chief_runtime_v5_1.py
+
+      - name: Run v5.0 validator
+        run: python3 scripts/validate_station_chief_runtime_v5_0.py
+
+      - name: Verify clean working tree after validation
+        run: |
+          STATUS=$(git status --short)
+          if [ -n "$STATUS" ]; then
+            echo "Working tree is dirty after validation:"
+            echo "$STATUS"
+            exit 1
+          fi
+          echo "Working tree is clean."
+
+      - name: Upload validation artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: station-chief-validation-reports
+          path: 09_exports/*.md
