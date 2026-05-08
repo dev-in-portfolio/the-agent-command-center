@@ -1,10 +1,6 @@
-# Station Chief Runtime v6.3.0
-
-Station Chief Runtime upgraded to v6.4.0. Locked 175-family baseline preserved. Station Chief v6.4 Post-MVP Expansion Lane Non-Executing Implementation Plan Candidate added.
+# Station Chief Runtime v6.4.0
 
 ## Status
-Station Chief Runtime upgraded to v6.3.0. Locked 175-family baseline preserved. Station Chief v6.3 Post-MVP Expansion Lane Readiness Packet Candidate added.
-
 Station Chief Runtime upgraded to v6.4.0. Locked 175-family baseline preserved. Station Chief v6.4 Post-MVP Expansion Lane Non-Executing Implementation Plan Candidate added.
 
 ## What This Adds
@@ -47,13 +43,18 @@ Station Chief Runtime upgraded to v6.4.0. Locked 175-family baseline preserved. 
   v6.4 requires explicit operator instruction.
 
 ## History
+### v6.4.0
+Station Chief Runtime upgraded to v6.4.0. Locked 175-family baseline preserved. Station Chief v6.4 Post-MVP Expansion Lane Non-Executing Implementation Plan Candidate added.
+- v6.4 may write exactly one deterministic local non-executing implementation plan packet only.
+- v6.4 does not implement or execute the selected lane.
+- v6.4 does not execute tasks, agents, queues, APIs, or network operations.
+- v6.4 does not create v6.5 files.
+- v6.4 does not approve v6.5.
+- Next internal label:
+  v6.5 requires explicit operator instruction.
+
 ### v6.3.0
-
-Station Chief Runtime upgraded to v6.4.0. Locked 175-family baseline preserved. Station Chief v6.4 Post-MVP Expansion Lane Non-Executing Implementation Plan Candidate added.
 Station Chief Runtime upgraded to v6.3.0. Locked 175-family baseline preserved. Station Chief v6.3 Post-MVP Expansion Lane Readiness Packet Candidate added.
-
-Station Chief Runtime upgraded to v6.4.0. Locked 175-family baseline preserved. Station Chief v6.4 Post-MVP Expansion Lane Non-Executing Implementation Plan Candidate added.
-
 - v6.3 may write exactly one deterministic local Station Chief post-MVP expansion lane readiness packet only.
 - v6.3 records a post-MVP expansion lane readiness candidate as metadata only.
 - v6.3 references one v6.2 lane scope packet reference label, one selected expansion lane label, one readiness checklist label, one readiness blocker label, one readiness evidence label, and one readiness non-execution boundary label.

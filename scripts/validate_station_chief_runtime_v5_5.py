@@ -107,6 +107,9 @@ ALLOWED_CHANGED_PATHS = {
     "README.md",
     ".github/",
     "09_exports/station_chief_github_actions_validation_setup_report.md",
+    "09_exports/station_chief_runtime_v6_4_1_validator_doc_repair_report.md",
+    "scripts/validate_station_chief_runtime_v6_4.py",
+    "09_exports/station_chief_runtime_v6_4_report.md",
 }
 
 FORBIDDEN_REGEXES = [

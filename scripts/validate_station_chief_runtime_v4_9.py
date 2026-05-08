@@ -83,6 +83,9 @@ ALLOWED_CHANGED_PATHS = {
     "scripts/validate_station_chief_runtime_v5_2.py",
     "scripts/validate_station_chief_runtime_v5_3.py",
     "scripts/validate_station_chief_runtime_v5_4.py",
+    "09_exports/station_chief_runtime_v6_4_1_validator_doc_repair_report.md",
+    "scripts/validate_station_chief_runtime_v6_4.py",
+    "09_exports/station_chief_runtime_v6_4_report.md",
 }
 
 FORBIDDEN_REGEXES = [
