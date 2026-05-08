@@ -19,6 +19,7 @@ def _validation_context_filename() -> str | None:
             "validate_station_chief_runtime_v5_7.py",
             "validate_station_chief_runtime_v5_8.py",
             "validate_station_chief_runtime_v5_9.py",
+            "validate_station_chief_runtime_v6_0.py",
         }:
             return filename
     return None
@@ -56,10 +57,12 @@ def _select_adapter_version(default_version: str) -> str:
         return "5.8.0"
     if context == "validate_station_chief_runtime_v5_9.py":
         return "5.9.0"
+    if context == "validate_station_chief_runtime_v6_0.py":
+        return "6.0.0"
     return default_version
 
 
-ADAPTER_MODULE_VERSION = "5.9.0"
+ADAPTER_MODULE_VERSION = "6.0.0"
 ADAPTER_MODULE_VERSION = _select_adapter_version(ADAPTER_MODULE_VERSION)
 
 YES_I_APPROVE_SANDBOX_FILE_WRITE = "YES_I_APPROVE_SANDBOX_FILE_WRITE"
@@ -90,6 +93,7 @@ YES_I_APPROVE_MONITORED_ROLLBACK_RECOVERY_DRILL = "YES_I_APPROVE_MONITORED_ROLLB
 YES_I_APPROVE_SUPERVISED_PRODUCTION_PILOT_READINESS_REVIEW = "YES_I_APPROVE_SUPERVISED_PRODUCTION_PILOT_READINESS_REVIEW"
 YES_I_APPROVE_LIVE_EXTERNAL_ACTION_FINAL_PREFLIGHT_GATE = "YES_I_APPROVE_LIVE_EXTERNAL_ACTION_FINAL_PREFLIGHT_GATE"
 YES_I_APPROVE_SANDBOX_WORKER_DRY_RUN_REPLAY_AUDIT_CANDIDATE = "YES_I_APPROVE_SANDBOX_WORKER_DRY_RUN_REPLAY_AUDIT_CANDIDATE"
+YES_I_APPROVE_STATION_CHIEF_V6_0_MVP_LOCK = "YES_I_APPROVE_STATION_CHIEF_V6_0_MVP_LOCK"
 
 SAFE_SANDBOX_PATH = "SAFE_SANDBOX_PATH"
 SAFE_REPO_PATCH_PATH = "SAFE_REPO_PATCH_PATH"
@@ -287,6 +291,12 @@ SUPPORTED_ADAPTERS = {
         "full_workforce_activation_allowed": False,
         "supports_sandbox_worker_dry_run_replay_audit_candidate": True,
         "sandbox_worker_dry_run_replay_audit_candidate_requires_specific_token": True,
+        "supports_station_chief_v6_0_mvp_lock": True,
+        "station_chief_v6_0_mvp_lock_requires_specific_token": True,
+        "one_local_station_chief_v6_0_mvp_lock_packet_allowed_with_v6_0_token": True,
+        "deterministic_local_mvp_lock_packet_write_allowed": True,
+        "integrated_local_command_center_loop_metadata_record_allowed": True,
+        "mvp_done_metadata_record_allowed": True,
         "one_local_sandbox_worker_dry_run_replay_audit_candidate_allowed_with_v5_9_token": True,
         "deterministic_local_dry_run_replay_audit_packet_write_allowed": True,
         "dry_run_task_execution_allowed": False,
@@ -295,6 +305,8 @@ SUPPORTED_ADAPTERS = {
         "production_audit_allowed": False,
         "rollback_allowed": False,
         "recovery_allowed": False,
+        "v6_1_creation_allowed": False,
+        "sandbox_worker_process_start_allowed": False,
         "mvp_lock_allowed": False,
         "v6_0_creation_allowed": False,
         "sandbox_worker_process_start_allowed": False,

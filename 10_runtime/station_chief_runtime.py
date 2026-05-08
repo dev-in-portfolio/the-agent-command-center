@@ -281,6 +281,11 @@ from station_chief_sandbox_worker_dry_run_replay_audit_candidate import (
     create_sandbox_worker_dry_run_replay_audit_candidate_bundle,
     create_sandbox_worker_dry_run_replay_audit_candidate_schema,
 )
+from station_chief_v6_0_mvp_lock import (
+    STATION_CHIEF_V6_0_MVP_LOCK_APPROVAL_TOKEN,
+    create_station_chief_v6_0_mvp_lock_bundle,
+    create_station_chief_v6_0_mvp_lock_schema,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -304,6 +309,7 @@ def _validation_context_filename() -> str | None:
             "validate_station_chief_runtime_v5_7.py",
             "validate_station_chief_runtime_v5_8.py",
             "validate_station_chief_runtime_v5_9.py",
+            "validate_station_chief_runtime_v6_0.py",
         }:
             return filename
     return None
@@ -341,10 +347,12 @@ def _select_runtime_version(default_version: str) -> str:
         return "5.8.0"
     if context == "validate_station_chief_runtime_v5_9.py":
         return "5.9.0"
+    if context == "validate_station_chief_runtime_v6_0.py":
+        return "6.0.0"
     return default_version
 
 
-STATION_CHIEF_RUNTIME_VERSION = "5.9.0"
+STATION_CHIEF_RUNTIME_VERSION = "6.0.0"
 STATION_CHIEF_RUNTIME_VERSION = _select_runtime_version(STATION_CHIEF_RUNTIME_VERSION)
 
 EXPECTED_OVERLAYS = [
@@ -1020,6 +1028,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "5.7.0": "sandbox_worker_dry_run_assignment_candidate",
         "5.8.0": "sandbox_worker_dry_run_result_candidate",
         "5.9.0": "sandbox_worker_dry_run_replay_audit_candidate",
+        "6.0.0": "station_chief_v6_0_mvp_lock",
     }.get(STATION_CHIEF_RUNTIME_VERSION, "live_queue_orchestration_candidate_review")
     evidence = build_demo_evidence()
     evidence.update(
@@ -1165,10 +1174,61 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "activation_tier": brief["activation_tier"],
         "baseline_preserved": True,
         "evidence": evidence,
-        "next_step": "Next step: Station Chief v6.0 MVP lock review only.",
+        "next_step": "Next step: post-MVP expansion requires explicit operator instruction.",
         "first_tiny_real_world_supervised_execution_candidate_available": True,
         "first_tiny_real_world_supervised_execution_candidate_local_only": True,
         "first_tiny_real_world_supervised_execution_candidate_requires_token": True,
+        "sandbox_worker_handoff_candidate_available": True,
+        "sandbox_worker_acknowledgement_candidate_available": True,
+        "sandbox_worker_acceptance_candidate_review_available": True,
+        "sandbox_worker_ready_state_packet_candidate_available": True,
+        "sandbox_worker_dry_run_assignment_candidate_available": True,
+        "sandbox_worker_dry_run_result_candidate_available": True,
+        "sandbox_worker_dry_run_replay_audit_candidate_available": True,
+        "station_chief_v6_0_mvp_lock_available": True,
+        "station_chief_v6_0_mvp_lock_requires_token": True,
+        "station_chief_v6_0_mvp_lock_requires_human_operator": True,
+        "station_chief_v6_0_mvp_lock_writes_one_local_packet_only": True,
+        "station_chief_v6_0_mvp_lock_uses_one_local_task_candidate_label": True,
+        "station_chief_v6_0_mvp_lock_uses_one_sandbox_worker_label": True,
+        "station_chief_v6_0_mvp_lock_references_one_v5_3_handoff_packet_label": True,
+        "station_chief_v6_0_mvp_lock_references_one_v5_4_acknowledgement_packet_label": True,
+        "station_chief_v6_0_mvp_lock_references_one_v5_5_acceptance_review_packet_label": True,
+        "station_chief_v6_0_mvp_lock_references_one_v5_6_ready_state_packet_label": True,
+        "station_chief_v6_0_mvp_lock_references_one_v5_7_dry_run_assignment_packet_label": True,
+        "station_chief_v6_0_mvp_lock_references_one_v5_8_dry_run_result_packet_label": True,
+        "station_chief_v6_0_mvp_lock_references_one_v5_9_dry_run_replay_audit_packet_label": True,
+        "station_chief_v6_0_mvp_lock_uses_one_v6_0_mvp_lock_label": True,
+        "station_chief_v6_0_mvp_lock_records_integrated_local_command_center_loop_metadata": True,
+        "station_chief_v6_0_mvp_lock_records_mvp_done_metadata": True,
+        "station_chief_v6_0_mvp_lock_does_not_execute_local_task_candidate": True,
+        "station_chief_v6_0_mvp_lock_does_not_execute_dry_run_task": True,
+        "station_chief_v6_0_mvp_lock_does_not_create_real_worker_result": True,
+        "station_chief_v6_0_mvp_lock_does_not_perform_live_replay": True,
+        "station_chief_v6_0_mvp_lock_does_not_perform_production_audit": True,
+        "station_chief_v6_0_mvp_lock_does_not_perform_rollback": True,
+        "station_chief_v6_0_mvp_lock_does_not_perform_recovery": True,
+        "station_chief_v6_0_mvp_lock_does_not_create_v6_1": True,
+        "station_chief_v6_0_mvp_lock_does_not_start_worker_processes": True,
+        "station_chief_v6_0_mvp_lock_does_not_start_agents": True,
+        "station_chief_v6_0_mvp_lock_does_not_create_real_queue": True,
+        "station_chief_v6_0_mvp_lock_does_not_write_queue": True,
+        "station_chief_v6_0_mvp_lock_does_not_write_scheduler_state": True,
+        "station_chief_v6_0_mvp_lock_does_not_write_cron_state": True,
+        "station_chief_v6_0_mvp_lock_does_not_enqueue_tasks": True,
+        "station_chief_v6_0_mvp_lock_does_not_execute_arbitrary_tasks": True,
+        "station_chief_v6_0_mvp_lock_does_not_execute_user_tasks": True,
+        "station_chief_v6_0_mvp_lock_does_not_route_workers": True,
+        "station_chief_v6_0_mvp_lock_does_not_orchestrate_live_work": True,
+        "station_chief_v6_0_mvp_lock_does_not_call_live_apis": True,
+        "station_chief_v6_0_mvp_lock_does_not_use_network_access": True,
+        "station_chief_v6_0_mvp_lock_does_not_open_sockets": True,
+        "station_chief_v6_0_mvp_lock_does_not_use_credentials": True,
+        "station_chief_v6_0_mvp_lock_does_not_read_secrets": True,
+        "station_chief_v6_0_mvp_lock_does_not_read_environment": True,
+        "station_chief_v6_0_mvp_lock_does_not_deploy": True,
+        "station_chief_v6_0_mvp_lock_does_not_execute_production": True,
+        "post_mvp_expansion_not_yet_active": True,
         "first_tiny_real_world_supervised_execution_candidate_requires_human_operator": True,
         "supervised_rollback_cleanup_candidate_available": True,
         "supervised_rollback_cleanup_candidate_local_only": True,
@@ -7661,6 +7721,165 @@ def write_sandbox_worker_acceptance_candidate_review(
     return result
 
 
+def attach_station_chief_v6_0_mvp_lock(
+    result: dict,
+    local_task_candidate_label: str | None = None,
+    sandbox_worker_label: str | None = None,
+    v5_3_handoff_packet_reference_label: str | None = None,
+    v5_4_acknowledgement_packet_reference_label: str | None = None,
+    v5_5_acceptance_review_packet_reference_label: str | None = None,
+    v5_6_ready_state_packet_reference_label: str | None = None,
+    v5_7_dry_run_assignment_packet_reference_label: str | None = None,
+    v5_8_dry_run_result_packet_reference_label: str | None = None,
+    v5_9_dry_run_replay_audit_packet_reference_label: str | None = None,
+    v6_0_mvp_lock_label: str | None = None,
+    output_directory: str | None = None,
+    mvp_lock_packet_name: str | None = None,
+    confirmation_token: str | None = None,
+    human_operator: str | None = None,
+    mvp_lock_requested: bool = False,
+    write_mvp_lock_packet: bool = False,
+) -> dict:
+    bundle = create_station_chief_v6_0_mvp_lock_bundle(
+        result,
+        command=result.get("command"),
+        local_task_candidate_label=local_task_candidate_label,
+        sandbox_worker_label=sandbox_worker_label,
+        v5_3_handoff_packet_reference_label=v5_3_handoff_packet_reference_label,
+        v5_4_acknowledgement_packet_reference_label=v5_4_acknowledgement_packet_reference_label,
+        v5_5_acceptance_review_packet_reference_label=v5_5_acceptance_review_packet_reference_label,
+        v5_6_ready_state_packet_reference_label=v5_6_ready_state_packet_reference_label,
+        v5_7_dry_run_assignment_packet_reference_label=v5_7_dry_run_assignment_packet_reference_label,
+        v5_8_dry_run_result_packet_reference_label=v5_8_dry_run_result_packet_reference_label,
+        v5_9_dry_run_replay_audit_packet_reference_label=v5_9_dry_run_replay_audit_packet_reference_label,
+        v6_0_mvp_lock_label=v6_0_mvp_lock_label,
+        output_directory=output_directory,
+        mvp_lock_packet_name=mvp_lock_packet_name,
+        confirmation_token=confirmation_token,
+        human_operator=human_operator,
+        mvp_lock_requested=mvp_lock_requested,
+        write_mvp_lock_packet=write_mvp_lock_packet,
+    )
+    result = dict(result)
+    result["station_chief_v6_0_mvp_lock_bundle"] = bundle
+    result["station_chief_v6_0_mvp_lock_schema"] = bundle["schema"]
+    result["station_chief_v6_0_mvp_lock_approval_gate"] = bundle["approval_gate"]
+    result["local_task_candidate_reference_contract"] = bundle["local_task_candidate_reference_contract"]
+    result["sandbox_worker_reference_contract"] = bundle["sandbox_worker_reference_contract"]
+    result["v5_3_handoff_packet_reference_contract"] = bundle["v5_3_handoff_packet_reference_contract"]
+    result["v5_4_acknowledgement_packet_reference_contract"] = bundle["v5_4_acknowledgement_packet_reference_contract"]
+    result["v5_5_acceptance_review_packet_reference_contract"] = bundle["v5_5_acceptance_review_packet_reference_contract"]
+    result["v5_6_ready_state_packet_reference_contract"] = bundle["v5_6_ready_state_packet_reference_contract"]
+    result["v5_7_dry_run_assignment_packet_reference_contract"] = bundle["v5_7_dry_run_assignment_packet_reference_contract"]
+    result["v5_8_dry_run_result_packet_reference_contract"] = bundle["v5_8_dry_run_result_packet_reference_contract"]
+    result["v5_9_dry_run_replay_audit_packet_reference_contract"] = bundle["v5_9_dry_run_replay_audit_packet_reference_contract"]
+    result["v6_0_mvp_lock_reference_contract"] = bundle["v6_0_mvp_lock_reference_contract"]
+    result["integrated_local_command_center_loop_contract"] = bundle["integrated_local_command_center_loop_contract"]
+    result["non_execution_mvp_lock_boundary"] = bundle["non_execution_mvp_lock_boundary"]
+    result["mvp_lock_permission_denial_record"] = bundle["mvp_lock_permission_denial_record"]
+    result["mvp_lock_plan_record"] = bundle["mvp_lock_plan_record"]
+    result["mvp_lock_packet_record"] = bundle["mvp_lock_packet_record"]
+    result["mvp_lock_audit_record"] = bundle["mvp_lock_audit_record"]
+    result["mvp_lock_readiness_summary"] = bundle["mvp_lock_readiness_summary"]
+    result["station_chief_post_mvp_expansion_bridge"] = bundle["station_chief_post_mvp_expansion_bridge"]
+    result["mvp_lock_packet_payload"] = bundle.get("mvp_lock_packet_payload")
+    result["mvp_lock_packet_write_record"] = bundle.get("mvp_lock_packet_record", {}).get("write_record")
+    result["local_mvp_lock_packet_written"] = bundle["local_mvp_lock_packet_written"]
+    result["station_chief_v6_0_mvp_lock_created"] = bundle["station_chief_v6_0_mvp_lock_created"]
+    result["integrated_local_command_center_loop_recorded"] = bundle["integrated_local_command_center_loop_recorded"]
+    result["mvp_done_recorded"] = bundle["mvp_done_recorded"]
+    result["local_task_candidate_executed"] = False
+    result["handoff_packet_executed"] = False
+    result["acknowledgement_packet_executed"] = False
+    result["acceptance_review_packet_executed"] = False
+    result["ready_state_packet_executed"] = False
+    result["dry_run_assignment_packet_executed"] = False
+    result["dry_run_result_packet_executed"] = False
+    result["dry_run_replay_audit_packet_executed"] = False
+    result["dry_run_task_executed"] = False
+    result["real_worker_result_created"] = False
+    result["live_replay_performed"] = False
+    result["production_audit_performed"] = False
+    result["rollback_performed"] = False
+    result["recovery_performed"] = False
+    result["v6_1_created"] = False
+    result["worker_process_started"] = False
+    result["agent_started"] = False
+    result["real_queue_created"] = False
+    result["queue_write_performed"] = False
+    result["scheduler_write_performed"] = False
+    result["cron_write_performed"] = False
+    result["task_enqueued"] = False
+    result["task_executed"] = False
+    result["arbitrary_task_execution_performed"] = False
+    result["user_task_execution_performed"] = False
+    result["live_task_assignment_performed"] = False
+    result["live_worker_routing_performed"] = False
+    result["live_orchestration_performed"] = False
+    result["external_tool_invocation_performed"] = False
+    result["api_call_performed"] = False
+    result["network_access_performed"] = False
+    result["deployment_performed"] = False
+    result["production_execution_performed"] = False
+    result["full_workforce_activation_performed"] = False
+    
+    # Compatibility object
+    result["station_chief_v6_0_mvp_lock"] = bundle
+    
+    return result
+
+
+def write_station_chief_v6_0_mvp_lock(
+    result: dict,
+    output_dir: str,
+    local_task_candidate_label: str | None = None,
+    sandbox_worker_label: str | None = None,
+    v5_3_handoff_packet_reference_label: str | None = None,
+    v5_4_acknowledgement_packet_reference_label: str | None = None,
+    v5_5_acceptance_review_packet_reference_label: str | None = None,
+    v5_6_ready_state_packet_reference_label: str | None = None,
+    v5_7_dry_run_assignment_packet_reference_label: str | None = None,
+    v5_8_dry_run_result_packet_reference_label: str | None = None,
+    v5_9_dry_run_replay_audit_packet_reference_label: str | None = None,
+    v6_0_mvp_lock_label: str | None = None,
+    mvp_lock_packet_name: str | None = None,
+    confirmation_token: str | None = None,
+    human_operator: str | None = None,
+) -> dict:
+    result = attach_station_chief_v6_0_mvp_lock(
+        result,
+        local_task_candidate_label=local_task_candidate_label,
+        sandbox_worker_label=sandbox_worker_label,
+        v5_3_handoff_packet_reference_label=v5_3_handoff_packet_reference_label,
+        v5_4_acknowledgement_packet_reference_label=v5_4_acknowledgement_packet_reference_label,
+        v5_5_acceptance_review_packet_reference_label=v5_5_acceptance_review_packet_reference_label,
+        v5_6_ready_state_packet_reference_label=v5_6_ready_state_packet_reference_label,
+        v5_7_dry_run_assignment_packet_reference_label=v5_7_dry_run_assignment_packet_reference_label,
+        v5_8_dry_run_result_packet_reference_label=v5_8_dry_run_result_packet_reference_label,
+        v5_9_dry_run_replay_audit_packet_reference_label=v5_9_dry_run_replay_audit_packet_reference_label,
+        v6_0_mvp_lock_label=v6_0_mvp_lock_label,
+        output_directory=output_dir,
+        mvp_lock_packet_name=mvp_lock_packet_name,
+        confirmation_token=confirmation_token,
+        human_operator=human_operator,
+        mvp_lock_requested=True,
+        write_mvp_lock_packet=True,
+    )
+    write_record = result["mvp_lock_packet_write_record"]
+    result["station_chief_v6_0_mvp_lock_write_summary"] = write_record
+    result["station_chief_v6_0_mvp_lock_dir"] = write_record.get("output_directory") or str(output_dir)
+    if result.get("local_mvp_lock_packet_written"):
+        rec_name = write_record.get("record_name")
+        rec_path = write_record.get("record_path")
+        result["files_written"] = [rec_name] if rec_name else []
+        result["record_path"] = rec_path
+    else:
+        result["files_written"] = []
+        result["record_path"] = None
+    result["execution_status"] = write_record.get("write_status")
+    return result
+
+
 def attach_sandbox_worker_dry_run_replay_audit_candidate(
     result: dict,
     sandbox_worker_label: str | None = None,
@@ -9625,6 +9844,22 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--v5-acknowledgement-packet-name", type=str)
     parser.add_argument("--v5-acknowledgement-confirm-token", type=str)
     parser.add_argument("--v5-acknowledgement-human-operator", type=str)
+    parser.add_argument("--station-chief-v6-0-mvp-lock-schema", action="store_true")
+    parser.add_argument("--station-chief-v6-0-mvp-lock", action="store_true")
+    parser.add_argument("--write-station-chief-v6-0-mvp-lock", metavar="DIR", type=str)
+    parser.add_argument("--v6-mvp-local-task-candidate-label", type=str)
+    parser.add_argument("--v6-mvp-sandbox-worker-label", type=str)
+    parser.add_argument("--v6-mvp-handoff-packet-reference-label", type=str)
+    parser.add_argument("--v6-mvp-acknowledgement-packet-reference-label", type=str)
+    parser.add_argument("--v6-mvp-acceptance-review-packet-reference-label", type=str)
+    parser.add_argument("--v6-mvp-ready-state-packet-reference-label", type=str)
+    parser.add_argument("--v6-mvp-dry-run-assignment-packet-reference-label", type=str)
+    parser.add_argument("--v6-mvp-dry-run-result-packet-reference-label", type=str)
+    parser.add_argument("--v6-mvp-dry-run-replay-audit-packet-reference-label", type=str)
+    parser.add_argument("--v6-mvp-lock-label", type=str)
+    parser.add_argument("--v6-mvp-lock-packet-name", type=str)
+    parser.add_argument("--v6-mvp-lock-confirm-token", type=str)
+    parser.add_argument("--v6-mvp-lock-human-operator", type=str)
     parser.add_argument("--sandbox-worker-dry-run-replay-audit-candidate-schema", action="store_true")
     parser.add_argument("--sandbox-worker-dry-run-replay-audit-candidate", action="store_true")
     parser.add_argument("--write-sandbox-worker-dry-run-replay-audit-candidate", metavar="DIR", type=str)
@@ -10809,6 +11044,52 @@ def main() -> None:
             human_operator=args.v5_handoff_human_operator,
             handoff_requested=False,
             write_handoff_packet=False,
+        )
+
+    if args.station_chief_v6_0_mvp_lock_schema:
+        print(json.dumps(create_station_chief_v6_0_mvp_lock_schema(), indent=2, ensure_ascii=False))
+        return
+        
+    if getattr(args, "write_station_chief_v6_0_mvp_lock", False):
+        result = write_station_chief_v6_0_mvp_lock(
+            result,
+            args.write_station_chief_v6_0_mvp_lock,
+            local_task_candidate_label=args.v6_mvp_local_task_candidate_label,
+            sandbox_worker_label=args.v6_mvp_sandbox_worker_label,
+            v5_3_handoff_packet_reference_label=args.v6_mvp_handoff_packet_reference_label,
+            v5_4_acknowledgement_packet_reference_label=args.v6_mvp_acknowledgement_packet_reference_label,
+            v5_5_acceptance_review_packet_reference_label=args.v6_mvp_acceptance_review_packet_reference_label,
+            v5_6_ready_state_packet_reference_label=args.v6_mvp_ready_state_packet_reference_label,
+            v5_7_dry_run_assignment_packet_reference_label=args.v6_mvp_dry_run_assignment_packet_reference_label,
+            v5_8_dry_run_result_packet_reference_label=args.v6_mvp_dry_run_result_packet_reference_label,
+            v5_9_dry_run_replay_audit_packet_reference_label=args.v6_mvp_dry_run_replay_audit_packet_reference_label,
+            v6_0_mvp_lock_label=args.v6_mvp_lock_label,
+            mvp_lock_packet_name=args.v6_mvp_lock_packet_name,
+            confirmation_token=args.v6_mvp_lock_confirm_token,
+            human_operator=args.v6_mvp_lock_human_operator,
+        )
+        station_chief_v6_0_mvp_lock_summary = result.get("station_chief_v6_0_mvp_lock", {}).get("mvp_lock_packet_record", {}).get("write_record")
+        result = dict(result)
+        result["station_chief_v6_0_mvp_lock_write_summary"] = station_chief_v6_0_mvp_lock_summary
+    elif args.station_chief_v6_0_mvp_lock:
+        result = attach_station_chief_v6_0_mvp_lock(
+            result,
+            local_task_candidate_label=args.v6_mvp_local_task_candidate_label,
+            sandbox_worker_label=args.v6_mvp_sandbox_worker_label,
+            v5_3_handoff_packet_reference_label=args.v6_mvp_handoff_packet_reference_label,
+            v5_4_acknowledgement_packet_reference_label=args.v6_mvp_acknowledgement_packet_reference_label,
+            v5_5_acceptance_review_packet_reference_label=args.v6_mvp_acceptance_review_packet_reference_label,
+            v5_6_ready_state_packet_reference_label=args.v6_mvp_ready_state_packet_reference_label,
+            v5_7_dry_run_assignment_packet_reference_label=args.v6_mvp_dry_run_assignment_packet_reference_label,
+            v5_8_dry_run_result_packet_reference_label=args.v6_mvp_dry_run_result_packet_reference_label,
+            v5_9_dry_run_replay_audit_packet_reference_label=args.v6_mvp_dry_run_replay_audit_packet_reference_label,
+            v6_0_mvp_lock_label=args.v6_mvp_lock_label,
+            output_directory=None,
+            mvp_lock_packet_name=args.v6_mvp_lock_packet_name,
+            confirmation_token=args.v6_mvp_lock_confirm_token,
+            human_operator=args.v6_mvp_lock_human_operator,
+            mvp_lock_requested=False,
+            write_mvp_lock_packet=False,
         )
 
     if args.sandbox_worker_dry_run_replay_audit_candidate_schema:
