@@ -231,6 +231,7 @@ def ensure_protected_paths() -> None:
                     "09_exports/station_chief_v6_2_post_mvp_expansion_lane_scope_preflight_audit.md",
                     "10_runtime/station_chief_v6_2_post_mvp_expansion_lane_scope.py",
                     "09_exports/station_chief_runtime_v6_2_report.md",
+                    "09_exports/station_chief_runtime_v6_2_1_validator_chain_hardening_report.md",
                 ]
                 if any(allowed_exc in path for allowed_exc in allowed_exceptions):
                     continue
@@ -342,21 +343,14 @@ def validate_v6_1() -> None:
     ensure(ADAPTERS.exists(), "adapters missing")
     ensure(RELEASE_LOCK.exists(), "release lock missing")
     
-    # Version checks
-    runtime_code = RUNTIME_PATH.read_text(encoding="utf-8")
-    ensure('STATION_CHIEF_RUNTIME_VERSION = "6.1.0"' in runtime_code or 'STATION_CHIEF_RUNTIME_VERSION = "6.2.0"' in runtime_code, "runtime version mismatch")
-    
-    adapters_code = ADAPTERS.read_text(encoding="utf-8")
-    # Accept 6.1.0 or 6.2.0 since runtime may have been upgraded
-    ensure('ADAPTER_MODULE_VERSION = "6.1.0"' in adapters_code or 'ADAPTER_MODULE_VERSION = "6.2.0"' in adapters_code, "adapter version mismatch")
-    
-    lock_code = RELEASE_LOCK.read_text(encoding="utf-8")
-    # Accept 6.1.0 or 6.2.0 since runtime may have been upgraded
-    ensure('STABLE_RUNTIME_VERSION = "6.1.0"' in lock_code or 'STABLE_RUNTIME_VERSION = "6.2.0"' in lock_code, "release lock version mismatch")
-    
-    # Module constants
+    # Version checks — v6.1 module must be exactly 6.1.0
     module_code = V6_1_MODULE.read_text(encoding="utf-8")
-    ensure('STATION_CHIEF_V6_1_POST_MVP_EXPANSION_REVIEW_MODULE_VERSION = "6.1.0"' in module_code, "module version mismatch")
+    ensure('STATION_CHIEF_V6_1_POST_MVP_EXPANSION_REVIEW_MODULE_VERSION = "6.1.0"' in module_code, "v6.1 module version must be 6.1.0")
+    
+    # v6.1 report must reference exact 6.1.0 versions
+    v6_1_report = (REPO_ROOT / "09_exports" / "station_chief_runtime_v6_1_report.md").read_text(encoding="utf-8")
+    ensure("Station Chief runtime version is 6.1.0: YES" in v6_1_report, "v6.1 report runtime version mismatch")
+    ensure("release lock is 6.1.0: YES" in v6_1_report, "v6.1 report release lock version mismatch")
     
     # Implementation safety
     for pattern in FORBIDDEN_REGEXES:

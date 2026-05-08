@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v6.2 are no longer forbidden on current master. v6.3+ remains forbidden until landed.
+# Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v6.2 plus the v6.2.1 validator hardening repair report are no longer forbidden on current master. v6.3+ remains forbidden until landed.
 
 from __future__ import annotations
 
@@ -60,6 +60,7 @@ ALLOWED_CHANGED_PATHS = {
     "09_exports/station_chief_v6_2_post_mvp_expansion_lane_scope_preflight_audit.md",
     "10_runtime/station_chief_v6_2_post_mvp_expansion_lane_scope.py",
     "scripts/validate_station_chief_runtime_v6_2.py",
+    "09_exports/station_chief_runtime_v6_2_1_validator_chain_hardening_report.md",
     "09_exports/station_chief_runtime_v6_0_1_validator_doctrine_repair_report.md",
     "10_runtime/__pycache__/",
     "scripts/__pycache__/",
