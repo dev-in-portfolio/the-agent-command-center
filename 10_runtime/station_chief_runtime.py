@@ -291,6 +291,11 @@ from station_chief_v6_1_post_mvp_expansion_review import (
     create_station_chief_v6_1_post_mvp_expansion_review_bundle,
     create_station_chief_v6_1_post_mvp_expansion_review_schema,
 )
+from station_chief_v6_2_post_mvp_expansion_lane_scope import (
+    STATION_CHIEF_V6_2_POST_MVP_EXPANSION_LANE_SCOPE_APPROVAL_TOKEN,
+    create_station_chief_v6_2_post_mvp_expansion_lane_scope_bundle,
+    create_station_chief_v6_2_post_mvp_expansion_lane_scope_schema,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -316,6 +321,7 @@ def _validation_context_filename() -> str | None:
             "validate_station_chief_runtime_v5_9.py",
             "validate_station_chief_runtime_v6_0.py",
             "validate_station_chief_runtime_v6_1.py",
+            "validate_station_chief_runtime_v6_2.py",
         }:
             return filename
     return None
@@ -357,10 +363,12 @@ def _select_runtime_version(default_version: str) -> str:
         return "6.0.0"
     if context == "validate_station_chief_runtime_v6_1.py":
         return "6.1.0"
+    if context == "validate_station_chief_runtime_v6_2.py":
+        return "6.2.0"
     return default_version
 
 
-STATION_CHIEF_RUNTIME_VERSION = "6.1.0"
+STATION_CHIEF_RUNTIME_VERSION = "6.2.0"
 STATION_CHIEF_RUNTIME_VERSION = _select_runtime_version(STATION_CHIEF_RUNTIME_VERSION)
 
 EXPECTED_OVERLAYS = [
@@ -1038,6 +1046,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "5.9.0": "sandbox_worker_dry_run_replay_audit_candidate",
         "6.0.0": "station_chief_v6_0_mvp_lock",
         "6.1.0": "station_chief_v6_1_post_mvp_expansion_review",
+        "6.2.0": "station_chief_v6_2_post_mvp_expansion_lane_scope",
     }.get(STATION_CHIEF_RUNTIME_VERSION, "live_queue_orchestration_candidate_review")
     evidence = build_demo_evidence()
     evidence.update(
@@ -1183,7 +1192,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "activation_tier": brief["activation_tier"],
         "baseline_preserved": True,
         "evidence": evidence,
-        "next_step": "Next step: v6.2 requires explicit operator instruction.",
+        "next_step": "Next step: v6.3 requires explicit operator instruction.",
         "first_tiny_real_world_supervised_execution_candidate_available": True,
         "first_tiny_real_world_supervised_execution_candidate_local_only": True,
         "first_tiny_real_world_supervised_execution_candidate_requires_token": True,
@@ -1236,6 +1245,52 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "station_chief_v6_1_post_mvp_expansion_review_does_not_read_environment": True,
         "station_chief_v6_1_post_mvp_expansion_review_does_not_deploy": True,
         "station_chief_v6_1_post_mvp_expansion_review_does_not_execute_production": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_available": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_requires_token": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_requires_human_operator": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_writes_one_local_packet_only": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_references_one_v6_1_review_packet_label": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_uses_one_selected_expansion_lane_label": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_uses_one_lane_scope_label": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_uses_one_lane_constraint_label": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_uses_one_lane_success_criteria_label": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_uses_one_lane_non_execution_boundary_label": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_records_metadata_only": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_implement_selected_expansion_lane": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_execute_selected_expansion_lane": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_execute_post_mvp_expansion": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_mutate_v6_1_review_packet": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_execute_v6_1_review_packet": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_mutate_v6_0_mvp_lock": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_execute_v6_0_mvp_lock": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_execute_local_task_candidate": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_execute_dry_run_task": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_create_real_worker_result": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_perform_live_replay": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_perform_production_audit": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_perform_rollback": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_perform_recovery": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_create_v6_3": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_start_worker_processes": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_start_agents": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_create_real_queue": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_write_queue": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_write_scheduler_state": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_write_cron_state": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_enqueue_tasks": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_execute_arbitrary_tasks": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_execute_user_tasks": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_route_workers": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_orchestrate_live_work": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_call_live_apis": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_use_network_access": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_open_sockets": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_use_credentials": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_read_secrets": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_read_environment": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_deploy": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_execute_production": True,
+        "v6_3_not_yet_active": True,
         "v6_2_not_yet_active": True,
         "station_chief_v6_0_mvp_lock_requires_token": True,
         "station_chief_v6_0_mvp_lock_requires_human_operator": True,
@@ -7456,6 +7511,25 @@ def build_runtime_artifacts(result: dict, run_id: str) -> dict:
         "station_chief_v6_2_candidate_bridge": result.get("station_chief_v6_2_candidate_bridge"),
         "post_mvp_expansion_review_packet_payload": result.get("post_mvp_expansion_review_packet_payload"),
         "post_mvp_expansion_review_packet_write_record": result.get("post_mvp_expansion_review_packet_write_record"),
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_bundle": result.get("station_chief_v6_2_post_mvp_expansion_lane_scope_bundle"),
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_schema": result.get("station_chief_v6_2_post_mvp_expansion_lane_scope_schema"),
+        "lane_scope_approval_gate": result.get("lane_scope_approval_gate"),
+        "v6_1_review_packet_reference_contract": result.get("v6_1_review_packet_reference_contract"),
+        "selected_expansion_lane_scope_contract": result.get("selected_expansion_lane_scope_contract"),
+        "lane_scope_contract": result.get("lane_scope_contract"),
+        "lane_constraint_contract": result.get("lane_constraint_contract"),
+        "lane_success_criteria_contract": result.get("lane_success_criteria_contract"),
+        "lane_non_execution_boundary_contract": result.get("lane_non_execution_boundary_contract"),
+        "post_mvp_expansion_lane_scope_contract": result.get("post_mvp_expansion_lane_scope_contract"),
+        "non_execution_lane_scope_boundary": result.get("non_execution_lane_scope_boundary"),
+        "lane_scope_permission_denial_record": result.get("lane_scope_permission_denial_record"),
+        "lane_scope_plan_record": result.get("lane_scope_plan_record"),
+        "lane_scope_packet_record": result.get("lane_scope_packet_record"),
+        "lane_scope_audit_record": result.get("lane_scope_audit_record"),
+        "lane_scope_readiness_summary": result.get("lane_scope_readiness_summary"),
+        "station_chief_v6_3_candidate_bridge": result.get("station_chief_v6_3_candidate_bridge"),
+        "lane_scope_packet_payload": result.get("lane_scope_packet_payload"),
+        "lane_scope_packet_write_record": result.get("lane_scope_packet_write_record"),
         "runtime_index_entry": runtime_index_entry,
         "manifest": {
             "run_id": run_id,
@@ -8076,6 +8150,143 @@ def write_station_chief_v6_1_post_mvp_expansion_review(
     return result
 
 
+def attach_station_chief_v6_2_post_mvp_expansion_lane_scope(
+    result: dict,
+    v6_1_review_packet_reference_label: str | None = None,
+    selected_expansion_lane_label: str | None = None,
+    lane_scope_label: str | None = None,
+    lane_constraint_label: str | None = None,
+    lane_success_criteria_label: str | None = None,
+    lane_non_execution_boundary_label: str | None = None,
+    output_directory: str | None = None,
+    lane_scope_packet_name: str | None = None,
+    confirmation_token: str | None = None,
+    human_operator: str | None = None,
+    lane_scope_requested: bool = False,
+    write_lane_scope_packet: bool = False,
+) -> dict:
+    bundle = create_station_chief_v6_2_post_mvp_expansion_lane_scope_bundle(
+        result,
+        command=result.get("command"),
+        v6_1_review_packet_reference_label=v6_1_review_packet_reference_label,
+        selected_expansion_lane_label=selected_expansion_lane_label,
+        lane_scope_label=lane_scope_label,
+        lane_constraint_label=lane_constraint_label,
+        lane_success_criteria_label=lane_success_criteria_label,
+        lane_non_execution_boundary_label=lane_non_execution_boundary_label,
+        output_directory=output_directory,
+        lane_scope_packet_name=lane_scope_packet_name,
+        confirmation_token=confirmation_token,
+        human_operator=human_operator,
+        lane_scope_requested=lane_scope_requested,
+        write_lane_scope_packet=write_lane_scope_packet,
+    )
+    result = dict(result)
+    result["station_chief_v6_2_post_mvp_expansion_lane_scope_bundle"] = bundle
+    result["station_chief_v6_2_post_mvp_expansion_lane_scope_schema"] = bundle["schema"]
+    result["lane_scope_approval_gate"] = bundle["approval_gate"]
+    result["v6_1_review_packet_reference_contract"] = bundle["v6_1_review_packet_reference_contract"]
+    result["selected_expansion_lane_scope_contract"] = bundle["selected_expansion_lane_scope_contract"]
+    result["lane_scope_contract"] = bundle["lane_scope_contract"]
+    result["lane_constraint_contract"] = bundle["lane_constraint_contract"]
+    result["lane_success_criteria_contract"] = bundle["lane_success_criteria_contract"]
+    result["lane_non_execution_boundary_contract"] = bundle["lane_non_execution_boundary_contract"]
+    result["post_mvp_expansion_lane_scope_contract"] = bundle["post_mvp_expansion_lane_scope_contract"]
+    result["non_execution_lane_scope_boundary"] = bundle["non_execution_lane_scope_boundary"]
+    result["lane_scope_permission_denial_record"] = bundle["lane_scope_permission_denial_record"]
+    result["lane_scope_plan_record"] = bundle["lane_scope_plan_record"]
+    result["lane_scope_packet_record"] = bundle["lane_scope_packet_record"]
+    result["lane_scope_audit_record"] = bundle["lane_scope_audit_record"]
+    result["lane_scope_readiness_summary"] = bundle["lane_scope_readiness_summary"]
+    result["station_chief_v6_3_candidate_bridge"] = bundle["station_chief_v6_3_candidate_bridge"]
+    result["lane_scope_packet_payload"] = bundle.get("lane_scope_packet_payload")
+    result["lane_scope_packet_write_record"] = bundle.get("lane_scope_packet_record", {}).get("write_record")
+    result["local_lane_scope_packet_written"] = bundle["local_lane_scope_packet_written"]
+    result["station_chief_v6_2_lane_scope_created"] = bundle["station_chief_v6_2_lane_scope_created"]
+    result["post_mvp_expansion_lane_scope_recorded"] = bundle["post_mvp_expansion_lane_scope_recorded"]
+    result["selected_expansion_lane_implemented"] = False
+    result["selected_expansion_lane_executed"] = False
+    result["post_mvp_expansion_executed"] = False
+    result["v6_1_review_packet_mutated"] = False
+    result["v6_1_review_packet_executed"] = False
+    result["v6_0_mvp_lock_mutated"] = False
+    result["v6_0_mvp_lock_executed"] = False
+    result["local_task_candidate_executed"] = False
+    result["dry_run_task_executed"] = False
+    result["real_worker_result_created"] = False
+    result["live_replay_performed"] = False
+    result["production_audit_performed"] = False
+    result["rollback_performed"] = False
+    result["recovery_performed"] = False
+    result["v6_3_created"] = False
+    result["worker_process_started"] = False
+    result["agent_started"] = False
+    result["real_queue_created"] = False
+    result["queue_write_performed"] = False
+    result["scheduler_write_performed"] = False
+    result["cron_write_performed"] = False
+    result["task_enqueued"] = False
+    result["task_executed"] = False
+    result["arbitrary_task_execution_performed"] = False
+    result["user_task_execution_performed"] = False
+    result["live_task_assignment_performed"] = False
+    result["live_worker_routing_performed"] = False
+    result["live_orchestration_performed"] = False
+    result["external_tool_invocation_performed"] = False
+    result["api_call_performed"] = False
+    result["network_access_performed"] = False
+    result["deployment_performed"] = False
+    result["production_execution_performed"] = False
+    result["full_workforce_activation_performed"] = False
+
+    result["station_chief_v6_2_post_mvp_expansion_lane_scope"] = bundle
+
+    return result
+
+
+def write_station_chief_v6_2_post_mvp_expansion_lane_scope(
+    result: dict,
+    output_dir: str,
+    v6_1_review_packet_reference_label: str | None = None,
+    selected_expansion_lane_label: str | None = None,
+    lane_scope_label: str | None = None,
+    lane_constraint_label: str | None = None,
+    lane_success_criteria_label: str | None = None,
+    lane_non_execution_boundary_label: str | None = None,
+    lane_scope_packet_name: str | None = None,
+    confirmation_token: str | None = None,
+    human_operator: str | None = None,
+) -> dict:
+    result = attach_station_chief_v6_2_post_mvp_expansion_lane_scope(
+        result,
+        v6_1_review_packet_reference_label=v6_1_review_packet_reference_label,
+        selected_expansion_lane_label=selected_expansion_lane_label,
+        lane_scope_label=lane_scope_label,
+        lane_constraint_label=lane_constraint_label,
+        lane_success_criteria_label=lane_success_criteria_label,
+        lane_non_execution_boundary_label=lane_non_execution_boundary_label,
+        output_directory=output_dir,
+        lane_scope_packet_name=lane_scope_packet_name,
+        confirmation_token=confirmation_token,
+        human_operator=human_operator,
+        lane_scope_requested=True,
+        write_lane_scope_packet=True,
+    )
+    write_record = result["lane_scope_packet_write_record"]
+    result["station_chief_v6_2_post_mvp_expansion_lane_scope_write_summary"] = write_record
+    result["station_chief_v6_2_post_mvp_expansion_lane_scope_dir"] = write_record.get("output_directory") or str(output_dir)
+    if result.get("local_lane_scope_packet_written"):
+        rec_name = write_record.get("record_name")
+        rec_path = write_record.get("record_path")
+        result["files_written"] = [rec_name] if rec_name else []
+        result["record_path"] = rec_path
+    else:
+        result["files_written"] = []
+        result["record_path"] = None
+    result["execution_status"] = write_record.get("write_status")
+    return result
+
+
 def attach_sandbox_worker_dry_run_replay_audit_candidate(
     result: dict,
     sandbox_worker_label: str | None = None,
@@ -8636,6 +8847,25 @@ def write_runtime_artifacts(
         "station_chief_v6_2_candidate_bridge.json": artifacts.get("station_chief_v6_2_candidate_bridge"),
         "post_mvp_expansion_review_packet_payload.json": artifacts.get("post_mvp_expansion_review_packet_payload"),
         "post_mvp_expansion_review_packet_write_record.json": artifacts.get("post_mvp_expansion_review_packet_write_record"),
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_bundle.json": artifacts.get("station_chief_v6_2_post_mvp_expansion_lane_scope_bundle"),
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_schema.json": artifacts.get("station_chief_v6_2_post_mvp_expansion_lane_scope_schema"),
+        "lane_scope_approval_gate.json": artifacts.get("lane_scope_approval_gate"),
+        "v6_1_review_packet_reference_contract.json": artifacts.get("v6_1_review_packet_reference_contract"),
+        "selected_expansion_lane_scope_contract.json": artifacts.get("selected_expansion_lane_scope_contract"),
+        "lane_scope_contract.json": artifacts.get("lane_scope_contract"),
+        "lane_constraint_contract.json": artifacts.get("lane_constraint_contract"),
+        "lane_success_criteria_contract.json": artifacts.get("lane_success_criteria_contract"),
+        "lane_non_execution_boundary_contract.json": artifacts.get("lane_non_execution_boundary_contract"),
+        "post_mvp_expansion_lane_scope_contract.json": artifacts.get("post_mvp_expansion_lane_scope_contract"),
+        "non_execution_lane_scope_boundary.json": artifacts.get("non_execution_lane_scope_boundary"),
+        "lane_scope_permission_denial_record.json": artifacts.get("lane_scope_permission_denial_record"),
+        "lane_scope_plan_record.json": artifacts.get("lane_scope_plan_record"),
+        "lane_scope_packet_record.json": artifacts.get("lane_scope_packet_record"),
+        "lane_scope_audit_record.json": artifacts.get("lane_scope_audit_record"),
+        "lane_scope_readiness_summary.json": artifacts.get("lane_scope_readiness_summary"),
+        "station_chief_v6_3_candidate_bridge.json": artifacts.get("station_chief_v6_3_candidate_bridge"),
+        "lane_scope_packet_payload.json": artifacts.get("lane_scope_packet_payload"),
+        "lane_scope_packet_write_record.json": artifacts.get("lane_scope_packet_write_record"),
         "run_log.json": artifacts["run_log"],
         "command_brief.json": artifacts["command_brief"],
         "work_orders.json": artifacts["work_orders"],
@@ -10069,6 +10299,18 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--v6-1-post-mvp-expansion-review-packet-name", type=str)
     parser.add_argument("--v6-1-post-mvp-expansion-review-confirm-token", type=str)
     parser.add_argument("--v6-1-post-mvp-expansion-review-human-operator", type=str)
+    parser.add_argument("--station-chief-v6-2-post-mvp-expansion-lane-scope-schema", action="store_true")
+    parser.add_argument("--station-chief-v6-2-post-mvp-expansion-lane-scope", action="store_true")
+    parser.add_argument("--write-station-chief-v6-2-post-mvp-expansion-lane-scope", metavar="DIR", type=str)
+    parser.add_argument("--v6-2-review-packet-reference-label", type=str)
+    parser.add_argument("--v6-2-selected-expansion-lane-label", type=str)
+    parser.add_argument("--v6-2-lane-scope-label", type=str)
+    parser.add_argument("--v6-2-lane-constraint-label", type=str)
+    parser.add_argument("--v6-2-lane-success-criteria-label", type=str)
+    parser.add_argument("--v6-2-lane-non-execution-boundary-label", type=str)
+    parser.add_argument("--v6-2-lane-scope-packet-name", type=str)
+    parser.add_argument("--v6-2-lane-scope-confirm-token", type=str)
+    parser.add_argument("--v6-2-lane-scope-human-operator", type=str)
     parser.add_argument("--station-chief-v6-0-mvp-lock", action="store_true")
     parser.add_argument("--write-station-chief-v6-0-mvp-lock", metavar="DIR", type=str)
     parser.add_argument("--v6-mvp-local-task-candidate-label", type=str)
@@ -11277,6 +11519,10 @@ def main() -> None:
     if args.station_chief_v6_1_post_mvp_expansion_review_schema:
         print(json.dumps(create_station_chief_v6_1_post_mvp_expansion_review_schema(), indent=2, ensure_ascii=False))
         return
+
+    if args.station_chief_v6_2_post_mvp_expansion_lane_scope_schema:
+        print(json.dumps(create_station_chief_v6_2_post_mvp_expansion_lane_scope_schema(), indent=2, ensure_ascii=False))
+        return
         
     if getattr(args, "write_station_chief_v6_1_post_mvp_expansion_review", False):
         result = write_station_chief_v6_1_post_mvp_expansion_review(
@@ -11309,7 +11555,41 @@ def main() -> None:
             post_mvp_expansion_review_requested=False,
             write_post_mvp_expansion_review_packet=False,
         )
-        
+
+    if getattr(args, "write_station_chief_v6_2_post_mvp_expansion_lane_scope", False):
+        result = write_station_chief_v6_2_post_mvp_expansion_lane_scope(
+            result,
+            args.write_station_chief_v6_2_post_mvp_expansion_lane_scope,
+            v6_1_review_packet_reference_label=args.v6_2_review_packet_reference_label,
+            selected_expansion_lane_label=args.v6_2_selected_expansion_lane_label,
+            lane_scope_label=args.v6_2_lane_scope_label,
+            lane_constraint_label=args.v6_2_lane_constraint_label,
+            lane_success_criteria_label=args.v6_2_lane_success_criteria_label,
+            lane_non_execution_boundary_label=args.v6_2_lane_non_execution_boundary_label,
+            lane_scope_packet_name=args.v6_2_lane_scope_packet_name,
+            confirmation_token=args.v6_2_lane_scope_confirm_token,
+            human_operator=args.v6_2_lane_scope_human_operator,
+        )
+        station_chief_v6_2_summary = result.get("station_chief_v6_2_post_mvp_expansion_lane_scope", {}).get("lane_scope_packet_record", {}).get("write_record")
+        result = dict(result)
+        result["station_chief_v6_2_post_mvp_expansion_lane_scope_write_summary"] = station_chief_v6_2_summary
+    elif args.station_chief_v6_2_post_mvp_expansion_lane_scope:
+        result = attach_station_chief_v6_2_post_mvp_expansion_lane_scope(
+            result,
+            v6_1_review_packet_reference_label=args.v6_2_review_packet_reference_label,
+            selected_expansion_lane_label=args.v6_2_selected_expansion_lane_label,
+            lane_scope_label=args.v6_2_lane_scope_label,
+            lane_constraint_label=args.v6_2_lane_constraint_label,
+            lane_success_criteria_label=args.v6_2_lane_success_criteria_label,
+            lane_non_execution_boundary_label=args.v6_2_lane_non_execution_boundary_label,
+            output_directory=None,
+            lane_scope_packet_name=args.v6_2_lane_scope_packet_name,
+            confirmation_token=args.v6_2_lane_scope_confirm_token,
+            human_operator=args.v6_2_lane_scope_human_operator,
+            lane_scope_requested=False,
+            write_lane_scope_packet=False,
+        )
+
     if getattr(args, "write_station_chief_v6_0_mvp_lock", False):
         result = write_station_chief_v6_0_mvp_lock(
             result,

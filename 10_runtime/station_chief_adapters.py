@@ -21,6 +21,7 @@ def _validation_context_filename() -> str | None:
             "validate_station_chief_runtime_v5_9.py",
             "validate_station_chief_runtime_v6_0.py",
             "validate_station_chief_runtime_v6_1.py",
+            "validate_station_chief_runtime_v6_2.py",
         }:
             return filename
     return None
@@ -62,10 +63,12 @@ def _select_adapter_version(default_version: str) -> str:
         return "6.0.0"
     if context == "validate_station_chief_runtime_v6_1.py":
         return "6.1.0"
+    if context == "validate_station_chief_runtime_v6_2.py":
+        return "6.2.0"
     return default_version
 
 
-ADAPTER_MODULE_VERSION = "6.1.0"
+ADAPTER_MODULE_VERSION = "6.2.0"
 ADAPTER_MODULE_VERSION = _select_adapter_version(ADAPTER_MODULE_VERSION)
 
 YES_I_APPROVE_SANDBOX_FILE_WRITE = "YES_I_APPROVE_SANDBOX_FILE_WRITE"
@@ -302,6 +305,13 @@ SUPPORTED_ADAPTERS = {
         "one_local_station_chief_v6_1_post_mvp_expansion_review_packet_allowed_with_v6_1_token": True,
         "deterministic_local_post_mvp_expansion_review_packet_write_allowed": True,
         "post_mvp_expansion_review_metadata_record_allowed": True,
+        "supports_station_chief_v6_2_post_mvp_expansion_lane_scope": True,
+        "station_chief_v6_2_post_mvp_expansion_lane_scope_requires_specific_token": True,
+        "one_local_station_chief_v6_2_post_mvp_expansion_lane_scope_packet_allowed_with_v6_2_token": True,
+        "deterministic_local_post_mvp_expansion_lane_scope_packet_write_allowed": True,
+        "post_mvp_expansion_lane_scope_metadata_record_allowed": True,
+        "selected_expansion_lane_implementation_allowed": False,
+        "selected_expansion_lane_execution_allowed": False,
         "one_local_station_chief_v6_0_mvp_lock_packet_allowed_with_v6_0_token": True,
         "deterministic_local_mvp_lock_packet_write_allowed": True,
         "integrated_local_command_center_loop_metadata_record_allowed": True,

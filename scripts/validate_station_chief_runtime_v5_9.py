@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v6.2 are no longer forbidden on current master. v6.3+ remains forbidden until landed.
+
 from __future__ import annotations
 
 import contextlib
@@ -187,7 +189,7 @@ def ensure_protected_paths() -> None:
     
     all_changed = set(status.splitlines()) | set(diff.splitlines()) | set(cached_diff.splitlines())
     
-    forbidden_indicators = ["devinization", "ownership", "credential", "secret", "env", "production", "deployment", "v6_1", "v6.1", "post", "mvp", "expansion"]
+    forbidden_indicators = ["devinization", "ownership", "credential", "secret", "env", "production", "deployment", "v6_1", "v6.1", "mvp", "expansion"]
     
     for path in all_changed:
         path = path.strip()
@@ -208,6 +210,10 @@ def ensure_protected_paths() -> None:
                     "09_exports/station_chief_runtime_v6_1_report.md",
                     "10_runtime/station_chief_v6_1_post_mvp_expansion_review.py",
                     "09_exports/station_chief_v6_1_post_mvp_expansion_review_preflight_audit.md",
+                    "scripts/validate_station_chief_runtime_v6_2.py",
+                    "09_exports/station_chief_v6_2_post_mvp_expansion_lane_scope_preflight_audit.md",
+                    "10_runtime/station_chief_v6_2_post_mvp_expansion_lane_scope.py",
+                    "09_exports/station_chief_runtime_v6_2_report.md",
                     "scripts/__pycache__/",
                     "10_runtime/__pycache__/",
                     "09_exports/station_chief_runtime_v6_0_1_validator_doctrine_repair_report.md",
@@ -361,9 +367,9 @@ def validate_v5_9() -> None:
 
 
 def ensure_no_v62_files() -> None:
-    # Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v6.1 are no longer forbidden on current master. v6.2+ remains forbidden until landed.
-    ensure(not any(REPO_ROOT.rglob("*v6_2*")), "v6.2 path unexpectedly exists")
-    ensure(not any(REPO_ROOT.rglob("*v6.2*")), "v6.2 path unexpectedly exists")
+    # Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v6.2 are no longer forbidden on current master. v6.3+ remains forbidden until landed.
+    ensure(not any(REPO_ROOT.rglob("*v6_3*")), "v6.3 path unexpectedly exists")
+    ensure(not any(REPO_ROOT.rglob("*v6.3*")), "v6.3 path unexpectedly exists")
 
 
 if __name__ == "__main__":

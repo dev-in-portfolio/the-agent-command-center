@@ -1,9 +1,88 @@
-# Station Chief Runtime v6.1.0
+# Station Chief Runtime v6.2.0
 
 ## Status
-Station Chief Runtime upgraded to v6.1.0. Locked 175-family baseline preserved. Station Chief v6.1 Post-MVP Expansion Review Candidate added.
+Station Chief Runtime upgraded to v6.2.0. Locked 175-family baseline preserved. Station Chief v6.2 Post-MVP Expansion Lane Scope Candidate added.
 
 ## What This Adds
+- v6.2 may write exactly one deterministic local Station Chief post-MVP expansion lane scope packet only.
+- v6.2 records a selected post-MVP expansion lane scope candidate as metadata only.
+- v6.2 references one v6.1 post-MVP expansion review packet reference label, one selected expansion lane label, one lane scope label, one lane constraint label, one lane success criteria label, and one lane non-execution boundary label.
+- v6.2 requires a valid v6.2 token, human operator, v6.1 review packet reference label, selected expansion lane label, lane scope label, lane constraint label, lane success criteria label, lane non-execution boundary label, and explicit output directory.
+- v6.2 does not implement selected expansion lane.
+- v6.2 does not execute selected expansion lane.
+- v6.2 does not execute post-MVP expansion.
+- v6.2 does not mutate v6.1 review packet.
+- v6.2 does not execute v6.1 review packet.
+- v6.2 does not mutate v6.0 MVP lock.
+- v6.2 does not execute v6.0 MVP lock.
+- v6.2 does not execute a local task candidate.
+- v6.2 does not execute a dry-run task.
+- v6.2 does not create a real worker result.
+- v6.2 does not perform live replay.
+- v6.2 does not perform production audit.
+- v6.2 does not perform rollback.
+- v6.2 does not perform recovery.
+- v6.2 does not start a worker.
+- v6.2 does not start an agent.
+- v6.2 does not create a real queue.
+- v6.2 does not write to a real queue.
+- v6.2 does not write scheduler state.
+- v6.2 does not write cron state.
+- v6.2 does not enqueue tasks.
+- v6.2 does not execute arbitrary tasks.
+- v6.2 does not execute user tasks.
+- v6.2 does not assign live tasks.
+- v6.2 does not route workers.
+- v6.2 does not orchestrate live work.
+- v6.2 does not activate the 47,250-worker workforce.
+- v6.2 does not allow APIs, network, sockets, DNS, credentials, secrets, environment variables, deployment, production execution, worker process start, queue creation, queue writes, task enqueue, arbitrary task execution, user task execution, live orchestration, replay execution, production audit execution, rollback/recovery, v6.3 creation, or full workforce activation.
+- v6.2 does not approve v6.3.
+- Next internal label:
+  v6.3 requires explicit operator instruction.
+
+## History
+### v6.2.0
+Station Chief Runtime upgraded to v6.2.0. Locked 175-family baseline preserved. Station Chief v6.2 Post-MVP Expansion Lane Scope Candidate added.
+
+- v6.2 may write exactly one deterministic local Station Chief post-MVP expansion lane scope packet only.
+- v6.2 records a selected post-MVP expansion lane scope candidate as metadata only.
+- v6.2 references one v6.1 post-MVP expansion review packet reference label, one selected expansion lane label, one lane scope label, one lane constraint label, one lane success criteria label, and one lane non-execution boundary label.
+- v6.2 requires a valid v6.2 token, human operator, v6.1 review packet reference label, selected expansion lane label, lane scope label, lane constraint label, lane success criteria label, lane non-execution boundary label, and explicit output directory.
+- v6.2 does not implement selected expansion lane.
+- v6.2 does not execute selected expansion lane.
+- v6.2 does not execute post-MVP expansion.
+- v6.2 does not mutate v6.1 review packet.
+- v6.2 does not execute v6.1 review packet.
+- v6.2 does not mutate v6.0 MVP lock.
+- v6.2 does not execute v6.0 MVP lock.
+- v6.2 does not execute a local task candidate.
+- v6.2 does not execute a dry-run task.
+- v6.2 does not create a real worker result.
+- v6.2 does not perform live replay.
+- v6.2 does not perform production audit.
+- v6.2 does not perform rollback.
+- v6.2 does not perform recovery.
+- v6.2 does not start a worker.
+- v6.2 does not start an agent.
+- v6.2 does not create a real queue.
+- v6.2 does not write to a real queue.
+- v6.2 does not write scheduler state.
+- v6.2 does not write cron state.
+- v6.2 does not enqueue tasks.
+- v6.2 does not execute arbitrary tasks.
+- v6.2 does not execute user tasks.
+- v6.2 does not assign live tasks.
+- v6.2 does not route workers.
+- v6.2 does not orchestrate live work.
+- v6.2 does not activate the 47,250-worker workforce.
+- v6.2 does not allow APIs, network, sockets, DNS, credentials, secrets, environment variables, deployment, production execution, worker process start, queue creation, queue writes, task enqueue, arbitrary task execution, user task execution, live orchestration, replay execution, production audit execution, rollback/recovery, v6.3 creation, or full workforce activation.
+- v6.2 does not approve v6.3.
+- Next internal label:
+  v6.3 requires explicit operator instruction.
+
+### v6.1.0
+Station Chief Runtime upgraded to v6.1.0. Locked 175-family baseline preserved. Station Chief v6.1 Post-MVP Expansion Review Candidate added.
+
 - v6.1 may write exactly one deterministic local Station Chief post-MVP expansion review packet only.
 - v6.1 records a post-MVP expansion review candidate as metadata only.
 - v6.1 references one v6.0 MVP lock reference label, one post-MVP expansion review label, one requested expansion lane label, one expansion boundary label, and one expansion safety posture label.
@@ -39,7 +118,6 @@ Station Chief Runtime upgraded to v6.1.0. Locked 175-family baseline preserved. 
 - Next internal label:
   v6.2 requires explicit operator instruction.
 
-## History
 ### v6.0.0
 Station Chief Runtime upgraded to v6.0.0. Locked 175-family baseline preserved. Station Chief v6.0 MVP Lock / Integrated Local Command-Center Loop added.
 

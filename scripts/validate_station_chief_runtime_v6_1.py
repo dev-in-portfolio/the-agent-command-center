@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v6.2 are no longer forbidden on current master. v6.3+ remains forbidden until landed.
+
 from __future__ import annotations
 
 import contextlib
@@ -225,6 +227,10 @@ def ensure_protected_paths() -> None:
                     "10_runtime/station_chief_v6_1_post_mvp_expansion_review.py",
                     "09_exports/station_chief_v6_1_post_mvp_expansion_review_preflight_audit.md",
                     "v6.2 requires explicit operator instruction",
+                    "scripts/validate_station_chief_runtime_v6_2.py",
+                    "09_exports/station_chief_v6_2_post_mvp_expansion_lane_scope_preflight_audit.md",
+                    "10_runtime/station_chief_v6_2_post_mvp_expansion_lane_scope.py",
+                    "09_exports/station_chief_runtime_v6_2_report.md",
                 ]
                 if any(allowed_exc in path for allowed_exc in allowed_exceptions):
                     continue
@@ -315,15 +321,14 @@ def ensure_wrapper_integration() -> None:
             ensure(payload.get(key) is False, f"Dangerous flag '{key}' must be False in payload")
 
 def ensure_no_v62_files() -> None:
-    print("Checking for unexpected v6.2 files...")
-    # Fail if any repo file path contains forbidden indicators
+    print("Checking for unexpected v6.3+ files...")
     for p in REPO_ROOT.rglob("*"):
         if p.is_dir() and ".git" in p.parts:
             continue
         rel_p = str(p.relative_to(REPO_ROOT))
-        for indicator in ["v6_2", "v6.2"]:
+        for indicator in ["v6_3", "v6.3"]:
             if indicator in rel_p.lower():
-                ensure(False, f"Unexpected v6.2 file or directory found: {rel_p}")
+                ensure(False, f"Unexpected v6.3+ file or directory found: {rel_p}")
 
 def validate_v6_1() -> None:
     print("Validating Station Chief Runtime v6.1.0...")
@@ -339,13 +344,15 @@ def validate_v6_1() -> None:
     
     # Version checks
     runtime_code = RUNTIME_PATH.read_text(encoding="utf-8")
-    ensure('STATION_CHIEF_RUNTIME_VERSION = "6.1.0"' in runtime_code, "runtime version mismatch")
+    ensure('STATION_CHIEF_RUNTIME_VERSION = "6.1.0"' in runtime_code or 'STATION_CHIEF_RUNTIME_VERSION = "6.2.0"' in runtime_code, "runtime version mismatch")
     
     adapters_code = ADAPTERS.read_text(encoding="utf-8")
-    ensure('ADAPTER_MODULE_VERSION = "6.1.0"' in adapters_code, "adapter version mismatch")
+    # Accept 6.1.0 or 6.2.0 since runtime may have been upgraded
+    ensure('ADAPTER_MODULE_VERSION = "6.1.0"' in adapters_code or 'ADAPTER_MODULE_VERSION = "6.2.0"' in adapters_code, "adapter version mismatch")
     
     lock_code = RELEASE_LOCK.read_text(encoding="utf-8")
-    ensure('STABLE_RUNTIME_VERSION = "6.1.0"' in lock_code, "release lock version mismatch")
+    # Accept 6.1.0 or 6.2.0 since runtime may have been upgraded
+    ensure('STABLE_RUNTIME_VERSION = "6.1.0"' in lock_code or 'STABLE_RUNTIME_VERSION = "6.2.0"' in lock_code, "release lock version mismatch")
     
     # Module constants
     module_code = V6_1_MODULE.read_text(encoding="utf-8")
