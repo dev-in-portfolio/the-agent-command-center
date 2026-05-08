@@ -357,12 +357,10 @@ def _select_runtime_version(default_version: str) -> str:
         return "6.0.0"
     if context == "validate_station_chief_runtime_v6_1.py":
         return "6.1.0"
-    if context == "validate_station_chief_runtime_v6_2.py":
-        return "6.2.0"
     return default_version
 
 
-STATION_CHIEF_RUNTIME_VERSION = "6.2.0"
+STATION_CHIEF_RUNTIME_VERSION = "6.1.0"
 STATION_CHIEF_RUNTIME_VERSION = _select_runtime_version(STATION_CHIEF_RUNTIME_VERSION)
 
 EXPECTED_OVERLAYS = [

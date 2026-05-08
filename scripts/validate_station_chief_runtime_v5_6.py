@@ -90,10 +90,6 @@ ALLOWED_CHANGED_PATHS = {
     "scripts/validate_station_chief_runtime_v4_7.py",
     "scripts/validate_station_chief_runtime_v4_8.py",
     "scripts/validate_station_chief_runtime_v4_9.py",
-    "09_exports/station_chief_runtime_v6_2_report.md",
-    "09_exports/station_chief_v6_2_post_mvp_expansion_lane_scope_preflight_audit.md",
-    "10_runtime/station_chief_v6_2_post_mvp_expansion_lane_scope.py",
-    "scripts/validate_station_chief_runtime_v6_2.py",
 }
 
 FORBIDDEN_REGEXES = [
@@ -607,8 +603,9 @@ def main() -> None:
 
 
 def ensure_no_v62_files() -> None:
-    # Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v6.2 are no longer forbidden on current master. v6.3+ remains forbidden until landed.
-    pass
+        # Legacy validator is allowed to run as a smoke test after later versions have landed; later-version files through v6.1 plus the v6.1.1 validator version assertion repair report are no longer forbidden on current master. v6.2+ remains forbidden until landed.
+    ensure(not any(REPO_ROOT.rglob("*v6_2*")), "v6.2 path unexpectedly exists")
+    ensure(not any(REPO_ROOT.rglob("*v6.2*")), "v6.2 path unexpectedly exists")
 
 
 if __name__ == "__main__":
