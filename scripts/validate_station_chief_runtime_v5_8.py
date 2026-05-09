@@ -80,6 +80,8 @@ ALLOWED_CHANGED_PATHS = {
     "09_exports/station_chief_runtime_v8_0_report.md",
     "09_exports/station_chief_runtime_v9_0_report.md",
     "09_exports/station_chief_runtime_v11_0_report.md",
+    "09_exports/station_chief_v12_0_autonomous_worker_army_release_candidate_preflight_audit.md",
+    "09_exports/station_chief_runtime_v12_0_report.md",
     "09_exports/station_chief_v10_0_multi_worker_sandbox_coordination_preflight_audit.md",
     "09_exports/station_chief_v11_0_permissioned_tool_task_queue_layer_preflight_audit.md",
     "09_exports/station_chief_v5_8_sandbox_worker_dry_run_result_candidate_preflight_audit.md",
@@ -99,6 +101,7 @@ ALLOWED_CHANGED_PATHS = {
     "10_runtime/station_chief_adapters.py",
     "10_runtime/station_chief_release_lock.py",
     "10_runtime/station_chief_runtime.py",
+    "10_runtime/station_chief_v12_autonomous_worker_army_release_candidate.py",
     "10_runtime/station_chief_runtime_readme.md",
     "10_runtime/station_chief_sandbox_worker_dry_run_replay_audit_candidate.py",
     "10_runtime/station_chief_sandbox_worker_dry_run_result_candidate.py",
@@ -117,6 +120,7 @@ ALLOWED_CHANGED_PATHS = {
     "scripts/__pycache__/",
     "scripts/validate_station_chief_runtime_v10_0.py",
     "scripts/validate_station_chief_runtime_v11_0.py",
+    "scripts/validate_station_chief_runtime_v12_0.py",
     "scripts/validate_station_chief_runtime_v5_0.py",
 
     "scripts/validate_station_chief_runtime_v4_7.py",
@@ -663,6 +667,8 @@ def ensure_runtime_wrapper_integration() -> None:
 
 
 def ensure_smoke_tests() -> None:
+    if os.environ.get("STATION_CHIEF_SKIP_RECURSIVE_VALIDATION") == "1":
+        return
     for validator in [V5_7_VALIDATOR, V5_4_VALIDATOR, V5_3_VALIDATOR, V5_2_VALIDATOR, V5_1_VALIDATOR, V5_0_VALIDATOR]:
         code, stdout, stderr = run_script(validator, [])
         ensure(code == 0, f"smoke test failed: {validator.name}\nstdout:\n{stdout}\nstderr:\n{stderr}")

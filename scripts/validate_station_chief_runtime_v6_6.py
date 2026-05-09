@@ -150,29 +150,32 @@ def main():
     ensure(len(v10_1_files) == 0 and len(v11_1_files) == 0, f"Future version files found: {v10_1_files + v11_1_files}")
 
     # Legacy Validator Smoke Tests
-    print("Running prior validator smoke tests...")
-    prior_validators = [
-        "scripts/validate_station_chief_runtime_v6_5.py",
-        "scripts/validate_station_chief_runtime_v6_4.py",
-        "scripts/validate_station_chief_runtime_v6_3.py",
-        "scripts/validate_station_chief_runtime_v6_2.py",
-        "scripts/validate_station_chief_runtime_v6_1.py",
-        "scripts/validate_station_chief_runtime_v6_0.py",
-        "scripts/validate_station_chief_runtime_v5_9.py",
-        "scripts/validate_station_chief_runtime_v5_8.py",
-        "scripts/validate_station_chief_runtime_v5_7.py",
-        "scripts/validate_station_chief_runtime_v5_6.py",
-        "scripts/validate_station_chief_runtime_v5_5.py",
-        "scripts/validate_station_chief_runtime_v5_4.py",
-        "scripts/validate_station_chief_runtime_v5_3.py",
-        "scripts/validate_station_chief_runtime_v5_2.py",
-        "scripts/validate_station_chief_runtime_v5_1.py",
-        "scripts/validate_station_chief_runtime_v5_0.py"
-    ]
-    for v in prior_validators:
-        print(f"Running {v}...")
-        res = run_script([sys.executable, v])
-        ensure(res.returncode == 0, f"Prior validator {v} failed:\n{res.stdout}\n{res.stderr}")
+    if not os.environ.get("STATION_CHIEF_SKIP_RECURSIVE_VALIDATION"):
+        print("Running prior validator smoke tests...")
+        prior_validators = [
+            "scripts/validate_station_chief_runtime_v6_5.py",
+            "scripts/validate_station_chief_runtime_v6_4.py",
+            "scripts/validate_station_chief_runtime_v6_3.py",
+            "scripts/validate_station_chief_runtime_v6_2.py",
+            "scripts/validate_station_chief_runtime_v6_1.py",
+            "scripts/validate_station_chief_runtime_v6_0.py",
+            "scripts/validate_station_chief_runtime_v5_9.py",
+            "scripts/validate_station_chief_runtime_v5_8.py",
+            "scripts/validate_station_chief_runtime_v5_7.py",
+            "scripts/validate_station_chief_runtime_v5_6.py",
+            "scripts/validate_station_chief_runtime_v5_5.py",
+            "scripts/validate_station_chief_runtime_v5_4.py",
+            "scripts/validate_station_chief_runtime_v5_3.py",
+            "scripts/validate_station_chief_runtime_v5_2.py",
+            "scripts/validate_station_chief_runtime_v5_1.py",
+            "scripts/validate_station_chief_runtime_v5_0.py"
+        ]
+        for v in prior_validators:
+            print(f"Running {v}...")
+            env = os.environ.copy()
+            env["STATION_CHIEF_SKIP_RECURSIVE_VALIDATION"] = "1"
+            res = subprocess.run([sys.executable, v], capture_output=True, text=True, env=env)
+            ensure(res.returncode == 0, f"Prior validator {v} failed:\n{res.stdout}\n{res.stderr}")
 
     print("STATION_CHIEF_RUNTIME_V6_6_VALIDATION_PASS")
 

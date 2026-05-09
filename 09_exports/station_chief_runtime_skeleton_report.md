@@ -1,31 +1,37 @@
-# Station Chief Runtime v11.0.0
+# Station Chief Runtime v12.0.0
 
 ## Status
-Station Chief Runtime upgraded to v11.0.0. Locked 175-family baseline preserved. v8.0 control plane preserved. v9.0 controlled local worker pilot preserved. v10.0 multi-worker sandbox coordination preserved. Station Chief v11.0 Permissioned Tool / Task / Queue Control Layer Candidate added.
+Station Chief Runtime upgraded to v12.0.0. Locked 175-family baseline preserved. v8.0 control plane preserved. v9.0 controlled local worker pilot preserved. v10.0 multi-worker sandbox coordination preserved. v11.0 permissioned tool/task/queue layer preserved. Station Chief v12.0 Autonomous Worker Army Release Candidate added.
 
 ## What This Adds
-- v11.0 introduces exactly three permissioned sandbox tool descriptors
-- v11.0 introduces exactly three permissioned task envelopes
-- v11.0 introduces one metadata-only virtual queue manifest
-- v11.0 creates deterministic dispatch plan metadata
-- v11.0 creates metadata-only permission receipts
-- v11.0 does not invoke real tools
-- v11.0 does not invoke external tools
-- v11.0 does not start worker daemons
-- v11.0 does not start background processes
-- v11.0 does not start agents
-- v11.0 does not create real queues
-- v11.0 does not write queues
-- v11.0 does not enqueue or execute live tasks
-- v11.0 does not route live work
-- v11.0 does not perform live orchestration
-- v11.0 does not execute arbitrary/user tasks
-- v11.0 does not run shell/subprocess commands
-- v11.0 does not call APIs/network/deployment/production
-- v11.0 does not create v11.1
-- v11.0 does not create v12
+- v12.0 introduces exactly twelve autonomous worker profiles
+- v12.0 introduces exactly four worker squads
+- v12.0 introduces one virtual army command manifest
+- v12.0 introduces one mission envelope registry
+- v12.0 creates autonomy policy gate metadata
+- v12.0 creates permissioned dispatch matrix metadata
+- v12.0 creates virtual queue control metadata
+- v12.0 creates metadata-only army cycle plan
+- v12.0 creates metadata-only worker readiness receipts
+- v12.0 does not activate full external/prod agent army
+- v12.0 does not activate real workers
+- v12.0 does not invoke real tools
+- v12.0 does not invoke external tools
+- v12.0 does not start worker daemons
+- v12.0 does not start background processes
+- v12.0 does not start agents
+- v12.0 does not create real queues
+- v12.0 does not write queues
+- v12.0 does not enqueue or execute live tasks
+- v12.0 does not route live work
+- v12.0 does not perform live orchestration
+- v12.0 does not execute arbitrary/user tasks
+- v12.0 does not run shell/subprocess commands
+- v12.0 does not call APIs/network/deployment/production
+- v12.0 does not create v12.1
+- v12.0 does not create v13
 - Next internal label:
-  v11.1 or v12.0 requires explicit operator instruction
+  v12.1 or v13.0 requires explicit operator instruction
 
 ## History
 ### v11.0.0

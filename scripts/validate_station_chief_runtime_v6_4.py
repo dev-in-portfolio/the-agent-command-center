@@ -303,25 +303,26 @@ def main() -> None:
 
     # v6.5 is now legitimately built
 
-    print("Running prior validator smoke tests...")
-    prior_validators = [
-        "validate_station_chief_runtime_v6_3.py",
-        "validate_station_chief_runtime_v6_2.py",
-        "validate_station_chief_runtime_v6_1.py",
-        "validate_station_chief_runtime_v6_0.py",
-        "validate_station_chief_runtime_v5_9.py",
-        "validate_station_chief_runtime_v5_8.py",
-        "validate_station_chief_runtime_v5_7.py",
-        "validate_station_chief_runtime_v5_6.py",
-        "validate_station_chief_runtime_v5_5.py",
-        "validate_station_chief_runtime_v5_4.py",
-        "validate_station_chief_runtime_v5_3.py",
-        "validate_station_chief_runtime_v5_2.py",
-        "validate_station_chief_runtime_v5_1.py",
-        "validate_station_chief_runtime_v5_0.py"
-    ]
-    for script in prior_validators:
-        run_script(script)
+    if not os.environ.get("STATION_CHIEF_SKIP_RECURSIVE_VALIDATION"):
+        print("Running prior validator smoke tests...")
+        prior_validators = [
+            "validate_station_chief_runtime_v6_3.py",
+            "validate_station_chief_runtime_v6_2.py",
+            "validate_station_chief_runtime_v6_1.py",
+            "validate_station_chief_runtime_v6_0.py",
+            "validate_station_chief_runtime_v5_9.py",
+            "validate_station_chief_runtime_v5_8.py",
+            "validate_station_chief_runtime_v5_7.py",
+            "validate_station_chief_runtime_v5_6.py",
+            "validate_station_chief_runtime_v5_5.py",
+            "validate_station_chief_runtime_v5_4.py",
+            "validate_station_chief_runtime_v5_3.py",
+            "validate_station_chief_runtime_v5_2.py",
+            "validate_station_chief_runtime_v5_1.py",
+            "validate_station_chief_runtime_v5_0.py"
+        ]
+        for script in prior_validators:
+            run_script(script)
 
     print("STATION_CHIEF_RUNTIME_V6_4_VALIDATION_PASS")
     print("PASS: v6.4 validation passed")

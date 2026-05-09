@@ -335,6 +335,10 @@ from station_chief_v11_permissioned_tool_task_queue_layer import (
     create_station_chief_v11_permissioned_tool_task_queue_layer_schema,
     create_station_chief_v11_permissioned_tool_task_queue_layer_bundle,
 )
+from station_chief_v12_autonomous_worker_army_release_candidate import (
+    create_station_chief_v12_autonomous_worker_army_release_candidate_schema,
+    create_station_chief_v12_autonomous_worker_army_release_candidate_bundle,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -369,6 +373,7 @@ def _validation_context_filename() -> str | None:
             "validate_station_chief_runtime_v9_0.py",
             "validate_station_chief_runtime_v10_0.py",
             "validate_station_chief_runtime_v11_0.py",
+            "validate_station_chief_runtime_v12_0.py",
         }:
             return filename
     return None
@@ -428,10 +433,12 @@ def _select_runtime_version(default_version: str) -> str:
         return "10.0.0"
     if context == "validate_station_chief_runtime_v11_0.py":
         return "11.0.0"
+    if context == "validate_station_chief_runtime_v12_0.py":
+        return "12.0.0"
     return default_version
 
 
-STATION_CHIEF_RUNTIME_VERSION = "11.0.0"
+STATION_CHIEF_RUNTIME_VERSION = "12.0.0"
 STATION_CHIEF_RUNTIME_VERSION = _select_runtime_version(STATION_CHIEF_RUNTIME_VERSION)
 
 EXPECTED_OVERLAYS = [
@@ -1240,6 +1247,34 @@ def attach_station_chief_v11_permissioned_tool_task_queue_layer(result: dict, ar
         
     return result
 
+def attach_station_chief_v12_autonomous_worker_army_release_candidate(result: dict, args) -> dict:
+    if not (args.station_chief_v12_autonomous_worker_army_release_candidate or args.station_chief_v12_army_workers or args.station_chief_v12_army_squads or args.station_chief_v12_command_manifest or args.station_chief_v12_mission_envelopes or args.station_chief_v12_dispatch_matrix or args.station_chief_v12_army_cycle_plan or args.station_chief_v12_readiness_receipts or args.station_chief_v12_army_audit):
+        return result
+
+    bundle = create_station_chief_v12_autonomous_worker_army_release_candidate_bundle()
+    result = dict(result)
+
+    if args.station_chief_v12_autonomous_worker_army_release_candidate:
+        result["station_chief_v12_autonomous_worker_army_release_candidate"] = bundle
+    if args.station_chief_v12_army_workers:
+        result["station_chief_v12_army_workers"] = bundle["autonomous_worker_army_profiles"]
+    if args.station_chief_v12_army_squads:
+        result["station_chief_v12_army_squads"] = bundle["autonomous_worker_squad_registry"]
+    if args.station_chief_v12_command_manifest:
+        result["station_chief_v12_command_manifest"] = bundle["virtual_army_command_manifest"]
+    if args.station_chief_v12_mission_envelopes:
+        result["station_chief_v12_mission_envelopes"] = bundle["mission_envelope_registry"]
+    if args.station_chief_v12_dispatch_matrix:
+        result["station_chief_v12_dispatch_matrix"] = bundle["permissioned_army_dispatch_matrix"]
+    if args.station_chief_v12_army_cycle_plan:
+        result["station_chief_v12_army_cycle_plan"] = bundle["metadata_only_army_cycle_plan"]
+    if args.station_chief_v12_readiness_receipts:
+        result["station_chief_v12_readiness_receipts"] = bundle["worker_readiness_receipts"]
+    if args.station_chief_v12_army_audit:
+        result["station_chief_v12_army_audit"] = bundle["autonomous_worker_army_release_candidate_audit_record"]
+
+    return result
+
 def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any]:
     brief = create_command_brief(command)
     work_orders = create_work_orders(brief)
@@ -1272,6 +1307,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "9.0.0": "station_chief_v9_controlled_local_worker_pilot",
         "10.0.0": "station_chief_v10_multi_worker_sandbox_coordination",
         "11.0.0": "station_chief_v11_permissioned_tool_task_queue_layer",
+        "12.0.0": "station_chief_v12_autonomous_worker_army_release_candidate",
     }.get(STATION_CHIEF_RUNTIME_VERSION, "live_queue_orchestration_candidate_review")
     evidence = build_demo_evidence()
     evidence.update(
@@ -1417,7 +1453,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "activation_tier": brief["activation_tier"],
         "baseline_preserved": True,
         "evidence": evidence,
-        "next_step": "Next step: v11.1 or v12.0 requires explicit operator instruction.",
+        "next_step": "Next step: v12.1 or v13.0 requires explicit operator instruction.",
         "first_tiny_real_world_supervised_execution_candidate_available": True,
         "first_tiny_real_world_supervised_execution_candidate_local_only": True,
         "first_tiny_real_world_supervised_execution_candidate_requires_token": True,
@@ -1659,6 +1695,42 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "station_chief_v11_does_not_execute_production": True,
         "station_chief_v11_does_not_create_v11_1": True,
         "station_chief_v11_does_not_create_v12": True,
+        "station_chief_v12_autonomous_worker_army_release_candidate_available": True,
+        "station_chief_v12_registers_twelve_autonomous_worker_profiles": True,
+        "station_chief_v12_registers_four_worker_squads": True,
+        "station_chief_v12_creates_virtual_army_command_manifest": True,
+        "station_chief_v12_creates_mission_envelope_registry": True,
+        "station_chief_v12_creates_autonomy_policy_gate": True,
+        "station_chief_v12_creates_permissioned_dispatch_matrix": True,
+        "station_chief_v12_creates_virtual_queue_control_record": True,
+        "station_chief_v12_creates_metadata_only_army_cycle_plan": True,
+        "station_chief_v12_generates_worker_readiness_receipts_only": True,
+        "station_chief_v12_does_not_activate_full_external_prod_agent_army": True,
+        "station_chief_v12_does_not_activate_real_workers": True,
+        "station_chief_v12_does_not_invoke_real_tools": True,
+        "station_chief_v12_does_not_invoke_external_tools": True,
+        "station_chief_v12_does_not_start_worker_processes": True,
+        "station_chief_v12_does_not_start_daemons": True,
+        "station_chief_v12_does_not_start_agents": True,
+        "station_chief_v12_does_not_create_real_queue": True,
+        "station_chief_v12_does_not_write_queue": True,
+        "station_chief_v12_does_not_enqueue_live_tasks": True,
+        "station_chief_v12_does_not_execute_live_tasks": True,
+        "station_chief_v12_does_not_route_live_work": True,
+        "station_chief_v12_does_not_orchestrate_live_work": True,
+        "station_chief_v12_does_not_execute_arbitrary_tasks": True,
+        "station_chief_v12_does_not_execute_user_tasks": True,
+        "station_chief_v12_does_not_execute_shell": True,
+        "station_chief_v12_does_not_start_subprocesses": True,
+        "station_chief_v12_does_not_call_live_apis": True,
+        "station_chief_v12_does_not_use_network_access": True,
+        "station_chief_v12_does_not_access_credentials": True,
+        "station_chief_v12_does_not_read_secrets": True,
+        "station_chief_v12_does_not_read_environment": True,
+        "station_chief_v12_does_not_deploy": True,
+        "station_chief_v12_does_not_execute_production": True,
+        "station_chief_v12_does_not_create_v12_1": True,
+        "station_chief_v12_does_not_create_v13": True,
         "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_start_worker_processes": True,
 
         "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_start_agents": True,
@@ -10984,14 +11056,24 @@ def _build_arg_parser() -> argparse.ArgumentParser:
 
     parser.add_argument("--station-chief-v10-multi-worker-sandbox-coordination-schema", action="store_true")
     parser.add_argument("--station-chief-v11-permissioned-tool-task-queue-layer-schema", action="store_true")
+    parser.add_argument("--station-chief-v12-autonomous-worker-army-release-candidate-schema", action="store_true")
     parser.add_argument("--station-chief-v10-multi-worker-sandbox-coordination", action="store_true")
     parser.add_argument("--station-chief-v11-permissioned-tool-task-queue-layer", action="store_true")
+    parser.add_argument("--station-chief-v12-autonomous-worker-army-release-candidate", action="store_true")
     parser.add_argument("--station-chief-v11-tool-registry", action="store_true")
     parser.add_argument("--station-chief-v11-task-envelopes", action="store_true")
     parser.add_argument("--station-chief-v11-virtual-queue", action="store_true")
     parser.add_argument("--station-chief-v11-dispatch-plan", action="store_true")
     parser.add_argument("--station-chief-v11-permission-receipts", action="store_true")
     parser.add_argument("--station-chief-v11-permission-audit", action="store_true")
+    parser.add_argument("--station-chief-v12-army-workers", action="store_true")
+    parser.add_argument("--station-chief-v12-army-squads", action="store_true")
+    parser.add_argument("--station-chief-v12-command-manifest", action="store_true")
+    parser.add_argument("--station-chief-v12-mission-envelopes", action="store_true")
+    parser.add_argument("--station-chief-v12-dispatch-matrix", action="store_true")
+    parser.add_argument("--station-chief-v12-army-cycle-plan", action="store_true")
+    parser.add_argument("--station-chief-v12-readiness-receipts", action="store_true")
+    parser.add_argument("--station-chief-v12-army-audit", action="store_true")
     parser.add_argument("--station-chief-v10-sandbox-workers", action="store_true")
     parser.add_argument("--station-chief-v10-sandbox-tasks", action="store_true")
     parser.add_argument("--station-chief-v10-assignment-map", action="store_true")
@@ -12256,6 +12338,10 @@ def main() -> None:
     if getattr(args, "station_chief_v11_permissioned_tool_task_queue_layer_schema", False):
         print(json.dumps(create_station_chief_v11_permissioned_tool_task_queue_layer_schema(), indent=2, ensure_ascii=False))
         return
+
+    if getattr(args, "station_chief_v12_autonomous_worker_army_release_candidate_schema", False):
+        print(json.dumps(create_station_chief_v12_autonomous_worker_army_release_candidate_schema(), indent=2, ensure_ascii=False))
+        return
         
     if getattr(args, "write_station_chief_v6_1_post_mvp_expansion_review", False):
         result = write_station_chief_v6_1_post_mvp_expansion_review(
@@ -12380,6 +12466,9 @@ def main() -> None:
 
     if args.station_chief_v11_permissioned_tool_task_queue_layer or args.station_chief_v11_tool_registry or args.station_chief_v11_task_envelopes or args.station_chief_v11_virtual_queue or args.station_chief_v11_dispatch_plan or args.station_chief_v11_permission_receipts or args.station_chief_v11_permission_audit:
         result = attach_station_chief_v11_permissioned_tool_task_queue_layer(result, args)
+
+    if args.station_chief_v12_autonomous_worker_army_release_candidate or args.station_chief_v12_army_workers or args.station_chief_v12_army_squads or args.station_chief_v12_command_manifest or args.station_chief_v12_mission_envelopes or args.station_chief_v12_dispatch_matrix or args.station_chief_v12_army_cycle_plan or args.station_chief_v12_readiness_receipts or args.station_chief_v12_army_audit:
+        result = attach_station_chief_v12_autonomous_worker_army_release_candidate(result, args)
 
     if getattr(args, "write_station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan", False):
         result = write_station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan(

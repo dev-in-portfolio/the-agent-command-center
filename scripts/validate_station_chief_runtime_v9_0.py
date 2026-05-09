@@ -158,8 +158,8 @@ def main():
 
     # 8. Forbidden files check
     # v10.0 files are now allowed as they have been built and landed.
-    # We still check for v10.1+ and v11+ files.
-    forbidden_globs = ["*v10_1*", "*v10.1*", "*v11_1*", "*v11.1*", "*v12*", "*v13*", "*v14*", "*v15*"]
+    # We still check for v10.1+, v11.1+, and v12.1+ files.
+    forbidden_globs = ["*v10_1*", "*v10.1*", "*v11_1*", "*v11.1*", "*v12_1*", "*v12.1*", "*v13*", "*v14*", "*v15*"]
 
     for glob in forbidden_globs:
         matches = list(REPO_ROOT.glob(f"**/{glob}"))
@@ -176,33 +176,34 @@ def main():
             ensure('or "9.0.0"' not in v_source, f"Legacy validator {v} contains OR-version shortcut for v9.0")
 
     # 10. Smoke Tests for Prior Validators
-    print("Running prior validator smoke tests...")
-    prior_validators = [
-        "scripts/validate_station_chief_runtime_v8_0.py",
-        "scripts/validate_station_chief_runtime_v6_6.py",
-        "scripts/validate_station_chief_runtime_v6_5.py",
-        "scripts/validate_station_chief_runtime_v6_4.py",
-        "scripts/validate_station_chief_runtime_v6_3.py",
-        "scripts/validate_station_chief_runtime_v6_2.py",
-        "scripts/validate_station_chief_runtime_v6_1.py",
-        "scripts/validate_station_chief_runtime_v6_0.py",
-        "scripts/validate_station_chief_runtime_v5_9.py",
-        "scripts/validate_station_chief_runtime_v5_8.py",
-        "scripts/validate_station_chief_runtime_v5_7.py",
-        "scripts/validate_station_chief_runtime_v5_6.py",
-        "scripts/validate_station_chief_runtime_v5_5.py",
-        "scripts/validate_station_chief_runtime_v5_4.py",
-        "scripts/validate_station_chief_runtime_v5_3.py",
-        "scripts/validate_station_chief_runtime_v5_2.py",
-        "scripts/validate_station_chief_runtime_v5_1.py",
-        "scripts/validate_station_chief_runtime_v5_0.py"
-    ]
-    for v in prior_validators:
-        print(f"Running {v}...")
-        env = os.environ.copy()
-        env["STATION_CHIEF_SKIP_RECURSIVE_VALIDATION"] = "1"
-        res = subprocess.run([sys.executable, str(REPO_ROOT / v)], capture_output=True, text=True, env=env)
-        ensure(res.returncode == 0, f"Prior validator {v} failed:\n{res.stdout}\n{res.stderr}")
+    if not os.environ.get("STATION_CHIEF_SKIP_RECURSIVE_VALIDATION"):
+        print("Running prior validator smoke tests...")
+        prior_validators = [
+            "scripts/validate_station_chief_runtime_v8_0.py",
+            "scripts/validate_station_chief_runtime_v6_6.py",
+            "scripts/validate_station_chief_runtime_v6_5.py",
+            "scripts/validate_station_chief_runtime_v6_4.py",
+            "scripts/validate_station_chief_runtime_v6_3.py",
+            "scripts/validate_station_chief_runtime_v6_2.py",
+            "scripts/validate_station_chief_runtime_v6_1.py",
+            "scripts/validate_station_chief_runtime_v6_0.py",
+            "scripts/validate_station_chief_runtime_v5_9.py",
+            "scripts/validate_station_chief_runtime_v5_8.py",
+            "scripts/validate_station_chief_runtime_v5_7.py",
+            "scripts/validate_station_chief_runtime_v5_6.py",
+            "scripts/validate_station_chief_runtime_v5_5.py",
+            "scripts/validate_station_chief_runtime_v5_4.py",
+            "scripts/validate_station_chief_runtime_v5_3.py",
+            "scripts/validate_station_chief_runtime_v5_2.py",
+            "scripts/validate_station_chief_runtime_v5_1.py",
+            "scripts/validate_station_chief_runtime_v5_0.py"
+        ]
+        for v in prior_validators:
+            print(f"Running {v}...")
+            env = os.environ.copy()
+            env["STATION_CHIEF_SKIP_RECURSIVE_VALIDATION"] = "1"
+            res = subprocess.run([sys.executable, str(REPO_ROOT / v)], capture_output=True, text=True, env=env)
+            ensure(res.returncode == 0, f"Prior validator {v} failed:\n{res.stdout}\n{res.stderr}")
 
     print("STATION_CHIEF_RUNTIME_V9_0_VALIDATION_PASS")
 
