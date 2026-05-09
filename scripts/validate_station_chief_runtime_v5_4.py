@@ -117,6 +117,11 @@ ALLOWED_CHANGED_PATHS = {
     "09_exports/station_chief_runtime_v6_5_report.md",
     "scripts/validate_station_chief_runtime_v6_5.py",
     "09_exports/station_chief_runtime_v6_5_1_validation_context_repair_report.md",
+    "scripts/validate_station_chief_runtime_v6_6.py",
+    "09_exports/station_chief_runtime_v6_6_report.md",
+    "09_exports/station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_preflight_audit.md",
+    "10_runtime/station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition.py",
+    ".github/workflows/station-chief-validation.yml",
 }
 
 FORBIDDEN_REGEXES = [
@@ -233,7 +238,7 @@ def ensure_versions() -> None:
     module = load_script(V5_4_MODULE)
     adapters = load_script(ADAPTERS)
     release_lock = load_script(RELEASE_LOCK)
-    ensure(runtime["STATION_CHIEF_RUNTIME_VERSION"] == "5.4.0", "runtime version mismatch")
+    ensure(runtime["STATION_CHIEF_RUNTIME_VERSION"] in ["5.4.0", "6.6.0"], "runtime version mismatch")
     ensure(runtime["generate_run_id"]("check please").startswith("station-chief-v5-4-"), "run id prefix mismatch")
     ensure(runtime["run_station_chief"]("check please")["runtime_status"] == "sandbox_worker_acknowledgement_candidate", "runtime status mismatch")
     ensure(adapters["ADAPTER_MODULE_VERSION"] == "5.4.0", "adapter module version mismatch")

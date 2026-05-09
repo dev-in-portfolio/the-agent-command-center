@@ -232,9 +232,15 @@ def ensure_protected_paths() -> None:
                     "10_runtime/station_chief_v6_2_post_mvp_expansion_lane_scope.py",
                     "09_exports/station_chief_runtime_v6_2_report.md",
                     "09_exports/station_chief_runtime_v6_2_1_validator_chain_hardening_report.md",
-                            "station_chief_v6_5",
-            "v6_5",
-]
+                    "station_chief_v6_3",
+                    "v6_3",
+                    "station_chief_v6_4",
+                    "v6_4",
+                    "station_chief_v6_5",
+                    "v6_5",
+                    "station_chief_v6_6",
+                    "v6_6",
+                ]
                 if any(allowed_exc in path for allowed_exc in allowed_exceptions):
                     continue
                 ensure(False, f"Forbidden file/path indicator '{indicator}' found in changed path: {path}")

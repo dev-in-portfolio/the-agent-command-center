@@ -664,6 +664,22 @@ def validate_v6_2() -> None:
         "09_exports/station_chief_v6_2_post_mvp_expansion_lane_scope_preflight_audit.md",
         "10_runtime/station_chief_v6_2_post_mvp_expansion_lane_scope.py",
         "09_exports/station_chief_runtime_v6_2_1_validator_chain_hardening_report.md",
+        "scripts/validate_station_chief_runtime_v6_3.py",
+        "09_exports/station_chief_runtime_v6_3_report.md",
+        "10_runtime/station_chief_v6_3_post_mvp_expansion_lane_readiness.py",
+        "09_exports/station_chief_v6_3_post_mvp_expansion_lane_readiness_preflight_audit.md",
+        "scripts/validate_station_chief_runtime_v6_4.py",
+        "09_exports/station_chief_runtime_v6_4_report.md",
+        "10_runtime/station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan.py",
+        "09_exports/station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan_preflight_audit.md",
+        "scripts/validate_station_chief_runtime_v6_5.py",
+        "09_exports/station_chief_runtime_v6_5_report.md",
+        "10_runtime/station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review.py",
+        "09_exports/station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review_preflight_audit.md",
+        "scripts/validate_station_chief_runtime_v6_6.py",
+        "09_exports/station_chief_runtime_v6_6_report.md",
+        "10_runtime/station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition.py",
+        "09_exports/station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_preflight_audit.md",
     ]
 
     for path_item in all_changed:

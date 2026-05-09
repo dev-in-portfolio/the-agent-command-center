@@ -23,6 +23,9 @@ def _validation_context_filename() -> str | None:
             "validate_station_chief_runtime_v6_1.py",
             "validate_station_chief_runtime_v6_2.py",
             "validate_station_chief_runtime_v6_3.py",
+            "validate_station_chief_runtime_v6_4.py",
+            "validate_station_chief_runtime_v6_5.py",
+            "validate_station_chief_runtime_v6_6.py",
         }:
             return filename
     return None
@@ -72,10 +75,13 @@ def _select_adapter_version(default_version: str) -> str:
         return "6.4.0"
     if context == "validate_station_chief_runtime_v6_5.py":
         return "6.5.0"
+    if context == "validate_station_chief_runtime_v6_6.py":
+        return "6.6.0"
     return default_version
 
 
-ADAPTER_MODULE_VERSION = "6.5.0"
+
+ADAPTER_MODULE_VERSION = "6.6.0"
 ADAPTER_MODULE_VERSION = _select_adapter_version(ADAPTER_MODULE_VERSION)
 
 YES_I_APPROVE_SANDBOX_FILE_WRITE = "YES_I_APPROVE_SANDBOX_FILE_WRITE"
@@ -323,8 +329,34 @@ SUPPORTED_ADAPTERS = {
         "one_local_station_chief_v6_3_post_mvp_expansion_lane_readiness_packet_allowed_with_v6_3_token": True,
         "deterministic_local_post_mvp_expansion_lane_readiness_packet_write_allowed": True,
         "post_mvp_expansion_lane_readiness_metadata_record_allowed": True,
+        "supports_station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan": True,
+        "station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan_requires_specific_token": True,
+        "one_local_station_chief_v6_4_implementation_plan_packet_allowed_with_v6_4_token": True,
+        "deterministic_local_post_mvp_expansion_lane_non_executing_implementation_plan_packet_write_allowed": True,
+        "post_mvp_expansion_lane_non_executing_implementation_plan_metadata_record_allowed": True,
+        "supports_station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review": True,
+        "station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review_requires_specific_token": True,
+        "one_local_station_chief_v6_5_implementation_plan_review_packet_allowed_with_v6_5_token": True,
+        "deterministic_local_post_mvp_expansion_lane_non_executing_implementation_plan_review_packet_write_allowed": True,
+        "post_mvp_expansion_lane_non_executing_implementation_plan_review_metadata_record_allowed": True,
+        "supports_station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition": True,
+        "station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_requires_specific_token": True,
+        "one_local_station_chief_v6_6_review_disposition_packet_allowed_with_v6_6_token": True,
+        "deterministic_local_post_mvp_expansion_lane_non_executing_review_disposition_packet_write_allowed": True,
+        "post_mvp_expansion_lane_non_executing_review_disposition_metadata_record_allowed": True,
         "selected_expansion_lane_implementation_allowed": False,
         "selected_expansion_lane_execution_allowed": False,
+        "implementation_plan_execution_allowed": False,
+        "implementation_step_execution_allowed": False,
+        "implementation_plan_review_execution_allowed": False,
+        "review_finding_execution_allowed": False,
+        "review_decision_execution_allowed": False,
+        "review_risk_disposition_execution_allowed": False,
+        "review_disposition_execution_allowed": False,
+        "disposition_condition_execution_allowed": False,
+        "disposition_next_gate_execution_allowed": False,
+        "implementation_rollback_execution_allowed": False,
+        "v6_7_creation_allowed": False,
         "one_local_station_chief_v6_0_mvp_lock_packet_allowed_with_v6_0_token": True,
         "deterministic_local_mvp_lock_packet_write_allowed": True,
         "integrated_local_command_center_loop_metadata_record_allowed": True,
@@ -532,6 +564,9 @@ def list_adapters() -> dict:
         "supports_monitored_rollback_recovery_drill": True,
         "monitored_rollback_recovery_drill_requires_specific_token": True,
         "supports_supervised_production_pilot_readiness_review": True,
+        "supports_station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan": True,
+        "supports_station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review": True,
+        "supports_station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition": True,
         "supervised_production_pilot_readiness_review_requires_specific_token": True,
         "real_rollback_allowed": False,
         "real_recovery_allowed": False,

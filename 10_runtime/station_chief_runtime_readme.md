@@ -1,29 +1,54 @@
-# Station Chief Runtime v6.5.0
+# Station Chief Runtime v6.6.0
 
 ## Status
-Station Chief Runtime upgraded to v6.5.0. Locked 175-family baseline preserved. Station Chief v6.5 Post-MVP Expansion Lane Non-Executing Implementation Plan Review Candidate added.
+Station Chief Runtime upgraded to v6.6.0. Locked 175-family baseline preserved. Station Chief v6.6 Post-MVP Expansion Lane Non-Executing Review Disposition Candidate added.
 
 ## What This Adds
-- v6.5 may write exactly one deterministic local non-executing implementation plan review packet only
-- v6.5 records implementation plan review metadata only
-- v6.5 references one v6.4 implementation plan packet reference label
-- v6.5 references one v6.3 readiness packet reference label
-- v6.5 references one v6.2 lane scope packet reference label
-- v6.5 requires token, human operator, labels, and explicit output directory
-- v6.5 does not implement or execute selected lane
-- v6.5 does not execute implementation plan
-- v6.5 does not execute implementation steps
-- v6.5 does not execute review findings/decisions beyond metadata
-- v6.5 does not execute rollback
-- v6.5 does not start worker/agent
-- v6.5 does not create queues
-- v6.5 does not enqueue or execute tasks
-- v6.5 does not call APIs/network/deployment/production
-- v6.5 does not create v6.6
+- v6.6 may write exactly one deterministic local non-executing review disposition packet only
+- v6.6 records review disposition metadata only
+- v6.6 references one v6.5 implementation plan review packet reference label
+- v6.6 references one v6.4 implementation plan packet reference label
+- v6.6 references one v6.3 readiness packet reference label
+- v6.6 references one v6.2 lane scope packet reference label
+- v6.6 requires token, human operator, labels, and explicit output directory
+- v6.6 does not implement or execute selected lane
+- v6.6 does not execute implementation plan
+- v6.6 does not execute implementation steps
+- v6.6 does not execute review findings/decisions
+- v6.6 does not execute disposition conditions
+- v6.6 does not execute rollback
+- v6.6 does not start worker/agent
+- v6.6 does not create queues
+- v6.6 does not enqueue or execute tasks
+- v6.6 does not call APIs/network/deployment/production
+- v6.6 does not create v6.7
 - Next internal label:
-  v6.6 requires explicit operator instruction
+  v6.7 requires explicit operator instruction
 
 ## History
+### v6.6.0
+Station Chief Runtime upgraded to v6.6.0. Locked 175-family baseline preserved. Station Chief v6.6 Post-MVP Expansion Lane Non-Executing Review Disposition Candidate added.
+- v6.6 may write exactly one deterministic local non-executing review disposition packet only
+- v6.6 records review disposition metadata only
+- v6.6 references one v6.5 implementation plan review packet reference label
+- v6.6 references one v6.4 implementation plan packet reference label
+- v6.6 references one v6.3 readiness packet reference label
+- v6.6 references one v6.2 lane scope packet reference label
+- v6.6 requires token, human operator, labels, and explicit output directory
+- v6.6 does not implement or execute selected lane
+- v6.6 does not execute implementation plan
+- v6.6 does not execute implementation steps
+- v6.6 does not execute review findings/decisions
+- v6.6 does not execute disposition conditions
+- v6.6 does not execute rollback
+- v6.6 does not start worker/agent
+- v6.6 does not create queues
+- v6.6 does not enqueue or execute tasks
+- v6.6 does not call APIs/network/deployment/production
+- v6.6 does not create v6.7
+- Next internal label:
+  v6.7 requires explicit operator instruction
+
 ### v6.5.0
 Station Chief Runtime upgraded to v6.5.0. Locked 175-family baseline preserved. Station Chief v6.5 Post-MVP Expansion Lane Non-Executing Implementation Plan Review Candidate added.
 - v6.5 may write exactly one deterministic local non-executing implementation plan review packet only

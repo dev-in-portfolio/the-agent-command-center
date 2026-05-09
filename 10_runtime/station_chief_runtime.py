@@ -308,6 +308,12 @@ from station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_pla
     create_station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review_bundle
 )
 
+from station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition import (
+    STATION_CHIEF_V6_6_POST_MVP_EXPANSION_LANE_NON_EXECUTING_REVIEW_DISPOSITION_APPROVAL_TOKEN,
+    create_station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_schema,
+    create_station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_bundle
+)
+
 from station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan import (
     STATION_CHIEF_V6_4_POST_MVP_EXPANSION_LANE_NON_EXECUTING_IMPLEMENTATION_PLAN_APPROVAL_TOKEN,
     create_station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan_bundle,
@@ -341,6 +347,8 @@ def _validation_context_filename() -> str | None:
             "validate_station_chief_runtime_v6_2.py",
             "validate_station_chief_runtime_v6_3.py",
             "validate_station_chief_runtime_v6_4.py",
+            "validate_station_chief_runtime_v6_5.py",
+            "validate_station_chief_runtime_v6_6.py",
         }:
             return filename
     return None
@@ -390,10 +398,12 @@ def _select_runtime_version(default_version: str) -> str:
         return "6.4.0"
     if context == "validate_station_chief_runtime_v6_5.py":
         return "6.5.0"
+    if context == "validate_station_chief_runtime_v6_6.py":
+        return "6.6.0"
     return default_version
 
 
-STATION_CHIEF_RUNTIME_VERSION = "6.5.0"
+STATION_CHIEF_RUNTIME_VERSION = "6.6.0"
 STATION_CHIEF_RUNTIME_VERSION = _select_runtime_version(STATION_CHIEF_RUNTIME_VERSION)
 
 EXPECTED_OVERLAYS = [
@@ -1053,7 +1063,7 @@ def attach_station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementati
     if not (args.station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review or args.write_station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review):
         return result
     
-    return create_station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review_bundle(
+    bundle = create_station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review_bundle(
         result=result,
         command=" ".join(sys.argv),
         v6_4_implementation_plan_packet_reference_label=args.v6_5_implementation_plan_packet_reference_label,
@@ -1072,6 +1082,9 @@ def attach_station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementati
         implementation_plan_review_requested=bool(args.station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review or args.write_station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review),
         write_implementation_plan_review_packet=bool(args.write_station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review)
     )
+    result = dict(result)
+    result["station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review"] = bundle
+    return result
 
 def write_station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review(result: dict) -> dict:
     bundle = result.get("station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review")
@@ -1079,6 +1092,46 @@ def write_station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementatio
         return result
     wrec = bundle.get("implementation_plan_review_packet_write_record")
     if wrec and wrec.get("write_status") == "STATION_CHIEF_V6_5_POST_MVP_EXPANSION_LANE_NON_EXECUTING_IMPLEMENTATION_PLAN_REVIEW_PACKET_WRITTEN":
+        result["files_written"] = wrec.get("files_written", [])
+        result["record_path"] = wrec.get("record_path")
+    else:
+        result["files_written"] = []
+        result["record_path"] = None
+    return result
+
+def attach_station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition(result: dict, args) -> dict:
+    if not (args.station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition or args.write_station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition):
+        return result
+    
+    bundle = create_station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_bundle(
+        command=" ".join(sys.argv),
+        v6_5_implementation_plan_review_packet_reference_label=args.v6_6_implementation_plan_review_packet_reference_label,
+        v6_4_implementation_plan_packet_reference_label=args.v6_6_implementation_plan_packet_reference_label,
+        v6_3_readiness_packet_reference_label=args.v6_6_readiness_packet_reference_label,
+        v6_2_lane_scope_packet_reference_label=args.v6_6_lane_scope_packet_reference_label,
+        selected_expansion_lane_label=args.v6_6_selected_expansion_lane_label,
+        review_disposition_label=args.v6_6_review_disposition_label,
+        disposition_condition_list_label=args.v6_6_disposition_condition_list_label,
+        disposition_hold_label=args.v6_6_disposition_hold_label,
+        disposition_next_gate_label=args.v6_6_disposition_next_gate_label,
+        disposition_non_execution_boundary_label=args.v6_6_disposition_non_execution_boundary_label,
+        output_directory=args.write_station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition,
+        review_disposition_packet_name=args.v6_6_review_disposition_packet_name,
+        confirmation_token=args.v6_6_review_disposition_confirm_token,
+        human_operator=args.v6_6_review_disposition_human_operator,
+        review_disposition_requested=bool(args.station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition or args.write_station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition),
+        write_review_disposition_packet=bool(args.write_station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition)
+    )
+    result = dict(result)
+    result["station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition"] = bundle
+    return result
+
+def write_station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition(result: dict) -> dict:
+    bundle = result.get("station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition")
+    if not bundle:
+        return result
+    wrec = bundle.get("review_disposition_packet_record")
+    if wrec and wrec.get("write_status") == "STATION_CHIEF_V6_6_POST_MVP_EXPANSION_LANE_NON_EXECUTING_REVIEW_DISPOSITION_PACKET_WRITTEN":
         result["files_written"] = wrec.get("files_written", [])
         result["record_path"] = wrec.get("record_path")
     else:
@@ -1112,6 +1165,8 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "6.2.0": "station_chief_v6_2_post_mvp_expansion_lane_scope",
         "6.3.0": "station_chief_v6_3_post_mvp_expansion_lane_readiness",
         "6.4.0": "station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan",
+        "6.5.0": "station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review",
+        "6.6.0": "station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition",
     }.get(STATION_CHIEF_RUNTIME_VERSION, "live_queue_orchestration_candidate_review")
     evidence = build_demo_evidence()
     evidence.update(
@@ -1257,7 +1312,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "activation_tier": brief["activation_tier"],
         "baseline_preserved": True,
         "evidence": evidence,
-        "next_step": "Next step: v6.3 requires explicit operator instruction.",
+        "next_step": "Next step: v6.7 requires explicit operator instruction.",
         "first_tiny_real_world_supervised_execution_candidate_available": True,
         "first_tiny_real_world_supervised_execution_candidate_local_only": True,
         "first_tiny_real_world_supervised_execution_candidate_requires_token": True,
@@ -1337,6 +1392,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_perform_recovery": True,
         "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_create_v6_3": True,
         "station_chief_v6_3_post_mvp_expansion_lane_readiness_available": True,
+        "station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_available": True,
         "station_chief_v6_3_post_mvp_expansion_lane_readiness_requires_token": True,
         "station_chief_v6_3_post_mvp_expansion_lane_readiness_requires_human_operator": True,
         "station_chief_v6_3_post_mvp_expansion_lane_readiness_writes_one_local_packet_only": True,
@@ -1383,7 +1439,29 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_read_environment": True,
         "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_deploy": True,
         "station_chief_v6_3_post_mvp_expansion_lane_readiness_does_not_execute_production": True,
+        "station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_available": True,
+        "station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_records_metadata_only": True,
+        "station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_does_not_implement_selected_expansion_lane": True,
+        "station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_does_not_execute_selected_expansion_lane": True,
+        "station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_does_not_execute_implementation_plan": True,
+        "station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_does_not_execute_implementation_steps": True,
+        "station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_does_not_execute_review_findings": True,
+        "station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_does_not_execute_review_decision": True,
+        "station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_does_not_execute_disposition_conditions": True,
+        "station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_does_not_execute_next_gate": True,
+        "station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_does_not_start_worker_processes": True,
+        "station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_does_not_start_agents": True,
+        "station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_does_not_create_real_queue": True,
+        "station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_does_not_write_queue": True,
+        "station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_does_not_enqueue_tasks": True,
+        "station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_does_not_execute_tasks": True,
+        "station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_does_not_call_live_apis": True,
+        "station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_does_not_use_network_access": True,
+        "station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_does_not_deploy": True,
+        "station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_does_not_execute_production": True,
+        "station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_does_not_create_v6_7": True,
         "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_start_worker_processes": True,
+
         "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_start_agents": True,
         "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_create_real_queue": True,
         "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_write_queue": True,
@@ -10677,6 +10755,23 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--v6-5-implementation-plan-review-confirm-token", type=str)
     parser.add_argument("--v6-5-implementation-plan-review-human-operator", type=str)
 
+    parser.add_argument("--station-chief-v6-6-post-mvp-expansion-lane-non-executing-review-disposition-schema", action="store_true")
+    parser.add_argument("--station-chief-v6-6-post-mvp-expansion-lane-non-executing-review-disposition", action="store_true")
+    parser.add_argument("--write-station-chief-v6-6-post-mvp-expansion-lane-non-executing-review-disposition", type=str)
+    parser.add_argument("--v6-6-implementation-plan-review-packet-reference-label", type=str)
+    parser.add_argument("--v6-6-implementation-plan-packet-reference-label", type=str)
+    parser.add_argument("--v6-6-readiness-packet-reference-label", type=str)
+    parser.add_argument("--v6-6-lane-scope-packet-reference-label", type=str)
+    parser.add_argument("--v6-6-selected-expansion-lane-label", type=str)
+    parser.add_argument("--v6-6-review-disposition-label", type=str)
+    parser.add_argument("--v6-6-disposition-condition-list-label", type=str)
+    parser.add_argument("--v6-6-disposition-hold-label", type=str)
+    parser.add_argument("--v6-6-disposition-next-gate-label", type=str)
+    parser.add_argument("--v6-6-disposition-non-execution-boundary-label", type=str)
+    parser.add_argument("--v6-6-review-disposition-packet-name", type=str)
+    parser.add_argument("--v6-6-review-disposition-confirm-token", type=str)
+    parser.add_argument("--v6-6-review-disposition-human-operator", type=str)
+
     parser.add_argument("--station-chief-v6-4-post-mvp-expansion-lane-non-executing-implementation-plan-schema", action="store_true")
     parser.add_argument("--station-chief-v6-4-post-mvp-expansion-lane-non-executing-implementation-plan", action="store_true")
     parser.add_argument("--write-station-chief-v6-4-post-mvp-expansion-lane-non-executing-implementation-plan", metavar="DIR", type=str)
@@ -11903,6 +11998,22 @@ def main() -> None:
     if args.station_chief_v6_2_post_mvp_expansion_lane_scope_schema:
         print(json.dumps(create_station_chief_v6_2_post_mvp_expansion_lane_scope_schema(), indent=2, ensure_ascii=False))
         return
+
+    if getattr(args, "station_chief_v6_3_post_mvp_expansion_lane_readiness_schema", False):
+        print(json.dumps(create_station_chief_v6_3_post_mvp_expansion_lane_readiness_schema(), indent=2, ensure_ascii=False))
+        return
+
+    if getattr(args, "station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan_schema", False):
+        print(json.dumps(create_station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan_schema(), indent=2, ensure_ascii=False))
+        return
+
+    if getattr(args, "station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review_schema", False):
+        print(json.dumps(create_station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review_schema(), indent=2, ensure_ascii=False))
+        return
+
+    if getattr(args, "station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_schema", False):
+        print(json.dumps(create_station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_schema(), indent=2, ensure_ascii=False))
+        return
         
     if getattr(args, "write_station_chief_v6_1_post_mvp_expansion_review", False):
         result = write_station_chief_v6_1_post_mvp_expansion_review(
@@ -12003,6 +12114,18 @@ def main() -> None:
             readiness_requested=False,
             write_readiness_packet=False,
         )
+
+    if getattr(args, "write_station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review", False):
+        result = attach_station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review(result, args)
+        result = write_station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review(result)
+    elif args.station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review:
+        result = attach_station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review(result, args)
+
+    if getattr(args, "write_station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition", False):
+        result = attach_station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition(result, args)
+        result = write_station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition(result)
+    elif args.station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition:
+        result = attach_station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition(result, args)
 
     if getattr(args, "write_station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan", False):
         result = write_station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan(

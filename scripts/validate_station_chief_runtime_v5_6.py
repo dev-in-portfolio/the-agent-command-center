@@ -94,19 +94,27 @@ ALLOWED_CHANGED_PATHS = {
      "scripts/validate_station_chief_runtime_v4_8.py",
      "scripts/validate_station_chief_runtime_v4_9.py",
      "README.md",
-     ".github/",
      "09_exports/station_chief_github_actions_validation_setup_report.md",
      "09_exports/station_chief_runtime_v6_4_1_validator_doc_repair_report.md",
      "scripts/validate_station_chief_runtime_v6_4.py",
      "09_exports/station_chief_runtime_v6_4_report.md",
+     "09_exports/station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan_preflight_audit.md",
+     "10_runtime/station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan.py",
+     "09_exports/station_chief_runtime_v6_4_1_repair_report.md",
+     "scripts/validate_station_chief_runtime_v6_5.py",
+     "09_exports/station_chief_runtime_v6_5_report.md",
      "09_exports/station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review_preflight_audit.md",
      "10_runtime/station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review.py",
-     "09_exports/station_chief_runtime_v6_5_report.md",
-     "scripts/validate_station_chief_runtime_v6_5.py",
      "09_exports/station_chief_runtime_v6_5_1_validation_context_repair_report.md",
+     "scripts/validate_station_chief_runtime_v6_6.py",
+     "09_exports/station_chief_runtime_v6_6_report.md",
+     "09_exports/station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_preflight_audit.md",
+     "10_runtime/station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition.py",
+     ".github/workflows/station-chief-validation.yml",
      "scripts/validate_station_chief_runtime_v5_5.py",
      "scripts/validate_station_chief_runtime_v5_6.py",
- }
+     }
+
 
 FORBIDDEN_REGEXES = [
     r"import\s+requests",

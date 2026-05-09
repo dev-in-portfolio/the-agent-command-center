@@ -38,12 +38,27 @@ V4_9_REFERENCE_LABEL = "sandbox orchestration review reference"
 DEFAULT_REVIEW_RECORD_NAME = "first_live_queue_execution_candidate_review_record.json"
 
 ALLOWED_CHANGED_PATHS = {
-    "scripts/validate_station_chief_runtime_v6_3.py",
     ".github/workflows/station-chief-validation.yml",
+    "scripts/validate_station_chief_runtime_v6_3.py",
     "09_exports/station_chief_runtime_v6_3_report.md",
     "09_exports/station_chief_runtime_v6_3_1_contract_repair_report.md",
     "10_runtime/station_chief_v6_3_post_mvp_expansion_lane_readiness.py",
     "09_exports/station_chief_v6_3_post_mvp_expansion_lane_readiness_preflight_audit.md",
+    "scripts/validate_station_chief_runtime_v6_4.py",
+    "09_exports/station_chief_runtime_v6_4_report.md",
+    "09_exports/station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan_preflight_audit.md",
+    "10_runtime/station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan.py",
+    "09_exports/station_chief_runtime_v6_4_1_repair_report.md",
+    "scripts/validate_station_chief_runtime_v6_5.py",
+    "09_exports/station_chief_runtime_v6_5_report.md",
+    "09_exports/station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review_preflight_audit.md",
+    "10_runtime/station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review.py",
+    "09_exports/station_chief_runtime_v6_5_1_validation_context_repair_report.md",
+    "scripts/validate_station_chief_runtime_v6_6.py",
+    "09_exports/station_chief_runtime_v6_6_report.md",
+    "09_exports/station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_preflight_audit.md",
+    "10_runtime/station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition.py",
+
     "09_exports/station_chief_runtime_v6_1_1_validator_version_assertion_repair_report.md",
     "scripts/validate_station_chief_runtime_v6_1.py",
     "09_exports/station_chief_runtime_v6_1_report.md",
