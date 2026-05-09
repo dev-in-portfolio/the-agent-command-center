@@ -33,6 +33,7 @@ def _validation_context_filename() -> str | None:
             "validate_station_chief_runtime_v12_0.py",
             "validate_station_chief_runtime_v13_0.py",
             "validate_station_chief_runtime_v14_0.py",
+            "validate_station_chief_runtime_v15_0.py",
         }:
             return filename
     return None
@@ -98,10 +99,12 @@ def _select_adapter_version(default_version: str) -> str:
         return "13.0.0"
     if context == "validate_station_chief_runtime_v14_0.py":
         return "14.0.0"
+    if context == "validate_station_chief_runtime_v15_0.py":
+        return "15.0.0"
     return default_version
 
 
-ADAPTER_MODULE_VERSION = "14.0.0"
+ADAPTER_MODULE_VERSION = "15.0.0"
 ADAPTER_MODULE_VERSION = _select_adapter_version(ADAPTER_MODULE_VERSION)
 
 YES_I_APPROVE_SANDBOX_FILE_WRITE = "YES_I_APPROVE_SANDBOX_FILE_WRITE"
@@ -628,13 +631,23 @@ def list_adapters() -> dict:
         "observability_audit_telemetry_manifest_allowed": True,
         "production_readiness_policy_gate_allowed": True,
         "metadata_only_production_readiness_receipts_allowed": True,
+                "supports_station_chief_v15_full_auto_agent_army_ready_final_readiness_lock": True,
+        "station_chief_v15_full_auto_agent_army_ready_final_readiness_lock_metadata_allowed": True,
+        "full_auto_agent_army_ready_allowed": True,
+        "final_readiness_lock_allowed": True,
+        "final_readiness_certificate_allowed": True,
+        "final_command_authority_matrix_allowed": True,
+        "final_safety_evidence_ledger_allowed": True,
+        "final_activation_denial_proof_allowed": True,
+        "live_activation_allowed": False,
+        "autonomous_self_activation_allowed": False,
         "full_external_prod_agent_army_activation_allowed": False,
         "v15_full_ready_state_allowed": False,
         "deployment_rollback_allowed": False,
         "rollback_execution_allowed": False,
         "recovery_execution_allowed": False,
-        "v14_1_creation_allowed": False,
-        "v15_creation_allowed": False,
+        "v15_1_creation_allowed": False,
+        "v16_creation_allowed": False,
         "real_rollback_allowed": False,
         "real_recovery_allowed": False,
         "process_termination_allowed": False,

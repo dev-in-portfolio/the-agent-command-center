@@ -619,7 +619,7 @@ def ensure_changed_paths() -> None:
         for line in status.stdout.splitlines()
         if line.strip() and "__pycache__" not in line and not line.strip().endswith(".pyc")
     }
-    unexpected = [p for p in changed_paths if p not in ALLOWED_CHANGED_PATHS and "v14" not in p and "v13" not in p and "validate_station_chief" not in p]
+    unexpected = [p for p in changed_paths if p not in ALLOWED_CHANGED_PATHS and "v14" not in p and "v15" not in p and "v13" not in p and "validate_station_chief" not in p]
     ensure(not unexpected, f"unexpected changed paths: {sorted(unexpected)}")
 
 

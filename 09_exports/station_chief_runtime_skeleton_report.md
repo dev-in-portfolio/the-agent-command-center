@@ -1,46 +1,43 @@
-# Station Chief Runtime v14.0.0
+# Station Chief Runtime v15.0.0
 
 ## Status
-Station Chief Runtime upgraded to v14.0.0. Locked 175-family baseline preserved. v8.0 control plane preserved. v9.0 controlled local worker pilot preserved. v10.0 multi-worker sandbox coordination preserved. v11.0 permissioned tool/task/queue layer preserved. v12.0 autonomous worker army release candidate preserved. v13.0 external tool/API pilot hardening preserved. Station Chief v14.0 Production Readiness / Rollback / Live Safety Gates Candidate added.
+Station Chief Runtime upgraded to v15.0.0. Locked 175-family baseline preserved. v8.0 through v14.0 preserved. Station Chief v15.0 Full Auto Agent Army Ready / Final Readiness Lock Candidate added.
 
 ## What This Adds
-- v14.0 introduces exactly five production readiness gate descriptors
-- v14.0 introduces exactly three rollback/recovery playbook descriptors
-- v14.0 introduces one live safety gate manifest
-- v14.0 introduces one supervised production pilot preflight record
-- v14.0 introduces one emergency stop / abort control manifest
-- v14.0 introduces one observability / audit telemetry manifest
-- v14.0 creates metadata-only production readiness receipts
-- v14.0 does not deploy
-- v14.0 does not touch production
-- v14.0 does not execute production
-- v14.0 does not execute rollback
-- v14.0 does not execute recovery
-- v14.0 does not invoke real tools
-- v14.0 does not invoke external tools
-- v14.0 does not call APIs
-- v14.0 does not use network access
-- v14.0 does not open sockets
-- v14.0 does not resolve DNS
-- v14.0 does not access credentials
-- v14.0 does not read secrets
-- v14.0 does not read environment variables
-- v14.0 does not start worker daemons
-- v14.0 does not start background processes
-- v14.0 does not start agents
-- v14.0 does not create real queues
-- v14.0 does not write queues
-- v14.0 does not enqueue or execute live tasks
-- v14.0 does not route live work
-- v14.0 does not perform live orchestration
-- v14.0 does not execute arbitrary/user tasks
-- v14.0 does not run shell/subprocess commands
-- v14.0 does not create v14.1
-- v14.0 does not create v15
+- v15.0 means full auto agent army ready as a verified readiness state
+- v15.0 creates final readiness lock metadata
+- v15.0 creates final readiness certificate metadata
+- v15.0 creates final command authority matrix metadata
+- v15.0 creates final safety evidence ledger metadata
+- v15.0 creates activation denial proof metadata
+- v15.0 does not activate live autonomy
+- v15.0 does not autonomously self-activate
+- v15.0 does not deploy
+- v15.0 does not touch production
+- v15.0 does not execute production
+- v15.0 does not execute rollback
+- v15.0 does not execute recovery
+- v15.0 does not invoke real tools
+- v15.0 does not invoke external tools
+- v15.0 does not call APIs
+- v15.0 does not use network access
+- v15.0 does not access credentials
+- v15.0 does not read secrets
+- v15.0 does not read environment variables
+- v15.0 does not start workers/agents/daemons
+- v15.0 does not create real queues
+- v15.0 does not enqueue or execute live tasks
+- v15.0 does not route or orchestrate live work
+- v15.0 does not create v15.1
+- v15.0 does not create v16
 - Next internal label:
-  v14.1 or v15.0 requires explicit operator instruction
+  v15.1 or live activation requires explicit separate operator instruction
 
 ## History
+### v14.0.0
+Station Chief Runtime upgraded to v14.0.0. Locked 175-family baseline preserved. v8.0 control plane preserved. v9.0 controlled local worker pilot preserved. v10.0 multi-worker sandbox coordination preserved. v11.0 permissioned tool/task/queue layer preserved. v12.0 autonomous worker army release candidate preserved. v13.0 external tool/API pilot hardening preserved. Station Chief v14.0 Production Readiness / Rollback / Live Safety Gates Candidate added.
+Next internal label: v14.1 or v15.0 requires explicit operator instruction.
+
 ### v13.0.0
 Station Chief Runtime upgraded to v13.0.0. Locked 175-family baseline preserved. v8.0 control plane preserved. v9.0 controlled local worker pilot preserved. v10.0 multi-worker sandbox coordination preserved. v11.0 permissioned tool/task/queue layer preserved. v12.0 autonomous worker army release candidate preserved. Station Chief v13.0 External Tool / API Pilot Hardening Candidate added.
 Next internal label: v13.1 or v14.0 requires explicit operator instruction.

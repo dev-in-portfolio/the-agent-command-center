@@ -645,6 +645,7 @@ def validate_v6_2() -> None:
 
     forbidden_indicators = ["devinization", "ownership", "credential", "secret", "env", "production", "deployment"]
     allowed_changed_exceptions = [
+                    "v15",
                     "v14",
                     ".github/workflows/station-chief-validation.yml",
                     "09_exports/station_chief_runtime_skeleton_report.md",

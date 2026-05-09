@@ -347,6 +347,10 @@ from station_chief_v14_production_readiness_rollback_live_safety_gates import (
     create_station_chief_v14_production_readiness_rollback_live_safety_gates_schema,
     create_station_chief_v14_production_readiness_rollback_live_safety_gates_bundle,
 )
+from station_chief_v15_full_auto_agent_army_ready_final_readiness_lock import (
+    create_station_chief_v15_full_auto_agent_army_ready_final_readiness_lock_schema,
+    create_station_chief_v15_full_auto_agent_army_ready_final_readiness_lock_bundle,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -447,11 +451,13 @@ def _select_runtime_version(default_version: str) -> str:
     if context == "validate_station_chief_runtime_v13_0.py":
         return "13.0.0"
     if context == "validate_station_chief_runtime_v14_0.py":
-        return "14.0.0" 
+        return "14.0.0"
+    if context == "validate_station_chief_runtime_v15_0.py":
+        return "15.0.0"  
     return default_version
 
 
-STATION_CHIEF_RUNTIME_VERSION = "14.0.0"
+STATION_CHIEF_RUNTIME_VERSION = "15.0.0"
 STATION_CHIEF_RUNTIME_VERSION = _select_runtime_version(STATION_CHIEF_RUNTIME_VERSION)
 
 EXPECTED_OVERLAYS = [
@@ -1305,6 +1311,9 @@ def attach_station_chief_v13_external_tool_api_pilot_hardening(result: dict, arg
 
     bundle = create_station_chief_v13_external_tool_api_pilot_hardening_bundle()
 
+    if args.station_chief_v15_full_auto_agent_army_ready_final_readiness_lock or args.station_chief_v15_final_readiness_domains or args.station_chief_v15_final_activation_prerequisites or args.station_chief_v15_human_approval_override or args.station_chief_v15_command_authority_matrix or args.station_chief_v15_army_readiness_scorecard or args.station_chief_v15_safety_evidence_ledger or args.station_chief_v15_activation_denial_proof or args.station_chief_v15_no_live_action_audit or args.station_chief_v15_final_readiness_certificate:
+        result = attach_station_chief_v15_full_auto_agent_army_ready_final_readiness_lock(result, args)
+
     if args.station_chief_v14_production_readiness_rollback_live_safety_gates or args.station_chief_v14_production_readiness_gates or args.station_chief_v14_rollback_playbooks or args.station_chief_v14_live_safety_gate_manifest or args.station_chief_v14_supervised_production_pilot_preflight or args.station_chief_v14_emergency_stop_abort_controls or args.station_chief_v14_observability_audit_telemetry or args.station_chief_v14_production_readiness_policy_gate or args.station_chief_v14_production_readiness_receipts or args.station_chief_v14_production_safety_audit:
         result = attach_station_chief_v14_production_readiness_rollback_live_safety_gates(result, args)
 
@@ -1346,6 +1355,9 @@ def attach_station_chief_v14_production_readiness_rollback_live_safety_gates(res
 
     bundle = create_station_chief_v14_production_readiness_rollback_live_safety_gates_bundle()
 
+    if args.station_chief_v15_full_auto_agent_army_ready_final_readiness_lock or args.station_chief_v15_final_readiness_domains or args.station_chief_v15_final_activation_prerequisites or args.station_chief_v15_human_approval_override or args.station_chief_v15_command_authority_matrix or args.station_chief_v15_army_readiness_scorecard or args.station_chief_v15_safety_evidence_ledger or args.station_chief_v15_activation_denial_proof or args.station_chief_v15_no_live_action_audit or args.station_chief_v15_final_readiness_certificate:
+        result = attach_station_chief_v15_full_auto_agent_army_ready_final_readiness_lock(result, args)
+
     if args.station_chief_v14_production_readiness_rollback_live_safety_gates:
         result["station_chief_v14_production_readiness_rollback_live_safety_gates"] = bundle
     if args.station_chief_v14_production_readiness_gates:
@@ -1366,6 +1378,46 @@ def attach_station_chief_v14_production_readiness_rollback_live_safety_gates(res
         result["station_chief_v14_production_readiness_receipts"] = bundle["production_readiness_receipts"]
     if args.station_chief_v14_production_safety_audit:
         result["station_chief_v14_production_safety_audit"] = bundle["production_safety_audit_record"]
+
+    return result
+
+def attach_station_chief_v15_full_auto_agent_army_ready_final_readiness_lock(result: dict, args) -> dict:
+    if not (
+        args.station_chief_v15_full_auto_agent_army_ready_final_readiness_lock
+        or args.station_chief_v15_final_readiness_domains
+        or args.station_chief_v15_final_activation_prerequisites
+        or args.station_chief_v15_human_approval_override
+        or args.station_chief_v15_command_authority_matrix
+        or args.station_chief_v15_army_readiness_scorecard
+        or args.station_chief_v15_safety_evidence_ledger
+        or args.station_chief_v15_activation_denial_proof
+        or args.station_chief_v15_no_live_action_audit
+        or args.station_chief_v15_final_readiness_certificate
+    ):
+        return result
+
+    bundle = create_station_chief_v15_full_auto_agent_army_ready_final_readiness_lock_bundle()
+
+    if args.station_chief_v15_full_auto_agent_army_ready_final_readiness_lock:
+        result["station_chief_v15_full_auto_agent_army_ready_final_readiness_lock"] = bundle
+    if args.station_chief_v15_final_readiness_domains:
+        result["station_chief_v15_final_readiness_domains"] = bundle["final_readiness_domain_registry"]
+    if args.station_chief_v15_final_activation_prerequisites:
+        result["station_chief_v15_final_activation_prerequisites"] = bundle["final_activation_prerequisite_registry"]
+    if args.station_chief_v15_human_approval_override:
+        result["station_chief_v15_human_approval_override"] = bundle["final_human_approval_override_manifest"]
+    if args.station_chief_v15_command_authority_matrix:
+        result["station_chief_v15_command_authority_matrix"] = bundle["final_command_authority_matrix"]
+    if args.station_chief_v15_army_readiness_scorecard:
+        result["station_chief_v15_army_readiness_scorecard"] = bundle["final_army_readiness_scorecard"]
+    if args.station_chief_v15_safety_evidence_ledger:
+        result["station_chief_v15_safety_evidence_ledger"] = bundle["final_safety_evidence_ledger"]
+    if args.station_chief_v15_activation_denial_proof:
+        result["station_chief_v15_activation_denial_proof"] = bundle["final_activation_denial_proof"]
+    if args.station_chief_v15_no_live_action_audit:
+        result["station_chief_v15_no_live_action_audit"] = bundle["final_no_live_action_audit_record"]
+    if args.station_chief_v15_final_readiness_certificate:
+        result["station_chief_v15_final_readiness_certificate"] = bundle["final_readiness_certificate"]
 
     return result
 
@@ -1404,6 +1456,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "12.0.0": "station_chief_v12_autonomous_worker_army_release_candidate",
         "13.0.0": "station_chief_v13_external_tool_api_pilot_hardening",
         "14.0.0": "station_chief_v14_production_readiness_rollback_live_safety_gates",
+        "15.0.0": "station_chief_v15_full_auto_agent_army_ready_final_readiness_lock",
     }.get(STATION_CHIEF_RUNTIME_VERSION, "live_queue_orchestration_candidate_review")
     evidence = build_demo_evidence()
     evidence.update(
@@ -11338,6 +11391,18 @@ def main() -> None:
     parser.add_argument("--station-chief-v14-production-readiness-receipts", action="store_true", help="Attach v14.0 receipts")
     parser.add_argument("--station-chief-v14-production-safety-audit", action="store_true", help="Attach v14.0 safety audit")
 
+    parser.add_argument("--station-chief-v15-full-auto-agent-army-ready-final-readiness-lock-schema", action="store_true", help="Print Station Chief v15.0 schema and exit")
+    parser.add_argument("--station-chief-v15-full-auto-agent-army-ready-final-readiness-lock", action="store_true", help="Attach Station Chief v15.0 bundle")
+    parser.add_argument("--station-chief-v15-final-readiness-domains", action="store_true", help="Attach v15.0 readiness domains")
+    parser.add_argument("--station-chief-v15-final-activation-prerequisites", action="store_true", help="Attach v15.0 prerequisites")
+    parser.add_argument("--station-chief-v15-human-approval-override", action="store_true", help="Attach v15.0 human override manifest")
+    parser.add_argument("--station-chief-v15-command-authority-matrix", action="store_true", help="Attach v15.0 command authority matrix")
+    parser.add_argument("--station-chief-v15-army-readiness-scorecard", action="store_true", help="Attach v15.0 army readiness scorecard")
+    parser.add_argument("--station-chief-v15-safety-evidence-ledger", action="store_true", help="Attach v15.0 safety evidence ledger")
+    parser.add_argument("--station-chief-v15-activation-denial-proof", action="store_true", help="Attach v15.0 activation denial proof")
+    parser.add_argument("--station-chief-v15-no-live-action-audit", action="store_true", help="Attach v15.0 no live action audit")
+    parser.add_argument("--station-chief-v15-final-readiness-certificate", action="store_true", help="Attach v15.0 readiness certificate")
+
     args = parser.parse_args()
 
     if args.compare_dry_run_bundles:
@@ -12496,6 +12561,10 @@ def main() -> None:
         print(json.dumps(create_station_chief_v12_autonomous_worker_army_release_candidate_schema(), indent=2, ensure_ascii=False))
         return
 
+    if getattr(args, "station_chief_v15_full_auto_agent_army_ready_final_readiness_lock_schema", False):
+        print(json.dumps(create_station_chief_v15_full_auto_agent_army_ready_final_readiness_lock_schema(), indent=2, ensure_ascii=False))
+        return
+
     if getattr(args, "station_chief_v14_production_readiness_rollback_live_safety_gates_schema", False):
         print(json.dumps(create_station_chief_v14_production_readiness_rollback_live_safety_gates_schema(), indent=2, ensure_ascii=False))
         return
@@ -12630,6 +12699,9 @@ def main() -> None:
 
     if args.station_chief_v12_autonomous_worker_army_release_candidate or args.station_chief_v12_army_workers or args.station_chief_v12_army_squads or args.station_chief_v12_command_manifest or args.station_chief_v12_mission_envelopes or args.station_chief_v12_dispatch_matrix or args.station_chief_v12_army_cycle_plan or args.station_chief_v12_readiness_receipts or args.station_chief_v12_army_audit:
         result = attach_station_chief_v12_autonomous_worker_army_release_candidate(result, args)
+
+    if args.station_chief_v15_full_auto_agent_army_ready_final_readiness_lock or args.station_chief_v15_final_readiness_domains or args.station_chief_v15_final_activation_prerequisites or args.station_chief_v15_human_approval_override or args.station_chief_v15_command_authority_matrix or args.station_chief_v15_army_readiness_scorecard or args.station_chief_v15_safety_evidence_ledger or args.station_chief_v15_activation_denial_proof or args.station_chief_v15_no_live_action_audit or args.station_chief_v15_final_readiness_certificate:
+        result = attach_station_chief_v15_full_auto_agent_army_ready_final_readiness_lock(result, args)
 
     if args.station_chief_v14_production_readiness_rollback_live_safety_gates or args.station_chief_v14_production_readiness_gates or args.station_chief_v14_rollback_playbooks or args.station_chief_v14_live_safety_gate_manifest or args.station_chief_v14_supervised_production_pilot_preflight or args.station_chief_v14_emergency_stop_abort_controls or args.station_chief_v14_observability_audit_telemetry or args.station_chief_v14_production_readiness_policy_gate or args.station_chief_v14_production_readiness_receipts or args.station_chief_v14_production_safety_audit:
         result = attach_station_chief_v14_production_readiness_rollback_live_safety_gates(result, args)

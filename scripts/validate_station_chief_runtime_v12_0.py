@@ -95,7 +95,7 @@ def _run_prior_validator(script_name: str) -> None:
 
 
 def _assert_no_future_files() -> None:
-    forbidden_globs = ["*v12_1*", "*v12.1*", "*v13_1*", "*v13.1*", "*v14_1*", "*v14.1*", "*v15*"]
+    forbidden_globs = ["*v12_1*", "*v12.1*", "*v13_1*", "*v13.1*", "*v14_1*", "*v14.1*", "*v15_1*", "*v15.1*", "*v16*"]
     for glob_pattern in forbidden_globs:
         matches = [
             path
