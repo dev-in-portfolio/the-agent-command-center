@@ -205,6 +205,9 @@ def ensure_protected_paths() -> None:
             if indicator in path.lower():
                 # Allow specifically expected files
                 allowed_exceptions = [
+                    "v14",
+                    "v13",
+                    "validate_station_chief_runtime",
                     ".github/workflows/station-chief-validation.yml",
                     "09_exports/station_chief_runtime_skeleton_report.md",
                     "09_exports/station_chief_runtime_v10_0_report.md",

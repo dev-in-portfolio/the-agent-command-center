@@ -159,7 +159,7 @@ def main():
     # 8. Forbidden files check
     # v10.0 files are now allowed as they have been built and landed.
     # We still check for v10.1+, v11.1+, and v12.1+ files.
-    forbidden_globs = ["*v10_1*", "*v10.1*", "*v11_1*", "*v11.1*", "*v12_1*", "*v12.1*", "*v13_1*", "*v13.1*", "*v14*", "*v15*"]
+    forbidden_globs = ["*v10_1*", "*v10.1*", "*v11_1*", "*v11.1*", "*v12_1*", "*v12.1*", "*v13_1*", "*v13.1*", "*v14_1*", "*v14.1*", "*v15*"]
 
     for glob in forbidden_globs:
         matches = list(REPO_ROOT.glob(f"**/{glob}"))

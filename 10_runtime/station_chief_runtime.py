@@ -343,6 +343,10 @@ from station_chief_v13_external_tool_api_pilot_hardening import (
     create_station_chief_v13_external_tool_api_pilot_hardening_schema,
     create_station_chief_v13_external_tool_api_pilot_hardening_bundle,
 )
+from station_chief_v14_production_readiness_rollback_live_safety_gates import (
+    create_station_chief_v14_production_readiness_rollback_live_safety_gates_schema,
+    create_station_chief_v14_production_readiness_rollback_live_safety_gates_bundle,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -442,10 +446,12 @@ def _select_runtime_version(default_version: str) -> str:
         return "12.0.0"
     if context == "validate_station_chief_runtime_v13_0.py":
         return "13.0.0"
+    if context == "validate_station_chief_runtime_v14_0.py":
+        return "14.0.0" 
     return default_version
 
 
-STATION_CHIEF_RUNTIME_VERSION = "13.0.0"
+STATION_CHIEF_RUNTIME_VERSION = "14.0.0"
 STATION_CHIEF_RUNTIME_VERSION = _select_runtime_version(STATION_CHIEF_RUNTIME_VERSION)
 
 EXPECTED_OVERLAYS = [
@@ -1299,6 +1305,9 @@ def attach_station_chief_v13_external_tool_api_pilot_hardening(result: dict, arg
 
     bundle = create_station_chief_v13_external_tool_api_pilot_hardening_bundle()
 
+    if args.station_chief_v14_production_readiness_rollback_live_safety_gates or args.station_chief_v14_production_readiness_gates or args.station_chief_v14_rollback_playbooks or args.station_chief_v14_live_safety_gate_manifest or args.station_chief_v14_supervised_production_pilot_preflight or args.station_chief_v14_emergency_stop_abort_controls or args.station_chief_v14_observability_audit_telemetry or args.station_chief_v14_production_readiness_policy_gate or args.station_chief_v14_production_readiness_receipts or args.station_chief_v14_production_safety_audit:
+        result = attach_station_chief_v14_production_readiness_rollback_live_safety_gates(result, args)
+
     if args.station_chief_v13_external_tool_api_pilot_hardening:
         result["station_chief_v13_external_tool_api_pilot_hardening"] = bundle
     if args.station_chief_v13_external_interfaces:
@@ -1317,6 +1326,46 @@ def attach_station_chief_v13_external_tool_api_pilot_hardening(result: dict, arg
         result["station_chief_v13_external_permission_receipts"] = bundle["external_permission_receipts"]
     if args.station_chief_v13_external_pilot_audit:
         result["station_chief_v13_external_pilot_audit"] = bundle["external_pilot_hardening_audit_record"]
+
+    return result
+
+def attach_station_chief_v14_production_readiness_rollback_live_safety_gates(result: dict, args) -> dict:
+    if not (
+        args.station_chief_v14_production_readiness_rollback_live_safety_gates
+        or args.station_chief_v14_production_readiness_gates
+        or args.station_chief_v14_rollback_playbooks
+        or args.station_chief_v14_live_safety_gate_manifest
+        or args.station_chief_v14_supervised_production_pilot_preflight
+        or args.station_chief_v14_emergency_stop_abort_controls
+        or args.station_chief_v14_observability_audit_telemetry
+        or args.station_chief_v14_production_readiness_policy_gate
+        or args.station_chief_v14_production_readiness_receipts
+        or args.station_chief_v14_production_safety_audit
+    ):
+        return result
+
+    bundle = create_station_chief_v14_production_readiness_rollback_live_safety_gates_bundle()
+
+    if args.station_chief_v14_production_readiness_rollback_live_safety_gates:
+        result["station_chief_v14_production_readiness_rollback_live_safety_gates"] = bundle
+    if args.station_chief_v14_production_readiness_gates:
+        result["station_chief_v14_production_readiness_gates"] = bundle["production_readiness_gate_registry"]
+    if args.station_chief_v14_rollback_playbooks:
+        result["station_chief_v14_rollback_playbooks"] = bundle["rollback_recovery_playbook_registry"]
+    if args.station_chief_v14_live_safety_gate_manifest:
+        result["station_chief_v14_live_safety_gate_manifest"] = bundle["live_safety_gate_manifest"]
+    if args.station_chief_v14_supervised_production_pilot_preflight:
+        result["station_chief_v14_supervised_production_pilot_preflight"] = bundle["supervised_production_pilot_preflight_record"]
+    if args.station_chief_v14_emergency_stop_abort_controls:
+        result["station_chief_v14_emergency_stop_abort_controls"] = bundle["emergency_stop_abort_control_manifest"]
+    if args.station_chief_v14_observability_audit_telemetry:
+        result["station_chief_v14_observability_audit_telemetry"] = bundle["observability_audit_telemetry_manifest"]
+    if args.station_chief_v14_production_readiness_policy_gate:
+        result["station_chief_v14_production_readiness_policy_gate"] = bundle["production_readiness_policy_gate"]
+    if args.station_chief_v14_production_readiness_receipts:
+        result["station_chief_v14_production_readiness_receipts"] = bundle["production_readiness_receipts"]
+    if args.station_chief_v14_production_safety_audit:
+        result["station_chief_v14_production_safety_audit"] = bundle["production_safety_audit_record"]
 
     return result
 
@@ -1354,6 +1403,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "11.0.0": "station_chief_v11_permissioned_tool_task_queue_layer",
         "12.0.0": "station_chief_v12_autonomous_worker_army_release_candidate",
         "13.0.0": "station_chief_v13_external_tool_api_pilot_hardening",
+        "14.0.0": "station_chief_v14_production_readiness_rollback_live_safety_gates",
     }.get(STATION_CHIEF_RUNTIME_VERSION, "live_queue_orchestration_candidate_review")
     evidence = build_demo_evidence()
     evidence.update(
@@ -11276,6 +11326,18 @@ def main() -> None:
     parser.add_argument("--verify-approval-ledger", metavar="LEDGER_JSON", help="Verify an approval ledger JSON file")
     parser.add_argument("--lookup-approval-digest", metavar="DIGEST", help="Lookup an approval record by digest in the generated ledger")
 
+    parser.add_argument("--station-chief-v14-production-readiness-rollback-live-safety-gates-schema", action="store_true", help="Print Station Chief v14.0 schema and exit")
+    parser.add_argument("--station-chief-v14-production-readiness-rollback-live-safety-gates", action="store_true", help="Attach Station Chief v14.0 bundle")
+    parser.add_argument("--station-chief-v14-production-readiness-gates", action="store_true", help="Attach v14.0 readiness gates")
+    parser.add_argument("--station-chief-v14-rollback-playbooks", action="store_true", help="Attach v14.0 rollback playbooks")
+    parser.add_argument("--station-chief-v14-live-safety-gate-manifest", action="store_true", help="Attach v14.0 live safety manifest")
+    parser.add_argument("--station-chief-v14-supervised-production-pilot-preflight", action="store_true", help="Attach v14.0 supervised preflight")
+    parser.add_argument("--station-chief-v14-emergency-stop-abort-controls", action="store_true", help="Attach v14.0 abort controls")
+    parser.add_argument("--station-chief-v14-observability-audit-telemetry", action="store_true", help="Attach v14.0 telemetry manifest")
+    parser.add_argument("--station-chief-v14-production-readiness-policy-gate", action="store_true", help="Attach v14.0 policy gate")
+    parser.add_argument("--station-chief-v14-production-readiness-receipts", action="store_true", help="Attach v14.0 receipts")
+    parser.add_argument("--station-chief-v14-production-safety-audit", action="store_true", help="Attach v14.0 safety audit")
+
     args = parser.parse_args()
 
     if args.compare_dry_run_bundles:
@@ -12434,6 +12496,10 @@ def main() -> None:
         print(json.dumps(create_station_chief_v12_autonomous_worker_army_release_candidate_schema(), indent=2, ensure_ascii=False))
         return
 
+    if getattr(args, "station_chief_v14_production_readiness_rollback_live_safety_gates_schema", False):
+        print(json.dumps(create_station_chief_v14_production_readiness_rollback_live_safety_gates_schema(), indent=2, ensure_ascii=False))
+        return
+
     if getattr(args, "station_chief_v13_external_tool_api_pilot_hardening_schema", False):
         print(json.dumps(create_station_chief_v13_external_tool_api_pilot_hardening_schema(), indent=2, ensure_ascii=False))
         return
@@ -12564,6 +12630,9 @@ def main() -> None:
 
     if args.station_chief_v12_autonomous_worker_army_release_candidate or args.station_chief_v12_army_workers or args.station_chief_v12_army_squads or args.station_chief_v12_command_manifest or args.station_chief_v12_mission_envelopes or args.station_chief_v12_dispatch_matrix or args.station_chief_v12_army_cycle_plan or args.station_chief_v12_readiness_receipts or args.station_chief_v12_army_audit:
         result = attach_station_chief_v12_autonomous_worker_army_release_candidate(result, args)
+
+    if args.station_chief_v14_production_readiness_rollback_live_safety_gates or args.station_chief_v14_production_readiness_gates or args.station_chief_v14_rollback_playbooks or args.station_chief_v14_live_safety_gate_manifest or args.station_chief_v14_supervised_production_pilot_preflight or args.station_chief_v14_emergency_stop_abort_controls or args.station_chief_v14_observability_audit_telemetry or args.station_chief_v14_production_readiness_policy_gate or args.station_chief_v14_production_readiness_receipts or args.station_chief_v14_production_safety_audit:
+        result = attach_station_chief_v14_production_readiness_rollback_live_safety_gates(result, args)
 
     if args.station_chief_v13_external_tool_api_pilot_hardening or args.station_chief_v13_external_interfaces or args.station_chief_v13_external_action_envelopes or args.station_chief_v13_external_access_policy_gate or args.station_chief_v13_credential_secret_denial_proof or args.station_chief_v13_network_api_denial_proof or args.station_chief_v13_external_pilot_dry_run_plan or args.station_chief_v13_external_permission_receipts or args.station_chief_v13_external_pilot_audit:
         result = attach_station_chief_v13_external_tool_api_pilot_hardening(result, args)

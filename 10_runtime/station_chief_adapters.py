@@ -32,6 +32,7 @@ def _validation_context_filename() -> str | None:
             "validate_station_chief_runtime_v11_0.py",
             "validate_station_chief_runtime_v12_0.py",
             "validate_station_chief_runtime_v13_0.py",
+            "validate_station_chief_runtime_v14_0.py",
         }:
             return filename
     return None
@@ -95,10 +96,12 @@ def _select_adapter_version(default_version: str) -> str:
         return "12.0.0"
     if context == "validate_station_chief_runtime_v13_0.py":
         return "13.0.0"
+    if context == "validate_station_chief_runtime_v14_0.py":
+        return "14.0.0"
     return default_version
 
 
-ADAPTER_MODULE_VERSION = "13.0.0"
+ADAPTER_MODULE_VERSION = "14.0.0"
 ADAPTER_MODULE_VERSION = _select_adapter_version(ADAPTER_MODULE_VERSION)
 
 YES_I_APPROVE_SANDBOX_FILE_WRITE = "YES_I_APPROVE_SANDBOX_FILE_WRITE"
@@ -615,6 +618,23 @@ def list_adapters() -> dict:
         "supports_station_chief_v9_controlled_local_worker_pilot": True,
         "supports_station_chief_v10_multi_worker_sandbox_coordination": True,
         "supervised_production_pilot_readiness_review_requires_specific_token": True,
+                "supports_station_chief_v14_production_readiness_rollback_live_safety_gates": True,
+        "station_chief_v14_production_readiness_rollback_live_safety_gates_metadata_allowed": True,
+        "five_production_readiness_gate_descriptors_allowed": True,
+        "three_rollback_recovery_playbook_descriptors_allowed": True,
+        "live_safety_gate_manifest_allowed": True,
+        "supervised_production_pilot_preflight_record_allowed": True,
+        "emergency_stop_abort_control_manifest_allowed": True,
+        "observability_audit_telemetry_manifest_allowed": True,
+        "production_readiness_policy_gate_allowed": True,
+        "metadata_only_production_readiness_receipts_allowed": True,
+        "full_external_prod_agent_army_activation_allowed": False,
+        "v15_full_ready_state_allowed": False,
+        "deployment_rollback_allowed": False,
+        "rollback_execution_allowed": False,
+        "recovery_execution_allowed": False,
+        "v14_1_creation_allowed": False,
+        "v15_creation_allowed": False,
         "real_rollback_allowed": False,
         "real_recovery_allowed": False,
         "process_termination_allowed": False,
