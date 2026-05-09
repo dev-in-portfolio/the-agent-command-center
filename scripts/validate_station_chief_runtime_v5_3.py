@@ -119,6 +119,7 @@ ALLOWED_CHANGED_PATHS = {
     "10_runtime/station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review.py",
     "09_exports/station_chief_runtime_v6_5_report.md",
     "scripts/validate_station_chief_runtime_v6_5.py",
+    "09_exports/station_chief_runtime_v6_5_1_validation_context_repair_report.md",
 }
 
 FORBIDDEN_REGEXES = [

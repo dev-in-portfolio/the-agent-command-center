@@ -169,6 +169,23 @@ def main() -> None:
     schema = create_station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review_schema()
     ensure(schema.get("schema_version") == "6.5.0", "Schema version not 6.5.0")
 
+    # Validate selector support for v6.5
+    ensure('if context == "validate_station_chief_runtime_v6_5.py":' in runtime_source and 'return "6.5.0"' in runtime_source, "Runtime selector missing v6.5 support")
+    ensure('if context == "validate_station_chief_runtime_v6_4.py":' in runtime_source and 'return "6.4.0"' in runtime_source, "Runtime selector missing v6.4 preservation")
+    
+    ensure('if context == "validate_station_chief_runtime_v6_5.py":' in release_lock_source and 'return "6.5.0"' in release_lock_source, "Release lock selector missing v6.5 support")
+    ensure('if context == "validate_station_chief_runtime_v6_4.py":' in release_lock_source and 'return "6.4.0"' in release_lock_source, "Release lock selector missing v6.4 preservation")
+    
+    ensure('if context == "validate_station_chief_runtime_v6_5.py":' in adapters_source and 'return "6.5.0"' in adapters_source, "Adapter selector missing v6.5 support")
+    ensure('if context == "validate_station_chief_runtime_v6_4.py":' in adapters_source and 'return "6.4.0"' in adapters_source, "Adapter selector missing v6.4 preservation")
+
+    # Validate v6.4 validator does not contain OR-version shortcuts
+    v6_4_validator_path = REPO_ROOT / "scripts" / "validate_station_chief_runtime_v6_4.py"
+    v6_4_validator_source = v6_4_validator_path.read_text(encoding="utf-8")
+    ensure("or 'STATION_CHIEF_RUNTIME_VERSION = \"6.5.0\"'" not in v6_4_validator_source, "v6.4 validator contains OR-version shortcut for runtime")
+    ensure("or 'STABLE_RUNTIME_VERSION = \"6.5.0\"'" not in v6_4_validator_source, "v6.4 validator contains OR-version shortcut for release lock")
+    ensure("or 'ADAPTER_MODULE_VERSION = \"6.5.0\"'" not in v6_4_validator_source, "v6.4 validator contains OR-version shortcut for adapter")
+
     gate_no_token = create_implementation_plan_review_approval_gate(
         v6_4_implementation_plan_packet_reference_label="test",
         v6_3_readiness_packet_reference_label="test",

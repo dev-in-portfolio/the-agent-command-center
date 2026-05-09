@@ -70,6 +70,10 @@ def _select_stable_runtime_version(default_version: str) -> str:
         return "6.2.0"
     if context == "validate_station_chief_runtime_v6_3.py":
         return "6.3.0"
+    if context == "validate_station_chief_runtime_v6_4.py":
+        return "6.4.0"
+    if context == "validate_station_chief_runtime_v6_5.py":
+        return "6.5.0"
     return default_version
 
 
