@@ -121,7 +121,7 @@ def main():
     ensure(matrix["real_tool_invocation"] == "DENIED", "Safety matrix failed: real tool invocation NOT DENIED")
 
     # 6. Future File Check
-    forbidden_globs = ["*v11_1*", "*v11.1*", "*v12_1*", "*v12.1*", "*v13*", "*v14*", "*v15*"]
+    forbidden_globs = ["*v11_1*", "*v11.1*", "*v12_1*", "*v12.1*", "*v13_1*", "*v13.1*", "*v14*", "*v15*"]
     for glob in forbidden_globs:
         found = list(REPO_ROOT.rglob(glob))
         found = [f for f in found if "__pycache__" not in str(f) and f.suffix != ".pyc"]

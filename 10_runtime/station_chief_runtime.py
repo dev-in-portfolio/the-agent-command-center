@@ -339,6 +339,10 @@ from station_chief_v12_autonomous_worker_army_release_candidate import (
     create_station_chief_v12_autonomous_worker_army_release_candidate_schema,
     create_station_chief_v12_autonomous_worker_army_release_candidate_bundle,
 )
+from station_chief_v13_external_tool_api_pilot_hardening import (
+    create_station_chief_v13_external_tool_api_pilot_hardening_schema,
+    create_station_chief_v13_external_tool_api_pilot_hardening_bundle,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -374,6 +378,7 @@ def _validation_context_filename() -> str | None:
             "validate_station_chief_runtime_v10_0.py",
             "validate_station_chief_runtime_v11_0.py",
             "validate_station_chief_runtime_v12_0.py",
+            "validate_station_chief_runtime_v13_0.py",
         }:
             return filename
     return None
@@ -435,10 +440,12 @@ def _select_runtime_version(default_version: str) -> str:
         return "11.0.0"
     if context == "validate_station_chief_runtime_v12_0.py":
         return "12.0.0"
+    if context == "validate_station_chief_runtime_v13_0.py":
+        return "13.0.0"
     return default_version
 
 
-STATION_CHIEF_RUNTIME_VERSION = "12.0.0"
+STATION_CHIEF_RUNTIME_VERSION = "13.0.0"
 STATION_CHIEF_RUNTIME_VERSION = _select_runtime_version(STATION_CHIEF_RUNTIME_VERSION)
 
 EXPECTED_OVERLAYS = [
@@ -1275,6 +1282,44 @@ def attach_station_chief_v12_autonomous_worker_army_release_candidate(result: di
 
     return result
 
+
+def attach_station_chief_v13_external_tool_api_pilot_hardening(result: dict, args) -> dict:
+    if not (
+        args.station_chief_v13_external_tool_api_pilot_hardening
+        or args.station_chief_v13_external_interfaces
+        or args.station_chief_v13_external_action_envelopes
+        or args.station_chief_v13_external_access_policy_gate
+        or args.station_chief_v13_credential_secret_denial_proof
+        or args.station_chief_v13_network_api_denial_proof
+        or args.station_chief_v13_external_pilot_dry_run_plan
+        or args.station_chief_v13_external_permission_receipts
+        or args.station_chief_v13_external_pilot_audit
+    ):
+        return result
+
+    bundle = create_station_chief_v13_external_tool_api_pilot_hardening_bundle()
+
+    if args.station_chief_v13_external_tool_api_pilot_hardening:
+        result["station_chief_v13_external_tool_api_pilot_hardening"] = bundle
+    if args.station_chief_v13_external_interfaces:
+        result["station_chief_v13_external_interfaces"] = bundle["external_interface_descriptor_registry"]
+    if args.station_chief_v13_external_action_envelopes:
+        result["station_chief_v13_external_action_envelopes"] = bundle["external_action_envelopes"]
+    if args.station_chief_v13_external_access_policy_gate:
+        result["station_chief_v13_external_access_policy_gate"] = bundle["external_access_policy_gate"]
+    if args.station_chief_v13_credential_secret_denial_proof:
+        result["station_chief_v13_credential_secret_denial_proof"] = bundle["credential_secret_denial_proof"]
+    if args.station_chief_v13_network_api_denial_proof:
+        result["station_chief_v13_network_api_denial_proof"] = bundle["network_api_denial_proof"]
+    if args.station_chief_v13_external_pilot_dry_run_plan:
+        result["station_chief_v13_external_pilot_dry_run_plan"] = bundle["external_pilot_dry_run_plan"]
+    if args.station_chief_v13_external_permission_receipts:
+        result["station_chief_v13_external_permission_receipts"] = bundle["external_permission_receipts"]
+    if args.station_chief_v13_external_pilot_audit:
+        result["station_chief_v13_external_pilot_audit"] = bundle["external_pilot_hardening_audit_record"]
+
+    return result
+
 def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any]:
     brief = create_command_brief(command)
     work_orders = create_work_orders(brief)
@@ -1308,6 +1353,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "10.0.0": "station_chief_v10_multi_worker_sandbox_coordination",
         "11.0.0": "station_chief_v11_permissioned_tool_task_queue_layer",
         "12.0.0": "station_chief_v12_autonomous_worker_army_release_candidate",
+        "13.0.0": "station_chief_v13_external_tool_api_pilot_hardening",
     }.get(STATION_CHIEF_RUNTIME_VERSION, "live_queue_orchestration_candidate_review")
     evidence = build_demo_evidence()
     evidence.update(
@@ -1731,6 +1777,41 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "station_chief_v12_does_not_execute_production": True,
         "station_chief_v12_does_not_create_v12_1": True,
         "station_chief_v12_does_not_create_v13": True,
+        "station_chief_v13_external_tool_api_pilot_hardening_available": True,
+        "station_chief_v13_registers_four_external_interface_descriptors": True,
+        "station_chief_v13_registers_four_external_action_envelopes": True,
+        "station_chief_v13_creates_external_access_policy_gate": True,
+        "station_chief_v13_creates_credential_secret_denial_proof": True,
+        "station_chief_v13_creates_network_api_denial_proof": True,
+        "station_chief_v13_creates_external_pilot_dry_run_plan": True,
+        "station_chief_v13_generates_external_permission_receipts_only": True,
+        "station_chief_v13_does_not_invoke_real_tools": True,
+        "station_chief_v13_does_not_invoke_external_tools": True,
+        "station_chief_v13_does_not_call_apis": True,
+        "station_chief_v13_does_not_use_network_access": True,
+        "station_chief_v13_does_not_open_sockets": True,
+        "station_chief_v13_does_not_resolve_dns": True,
+        "station_chief_v13_does_not_access_credentials": True,
+        "station_chief_v13_does_not_access_credential_vault": True,
+        "station_chief_v13_does_not_read_secrets": True,
+        "station_chief_v13_does_not_read_environment": True,
+        "station_chief_v13_does_not_start_worker_processes": True,
+        "station_chief_v13_does_not_start_daemons": True,
+        "station_chief_v13_does_not_start_agents": True,
+        "station_chief_v13_does_not_create_real_queue": True,
+        "station_chief_v13_does_not_write_queue": True,
+        "station_chief_v13_does_not_enqueue_live_tasks": True,
+        "station_chief_v13_does_not_execute_live_tasks": True,
+        "station_chief_v13_does_not_route_live_work": True,
+        "station_chief_v13_does_not_orchestrate_live_work": True,
+        "station_chief_v13_does_not_execute_arbitrary_tasks": True,
+        "station_chief_v13_does_not_execute_user_tasks": True,
+        "station_chief_v13_does_not_execute_shell": True,
+        "station_chief_v13_does_not_start_subprocesses": True,
+        "station_chief_v13_does_not_deploy": True,
+        "station_chief_v13_does_not_execute_production": True,
+        "station_chief_v13_does_not_create_v13_1": True,
+        "station_chief_v13_does_not_create_v14": True,
         "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_start_worker_processes": True,
 
         "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_start_agents": True,
@@ -11057,9 +11138,11 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--station-chief-v10-multi-worker-sandbox-coordination-schema", action="store_true")
     parser.add_argument("--station-chief-v11-permissioned-tool-task-queue-layer-schema", action="store_true")
     parser.add_argument("--station-chief-v12-autonomous-worker-army-release-candidate-schema", action="store_true")
+    parser.add_argument("--station-chief-v13-external-tool-api-pilot-hardening-schema", action="store_true")
     parser.add_argument("--station-chief-v10-multi-worker-sandbox-coordination", action="store_true")
     parser.add_argument("--station-chief-v11-permissioned-tool-task-queue-layer", action="store_true")
     parser.add_argument("--station-chief-v12-autonomous-worker-army-release-candidate", action="store_true")
+    parser.add_argument("--station-chief-v13-external-tool-api-pilot-hardening", action="store_true")
     parser.add_argument("--station-chief-v11-tool-registry", action="store_true")
     parser.add_argument("--station-chief-v11-task-envelopes", action="store_true")
     parser.add_argument("--station-chief-v11-virtual-queue", action="store_true")
@@ -11074,6 +11157,14 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--station-chief-v12-army-cycle-plan", action="store_true")
     parser.add_argument("--station-chief-v12-readiness-receipts", action="store_true")
     parser.add_argument("--station-chief-v12-army-audit", action="store_true")
+    parser.add_argument("--station-chief-v13-external-interfaces", action="store_true")
+    parser.add_argument("--station-chief-v13-external-action-envelopes", action="store_true")
+    parser.add_argument("--station-chief-v13-external-access-policy-gate", action="store_true")
+    parser.add_argument("--station-chief-v13-credential-secret-denial-proof", action="store_true")
+    parser.add_argument("--station-chief-v13-network-api-denial-proof", action="store_true")
+    parser.add_argument("--station-chief-v13-external-pilot-dry-run-plan", action="store_true")
+    parser.add_argument("--station-chief-v13-external-permission-receipts", action="store_true")
+    parser.add_argument("--station-chief-v13-external-pilot-audit", action="store_true")
     parser.add_argument("--station-chief-v10-sandbox-workers", action="store_true")
     parser.add_argument("--station-chief-v10-sandbox-tasks", action="store_true")
     parser.add_argument("--station-chief-v10-assignment-map", action="store_true")
@@ -12342,6 +12433,10 @@ def main() -> None:
     if getattr(args, "station_chief_v12_autonomous_worker_army_release_candidate_schema", False):
         print(json.dumps(create_station_chief_v12_autonomous_worker_army_release_candidate_schema(), indent=2, ensure_ascii=False))
         return
+
+    if getattr(args, "station_chief_v13_external_tool_api_pilot_hardening_schema", False):
+        print(json.dumps(create_station_chief_v13_external_tool_api_pilot_hardening_schema(), indent=2, ensure_ascii=False))
+        return
         
     if getattr(args, "write_station_chief_v6_1_post_mvp_expansion_review", False):
         result = write_station_chief_v6_1_post_mvp_expansion_review(
@@ -12469,6 +12564,9 @@ def main() -> None:
 
     if args.station_chief_v12_autonomous_worker_army_release_candidate or args.station_chief_v12_army_workers or args.station_chief_v12_army_squads or args.station_chief_v12_command_manifest or args.station_chief_v12_mission_envelopes or args.station_chief_v12_dispatch_matrix or args.station_chief_v12_army_cycle_plan or args.station_chief_v12_readiness_receipts or args.station_chief_v12_army_audit:
         result = attach_station_chief_v12_autonomous_worker_army_release_candidate(result, args)
+
+    if args.station_chief_v13_external_tool_api_pilot_hardening or args.station_chief_v13_external_interfaces or args.station_chief_v13_external_action_envelopes or args.station_chief_v13_external_access_policy_gate or args.station_chief_v13_credential_secret_denial_proof or args.station_chief_v13_network_api_denial_proof or args.station_chief_v13_external_pilot_dry_run_plan or args.station_chief_v13_external_permission_receipts or args.station_chief_v13_external_pilot_audit:
+        result = attach_station_chief_v13_external_tool_api_pilot_hardening(result, args)
 
     if getattr(args, "write_station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan", False):
         result = write_station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan(

@@ -95,7 +95,7 @@ def _run_prior_validator(script_name: str) -> None:
 
 
 def _assert_no_future_files() -> None:
-    forbidden_globs = ["*v12_1*", "*v12.1*", "*v13*", "*v14*", "*v15*"]
+    forbidden_globs = ["*v12_1*", "*v12.1*", "*v13_1*", "*v13.1*", "*v14*", "*v15*"]
     for glob_pattern in forbidden_globs:
         matches = [
             path
@@ -110,9 +110,13 @@ def _assert_protected_paths_unmodified() -> None:
     ensure(result.returncode == 0, f"git status failed: {result.stderr}")
     allowed_paths = {
         "09_exports/station_chief_v12_0_autonomous_worker_army_release_candidate_preflight_audit.md",
+        "09_exports/station_chief_v13_0_external_tool_api_pilot_hardening_preflight_audit.md",
         "10_runtime/station_chief_v12_autonomous_worker_army_release_candidate.py",
+        "10_runtime/station_chief_v13_external_tool_api_pilot_hardening.py",
         "09_exports/station_chief_runtime_v12_0_report.md",
+        "09_exports/station_chief_runtime_v13_0_report.md",
         "scripts/validate_station_chief_runtime_v12_0.py",
+        "scripts/validate_station_chief_runtime_v13_0.py",
         "10_runtime/station_chief_runtime.py",
         "10_runtime/station_chief_runtime_readme.md",
         "10_runtime/station_chief_adapters.py",
