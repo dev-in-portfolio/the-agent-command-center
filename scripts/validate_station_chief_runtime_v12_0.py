@@ -274,6 +274,21 @@ def main():
     schema = _cli_json(["--station-chief-v12-autonomous-worker-army-release-candidate-schema"])
     ensure(schema["schema_version"] == "12.0.0", "Schema version mismatch")
     ensure(schema["schema_type"] == "station_chief_v12_autonomous_worker_army_release_candidate", "Schema type mismatch")
+    for key in [
+        "no_full_external_prod_agent_army_activation_authorized",
+        "no_real_worker_activation_authorized",
+        "no_real_tool_invocation_authorized",
+        "no_external_tool_invocation_authorized",
+        "no_arbitrary_task_execution_authorized",
+        "no_user_task_execution_authorized",
+        "no_worker_process_start_authorized",
+        "no_real_queue_authorized",
+        "no_queue_write_authorized",
+        "no_live_routing_authorized",
+        "no_live_orchestration_authorized",
+        "no_api_network_deployment_production_authorized",
+    ]:
+        ensure(schema[key] is True, f"Schema contract mismatch for {key}")
     required_sections = schema["required_sections"]
     for section_name in [
         "autonomous_worker_army_profiles",
