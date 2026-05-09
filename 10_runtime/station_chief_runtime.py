@@ -323,6 +323,10 @@ from station_chief_v8_finish_line_control_plane import (
     create_station_chief_v8_finish_line_control_plane_schema,
     create_station_chief_v8_finish_line_control_plane_bundle,
 )
+from station_chief_v9_controlled_local_worker_pilot import (
+    create_station_chief_v9_controlled_local_worker_pilot_schema,
+    create_station_chief_v9_controlled_local_worker_pilot_bundle,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -354,6 +358,7 @@ def _validation_context_filename() -> str | None:
             "validate_station_chief_runtime_v6_5.py",
             "validate_station_chief_runtime_v6_6.py",
             "validate_station_chief_runtime_v8_0.py",
+            "validate_station_chief_runtime_v9_0.py",
         }:
             return filename
     return None
@@ -407,10 +412,12 @@ def _select_runtime_version(default_version: str) -> str:
         return "6.6.0"
     if context == "validate_station_chief_runtime_v8_0.py":
         return "8.0.0"
+    if context == "validate_station_chief_runtime_v9_0.py":
+        return "9.0.0"
     return default_version
 
 
-STATION_CHIEF_RUNTIME_VERSION = "8.0.0"
+STATION_CHIEF_RUNTIME_VERSION = "9.0.0"
 STATION_CHIEF_RUNTIME_VERSION = _select_runtime_version(STATION_CHIEF_RUNTIME_VERSION)
 
 EXPECTED_OVERLAYS = [
@@ -1155,6 +1162,24 @@ def attach_station_chief_v8_finish_line_control_plane(result: dict, args) -> dic
     result["station_chief_v8_finish_line_control_plane"] = bundle
     return result
 
+def attach_station_chief_v9_controlled_local_worker_pilot(result: dict, args) -> dict:
+    if not (args.station_chief_v9_controlled_local_worker_pilot or args.station_chief_v9_worker_profile or args.station_chief_v9_noop_task or args.station_chief_v9_worker_pilot_audit):
+        return result
+    
+    bundle = create_station_chief_v9_controlled_local_worker_pilot_bundle()
+    result = dict(result)
+    
+    if args.station_chief_v9_controlled_local_worker_pilot:
+        result["station_chief_v9_controlled_local_worker_pilot"] = bundle
+    if args.station_chief_v9_worker_profile:
+        result["station_chief_v9_worker_profile"] = bundle["controlled_local_worker_profile"]
+    if args.station_chief_v9_noop_task:
+        result["station_chief_v9_noop_task"] = bundle["fixed_synthetic_noop_task"]
+    if args.station_chief_v9_worker_pilot_audit:
+        result["station_chief_v9_worker_pilot_audit"] = bundle["worker_pilot_audit_record"]
+        
+    return result
+
 def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any]:
     brief = create_command_brief(command)
     work_orders = create_work_orders(brief)
@@ -1184,6 +1209,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "6.5.0": "station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review",
         "6.6.0": "station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition",
         "8.0.0": "station_chief_v8_finish_line_control_plane",
+        "9.0.0": "station_chief_v9_controlled_local_worker_pilot",
     }.get(STATION_CHIEF_RUNTIME_VERSION, "live_queue_orchestration_candidate_review")
     evidence = build_demo_evidence()
     evidence.update(
@@ -1329,7 +1355,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "activation_tier": brief["activation_tier"],
         "baseline_preserved": True,
         "evidence": evidence,
-        "next_step": "Next step: v8.1 requires explicit operator instruction.",
+        "next_step": "Next step: v9.1 requires explicit operator instruction.",
         "first_tiny_real_world_supervised_execution_candidate_available": True,
         "first_tiny_real_world_supervised_execution_candidate_local_only": True,
         "first_tiny_real_world_supervised_execution_candidate_requires_token": True,
@@ -1492,6 +1518,29 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "station_chief_v8_does_not_deploy": True,
         "station_chief_v8_does_not_execute_production": True,
         "station_chief_v8_does_not_create_v8_1": True,
+        "station_chief_v9_controlled_local_worker_pilot_available": True,
+        "station_chief_v9_registers_one_local_worker_profile": True,
+        "station_chief_v9_registers_one_fixed_synthetic_noop_task": True,
+        "station_chief_v9_generates_noop_result_only": True,
+        "station_chief_v9_does_not_start_worker_processes": True,
+        "station_chief_v9_does_not_start_daemons": True,
+        "station_chief_v9_does_not_start_agents": True,
+        "station_chief_v9_does_not_create_real_queue": True,
+        "station_chief_v9_does_not_write_queue": True,
+        "station_chief_v9_does_not_enqueue_tasks": True,
+        "station_chief_v9_does_not_execute_tasks": True,
+        "station_chief_v9_does_not_execute_arbitrary_tasks": True,
+        "station_chief_v9_does_not_execute_user_tasks": True,
+        "station_chief_v9_does_not_execute_shell": True,
+        "station_chief_v9_does_not_start_subprocesses": True,
+        "station_chief_v9_does_not_call_live_apis": True,
+        "station_chief_v9_does_not_use_network_access": True,
+        "station_chief_v9_does_not_access_credentials": True,
+        "station_chief_v9_does_not_read_secrets": True,
+        "station_chief_v9_does_not_read_environment": True,
+        "station_chief_v9_does_not_deploy": True,
+        "station_chief_v9_does_not_execute_production": True,
+        "station_chief_v9_does_not_create_v9_1": True,
         "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_start_worker_processes": True,
 
         "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_start_agents": True,
@@ -10809,6 +10858,12 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--station-chief-v8-baby-step-chain-closeout", action="store_true")
     parser.add_argument("--station-chief-v8-control-plane-status", action="store_true")
 
+    parser.add_argument("--station-chief-v9-controlled-local-worker-pilot-schema", action="store_true")
+    parser.add_argument("--station-chief-v9-controlled-local-worker-pilot", action="store_true")
+    parser.add_argument("--station-chief-v9-worker-profile", action="store_true")
+    parser.add_argument("--station-chief-v9-noop-task", action="store_true")
+    parser.add_argument("--station-chief-v9-worker-pilot-audit", action="store_true")
+
     parser.add_argument("--station-chief-v6-4-post-mvp-expansion-lane-non-executing-implementation-plan-schema", action="store_true")
     parser.add_argument("--station-chief-v6-4-post-mvp-expansion-lane-non-executing-implementation-plan", action="store_true")
     parser.add_argument("--write-station-chief-v6-4-post-mvp-expansion-lane-non-executing-implementation-plan", metavar="DIR", type=str)
@@ -12055,6 +12110,10 @@ def main() -> None:
     if getattr(args, "station_chief_v8_finish_line_control_plane_schema", False):
         print(json.dumps(create_station_chief_v8_finish_line_control_plane_schema(), indent=2, ensure_ascii=False))
         return
+
+    if getattr(args, "station_chief_v9_controlled_local_worker_pilot_schema", False):
+        print(json.dumps(create_station_chief_v9_controlled_local_worker_pilot_schema(), indent=2, ensure_ascii=False))
+        return
         
     if getattr(args, "write_station_chief_v6_1_post_mvp_expansion_review", False):
         result = write_station_chief_v6_1_post_mvp_expansion_review(
@@ -12170,6 +12229,9 @@ def main() -> None:
 
     if args.station_chief_v8_finish_line_control_plane or args.station_chief_v8_baby_step_chain_closeout or args.station_chief_v8_control_plane_status:
         result = attach_station_chief_v8_finish_line_control_plane(result, args)
+
+    if args.station_chief_v9_controlled_local_worker_pilot or args.station_chief_v9_worker_profile or args.station_chief_v9_noop_task or args.station_chief_v9_worker_pilot_audit:
+        result = attach_station_chief_v9_controlled_local_worker_pilot(result, args)
 
     if getattr(args, "write_station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan", False):
         result = write_station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan(

@@ -129,9 +129,12 @@ ALLOWED_CHANGED_PATHS = {
     "10_runtime/station_chief_v8_finish_line_control_plane.py",
     "09_exports/station_chief_runtime_v8_0_report.md",
     "scripts/validate_station_chief_runtime_v8_0.py",
+    "09_exports/station_chief_v9_0_controlled_local_worker_pilot_preflight_audit.md",
+    "10_runtime/station_chief_v9_controlled_local_worker_pilot.py",
+    "09_exports/station_chief_runtime_v9_0_report.md",
+    "scripts/validate_station_chief_runtime_v9_0.py",
     ".github/workflows/station-chief-validation.yml",
-}
-
+    }
 FORBIDDEN_REGEXES = [
     r"\bimport\s+requests\b",
     r"\bfrom\s+requests\b",

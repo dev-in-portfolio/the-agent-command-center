@@ -27,6 +27,7 @@ def _validation_context_filename() -> str | None:
             "validate_station_chief_runtime_v6_5.py",
             "validate_station_chief_runtime_v6_6.py",
             "validate_station_chief_runtime_v8_0.py",
+            "validate_station_chief_runtime_v9_0.py",
         }:
             return filename
     return None
@@ -80,10 +81,12 @@ def _select_adapter_version(default_version: str) -> str:
         return "6.6.0"
     if context == "validate_station_chief_runtime_v8_0.py":
         return "8.0.0"
+    if context == "validate_station_chief_runtime_v9_0.py":
+        return "9.0.0"
     return default_version
 
 
-ADAPTER_MODULE_VERSION = "8.0.0"
+ADAPTER_MODULE_VERSION = "9.0.0"
 ADAPTER_MODULE_VERSION = _select_adapter_version(ADAPTER_MODULE_VERSION)
 
 YES_I_APPROVE_SANDBOX_FILE_WRITE = "YES_I_APPROVE_SANDBOX_FILE_WRITE"
@@ -351,6 +354,11 @@ SUPPORTED_ADAPTERS = {
         "baby_step_chain_closeout_allowed": True,
         "post_mvp_expansion_lane_lifecycle_registry_allowed": True,
         "validator_architecture_policy_allowed": True,
+        "supports_station_chief_v9_controlled_local_worker_pilot": True,
+        "station_chief_v9_controlled_local_worker_pilot_metadata_allowed": True,
+        "one_local_pilot_worker_profile_allowed": True,
+        "one_fixed_synthetic_noop_task_allowed": True,
+        "deterministic_noop_result_allowed": True,
         "selected_expansion_lane_implementation_allowed": False,
         "selected_expansion_lane_execution_allowed": False,
         "implementation_plan_execution_allowed": False,
@@ -575,6 +583,7 @@ def list_adapters() -> dict:
         "supports_station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review": True,
         "supports_station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition": True,
         "supports_station_chief_v8_finish_line_control_plane": True,
+        "supports_station_chief_v9_controlled_local_worker_pilot": True,
         "supervised_production_pilot_readiness_review_requires_specific_token": True,
         "real_rollback_allowed": False,
         "real_recovery_allowed": False,

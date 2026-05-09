@@ -1,47 +1,43 @@
-# Station Chief Runtime v8.0.0
+# Station Chief Runtime v9.0.0
 
 ## Status
-Station Chief Runtime upgraded to v8.0.0. Locked 175-family baseline preserved. v6 baby-step chain closed. Station Chief v8.0 Finish-Line Release Candidate / Control Plane Consolidation added.
+Station Chief Runtime upgraded to v9.0.0. Locked 175-family baseline preserved. v8.0 control plane preserved. Station Chief v9.0 Controlled Local Worker Pilot Candidate added.
 
 ## What This Adds
-- v8.0 is not v6.7
-- v8.0 skips committed v6.7/v6.8/v6.9/v7.x lines intentionally
-- v8.0 consolidates v6.2-v6.6 post-MVP expansion lane lifecycle
-- v8.0 creates a control-plane schema/status/bundle
-- v8.0 does not introduce another token-gated packet write
-- v8.0 does not implement or execute selected lane
-- v8.0 does not execute implementation plan
-- v8.0 does not execute implementation steps
-- v8.0 does not execute review/disposition conditions
-- v8.0 does not execute rollback
-- v8.0 does not start worker/agent
-- v8.0 does not create queues
-- v8.0 does not enqueue or execute tasks
-- v8.0 does not call APIs/network/deployment/production
-- v8.0 does not create v8.1
+- v9.0 introduces one controlled local pilot worker profile
+- v9.0 introduces one fixed synthetic no-op pilot task
+- v9.0 generates deterministic local no-op result metadata only
+- v9.0 does not start a worker daemon
+- v9.0 does not start background processes
+- v9.0 does not start agents
+- v9.0 does not create real queues
+- v9.0 does not enqueue or execute live tasks
+- v9.0 does not execute arbitrary/user tasks
+- v9.0 does not run shell/subprocess commands
+- v9.0 does not call APIs/network/deployment/production
+- v9.0 does not create v9.1
 - Next internal label:
-  v8.1 requires explicit operator instruction
+  v9.1 requires explicit operator instruction
 
 ## History
-### v8.0.0
-Station Chief Runtime upgraded to v8.0.0. Locked 175-family baseline preserved. v6 baby-step chain closed. Station Chief v8.0 Finish-Line Release Candidate / Control Plane Consolidation added.
-- v8.0 is not v6.7
-- v8.0 skips committed v6.7/v6.8/v6.9/v7.x lines intentionally
-- v8.0 consolidates v6.2-v6.6 post-MVP expansion lane lifecycle
-- v8.0 creates a control-plane schema/status/bundle
-- v8.0 does not introduce another token-gated packet write
-- v8.0 does not implement or execute selected lane
-- v8.0 does not execute implementation plan
-- v8.0 does not execute implementation steps
-- v8.0 does not execute review/disposition conditions
-- v8.0 does not execute rollback
-- v8.0 does not start worker/agent
-- v8.0 does not create queues
-- v8.0 does not enqueue or execute tasks
-- v8.0 does not call APIs/network/deployment/production
-- v8.0 does not create v8.1
+### v9.0.0
+Station Chief Runtime upgraded to v9.0.0. Locked 175-family baseline preserved. v8.0 control plane preserved. Station Chief v9.0 Controlled Local Worker Pilot Candidate added.
+- v9.0 introduces one controlled local pilot worker profile
+- v9.0 introduces one fixed synthetic no-op pilot task
+- v9.0 generates deterministic local no-op result metadata only
+- v9.0 does not start a worker daemon
+- v9.0 does not start background processes
+- v9.0 does not start agents
+- v9.0 does not create real queues
+- v9.0 does not enqueue or execute live tasks
+- v9.0 does not execute arbitrary/user tasks
+- v9.0 does not run shell/subprocess commands
+- v9.0 does not call APIs/network/deployment/production
+- v9.0 does not create v9.1
 - Next internal label:
-  v8.1 requires explicit operator instruction
+  v9.1 requires explicit operator instruction
+
+### v8.0.0
 
 ### v6.6.0
 Station Chief Runtime upgraded to v6.6.0. Locked 175-family baseline preserved. Station Chief v6.6 Post-MVP Expansion Lane Non-Executing Review Disposition Candidate added.

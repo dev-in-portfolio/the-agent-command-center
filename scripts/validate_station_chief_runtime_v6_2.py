@@ -686,6 +686,12 @@ def validate_v6_2() -> None:
         "scripts/validate_station_chief_runtime_v8_0.py",
         "v8_0",
         "v8.0",
+        "09_exports/station_chief_v9_0_controlled_local_worker_pilot_preflight_audit.md",
+        "10_runtime/station_chief_v9_controlled_local_worker_pilot.py",
+        "09_exports/station_chief_runtime_v9_0_report.md",
+        "scripts/validate_station_chief_runtime_v9_0.py",
+        "v9_0",
+        "v9.0",
     ]
 
     for path_item in all_changed:
