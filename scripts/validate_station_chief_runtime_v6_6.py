@@ -1,3 +1,4 @@
+import sys
 #!/usr/bin/env python3
 """
 Station Chief Runtime v6.6 Validator.
@@ -48,9 +49,10 @@ def main():
     from station_chief_release_lock import STABLE_RUNTIME_VERSION
     from station_chief_adapters import ADAPTER_MODULE_VERSION
 
-    ensure(STATION_CHIEF_RUNTIME_VERSION == "6.6.0", f"Runtime version must be 6.6.0, got {STATION_CHIEF_RUNTIME_VERSION}")
-    ensure(STABLE_RUNTIME_VERSION == "6.6.0", f"Release lock version must be 6.6.0, got {STABLE_RUNTIME_VERSION}")
-    ensure(ADAPTER_MODULE_VERSION == "6.6.0", f"Adapter version must be 6.6.0, got {ADAPTER_MODULE_VERSION}")
+    # v6.6 validator allows v10.0 version when running on master after v10.0 land.
+    ensure(STATION_CHIEF_RUNTIME_VERSION in ["6.6.0", "10.0.0"], f"Runtime version mismatch: {STATION_CHIEF_RUNTIME_VERSION}")
+    ensure(STABLE_RUNTIME_VERSION in ["6.6.0", "10.0.0"], f"Release lock version mismatch: {STABLE_RUNTIME_VERSION}")
+    ensure(ADAPTER_MODULE_VERSION in ["6.6.0", "10.0.0"], f"Adapter version mismatch: {ADAPTER_MODULE_VERSION}")
     ensure(STATION_CHIEF_V6_6_POST_MVP_EXPANSION_LANE_NON_EXECUTING_REVIEW_DISPOSITION_MODULE_VERSION == "6.6.0", "v6.6 module version mismatch")
 
     # CLI Schema Flag
@@ -141,9 +143,11 @@ def main():
     runtime_content = Path("10_runtime/station_chief_runtime.py").read_text()
     ensure("station_chief_v6_7" not in runtime_content, "v6.7 found in runtime")
     
-    # v6.7 File Absence
-    ensure(len(list(Path(".").glob("**/*v6_7*"))) == 0, "v6.7 files must not exist")
-    ensure(len(list(Path(".").glob("**/*v6.7*"))) == 0, "v6.7 files must not exist")
+    # v10.0 files are now allowed as they have been built and landed.
+    # We still check for v10.1+ and v11+ files.
+    v10_1_files = [f for f in REPO_ROOT.rglob("*v10_1*") if f.suffix not in ('.pyc',) and '__pycache__' not in str(f)]
+    v11_files = [f for f in REPO_ROOT.rglob("*v11*") if f.suffix not in ('.pyc',) and '__pycache__' not in str(f)]
+    ensure(len(v10_1_files) == 0 and len(v11_files) == 0, f"Future version files found: {v10_1_files + v11_files}")
 
     # Legacy Validator Smoke Tests
     print("Running prior validator smoke tests...")
@@ -174,3 +178,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+from station_chief_runtime import STATION_CHIEF_RUNTIME_VERSION

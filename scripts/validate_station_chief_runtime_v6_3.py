@@ -1,3 +1,4 @@
+import sys
 #!/usr/bin/env python3
 """Validator for Station Chief Runtime v6.3 Post-MVP Expansion Lane Readiness Packet Candidate.
 
@@ -628,3 +629,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+from station_chief_runtime import STATION_CHIEF_RUNTIME_VERSION

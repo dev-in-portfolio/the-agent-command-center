@@ -1,41 +1,53 @@
-# Station Chief Runtime v9.0.0
+# Station Chief Runtime v10.0.0
 
 ## Status
-Station Chief Runtime upgraded to v9.0.0. Locked 175-family baseline preserved. v8.0 control plane preserved. Station Chief v9.0 Controlled Local Worker Pilot Candidate added.
+Station Chief Runtime upgraded to v10.0.0. Locked 175-family baseline preserved. v8.0 control plane preserved. v9.0 controlled local worker pilot preserved. Station Chief v10.0 Multi-Worker Sandbox Coordination Candidate added.
 
 ## What This Adds
-- v9.0 introduces one controlled local pilot worker profile
-- v9.0 introduces one fixed synthetic no-op pilot task
-- v9.0 generates deterministic local no-op result metadata only
-- v9.0 does not start a worker daemon
-- v9.0 does not start background processes
-- v9.0 does not start agents
-- v9.0 does not create real queues
-- v9.0 does not enqueue or execute live tasks
-- v9.0 does not execute arbitrary/user tasks
-- v9.0 does not run shell/subprocess commands
-- v9.0 does not call APIs/network/deployment/production
-- v9.0 does not create v9.1
+- v10.0 introduces exactly three deterministic sandbox worker profiles
+- v10.0 introduces exactly three fixed synthetic no-op sandbox tasks
+- v10.0 creates deterministic worker-to-task assignment metadata
+- v10.0 creates sandbox coordination ledger metadata
+- v10.0 generates deterministic sandbox no-op result metadata only
+- v10.0 does not start worker daemons
+- v10.0 does not start background processes
+- v10.0 does not start agents
+- v10.0 does not create real queues
+- v10.0 does not enqueue or execute live tasks
+- v10.0 does not route live work
+- v10.0 does not perform live orchestration
+- v10.0 does not execute arbitrary/user tasks
+- v10.0 does not run shell/subprocess commands
+- v10.0 does not call APIs/network/deployment/production
+- v10.0 does not create v10.1
+- v10.0 does not create v11
 - Next internal label:
-  v9.1 requires explicit operator instruction
+  v10.1 or v11.0 requires explicit operator instruction
 
 ## History
-### v9.0.0
-Station Chief Runtime upgraded to v9.0.0. Locked 175-family baseline preserved. v8.0 control plane preserved. Station Chief v9.0 Controlled Local Worker Pilot Candidate added.
-- v9.0 introduces one controlled local pilot worker profile
-- v9.0 introduces one fixed synthetic no-op pilot task
-- v9.0 generates deterministic local no-op result metadata only
-- v9.0 does not start a worker daemon
-- v9.0 does not start background processes
-- v9.0 does not start agents
-- v9.0 does not create real queues
-- v9.0 does not enqueue or execute live tasks
-- v9.0 does not execute arbitrary/user tasks
-- v9.0 does not run shell/subprocess commands
-- v9.0 does not call APIs/network/deployment/production
-- v9.0 does not create v9.1
+### v10.0.0
+Station Chief Runtime upgraded to v10.0.0. Locked 175-family baseline preserved. v8.0 control plane preserved. v9.0 controlled local worker pilot preserved. Station Chief v10.0 Multi-Worker Sandbox Coordination Candidate added.
+- v10.0 introduces exactly three deterministic sandbox worker profiles
+- v10.0 introduces exactly three fixed synthetic no-op sandbox tasks
+- v10.0 creates deterministic worker-to-task assignment metadata
+- v10.0 creates sandbox coordination ledger metadata
+- v10.0 generates deterministic sandbox no-op result metadata only
+- v10.0 does not start worker daemons
+- v10.0 does not start background processes
+- v10.0 does not start agents
+- v10.0 does not create real queues
+- v10.0 does not enqueue or execute live tasks
+- v10.0 does not route live work
+- v10.0 does not perform live orchestration
+- v10.0 does not execute arbitrary/user tasks
+- v10.0 does not run shell/subprocess commands
+- v10.0 does not call APIs/network/deployment/production
+- v10.0 does not create v10.1
+- v10.0 does not create v11
 - Next internal label:
-  v9.1 requires explicit operator instruction
+  v10.1 or v11.0 requires explicit operator instruction
+
+### v9.0.0
 
 ### v8.0.0
 

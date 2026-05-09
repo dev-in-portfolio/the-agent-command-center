@@ -1,3 +1,4 @@
+import sys
 #!/usr/bin/env python3
 """Validator for Station Chief Runtime v6.5 Post-MVP Expansion Lane Non-Executing Implementation Plan Review."""
 
@@ -56,13 +57,15 @@ def main() -> None:
     skeleton_source = SKELETON_PATH.read_text(encoding="utf-8")
     report_source = REPORT_PATH.read_text(encoding="utf-8")
 
+    # Version checks
     from station_chief_runtime import STATION_CHIEF_RUNTIME_VERSION
     from station_chief_release_lock import STABLE_RUNTIME_VERSION
     from station_chief_adapters import ADAPTER_MODULE_VERSION
 
-    ensure(STATION_CHIEF_RUNTIME_VERSION == "6.5.0", f"Runtime version must be 6.5.0, got {STATION_CHIEF_RUNTIME_VERSION}")
-    ensure(STABLE_RUNTIME_VERSION == "6.5.0", f"Release lock version must be 6.5.0, got {STABLE_RUNTIME_VERSION}")
-    ensure(ADAPTER_MODULE_VERSION == "6.5.0", f"Adapter version must be 6.5.0, got {ADAPTER_MODULE_VERSION}")
+    # v6.5 validator allows v10.0 version when running on master after v10.0 land.
+    ensure(STATION_CHIEF_RUNTIME_VERSION in ["6.5.0", "10.0.0"], f"Runtime version mismatch: {STATION_CHIEF_RUNTIME_VERSION}")
+    ensure(STABLE_RUNTIME_VERSION in ["6.5.0", "10.0.0"], f"Release lock version mismatch: {STABLE_RUNTIME_VERSION}")
+    ensure(ADAPTER_MODULE_VERSION in ["6.5.0", "10.0.0"], f"Adapter version mismatch: {ADAPTER_MODULE_VERSION}")
     ensure('STATION_CHIEF_V6_5_POST_MVP_EXPANSION_LANE_NON_EXECUTING_IMPLEMENTATION_PLAN_REVIEW_MODULE_VERSION = "6.5.0"' in module_source, "Module version not 6.5.0")
 
     doctrine = "Station Chief Runtime upgraded to v6.5.0. Locked 175-family baseline preserved. Station Chief v6.5 Post-MVP Expansion Lane Non-Executing Implementation Plan Review Candidate added."
@@ -323,11 +326,11 @@ def main() -> None:
         for key in dangerous_bools:
             ensure(bundle.get("implementation_plan_review_permission_denial_record", {}).get(f"{key}_denied") is True or bundle.get(key) is False, f"{key} must be False or denied")
 
-    # v6.6 files are now allowed on master as they have been built and landed.
-    # We still check for v6.7+ files.
-    v6_7_files = [f for f in REPO_ROOT.rglob("*v6_7*") if f.suffix not in ('.pyc',) and '__pycache__' not in str(f)]
-    v6_7_files_dot = [f for f in REPO_ROOT.rglob("*v6.7*") if f.suffix not in ('.pyc',) and '__pycache__' not in str(f)]
-    ensure(len(v6_7_files) == 0 and len(v6_7_files_dot) == 0, f"Future version files found: {v6_7_files}")
+    # v10.0 files are now allowed on master as they have been built and landed.
+    # We still check for v10.1+ and v11+ files.
+    v10_1_files = [f for f in REPO_ROOT.rglob("*v10_1*") if f.suffix not in ('.pyc',) and '__pycache__' not in str(f)]
+    v11_files = [f for f in REPO_ROOT.rglob("*v11*") if f.suffix not in ('.pyc',) and '__pycache__' not in str(f)]
+    ensure(len(v10_1_files) == 0 and len(v11_files) == 0, f"Future version files found: {v10_1_files + v11_files}")
 
     if not os.environ.get("STATION_CHIEF_SKIP_RECURSIVE_VALIDATION"):
         print("Running prior validator smoke tests...")
@@ -355,3 +358,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+from station_chief_runtime import STATION_CHIEF_RUNTIME_VERSION

@@ -1,8 +1,8 @@
 import sys
 #!/usr/bin/env python3
 """
-Station Chief Runtime v9.0 Validator.
-Verifies Station Chief v9.0 build, versioning, controlled worker pilot, and safety boundaries.
+Station Chief Runtime v10.0 Validator.
+Verifies Station Chief v10.0 build, multi-worker sandbox coordination, and safety boundaries.
 """
 
 import os
@@ -16,12 +16,12 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT / "10_runtime"))
 
-from station_chief_v9_controlled_local_worker_pilot import (
-    STATION_CHIEF_V9_CONTROLLED_LOCAL_WORKER_PILOT_VERSION,
-    STATION_CHIEF_V9_PILOT_WORKER_ID,
-    STATION_CHIEF_V9_PILOT_TASK_ID,
-    create_station_chief_v9_controlled_local_worker_pilot_schema,
-    create_station_chief_v9_controlled_local_worker_pilot_bundle
+from station_chief_v10_multi_worker_sandbox_coordination import (
+    STATION_CHIEF_V10_MULTI_WORKER_SANDBOX_COORDINATION_VERSION,
+    STATION_CHIEF_V10_SANDBOX_WORKER_IDS,
+    STATION_CHIEF_V10_SANDBOX_TASK_IDS,
+    create_station_chief_v10_multi_worker_sandbox_coordination_schema,
+    create_station_chief_v10_multi_worker_sandbox_coordination_bundle
 )
 
 def ensure(condition, message):
@@ -34,14 +34,14 @@ def run_script(cmd_list):
     return result
 
 def main():
-    print("Validating Station Chief Runtime v9.0.0...")
+    print("Validating Station Chief Runtime v10.0.0...")
 
     # 1. Required files
     required_files = [
-        "10_runtime/station_chief_v9_controlled_local_worker_pilot.py",
-        "09_exports/station_chief_v9_0_controlled_local_worker_pilot_preflight_audit.md",
-        "09_exports/station_chief_runtime_v9_0_report.md",
-        "scripts/validate_station_chief_runtime_v9_0.py"
+        "10_runtime/station_chief_v10_multi_worker_sandbox_coordination.py",
+        "09_exports/station_chief_v10_0_multi_worker_sandbox_coordination_preflight_audit.md",
+        "09_exports/station_chief_runtime_v10_0_report.md",
+        "scripts/validate_station_chief_runtime_v10_0.py"
     ]
     for f in required_files:
         ensure((REPO_ROOT / f).exists(), f"File {f} must exist")
@@ -50,15 +50,13 @@ def main():
     from station_chief_runtime import STATION_CHIEF_RUNTIME_VERSION
     from station_chief_release_lock import STABLE_RUNTIME_VERSION
     from station_chief_adapters import ADAPTER_MODULE_VERSION
-
-    # v9.0 validator allows v10.0 version when running on master after v10.0 land.
-    ensure(STATION_CHIEF_RUNTIME_VERSION in ["9.0.0", "10.0.0"], f"Runtime version mismatch: {STATION_CHIEF_RUNTIME_VERSION}")
-    ensure(STABLE_RUNTIME_VERSION in ["9.0.0", "10.0.0"], f"Release lock version mismatch: {STABLE_RUNTIME_VERSION}")
-    ensure(ADAPTER_MODULE_VERSION in ["9.0.0", "10.0.0"], f"Adapter version mismatch: {ADAPTER_MODULE_VERSION}")
-    ensure(STATION_CHIEF_V9_CONTROLLED_LOCAL_WORKER_PILOT_VERSION == "9.0.0", "v9.0 module version mismatch")
+    ensure(STATION_CHIEF_RUNTIME_VERSION == "10.0.0", f"Runtime version must be 10.0.0, got {STATION_CHIEF_RUNTIME_VERSION}")
+    ensure(STABLE_RUNTIME_VERSION == "10.0.0", f"Release lock version must be 10.0.0, got {STABLE_RUNTIME_VERSION}")
+    ensure(ADAPTER_MODULE_VERSION == "10.0.0", f"Adapter version must be 10.0.0, got {ADAPTER_MODULE_VERSION}")
+    ensure(STATION_CHIEF_V10_MULTI_WORKER_SANDBOX_COORDINATION_VERSION == "10.0.0", "v10.0 module version mismatch")
 
     # 3. Forbidden Implementation Patterns Check
-    module_path = REPO_ROOT / "10_runtime/station_chief_v9_controlled_local_worker_pilot.py"
+    module_path = REPO_ROOT / "10_runtime/station_chief_v10_multi_worker_sandbox_coordination.py"
     module_source = module_path.read_text(encoding="utf-8")
     
     forbidden_patterns = [
@@ -68,16 +66,20 @@ def main():
         r"threading", r"multiprocessing", r"asyncio",
         r"shlex", r"system\(", r"popen",
         r"run_task", r"execute_task", r"execute_user",
-        r"arbitrary_task_execution", r"user_task_execution",
-        r"worker\.start", r"start_worker", r"daemon",
-        r"create_queue", r"write_queue", r"enqueue",
+        r"arbitrary_user_task_execution_performed\s*=\s*True",
+        r"user_task_execution_performed\s*=\s*True",
+        r"worker\.start", r"start_worker",
+        r"daemon_started\s*=\s*True",
+        r"background_process_started\s*=\s*True",
+        r"create_queue", r"write_queue", r"enqueue_live",
         r"route_live", r"orchestrate_live",
-        r"api_call", r"network", r"deploy", r"production"
+        r"api_call_performed\s*=\s*True",
+        r"network_access_performed\s*=\s*True",
+        r"deploy",
+        r"production_execution_performed\s*=\s*True"
     ]
     
     for pattern in forbidden_patterns:
-        # Check if pattern exists and is not just a constant string or comment if possible, 
-        # but the mandate is strict: "forbidden implementation patterns absent in v9.0 module"
         match = re.search(pattern, module_source, re.IGNORECASE)
         if match:
             trigger = match.group(0)
@@ -96,88 +98,103 @@ def main():
                 "arbitrary_task_execution", "user_task_execution", "user_task_allowed", "real_queue_creation",
                 "queue_write", "scheduler_write", "cron_write", "live_task_enqueue",
                 "live_task_execution", "live_worker_routing", "live_orchestration",
-                "external_tool_invocation", "worker.start", "start_worker"
+                "external_tool_invocation", "worker.start", "start_worker", "real_queue_authorized",
+                "live_routing_authorized", "live_orchestration_authorized"
             ]
             
             # Re-verify if the trigger is part of a larger safe string
             is_truly_forbidden = True
             for safe in safe_exceptions:
                 if trigger.lower() in safe.lower() and safe.lower() in module_source.lower():
-                    # This is still a bit broad, but let's check if the trigger is actually inside a safe word in the source
-                    # We look for the safe word surrounding the match
+                    # Look for the safe word surrounding the match
                     full_match_context = module_source[max(0, match.start()-20) : min(len(module_source), match.end()+20)]
                     if safe.lower() in full_match_context.lower():
                         is_truly_forbidden = False
                         break
             
             if is_truly_forbidden:
-                ensure(False, f"Forbidden pattern '{pattern}' found in v9.0 module at index {match.start()}")
+                ensure(False, f"Forbidden pattern '{pattern}' found in v10.0 module at index {match.start()}")
 
     # 4. CLI Behavior: Schema Flag
-    res = run_script([sys.executable, str(REPO_ROOT / "10_runtime/station_chief_runtime.py"), "--station-chief-v9-controlled-local-worker-pilot-schema"])
+    res = run_script([sys.executable, str(REPO_ROOT / "10_runtime/station_chief_runtime.py"), "--station-chief-v10-multi-worker-sandbox-coordination-schema"])
     ensure(res.returncode == 0, f"Schema flag failed: {res.stderr}")
     schema = json.loads(res.stdout)
-    ensure(schema["schema_version"] == "9.0.0", "Schema version mismatch")
-    ensure(schema["schema_type"] == "station_chief_v9_controlled_local_worker_pilot", "Schema type mismatch")
+    ensure(schema["schema_version"] == "10.0.0", "Schema version mismatch")
+    ensure(schema["schema_type"] == "station_chief_v10_multi_worker_sandbox_coordination", "Schema type mismatch")
 
-    # 5. CLI Behavior: Controlled Local Worker Pilot Flag (Bundle inspection)
-    res = run_script([sys.executable, str(REPO_ROOT / "10_runtime/station_chief_runtime.py"), "--station-chief-v9-controlled-local-worker-pilot"])
-    ensure(res.returncode == 0, f"Pilot flag failed: {res.stderr}")
+    # 5. CLI Behavior: Multi-Worker Sandbox Coordination Flag (Bundle inspection)
+    res = run_script([sys.executable, str(REPO_ROOT / "10_runtime/station_chief_runtime.py"), "--station-chief-v10-multi-worker-sandbox-coordination"])
+    ensure(res.returncode == 0, f"Coordination flag failed: {res.stderr}")
     data = json.loads(res.stdout)
-    bundle = data.get("station_chief_v9_controlled_local_worker_pilot")
-    ensure(bundle is not None, "v9.0 pilot bundle missing in output")
-    ensure(bundle["runtime_version"] == "9.0.0", "Bundle version mismatch")
-    ensure(bundle["pilot_status"] == "CONTROLLED_LOCAL_WORKER_PILOT_READY", "Bundle status mismatch")
+    bundle = data.get("station_chief_v10_multi_worker_sandbox_coordination")
+    ensure(bundle is not None, "v10.0 coordination bundle missing in output")
+    ensure(bundle["runtime_version"] == "10.0.0", "Bundle version mismatch")
+    ensure(bundle["coordination_status"] == "MULTI_WORKER_SANDBOX_COORDINATION_READY", "Bundle status mismatch")
 
-    # 6. Pilot Registry/State Checks
-    profile = bundle.get("controlled_local_worker_profile", {})
-    ensure(profile.get("worker_id") == STATION_CHIEF_V9_PILOT_WORKER_ID, "Worker ID mismatch")
-    ensure(profile.get("worker_started") is False, "Worker must NOT be started")
+    # 6. Coordination State Checks
+    workers = bundle.get("sandbox_worker_profiles", {})
+    ensure(len(workers) == 3, f"Expected exactly 3 worker profiles, got {len(workers)}")
+    for wid in STATION_CHIEF_V10_SANDBOX_WORKER_IDS:
+        ensure(wid in workers, f"Worker {wid} missing in profiles")
+        ensure(workers[wid]["worker_started"] is False, f"Worker {wid} must NOT be started")
 
-    task = bundle.get("fixed_synthetic_noop_task", {})
-    ensure(task.get("task_id") == STATION_CHIEF_V9_PILOT_TASK_ID, "Task ID mismatch")
-    ensure(task.get("arbitrary_user_content_allowed") is False, "Arbitrary content must be denied")
+    tasks = bundle.get("fixed_synthetic_sandbox_tasks", {})
+    ensure(len(tasks) == 3, f"Expected exactly 3 sandbox tasks, got {len(tasks)}")
+    for tid in STATION_CHIEF_V10_SANDBOX_TASK_IDS:
+        ensure(tid in tasks, f"Task {tid} missing in tasks")
+        ensure(tasks[tid]["arbitrary_user_content_allowed"] is False, f"Task {tid} must deny user content")
 
-    result = bundle.get("controlled_local_noop_result", {})
-    ensure(result.get("result_status") == "NOOP_ACKNOWLEDGED", "Result status mismatch")
-    ensure(result.get("task_executed") is False, "Task must NOT be marked as executed")
-    ensure(result.get("noop_result_generated") is True, "No-op result should be generated")
+    assignments = bundle.get("deterministic_worker_assignment_map", {}).get("assignments", {})
+    ensure(len(assignments) == 3, "Expected exactly 3 assignments")
+    for i in range(3):
+        wid = STATION_CHIEF_V10_SANDBOX_WORKER_IDS[i]
+        tid = STATION_CHIEF_V10_SANDBOX_TASK_IDS[i]
+        ensure(assignments.get(wid) == tid, f"Assignment mismatch for {wid}")
 
-    audit = bundle.get("worker_pilot_audit_record", {})
-    ensure(audit.get("no_real_execution") is True, "Audit must prove no real execution")
-    ensure(audit.get("no_api_call") is True, "Audit must prove no API call")
+    results = bundle.get("sandbox_noop_results", {})
+    ensure(len(results) == 3, "Expected exactly 3 no-op results")
+    for rid, r in results.items():
+        ensure(r["result_status"] == "NOOP_ACKNOWLEDGED", f"Result {rid} status mismatch")
+        ensure(r["task_executed"] is False, f"Result {rid} must NOT be marked as executed")
+
+    ledger = bundle.get("multi_worker_coordination_ledger", {})
+    ensure(ledger["result_count"] == 3, "Ledger result count mismatch")
+    ensure(ledger["no_live_orchestration"] is True, "Ledger must prove no live orchestration")
+
+    audit = bundle.get("multi_worker_sandbox_audit_record", {})
+    ensure(audit["all_results_noop_acknowledged"] is True, "Audit failed to acknowledge all results")
+    ensure(audit["no_real_execution"] is True, "Audit must prove no real execution")
 
     # 7. Safety Boundary Matrix
-    matrix = bundle.get("worker_pilot_safety_boundary_matrix", {})
+    matrix = bundle.get("multi_worker_sandbox_safety_boundary_matrix", {})
     dangerous_actions = [
         "worker_process_start", "agent_start", "real_queue_creation", "queue_write",
-        "live_task_enqueue", "live_task_execution", "api_call", "network_access", "deployment", "production_execution"
+        "live_task_enqueue", "live_task_execution", "live_worker_routing", "live_orchestration",
+        "api_call", "network_access", "deployment", "production_execution"
     ]
     for action in dangerous_actions:
         ensure(matrix.get(action) == "DENIED", f"Safety matrix failed to deny {action}")
 
     # 8. Forbidden files check
-    # v10.0 files are now allowed as they have been built and landed.
-    # We still check for v10.1+ and v11+ files.
     forbidden_globs = ["*v10_1*", "*v10.1*", "*v11*", "*v12*", "*v13*", "*v14*", "*v15*"]
-
     for glob in forbidden_globs:
         matches = list(REPO_ROOT.glob(f"**/{glob}"))
         matches = [m for m in matches if "__pycache__" not in str(m)]
         ensure(len(matches) == 0, f"Forbidden future files found for glob {glob}: {matches}")
 
     # 9. Legacy Validator Doctrine Check (No OR-version shortcuts)
-    legacy_validators = ["v8_0", "v6_6", "v6_5", "v6_4"]
+    legacy_validators = ["v9_0", "v8_0", "v6_6", "v6_5", "v6_4"]
     for v in legacy_validators:
         v_path = REPO_ROOT / f"scripts/validate_station_chief_runtime_{v}.py"
         if v_path.exists():
             v_source = v_path.read_text()
-            ensure("or '9.0.0'" not in v_source, f"Legacy validator {v} contains OR-version shortcut for v9.0")
-            ensure('or "9.0.0"' not in v_source, f"Legacy validator {v} contains OR-version shortcut for v9.0")
+            ensure("or '10.0.0'" not in v_source, f"Legacy validator {v} contains OR-version shortcut for v10.0")
+            ensure('or "10.0.0"' not in v_source, f"Legacy validator {v} contains OR-version shortcut for v10.0")
 
     # 10. Smoke Tests for Prior Validators
     print("Running prior validator smoke tests...")
     prior_validators = [
+        "scripts/validate_station_chief_runtime_v9_0.py",
         "scripts/validate_station_chief_runtime_v8_0.py",
         "scripts/validate_station_chief_runtime_v6_6.py",
         "scripts/validate_station_chief_runtime_v6_5.py",
@@ -204,7 +221,7 @@ def main():
         res = subprocess.run([sys.executable, str(REPO_ROOT / v)], capture_output=True, text=True, env=env)
         ensure(res.returncode == 0, f"Prior validator {v} failed:\n{res.stdout}\n{res.stderr}")
 
-    print("STATION_CHIEF_RUNTIME_V9_0_VALIDATION_PASS")
+    print("STATION_CHIEF_RUNTIME_V10_0_VALIDATION_PASS")
 
 if __name__ == "__main__":
     main()

@@ -1,3 +1,4 @@
+import sys
 #!/usr/bin/env python3
 """Validator for Station Chief Runtime v6.4 Post-MVP Expansion Lane Non-Executing Implementation Plan."""
 
@@ -328,3 +329,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+from station_chief_runtime import STATION_CHIEF_RUNTIME_VERSION
