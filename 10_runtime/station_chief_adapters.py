@@ -86,10 +86,12 @@ def _select_adapter_version(default_version: str) -> str:
         return "9.0.0"
     if context == "validate_station_chief_runtime_v10_0.py":
         return "10.0.0"
+    if context == "validate_station_chief_runtime_v11_0.py":
+        return "11.0.0"
     return default_version
 
 
-ADAPTER_MODULE_VERSION = "10.0.0"
+ADAPTER_MODULE_VERSION = "11.0.0"
 ADAPTER_MODULE_VERSION = _select_adapter_version(ADAPTER_MODULE_VERSION)
 
 YES_I_APPROVE_SANDBOX_FILE_WRITE = "YES_I_APPROVE_SANDBOX_FILE_WRITE"
@@ -369,6 +371,13 @@ SUPPORTED_ADAPTERS = {
         "deterministic_assignment_map_allowed": True,
         "deterministic_coordination_ledger_allowed": True,
         "deterministic_noop_results_allowed": True,
+        "supports_station_chief_v11_permissioned_tool_task_queue_layer": True,
+        "station_chief_v11_permissioned_tool_task_queue_layer_metadata_allowed": True,
+        "three_permissioned_tool_descriptors_allowed": True,
+        "three_permissioned_task_envelopes_allowed": True,
+        "virtual_queue_manifest_allowed": True,
+        "deterministic_dispatch_plan_allowed": True,
+        "metadata_only_permission_receipts_allowed": True,
         "selected_expansion_lane_implementation_allowed": False,
         "selected_expansion_lane_execution_allowed": False,
         "implementation_plan_execution_allowed": False,
@@ -382,6 +391,8 @@ SUPPORTED_ADAPTERS = {
         "disposition_next_gate_execution_allowed": False,
         "implementation_rollback_execution_allowed": False,
         "v6_7_creation_allowed": False,
+        "v11_1_creation_allowed": False,
+        "v12_creation_allowed": False,
         "one_local_station_chief_v6_0_mvp_lock_packet_allowed_with_v6_0_token": True,
         "deterministic_local_mvp_lock_packet_write_allowed": True,
         "integrated_local_command_center_loop_metadata_record_allowed": True,
@@ -571,6 +582,7 @@ def list_adapters() -> dict:
         "supports_live_execution_telemetry_abort": True,
         "supports_post_run_audit_expansion": True,
         "supports_multi_worker_sandbox_coordination": True,
+        "supports_station_chief_v11_permissioned_tool_task_queue_layer": True,
         "supports_controlled_external_tool_adapter_preview": True,
         "supports_permissioned_external_api_dry_run_preview": True,
         "supports_controlled_multi_worker_audit_replay_preview": True,

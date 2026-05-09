@@ -1,30 +1,58 @@
-# Station Chief Runtime v10.0.0
+# Station Chief Runtime v11.0.0
 
 ## Status
-Station Chief Runtime upgraded to v10.0.0. Locked 175-family baseline preserved. v8.0 control plane preserved. v9.0 controlled local worker pilot preserved. Station Chief v10.0 Multi-Worker Sandbox Coordination Candidate added.
+Station Chief Runtime upgraded to v11.0.0. Locked 175-family baseline preserved. v8.0 control plane preserved. v9.0 controlled local worker pilot preserved. v10.0 multi-worker sandbox coordination preserved. Station Chief v11.0 Permissioned Tool / Task / Queue Control Layer Candidate added.
 
 ## What This Adds
-- v10.0 introduces exactly three deterministic sandbox worker profiles
-- v10.0 introduces exactly three fixed synthetic no-op sandbox tasks
-- v10.0 creates deterministic worker-to-task assignment metadata
-- v10.0 creates sandbox coordination ledger metadata
-- v10.0 generates deterministic sandbox no-op result metadata only
-- v10.0 does not start worker daemons
-- v10.0 does not start background processes
-- v10.0 does not start agents
-- v10.0 does not create real queues
-- v10.0 does not enqueue or execute live tasks
-- v10.0 does not route live work
-- v10.0 does not perform live orchestration
-- v10.0 does not execute arbitrary/user tasks
-- v10.0 does not run shell/subprocess commands
-- v10.0 does not call APIs/network/deployment/production
-- v10.0 does not create v10.1
-- v10.0 does not create v11
+- v11.0 introduces exactly three permissioned sandbox tool descriptors
+- v11.0 introduces exactly three permissioned task envelopes
+- v11.0 introduces one metadata-only virtual queue manifest
+- v11.0 creates deterministic dispatch plan metadata
+- v11.0 creates metadata-only permission receipts
+- v11.0 does not invoke real tools
+- v11.0 does not invoke external tools
+- v11.0 does not start worker daemons
+- v11.0 does not start background processes
+- v11.0 does not start agents
+- v11.0 does not create real queues
+- v11.0 does not write queues
+- v11.0 does not enqueue or execute live tasks
+- v11.0 does not route live work
+- v11.0 does not perform live orchestration
+- v11.0 does not execute arbitrary/user tasks
+- v11.0 does not run shell/subprocess commands
+- v11.0 does not call APIs/network/deployment/production
+- v11.0 does not create v11.1
+- v11.0 does not create v12
 - Next internal label:
-  v10.1 or v11.0 requires explicit operator instruction
+  v11.1 or v12.0 requires explicit operator instruction
 
 ## History
+### v11.0.0
+Station Chief Runtime upgraded to v11.0.0. Locked 175-family baseline preserved. v8.0 control plane preserved. v9.0 controlled local worker pilot preserved. v10.0 multi-worker sandbox coordination preserved. Station Chief v11.0 Permissioned Tool / Task / Queue Control Layer Candidate added.
+- v11.0 introduces exactly three permissioned sandbox tool descriptors
+- v11.0 introduces exactly three permissioned task envelopes
+- v11.0 introduces one metadata-only virtual queue manifest
+- v11.0 creates deterministic dispatch plan metadata
+- v11.0 creates metadata-only permission receipts
+- v11.0 does not invoke real tools
+- v11.0 does not invoke external tools
+- v11.0 does not start worker daemons
+- v11.0 does not start background processes
+- v11.0 does not start agents
+- v11.0 does not create real queues
+- v11.0 does not write queues
+- v11.0 does not enqueue or execute live tasks
+- v11.0 does not route live work
+- v11.0 does not perform live orchestration
+- v11.0 does not execute arbitrary/user tasks
+- v11.0 does not run shell/subprocess commands
+- v11.0 does not call APIs/network/deployment/production
+- v11.0 does not create v11.1
+- v11.0 does not create v12
+- Next internal label:
+  v11.1 or v12.0 requires explicit operator instruction
+
 ### v10.0.0
 Station Chief Runtime upgraded to v10.0.0. Locked 175-family baseline preserved. v8.0 control plane preserved. v9.0 controlled local worker pilot preserved. Station Chief v10.0 Multi-Worker Sandbox Coordination Candidate added.
 - v10.0 introduces exactly three deterministic sandbox worker profiles

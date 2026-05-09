@@ -146,8 +146,8 @@ def main():
     # v10.0 files are now allowed as they have been built and landed.
     # We still check for v10.1+ and v11+ files.
     v10_1_files = [f for f in REPO_ROOT.rglob("*v10_1*") if f.suffix not in ('.pyc',) and '__pycache__' not in str(f)]
-    v11_files = [f for f in REPO_ROOT.rglob("*v11*") if f.suffix not in ('.pyc',) and '__pycache__' not in str(f)]
-    ensure(len(v10_1_files) == 0 and len(v11_files) == 0, f"Future version files found: {v10_1_files + v11_files}")
+    v11_1_files = [f for f in REPO_ROOT.rglob("*v11_1*") if f.suffix not in ('.pyc',) and '__pycache__' not in str(f)]
+    ensure(len(v10_1_files) == 0 and len(v11_1_files) == 0, f"Future version files found: {v10_1_files + v11_1_files}")
 
     # Legacy Validator Smoke Tests
     print("Running prior validator smoke tests...")

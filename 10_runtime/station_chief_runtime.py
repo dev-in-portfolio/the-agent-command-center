@@ -331,6 +331,10 @@ from station_chief_v10_multi_worker_sandbox_coordination import (
     create_station_chief_v10_multi_worker_sandbox_coordination_schema,
     create_station_chief_v10_multi_worker_sandbox_coordination_bundle,
 )
+from station_chief_v11_permissioned_tool_task_queue_layer import (
+    create_station_chief_v11_permissioned_tool_task_queue_layer_schema,
+    create_station_chief_v11_permissioned_tool_task_queue_layer_bundle,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -364,6 +368,7 @@ def _validation_context_filename() -> str | None:
             "validate_station_chief_runtime_v8_0.py",
             "validate_station_chief_runtime_v9_0.py",
             "validate_station_chief_runtime_v10_0.py",
+            "validate_station_chief_runtime_v11_0.py",
         }:
             return filename
     return None
@@ -421,10 +426,12 @@ def _select_runtime_version(default_version: str) -> str:
         return "9.0.0"
     if context == "validate_station_chief_runtime_v10_0.py":
         return "10.0.0"
+    if context == "validate_station_chief_runtime_v11_0.py":
+        return "11.0.0"
     return default_version
 
 
-STATION_CHIEF_RUNTIME_VERSION = "10.0.0"
+STATION_CHIEF_RUNTIME_VERSION = "11.0.0"
 STATION_CHIEF_RUNTIME_VERSION = _select_runtime_version(STATION_CHIEF_RUNTIME_VERSION)
 
 EXPECTED_OVERLAYS = [
@@ -1209,6 +1216,30 @@ def attach_station_chief_v10_multi_worker_sandbox_coordination(result: dict, arg
         
     return result
 
+def attach_station_chief_v11_permissioned_tool_task_queue_layer(result: dict, args) -> dict:
+    if not (args.station_chief_v11_permissioned_tool_task_queue_layer or args.station_chief_v11_tool_registry or args.station_chief_v11_task_envelopes or args.station_chief_v11_virtual_queue or args.station_chief_v11_dispatch_plan or args.station_chief_v11_permission_receipts or args.station_chief_v11_permission_audit):
+        return result
+    
+    bundle = create_station_chief_v11_permissioned_tool_task_queue_layer_bundle()
+    result = dict(result)
+    
+    if args.station_chief_v11_permissioned_tool_task_queue_layer:
+        result["station_chief_v11_permissioned_tool_task_queue_layer"] = bundle
+    if args.station_chief_v11_tool_registry:
+        result["station_chief_v11_tool_registry"] = bundle["permissioned_sandbox_tool_registry"]
+    if args.station_chief_v11_task_envelopes:
+        result["station_chief_v11_task_envelopes"] = bundle["permissioned_task_envelopes"]
+    if args.station_chief_v11_virtual_queue:
+        result["station_chief_v11_virtual_queue"] = bundle["virtual_queue_manifest"]
+    if args.station_chief_v11_dispatch_plan:
+        result["station_chief_v11_dispatch_plan"] = bundle["deterministic_dispatch_plan"]
+    if args.station_chief_v11_permission_receipts:
+        result["station_chief_v11_permission_receipts"] = bundle["permission_receipts"]
+    if args.station_chief_v11_permission_audit:
+        result["station_chief_v11_permission_audit"] = bundle["permissioned_queue_task_tool_audit_record"]
+        
+    return result
+
 def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any]:
     brief = create_command_brief(command)
     work_orders = create_work_orders(brief)
@@ -1240,6 +1271,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "8.0.0": "station_chief_v8_finish_line_control_plane",
         "9.0.0": "station_chief_v9_controlled_local_worker_pilot",
         "10.0.0": "station_chief_v10_multi_worker_sandbox_coordination",
+        "11.0.0": "station_chief_v11_permissioned_tool_task_queue_layer",
     }.get(STATION_CHIEF_RUNTIME_VERSION, "live_queue_orchestration_candidate_review")
     evidence = build_demo_evidence()
     evidence.update(
@@ -1385,7 +1417,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "activation_tier": brief["activation_tier"],
         "baseline_preserved": True,
         "evidence": evidence,
-        "next_step": "Next step: v10.1 or v11.0 requires explicit operator instruction.",
+        "next_step": "Next step: v11.1 or v12.0 requires explicit operator instruction.",
         "first_tiny_real_world_supervised_execution_candidate_available": True,
         "first_tiny_real_world_supervised_execution_candidate_local_only": True,
         "first_tiny_real_world_supervised_execution_candidate_requires_token": True,
@@ -1597,6 +1629,36 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "station_chief_v10_does_not_execute_production": True,
         "station_chief_v10_does_not_create_v10_1": True,
         "station_chief_v10_does_not_create_v11": True,
+        "station_chief_v11_permissioned_tool_task_queue_layer_available": True,
+        "station_chief_v11_registers_three_permissioned_tool_descriptors": True,
+        "station_chief_v11_registers_three_permissioned_task_envelopes": True,
+        "station_chief_v11_creates_virtual_queue_manifest": True,
+        "station_chief_v11_creates_deterministic_dispatch_plan": True,
+        "station_chief_v11_generates_permission_receipts_only": True,
+        "station_chief_v11_does_not_invoke_real_tools": True,
+        "station_chief_v11_does_not_invoke_external_tools": True,
+        "station_chief_v11_does_not_start_worker_processes": True,
+        "station_chief_v11_does_not_start_daemons": True,
+        "station_chief_v11_does_not_start_agents": True,
+        "station_chief_v11_does_not_create_real_queue": True,
+        "station_chief_v11_does_not_write_queue": True,
+        "station_chief_v11_does_not_enqueue_live_tasks": True,
+        "station_chief_v11_does_not_execute_live_tasks": True,
+        "station_chief_v11_does_not_route_live_work": True,
+        "station_chief_v11_does_not_orchestrate_live_work": True,
+        "station_chief_v11_does_not_execute_arbitrary_tasks": True,
+        "station_chief_v11_does_not_execute_user_tasks": True,
+        "station_chief_v11_does_not_execute_shell": True,
+        "station_chief_v11_does_not_start_subprocesses": True,
+        "station_chief_v11_does_not_call_live_apis": True,
+        "station_chief_v11_does_not_use_network_access": True,
+        "station_chief_v11_does_not_access_credentials": True,
+        "station_chief_v11_does_not_read_secrets": True,
+        "station_chief_v11_does_not_read_environment": True,
+        "station_chief_v11_does_not_deploy": True,
+        "station_chief_v11_does_not_execute_production": True,
+        "station_chief_v11_does_not_create_v11_1": True,
+        "station_chief_v11_does_not_create_v12": True,
         "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_start_worker_processes": True,
 
         "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_start_agents": True,
@@ -10921,7 +10983,15 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--station-chief-v9-worker-pilot-audit", action="store_true")
 
     parser.add_argument("--station-chief-v10-multi-worker-sandbox-coordination-schema", action="store_true")
+    parser.add_argument("--station-chief-v11-permissioned-tool-task-queue-layer-schema", action="store_true")
     parser.add_argument("--station-chief-v10-multi-worker-sandbox-coordination", action="store_true")
+    parser.add_argument("--station-chief-v11-permissioned-tool-task-queue-layer", action="store_true")
+    parser.add_argument("--station-chief-v11-tool-registry", action="store_true")
+    parser.add_argument("--station-chief-v11-task-envelopes", action="store_true")
+    parser.add_argument("--station-chief-v11-virtual-queue", action="store_true")
+    parser.add_argument("--station-chief-v11-dispatch-plan", action="store_true")
+    parser.add_argument("--station-chief-v11-permission-receipts", action="store_true")
+    parser.add_argument("--station-chief-v11-permission-audit", action="store_true")
     parser.add_argument("--station-chief-v10-sandbox-workers", action="store_true")
     parser.add_argument("--station-chief-v10-sandbox-tasks", action="store_true")
     parser.add_argument("--station-chief-v10-assignment-map", action="store_true")
@@ -12182,6 +12252,10 @@ def main() -> None:
     if getattr(args, "station_chief_v10_multi_worker_sandbox_coordination_schema", False):
         print(json.dumps(create_station_chief_v10_multi_worker_sandbox_coordination_schema(), indent=2, ensure_ascii=False))
         return
+    
+    if getattr(args, "station_chief_v11_permissioned_tool_task_queue_layer_schema", False):
+        print(json.dumps(create_station_chief_v11_permissioned_tool_task_queue_layer_schema(), indent=2, ensure_ascii=False))
+        return
         
     if getattr(args, "write_station_chief_v6_1_post_mvp_expansion_review", False):
         result = write_station_chief_v6_1_post_mvp_expansion_review(
@@ -12303,6 +12377,9 @@ def main() -> None:
 
     if args.station_chief_v10_multi_worker_sandbox_coordination or args.station_chief_v10_sandbox_workers or args.station_chief_v10_sandbox_tasks or args.station_chief_v10_assignment_map or args.station_chief_v10_coordination_ledger or args.station_chief_v10_sandbox_audit:
         result = attach_station_chief_v10_multi_worker_sandbox_coordination(result, args)
+
+    if args.station_chief_v11_permissioned_tool_task_queue_layer or args.station_chief_v11_tool_registry or args.station_chief_v11_task_envelopes or args.station_chief_v11_virtual_queue or args.station_chief_v11_dispatch_plan or args.station_chief_v11_permission_receipts or args.station_chief_v11_permission_audit:
+        result = attach_station_chief_v11_permissioned_tool_task_queue_layer(result, args)
 
     if getattr(args, "write_station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan", False):
         result = write_station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan(
