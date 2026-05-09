@@ -676,10 +676,16 @@ def validate_v6_2() -> None:
         "09_exports/station_chief_runtime_v6_5_report.md",
         "10_runtime/station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review.py",
         "09_exports/station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review_preflight_audit.md",
-        "scripts/validate_station_chief_runtime_v6_6.py",
         "09_exports/station_chief_runtime_v6_6_report.md",
         "10_runtime/station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition.py",
         "09_exports/station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_preflight_audit.md",
+        "09_exports/station_chief_v6_baby_step_chain_closeout_report.md",
+        "09_exports/station_chief_v8_0_finish_line_control_plane_preflight_audit.md",
+        "10_runtime/station_chief_v8_finish_line_control_plane.py",
+        "09_exports/station_chief_runtime_v8_0_report.md",
+        "scripts/validate_station_chief_runtime_v8_0.py",
+        "v8_0",
+        "v8.0",
     ]
 
     for path_item in all_changed:

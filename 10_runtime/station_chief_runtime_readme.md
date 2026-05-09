@@ -1,31 +1,48 @@
-# Station Chief Runtime v6.6.0
+# Station Chief Runtime v8.0.0
 
 ## Status
-Station Chief Runtime upgraded to v6.6.0. Locked 175-family baseline preserved. Station Chief v6.6 Post-MVP Expansion Lane Non-Executing Review Disposition Candidate added.
+Station Chief Runtime upgraded to v8.0.0. Locked 175-family baseline preserved. v6 baby-step chain closed. Station Chief v8.0 Finish-Line Release Candidate / Control Plane Consolidation added.
 
 ## What This Adds
-- v6.6 may write exactly one deterministic local non-executing review disposition packet only
-- v6.6 records review disposition metadata only
-- v6.6 references one v6.5 implementation plan review packet reference label
-- v6.6 references one v6.4 implementation plan packet reference label
-- v6.6 references one v6.3 readiness packet reference label
-- v6.6 references one v6.2 lane scope packet reference label
-- v6.6 requires token, human operator, labels, and explicit output directory
-- v6.6 does not implement or execute selected lane
-- v6.6 does not execute implementation plan
-- v6.6 does not execute implementation steps
-- v6.6 does not execute review findings/decisions
-- v6.6 does not execute disposition conditions
-- v6.6 does not execute rollback
-- v6.6 does not start worker/agent
-- v6.6 does not create queues
-- v6.6 does not enqueue or execute tasks
-- v6.6 does not call APIs/network/deployment/production
-- v6.6 does not create v6.7
+- v8.0 is not v6.7
+- v8.0 skips committed v6.7/v6.8/v6.9/v7.x lines intentionally
+- v8.0 consolidates v6.2-v6.6 post-MVP expansion lane lifecycle
+- v8.0 creates a control-plane schema/status/bundle
+- v8.0 does not introduce another token-gated packet write
+- v8.0 does not implement or execute selected lane
+- v8.0 does not execute implementation plan
+- v8.0 does not execute implementation steps
+- v8.0 does not execute review/disposition conditions
+- v8.0 does not execute rollback
+- v8.0 does not start worker/agent
+- v8.0 does not create queues
+- v8.0 does not enqueue or execute tasks
+- v8.0 does not call APIs/network/deployment/production
+- v8.0 does not create v8.1
 - Next internal label:
-  v6.7 requires explicit operator instruction
+  v8.1 requires explicit operator instruction
 
 ## History
+### v8.0.0
+Station Chief Runtime upgraded to v8.0.0. Locked 175-family baseline preserved. v6 baby-step chain closed. Station Chief v8.0 Finish-Line Release Candidate / Control Plane Consolidation added.
+- v8.0 is not v6.7
+- v8.0 skips committed v6.7/v6.8/v6.9/v7.x lines intentionally
+- v8.0 consolidates v6.2-v6.6 post-MVP expansion lane lifecycle
+- v8.0 creates a control-plane schema/status/bundle
+- v8.0 does not introduce another token-gated packet write
+- v8.0 does not implement or execute selected lane
+- v8.0 does not execute implementation plan
+- v8.0 does not execute implementation steps
+- v8.0 does not execute review/disposition conditions
+- v8.0 does not execute rollback
+- v8.0 does not start worker/agent
+- v8.0 does not create queues
+- v8.0 does not enqueue or execute tasks
+- v8.0 does not call APIs/network/deployment/production
+- v8.0 does not create v8.1
+- Next internal label:
+  v8.1 requires explicit operator instruction
+
 ### v6.6.0
 Station Chief Runtime upgraded to v6.6.0. Locked 175-family baseline preserved. Station Chief v6.6 Post-MVP Expansion Lane Non-Executing Review Disposition Candidate added.
 - v6.6 may write exactly one deterministic local non-executing review disposition packet only

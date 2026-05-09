@@ -240,6 +240,13 @@ def ensure_protected_paths() -> None:
                     "v6_5",
                     "station_chief_v6_6",
                     "v6_6",
+                    "09_exports/station_chief_v6_baby_step_chain_closeout_report.md",
+                    "09_exports/station_chief_v8_0_finish_line_control_plane_preflight_audit.md",
+                    "10_runtime/station_chief_v8_finish_line_control_plane.py",
+                    "09_exports/station_chief_runtime_v8_0_report.md",
+                    "scripts/validate_station_chief_runtime_v8_0.py",
+                    "v8_0",
+                    "v8.0",
                 ]
                 if any(allowed_exc in path for allowed_exc in allowed_exceptions):
                     continue

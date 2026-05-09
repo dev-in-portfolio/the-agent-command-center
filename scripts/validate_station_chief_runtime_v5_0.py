@@ -58,6 +58,11 @@ ALLOWED_CHANGED_PATHS = {
     "09_exports/station_chief_runtime_v6_6_report.md",
     "09_exports/station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_preflight_audit.md",
     "10_runtime/station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition.py",
+    "09_exports/station_chief_v6_baby_step_chain_closeout_report.md",
+    "09_exports/station_chief_v8_0_finish_line_control_plane_preflight_audit.md",
+    "10_runtime/station_chief_v8_finish_line_control_plane.py",
+    "09_exports/station_chief_runtime_v8_0_report.md",
+    "scripts/validate_station_chief_runtime_v8_0.py",
 
     "09_exports/station_chief_runtime_v6_1_1_validator_version_assertion_repair_report.md",
     "scripts/validate_station_chief_runtime_v6_1.py",

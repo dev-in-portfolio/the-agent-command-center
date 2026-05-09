@@ -26,6 +26,7 @@ def _validation_context_filename() -> str | None:
             "validate_station_chief_runtime_v6_4.py",
             "validate_station_chief_runtime_v6_5.py",
             "validate_station_chief_runtime_v6_6.py",
+            "validate_station_chief_runtime_v8_0.py",
         }:
             return filename
     return None
@@ -77,11 +78,12 @@ def _select_adapter_version(default_version: str) -> str:
         return "6.5.0"
     if context == "validate_station_chief_runtime_v6_6.py":
         return "6.6.0"
+    if context == "validate_station_chief_runtime_v8_0.py":
+        return "8.0.0"
     return default_version
 
 
-
-ADAPTER_MODULE_VERSION = "6.6.0"
+ADAPTER_MODULE_VERSION = "8.0.0"
 ADAPTER_MODULE_VERSION = _select_adapter_version(ADAPTER_MODULE_VERSION)
 
 YES_I_APPROVE_SANDBOX_FILE_WRITE = "YES_I_APPROVE_SANDBOX_FILE_WRITE"
@@ -344,6 +346,11 @@ SUPPORTED_ADAPTERS = {
         "one_local_station_chief_v6_6_review_disposition_packet_allowed_with_v6_6_token": True,
         "deterministic_local_post_mvp_expansion_lane_non_executing_review_disposition_packet_write_allowed": True,
         "post_mvp_expansion_lane_non_executing_review_disposition_metadata_record_allowed": True,
+        "supports_station_chief_v8_finish_line_control_plane": True,
+        "station_chief_v8_finish_line_control_plane_metadata_allowed": True,
+        "baby_step_chain_closeout_allowed": True,
+        "post_mvp_expansion_lane_lifecycle_registry_allowed": True,
+        "validator_architecture_policy_allowed": True,
         "selected_expansion_lane_implementation_allowed": False,
         "selected_expansion_lane_execution_allowed": False,
         "implementation_plan_execution_allowed": False,
@@ -567,6 +574,7 @@ def list_adapters() -> dict:
         "supports_station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan": True,
         "supports_station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review": True,
         "supports_station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition": True,
+        "supports_station_chief_v8_finish_line_control_plane": True,
         "supervised_production_pilot_readiness_review_requires_specific_token": True,
         "real_rollback_allowed": False,
         "real_recovery_allowed": False,

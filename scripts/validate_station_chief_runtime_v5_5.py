@@ -103,20 +103,11 @@ ALLOWED_CHANGED_PATHS = {
       "scripts/validate_station_chief_runtime_v6_5.py",
       "scripts/validate_station_chief_runtime_v5_5.py",
       "scripts/validate_station_chief_runtime_v5_6.py",
-      "scripts/validate_station_chief_runtime_v6_4.py",
-      "09_exports/station_chief_runtime_v6_4_report.md",
-      "09_exports/station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan_preflight_audit.md",
-      "10_runtime/station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan.py",
-      "09_exports/station_chief_runtime_v6_4_1_repair_report.md",
-      "scripts/validate_station_chief_runtime_v6_5.py",
-      "09_exports/station_chief_runtime_v6_5_report.md",
-      "09_exports/station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review_preflight_audit.md",
-      "10_runtime/station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review.py",
-      "09_exports/station_chief_runtime_v6_5_1_validation_context_repair_report.md",
-      "scripts/validate_station_chief_runtime_v6_6.py",
-      "09_exports/station_chief_runtime_v6_6_report.md",
-      "09_exports/station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_preflight_audit.md",
-      "10_runtime/station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition.py",
+      "09_exports/station_chief_v6_baby_step_chain_closeout_report.md",
+      "09_exports/station_chief_v8_0_finish_line_control_plane_preflight_audit.md",
+      "10_runtime/station_chief_v8_finish_line_control_plane.py",
+      "09_exports/station_chief_runtime_v8_0_report.md",
+      "scripts/validate_station_chief_runtime_v8_0.py",
       ".github/workflows/station-chief-validation.yml",
     }
 
@@ -234,10 +225,10 @@ def ensure_versions() -> None:
     module = load_script(V5_5_MODULE)
     adapters = load_script(ADAPTERS)
     release_lock = load_script(RELEASE_LOCK)
-    ensure(runtime["STATION_CHIEF_RUNTIME_VERSION"] in ["5.5.0", "6.6.0"], "runtime version mismatch")
-    ensure(runtime["generate_run_id"]("check please").startswith("station-chief-v5-5-"), "run id prefix mismatch")
+    ensure(runtime["STATION_CHIEF_RUNTIME_VERSION"] in ["5.5.0", "6.6.0", "8.0.0"], f"runtime version mismatch: {runtime['STATION_CHIEF_RUNTIME_VERSION']}")
+    ensure(runtime["generate_run_id"]("check please").startswith(("station-chief-v5-5-", "station-chief-v6-6-", "station-chief-v8-0-")), "run id prefix mismatch")
     ensure(runtime["run_station_chief"]("check please")["runtime_status"] == "sandbox_worker_acceptance_candidate_review", "runtime status mismatch")
-    ensure(adapters["ADAPTER_MODULE_VERSION"] == "5.5.0", "adapter module version mismatch")
+    ensure(adapters["ADAPTER_MODULE_VERSION"] in ["5.5.0", "8.0.0"], "adapter module version mismatch")
     noop = adapters["SUPPORTED_ADAPTERS"]["noop"]
     ensure(noop["supports_sandbox_worker_acceptance_candidate_review"] is True, "adapter acceptance_candidate_review support mismatch")
     ensure(noop["sandbox_worker_acceptance_candidate_review_requires_specific_token"] is True, "adapter token mismatch")

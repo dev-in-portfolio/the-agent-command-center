@@ -319,6 +319,10 @@ from station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_pla
     create_station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan_bundle,
     create_station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan_schema,
 )
+from station_chief_v8_finish_line_control_plane import (
+    create_station_chief_v8_finish_line_control_plane_schema,
+    create_station_chief_v8_finish_line_control_plane_bundle,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -349,6 +353,7 @@ def _validation_context_filename() -> str | None:
             "validate_station_chief_runtime_v6_4.py",
             "validate_station_chief_runtime_v6_5.py",
             "validate_station_chief_runtime_v6_6.py",
+            "validate_station_chief_runtime_v8_0.py",
         }:
             return filename
     return None
@@ -400,10 +405,12 @@ def _select_runtime_version(default_version: str) -> str:
         return "6.5.0"
     if context == "validate_station_chief_runtime_v6_6.py":
         return "6.6.0"
+    if context == "validate_station_chief_runtime_v8_0.py":
+        return "8.0.0"
     return default_version
 
 
-STATION_CHIEF_RUNTIME_VERSION = "6.6.0"
+STATION_CHIEF_RUNTIME_VERSION = "8.0.0"
 STATION_CHIEF_RUNTIME_VERSION = _select_runtime_version(STATION_CHIEF_RUNTIME_VERSION)
 
 EXPECTED_OVERLAYS = [
@@ -1139,6 +1146,15 @@ def write_station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_dispos
         result["record_path"] = None
     return result
 
+def attach_station_chief_v8_finish_line_control_plane(result: dict, args) -> dict:
+    if not (args.station_chief_v8_finish_line_control_plane or args.station_chief_v8_baby_step_chain_closeout or args.station_chief_v8_control_plane_status):
+        return result
+    
+    bundle = create_station_chief_v8_finish_line_control_plane_bundle()
+    result = dict(result)
+    result["station_chief_v8_finish_line_control_plane"] = bundle
+    return result
+
 def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any]:
     brief = create_command_brief(command)
     work_orders = create_work_orders(brief)
@@ -1167,6 +1183,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "6.4.0": "station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan",
         "6.5.0": "station_chief_v6_5_post_mvp_expansion_lane_non_executing_implementation_plan_review",
         "6.6.0": "station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition",
+        "8.0.0": "station_chief_v8_finish_line_control_plane",
     }.get(STATION_CHIEF_RUNTIME_VERSION, "live_queue_orchestration_candidate_review")
     evidence = build_demo_evidence()
     evidence.update(
@@ -1312,7 +1329,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "activation_tier": brief["activation_tier"],
         "baseline_preserved": True,
         "evidence": evidence,
-        "next_step": "Next step: v6.7 requires explicit operator instruction.",
+        "next_step": "Next step: v8.1 requires explicit operator instruction.",
         "first_tiny_real_world_supervised_execution_candidate_available": True,
         "first_tiny_real_world_supervised_execution_candidate_local_only": True,
         "first_tiny_real_world_supervised_execution_candidate_requires_token": True,
@@ -1460,6 +1477,21 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_does_not_deploy": True,
         "station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_does_not_execute_production": True,
         "station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_does_not_create_v6_7": True,
+        "station_chief_v8_finish_line_control_plane_available": True,
+        "station_chief_v8_baby_step_chain_closed": True,
+        "station_chief_v8_skips_v6_7_through_v7_x": True,
+        "station_chief_v8_consolidates_v6_2_through_v6_6": True,
+        "station_chief_v8_does_not_start_worker_processes": True,
+        "station_chief_v8_does_not_start_agents": True,
+        "station_chief_v8_does_not_create_real_queue": True,
+        "station_chief_v8_does_not_write_queue": True,
+        "station_chief_v8_does_not_enqueue_tasks": True,
+        "station_chief_v8_does_not_execute_tasks": True,
+        "station_chief_v8_does_not_call_live_apis": True,
+        "station_chief_v8_does_not_use_network_access": True,
+        "station_chief_v8_does_not_deploy": True,
+        "station_chief_v8_does_not_execute_production": True,
+        "station_chief_v8_does_not_create_v8_1": True,
         "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_start_worker_processes": True,
 
         "station_chief_v6_2_post_mvp_expansion_lane_scope_does_not_start_agents": True,
@@ -10772,6 +10804,11 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--v6-6-review-disposition-confirm-token", type=str)
     parser.add_argument("--v6-6-review-disposition-human-operator", type=str)
 
+    parser.add_argument("--station-chief-v8-finish-line-control-plane-schema", action="store_true")
+    parser.add_argument("--station-chief-v8-finish-line-control-plane", action="store_true")
+    parser.add_argument("--station-chief-v8-baby-step-chain-closeout", action="store_true")
+    parser.add_argument("--station-chief-v8-control-plane-status", action="store_true")
+
     parser.add_argument("--station-chief-v6-4-post-mvp-expansion-lane-non-executing-implementation-plan-schema", action="store_true")
     parser.add_argument("--station-chief-v6-4-post-mvp-expansion-lane-non-executing-implementation-plan", action="store_true")
     parser.add_argument("--write-station-chief-v6-4-post-mvp-expansion-lane-non-executing-implementation-plan", metavar="DIR", type=str)
@@ -12014,6 +12051,10 @@ def main() -> None:
     if getattr(args, "station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_schema", False):
         print(json.dumps(create_station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition_schema(), indent=2, ensure_ascii=False))
         return
+
+    if getattr(args, "station_chief_v8_finish_line_control_plane_schema", False):
+        print(json.dumps(create_station_chief_v8_finish_line_control_plane_schema(), indent=2, ensure_ascii=False))
+        return
         
     if getattr(args, "write_station_chief_v6_1_post_mvp_expansion_review", False):
         result = write_station_chief_v6_1_post_mvp_expansion_review(
@@ -12126,6 +12167,9 @@ def main() -> None:
         result = write_station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition(result)
     elif args.station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition:
         result = attach_station_chief_v6_6_post_mvp_expansion_lane_non_executing_review_disposition(result, args)
+
+    if args.station_chief_v8_finish_line_control_plane or args.station_chief_v8_baby_step_chain_closeout or args.station_chief_v8_control_plane_status:
+        result = attach_station_chief_v8_finish_line_control_plane(result, args)
 
     if getattr(args, "write_station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan", False):
         result = write_station_chief_v6_4_post_mvp_expansion_lane_non_executing_implementation_plan(
