@@ -1,42 +1,46 @@
-# Station Chief Runtime v22.0.0
+# Station Chief Runtime v23.0.0
 
 ## Status
-Station Chief Runtime upgraded to v22.0.0. Locked 175-family baseline preserved. v8.0 through v21.0 preserved. Station Chief v22.0 Controlled Business Workflow Tool Expansion / Client-Ready Workpack Factory Candidate added.
+Station Chief Runtime upgraded to v23.0.0. Locked 175-family baseline preserved. v8.0 through v22.0 preserved. Station Chief v23.0 Controlled Live External Tool Gateway / Allowlisted Web Probe Workpack Candidate added.
 
 ## What This Adds
-- v22.0 is the first business-workflow operational tool expansion
-- v22.0 creates controlled business workflow artifacts
-- v22.0 creates a client-ready workpack factory
-- v22.0 creates project brief, execution plan, tracker CSV, client-ready summary, QA checklist, and business manifest artifacts
-- v22.0 routes the operational chain through the existing v21/v20/v19/v18/v17 path
-- v22.0 writes only controlled local business workflow artifacts outside the repo
-- v22.0 creates business workflow workpack receipts
-- v22.0 creates business workflow handoff ledger
-- v22.0 creates business workflow audit record
-- v22.0 requires exact human approval phrase
-- v22.0 does not start real worker processes
-- v22.0 does not start background agents
-- v22.0 does not print file contents
-- v22.0 does not mutate repo files
-- v22.0 does not commit or push
-- v22.0 does not deploy
-- v22.0 does not touch production
-- v22.0 does not call APIs/network
-- v22.0 does not send emails
-- v22.0 does not create calendar events
-- v22.0 does not perform web requests
-- v22.0 does not access credentials/tokens/secrets/env/keys/vaults
-- v22.0 does not execute email/calendar/web/API/database/deployment adapters live
-- v22.0 does not generate binary documents or binary spreadsheets
-- v22.0 does not create real queues
-- v22.0 does not route to real worker processes
-- v22.0 does not perform uncontrolled live orchestration
-- v22.0 does not create v22.1
-- v22.0 does not create v23
+- v23.0 is the first controlled live external tool expansion
+- v23.0 creates the controlled live external tool gateway
+- v23.0 creates an external tool permission registry
+- v23.0 enables exactly one HTTPS GET probe to https://example.com/ when approved
+- v23.0 collects response metadata only
+- v23.0 never prints, stores, or returns response body content
+- v23.0 routes the operational chain through the existing v22/v21/v20/v19/v18/v17 path
+- v23.0 writes only controlled external-tool artifacts outside the repo
+- v23.0 creates external tool receipts
+- v23.0 creates external tool handoff ledger
+- v23.0 creates external tool audit record
+- v23.0 requires exact human approval phrase
+- v23.0 does not start real worker processes
+- v23.0 does not start background agents
+- v23.0 does not mutate repo files
+- v23.0 does not commit or push
+- v23.0 does not deploy
+- v23.0 does not touch production
+- v23.0 does not access credentials/tokens/secrets/env/keys/vaults
+- v23.0 does not send emails
+- v23.0 does not create calendar events
+- v23.0 does not perform database operations
+- v23.0 does not execute deployment adapters live
+- v23.0 does not generate binary documents or binary spreadsheets
+- v23.0 does not create real queues
+- v23.0 does not route to real worker processes
+- v23.0 does not perform uncontrolled live orchestration
+- v23.0 does not create v23.1
+- v23.0 does not create v24
 - Next internal label:
-  v22.1 or broader live external tool expansion requires explicit separate operator instruction
+  v23.1 or broader live external tool expansion requires explicit separate operator instruction
 
 ## History
+### v22.0.0
+Station Chief Runtime upgraded to v22.0.0. Locked 175-family baseline preserved. v8.0 through v21.0 preserved. Station Chief v22.0 Controlled Business Workflow Tool Expansion / Client-Ready Workpack Factory Candidate added.
+Next internal label: v22.1 or broader live external tool expansion requires explicit separate operator instruction.
+
 ### v21.0.0
 Station Chief Runtime upgraded to v21.0.0. Locked 175-family baseline preserved. v8.0 through v20.0 preserved. Station Chief v21.0 Controlled Local Workspace Tool Expansion / Artifact Factory Workpack Candidate added.
 Next internal label: v21.1 or broader external/business tool expansion requires explicit separate operator instruction.
