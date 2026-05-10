@@ -24,6 +24,9 @@ jobs:
       - name: Check Python version
         run: python3 --version
 
+      - name: Run v19.0 validator
+        run: python3 scripts/validate_station_chief_runtime_v19_0.py
+
       - name: Run v18.0 validator
         run: python3 scripts/validate_station_chief_runtime_v18_0.py
 

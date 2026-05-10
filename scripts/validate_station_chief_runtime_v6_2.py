@@ -645,6 +645,7 @@ def validate_v6_2() -> None:
 
     forbidden_indicators = ["devinization", "ownership", "credential", "secret", "env", "production", "deployment"]
     allowed_changed_exceptions = [
+                    "v19",
                     "v18",
                     "v17",
                     "v16",
