@@ -1,34 +1,40 @@
-# Station Chief Runtime v17.0.0
+# Station Chief Runtime v18.0.0
 
 ## Status
-Station Chief Runtime upgraded to v17.0.0. Locked 175-family baseline preserved. v8.0 through v16.0 preserved. Station Chief v17.0 Human-Gated Live Activation Protocol / Controlled First Real Action Layer Candidate added.
+Station Chief Runtime upgraded to v18.0.0. Locked 175-family baseline preserved. v8.0 through v17.0 preserved. Station Chief v18.0 Universal Tool Permission Layer / Controlled Tool Adapter Execution Candidate added.
 
 ## What This Adds
-- v17.0 creates the first live-working bridge
-- v17.0 creates human-gated live activation protocol
-- v17.0 creates controlled live action taxonomy
-- v17.0 introduces exactly one executable real action class: `CONTROLLED_LOCAL_REPO_READONLY_INTEGRITY_INSPECTION`
-- v17.0 can perform allowlisted repo file reads only after exact human approval phrase
-- v17.0 can hash allowlisted file contents
-- v17.0 can count bytes and lines
-- v17.0 can produce a JSON action receipt
-- v17.0 does not print file contents
-- v17.0 does not mutate files
-- v17.0 does not commit or push
-- v17.0 does not deploy
-- v17.0 does not touch production
-- v17.0 does not call APIs/network
-- v17.0 does not access credentials/tokens/secrets/env/keys/vaults
-- v17.0 does not start workers/agents/daemons
-- v17.0 does not create real queues
-- v17.0 does not enqueue or execute live tasks
-- v17.0 does not route or orchestrate live work
-- v17.0 does not create v17.1
-- v17.0 does not create v18
+- v18.0 is not repo-only doctrine
+- v18.0 creates universal tool permission architecture
+- v18.0 defines repo/code, local file, document, spreadsheet, email, calendar, web/research, API, database, deployment, local execution, agent routing, and business workflow tool categories
+- v18.0 creates thirteen tool categories
+- v18.0 creates thirteen controlled adapter descriptors
+- v18.0 allows exactly one executable live adapter in v18.0
+- v18.0 controlled live adapter wraps the v17 read-only repo integrity inspection
+- v18.0 requires exact human approval phrase
+- v18.0 produces tool execution receipt and audit
+- v18.0 does not execute email/calendar/web/API/database/deployment adapters live
+- v18.0 does not print file contents
+- v18.0 does not mutate files
+- v18.0 does not commit or push
+- v18.0 does not deploy
+- v18.0 does not touch production
+- v18.0 does not call APIs/network
+- v18.0 does not access credentials/tokens/secrets/env/keys/vaults
+- v18.0 does not start workers/agents/daemons
+- v18.0 does not create real queues
+- v18.0 does not enqueue or execute live tasks
+- v18.0 does not route or orchestrate live work
+- v18.0 does not create v18.1
+- v18.0 does not create v19
 - Next internal label:
-  v17.1 or broader live action expansion requires explicit separate operator instruction
+  v18.1 or broader controlled tool expansion requires explicit separate operator instruction
 
 ## History
+### v17.0.0
+Station Chief Runtime upgraded to v17.0.0. Locked 175-family baseline preserved. v8.0 through v16.0 preserved. Station Chief v17.0 Human-Gated Live Activation Protocol / Controlled First Real Action Layer Candidate added.
+Next internal label: v17.1 or broader live action expansion requires explicit separate operator instruction.
+
 ### v16.0.0
 Station Chief Runtime upgraded to v16.0.0. Locked 175-family baseline preserved. v8.0 through v15.0 preserved. Station Chief v16.0 Security / Integrity Spine Candidate added.
 Next internal label: v16.1 or live activation requires explicit separate operator instruction.

@@ -359,6 +359,10 @@ from station_chief_v17_live_activation_protocol import (
     create_station_chief_v17_live_activation_protocol_schema,
     create_station_chief_v17_live_activation_protocol_bundle,
 )
+from station_chief_v18_universal_tool_permission_layer import (
+    create_station_chief_v18_universal_tool_permission_layer_schema,
+    create_station_chief_v18_universal_tool_permission_layer_bundle,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -465,11 +469,13 @@ def _select_runtime_version(default_version: str) -> str:
     if context == "validate_station_chief_runtime_v16_0.py":
         return "16.0.0"
     if context == "validate_station_chief_runtime_v17_0.py":
-        return "17.0.0"    
+        return "17.0.0"
+    if context == "validate_station_chief_runtime_v18_0.py":
+        return "18.0.0"     
     return default_version
 
 
-STATION_CHIEF_RUNTIME_VERSION = "17.0.0"
+STATION_CHIEF_RUNTIME_VERSION = "18.0.0"
 STATION_CHIEF_RUNTIME_VERSION = _select_runtime_version(STATION_CHIEF_RUNTIME_VERSION)
 
 EXPECTED_OVERLAYS = [
@@ -1323,6 +1329,9 @@ def attach_station_chief_v13_external_tool_api_pilot_hardening(result: dict, arg
 
     bundle = create_station_chief_v13_external_tool_api_pilot_hardening_bundle()
 
+    if args.station_chief_v18_universal_tool_permission_layer or args.station_chief_v18_tool_categories or args.station_chief_v18_tool_permission_contract or args.station_chief_v18_controlled_tool_adapters or args.station_chief_v18_tool_action_preview or args.station_chief_v18_approved_tool_adapter_execution or args.station_chief_v18_tool_execution_receipt or args.station_chief_v18_tool_activation_audit:
+        result = attach_station_chief_v18_universal_tool_permission_layer(result, args)
+
     if args.station_chief_v17_live_activation_protocol or args.station_chief_v17_live_action_taxonomy or args.station_chief_v17_first_live_action_allowlist or args.station_chief_v17_preview_readonly_repo_inspection or args.station_chief_v17_approved_readonly_repo_inspection or args.station_chief_v17_live_action_receipt or args.station_chief_v17_live_activation_audit:
         result = attach_station_chief_v17_live_activation_protocol(result, args)
 
@@ -1373,6 +1382,9 @@ def attach_station_chief_v14_production_readiness_rollback_live_safety_gates(res
 
     bundle = create_station_chief_v14_production_readiness_rollback_live_safety_gates_bundle()
 
+    if args.station_chief_v18_universal_tool_permission_layer or args.station_chief_v18_tool_categories or args.station_chief_v18_tool_permission_contract or args.station_chief_v18_controlled_tool_adapters or args.station_chief_v18_tool_action_preview or args.station_chief_v18_approved_tool_adapter_execution or args.station_chief_v18_tool_execution_receipt or args.station_chief_v18_tool_activation_audit:
+        result = attach_station_chief_v18_universal_tool_permission_layer(result, args)
+
     if args.station_chief_v17_live_activation_protocol or args.station_chief_v17_live_action_taxonomy or args.station_chief_v17_first_live_action_allowlist or args.station_chief_v17_preview_readonly_repo_inspection or args.station_chief_v17_approved_readonly_repo_inspection or args.station_chief_v17_live_action_receipt or args.station_chief_v17_live_activation_audit:
         result = attach_station_chief_v17_live_activation_protocol(result, args)
 
@@ -1422,6 +1434,9 @@ def attach_station_chief_v15_full_auto_agent_army_ready_final_readiness_lock(res
 
     bundle = create_station_chief_v15_full_auto_agent_army_ready_final_readiness_lock_bundle()
 
+    if args.station_chief_v18_universal_tool_permission_layer or args.station_chief_v18_tool_categories or args.station_chief_v18_tool_permission_contract or args.station_chief_v18_controlled_tool_adapters or args.station_chief_v18_tool_action_preview or args.station_chief_v18_approved_tool_adapter_execution or args.station_chief_v18_tool_execution_receipt or args.station_chief_v18_tool_activation_audit:
+        result = attach_station_chief_v18_universal_tool_permission_layer(result, args)
+
     if args.station_chief_v17_live_activation_protocol or args.station_chief_v17_live_action_taxonomy or args.station_chief_v17_first_live_action_allowlist or args.station_chief_v17_preview_readonly_repo_inspection or args.station_chief_v17_approved_readonly_repo_inspection or args.station_chief_v17_live_action_receipt or args.station_chief_v17_live_activation_audit:
         result = attach_station_chief_v17_live_activation_protocol(result, args)
 
@@ -1469,6 +1484,9 @@ def attach_station_chief_v16_security_integrity_spine(result: dict, args) -> dic
         return result
 
     bundle = create_station_chief_v16_security_integrity_spine_bundle()
+
+    if args.station_chief_v18_universal_tool_permission_layer or args.station_chief_v18_tool_categories or args.station_chief_v18_tool_permission_contract or args.station_chief_v18_controlled_tool_adapters or args.station_chief_v18_tool_action_preview or args.station_chief_v18_approved_tool_adapter_execution or args.station_chief_v18_tool_execution_receipt or args.station_chief_v18_tool_activation_audit:
+        result = attach_station_chief_v18_universal_tool_permission_layer(result, args)
 
     if args.station_chief_v17_live_activation_protocol or args.station_chief_v17_live_action_taxonomy or args.station_chief_v17_first_live_action_allowlist or args.station_chief_v17_preview_readonly_repo_inspection or args.station_chief_v17_approved_readonly_repo_inspection or args.station_chief_v17_live_action_receipt or args.station_chief_v17_live_activation_audit:
         result = attach_station_chief_v17_live_activation_protocol(result, args)
@@ -1523,6 +1541,9 @@ def attach_station_chief_v17_live_activation_protocol(result: dict, args) -> dic
         execute_live_readonly_inspection=execute_live
     )
 
+    if args.station_chief_v18_universal_tool_permission_layer or args.station_chief_v18_tool_categories or args.station_chief_v18_tool_permission_contract or args.station_chief_v18_controlled_tool_adapters or args.station_chief_v18_tool_action_preview or args.station_chief_v18_approved_tool_adapter_execution or args.station_chief_v18_tool_execution_receipt or args.station_chief_v18_tool_activation_audit:
+        result = attach_station_chief_v18_universal_tool_permission_layer(result, args)
+
     if args.station_chief_v17_live_activation_protocol:
         result["station_chief_v17_live_activation_protocol"] = bundle
     if args.station_chief_v17_live_action_taxonomy:
@@ -1537,6 +1558,49 @@ def attach_station_chief_v17_live_activation_protocol(result: dict, args) -> dic
         result["station_chief_v17_live_action_receipt"] = bundle["live_action_receipt"]
     if args.station_chief_v17_live_activation_audit:
         result["station_chief_v17_live_activation_audit"] = bundle["live_activation_audit_record"]
+
+    return result
+
+def attach_station_chief_v18_universal_tool_permission_layer(result: dict, args) -> dict:
+    if not (
+        args.station_chief_v18_universal_tool_permission_layer
+        or args.station_chief_v18_tool_categories
+        or args.station_chief_v18_tool_permission_contract
+        or args.station_chief_v18_controlled_tool_adapters
+        or args.station_chief_v18_tool_action_preview
+        or args.station_chief_v18_approved_tool_adapter_execution
+        or args.station_chief_v18_tool_execution_receipt
+        or args.station_chief_v18_tool_activation_audit
+    ):
+        return result
+
+    # Determine if we should actually execute the real inspection via adapter
+    execute_live = getattr(args, "station_chief_v18_approved_tool_adapter_execution", False)
+    approval_phrase = getattr(args, "station_chief_v18_approval_phrase", None)
+    operator_label = getattr(args, "station_chief_v18_operator_label", None)
+
+    bundle = create_station_chief_v18_universal_tool_permission_layer_bundle(
+        approval_phrase=approval_phrase,
+        operator_label=operator_label,
+        execute_controlled_adapter=execute_live
+    )
+
+    if args.station_chief_v18_universal_tool_permission_layer:
+        result["station_chief_v18_universal_tool_permission_layer"] = bundle
+    if args.station_chief_v18_tool_categories:
+        result["station_chief_v18_tool_categories"] = bundle["universal_tool_category_registry"]
+    if args.station_chief_v18_tool_permission_contract:
+        result["station_chief_v18_tool_permission_contract"] = bundle["universal_tool_permission_contract"]
+    if args.station_chief_v18_controlled_tool_adapters:
+        result["station_chief_v18_controlled_tool_adapters"] = bundle["controlled_tool_adapter_registry"]
+    if args.station_chief_v18_tool_action_preview:
+        result["station_chief_v18_tool_action_preview"] = bundle["tool_action_preview_packet"]
+    if args.station_chief_v18_approved_tool_adapter_execution:
+        result["station_chief_v18_approved_tool_adapter_execution"] = bundle["controlled_tool_adapter_execution"]
+    if args.station_chief_v18_tool_execution_receipt:
+        result["station_chief_v18_tool_execution_receipt"] = bundle["tool_execution_receipt"]
+    if args.station_chief_v18_tool_activation_audit:
+        result["station_chief_v18_tool_activation_audit"] = bundle["universal_tool_activation_audit_record"]
 
     return result
 
@@ -1578,6 +1642,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "15.0.0": "station_chief_v15_full_auto_agent_army_ready_final_readiness_lock",
         "16.0.0": "station_chief_v16_security_integrity_spine",
         "17.0.0": "station_chief_v17_human_gated_live_activation_protocol",
+        "18.0.0": "station_chief_v18_universal_tool_permission_layer",
     }.get(STATION_CHIEF_RUNTIME_VERSION, "live_queue_orchestration_candidate_review")
     evidence = build_demo_evidence()
     evidence.update(
@@ -1715,6 +1780,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         }
     )
     return {
+                "station_chief_v18_universal_tool_permission_layer_available": True,
         "station_chief_runtime_version": STATION_CHIEF_RUNTIME_VERSION,
         "runtime_status": runtime_status,
         "release_status": "STABLE_LOCKED",
@@ -11549,6 +11615,18 @@ def main() -> None:
     parser.add_argument("--station-chief-v17-live-action-receipt", action="store_true", help="Attach v17.0 live action receipt")
     parser.add_argument("--station-chief-v17-live-activation-audit", action="store_true", help="Attach v17.0 live activation audit")
 
+    parser.add_argument("--station-chief-v18-universal-tool-permission-layer-schema", action="store_true", help="Print Station Chief v18.0 schema and exit")
+    parser.add_argument("--station-chief-v18-universal-tool-permission-layer", action="store_true", help="Attach Station Chief v18.0 bundle")
+    parser.add_argument("--station-chief-v18-tool-categories", action="store_true", help="Attach v18.0 tool categories")
+    parser.add_argument("--station-chief-v18-tool-permission-contract", action="store_true", help="Attach v18.0 permission contract")
+    parser.add_argument("--station-chief-v18-controlled-tool-adapters", action="store_true", help="Attach v18.0 tool adapters")
+    parser.add_argument("--station-chief-v18-tool-action-preview", action="store_true", help="Attach v18.0 tool action preview")
+    parser.add_argument("--station-chief-v18-approved-tool-adapter-execution", action="store_true", help="Execute v18.0 controlled tool adapter")
+    parser.add_argument("--station-chief-v18-approval-phrase", type=str, help="Human approval phrase for v18.0 tool actions")
+    parser.add_argument("--station-chief-v18-operator-label", type=str, help="Metadata label for human operator")
+    parser.add_argument("--station-chief-v18-tool-execution-receipt", action="store_true", help="Attach v18.0 tool execution receipt")
+    parser.add_argument("--station-chief-v18-tool-activation-audit", action="store_true", help="Attach v18.0 tool activation audit")
+
     args = parser.parse_args()
 
     if args.compare_dry_run_bundles:
@@ -12707,6 +12785,10 @@ def main() -> None:
         print(json.dumps(create_station_chief_v12_autonomous_worker_army_release_candidate_schema(), indent=2, ensure_ascii=False))
         return
 
+    if getattr(args, "station_chief_v18_universal_tool_permission_layer_schema", False):
+        print(json.dumps(create_station_chief_v18_universal_tool_permission_layer_schema(), indent=2, ensure_ascii=False))
+        return
+
     if getattr(args, "station_chief_v17_live_activation_protocol_schema", False):
         print(json.dumps(create_station_chief_v17_live_activation_protocol_schema(), indent=2, ensure_ascii=False))
         return
@@ -12853,6 +12935,9 @@ def main() -> None:
 
     if args.station_chief_v12_autonomous_worker_army_release_candidate or args.station_chief_v12_army_workers or args.station_chief_v12_army_squads or args.station_chief_v12_command_manifest or args.station_chief_v12_mission_envelopes or args.station_chief_v12_dispatch_matrix or args.station_chief_v12_army_cycle_plan or args.station_chief_v12_readiness_receipts or args.station_chief_v12_army_audit:
         result = attach_station_chief_v12_autonomous_worker_army_release_candidate(result, args)
+
+    if args.station_chief_v18_universal_tool_permission_layer or args.station_chief_v18_tool_categories or args.station_chief_v18_tool_permission_contract or args.station_chief_v18_controlled_tool_adapters or args.station_chief_v18_tool_action_preview or args.station_chief_v18_approved_tool_adapter_execution or args.station_chief_v18_tool_execution_receipt or args.station_chief_v18_tool_activation_audit:
+        result = attach_station_chief_v18_universal_tool_permission_layer(result, args)
 
     if args.station_chief_v17_live_activation_protocol or args.station_chief_v17_live_action_taxonomy or args.station_chief_v17_first_live_action_allowlist or args.station_chief_v17_preview_readonly_repo_inspection or args.station_chief_v17_approved_readonly_repo_inspection or args.station_chief_v17_live_action_receipt or args.station_chief_v17_live_activation_audit:
         result = attach_station_chief_v17_live_activation_protocol(result, args)

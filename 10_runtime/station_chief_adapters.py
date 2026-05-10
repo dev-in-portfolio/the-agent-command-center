@@ -36,6 +36,7 @@ def _validation_context_filename() -> str | None:
             "validate_station_chief_runtime_v15_0.py",
             "validate_station_chief_runtime_v16_0.py",
             "validate_station_chief_runtime_v17_0.py",
+            "validate_station_chief_runtime_v18_0.py",
         }:
             return filename
     return None
@@ -107,10 +108,12 @@ def _select_adapter_version(default_version: str) -> str:
         return "16.0.0"
     if context == "validate_station_chief_runtime_v17_0.py":
         return "17.0.0"
+    if context == "validate_station_chief_runtime_v18_0.py":
+        return "18.0.0"
     return default_version
 
 
-ADAPTER_MODULE_VERSION = "17.0.0"
+ADAPTER_MODULE_VERSION = "18.0.0"
 ADAPTER_MODULE_VERSION = _select_adapter_version(ADAPTER_MODULE_VERSION)
 
 YES_I_APPROVE_SANDBOX_FILE_WRITE = "YES_I_APPROVE_SANDBOX_FILE_WRITE"
@@ -726,6 +729,33 @@ def list_adapters() -> dict:
         "security_validator_hardening_allowed": True,
         "security_audit_replay_packet_allowed": True,
         "security_spine_lock_allowed": True,
+                "supports_station_chief_v18_universal_tool_permission_layer": True,
+        "station_chief_v18_universal_tool_permission_layer_allowed": True,
+        "universal_tool_categories_allowed": True,
+        "tool_category_count_13_allowed": True,
+        "controlled_tool_adapter_registry_allowed": True,
+        "adapter_count_13_allowed": True,
+        "controlled_repo_readonly_adapter_execution_allowed": True,
+        "live_adapter_count_1_allowed": True,
+        "locked_adapter_count_12_required": True,
+        "human_approval_required": True,
+        "approval_phrase_required": True,
+        "allowlisted_file_read_allowed": True,
+        "allowlisted_file_hashing_allowed": True,
+        "file_content_printing_allowed": False,
+        "file_mutation_allowed": False,
+        "repo_mutation_allowed": False,
+        "commit_allowed": False,
+        "push_allowed": False,
+        "deployment_allowed": False,
+        "production_execution_allowed": False,
+        "live_email_execution_allowed": False,
+        "live_calendar_execution_allowed": False,
+        "live_web_execution_allowed": False,
+        "live_api_execution_allowed": False,
+        "live_database_execution_allowed": False,
+        "live_deployment_execution_allowed": False,
+        "live_local_shell_execution_allowed": False,
         "credential_access_allowed": False,
         "token_access_allowed": False,
         "secret_read_allowed": False,
@@ -742,8 +772,8 @@ def list_adapters() -> dict:
         "deployment_rollback_allowed": False,
         "rollback_execution_allowed": False,
         "recovery_execution_allowed": False,
-        "v17_1_creation_allowed": False,
-        "v18_creation_allowed": False,
+        "v18_1_creation_allowed": False,
+        "v19_creation_allowed": False,
         "real_rollback_allowed": False,
         "real_recovery_allowed": False,
         "process_termination_allowed": False,

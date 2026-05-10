@@ -43,14 +43,14 @@ def main():
     ensure(v16_report.exists(), "v16.0 report missing")
 
     # Versions
-    check_file_content(runtime_dir / "station_chief_runtime.py", r'STATION_CHIEF_RUNTIME_VERSION\s*=\s*"(16\.0\.0|17\.0\.0)"', "Runtime version not 16.0.0 or 17.0.0")
-    check_file_content(runtime_dir / "station_chief_release_lock.py", r'STABLE_RUNTIME_VERSION\s*=\s*"(16\.0\.0|17\.0\.0)"', "Release lock not 16.0.0 or 17.0.0")
-    check_file_content(runtime_dir / "station_chief_adapters.py", r'ADAPTER_MODULE_VERSION\s*=\s*"(16\.0\.0|17\.0\.0)"', "Adapter version not 16.0.0 or 17.0.0")
+    check_file_content(runtime_dir / "station_chief_runtime.py", r'STATION_CHIEF_RUNTIME_VERSION\s*=\s*"(16\.0\.0|17\.0\.0|18\.0\.0)"', "Runtime version not 16.0.0, 17.0.0, or 18.0.0")
+    check_file_content(runtime_dir / "station_chief_release_lock.py", r'STABLE_RUNTIME_VERSION\s*=\s*"(16\.0\.0|17\.0\.0|18\.0\.0)"', "Release lock not 16.0.0, 17.0.0, or 18.0.0")
+    check_file_content(runtime_dir / "station_chief_adapters.py", r'ADAPTER_MODULE_VERSION\s*=\s*"(16\.0\.0|17\.0\.0|18\.0\.0)"', "Adapter version not 16.0.0, 17.0.0, or 18.0.0")
 
     # Future files
     ensure(not list(root_dir.rglob("*v16_1*")), "v16.1 files exist")
     ensure(not list(root_dir.rglob("*v16.1*")), "v16.1 files exist")
-    ensure(not (list(root_dir.rglob("*v17_1*")) or list(root_dir.rglob("*v17.1*")) or list(root_dir.rglob("*v18*"))), "v17.1+ or v18+ files exist")
+    ensure(not (list(root_dir.rglob("*v18_1*")) or list(root_dir.rglob("*v18.1*")) or list(root_dir.rglob("*v19*"))), "v18.1+ or v19+ files exist")
 
     # Context selectors
     check_file_content(runtime_dir / "station_chief_release_lock.py", r'"validate_station_chief_runtime_v16_0\.py",', "v16.0 selector missing in release lock")
