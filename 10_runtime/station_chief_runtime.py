@@ -351,6 +351,10 @@ from station_chief_v15_full_auto_agent_army_ready_final_readiness_lock import (
     create_station_chief_v15_full_auto_agent_army_ready_final_readiness_lock_schema,
     create_station_chief_v15_full_auto_agent_army_ready_final_readiness_lock_bundle,
 )
+from station_chief_v16_security_integrity_spine import (
+    create_station_chief_v16_security_integrity_spine_schema,
+    create_station_chief_v16_security_integrity_spine_bundle,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -453,11 +457,13 @@ def _select_runtime_version(default_version: str) -> str:
     if context == "validate_station_chief_runtime_v14_0.py":
         return "14.0.0"
     if context == "validate_station_chief_runtime_v15_0.py":
-        return "15.0.0"  
+        return "15.0.0"
+    if context == "validate_station_chief_runtime_v16_0.py":
+        return "16.0.0"   
     return default_version
 
 
-STATION_CHIEF_RUNTIME_VERSION = "15.0.0"
+STATION_CHIEF_RUNTIME_VERSION = "16.0.0"
 STATION_CHIEF_RUNTIME_VERSION = _select_runtime_version(STATION_CHIEF_RUNTIME_VERSION)
 
 EXPECTED_OVERLAYS = [
@@ -1311,6 +1317,9 @@ def attach_station_chief_v13_external_tool_api_pilot_hardening(result: dict, arg
 
     bundle = create_station_chief_v13_external_tool_api_pilot_hardening_bundle()
 
+    if args.station_chief_v16_security_integrity_spine or args.station_chief_v16_security_domains or args.station_chief_v16_packet_hash_manifest or args.station_chief_v16_tamper_evident_lineage or args.station_chief_v16_signature_doctrine or args.station_chief_v16_key_separation_trust_boundary or args.station_chief_v16_repo_trust_model or args.station_chief_v16_sensitive_packet_encryption_review or args.station_chief_v16_security_validator_hardening or args.station_chief_v16_security_audit_replay_packet or args.station_chief_v16_security_spine_lock or args.station_chief_v16_security_audit:
+        result = attach_station_chief_v16_security_integrity_spine(result, args)
+
     if args.station_chief_v15_full_auto_agent_army_ready_final_readiness_lock or args.station_chief_v15_final_readiness_domains or args.station_chief_v15_final_activation_prerequisites or args.station_chief_v15_human_approval_override or args.station_chief_v15_command_authority_matrix or args.station_chief_v15_army_readiness_scorecard or args.station_chief_v15_safety_evidence_ledger or args.station_chief_v15_activation_denial_proof or args.station_chief_v15_no_live_action_audit or args.station_chief_v15_final_readiness_certificate:
         result = attach_station_chief_v15_full_auto_agent_army_ready_final_readiness_lock(result, args)
 
@@ -1355,6 +1364,9 @@ def attach_station_chief_v14_production_readiness_rollback_live_safety_gates(res
 
     bundle = create_station_chief_v14_production_readiness_rollback_live_safety_gates_bundle()
 
+    if args.station_chief_v16_security_integrity_spine or args.station_chief_v16_security_domains or args.station_chief_v16_packet_hash_manifest or args.station_chief_v16_tamper_evident_lineage or args.station_chief_v16_signature_doctrine or args.station_chief_v16_key_separation_trust_boundary or args.station_chief_v16_repo_trust_model or args.station_chief_v16_sensitive_packet_encryption_review or args.station_chief_v16_security_validator_hardening or args.station_chief_v16_security_audit_replay_packet or args.station_chief_v16_security_spine_lock or args.station_chief_v16_security_audit:
+        result = attach_station_chief_v16_security_integrity_spine(result, args)
+
     if args.station_chief_v15_full_auto_agent_army_ready_final_readiness_lock or args.station_chief_v15_final_readiness_domains or args.station_chief_v15_final_activation_prerequisites or args.station_chief_v15_human_approval_override or args.station_chief_v15_command_authority_matrix or args.station_chief_v15_army_readiness_scorecard or args.station_chief_v15_safety_evidence_ledger or args.station_chief_v15_activation_denial_proof or args.station_chief_v15_no_live_action_audit or args.station_chief_v15_final_readiness_certificate:
         result = attach_station_chief_v15_full_auto_agent_army_ready_final_readiness_lock(result, args)
 
@@ -1398,6 +1410,9 @@ def attach_station_chief_v15_full_auto_agent_army_ready_final_readiness_lock(res
 
     bundle = create_station_chief_v15_full_auto_agent_army_ready_final_readiness_lock_bundle()
 
+    if args.station_chief_v16_security_integrity_spine or args.station_chief_v16_security_domains or args.station_chief_v16_packet_hash_manifest or args.station_chief_v16_tamper_evident_lineage or args.station_chief_v16_signature_doctrine or args.station_chief_v16_key_separation_trust_boundary or args.station_chief_v16_repo_trust_model or args.station_chief_v16_sensitive_packet_encryption_review or args.station_chief_v16_security_validator_hardening or args.station_chief_v16_security_audit_replay_packet or args.station_chief_v16_security_spine_lock or args.station_chief_v16_security_audit:
+        result = attach_station_chief_v16_security_integrity_spine(result, args)
+
     if args.station_chief_v15_full_auto_agent_army_ready_final_readiness_lock:
         result["station_chief_v15_full_auto_agent_army_ready_final_readiness_lock"] = bundle
     if args.station_chief_v15_final_readiness_domains:
@@ -1418,6 +1433,52 @@ def attach_station_chief_v15_full_auto_agent_army_ready_final_readiness_lock(res
         result["station_chief_v15_no_live_action_audit"] = bundle["final_no_live_action_audit_record"]
     if args.station_chief_v15_final_readiness_certificate:
         result["station_chief_v15_final_readiness_certificate"] = bundle["final_readiness_certificate"]
+
+    return result
+
+def attach_station_chief_v16_security_integrity_spine(result: dict, args) -> dict:
+    if not (
+        args.station_chief_v16_security_integrity_spine
+        or args.station_chief_v16_security_domains
+        or args.station_chief_v16_packet_hash_manifest
+        or args.station_chief_v16_tamper_evident_lineage
+        or args.station_chief_v16_signature_doctrine
+        or args.station_chief_v16_key_separation_trust_boundary
+        or args.station_chief_v16_repo_trust_model
+        or args.station_chief_v16_sensitive_packet_encryption_review
+        or args.station_chief_v16_security_validator_hardening
+        or args.station_chief_v16_security_audit_replay_packet
+        or args.station_chief_v16_security_spine_lock
+        or args.station_chief_v16_security_audit
+    ):
+        return result
+
+    bundle = create_station_chief_v16_security_integrity_spine_bundle()
+
+    if args.station_chief_v16_security_integrity_spine:
+        result["station_chief_v16_security_integrity_spine"] = bundle
+    if args.station_chief_v16_security_domains:
+        result["station_chief_v16_security_domains"] = bundle["security_integrity_domain_registry"]
+    if args.station_chief_v16_packet_hash_manifest:
+        result["station_chief_v16_packet_hash_manifest"] = bundle["packet_hash_manifest"]
+    if args.station_chief_v16_tamper_evident_lineage:
+        result["station_chief_v16_tamper_evident_lineage"] = bundle["tamper_evident_lineage_manifest"]
+    if args.station_chief_v16_signature_doctrine:
+        result["station_chief_v16_signature_doctrine"] = bundle["signature_doctrine_manifest"]
+    if args.station_chief_v16_key_separation_trust_boundary:
+        result["station_chief_v16_key_separation_trust_boundary"] = bundle["key_separation_trust_boundary_manifest"]
+    if args.station_chief_v16_repo_trust_model:
+        result["station_chief_v16_repo_trust_model"] = bundle["official_vs_lab_repo_trust_model"]
+    if args.station_chief_v16_sensitive_packet_encryption_review:
+        result["station_chief_v16_sensitive_packet_encryption_review"] = bundle["sensitive_packet_encryption_review_manifest"]
+    if args.station_chief_v16_security_validator_hardening:
+        result["station_chief_v16_security_validator_hardening"] = bundle["security_validator_hardening_manifest"]
+    if args.station_chief_v16_security_audit_replay_packet:
+        result["station_chief_v16_security_audit_replay_packet"] = bundle["security_audit_replay_packet"]
+    if args.station_chief_v16_security_spine_lock:
+        result["station_chief_v16_security_spine_lock"] = bundle["security_spine_lock"]
+    if args.station_chief_v16_security_audit:
+        result["station_chief_v16_security_audit"] = bundle["security_integrity_spine_audit_record"]
 
     return result
 
@@ -1457,6 +1518,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "13.0.0": "station_chief_v13_external_tool_api_pilot_hardening",
         "14.0.0": "station_chief_v14_production_readiness_rollback_live_safety_gates",
         "15.0.0": "station_chief_v15_full_auto_agent_army_ready_final_readiness_lock",
+        "16.0.0": "station_chief_v16_security_integrity_spine",
     }.get(STATION_CHIEF_RUNTIME_VERSION, "live_queue_orchestration_candidate_review")
     evidence = build_demo_evidence()
     evidence.update(
@@ -11403,6 +11465,20 @@ def main() -> None:
     parser.add_argument("--station-chief-v15-no-live-action-audit", action="store_true", help="Attach v15.0 no live action audit")
     parser.add_argument("--station-chief-v15-final-readiness-certificate", action="store_true", help="Attach v15.0 readiness certificate")
 
+    parser.add_argument("--station-chief-v16-security-integrity-spine-schema", action="store_true", help="Print Station Chief v16.0 schema and exit")
+    parser.add_argument("--station-chief-v16-security-integrity-spine", action="store_true", help="Attach Station Chief v16.0 bundle")
+    parser.add_argument("--station-chief-v16-security-domains", action="store_true", help="Attach v16.0 security domains")
+    parser.add_argument("--station-chief-v16-packet-hash-manifest", action="store_true", help="Attach v16.0 packet hash manifest")
+    parser.add_argument("--station-chief-v16-tamper-evident-lineage", action="store_true", help="Attach v16.0 lineage manifest")
+    parser.add_argument("--station-chief-v16-signature-doctrine", action="store_true", help="Attach v16.0 signature doctrine")
+    parser.add_argument("--station-chief-v16-key-separation-trust-boundary", action="store_true", help="Attach v16.0 trust boundary")
+    parser.add_argument("--station-chief-v16-repo-trust-model", action="store_true", help="Attach v16.0 repo trust model")
+    parser.add_argument("--station-chief-v16-sensitive-packet-encryption-review", action="store_true", help="Attach v16.0 encryption review")
+    parser.add_argument("--station-chief-v16-security-validator-hardening", action="store_true", help="Attach v16.0 validator hardening")
+    parser.add_argument("--station-chief-v16-security-audit-replay-packet", action="store_true", help="Attach v16.0 replay packet")
+    parser.add_argument("--station-chief-v16-security-spine-lock", action="store_true", help="Attach v16.0 spine lock")
+    parser.add_argument("--station-chief-v16-security-audit", action="store_true", help="Attach v16.0 security audit record")
+
     args = parser.parse_args()
 
     if args.compare_dry_run_bundles:
@@ -12561,6 +12637,10 @@ def main() -> None:
         print(json.dumps(create_station_chief_v12_autonomous_worker_army_release_candidate_schema(), indent=2, ensure_ascii=False))
         return
 
+    if getattr(args, "station_chief_v16_security_integrity_spine_schema", False):
+        print(json.dumps(create_station_chief_v16_security_integrity_spine_schema(), indent=2, ensure_ascii=False))
+        return
+
     if getattr(args, "station_chief_v15_full_auto_agent_army_ready_final_readiness_lock_schema", False):
         print(json.dumps(create_station_chief_v15_full_auto_agent_army_ready_final_readiness_lock_schema(), indent=2, ensure_ascii=False))
         return
@@ -12699,6 +12779,9 @@ def main() -> None:
 
     if args.station_chief_v12_autonomous_worker_army_release_candidate or args.station_chief_v12_army_workers or args.station_chief_v12_army_squads or args.station_chief_v12_command_manifest or args.station_chief_v12_mission_envelopes or args.station_chief_v12_dispatch_matrix or args.station_chief_v12_army_cycle_plan or args.station_chief_v12_readiness_receipts or args.station_chief_v12_army_audit:
         result = attach_station_chief_v12_autonomous_worker_army_release_candidate(result, args)
+
+    if args.station_chief_v16_security_integrity_spine or args.station_chief_v16_security_domains or args.station_chief_v16_packet_hash_manifest or args.station_chief_v16_tamper_evident_lineage or args.station_chief_v16_signature_doctrine or args.station_chief_v16_key_separation_trust_boundary or args.station_chief_v16_repo_trust_model or args.station_chief_v16_sensitive_packet_encryption_review or args.station_chief_v16_security_validator_hardening or args.station_chief_v16_security_audit_replay_packet or args.station_chief_v16_security_spine_lock or args.station_chief_v16_security_audit:
+        result = attach_station_chief_v16_security_integrity_spine(result, args)
 
     if args.station_chief_v15_full_auto_agent_army_ready_final_readiness_lock or args.station_chief_v15_final_readiness_domains or args.station_chief_v15_final_activation_prerequisites or args.station_chief_v15_human_approval_override or args.station_chief_v15_command_authority_matrix or args.station_chief_v15_army_readiness_scorecard or args.station_chief_v15_safety_evidence_ledger or args.station_chief_v15_activation_denial_proof or args.station_chief_v15_no_live_action_audit or args.station_chief_v15_final_readiness_certificate:
         result = attach_station_chief_v15_full_auto_agent_army_ready_final_readiness_lock(result, args)

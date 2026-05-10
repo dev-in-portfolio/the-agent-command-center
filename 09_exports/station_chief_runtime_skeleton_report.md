@@ -1,39 +1,40 @@
-# Station Chief Runtime v15.0.0
+# Station Chief Runtime v16.0.0
 
 ## Status
-Station Chief Runtime upgraded to v15.0.0. Locked 175-family baseline preserved. v8.0 through v14.0 preserved. Station Chief v15.0 Full Auto Agent Army Ready / Final Readiness Lock Candidate added.
+Station Chief Runtime upgraded to v16.0.0. Locked 175-family baseline preserved. v8.0 through v15.0 preserved. Station Chief v16.0 Security / Integrity Spine Candidate added.
 
 ## What This Adds
-- v15.0 means full auto agent army ready as a verified readiness state
-- v15.0 creates final readiness lock metadata
-- v15.0 creates final readiness certificate metadata
-- v15.0 creates final command authority matrix metadata
-- v15.0 creates final safety evidence ledger metadata
-- v15.0 creates activation denial proof metadata
-- v15.0 does not activate live autonomy
-- v15.0 does not autonomously self-activate
-- v15.0 does not deploy
-- v15.0 does not touch production
-- v15.0 does not execute production
-- v15.0 does not execute rollback
-- v15.0 does not execute recovery
-- v15.0 does not invoke real tools
-- v15.0 does not invoke external tools
-- v15.0 does not call APIs
-- v15.0 does not use network access
-- v15.0 does not access credentials
-- v15.0 does not read secrets
-- v15.0 does not read environment variables
-- v15.0 does not start workers/agents/daemons
-- v15.0 does not create real queues
-- v15.0 does not enqueue or execute live tasks
-- v15.0 does not route or orchestrate live work
-- v15.0 does not create v15.1
-- v15.0 does not create v16
+- v16.0 creates Packet Hash Manifest metadata
+- v16.0 creates Tamper-Evident Lineage metadata
+- v16.0 creates Signature Doctrine metadata
+- v16.0 creates Key Separation / Trust Boundary metadata
+- v16.0 creates Official vs Lab Repo Trust Model metadata
+- v16.0 creates Sensitive Packet Encryption Review metadata
+- v16.0 creates Security Validator Hardening metadata
+- v16.0 creates Security Audit / Replay Packet metadata
+- v16.0 creates Security Spine Lock metadata
+- v16.0 does not access credentials, tokens, secrets, private keys, signing keys, vaults, or environment variables
+- v16.0 does not generate keys
+- v16.0 does not perform real signing
+- v16.0 does not perform real encryption or decryption
+- v16.0 does not activate live autonomy
+- v16.0 does not deploy
+- v16.0 does not execute production
+- v16.0 does not call APIs/network
+- v16.0 does not start workers/agents/daemons
+- v16.0 does not create real queues
+- v16.0 does not enqueue or execute live tasks
+- v16.0 does not route or orchestrate live work
+- v16.0 does not create v16.1
+- v16.0 does not create v17
 - Next internal label:
-  v15.1 or live activation requires explicit separate operator instruction
+  v16.1 or live activation requires explicit separate operator instruction
 
 ## History
+### v15.0.0
+Station Chief Runtime upgraded to v15.0.0. Locked 175-family baseline preserved. v8.0 through v14.0 preserved. Station Chief v15.0 Full Auto Agent Army Ready / Final Readiness Lock Candidate added.
+Next internal label: v15.1 or live activation requires explicit separate operator instruction.
+
 ### v14.0.0
 Station Chief Runtime upgraded to v14.0.0. Locked 175-family baseline preserved. v8.0 control plane preserved. v9.0 controlled local worker pilot preserved. v10.0 multi-worker sandbox coordination preserved. v11.0 permissioned tool/task/queue layer preserved. v12.0 autonomous worker army release candidate preserved. v13.0 external tool/API pilot hardening preserved. Station Chief v14.0 Production Readiness / Rollback / Live Safety Gates Candidate added.
 Next internal label: v14.1 or v15.0 requires explicit operator instruction.

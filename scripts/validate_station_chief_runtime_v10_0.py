@@ -176,7 +176,7 @@ def main():
         ensure(matrix.get(action) == "DENIED", f"Safety matrix failed to deny {action}")
 
     # 8. Forbidden files check
-    forbidden_globs = ["*v10_1*", "*v10.1*", "*v11_1*", "*v11.1*", "*v12_1*", "*v12.1*", "*v13_1*", "*v13.1*", "*v14_1*", "*v14.1*", "*v15_1*", "*v15.1*", "*v16*"]
+    forbidden_globs = ["*v10_1*", "*v10.1*", "*v11_1*", "*v11.1*", "*v12_1*", "*v12.1*", "*v13_1*", "*v13.1*", "*v14_1*", "*v14.1*", "*v15_1*", "*v15.1*", "*v16_1*", "*v16.1*", "*v17*"]
     for glob in forbidden_globs:
         matches = list(REPO_ROOT.glob(f"**/{glob}"))
         matches = [m for m in matches if "__pycache__" not in str(m)]

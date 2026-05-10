@@ -220,6 +220,7 @@ def ensure_protected_paths() -> None:
             if indicator in path.lower():
                 # Allow specifically expected files
                 allowed_exceptions = [
+                    "v16",
                     "v15",
                     "v14",
                     "v13",

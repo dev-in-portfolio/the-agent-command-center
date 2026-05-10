@@ -96,7 +96,7 @@ def _run_prior_validator(script_name: str) -> None:
 
 
 def _assert_no_future_files() -> None:
-    forbidden_globs = ["*v13_1*", "*v13.1*", "*v14_1*", "*v14.1*", "*v15_1*", "*v15.1*", "*v16*"]
+    forbidden_globs = ["*v13_1*", "*v13.1*", "*v14_1*", "*v14.1*", "*v15_1*", "*v15.1*", "*v16_1*", "*v16.1*", "*v17*"]
     for glob_pattern in forbidden_globs:
         matches = [
             path
@@ -150,7 +150,7 @@ def _assert_protected_paths_unmodified() -> None:
         path = path.lstrip(" M?AD")
         if path.startswith("__pycache__"):
             continue
-        ensure(path in allowed_paths or "validate_station_chief_runtime_" in path or ("v14" in path and "v14_1" not in path and "v14.1" not in path) or ("v15" in path and "v15_1" not in path and "v15.1" not in path and "v16" not in path) or path.startswith("10_runtime/__pycache__") or path.startswith("scripts/__pycache__"), f"Unexpected modified path: {path}")
+        ensure(path in allowed_paths or "validate_station_chief_runtime_" in path or ("v14" in path and "v14_1" not in path and "v14.1" not in path) or ("v15" in path and "v15_1" not in path and "v15.1" not in path) or ("v16" in path and "v16_1" not in path and "v16.1" not in path and "v17" not in path) or path.startswith("10_runtime/__pycache__") or path.startswith("scripts/__pycache__"), f"Unexpected modified path: {path}")
 
 
 def main():

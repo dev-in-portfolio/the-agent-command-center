@@ -34,6 +34,7 @@ def _validation_context_filename() -> str | None:
             "validate_station_chief_runtime_v13_0.py",
             "validate_station_chief_runtime_v14_0.py",
             "validate_station_chief_runtime_v15_0.py",
+            "validate_station_chief_runtime_v16_0.py",
         }:
             return filename
     return None
@@ -101,10 +102,12 @@ def _select_adapter_version(default_version: str) -> str:
         return "14.0.0"
     if context == "validate_station_chief_runtime_v15_0.py":
         return "15.0.0"
+    if context == "validate_station_chief_runtime_v16_0.py":
+        return "16.0.0"
     return default_version
 
 
-ADAPTER_MODULE_VERSION = "15.0.0"
+ADAPTER_MODULE_VERSION = "16.0.0"
 ADAPTER_MODULE_VERSION = _select_adapter_version(ADAPTER_MODULE_VERSION)
 
 YES_I_APPROVE_SANDBOX_FILE_WRITE = "YES_I_APPROVE_SANDBOX_FILE_WRITE"
@@ -639,6 +642,26 @@ def list_adapters() -> dict:
         "final_command_authority_matrix_allowed": True,
         "final_safety_evidence_ledger_allowed": True,
         "final_activation_denial_proof_allowed": True,
+                "supports_station_chief_v16_security_integrity_spine": True,
+        "station_chief_v16_security_integrity_spine_metadata_allowed": True,
+        "packet_hash_manifest_allowed": True,
+        "tamper_evident_lineage_allowed": True,
+        "signature_doctrine_allowed": True,
+        "key_separation_trust_boundary_allowed": True,
+        "official_vs_lab_repo_trust_model_allowed": True,
+        "sensitive_packet_encryption_review_allowed": True,
+        "security_validator_hardening_allowed": True,
+        "security_audit_replay_packet_allowed": True,
+        "security_spine_lock_allowed": True,
+        "credential_access_allowed": False,
+        "token_access_allowed": False,
+        "secret_read_allowed": False,
+        "private_key_read_allowed": False,
+        "signing_key_read_allowed": False,
+        "key_generation_allowed": False,
+        "real_signature_allowed": False,
+        "real_encryption_allowed": False,
+        "real_decryption_allowed": False,
         "live_activation_allowed": False,
         "autonomous_self_activation_allowed": False,
         "full_external_prod_agent_army_activation_allowed": False,
@@ -646,8 +669,8 @@ def list_adapters() -> dict:
         "deployment_rollback_allowed": False,
         "rollback_execution_allowed": False,
         "recovery_execution_allowed": False,
-        "v15_1_creation_allowed": False,
-        "v16_creation_allowed": False,
+        "v16_1_creation_allowed": False,
+        "v17_creation_allowed": False,
         "real_rollback_allowed": False,
         "real_recovery_allowed": False,
         "process_termination_allowed": False,
