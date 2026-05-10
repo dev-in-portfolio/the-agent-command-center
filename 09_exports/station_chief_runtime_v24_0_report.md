@@ -14,7 +14,7 @@ v24.0 is the first controlled external content digest layer. It moves from simpl
 - `09_exports/station_chief_v24_0_controlled_external_evidence_snapshot_preflight_audit.md`
 - `10_runtime/station_chief_v24_controlled_external_evidence_snapshot.py`
 - `09_exports/station_chief_runtime_v24_0_report.md`
-- `scripts/validate_station_chief_runtime_v24_0.py` (Pending Phase 9)
+- `scripts/validate_station_chief_runtime_v24_0.py`
 
 ## Files Modified
 - `10_runtime/station_chief_runtime.py`
@@ -22,11 +22,14 @@ v24.0 is the first controlled external content digest layer. It moves from simpl
 - `10_runtime/station_chief_adapters.py`
 - `10_runtime/station_chief_release_lock.py`
 - `09_exports/station_chief_runtime_skeleton_report.md`
-- `.github/workflows/station-chief-validation.yml` (Pending Phase 11)
+- `.github/workflows/station-chief-validation.yml`
 
 ## Preservation Summary
 - v8.0 through v23.0 are fully preserved as landed historical contracts.
 - Baseline 175-family remains locked and protected.
+
+## v24.0 Infrastructure
+- v24.0 validator exists and is included as the first validator step in the GitHub Actions workflow.
 
 ## v24.0 Controlled External Evidence Snapshot Summary
 - **Gateway Created:** Controlled External Evidence Snapshot Gateway

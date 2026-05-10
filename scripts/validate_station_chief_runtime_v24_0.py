@@ -11,18 +11,31 @@ def ensure(condition, message):
         print(f"FAIL: {message}")
         sys.exit(1)
 
+def check_file_content(path, pattern, message):
+    content = Path(path).read_text()
+    ensure(re.search(pattern, content), message)
+
+def check_forbidden_patterns(path, forbidden_list):
+    content = Path(path).read_text()
+    for pattern in forbidden_list:
+        ensure(pattern not in content, f"Forbidden pattern '{pattern}' found in {path}")
+
 def main():
     print("Starting Station Chief Runtime v24.0.0 Validation...")
 
-    runtime_dir = Path("10_runtime")
-    scripts_dir = Path("scripts")
+    root_dir = Path(__file__).parent.parent
+    runtime_dir = root_dir / "10_runtime"
+    scripts_dir = root_dir / "scripts"
+    exports_dir = root_dir / "09_exports"
     
     # 1. Basic File Presence
+    v24_module = runtime_dir / "station_chief_v24_controlled_external_evidence_snapshot.py"
+    v24_report = exports_dir / "station_chief_runtime_v24_0_report.md"
     ensure((runtime_dir / "station_chief_runtime.py").exists(), "station_chief_runtime.py missing")
-    ensure((runtime_dir / "station_chief_v24_controlled_external_evidence_snapshot.py").exists(), "v24.0 module missing")
+    ensure(v24_module.exists(), "v24.0 module missing")
     ensure((runtime_dir / "station_chief_adapters.py").exists(), "adapters.py missing")
     ensure((runtime_dir / "station_chief_release_lock.py").exists(), "release_lock.py missing")
-    ensure(Path("09_exports/station_chief_runtime_v24_0_report.md").exists(), "v24.0 report missing")
+    ensure(v24_report.exists(), "v24.0 report missing")
 
     # 2. Version Verification
     sys.path.insert(0, str(runtime_dir))
@@ -55,7 +68,25 @@ def main():
     email_cat = registry["categories"]["email_send"]
     ensure(email_cat["executable_in_v24"] is False, "Email send should not be executable")
 
-    # 5. Test Denied Path (No approval)
+    # 5. Cleanup Checks: Forbidden Patterns in Module
+    content_v24 = v24_module.read_text()
+    forbidden_v24_regex = [
+        r'_internal_body_bytes',
+        r'"body_bytes":',
+        r"'body_bytes':",
+        r'(?<!no_)raw_response_body_returned":\s*True',
+        r'(?<!no_)raw_response_body_stored":\s*True',
+        r'(?<!no_)raw_response_body_printed":\s*True'
+    ]
+    for pattern in forbidden_v24_regex:
+        ensure(not re.search(pattern, content_v24), f"Forbidden pattern '{pattern}' found in {v24_module}")
+
+    # 6. Cleanup Checks: Report Wording
+    content_report = v24_report.read_text()
+    ensure("Pending Phase 9" not in content_report, "Stale 'Pending Phase 9' wording found in report")
+    ensure("Pending Phase 11" not in content_report, "Stale 'Pending Phase 11' wording found in report")
+
+    # 7. Test Denied Path (No approval)
     bundle_denied = v24.create_station_chief_v24_controlled_external_evidence_bundle(
         approval_phrase="WRONG_PHRASE",
         execute_external_evidence_flag=True
@@ -63,7 +94,7 @@ def main():
     ensure(bundle_denied["controlled_external_evidence_status"] == "V24_CONTROLLED_EXTERNAL_EVIDENCE_SNAPSHOT_WORKPACK_DENIED", "Wrong status for denied approval")
     ensure(bundle_denied["external_evidence_snapshot_workpack_performed"] is False, "Workpack should not be performed without approval")
 
-    # 6. Test Approved Execution Path
+    # 8. Test Approved Execution Path
     print("Testing approved execution path (live fetch to example.com)...")
     bundle_approved = v24.create_station_chief_v24_controlled_external_evidence_bundle(
         approval_phrase="I_APPROVE_V24_CONTROLLED_EXTERNAL_EVIDENCE_SNAPSHOT",
@@ -87,32 +118,42 @@ def main():
         # Check sanitization
         ensure(bundle_approved["sanitized_preview_char_count"] <= 280, "Sanitized preview exceeds 280 chars")
         ensure(bundle_approved["raw_response_body_returned"] is False, "Raw response body returned")
+        ensure(bundle_approved["raw_response_body_stored"] is False, "Raw response body stored")
+        ensure(bundle_approved["raw_response_body_printed"] is False, "Raw response body printed")
+        
+        # Check cleanup in bundle
+        bundle_json = json.dumps(bundle_approved)
+        ensure('"_internal_body_bytes":' not in bundle_json, "Forbidden field '_internal_body_bytes' found in bundle JSON")
+        ensure('"body_bytes":' not in bundle_json, "Forbidden field 'body_bytes' found in bundle JSON")
         
         # Check artifacts
         ensure(bundle_approved["controlled_external_evidence_artifact_count"] == 5, "Artifact count mismatch")
         ensure(bundle_approved["artifact_readback_verified"] is True, "Artifact readback failed")
         
         for key, path in bundle_approved["artifact_paths"].items():
-            ensure(Path(path).exists(), f"Artifact missing: {path}")
+            p = Path(path)
+            ensure(p.exists(), f"Artifact missing: {path}")
             # Ensure not in repo
             ensure("agent-command-center" not in path, f"Artifact in repo: {path}")
+            # Ensure no raw bytes in artifacts
+            artifact_content = p.read_text()
+            ensure('"_internal_body_bytes":' not in artifact_content, f"Forbidden field '_internal_body_bytes' found in artifact {key}")
+            ensure('"body_bytes":' not in artifact_content, f"Forbidden field 'body_bytes' found in artifact {key}")
 
-    # 7. Safety Boundary Verification
+    # 9. Safety Boundary Verification
     boundaries = v24.create_external_evidence_safety_boundary_matrix()
     ensure(boundaries["controlled_allowlisted_https_content_fetch"] == "ALLOWED", "Fetch not allowed in boundary matrix")
     ensure(boundaries["repo_file_mutation"] == "DENIED", "Repo file mutation not denied in boundary matrix")
     ensure(boundaries["raw_response_body_storage"] == "DENIED", "Raw body storage not denied in boundary matrix")
 
-    # 8. Routed Chain Verification
+    # 10. Routed Chain Verification
     ensure(bundle_approved["routed_v23_v22_v21_v20_v19_v18_v17_chain_performed"] is True, "Routed chain not performed")
     ensure(bundle_approved["inspected_file_count"] == 7, "Inspected file count mismatch (should be 7 from v17)")
 
-    # 9. CLI Flag Verification (Structural)
-    # Just check if SCR has the flags defined in its parser (we can't easily run it here without complex mocking)
-    # But we can check if SCR's attach function for v24 exists
+    # 11. CLI Flag Verification (Structural)
     ensure(hasattr(scr, "attach_station_chief_v24_controlled_external_evidence_snapshot"), "SCR missing v24 attach function")
 
-    # 10. Prior Version Preservation
+    # 12. Prior Version Preservation
     print("Verifying preservation of v23.0 through v8.0...")
     def run_script(script_path):
         result = subprocess.run(["python3", script_path], capture_output=True, text=True, env=os.environ.copy())
@@ -122,7 +163,6 @@ def main():
         return result.stdout
 
     # Run v23 validator as a representative check
-    # Set SKIP_RECURSIVE_VALIDATION to avoid deep recursion if already in a recursive call
     os.environ["STATION_CHIEF_SKIP_RECURSIVE_VALIDATION"] = "1"
     v23_script = scripts_dir / "validate_station_chief_runtime_v23_0.py"
     if v23_script.exists():

@@ -305,80 +305,11 @@ def validate_allowed_external_evidence_url(url: str | None) -> dict:
     }
 
 
-def execute_allowlisted_external_content_fetch(approval_receipt: dict, requested_url: str | None = None) -> dict:
-    if not approval_receipt["human_approval_granted"]:
-        return {"external_content_fetch_performed": False, "controlled_fetch_error": False}
-    
-    validation = validate_allowed_external_evidence_url(requested_url)
-    if not validation["is_valid"]:
-        return {"external_content_fetch_performed": False, "controlled_fetch_error": True, "error": "URL not allowlisted"}
-
-    try:
-        req = urllib.request.Request(STATION_CHIEF_V24_ALLOWED_EXTERNAL_URL, method="GET")
-        with urllib.request.urlopen(req, timeout=10) as response:
-            status_code = response.getcode()
-            final_url = response.geturl()
-            content_type = response.headers.get_content_type()
-            body_bytes = response.read()
-            
-            sha256 = hashlib.sha256(body_bytes).hexdigest()
-            byte_count = len(body_bytes)
-            line_count = len(body_bytes.splitlines())
-            
-            # NOTE: raw bytes are returned internally but must be discarded by the caller after digest
-            return {
-                "external_fetch_action_id": "station-chief-v24-action-controlled-allowlisted-content-fetch-002",
-                "external_content_fetch_performed": True,
-                "controlled_fetch_error": False,
-                "external_request_count": 1,
-                "requested_url": requested_url or STATION_CHIEF_V24_ALLOWED_EXTERNAL_URL,
-                "effective_url": STATION_CHIEF_V24_ALLOWED_EXTERNAL_URL,
-                "allowed_url_validation": validation,
-                "method": "GET",
-                "status_code": status_code,
-                "final_url": final_url,
-                "content_type": content_type,
-                "response_sha256": sha256,
-                "response_byte_count": byte_count,
-                "response_line_count": line_count,
-                "response_body_raw_text_included": False,
-                "raw_response_body_printed": False,
-                "raw_response_body_stored": False,
-                "raw_response_body_returned": False,
-                "authentication_used": False,
-                "cookies_used": False,
-                "request_body_sent": False,
-                "arbitrary_url_used": False,
-                "credential_access_performed": False,
-                "secret_read_performed": False,
-                "environment_read_performed": False,
-                "repo_write_performed": False,
-                "production_write_performed": False,
-                "email_sent": False,
-                "calendar_event_created": False,
-                "database_operation_performed": False,
-                "deployment_performed": False,
-                "_internal_body_bytes": body_bytes
-            }
-    except (urllib.error.URLError, urllib.error.HTTPError) as e:
-        return {
-            "external_content_fetch_performed": False,
-            "controlled_fetch_error": True,
-            "error_class": e.__class__.__name__,
-            "external_request_count": 1,
-            "requested_url": requested_url or STATION_CHIEF_V24_ALLOWED_EXTERNAL_URL,
-            "effective_url": STATION_CHIEF_V24_ALLOWED_EXTERNAL_URL,
-            "allowed_url_validation": validation,
-            "method": "GET"
-        }
-
-
-def extract_sanitized_content_digest(fetch_result: dict, body_bytes: bytes | None = None) -> dict:
-    bytes_to_process = body_bytes or fetch_result.get("_internal_body_bytes")
-    if not bytes_to_process:
+def _extract_sanitized_content_digest_locally(body_bytes: bytes) -> dict:
+    if not body_bytes:
         return {"sanitized_title": None, "sanitized_preview": None, "sanitized_title_present": False}
 
-    text = bytes_to_process.decode("utf-8", errors="replace")
+    text = body_bytes.decode("utf-8", errors="replace")
     
     # Simple title extraction
     title = None
@@ -424,9 +355,9 @@ def extract_sanitized_content_digest(fetch_result: dict, body_bytes: bytes | Non
     }
 
 
-def create_raw_body_non_persistence_proof(fetch_result: dict, digest: dict) -> dict:
+def _create_raw_body_non_persistence_proof_locally(fetch_metadata: dict, digest: dict) -> dict:
     return {
-        "proof_id": sha256_digest({"fetch": fetch_result.get("response_sha256"), "digest": digest.get("sanitized_preview_sha256")}),
+        "proof_id": sha256_digest({"fetch": fetch_metadata.get("response_sha256"), "digest": digest.get("sanitized_preview_sha256")}),
         "proof_type": "v24_raw_body_non_persistence_proof",
         "runtime_version": STATION_CHIEF_V24_CONTROLLED_EXTERNAL_EVIDENCE_VERSION,
         "raw_response_body_printed": False,
@@ -437,8 +368,8 @@ def create_raw_body_non_persistence_proof(fetch_result: dict, digest: dict) -> d
         "full_visible_text_written_to_artifact": False,
         "sanitized_digest_only": True,
         "sanitized_preview_max_chars": 280,
-        "response_hash_retained": "response_sha256" in fetch_result,
-        "response_byte_count_retained": "response_byte_count" in fetch_result,
+        "response_hash_retained": "response_sha256" in fetch_metadata,
+        "response_byte_count_retained": "response_byte_count" in fetch_metadata,
         "sanitized_title_retained": digest.get("sanitized_title_present", False),
         "sanitized_preview_retained": True,
         "body_bytes_discarded_after_digest": True,
@@ -446,6 +377,98 @@ def create_raw_body_non_persistence_proof(fetch_result: dict, digest: dict) -> d
         "no_cookies_retained": True,
         "no_auth_headers_retained": True
     }
+
+
+def execute_allowlisted_external_content_fetch(approval_receipt: dict, requested_url: str | None = None) -> dict:
+    if not approval_receipt["human_approval_granted"]:
+        return {"external_content_fetch_performed": False, "controlled_fetch_error": False}
+    
+    validation = validate_allowed_external_evidence_url(requested_url)
+    if not validation["is_valid"]:
+        return {"external_content_fetch_performed": False, "controlled_fetch_error": True, "error": "URL not allowlisted"}
+
+    try:
+        req = urllib.request.Request(STATION_CHIEF_V24_ALLOWED_EXTERNAL_URL, method="GET")
+        with urllib.request.urlopen(req, timeout=10) as response:
+            status_code = response.getcode()
+            final_url = response.geturl()
+            content_type = response.headers.get_content_type()
+            body_bytes = response.read()
+            
+            sha256 = hashlib.sha256(body_bytes).hexdigest()
+            byte_count = len(body_bytes)
+            line_count = len(body_bytes.splitlines())
+            
+            fetch_metadata = {
+                "external_fetch_action_id": "station-chief-v24-action-controlled-allowlisted-content-fetch-002",
+                "external_content_fetch_performed": True,
+                "controlled_fetch_error": False,
+                "external_request_count": 1,
+                "requested_url": requested_url or STATION_CHIEF_V24_ALLOWED_EXTERNAL_URL,
+                "effective_url": STATION_CHIEF_V24_ALLOWED_EXTERNAL_URL,
+                "allowed_url_validation": validation,
+                "method": "GET",
+                "status_code": status_code,
+                "final_url": final_url,
+                "content_type": content_type,
+                "response_sha256": sha256,
+                "response_byte_count": byte_count,
+                "response_line_count": line_count,
+                "response_body_raw_text_included": False,
+                "raw_response_body_printed": False,
+                "raw_response_body_stored": False,
+                "raw_response_body_returned": False,
+                "authentication_used": False,
+                "cookies_used": False,
+                "request_body_sent": False,
+                "arbitrary_url_used": False,
+                "credential_access_performed": False,
+                "secret_read_performed": False,
+                "environment_read_performed": False,
+                "repo_write_performed": False,
+                "production_write_performed": False,
+                "email_sent": False,
+                "calendar_event_created": False,
+                "database_operation_performed": False,
+                "deployment_performed": False
+            }
+
+            # Process digest and proof locally
+            digest = _extract_sanitized_content_digest_locally(body_bytes)
+            proof = _create_raw_body_non_persistence_proof_locally(fetch_metadata, digest)
+            
+            # Explicitly clear body bytes before returning
+            body_bytes = None
+            
+            return {
+                "fetch_metadata": fetch_metadata,
+                "digest": digest,
+                "proof": proof
+            }
+    except (urllib.error.URLError, urllib.error.HTTPError) as e:
+        return {
+            "external_content_fetch_performed": False,
+            "controlled_fetch_error": True,
+            "error_class": e.__class__.__name__,
+            "external_request_count": 1,
+            "requested_url": requested_url or STATION_CHIEF_V24_ALLOWED_EXTERNAL_URL,
+            "effective_url": STATION_CHIEF_V24_ALLOWED_EXTERNAL_URL,
+            "allowed_url_validation": validation,
+            "method": "GET"
+        }
+
+
+def extract_sanitized_content_digest(fetch_result: dict, body_bytes: bytes | None = None) -> dict:
+    # This function is now a wrapper for the local helper, used for compatibility if needed.
+    # It must NOT receive raw bytes from a dict anymore.
+    if body_bytes:
+        return _extract_sanitized_content_digest_locally(body_bytes)
+    return fetch_result.get("digest", {"sanitized_title": None, "sanitized_preview": None, "sanitized_title_present": False})
+
+
+def create_raw_body_non_persistence_proof(fetch_result: dict, digest: dict) -> dict:
+    # This function is now a wrapper for the local helper, used for compatibility if needed.
+    return fetch_result.get("proof") or _create_raw_body_non_persistence_proof_locally(fetch_result.get("fetch_metadata", fetch_result), digest)
 
 
 def resolve_controlled_external_evidence_workspace_paths() -> dict:
@@ -475,13 +498,14 @@ def resolve_controlled_external_evidence_workspace_paths() -> dict:
 def build_external_evidence_artifact_payloads(routed_v23_result: dict, fetch_result: dict, digest: dict, non_persistence_proof: dict, approval_receipt: dict, permission_registry: dict) -> dict:
     op = approval_receipt["operator_label"]
     inspected = routed_v23_result.get("inspected_file_count", 0) if routed_v23_result else 0
+    fetch_meta = fetch_result.get("fetch_metadata", fetch_result)
     
     receipt_payload = {
         "version": STATION_CHIEF_V24_CONTROLLED_EXTERNAL_EVIDENCE_VERSION,
         "status": "V24_EXTERNAL_EVIDENCE_RECEIPT",
         "operator": op,
         "workpack": approval_receipt["workpack_label"],
-        "external_content_fetch_performed": fetch_result.get("external_content_fetch_performed", False),
+        "external_content_fetch_performed": fetch_meta.get("external_content_fetch_performed", False),
         "sanitized_content_digest_extracted": "sanitized_preview" in digest,
         "routed_v23_chain_performed": routed_v23_result.get("external_tool_gateway_workpack_performed", False) if routed_v23_result else False,
         "inspected_file_count": inspected
@@ -497,11 +521,11 @@ def build_external_evidence_artifact_payloads(routed_v23_result: dict, fetch_res
 ## External Content Digest
 - **Allowlisted URL:** {STATION_CHIEF_V24_ALLOWED_EXTERNAL_URL}
 - **Fetch Status:** {"SUCCESS" if receipt_payload["external_content_fetch_performed"] else "FAILED/SKIPPED"}
-- **Status Code:** {fetch_result.get("status_code")}
-- **Content Type:** {fetch_result.get("content_type")}
-- **Response Hash:** {fetch_result.get("response_sha256")}
-- **Byte Count:** {fetch_result.get("response_byte_count")}
-- **Line Count:** {fetch_result.get("response_line_count")}
+- **Status Code:** {fetch_meta.get("status_code")}
+- **Content Type:** {fetch_meta.get("content_type")}
+- **Response Hash:** {fetch_meta.get("response_sha256")}
+- **Byte Count:** {fetch_meta.get("response_byte_count")}
+- **Line Count:** {fetch_meta.get("response_line_count")}
 
 ## Sanitized Snapshot
 - **Sanitized Title:** {digest.get("sanitized_title")}
@@ -530,9 +554,9 @@ This document confirms safe external evidence gathering using a controlled conte
         "snapshot_id": digest.get("digest_id"),
         "runtime_version": STATION_CHIEF_V24_CONTROLLED_EXTERNAL_EVIDENCE_VERSION,
         "fetch_metadata": {
-            "status_code": fetch_result.get("status_code"),
-            "content_type": fetch_result.get("content_type"),
-            "sha256": fetch_result.get("response_sha256")
+            "status_code": fetch_meta.get("status_code"),
+            "content_type": fetch_meta.get("content_type"),
+            "sha256": fetch_meta.get("response_sha256")
         },
         "sanitized_digest": {
             "title": digest.get("sanitized_title"),
@@ -548,10 +572,10 @@ This document confirms safe external evidence gathering using a controlled conte
         ["approval_granted", str(approval_receipt["human_approval_granted"])],
         ["routed_v23_chain_performed", str(receipt_payload["routed_v23_chain_performed"])],
         ["external_content_fetch_performed", str(receipt_payload["external_content_fetch_performed"])],
-        ["external_request_count", str(fetch_result.get("external_request_count", 0))],
-        ["status_code", str(fetch_result.get("status_code", "N/A"))],
-        ["response_byte_count", str(fetch_result.get("response_byte_count", 0))],
-        ["response_line_count", str(fetch_result.get("response_line_count", 0))],
+        ["external_request_count", str(fetch_meta.get("external_request_count", 0))],
+        ["status_code", str(fetch_meta.get("status_code", "N/A"))],
+        ["response_byte_count", str(fetch_meta.get("response_byte_count", 0))],
+        ["response_line_count", str(fetch_meta.get("response_line_count", 0))],
         ["sanitized_title_present", str(digest.get("sanitized_title_present", False))],
         ["sanitized_preview_char_count", str(digest.get("sanitized_preview_char_count", 0))],
         ["raw_response_body_stored", "False"],
@@ -659,26 +683,24 @@ def execute_external_evidence_snapshot_workpack(approval_phrase: str | None, ope
             
         # Action 2: allowlisted external content fetch
         fetch_result = execute_allowlisted_external_content_fetch(approval, requested_url)
-        body_bytes = fetch_result.pop("_internal_body_bytes", None)
         
-        if fetch_result.get("external_content_fetch_performed"):
+        fetch_meta = fetch_result.get("fetch_metadata", {})
+        if fetch_meta.get("external_content_fetch_performed"):
             completed_action_count += 1
             status = "V24_CONTROLLED_EXTERNAL_EVIDENCE_SNAPSHOT_WORKPACK_COMPLETED"
             
             # Action 3: sanitized content digest
-            digest = extract_sanitized_content_digest(fetch_result, body_bytes)
+            digest = fetch_result.get("digest", {})
             if "sanitized_preview" in digest:
                 completed_action_count += 1
                 
-            # Discard bytes
-            body_bytes = None
-            
             # Action 4: non-persistence proof
-            proof = create_raw_body_non_persistence_proof(fetch_result, digest)
+            proof = fetch_result.get("proof", {})
             if proof:
                 completed_action_count += 1
         elif fetch_result.get("controlled_fetch_error"):
             status = "V24_CONTROLLED_EXTERNAL_EVIDENCE_SNAPSHOT_FETCH_UNAVAILABLE"
+            fetch_meta = fetch_result # Error structure
             
         # Build payloads
         payloads = build_external_evidence_artifact_payloads(v23_result, fetch_result, digest, proof, approval, registry)
@@ -705,13 +727,16 @@ def execute_external_evidence_snapshot_workpack(approval_phrase: str | None, ope
         if completed_action_count == 9:
             performed = True
             
+    # Normalize fetch_meta for result
+    fetch_meta = fetch_result.get("fetch_metadata", fetch_result)
+
     return {
         "execution_status": status,
         "external_evidence_snapshot_workpack_performed": performed,
         "controlled_action_count": 9,
         "completed_action_count": completed_action_count,
         "routed_v23_v22_v21_v20_v19_v18_v17_chain_performed": v23_result.get("external_tool_gateway_workpack_performed", False) if v23_result else False,
-        "controlled_external_content_fetch_performed": fetch_result.get("external_content_fetch_performed", False),
+        "controlled_external_content_fetch_performed": fetch_meta.get("external_content_fetch_performed", False),
         "sanitized_content_digest_extracted": "sanitized_preview" in digest,
         "raw_body_non_persistence_proven": bool(proof),
         "evidence_receipt_artifact_written": artifact_results.get("external_evidence_receipt_json", {}).get("artifact_write_performed", False),
@@ -721,13 +746,14 @@ def execute_external_evidence_snapshot_workpack(approval_phrase: str | None, ope
         "evidence_manifest_written": artifact_results.get("external_evidence_manifest_json", {}).get("artifact_write_performed", False),
         "controlled_external_evidence_artifact_count": 5,
         "inspected_file_count": v23_result.get("inspected_file_count", 0) if v23_result else 0,
-        "external_request_count": fetch_result.get("external_request_count", 0),
+        "external_request_count": fetch_meta.get("external_request_count", 0),
         "allowed_external_url": STATION_CHIEF_V24_ALLOWED_EXTERNAL_URL,
-        "status_code": fetch_result.get("status_code"),
-        "content_type": fetch_result.get("content_type"),
-        "response_sha256": fetch_result.get("response_sha256"),
-        "response_byte_count": fetch_result.get("response_byte_count"),
-        "response_line_count": fetch_result.get("response_line_count"),
+        "status_code": fetch_meta.get("status_code"),
+        "final_url": fetch_meta.get("final_url"),
+        "content_type": fetch_meta.get("content_type"),
+        "response_sha256": fetch_meta.get("response_sha256"),
+        "response_byte_count": fetch_meta.get("response_byte_count"),
+        "response_line_count": fetch_meta.get("response_line_count"),
         "sanitized_title": digest.get("sanitized_title"),
         "sanitized_title_present": digest.get("sanitized_title_present", False),
         "sanitized_preview": digest.get("sanitized_preview"),
@@ -755,10 +781,10 @@ def execute_external_evidence_snapshot_workpack(approval_phrase: str | None, ope
         "secret_read_performed": False,
         "environment_read_performed": False,
         "api_call_performed": False,
-        "network_access_performed": fetch_result.get("external_content_fetch_performed", False),
+        "network_access_performed": fetch_meta.get("external_content_fetch_performed", False),
         "email_sent": False,
         "calendar_event_created": False,
-        "web_request_performed": fetch_result.get("external_content_fetch_performed", False),
+        "web_request_performed": fetch_meta.get("external_content_fetch_performed", False),
         "database_operation_performed": False,
         "subprocess_started": False,
         "shell_executed": False,
@@ -1157,6 +1183,7 @@ def create_station_chief_v24_controlled_external_evidence_bundle(approval_phrase
             "external_request_count": 0,
             "allowed_external_url": STATION_CHIEF_V24_ALLOWED_EXTERNAL_URL,
             "status_code": None,
+            "final_url": None,
             "content_type": None,
             "response_sha256": None,
             "response_byte_count": 0,
@@ -1220,6 +1247,7 @@ def create_station_chief_v24_controlled_external_evidence_bundle(approval_phrase
         "external_request_count": res["external_request_count"],
         "allowed_external_url": res["allowed_external_url"],
         "status_code": res["status_code"],
+        "final_url": res["final_url"],
         "content_type": res["content_type"],
         "response_sha256": res["response_sha256"],
         "response_byte_count": res["response_byte_count"],
