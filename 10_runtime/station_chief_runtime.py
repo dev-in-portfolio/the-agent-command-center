@@ -371,6 +371,10 @@ from station_chief_v20_operational_agent_army_mode import (
     create_station_chief_v20_operational_agent_army_mode_schema,
     create_station_chief_v20_operational_agent_army_mode_bundle,
 )
+from station_chief_v21_controlled_local_workspace_artifact_factory import (
+    create_station_chief_v21_controlled_local_workspace_schema,
+    create_station_chief_v21_controlled_local_workspace_bundle,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -483,11 +487,13 @@ def _select_runtime_version(default_version: str) -> str:
     if context == "validate_station_chief_runtime_v19_0.py":
         return "19.0.0"
     if context == "validate_station_chief_runtime_v20_0.py":
-        return "20.0.0"       
+        return "20.0.0"
+    if context == "validate_station_chief_runtime_v21_0.py":
+        return "21.0.0"        
     return default_version
 
 
-STATION_CHIEF_RUNTIME_VERSION = "20.0.0"
+STATION_CHIEF_RUNTIME_VERSION = "21.0.0"
 STATION_CHIEF_RUNTIME_VERSION = _select_runtime_version(STATION_CHIEF_RUNTIME_VERSION)
 
 EXPECTED_OVERLAYS = [
@@ -1341,6 +1347,9 @@ def attach_station_chief_v13_external_tool_api_pilot_hardening(result: dict, arg
 
     bundle = create_station_chief_v13_external_tool_api_pilot_hardening_bundle()
 
+    if args.station_chief_v21_controlled_local_workspace or args.station_chief_v21_local_workspace_manifest or args.station_chief_v21_artifact_workpack_schema or args.station_chief_v21_artifact_action_registry or args.station_chief_v21_agent_assignment_map or args.station_chief_v21_execution_plan or args.station_chief_v21_approved_artifact_factory or args.station_chief_v21_artifact_workpack_receipt or args.station_chief_v21_artifact_factory_audit:
+        result = attach_station_chief_v21_controlled_local_workspace_artifact_factory(result, args)
+
     if args.station_chief_v20_operational_agent_army_mode or args.station_chief_v20_operational_manifest or args.station_chief_v20_workpack_schema or args.station_chief_v20_action_registry or args.station_chief_v20_agent_assignment_map or args.station_chief_v20_execution_plan or args.station_chief_v20_approved_operational_workpack or args.station_chief_v20_workpack_receipt or args.station_chief_v20_operational_audit:
         result = attach_station_chief_v20_operational_agent_army_mode(result, args)
 
@@ -1400,6 +1409,9 @@ def attach_station_chief_v14_production_readiness_rollback_live_safety_gates(res
 
     bundle = create_station_chief_v14_production_readiness_rollback_live_safety_gates_bundle()
 
+    if args.station_chief_v21_controlled_local_workspace or args.station_chief_v21_local_workspace_manifest or args.station_chief_v21_artifact_workpack_schema or args.station_chief_v21_artifact_action_registry or args.station_chief_v21_agent_assignment_map or args.station_chief_v21_execution_plan or args.station_chief_v21_approved_artifact_factory or args.station_chief_v21_artifact_workpack_receipt or args.station_chief_v21_artifact_factory_audit:
+        result = attach_station_chief_v21_controlled_local_workspace_artifact_factory(result, args)
+
     if args.station_chief_v20_operational_agent_army_mode or args.station_chief_v20_operational_manifest or args.station_chief_v20_workpack_schema or args.station_chief_v20_action_registry or args.station_chief_v20_agent_assignment_map or args.station_chief_v20_execution_plan or args.station_chief_v20_approved_operational_workpack or args.station_chief_v20_workpack_receipt or args.station_chief_v20_operational_audit:
         result = attach_station_chief_v20_operational_agent_army_mode(result, args)
 
@@ -1458,6 +1470,9 @@ def attach_station_chief_v15_full_auto_agent_army_ready_final_readiness_lock(res
 
     bundle = create_station_chief_v15_full_auto_agent_army_ready_final_readiness_lock_bundle()
 
+    if args.station_chief_v21_controlled_local_workspace or args.station_chief_v21_local_workspace_manifest or args.station_chief_v21_artifact_workpack_schema or args.station_chief_v21_artifact_action_registry or args.station_chief_v21_agent_assignment_map or args.station_chief_v21_execution_plan or args.station_chief_v21_approved_artifact_factory or args.station_chief_v21_artifact_workpack_receipt or args.station_chief_v21_artifact_factory_audit:
+        result = attach_station_chief_v21_controlled_local_workspace_artifact_factory(result, args)
+
     if args.station_chief_v20_operational_agent_army_mode or args.station_chief_v20_operational_manifest or args.station_chief_v20_workpack_schema or args.station_chief_v20_action_registry or args.station_chief_v20_agent_assignment_map or args.station_chief_v20_execution_plan or args.station_chief_v20_approved_operational_workpack or args.station_chief_v20_workpack_receipt or args.station_chief_v20_operational_audit:
         result = attach_station_chief_v20_operational_agent_army_mode(result, args)
 
@@ -1514,6 +1529,9 @@ def attach_station_chief_v16_security_integrity_spine(result: dict, args) -> dic
         return result
 
     bundle = create_station_chief_v16_security_integrity_spine_bundle()
+
+    if args.station_chief_v21_controlled_local_workspace or args.station_chief_v21_local_workspace_manifest or args.station_chief_v21_artifact_workpack_schema or args.station_chief_v21_artifact_action_registry or args.station_chief_v21_agent_assignment_map or args.station_chief_v21_execution_plan or args.station_chief_v21_approved_artifact_factory or args.station_chief_v21_artifact_workpack_receipt or args.station_chief_v21_artifact_factory_audit:
+        result = attach_station_chief_v21_controlled_local_workspace_artifact_factory(result, args)
 
     if args.station_chief_v20_operational_agent_army_mode or args.station_chief_v20_operational_manifest or args.station_chief_v20_workpack_schema or args.station_chief_v20_action_registry or args.station_chief_v20_agent_assignment_map or args.station_chief_v20_execution_plan or args.station_chief_v20_approved_operational_workpack or args.station_chief_v20_workpack_receipt or args.station_chief_v20_operational_audit:
         result = attach_station_chief_v20_operational_agent_army_mode(result, args)
@@ -1577,6 +1595,9 @@ def attach_station_chief_v17_live_activation_protocol(result: dict, args) -> dic
         execute_live_readonly_inspection=execute_live
     )
 
+    if args.station_chief_v21_controlled_local_workspace or args.station_chief_v21_local_workspace_manifest or args.station_chief_v21_artifact_workpack_schema or args.station_chief_v21_artifact_action_registry or args.station_chief_v21_agent_assignment_map or args.station_chief_v21_execution_plan or args.station_chief_v21_approved_artifact_factory or args.station_chief_v21_artifact_workpack_receipt or args.station_chief_v21_artifact_factory_audit:
+        result = attach_station_chief_v21_controlled_local_workspace_artifact_factory(result, args)
+
     if args.station_chief_v20_operational_agent_army_mode or args.station_chief_v20_operational_manifest or args.station_chief_v20_workpack_schema or args.station_chief_v20_action_registry or args.station_chief_v20_agent_assignment_map or args.station_chief_v20_execution_plan or args.station_chief_v20_approved_operational_workpack or args.station_chief_v20_workpack_receipt or args.station_chief_v20_operational_audit:
         result = attach_station_chief_v20_operational_agent_army_mode(result, args)
 
@@ -1627,6 +1648,9 @@ def attach_station_chief_v18_universal_tool_permission_layer(result: dict, args)
         execute_controlled_adapter=execute_live
     )
 
+    if args.station_chief_v21_controlled_local_workspace or args.station_chief_v21_local_workspace_manifest or args.station_chief_v21_artifact_workpack_schema or args.station_chief_v21_artifact_action_registry or args.station_chief_v21_agent_assignment_map or args.station_chief_v21_execution_plan or args.station_chief_v21_approved_artifact_factory or args.station_chief_v21_artifact_workpack_receipt or args.station_chief_v21_artifact_factory_audit:
+        result = attach_station_chief_v21_controlled_local_workspace_artifact_factory(result, args)
+
     if args.station_chief_v20_operational_agent_army_mode or args.station_chief_v20_operational_manifest or args.station_chief_v20_workpack_schema or args.station_chief_v20_action_registry or args.station_chief_v20_agent_assignment_map or args.station_chief_v20_execution_plan or args.station_chief_v20_approved_operational_workpack or args.station_chief_v20_workpack_receipt or args.station_chief_v20_operational_audit:
         result = attach_station_chief_v20_operational_agent_army_mode(result, args)
 
@@ -1649,6 +1673,54 @@ def attach_station_chief_v18_universal_tool_permission_layer(result: dict, args)
         result["station_chief_v18_tool_execution_receipt"] = bundle["tool_execution_receipt"]
     if args.station_chief_v18_tool_activation_audit:
         result["station_chief_v18_tool_activation_audit"] = bundle["universal_tool_activation_audit_record"]
+
+    return result
+
+def attach_station_chief_v21_controlled_local_workspace_artifact_factory(result: dict, args) -> dict:
+    if not (
+        args.station_chief_v21_controlled_local_workspace
+        or args.station_chief_v21_local_workspace_manifest
+        or args.station_chief_v21_artifact_workpack_schema
+        or args.station_chief_v21_artifact_action_registry
+        or args.station_chief_v21_agent_assignment_map
+        or args.station_chief_v21_execution_plan
+        or args.station_chief_v21_approved_artifact_factory
+        or args.station_chief_v21_artifact_workpack_receipt
+        or args.station_chief_v21_artifact_factory_audit
+    ):
+        return result
+
+    # Determine if we should actually execute the artifact factory workpack
+    execute_live = getattr(args, "station_chief_v21_approved_artifact_factory", False)
+    approval_phrase = getattr(args, "station_chief_v21_approval_phrase", None)
+    operator_label = getattr(args, "station_chief_v21_operator_label", None)
+    workpack_label = getattr(args, "station_chief_v21_workpack_label", None)
+
+    bundle = create_station_chief_v21_controlled_local_workspace_bundle(
+        approval_phrase=approval_phrase,
+        operator_label=operator_label,
+        workpack_label=workpack_label,
+        execute_artifact_factory_flag=execute_live
+    )
+
+    if args.station_chief_v21_controlled_local_workspace:
+        result["station_chief_v21_controlled_local_workspace"] = bundle
+    if args.station_chief_v21_local_workspace_manifest:
+        result["station_chief_v21_local_workspace_manifest"] = bundle["controlled_local_workspace_manifest"]
+    if args.station_chief_v21_artifact_workpack_schema:
+        result["station_chief_v21_artifact_workpack_schema"] = bundle["artifact_factory_workpack_schema"]
+    if args.station_chief_v21_artifact_action_registry:
+        result["station_chief_v21_artifact_action_registry"] = bundle["controlled_local_artifact_action_registry"]
+    if args.station_chief_v21_agent_assignment_map:
+        result["station_chief_v21_agent_assignment_map"] = bundle["artifact_factory_agent_assignment_map"]
+    if args.station_chief_v21_execution_plan:
+        result["station_chief_v21_execution_plan"] = bundle["artifact_factory_execution_plan"]
+    if args.station_chief_v21_approved_artifact_factory:
+        result["station_chief_v21_approved_artifact_factory"] = bundle["artifact_factory_workpack_execution"]
+    if args.station_chief_v21_artifact_workpack_receipt:
+        result["station_chief_v21_artifact_workpack_receipt"] = bundle["artifact_factory_workpack_receipt"]
+    if args.station_chief_v21_artifact_factory_audit:
+        result["station_chief_v21_artifact_factory_audit"] = bundle["artifact_factory_audit_record"]
 
     return result
 
@@ -1678,6 +1750,9 @@ def attach_station_chief_v20_operational_agent_army_mode(result: dict, args) -> 
         workpack_label=workpack_label,
         execute_operational_workpack_flag=execute_live
     )
+
+    if args.station_chief_v21_controlled_local_workspace or args.station_chief_v21_local_workspace_manifest or args.station_chief_v21_artifact_workpack_schema or args.station_chief_v21_artifact_action_registry or args.station_chief_v21_agent_assignment_map or args.station_chief_v21_execution_plan or args.station_chief_v21_approved_artifact_factory or args.station_chief_v21_artifact_workpack_receipt or args.station_chief_v21_artifact_factory_audit:
+        result = attach_station_chief_v21_controlled_local_workspace_artifact_factory(result, args)
 
     if args.station_chief_v20_operational_agent_army_mode:
         result["station_chief_v20_operational_agent_army_mode"] = bundle
@@ -1727,6 +1802,9 @@ def attach_station_chief_v19_multi_agent_live_work_router(result: dict, args) ->
         task_label=task_label,
         execute_routed_work=execute_live
     )
+
+    if args.station_chief_v21_controlled_local_workspace or args.station_chief_v21_local_workspace_manifest or args.station_chief_v21_artifact_workpack_schema or args.station_chief_v21_artifact_action_registry or args.station_chief_v21_agent_assignment_map or args.station_chief_v21_execution_plan or args.station_chief_v21_approved_artifact_factory or args.station_chief_v21_artifact_workpack_receipt or args.station_chief_v21_artifact_factory_audit:
+        result = attach_station_chief_v21_controlled_local_workspace_artifact_factory(result, args)
 
     if args.station_chief_v20_operational_agent_army_mode or args.station_chief_v20_operational_manifest or args.station_chief_v20_workpack_schema or args.station_chief_v20_action_registry or args.station_chief_v20_agent_assignment_map or args.station_chief_v20_execution_plan or args.station_chief_v20_approved_operational_workpack or args.station_chief_v20_workpack_receipt or args.station_chief_v20_operational_audit:
         result = attach_station_chief_v20_operational_agent_army_mode(result, args)
@@ -1795,6 +1873,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "18.0.0": "station_chief_v18_universal_tool_permission_layer",
         "19.0.0": "station_chief_v19_multi_agent_live_work_router",
         "20.0.0": "station_chief_v20_operational_agent_army_mode",
+        "21.0.0": "station_chief_v21_controlled_local_workspace_artifact_factory",
     }.get(STATION_CHIEF_RUNTIME_VERSION, "live_queue_orchestration_candidate_review")
     evidence = build_demo_evidence()
     evidence.update(
@@ -1996,7 +2075,78 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "station_chief_v19_does_not_execute_live_tasks_outside_controlled_adapter": True,
         "station_chief_v19_does_not_create_v19_1": True,
         "station_chief_v19_does_not_create_v20": True,
-        "station_chief_v20_operational_agent_army_mode_available": True,
+                "station_chief_v20_operational_agent_army_mode_available": True,
+        "station_chief_v20_not_paper_only_readiness": True,
+        "station_chief_v20_not_repo_only_doctrine": True,
+        "station_chief_v20_controlled_workpack_execution_layer_created": True,
+        "station_chief_v20_operational_workpack_schema_created": True,
+        "station_chief_v20_controlled_action_count_2": True,
+        "station_chief_v20_agent_role_count_6": True,
+        "station_chief_v20_allows_routed_v19_v18_v17_readonly_inspection": True,
+        "station_chief_v20_allows_controlled_temp_sandbox_artifact_write": True,
+        "station_chief_v20_human_approval_required": True,
+        "station_chief_v20_denies_real_worker_processes": True,
+        "station_chief_v20_denies_background_agents": True,
+        "station_chief_v20_denies_repo_mutation": True,
+        "station_chief_v20_denies_email_calendar_web_api_database_deployment_live_execution": True,
+        "station_chief_v20_does_not_print_file_contents": True,
+        "station_chief_v20_does_not_mutate_repo_files": True,
+        "station_chief_v20_does_not_commit": True,
+        "station_chief_v20_does_not_push": True,
+        "station_chief_v20_does_not_deploy": True,
+        "station_chief_v20_does_not_execute_production": True,
+        "station_chief_v20_does_not_access_credentials": True,
+        "station_chief_v20_does_not_access_tokens": True,
+        "station_chief_v20_does_not_read_secrets": True,
+        "station_chief_v20_does_not_read_private_keys": True,
+        "station_chief_v20_does_not_read_signing_keys": True,
+        "station_chief_v20_does_not_read_environment": True,
+        "station_chief_v20_does_not_call_apis": True,
+        "station_chief_v20_does_not_use_network_access": True,
+        "station_chief_v20_does_not_start_worker_processes": True,
+        "station_chief_v20_does_not_create_real_queue": True,
+        "station_chief_v20_does_not_execute_live_tasks_outside_controlled_workpack": True,
+        "station_chief_v20_does_not_create_v20_1": True,
+        "station_chief_v20_does_not_create_v21": True,
+        "station_chief_v21_controlled_local_workspace_available": True,
+        "station_chief_v21_not_paper_only_readiness": True,
+        "station_chief_v21_not_repo_only_doctrine": True,
+        "station_chief_v21_controlled_local_workspace_layer_created": True,
+        "station_chief_v21_artifact_factory_workpack_created": True,
+        "station_chief_v21_controlled_action_count_5": True,
+        "station_chief_v21_controlled_artifact_count_4": True,
+        "station_chief_v21_agent_role_count_6": True,
+        "station_chief_v21_allows_routed_v20_v19_v18_v17_operational_chain": True,
+        "station_chief_v21_allows_controlled_json_artifact": True,
+        "station_chief_v21_allows_controlled_markdown_artifact": True,
+        "station_chief_v21_allows_controlled_csv_artifact": True,
+        "station_chief_v21_allows_controlled_artifact_manifest": True,
+        "station_chief_v21_human_approval_required": True,
+        "station_chief_v21_denies_real_worker_processes": True,
+        "station_chief_v21_denies_background_agents": True,
+        "station_chief_v21_denies_repo_mutation": True,
+        "station_chief_v21_denies_binary_document_generation": True,
+        "station_chief_v21_denies_binary_spreadsheet_generation": True,
+        "station_chief_v21_denies_email_calendar_web_api_database_deployment_live_execution": True,
+        "station_chief_v21_does_not_print_file_contents": True,
+        "station_chief_v21_does_not_mutate_repo_files": True,
+        "station_chief_v21_does_not_commit": True,
+        "station_chief_v21_does_not_push": True,
+        "station_chief_v21_does_not_deploy": True,
+        "station_chief_v21_does_not_execute_production": True,
+        "station_chief_v21_does_not_access_credentials": True,
+        "station_chief_v21_does_not_access_tokens": True,
+        "station_chief_v21_does_not_read_secrets": True,
+        "station_chief_v21_does_not_read_private_keys": True,
+        "station_chief_v21_does_not_read_signing_keys": True,
+        "station_chief_v21_does_not_read_environment": True,
+        "station_chief_v21_does_not_call_apis": True,
+        "station_chief_v21_does_not_use_network_access": True,
+        "station_chief_v21_does_not_start_worker_processes": True,
+        "station_chief_v21_does_not_create_real_queue": True,
+        "station_chief_v21_does_not_execute_live_tasks_outside_controlled_artifact_workpack": True,
+        "station_chief_v21_does_not_create_v21_1": True,
+        "station_chief_v21_does_not_create_v22": True,
         "station_chief_v20_not_paper_only_readiness": True,
         "station_chief_v20_not_repo_only_doctrine": True,
         "station_chief_v20_controlled_workpack_execution_layer_created": True,
@@ -2070,7 +2220,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "activation_tier": brief["activation_tier"],
         "baseline_preserved": True,
         "evidence": evidence,
-        "next_step": "Next step: v20.1 or broader operational tool expansion requires explicit separate operator instruction.",
+        "next_step": "Next step: v21.1 or broader external/business tool expansion requires explicit separate operator instruction.",
         "first_tiny_real_world_supervised_execution_candidate_available": True,
         "first_tiny_real_world_supervised_execution_candidate_local_only": True,
         "first_tiny_real_world_supervised_execution_candidate_requires_token": True,
@@ -11937,6 +12087,20 @@ def main() -> None:
     parser.add_argument("--station-chief-v20-workpack-receipt", action="store_true", help="Attach v20.0 workpack receipt")
     parser.add_argument("--station-chief-v20-operational-audit", action="store_true", help="Attach v20.0 operational audit")
 
+    parser.add_argument("--station-chief-v21-controlled-local-workspace-schema", action="store_true", help="Print Station Chief v21.0 schema and exit")
+    parser.add_argument("--station-chief-v21-controlled-local-workspace", action="store_true", help="Attach Station Chief v21.0 bundle")
+    parser.add_argument("--station-chief-v21-local-workspace-manifest", action="store_true", help="Attach v21.0 local workspace manifest")
+    parser.add_argument("--station-chief-v21-artifact-workpack-schema", action="store_true", help="Attach v21.0 artifact factory workpack schema")
+    parser.add_argument("--station-chief-v21-artifact-action-registry", action="store_true", help="Attach v21.0 controlled local artifact action registry")
+    parser.add_argument("--station-chief-v21-agent-assignment-map", action="store_true", help="Attach v21.0 assignment map")
+    parser.add_argument("--station-chief-v21-execution-plan", action="store_true", help="Attach v21.0 execution plan")
+    parser.add_argument("--station-chief-v21-approved-artifact-factory", action="store_true", help="Execute v21.0 controlled artifact factory workpack")
+    parser.add_argument("--station-chief-v21-approval-phrase", type=str, help="Human approval phrase for v21.0 artifact factory")
+    parser.add_argument("--station-chief-v21-operator-label", type=str, help="Metadata label for human operator")
+    parser.add_argument("--station-chief-v21-workpack-label", type=str, help="Metadata label for artifact factory workpack")
+    parser.add_argument("--station-chief-v21-artifact-workpack-receipt", action="store_true", help="Attach v21.0 workpack receipt")
+    parser.add_argument("--station-chief-v21-artifact-factory-audit", action="store_true", help="Attach v21.0 artifact factory audit")
+
     args = parser.parse_args()
 
     if args.compare_dry_run_bundles:
@@ -13095,6 +13259,10 @@ def main() -> None:
         print(json.dumps(create_station_chief_v12_autonomous_worker_army_release_candidate_schema(), indent=2, ensure_ascii=False))
         return
 
+    if getattr(args, "station_chief_v21_controlled_local_workspace_schema", False):
+        print(json.dumps(create_station_chief_v21_controlled_local_workspace_schema(), indent=2, ensure_ascii=False))
+        return
+
     if getattr(args, "station_chief_v20_operational_agent_army_mode_schema", False):
         print(json.dumps(create_station_chief_v20_operational_agent_army_mode_schema(), indent=2, ensure_ascii=False))
         return
@@ -13253,6 +13421,9 @@ def main() -> None:
 
     if args.station_chief_v12_autonomous_worker_army_release_candidate or args.station_chief_v12_army_workers or args.station_chief_v12_army_squads or args.station_chief_v12_command_manifest or args.station_chief_v12_mission_envelopes or args.station_chief_v12_dispatch_matrix or args.station_chief_v12_army_cycle_plan or args.station_chief_v12_readiness_receipts or args.station_chief_v12_army_audit:
         result = attach_station_chief_v12_autonomous_worker_army_release_candidate(result, args)
+
+    if args.station_chief_v21_controlled_local_workspace or args.station_chief_v21_local_workspace_manifest or args.station_chief_v21_artifact_workpack_schema or args.station_chief_v21_artifact_action_registry or args.station_chief_v21_agent_assignment_map or args.station_chief_v21_execution_plan or args.station_chief_v21_approved_artifact_factory or args.station_chief_v21_artifact_workpack_receipt or args.station_chief_v21_artifact_factory_audit:
+        result = attach_station_chief_v21_controlled_local_workspace_artifact_factory(result, args)
 
     if args.station_chief_v20_operational_agent_army_mode or args.station_chief_v20_operational_manifest or args.station_chief_v20_workpack_schema or args.station_chief_v20_action_registry or args.station_chief_v20_agent_assignment_map or args.station_chief_v20_execution_plan or args.station_chief_v20_approved_operational_workpack or args.station_chief_v20_workpack_receipt or args.station_chief_v20_operational_audit:
         result = attach_station_chief_v20_operational_agent_army_mode(result, args)

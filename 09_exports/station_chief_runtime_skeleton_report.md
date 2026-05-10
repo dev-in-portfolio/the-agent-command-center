@@ -1,40 +1,43 @@
-# Station Chief Runtime v20.0.0
+# Station Chief Runtime v21.0.0
 
 ## Status
-Station Chief Runtime upgraded to v20.0.0. Locked 175-family baseline preserved. v8.0 through v19.0 preserved. Station Chief v20.0 Operational Agent Army Mode / Controlled Workpack Execution Layer Candidate added.
+Station Chief Runtime upgraded to v21.0.0. Locked 175-family baseline preserved. v8.0 through v20.0 preserved. Station Chief v21.0 Controlled Local Workspace Tool Expansion / Artifact Factory Workpack Candidate added.
 
 ## What This Adds
-- v20.0 is not paper-only readiness
-- v20.0 is not repo-only doctrine
-- v20.0 is not uncontrolled autonomy
-- v20.0 creates the first operational agent army mode
-- v20.0 creates controlled operational workpacks
-- v20.0 creates a two-action controlled workpack
-- v20.0 routes the read-only repo inspection through the existing v19/v18/v17 chain
-- v20.0 writes one controlled local temp sandbox artifact outside the repo
-- v20.0 creates operational workpack receipts
-- v20.0 creates operational agent handoff ledger
-- v20.0 creates operational audit record
-- v20.0 requires exact human approval phrase
-- v20.0 does not start real worker processes
-- v20.0 does not start background agents
-- v20.0 does not print file contents
-- v20.0 does not mutate repo files
-- v20.0 does not commit or push
-- v20.0 does not deploy
-- v20.0 does not touch production
-- v20.0 does not call APIs/network
-- v20.0 does not access credentials/tokens/secrets/env/keys/vaults
-- v20.0 does not execute email/calendar/web/API/database/deployment adapters live
-- v20.0 does not create real queues
-- v20.0 does not route to real worker processes
-- v20.0 does not perform uncontrolled live orchestration
-- v20.0 does not create v20.1
-- v20.0 does not create v21
+- v21.0 is the first broader non-repo local workspace tool expansion
+- v21.0 creates controlled local workspace artifacts
+- v21.0 creates an artifact factory workpack
+- v21.0 creates JSON, Markdown, CSV, and manifest artifacts
+- v21.0 routes the operational chain through the existing v20/v19/v18/v17 path
+- v21.0 writes only controlled local temp sandbox artifacts outside the repo
+- v21.0 creates artifact factory workpack receipts
+- v21.0 creates artifact factory handoff ledger
+- v21.0 creates artifact factory audit record
+- v21.0 requires exact human approval phrase
+- v21.0 does not start real worker processes
+- v21.0 does not start background agents
+- v21.0 does not print file contents
+- v21.0 does not mutate repo files
+- v21.0 does not commit or push
+- v21.0 does not deploy
+- v21.0 does not touch production
+- v21.0 does not call APIs/network
+- v21.0 does not access credentials/tokens/secrets/env/keys/vaults
+- v21.0 does not execute email/calendar/web/API/database/deployment adapters live
+- v21.0 does not generate binary documents or binary spreadsheets
+- v21.0 does not create real queues
+- v21.0 does not route to real worker processes
+- v21.0 does not perform uncontrolled live orchestration
+- v21.0 does not create v21.1
+- v21.0 does not create v22
 - Next internal label:
-  v20.1 or broader operational tool expansion requires explicit separate operator instruction
+  v21.1 or broader external/business tool expansion requires explicit separate operator instruction
 
 ## History
+### v20.0.0
+Station Chief Runtime upgraded to v20.0.0. Locked 175-family baseline preserved. v8.0 through v19.0 preserved. Station Chief v20.0 Operational Agent Army Mode / Controlled Workpack Execution Layer Candidate added.
+Next internal label: v20.1 or broader operational tool expansion requires explicit separate operator instruction.
+
 ### v19.0.0
 Station Chief Runtime upgraded to v19.0.0. Locked 175-family baseline preserved. v8.0 through v18.0 preserved. Station Chief v19.0 Multi-Agent Live Work Router / Supervised Dispatch Layer Candidate added.
 Next internal label: v19.1 or broader multi-tool/multi-agent expansion requires explicit separate operator instruction.
