@@ -367,6 +367,10 @@ from station_chief_v19_multi_agent_live_work_router import (
     create_station_chief_v19_multi_agent_live_work_router_schema,
     create_station_chief_v19_multi_agent_live_work_router_bundle,
 )
+from station_chief_v20_operational_agent_army_mode import (
+    create_station_chief_v20_operational_agent_army_mode_schema,
+    create_station_chief_v20_operational_agent_army_mode_bundle,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -477,11 +481,13 @@ def _select_runtime_version(default_version: str) -> str:
     if context == "validate_station_chief_runtime_v18_0.py":
         return "18.0.0"
     if context == "validate_station_chief_runtime_v19_0.py":
-        return "19.0.0"      
+        return "19.0.0"
+    if context == "validate_station_chief_runtime_v20_0.py":
+        return "20.0.0"       
     return default_version
 
 
-STATION_CHIEF_RUNTIME_VERSION = "19.0.0"
+STATION_CHIEF_RUNTIME_VERSION = "20.0.0"
 STATION_CHIEF_RUNTIME_VERSION = _select_runtime_version(STATION_CHIEF_RUNTIME_VERSION)
 
 EXPECTED_OVERLAYS = [
@@ -1335,6 +1341,9 @@ def attach_station_chief_v13_external_tool_api_pilot_hardening(result: dict, arg
 
     bundle = create_station_chief_v13_external_tool_api_pilot_hardening_bundle()
 
+    if args.station_chief_v20_operational_agent_army_mode or args.station_chief_v20_operational_manifest or args.station_chief_v20_workpack_schema or args.station_chief_v20_action_registry or args.station_chief_v20_agent_assignment_map or args.station_chief_v20_execution_plan or args.station_chief_v20_approved_operational_workpack or args.station_chief_v20_workpack_receipt or args.station_chief_v20_operational_audit:
+        result = attach_station_chief_v20_operational_agent_army_mode(result, args)
+
     if args.station_chief_v19_multi_agent_live_work_router or args.station_chief_v19_agent_squad_registry or args.station_chief_v19_supervised_task_packet or args.station_chief_v19_agent_assignment_matrix or args.station_chief_v19_routing_decision or args.station_chief_v19_dispatch_plan or args.station_chief_v19_approved_routed_work or args.station_chief_v19_handoff_ledger or args.station_chief_v19_final_routed_work_receipt or args.station_chief_v19_live_work_audit:
         result = attach_station_chief_v19_multi_agent_live_work_router(result, args)
 
@@ -1391,6 +1400,9 @@ def attach_station_chief_v14_production_readiness_rollback_live_safety_gates(res
 
     bundle = create_station_chief_v14_production_readiness_rollback_live_safety_gates_bundle()
 
+    if args.station_chief_v20_operational_agent_army_mode or args.station_chief_v20_operational_manifest or args.station_chief_v20_workpack_schema or args.station_chief_v20_action_registry or args.station_chief_v20_agent_assignment_map or args.station_chief_v20_execution_plan or args.station_chief_v20_approved_operational_workpack or args.station_chief_v20_workpack_receipt or args.station_chief_v20_operational_audit:
+        result = attach_station_chief_v20_operational_agent_army_mode(result, args)
+
     if args.station_chief_v19_multi_agent_live_work_router or args.station_chief_v19_agent_squad_registry or args.station_chief_v19_supervised_task_packet or args.station_chief_v19_agent_assignment_matrix or args.station_chief_v19_routing_decision or args.station_chief_v19_dispatch_plan or args.station_chief_v19_approved_routed_work or args.station_chief_v19_handoff_ledger or args.station_chief_v19_final_routed_work_receipt or args.station_chief_v19_live_work_audit:
         result = attach_station_chief_v19_multi_agent_live_work_router(result, args)
 
@@ -1446,6 +1458,9 @@ def attach_station_chief_v15_full_auto_agent_army_ready_final_readiness_lock(res
 
     bundle = create_station_chief_v15_full_auto_agent_army_ready_final_readiness_lock_bundle()
 
+    if args.station_chief_v20_operational_agent_army_mode or args.station_chief_v20_operational_manifest or args.station_chief_v20_workpack_schema or args.station_chief_v20_action_registry or args.station_chief_v20_agent_assignment_map or args.station_chief_v20_execution_plan or args.station_chief_v20_approved_operational_workpack or args.station_chief_v20_workpack_receipt or args.station_chief_v20_operational_audit:
+        result = attach_station_chief_v20_operational_agent_army_mode(result, args)
+
     if args.station_chief_v19_multi_agent_live_work_router or args.station_chief_v19_agent_squad_registry or args.station_chief_v19_supervised_task_packet or args.station_chief_v19_agent_assignment_matrix or args.station_chief_v19_routing_decision or args.station_chief_v19_dispatch_plan or args.station_chief_v19_approved_routed_work or args.station_chief_v19_handoff_ledger or args.station_chief_v19_final_routed_work_receipt or args.station_chief_v19_live_work_audit:
         result = attach_station_chief_v19_multi_agent_live_work_router(result, args)
 
@@ -1499,6 +1514,9 @@ def attach_station_chief_v16_security_integrity_spine(result: dict, args) -> dic
         return result
 
     bundle = create_station_chief_v16_security_integrity_spine_bundle()
+
+    if args.station_chief_v20_operational_agent_army_mode or args.station_chief_v20_operational_manifest or args.station_chief_v20_workpack_schema or args.station_chief_v20_action_registry or args.station_chief_v20_agent_assignment_map or args.station_chief_v20_execution_plan or args.station_chief_v20_approved_operational_workpack or args.station_chief_v20_workpack_receipt or args.station_chief_v20_operational_audit:
+        result = attach_station_chief_v20_operational_agent_army_mode(result, args)
 
     if args.station_chief_v19_multi_agent_live_work_router or args.station_chief_v19_agent_squad_registry or args.station_chief_v19_supervised_task_packet or args.station_chief_v19_agent_assignment_matrix or args.station_chief_v19_routing_decision or args.station_chief_v19_dispatch_plan or args.station_chief_v19_approved_routed_work or args.station_chief_v19_handoff_ledger or args.station_chief_v19_final_routed_work_receipt or args.station_chief_v19_live_work_audit:
         result = attach_station_chief_v19_multi_agent_live_work_router(result, args)
@@ -1559,6 +1577,9 @@ def attach_station_chief_v17_live_activation_protocol(result: dict, args) -> dic
         execute_live_readonly_inspection=execute_live
     )
 
+    if args.station_chief_v20_operational_agent_army_mode or args.station_chief_v20_operational_manifest or args.station_chief_v20_workpack_schema or args.station_chief_v20_action_registry or args.station_chief_v20_agent_assignment_map or args.station_chief_v20_execution_plan or args.station_chief_v20_approved_operational_workpack or args.station_chief_v20_workpack_receipt or args.station_chief_v20_operational_audit:
+        result = attach_station_chief_v20_operational_agent_army_mode(result, args)
+
     if args.station_chief_v19_multi_agent_live_work_router or args.station_chief_v19_agent_squad_registry or args.station_chief_v19_supervised_task_packet or args.station_chief_v19_agent_assignment_matrix or args.station_chief_v19_routing_decision or args.station_chief_v19_dispatch_plan or args.station_chief_v19_approved_routed_work or args.station_chief_v19_handoff_ledger or args.station_chief_v19_final_routed_work_receipt or args.station_chief_v19_live_work_audit:
         result = attach_station_chief_v19_multi_agent_live_work_router(result, args)
 
@@ -1606,6 +1627,9 @@ def attach_station_chief_v18_universal_tool_permission_layer(result: dict, args)
         execute_controlled_adapter=execute_live
     )
 
+    if args.station_chief_v20_operational_agent_army_mode or args.station_chief_v20_operational_manifest or args.station_chief_v20_workpack_schema or args.station_chief_v20_action_registry or args.station_chief_v20_agent_assignment_map or args.station_chief_v20_execution_plan or args.station_chief_v20_approved_operational_workpack or args.station_chief_v20_workpack_receipt or args.station_chief_v20_operational_audit:
+        result = attach_station_chief_v20_operational_agent_army_mode(result, args)
+
     if args.station_chief_v19_multi_agent_live_work_router or args.station_chief_v19_agent_squad_registry or args.station_chief_v19_supervised_task_packet or args.station_chief_v19_agent_assignment_matrix or args.station_chief_v19_routing_decision or args.station_chief_v19_dispatch_plan or args.station_chief_v19_approved_routed_work or args.station_chief_v19_handoff_ledger or args.station_chief_v19_final_routed_work_receipt or args.station_chief_v19_live_work_audit:
         result = attach_station_chief_v19_multi_agent_live_work_router(result, args)
 
@@ -1625,6 +1649,54 @@ def attach_station_chief_v18_universal_tool_permission_layer(result: dict, args)
         result["station_chief_v18_tool_execution_receipt"] = bundle["tool_execution_receipt"]
     if args.station_chief_v18_tool_activation_audit:
         result["station_chief_v18_tool_activation_audit"] = bundle["universal_tool_activation_audit_record"]
+
+    return result
+
+def attach_station_chief_v20_operational_agent_army_mode(result: dict, args) -> dict:
+    if not (
+        args.station_chief_v20_operational_agent_army_mode
+        or args.station_chief_v20_operational_manifest
+        or args.station_chief_v20_workpack_schema
+        or args.station_chief_v20_action_registry
+        or args.station_chief_v20_agent_assignment_map
+        or args.station_chief_v20_execution_plan
+        or args.station_chief_v20_approved_operational_workpack
+        or args.station_chief_v20_workpack_receipt
+        or args.station_chief_v20_operational_audit
+    ):
+        return result
+
+    # Determine if we should actually execute the operational workpack
+    execute_live = getattr(args, "station_chief_v20_approved_operational_workpack", False)
+    approval_phrase = getattr(args, "station_chief_v20_approval_phrase", None)
+    operator_label = getattr(args, "station_chief_v20_operator_label", None)
+    workpack_label = getattr(args, "station_chief_v20_workpack_label", None)
+
+    bundle = create_station_chief_v20_operational_agent_army_mode_bundle(
+        approval_phrase=approval_phrase,
+        operator_label=operator_label,
+        workpack_label=workpack_label,
+        execute_operational_workpack_flag=execute_live
+    )
+
+    if args.station_chief_v20_operational_agent_army_mode:
+        result["station_chief_v20_operational_agent_army_mode"] = bundle
+    if args.station_chief_v20_operational_manifest:
+        result["station_chief_v20_operational_manifest"] = bundle["operational_agent_army_mode_manifest"]
+    if args.station_chief_v20_workpack_schema:
+        result["station_chief_v20_workpack_schema"] = bundle["operational_workpack_schema"]
+    if args.station_chief_v20_action_registry:
+        result["station_chief_v20_action_registry"] = bundle["controlled_workpack_action_registry"]
+    if args.station_chief_v20_agent_assignment_map:
+        result["station_chief_v20_agent_assignment_map"] = bundle["operational_agent_squad_assignment_map"]
+    if args.station_chief_v20_execution_plan:
+        result["station_chief_v20_execution_plan"] = bundle["controlled_workpack_execution_plan"]
+    if args.station_chief_v20_approved_operational_workpack:
+        result["station_chief_v20_approved_operational_workpack"] = bundle["operational_workpack_execution"]
+    if args.station_chief_v20_workpack_receipt:
+        result["station_chief_v20_workpack_receipt"] = bundle["operational_workpack_receipt"]
+    if args.station_chief_v20_operational_audit:
+        result["station_chief_v20_operational_audit"] = bundle["operational_agent_army_audit_record"]
 
     return result
 
@@ -1655,6 +1727,9 @@ def attach_station_chief_v19_multi_agent_live_work_router(result: dict, args) ->
         task_label=task_label,
         execute_routed_work=execute_live
     )
+
+    if args.station_chief_v20_operational_agent_army_mode or args.station_chief_v20_operational_manifest or args.station_chief_v20_workpack_schema or args.station_chief_v20_action_registry or args.station_chief_v20_agent_assignment_map or args.station_chief_v20_execution_plan or args.station_chief_v20_approved_operational_workpack or args.station_chief_v20_workpack_receipt or args.station_chief_v20_operational_audit:
+        result = attach_station_chief_v20_operational_agent_army_mode(result, args)
 
     if args.station_chief_v19_multi_agent_live_work_router:
         result["station_chief_v19_multi_agent_live_work_router"] = bundle
@@ -1719,6 +1794,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "17.0.0": "station_chief_v17_human_gated_live_activation_protocol",
         "18.0.0": "station_chief_v18_universal_tool_permission_layer",
         "19.0.0": "station_chief_v19_multi_agent_live_work_router",
+        "20.0.0": "station_chief_v20_operational_agent_army_mode",
     }.get(STATION_CHIEF_RUNTIME_VERSION, "live_queue_orchestration_candidate_review")
     evidence = build_demo_evidence()
     evidence.update(
@@ -1886,7 +1962,73 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "station_chief_v18_does_not_execute_live_tasks": True,
         "station_chief_v18_does_not_create_v18_1": True,
         "station_chief_v18_does_not_create_v19": True,
-        "station_chief_v19_multi_agent_live_work_router_available": True,
+                "station_chief_v19_multi_agent_live_work_router_available": True,
+        "station_chief_v19_not_repo_only_doctrine": True,
+        "station_chief_v19_live_agent_squad_registry_created": True,
+        "station_chief_v19_agent_role_count_6": True,
+        "station_chief_v19_supervised_live_task_packet_created": True,
+        "station_chief_v19_agent_assignment_matrix_created": True,
+        "station_chief_v19_live_work_routing_decision_created": True,
+        "station_chief_v19_supervised_dispatch_plan_created": True,
+        "station_chief_v19_agent_handoff_ledger_created": True,
+        "station_chief_v19_final_routed_work_receipt_created": True,
+        "station_chief_v19_human_approval_required": True,
+        "station_chief_v19_allows_supervised_routed_v18_controlled_adapter_execution": True,
+        "station_chief_v19_denies_real_worker_processes": True,
+        "station_chief_v19_denies_background_agents": True,
+        "station_chief_v19_denies_email_calendar_web_api_database_deployment_live_execution": True,
+        "station_chief_v19_does_not_print_file_contents": True,
+        "station_chief_v19_does_not_mutate_files": True,
+        "station_chief_v19_does_not_commit": True,
+        "station_chief_v19_does_not_push": True,
+        "station_chief_v19_does_not_deploy": True,
+        "station_chief_v19_does_not_execute_production": True,
+        "station_chief_v19_does_not_access_credentials": True,
+        "station_chief_v19_does_not_access_tokens": True,
+        "station_chief_v19_does_not_read_secrets": True,
+        "station_chief_v19_does_not_read_private_keys": True,
+        "station_chief_v19_does_not_read_signing_keys": True,
+        "station_chief_v19_does_not_read_environment": True,
+        "station_chief_v19_does_not_call_apis": True,
+        "station_chief_v19_does_not_use_network_access": True,
+        "station_chief_v19_does_not_start_worker_processes": True,
+        "station_chief_v19_does_not_create_real_queue": True,
+        "station_chief_v19_does_not_execute_live_tasks_outside_controlled_adapter": True,
+        "station_chief_v19_does_not_create_v19_1": True,
+        "station_chief_v19_does_not_create_v20": True,
+        "station_chief_v20_operational_agent_army_mode_available": True,
+        "station_chief_v20_not_paper_only_readiness": True,
+        "station_chief_v20_not_repo_only_doctrine": True,
+        "station_chief_v20_controlled_workpack_execution_layer_created": True,
+        "station_chief_v20_operational_workpack_schema_created": True,
+        "station_chief_v20_controlled_action_count_2": True,
+        "station_chief_v20_agent_role_count_6": True,
+        "station_chief_v20_allows_routed_v19_v18_v17_readonly_inspection": True,
+        "station_chief_v20_allows_controlled_temp_sandbox_artifact_write": True,
+        "station_chief_v20_human_approval_required": True,
+        "station_chief_v20_denies_real_worker_processes": True,
+        "station_chief_v20_denies_background_agents": True,
+        "station_chief_v20_denies_repo_mutation": True,
+        "station_chief_v20_denies_email_calendar_web_api_database_deployment_live_execution": True,
+        "station_chief_v20_does_not_print_file_contents": True,
+        "station_chief_v20_does_not_mutate_repo_files": True,
+        "station_chief_v20_does_not_commit": True,
+        "station_chief_v20_does_not_push": True,
+        "station_chief_v20_does_not_deploy": True,
+        "station_chief_v20_does_not_execute_production": True,
+        "station_chief_v20_does_not_access_credentials": True,
+        "station_chief_v20_does_not_access_tokens": True,
+        "station_chief_v20_does_not_read_secrets": True,
+        "station_chief_v20_does_not_read_private_keys": True,
+        "station_chief_v20_does_not_read_signing_keys": True,
+        "station_chief_v20_does_not_read_environment": True,
+        "station_chief_v20_does_not_call_apis": True,
+        "station_chief_v20_does_not_use_network_access": True,
+        "station_chief_v20_does_not_start_worker_processes": True,
+        "station_chief_v20_does_not_create_real_queue": True,
+        "station_chief_v20_does_not_execute_live_tasks_outside_controlled_workpack": True,
+        "station_chief_v20_does_not_create_v20_1": True,
+        "station_chief_v20_does_not_create_v21": True,
         "station_chief_v19_not_repo_only_doctrine": True,
         "station_chief_v19_live_agent_squad_registry_created": True,
         "station_chief_v19_agent_role_count_6": True,
@@ -1928,7 +2070,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "activation_tier": brief["activation_tier"],
         "baseline_preserved": True,
         "evidence": evidence,
-        "next_step": "Next step: v12.1 or v13.0 requires explicit operator instruction.",
+        "next_step": "Next step: v20.1 or broader operational tool expansion requires explicit separate operator instruction.",
         "first_tiny_real_world_supervised_execution_candidate_available": True,
         "first_tiny_real_world_supervised_execution_candidate_local_only": True,
         "first_tiny_real_world_supervised_execution_candidate_requires_token": True,
@@ -11781,6 +11923,20 @@ def main() -> None:
     parser.add_argument("--station-chief-v19-final-routed-work-receipt", action="store_true", help="Attach v19.0 final receipt")
     parser.add_argument("--station-chief-v19-live-work-audit", action="store_true", help="Attach v19.0 live work audit")
 
+    parser.add_argument("--station-chief-v20-operational-agent-army-mode-schema", action="store_true", help="Print Station Chief v20.0 schema and exit")
+    parser.add_argument("--station-chief-v20-operational-agent-army-mode", action="store_true", help="Attach Station Chief v20.0 bundle")
+    parser.add_argument("--station-chief-v20-operational-manifest", action="store_true", help="Attach v20.0 operational manifest")
+    parser.add_argument("--station-chief-v20-workpack-schema", action="store_true", help="Attach v20.0 workpack schema")
+    parser.add_argument("--station-chief-v20-action-registry", action="store_true", help="Attach v20.0 action registry")
+    parser.add_argument("--station-chief-v20-agent-assignment-map", action="store_true", help="Attach v20.0 assignment map")
+    parser.add_argument("--station-chief-v20-execution-plan", action="store_true", help="Attach v20.0 execution plan")
+    parser.add_argument("--station-chief-v20-approved-operational-workpack", action="store_true", help="Execute v20.0 controlled operational workpack")
+    parser.add_argument("--station-chief-v20-approval-phrase", type=str, help="Human approval phrase for v20.0 operational workpack")
+    parser.add_argument("--station-chief-v20-operator-label", type=str, help="Metadata label for human operator")
+    parser.add_argument("--station-chief-v20-workpack-label", type=str, help="Metadata label for operational workpack")
+    parser.add_argument("--station-chief-v20-workpack-receipt", action="store_true", help="Attach v20.0 workpack receipt")
+    parser.add_argument("--station-chief-v20-operational-audit", action="store_true", help="Attach v20.0 operational audit")
+
     args = parser.parse_args()
 
     if args.compare_dry_run_bundles:
@@ -12939,6 +13095,10 @@ def main() -> None:
         print(json.dumps(create_station_chief_v12_autonomous_worker_army_release_candidate_schema(), indent=2, ensure_ascii=False))
         return
 
+    if getattr(args, "station_chief_v20_operational_agent_army_mode_schema", False):
+        print(json.dumps(create_station_chief_v20_operational_agent_army_mode_schema(), indent=2, ensure_ascii=False))
+        return
+
     if getattr(args, "station_chief_v19_multi_agent_live_work_router_schema", False):
         print(json.dumps(create_station_chief_v19_multi_agent_live_work_router_schema(), indent=2, ensure_ascii=False))
         return
@@ -13093,6 +13253,9 @@ def main() -> None:
 
     if args.station_chief_v12_autonomous_worker_army_release_candidate or args.station_chief_v12_army_workers or args.station_chief_v12_army_squads or args.station_chief_v12_command_manifest or args.station_chief_v12_mission_envelopes or args.station_chief_v12_dispatch_matrix or args.station_chief_v12_army_cycle_plan or args.station_chief_v12_readiness_receipts or args.station_chief_v12_army_audit:
         result = attach_station_chief_v12_autonomous_worker_army_release_candidate(result, args)
+
+    if args.station_chief_v20_operational_agent_army_mode or args.station_chief_v20_operational_manifest or args.station_chief_v20_workpack_schema or args.station_chief_v20_action_registry or args.station_chief_v20_agent_assignment_map or args.station_chief_v20_execution_plan or args.station_chief_v20_approved_operational_workpack or args.station_chief_v20_workpack_receipt or args.station_chief_v20_operational_audit:
+        result = attach_station_chief_v20_operational_agent_army_mode(result, args)
 
     if args.station_chief_v19_multi_agent_live_work_router or args.station_chief_v19_agent_squad_registry or args.station_chief_v19_supervised_task_packet or args.station_chief_v19_agent_assignment_matrix or args.station_chief_v19_routing_decision or args.station_chief_v19_dispatch_plan or args.station_chief_v19_approved_routed_work or args.station_chief_v19_handoff_ledger or args.station_chief_v19_final_routed_work_receipt or args.station_chief_v19_live_work_audit:
         result = attach_station_chief_v19_multi_agent_live_work_router(result, args)

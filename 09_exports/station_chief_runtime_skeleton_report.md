@@ -1,41 +1,44 @@
-# Station Chief Runtime v19.0.0
+# Station Chief Runtime v20.0.0
 
 ## Status
-Station Chief Runtime upgraded to v19.0.0. Locked 175-family baseline preserved. v8.0 through v18.0 preserved. Station Chief v19.0 Multi-Agent Live Work Router / Supervised Dispatch Layer Candidate added.
+Station Chief Runtime upgraded to v20.0.0. Locked 175-family baseline preserved. v8.0 through v19.0 preserved. Station Chief v20.0 Operational Agent Army Mode / Controlled Workpack Execution Layer Candidate added.
 
 ## What This Adds
-- v19.0 is not paper-only readiness
-- v19.0 is not repo-only doctrine
-- v19.0 creates the supervised multi-agent live work router
-- v19.0 creates logical live agent squad registry
-- v19.0 creates six logical agent roles
-- v19.0 creates supervised task packets
-- v19.0 creates agent assignment matrix
-- v19.0 creates live work routing decisions
-- v19.0 creates supervised dispatch plans
-- v19.0 creates agent handoff receipt ledger
-- v19.0 creates final routed work receipt
-- v19.0 routes controlled live work through the v18 adapter system
-- v19.0 can execute the wrapped v18 controlled repo read-only adapter only after exact human approval phrase
-- v19.0 does not start real worker processes
-- v19.0 does not start background agents
-- v19.0 does not print file contents
-- v19.0 does not mutate files
-- v19.0 does not commit or push
-- v19.0 does not deploy
-- v19.0 does not touch production
-- v19.0 does not call APIs/network
-- v19.0 does not access credentials/tokens/secrets/env/keys/vaults
-- v19.0 does not execute email/calendar/web/API/database/deployment adapters live
-- v19.0 does not create real queues
-- v19.0 does not route to real worker processes
-- v19.0 does not perform uncontrolled live orchestration
-- v19.0 does not create v19.1
-- v19.0 does not create v20
+- v20.0 is not paper-only readiness
+- v20.0 is not repo-only doctrine
+- v20.0 is not uncontrolled autonomy
+- v20.0 creates the first operational agent army mode
+- v20.0 creates controlled operational workpacks
+- v20.0 creates a two-action controlled workpack
+- v20.0 routes the read-only repo inspection through the existing v19/v18/v17 chain
+- v20.0 writes one controlled local temp sandbox artifact outside the repo
+- v20.0 creates operational workpack receipts
+- v20.0 creates operational agent handoff ledger
+- v20.0 creates operational audit record
+- v20.0 requires exact human approval phrase
+- v20.0 does not start real worker processes
+- v20.0 does not start background agents
+- v20.0 does not print file contents
+- v20.0 does not mutate repo files
+- v20.0 does not commit or push
+- v20.0 does not deploy
+- v20.0 does not touch production
+- v20.0 does not call APIs/network
+- v20.0 does not access credentials/tokens/secrets/env/keys/vaults
+- v20.0 does not execute email/calendar/web/API/database/deployment adapters live
+- v20.0 does not create real queues
+- v20.0 does not route to real worker processes
+- v20.0 does not perform uncontrolled live orchestration
+- v20.0 does not create v20.1
+- v20.0 does not create v21
 - Next internal label:
-  v19.1 or broader multi-tool/multi-agent expansion requires explicit separate operator instruction
+  v20.1 or broader operational tool expansion requires explicit separate operator instruction
 
 ## History
+### v19.0.0
+Station Chief Runtime upgraded to v19.0.0. Locked 175-family baseline preserved. v8.0 through v18.0 preserved. Station Chief v19.0 Multi-Agent Live Work Router / Supervised Dispatch Layer Candidate added.
+Next internal label: v19.1 or broader multi-tool/multi-agent expansion requires explicit separate operator instruction.
+
 ### v18.0.0
 Station Chief Runtime upgraded to v18.0.0. Locked 175-family baseline preserved. v8.0 through v17.0 preserved. Station Chief v18.0 Universal Tool Permission Layer / Controlled Tool Adapter Execution Candidate added.
 Next internal label: v18.1 or broader controlled tool expansion requires explicit separate operator instruction.

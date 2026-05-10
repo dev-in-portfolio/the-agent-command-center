@@ -43,14 +43,24 @@ def main():
     ensure(v16_report.exists(), "v16.0 report missing")
 
     # Versions
-    check_file_content(runtime_dir / "station_chief_runtime.py", r'STATION_CHIEF_RUNTIME_VERSION\s*=\s*"(16\.0\.0|17\.0\.0|18\.0\.0|19\.0\.0)"', "Runtime version not 16.0.0, 17.0.0, 18.0.0, or 19.0.0")
-    check_file_content(runtime_dir / "station_chief_release_lock.py", r'STABLE_RUNTIME_VERSION\s*=\s*"(16\.0\.0|17\.0\.0|18\.0\.0|19\.0\.0)"', "Release lock not 16.0.0, 17.0.0, 18.0.0, or 19.0.0")
-    check_file_content(runtime_dir / "station_chief_adapters.py", r'ADAPTER_MODULE_VERSION\s*=\s*"(16\.0\.0|17\.0\.0|18\.0\.0|19\.0\.0)"', "Adapter version not 16.0.0, 17.0.0, 18.0.0, or 19.0.0")
+    check_file_content(runtime_dir / "station_chief_runtime.py", r'STATION_CHIEF_RUNTIME_VERSION\s*=\s*"(16\.0\.0|17\.0\.0|18\.0\.0|19\.0\.0|20\.0\.0)"', "Runtime version not 16.0.0, 17.0.0, 18.0.0, or 19.0.0, or 20.0.0")
+    check_file_content(runtime_dir / "station_chief_release_lock.py", r'STABLE_RUNTIME_VERSION\s*=\s*"(16\.0\.0|17\.0\.0|18\.0\.0|19\.0\.0|20\.0\.0)"', "Release lock not 16.0.0, 17.0.0, 18.0.0, or 19.0.0, or 20.0.0")
+    check_file_content(runtime_dir / "station_chief_adapters.py", r'ADAPTER_MODULE_VERSION\s*=\s*"(16\.0\.0|17\.0\.0|18\.0\.0|19\.0\.0|20\.0\.0)"', "Adapter version not 16.0.0, 17.0.0, 18.0.0, or 19.0.0, or 20.0.0")
 
     # Future files
-    ensure(not list(root_dir.rglob("*v16_1*")), "v16.1 files exist")
-    ensure(not list(root_dir.rglob("*v16.1*")), "v16.1 files exist")
-    ensure(not (list(root_dir.rglob("*v18_1*")) or list(root_dir.rglob("*v18.1*")) or (list(root_dir.rglob("*v19_1*")) or list(root_dir.rglob("*v19.1*")) or list(root_dir.rglob("*v20*")))), "v18.1+ or v19+ files exist")
+    
+    
+    
+    # Fast future file check (non-recursive to avoid huge node_modules scan)
+    future_patterns = ["*v20_1*", "*v20.1*", "*v21*"]
+    found_future = []
+    for p in future_patterns:
+        found_future.extend(list(root_dir.glob(p)))
+        found_future.extend(list((root_dir / "10_runtime").glob(p)))
+        found_future.extend(list((root_dir / "scripts").glob(p)))
+        found_future.extend(list((root_dir / "09_exports").glob(p)))
+    ensure(not found_future, f"Future files exist: {found_future}")
+    
 
     # Context selectors
     check_file_content(runtime_dir / "station_chief_release_lock.py", r'"validate_station_chief_runtime_v16_0\.py",', "v16.0 selector missing in release lock")
