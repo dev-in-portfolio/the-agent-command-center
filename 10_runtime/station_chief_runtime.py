@@ -355,6 +355,10 @@ from station_chief_v16_security_integrity_spine import (
     create_station_chief_v16_security_integrity_spine_schema,
     create_station_chief_v16_security_integrity_spine_bundle,
 )
+from station_chief_v17_live_activation_protocol import (
+    create_station_chief_v17_live_activation_protocol_schema,
+    create_station_chief_v17_live_activation_protocol_bundle,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -459,11 +463,13 @@ def _select_runtime_version(default_version: str) -> str:
     if context == "validate_station_chief_runtime_v15_0.py":
         return "15.0.0"
     if context == "validate_station_chief_runtime_v16_0.py":
-        return "16.0.0"   
+        return "16.0.0"
+    if context == "validate_station_chief_runtime_v17_0.py":
+        return "17.0.0"    
     return default_version
 
 
-STATION_CHIEF_RUNTIME_VERSION = "16.0.0"
+STATION_CHIEF_RUNTIME_VERSION = "17.0.0"
 STATION_CHIEF_RUNTIME_VERSION = _select_runtime_version(STATION_CHIEF_RUNTIME_VERSION)
 
 EXPECTED_OVERLAYS = [
@@ -1317,6 +1323,9 @@ def attach_station_chief_v13_external_tool_api_pilot_hardening(result: dict, arg
 
     bundle = create_station_chief_v13_external_tool_api_pilot_hardening_bundle()
 
+    if args.station_chief_v17_live_activation_protocol or args.station_chief_v17_live_action_taxonomy or args.station_chief_v17_first_live_action_allowlist or args.station_chief_v17_preview_readonly_repo_inspection or args.station_chief_v17_approved_readonly_repo_inspection or args.station_chief_v17_live_action_receipt or args.station_chief_v17_live_activation_audit:
+        result = attach_station_chief_v17_live_activation_protocol(result, args)
+
     if args.station_chief_v16_security_integrity_spine or args.station_chief_v16_security_domains or args.station_chief_v16_packet_hash_manifest or args.station_chief_v16_tamper_evident_lineage or args.station_chief_v16_signature_doctrine or args.station_chief_v16_key_separation_trust_boundary or args.station_chief_v16_repo_trust_model or args.station_chief_v16_sensitive_packet_encryption_review or args.station_chief_v16_security_validator_hardening or args.station_chief_v16_security_audit_replay_packet or args.station_chief_v16_security_spine_lock or args.station_chief_v16_security_audit:
         result = attach_station_chief_v16_security_integrity_spine(result, args)
 
@@ -1364,6 +1373,9 @@ def attach_station_chief_v14_production_readiness_rollback_live_safety_gates(res
 
     bundle = create_station_chief_v14_production_readiness_rollback_live_safety_gates_bundle()
 
+    if args.station_chief_v17_live_activation_protocol or args.station_chief_v17_live_action_taxonomy or args.station_chief_v17_first_live_action_allowlist or args.station_chief_v17_preview_readonly_repo_inspection or args.station_chief_v17_approved_readonly_repo_inspection or args.station_chief_v17_live_action_receipt or args.station_chief_v17_live_activation_audit:
+        result = attach_station_chief_v17_live_activation_protocol(result, args)
+
     if args.station_chief_v16_security_integrity_spine or args.station_chief_v16_security_domains or args.station_chief_v16_packet_hash_manifest or args.station_chief_v16_tamper_evident_lineage or args.station_chief_v16_signature_doctrine or args.station_chief_v16_key_separation_trust_boundary or args.station_chief_v16_repo_trust_model or args.station_chief_v16_sensitive_packet_encryption_review or args.station_chief_v16_security_validator_hardening or args.station_chief_v16_security_audit_replay_packet or args.station_chief_v16_security_spine_lock or args.station_chief_v16_security_audit:
         result = attach_station_chief_v16_security_integrity_spine(result, args)
 
@@ -1410,6 +1422,9 @@ def attach_station_chief_v15_full_auto_agent_army_ready_final_readiness_lock(res
 
     bundle = create_station_chief_v15_full_auto_agent_army_ready_final_readiness_lock_bundle()
 
+    if args.station_chief_v17_live_activation_protocol or args.station_chief_v17_live_action_taxonomy or args.station_chief_v17_first_live_action_allowlist or args.station_chief_v17_preview_readonly_repo_inspection or args.station_chief_v17_approved_readonly_repo_inspection or args.station_chief_v17_live_action_receipt or args.station_chief_v17_live_activation_audit:
+        result = attach_station_chief_v17_live_activation_protocol(result, args)
+
     if args.station_chief_v16_security_integrity_spine or args.station_chief_v16_security_domains or args.station_chief_v16_packet_hash_manifest or args.station_chief_v16_tamper_evident_lineage or args.station_chief_v16_signature_doctrine or args.station_chief_v16_key_separation_trust_boundary or args.station_chief_v16_repo_trust_model or args.station_chief_v16_sensitive_packet_encryption_review or args.station_chief_v16_security_validator_hardening or args.station_chief_v16_security_audit_replay_packet or args.station_chief_v16_security_spine_lock or args.station_chief_v16_security_audit:
         result = attach_station_chief_v16_security_integrity_spine(result, args)
 
@@ -1455,6 +1470,9 @@ def attach_station_chief_v16_security_integrity_spine(result: dict, args) -> dic
 
     bundle = create_station_chief_v16_security_integrity_spine_bundle()
 
+    if args.station_chief_v17_live_activation_protocol or args.station_chief_v17_live_action_taxonomy or args.station_chief_v17_first_live_action_allowlist or args.station_chief_v17_preview_readonly_repo_inspection or args.station_chief_v17_approved_readonly_repo_inspection or args.station_chief_v17_live_action_receipt or args.station_chief_v17_live_activation_audit:
+        result = attach_station_chief_v17_live_activation_protocol(result, args)
+
     if args.station_chief_v16_security_integrity_spine:
         result["station_chief_v16_security_integrity_spine"] = bundle
     if args.station_chief_v16_security_domains:
@@ -1479,6 +1497,46 @@ def attach_station_chief_v16_security_integrity_spine(result: dict, args) -> dic
         result["station_chief_v16_security_spine_lock"] = bundle["security_spine_lock"]
     if args.station_chief_v16_security_audit:
         result["station_chief_v16_security_audit"] = bundle["security_integrity_spine_audit_record"]
+
+    return result
+
+def attach_station_chief_v17_live_activation_protocol(result: dict, args) -> dict:
+    if not (
+        args.station_chief_v17_live_activation_protocol
+        or args.station_chief_v17_live_action_taxonomy
+        or args.station_chief_v17_first_live_action_allowlist
+        or args.station_chief_v17_preview_readonly_repo_inspection
+        or args.station_chief_v17_approved_readonly_repo_inspection
+        or args.station_chief_v17_live_action_receipt
+        or args.station_chief_v17_live_activation_audit
+    ):
+        return result
+
+    # Determine if we should actually execute the real inspection
+    execute_live = getattr(args, "station_chief_v17_approved_readonly_repo_inspection", False)
+    approval_phrase = getattr(args, "station_chief_v17_approval_phrase", None)
+    operator_label = getattr(args, "station_chief_v17_operator_label", None)
+
+    bundle = create_station_chief_v17_live_activation_protocol_bundle(
+        approval_phrase=approval_phrase,
+        operator_label=operator_label,
+        execute_live_readonly_inspection=execute_live
+    )
+
+    if args.station_chief_v17_live_activation_protocol:
+        result["station_chief_v17_live_activation_protocol"] = bundle
+    if args.station_chief_v17_live_action_taxonomy:
+        result["station_chief_v17_live_action_taxonomy"] = bundle["controlled_live_action_taxonomy"]
+    if args.station_chief_v17_first_live_action_allowlist:
+        result["station_chief_v17_first_live_action_allowlist"] = bundle["first_live_action_allowlist"]
+    if args.station_chief_v17_preview_readonly_repo_inspection:
+        result["station_chief_v17_preview_readonly_repo_inspection"] = bundle["live_action_preview_packet"]
+    if args.station_chief_v17_approved_readonly_repo_inspection:
+        result["station_chief_v17_approved_readonly_repo_inspection"] = bundle["controlled_readonly_repo_integrity_inspection"]
+    if args.station_chief_v17_live_action_receipt:
+        result["station_chief_v17_live_action_receipt"] = bundle["live_action_receipt"]
+    if args.station_chief_v17_live_activation_audit:
+        result["station_chief_v17_live_activation_audit"] = bundle["live_activation_audit_record"]
 
     return result
 
@@ -1519,6 +1577,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "14.0.0": "station_chief_v14_production_readiness_rollback_live_safety_gates",
         "15.0.0": "station_chief_v15_full_auto_agent_army_ready_final_readiness_lock",
         "16.0.0": "station_chief_v16_security_integrity_spine",
+        "17.0.0": "station_chief_v17_human_gated_live_activation_protocol",
     }.get(STATION_CHIEF_RUNTIME_VERSION, "live_queue_orchestration_candidate_review")
     evidence = build_demo_evidence()
     evidence.update(
@@ -11479,6 +11538,17 @@ def main() -> None:
     parser.add_argument("--station-chief-v16-security-spine-lock", action="store_true", help="Attach v16.0 spine lock")
     parser.add_argument("--station-chief-v16-security-audit", action="store_true", help="Attach v16.0 security audit record")
 
+    parser.add_argument("--station-chief-v17-live-activation-protocol-schema", action="store_true", help="Print Station Chief v17.0 schema and exit")
+    parser.add_argument("--station-chief-v17-live-activation-protocol", action="store_true", help="Attach Station Chief v17.0 bundle")
+    parser.add_argument("--station-chief-v17-live-action-taxonomy", action="store_true", help="Attach v17.0 taxonomy")
+    parser.add_argument("--station-chief-v17-first-live-action-allowlist", action="store_true", help="Attach v17.0 first action allowlist")
+    parser.add_argument("--station-chief-v17-preview-readonly-repo-inspection", action="store_true", help="Attach v17.0 preview packet")
+    parser.add_argument("--station-chief-v17-approved-readonly-repo-inspection", action="store_true", help="Execute v17.0 controlled readonly inspection")
+    parser.add_argument("--station-chief-v17-approval-phrase", type=str, help="Human approval phrase for v17.0 live actions")
+    parser.add_argument("--station-chief-v17-operator-label", type=str, help="Metadata label for human operator")
+    parser.add_argument("--station-chief-v17-live-action-receipt", action="store_true", help="Attach v17.0 live action receipt")
+    parser.add_argument("--station-chief-v17-live-activation-audit", action="store_true", help="Attach v17.0 live activation audit")
+
     args = parser.parse_args()
 
     if args.compare_dry_run_bundles:
@@ -12637,6 +12707,10 @@ def main() -> None:
         print(json.dumps(create_station_chief_v12_autonomous_worker_army_release_candidate_schema(), indent=2, ensure_ascii=False))
         return
 
+    if getattr(args, "station_chief_v17_live_activation_protocol_schema", False):
+        print(json.dumps(create_station_chief_v17_live_activation_protocol_schema(), indent=2, ensure_ascii=False))
+        return
+
     if getattr(args, "station_chief_v16_security_integrity_spine_schema", False):
         print(json.dumps(create_station_chief_v16_security_integrity_spine_schema(), indent=2, ensure_ascii=False))
         return
@@ -12779,6 +12853,9 @@ def main() -> None:
 
     if args.station_chief_v12_autonomous_worker_army_release_candidate or args.station_chief_v12_army_workers or args.station_chief_v12_army_squads or args.station_chief_v12_command_manifest or args.station_chief_v12_mission_envelopes or args.station_chief_v12_dispatch_matrix or args.station_chief_v12_army_cycle_plan or args.station_chief_v12_readiness_receipts or args.station_chief_v12_army_audit:
         result = attach_station_chief_v12_autonomous_worker_army_release_candidate(result, args)
+
+    if args.station_chief_v17_live_activation_protocol or args.station_chief_v17_live_action_taxonomy or args.station_chief_v17_first_live_action_allowlist or args.station_chief_v17_preview_readonly_repo_inspection or args.station_chief_v17_approved_readonly_repo_inspection or args.station_chief_v17_live_action_receipt or args.station_chief_v17_live_activation_audit:
+        result = attach_station_chief_v17_live_activation_protocol(result, args)
 
     if args.station_chief_v16_security_integrity_spine or args.station_chief_v16_security_domains or args.station_chief_v16_packet_hash_manifest or args.station_chief_v16_tamper_evident_lineage or args.station_chief_v16_signature_doctrine or args.station_chief_v16_key_separation_trust_boundary or args.station_chief_v16_repo_trust_model or args.station_chief_v16_sensitive_packet_encryption_review or args.station_chief_v16_security_validator_hardening or args.station_chief_v16_security_audit_replay_packet or args.station_chief_v16_security_spine_lock or args.station_chief_v16_security_audit:
         result = attach_station_chief_v16_security_integrity_spine(result, args)

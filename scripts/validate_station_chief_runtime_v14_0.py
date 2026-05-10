@@ -40,16 +40,16 @@ def main():
     ensure(v14_report.exists(), "v14.0 report missing")
 
     # Versions
-    check_file_content(runtime_dir / "station_chief_runtime.py", r'STATION_CHIEF_RUNTIME_VERSION\s*=\s*"(14\.0\.0|15\.0\.0|16\.0\.0)"', "Runtime version not 14.0.0, 15.0.0, or 16.0.0")
-    check_file_content(runtime_dir / "station_chief_release_lock.py", r'STABLE_RUNTIME_VERSION\s*=\s*"(14\.0\.0|15\.0\.0|16\.0\.0)"', "Release lock not 14.0.0, 15.0.0, or 16.0.0")
-    check_file_content(runtime_dir / "station_chief_adapters.py", r'ADAPTER_MODULE_VERSION\s*=\s*"(14\.0\.0|15\.0\.0|16\.0\.0)"', "Adapter version not 14.0.0, 15.0.0, or 16.0.0")
+    check_file_content(runtime_dir / "station_chief_runtime.py", r'STATION_CHIEF_RUNTIME_VERSION\s*=\s*"(14\.0\.0|15\.0\.0|16\.0\.0|17\.0\.0)"', "Runtime version not 14.0.0, 15.0.0, or 16.0.0")
+    check_file_content(runtime_dir / "station_chief_release_lock.py", r'STABLE_RUNTIME_VERSION\s*=\s*"(14\.0\.0|15\.0\.0|16\.0\.0|17\.0\.0)"', "Release lock not 14.0.0, 15.0.0, or 16.0.0")
+    check_file_content(runtime_dir / "station_chief_adapters.py", r'ADAPTER_MODULE_VERSION\s*=\s*"(14\.0\.0|15\.0\.0|16\.0\.0|17\.0\.0)"', "Adapter version not 14.0.0, 15.0.0, or 16.0.0")
 
     # Future files
     ensure(not list(root_dir.rglob("*v14_1*")), "v14.1 files exist")
     ensure(not list(root_dir.rglob("*v14.1*")), "v14.1 files exist")
     ensure(not list(root_dir.rglob("*v15_1*")), "v15.1 files exist")
     ensure(not list(root_dir.rglob("*v15.1*")), "v15.1 files exist")
-    ensure(not (list(root_dir.rglob("*v16_1*")) or list(root_dir.rglob("*v16.1*")) or list(root_dir.rglob("*v17*"))), "v16.1+ or v17+ files exist")
+    ensure(not (list(root_dir.rglob("*v16_1*")) or list(root_dir.rglob("*v16.1*")) or list(root_dir.rglob("*v17_1*")) or list(root_dir.rglob("*v17.1*")) or list(root_dir.rglob("*v18*"))), "v16.1+ or v17+ files exist")
 
     # Context selectors
     check_file_content(runtime_dir / "station_chief_release_lock.py", r'"validate_station_chief_runtime_v14_0\.py",', "v14.0 selector missing in release lock")

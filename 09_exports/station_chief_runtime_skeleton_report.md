@@ -1,36 +1,38 @@
-# Station Chief Runtime v16.0.0
+# Station Chief Runtime v17.0.0
 
 ## Status
-Station Chief Runtime upgraded to v16.0.0. Locked 175-family baseline preserved. v8.0 through v15.0 preserved. Station Chief v16.0 Security / Integrity Spine Candidate added.
+Station Chief Runtime upgraded to v17.0.0. Locked 175-family baseline preserved. v8.0 through v16.0 preserved. Station Chief v17.0 Human-Gated Live Activation Protocol / Controlled First Real Action Layer Candidate added.
 
 ## What This Adds
-- v16.0 creates Packet Hash Manifest metadata
-- v16.0 creates Tamper-Evident Lineage metadata
-- v16.0 creates Signature Doctrine metadata
-- v16.0 creates Key Separation / Trust Boundary metadata
-- v16.0 creates Official vs Lab Repo Trust Model metadata
-- v16.0 creates Sensitive Packet Encryption Review metadata
-- v16.0 creates Security Validator Hardening metadata
-- v16.0 creates Security Audit / Replay Packet metadata
-- v16.0 creates Security Spine Lock metadata
-- v16.0 does not access credentials, tokens, secrets, private keys, signing keys, vaults, or environment variables
-- v16.0 does not generate keys
-- v16.0 does not perform real signing
-- v16.0 does not perform real encryption or decryption
-- v16.0 does not activate live autonomy
-- v16.0 does not deploy
-- v16.0 does not execute production
-- v16.0 does not call APIs/network
-- v16.0 does not start workers/agents/daemons
-- v16.0 does not create real queues
-- v16.0 does not enqueue or execute live tasks
-- v16.0 does not route or orchestrate live work
-- v16.0 does not create v16.1
-- v16.0 does not create v17
+- v17.0 creates the first live-working bridge
+- v17.0 creates human-gated live activation protocol
+- v17.0 creates controlled live action taxonomy
+- v17.0 introduces exactly one executable real action class: `CONTROLLED_LOCAL_REPO_READONLY_INTEGRITY_INSPECTION`
+- v17.0 can perform allowlisted repo file reads only after exact human approval phrase
+- v17.0 can hash allowlisted file contents
+- v17.0 can count bytes and lines
+- v17.0 can produce a JSON action receipt
+- v17.0 does not print file contents
+- v17.0 does not mutate files
+- v17.0 does not commit or push
+- v17.0 does not deploy
+- v17.0 does not touch production
+- v17.0 does not call APIs/network
+- v17.0 does not access credentials/tokens/secrets/env/keys/vaults
+- v17.0 does not start workers/agents/daemons
+- v17.0 does not create real queues
+- v17.0 does not enqueue or execute live tasks
+- v17.0 does not route or orchestrate live work
+- v17.0 does not create v17.1
+- v17.0 does not create v18
 - Next internal label:
-  v16.1 or live activation requires explicit separate operator instruction
+  v17.1 or broader live action expansion requires explicit separate operator instruction
 
 ## History
+### v16.0.0
+Station Chief Runtime upgraded to v16.0.0. Locked 175-family baseline preserved. v8.0 through v15.0 preserved. Station Chief v16.0 Security / Integrity Spine Candidate added.
+Next internal label: v16.1 or live activation requires explicit separate operator instruction.
+
 ### v15.0.0
 Station Chief Runtime upgraded to v15.0.0. Locked 175-family baseline preserved. v8.0 through v14.0 preserved. Station Chief v15.0 Full Auto Agent Army Ready / Final Readiness Lock Candidate added.
 Next internal label: v15.1 or live activation requires explicit separate operator instruction.
