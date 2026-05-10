@@ -44,12 +44,12 @@ def main():
     ensure(v23_report.exists(), "v23.0 report missing")
 
     # Versions
-    check_file_content(runtime_dir / "station_chief_runtime.py", r'STATION_CHIEF_RUNTIME_VERSION\s*=\s*"23\.0\.0"', "Runtime version not 23.0.0")
-    check_file_content(runtime_dir / "station_chief_release_lock.py", r'STABLE_RUNTIME_VERSION\s*=\s*"23\.0\.0"', "Release lock not 23.0.0")
-    check_file_content(runtime_dir / "station_chief_adapters.py", r'ADAPTER_MODULE_VERSION\s*=\s*"23\.0\.0"', "Adapter version not 23.0.0")
+    check_file_content(runtime_dir / "station_chief_runtime.py", r'STATION_CHIEF_RUNTIME_VERSION\s*=\s*"(23\.0\.0|24\.0\.0)"', "Runtime version not 23.0.0 or 24.0.0")
+    check_file_content(runtime_dir / "station_chief_release_lock.py", r'STABLE_RUNTIME_VERSION\s*=\s*"(23\.0\.0|24\.0\.0)"', "Release lock not 23.0.0 or 24.0.0")
+    check_file_content(runtime_dir / "station_chief_adapters.py", r'ADAPTER_MODULE_VERSION\s*=\s*"(23\.0\.0|24\.0\.0)"', "Adapter version not 23.0.0 or 24.0.0")
 
     # Fast future file check
-    future_patterns = ["*v23_1*", "*v23.1*", "*v24*"]
+    future_patterns = ["*v23_1*", "*v23.1*",  "*v24_1*", "*v24.1*", "*v25*"]
     found_future = []
     for p in future_patterns:
         found_future.extend(list(root_dir.glob(p)))

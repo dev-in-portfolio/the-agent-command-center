@@ -1,42 +1,52 @@
-# Station Chief Runtime v23.0.0
+# Station Chief Runtime v24.0.0
 
 ## Status
-Station Chief Runtime upgraded to v23.0.0. Locked 175-family baseline preserved. v8.0 through v22.0 preserved. Station Chief v23.0 Controlled Live External Tool Gateway / Allowlisted Web Probe Workpack Candidate added.
+Station Chief Runtime upgraded to v24.0.0. Locked 175-family baseline preserved. v8.0 through v23.0 preserved. Station Chief v24.0 Controlled External Evidence Snapshot Gateway / Allowlisted Content Digest Workpack Candidate added.
 
 ## What This Adds
-- v23.0 is the first controlled live external tool expansion
-- v23.0 creates the controlled live external tool gateway
-- v23.0 creates an external tool permission registry
-- v23.0 enables exactly one HTTPS GET probe to https://example.com/ when approved
-- v23.0 collects response metadata only
-- v23.0 never prints, stores, or returns response body content
-- v23.0 routes the operational chain through the existing v22/v21/v20/v19/v18/v17 path
-- v23.0 writes only controlled external-tool artifacts outside the repo
-- v23.0 creates external tool receipts
-- v23.0 creates external tool handoff ledger
-- v23.0 creates external tool audit record
-- v23.0 requires exact human approval phrase
-- v23.0 does not start real worker processes
-- v23.0 does not start background agents
-- v23.0 does not mutate repo files
-- v23.0 does not commit or push
-- v23.0 does not deploy
-- v23.0 does not touch production
-- v23.0 does not access credentials/tokens/secrets/env/keys/vaults
-- v23.0 does not send emails
-- v23.0 does not create calendar events
-- v23.0 does not perform database operations
-- v23.0 does not execute deployment adapters live
-- v23.0 does not generate binary documents or binary spreadsheets
-- v23.0 does not create real queues
-- v23.0 does not route to real worker processes
-- v23.0 does not perform uncontrolled live orchestration
-- v23.0 does not create v23.1
-- v23.0 does not create v24
+- v24.0 is the first controlled external content digest layer
+- v24.0 is not paper-only readiness; it includes a safe live external fetch capability
+- v24.0 creates the controlled external evidence snapshot gateway
+- v24.0 creates an external evidence permission registry
+- v24.0 creates ten external evidence categories
+- v24.0 enables exactly one executable external evidence category
+- v24.0 locks nine external evidence categories
+- v24.0 allows exactly one HTTPS GET to https://example.com/ when approved
+- v24.0 extracts sanitized title and sanitized preview only
+- v24.0 caps sanitized preview at 280 characters
+- v24.0 never prints, stores, or returns raw response body content
+- v24.0 never stores full visible text
+- v24.0 routes the operational chain through the existing v23/v22/v21/v20/v19/v18/v17 path
+- v24.0 writes only controlled external evidence artifacts outside the repo
+- v24.0 creates external evidence receipts
+- v24.0 creates external evidence handoff ledger
+- v24.0 creates external evidence audit record
+- v24.0 requires exact human approval phrase
+- v24.0 does not start real worker processes
+- v24.0 does not start background agents
+- v24.0 does not mutate repo files
+- v24.0 does not commit or push
+- v24.0 does not deploy
+- v24.0 does not touch production
+- v24.0 does not access credentials/tokens/secrets/env/keys/vaults
+- v24.0 does not send emails
+- v24.0 does not create calendar events
+- v24.0 does not perform database operations
+- v24.0 does not execute deployment adapters live
+- v24.0 does not generate binary documents or binary spreadsheets
+- v24.0 does not create real queues
+- v24.0 does not route to real worker processes
+- v24.0 does not perform uncontrolled live orchestration
+- v24.0 does not create v24.1
+- v24.0 does not create v25
 - Next internal label:
-  v23.1 or broader live external tool expansion requires explicit separate operator instruction
+  v24.1 or broader controlled external evidence expansion requires explicit separate operator instruction
 
 ## History
+### v23.0.0
+Station Chief Runtime upgraded to v23.0.0. Locked 175-family baseline preserved. v8.0 through v22.0 preserved. Station Chief v23.0 Controlled Live External Tool Gateway / Allowlisted Web Probe Workpack Candidate added.
+Next internal label: v23.1 or broader live external tool expansion requires explicit separate operator instruction.
+
 ### v22.0.0
 Station Chief Runtime upgraded to v22.0.0. Locked 175-family baseline preserved. v8.0 through v21.0 preserved. Station Chief v22.0 Controlled Business Workflow Tool Expansion / Client-Ready Workpack Factory Candidate added.
 Next internal label: v22.1 or broader live external tool expansion requires explicit separate operator instruction.
