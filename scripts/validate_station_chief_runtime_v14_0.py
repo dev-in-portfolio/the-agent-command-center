@@ -43,9 +43,9 @@ def main():
     ensure(v14_report.exists(), "v14.0 report missing")
 
     # Versions
-    check_file_content(runtime_dir / "station_chief_runtime.py", r'STATION_CHIEF_RUNTIME_VERSION\s*=\s*"(14\.0\.0|15\.0\.0|16\.0\.0|17\.0\.0|18\.0\.0|19\.0\.0|20\.0\.0|21\.0\.0)"', "Runtime version not 14.0.0, 15.0.0, 16.0.0, 17.0.0, 18.0.0, or 19.0.0, or 20.0.0")
-    check_file_content(runtime_dir / "station_chief_release_lock.py", r'STABLE_RUNTIME_VERSION\s*=\s*"(14\.0\.0|15\.0\.0|16\.0\.0|17\.0\.0|18\.0\.0|19\.0\.0|20\.0\.0|21\.0\.0)"', "Release lock not 14.0.0, 15.0.0, 16.0.0, 17.0.0, 18.0.0, or 19.0.0, or 20.0.0")
-    check_file_content(runtime_dir / "station_chief_adapters.py", r'ADAPTER_MODULE_VERSION\s*=\s*"(14\.0\.0|15\.0\.0|16\.0\.0|17\.0\.0|18\.0\.0|19\.0\.0|20\.0\.0|21\.0\.0)"', "Adapter version not 14.0.0, 15.0.0, 16.0.0, 17.0.0, 18.0.0, or 19.0.0, or 20.0.0")
+    check_file_content(runtime_dir / "station_chief_runtime.py", r'STATION_CHIEF_RUNTIME_VERSION\s*=\s*"(14\.0\.0|15\.0\.0|16\.0\.0|17\.0\.0|18\.0\.0|19\.0\.0|20\.0\.0|21\.0\.0|22\.0\.0|22\.0\.0|22\.0\.0|22\.0\.0)"', "Runtime version not 14.0.0, 15.0.0, 16.0.0, 17.0.0, 18.0.0, or 19.0.0, or 20.0.0")
+    check_file_content(runtime_dir / "station_chief_release_lock.py", r'STABLE_RUNTIME_VERSION\s*=\s*"(14\.0\.0|15\.0\.0|16\.0\.0|17\.0\.0|18\.0\.0|19\.0\.0|20\.0\.0|21\.0\.0|22\.0\.0|22\.0\.0|22\.0\.0|22\.0\.0)"', "Release lock not 14.0.0, 15.0.0, 16.0.0, 17.0.0, 18.0.0, or 19.0.0, or 20.0.0")
+    check_file_content(runtime_dir / "station_chief_adapters.py", r'ADAPTER_MODULE_VERSION\s*=\s*"(14\.0\.0|15\.0\.0|16\.0\.0|17\.0\.0|18\.0\.0|19\.0\.0|20\.0\.0|21\.0\.0|22\.0\.0|22\.0\.0|22\.0\.0|22\.0\.0)"', "Adapter version not 14.0.0, 15.0.0, 16.0.0, 17.0.0, 18.0.0, or 19.0.0, or 20.0.0")
 
     # Future files
     
@@ -54,7 +54,7 @@ def main():
     
     
     # Fast future file check (non-recursive to avoid huge node_modules scan)
-    future_patterns = ["*v20_1*", "*v20.1*", "*v21_1*", "*v21.1*", "*v22*"]
+    future_patterns = ["*v20_1*", "*v20.1*", "*v21_1*", "*v21.1*", "*v22_1*", "*v22.1*", "*v23*"]
     found_future = []
     for p in future_patterns:
         found_future.extend(list(root_dir.glob(p)))

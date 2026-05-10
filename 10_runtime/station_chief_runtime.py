@@ -375,6 +375,10 @@ from station_chief_v21_controlled_local_workspace_artifact_factory import (
     create_station_chief_v21_controlled_local_workspace_schema,
     create_station_chief_v21_controlled_local_workspace_bundle,
 )
+from station_chief_v22_controlled_business_workflow_workpack import (
+    create_station_chief_v22_controlled_business_workflow_schema,
+    create_station_chief_v22_controlled_business_workflow_bundle,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -489,11 +493,13 @@ def _select_runtime_version(default_version: str) -> str:
     if context == "validate_station_chief_runtime_v20_0.py":
         return "20.0.0"
     if context == "validate_station_chief_runtime_v21_0.py":
-        return "21.0.0"        
+        return "21.0.0"
+    if context == "validate_station_chief_runtime_v22_0.py":
+        return "22.0.0"         
     return default_version
 
 
-STATION_CHIEF_RUNTIME_VERSION = "21.0.0"
+STATION_CHIEF_RUNTIME_VERSION = "22.0.0"
 STATION_CHIEF_RUNTIME_VERSION = _select_runtime_version(STATION_CHIEF_RUNTIME_VERSION)
 
 EXPECTED_OVERLAYS = [
@@ -1347,6 +1353,9 @@ def attach_station_chief_v13_external_tool_api_pilot_hardening(result: dict, arg
 
     bundle = create_station_chief_v13_external_tool_api_pilot_hardening_bundle()
 
+    if args.station_chief_v22_controlled_business_workflow or args.station_chief_v22_business_manifest or args.station_chief_v22_workflow_type_registry or args.station_chief_v22_business_workpack_schema or args.station_chief_v22_business_action_registry or args.station_chief_v22_agent_assignment_map or args.station_chief_v22_execution_plan or args.station_chief_v22_approved_business_workflow or args.station_chief_v22_business_workpack_receipt or args.station_chief_v22_business_workflow_audit:
+        result = attach_station_chief_v22_controlled_business_workflow_workpack(result, args)
+
     if args.station_chief_v21_controlled_local_workspace or args.station_chief_v21_local_workspace_manifest or args.station_chief_v21_artifact_workpack_schema or args.station_chief_v21_artifact_action_registry or args.station_chief_v21_agent_assignment_map or args.station_chief_v21_execution_plan or args.station_chief_v21_approved_artifact_factory or args.station_chief_v21_artifact_workpack_receipt or args.station_chief_v21_artifact_factory_audit:
         result = attach_station_chief_v21_controlled_local_workspace_artifact_factory(result, args)
 
@@ -1409,6 +1418,9 @@ def attach_station_chief_v14_production_readiness_rollback_live_safety_gates(res
 
     bundle = create_station_chief_v14_production_readiness_rollback_live_safety_gates_bundle()
 
+    if args.station_chief_v22_controlled_business_workflow or args.station_chief_v22_business_manifest or args.station_chief_v22_workflow_type_registry or args.station_chief_v22_business_workpack_schema or args.station_chief_v22_business_action_registry or args.station_chief_v22_agent_assignment_map or args.station_chief_v22_execution_plan or args.station_chief_v22_approved_business_workflow or args.station_chief_v22_business_workpack_receipt or args.station_chief_v22_business_workflow_audit:
+        result = attach_station_chief_v22_controlled_business_workflow_workpack(result, args)
+
     if args.station_chief_v21_controlled_local_workspace or args.station_chief_v21_local_workspace_manifest or args.station_chief_v21_artifact_workpack_schema or args.station_chief_v21_artifact_action_registry or args.station_chief_v21_agent_assignment_map or args.station_chief_v21_execution_plan or args.station_chief_v21_approved_artifact_factory or args.station_chief_v21_artifact_workpack_receipt or args.station_chief_v21_artifact_factory_audit:
         result = attach_station_chief_v21_controlled_local_workspace_artifact_factory(result, args)
 
@@ -1470,6 +1482,9 @@ def attach_station_chief_v15_full_auto_agent_army_ready_final_readiness_lock(res
 
     bundle = create_station_chief_v15_full_auto_agent_army_ready_final_readiness_lock_bundle()
 
+    if args.station_chief_v22_controlled_business_workflow or args.station_chief_v22_business_manifest or args.station_chief_v22_workflow_type_registry or args.station_chief_v22_business_workpack_schema or args.station_chief_v22_business_action_registry or args.station_chief_v22_agent_assignment_map or args.station_chief_v22_execution_plan or args.station_chief_v22_approved_business_workflow or args.station_chief_v22_business_workpack_receipt or args.station_chief_v22_business_workflow_audit:
+        result = attach_station_chief_v22_controlled_business_workflow_workpack(result, args)
+
     if args.station_chief_v21_controlled_local_workspace or args.station_chief_v21_local_workspace_manifest or args.station_chief_v21_artifact_workpack_schema or args.station_chief_v21_artifact_action_registry or args.station_chief_v21_agent_assignment_map or args.station_chief_v21_execution_plan or args.station_chief_v21_approved_artifact_factory or args.station_chief_v21_artifact_workpack_receipt or args.station_chief_v21_artifact_factory_audit:
         result = attach_station_chief_v21_controlled_local_workspace_artifact_factory(result, args)
 
@@ -1529,6 +1544,9 @@ def attach_station_chief_v16_security_integrity_spine(result: dict, args) -> dic
         return result
 
     bundle = create_station_chief_v16_security_integrity_spine_bundle()
+
+    if args.station_chief_v22_controlled_business_workflow or args.station_chief_v22_business_manifest or args.station_chief_v22_workflow_type_registry or args.station_chief_v22_business_workpack_schema or args.station_chief_v22_business_action_registry or args.station_chief_v22_agent_assignment_map or args.station_chief_v22_execution_plan or args.station_chief_v22_approved_business_workflow or args.station_chief_v22_business_workpack_receipt or args.station_chief_v22_business_workflow_audit:
+        result = attach_station_chief_v22_controlled_business_workflow_workpack(result, args)
 
     if args.station_chief_v21_controlled_local_workspace or args.station_chief_v21_local_workspace_manifest or args.station_chief_v21_artifact_workpack_schema or args.station_chief_v21_artifact_action_registry or args.station_chief_v21_agent_assignment_map or args.station_chief_v21_execution_plan or args.station_chief_v21_approved_artifact_factory or args.station_chief_v21_artifact_workpack_receipt or args.station_chief_v21_artifact_factory_audit:
         result = attach_station_chief_v21_controlled_local_workspace_artifact_factory(result, args)
@@ -1595,6 +1613,9 @@ def attach_station_chief_v17_live_activation_protocol(result: dict, args) -> dic
         execute_live_readonly_inspection=execute_live
     )
 
+    if args.station_chief_v22_controlled_business_workflow or args.station_chief_v22_business_manifest or args.station_chief_v22_workflow_type_registry or args.station_chief_v22_business_workpack_schema or args.station_chief_v22_business_action_registry or args.station_chief_v22_agent_assignment_map or args.station_chief_v22_execution_plan or args.station_chief_v22_approved_business_workflow or args.station_chief_v22_business_workpack_receipt or args.station_chief_v22_business_workflow_audit:
+        result = attach_station_chief_v22_controlled_business_workflow_workpack(result, args)
+
     if args.station_chief_v21_controlled_local_workspace or args.station_chief_v21_local_workspace_manifest or args.station_chief_v21_artifact_workpack_schema or args.station_chief_v21_artifact_action_registry or args.station_chief_v21_agent_assignment_map or args.station_chief_v21_execution_plan or args.station_chief_v21_approved_artifact_factory or args.station_chief_v21_artifact_workpack_receipt or args.station_chief_v21_artifact_factory_audit:
         result = attach_station_chief_v21_controlled_local_workspace_artifact_factory(result, args)
 
@@ -1648,6 +1669,9 @@ def attach_station_chief_v18_universal_tool_permission_layer(result: dict, args)
         execute_controlled_adapter=execute_live
     )
 
+    if args.station_chief_v22_controlled_business_workflow or args.station_chief_v22_business_manifest or args.station_chief_v22_workflow_type_registry or args.station_chief_v22_business_workpack_schema or args.station_chief_v22_business_action_registry or args.station_chief_v22_agent_assignment_map or args.station_chief_v22_execution_plan or args.station_chief_v22_approved_business_workflow or args.station_chief_v22_business_workpack_receipt or args.station_chief_v22_business_workflow_audit:
+        result = attach_station_chief_v22_controlled_business_workflow_workpack(result, args)
+
     if args.station_chief_v21_controlled_local_workspace or args.station_chief_v21_local_workspace_manifest or args.station_chief_v21_artifact_workpack_schema or args.station_chief_v21_artifact_action_registry or args.station_chief_v21_agent_assignment_map or args.station_chief_v21_execution_plan or args.station_chief_v21_approved_artifact_factory or args.station_chief_v21_artifact_workpack_receipt or args.station_chief_v21_artifact_factory_audit:
         result = attach_station_chief_v21_controlled_local_workspace_artifact_factory(result, args)
 
@@ -1673,6 +1697,59 @@ def attach_station_chief_v18_universal_tool_permission_layer(result: dict, args)
         result["station_chief_v18_tool_execution_receipt"] = bundle["tool_execution_receipt"]
     if args.station_chief_v18_tool_activation_audit:
         result["station_chief_v18_tool_activation_audit"] = bundle["universal_tool_activation_audit_record"]
+
+    return result
+
+def attach_station_chief_v22_controlled_business_workflow_workpack(result: dict, args) -> dict:
+    if not (
+        args.station_chief_v22_controlled_business_workflow
+        or args.station_chief_v22_business_manifest
+        or args.station_chief_v22_workflow_type_registry
+        or args.station_chief_v22_business_workpack_schema
+        or args.station_chief_v22_business_action_registry
+        or args.station_chief_v22_agent_assignment_map
+        or args.station_chief_v22_execution_plan
+        or args.station_chief_v22_approved_business_workflow
+        or args.station_chief_v22_business_workpack_receipt
+        or args.station_chief_v22_business_workflow_audit
+    ):
+        return result
+
+    # Determine if we should actually execute the business workflow
+    execute_live = getattr(args, "station_chief_v22_approved_business_workflow", False)
+    approval_phrase = getattr(args, "station_chief_v22_approval_phrase", None)
+    operator_label = getattr(args, "station_chief_v22_operator_label", None)
+    workpack_label = getattr(args, "station_chief_v22_workpack_label", None)
+    client_label = getattr(args, "station_chief_v22_client_label", None)
+
+    bundle = create_station_chief_v22_controlled_business_workflow_bundle(
+        approval_phrase=approval_phrase,
+        operator_label=operator_label,
+        workpack_label=workpack_label,
+        client_label=client_label,
+        execute_business_workflow_flag=execute_live
+    )
+
+    if args.station_chief_v22_controlled_business_workflow:
+        result["station_chief_v22_controlled_business_workflow"] = bundle
+    if args.station_chief_v22_business_manifest:
+        result["station_chief_v22_business_manifest"] = bundle["controlled_business_workflow_manifest"]
+    if args.station_chief_v22_workflow_type_registry:
+        result["station_chief_v22_workflow_type_registry"] = bundle["business_workflow_type_registry"]
+    if args.station_chief_v22_business_workpack_schema:
+        result["station_chief_v22_business_workpack_schema"] = bundle["business_workflow_workpack_schema"]
+    if args.station_chief_v22_business_action_registry:
+        result["station_chief_v22_business_action_registry"] = bundle["controlled_business_artifact_action_registry"]
+    if args.station_chief_v22_agent_assignment_map:
+        result["station_chief_v22_agent_assignment_map"] = bundle["business_workflow_agent_assignment_map"]
+    if args.station_chief_v22_execution_plan:
+        result["station_chief_v22_execution_plan"] = bundle["business_workflow_execution_plan"]
+    if args.station_chief_v22_approved_business_workflow:
+        result["station_chief_v22_approved_business_workflow"] = bundle["business_workflow_workpack_execution"]
+    if args.station_chief_v22_business_workpack_receipt:
+        result["station_chief_v22_business_workpack_receipt"] = bundle["business_workflow_workpack_receipt"]
+    if args.station_chief_v22_business_workflow_audit:
+        result["station_chief_v22_business_workflow_audit"] = bundle["business_workflow_audit_record"]
 
     return result
 
@@ -1702,6 +1779,9 @@ def attach_station_chief_v21_controlled_local_workspace_artifact_factory(result:
         workpack_label=workpack_label,
         execute_artifact_factory_flag=execute_live
     )
+
+    if args.station_chief_v22_controlled_business_workflow or args.station_chief_v22_business_manifest or args.station_chief_v22_workflow_type_registry or args.station_chief_v22_business_workpack_schema or args.station_chief_v22_business_action_registry or args.station_chief_v22_agent_assignment_map or args.station_chief_v22_execution_plan or args.station_chief_v22_approved_business_workflow or args.station_chief_v22_business_workpack_receipt or args.station_chief_v22_business_workflow_audit:
+        result = attach_station_chief_v22_controlled_business_workflow_workpack(result, args)
 
     if args.station_chief_v21_controlled_local_workspace:
         result["station_chief_v21_controlled_local_workspace"] = bundle
@@ -1750,6 +1830,9 @@ def attach_station_chief_v20_operational_agent_army_mode(result: dict, args) -> 
         workpack_label=workpack_label,
         execute_operational_workpack_flag=execute_live
     )
+
+    if args.station_chief_v22_controlled_business_workflow or args.station_chief_v22_business_manifest or args.station_chief_v22_workflow_type_registry or args.station_chief_v22_business_workpack_schema or args.station_chief_v22_business_action_registry or args.station_chief_v22_agent_assignment_map or args.station_chief_v22_execution_plan or args.station_chief_v22_approved_business_workflow or args.station_chief_v22_business_workpack_receipt or args.station_chief_v22_business_workflow_audit:
+        result = attach_station_chief_v22_controlled_business_workflow_workpack(result, args)
 
     if args.station_chief_v21_controlled_local_workspace or args.station_chief_v21_local_workspace_manifest or args.station_chief_v21_artifact_workpack_schema or args.station_chief_v21_artifact_action_registry or args.station_chief_v21_agent_assignment_map or args.station_chief_v21_execution_plan or args.station_chief_v21_approved_artifact_factory or args.station_chief_v21_artifact_workpack_receipt or args.station_chief_v21_artifact_factory_audit:
         result = attach_station_chief_v21_controlled_local_workspace_artifact_factory(result, args)
@@ -1802,6 +1885,9 @@ def attach_station_chief_v19_multi_agent_live_work_router(result: dict, args) ->
         task_label=task_label,
         execute_routed_work=execute_live
     )
+
+    if args.station_chief_v22_controlled_business_workflow or args.station_chief_v22_business_manifest or args.station_chief_v22_workflow_type_registry or args.station_chief_v22_business_workpack_schema or args.station_chief_v22_business_action_registry or args.station_chief_v22_agent_assignment_map or args.station_chief_v22_execution_plan or args.station_chief_v22_approved_business_workflow or args.station_chief_v22_business_workpack_receipt or args.station_chief_v22_business_workflow_audit:
+        result = attach_station_chief_v22_controlled_business_workflow_workpack(result, args)
 
     if args.station_chief_v21_controlled_local_workspace or args.station_chief_v21_local_workspace_manifest or args.station_chief_v21_artifact_workpack_schema or args.station_chief_v21_artifact_action_registry or args.station_chief_v21_agent_assignment_map or args.station_chief_v21_execution_plan or args.station_chief_v21_approved_artifact_factory or args.station_chief_v21_artifact_workpack_receipt or args.station_chief_v21_artifact_factory_audit:
         result = attach_station_chief_v21_controlled_local_workspace_artifact_factory(result, args)
@@ -1874,6 +1960,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "19.0.0": "station_chief_v19_multi_agent_live_work_router",
         "20.0.0": "station_chief_v20_operational_agent_army_mode",
         "21.0.0": "station_chief_v21_controlled_local_workspace_artifact_factory",
+        "22.0.0": "station_chief_v22_controlled_business_workflow_workpack",
     }.get(STATION_CHIEF_RUNTIME_VERSION, "live_queue_orchestration_candidate_review")
     evidence = build_demo_evidence()
     evidence.update(
@@ -2108,7 +2195,92 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "station_chief_v20_does_not_execute_live_tasks_outside_controlled_workpack": True,
         "station_chief_v20_does_not_create_v20_1": True,
         "station_chief_v20_does_not_create_v21": True,
-        "station_chief_v21_controlled_local_workspace_available": True,
+                "station_chief_v21_controlled_local_workspace_available": True,
+        "station_chief_v21_not_paper_only_readiness": True,
+        "station_chief_v21_not_repo_only_doctrine": True,
+        "station_chief_v21_controlled_local_workspace_layer_created": True,
+        "station_chief_v21_artifact_factory_workpack_created": True,
+        "station_chief_v21_controlled_action_count_5": True,
+        "station_chief_v21_controlled_artifact_count_4": True,
+        "station_chief_v21_agent_role_count_6": True,
+        "station_chief_v21_allows_routed_v20_v19_v18_v17_operational_chain": True,
+        "station_chief_v21_allows_controlled_json_artifact": True,
+        "station_chief_v21_allows_controlled_markdown_artifact": True,
+        "station_chief_v21_allows_controlled_csv_artifact": True,
+        "station_chief_v21_allows_controlled_artifact_manifest": True,
+        "station_chief_v21_human_approval_required": True,
+        "station_chief_v21_denies_real_worker_processes": True,
+        "station_chief_v21_denies_background_agents": True,
+        "station_chief_v21_denies_repo_mutation": True,
+        "station_chief_v21_denies_binary_document_generation": True,
+        "station_chief_v21_denies_binary_spreadsheet_generation": True,
+        "station_chief_v21_denies_email_calendar_web_api_database_deployment_live_execution": True,
+        "station_chief_v21_does_not_print_file_contents": True,
+        "station_chief_v21_does_not_mutate_repo_files": True,
+        "station_chief_v21_does_not_commit": True,
+        "station_chief_v21_does_not_push": True,
+        "station_chief_v21_does_not_deploy": True,
+        "station_chief_v21_does_not_execute_production": True,
+        "station_chief_v21_does_not_access_credentials": True,
+        "station_chief_v21_does_not_access_tokens": True,
+        "station_chief_v21_does_not_read_secrets": True,
+        "station_chief_v21_does_not_read_private_keys": True,
+        "station_chief_v21_does_not_read_signing_keys": True,
+        "station_chief_v21_does_not_read_environment": True,
+        "station_chief_v21_does_not_call_apis": True,
+        "station_chief_v21_does_not_use_network_access": True,
+        "station_chief_v21_does_not_start_worker_processes": True,
+        "station_chief_v21_does_not_create_real_queue": True,
+        "station_chief_v21_does_not_execute_live_tasks_outside_controlled_artifact_workpack": True,
+        "station_chief_v21_does_not_create_v21_1": True,
+        "station_chief_v21_does_not_create_v22": True,
+        "station_chief_v22_controlled_business_workflow_available": True,
+        "station_chief_v22_not_paper_only_readiness": True,
+        "station_chief_v22_not_repo_only_doctrine": True,
+        "station_chief_v22_not_external_api_execution_yet": True,
+        "station_chief_v22_controlled_business_workflow_layer_created": True,
+        "station_chief_v22_client_ready_workpack_factory_created": True,
+        "station_chief_v22_workflow_type_count_5": True,
+        "station_chief_v22_executable_workflow_type_count_1": True,
+        "station_chief_v22_controlled_action_count_7": True,
+        "station_chief_v22_controlled_business_artifact_count_6": True,
+        "station_chief_v22_agent_role_count_6": True,
+        "station_chief_v22_allows_routed_v21_v20_v19_v18_v17_operational_chain": True,
+        "station_chief_v22_allows_controlled_project_brief_markdown": True,
+        "station_chief_v22_allows_controlled_execution_plan_json": True,
+        "station_chief_v22_allows_controlled_tracker_csv": True,
+        "station_chief_v22_allows_controlled_client_ready_summary_markdown": True,
+        "station_chief_v22_allows_controlled_qa_checklist_markdown": True,
+        "station_chief_v22_allows_controlled_business_manifest_json": True,
+        "station_chief_v22_human_approval_required": True,
+        "station_chief_v22_denies_real_worker_processes": True,
+        "station_chief_v22_denies_background_agents": True,
+        "station_chief_v22_denies_repo_mutation": True,
+        "station_chief_v22_denies_binary_document_generation": True,
+        "station_chief_v22_denies_binary_spreadsheet_generation": True,
+        "station_chief_v22_denies_email_calendar_web_api_database_deployment_live_execution": True,
+        "station_chief_v22_does_not_print_file_contents": True,
+        "station_chief_v22_does_not_mutate_repo_files": True,
+        "station_chief_v22_does_not_commit": True,
+        "station_chief_v22_does_not_push": True,
+        "station_chief_v22_does_not_deploy": True,
+        "station_chief_v22_does_not_execute_production": True,
+        "station_chief_v22_does_not_access_credentials": True,
+        "station_chief_v22_does_not_access_tokens": True,
+        "station_chief_v22_does_not_read_secrets": True,
+        "station_chief_v22_does_not_read_private_keys": True,
+        "station_chief_v22_does_not_read_signing_keys": True,
+        "station_chief_v22_does_not_read_environment": True,
+        "station_chief_v22_does_not_call_apis": True,
+        "station_chief_v22_does_not_use_network_access": True,
+        "station_chief_v22_does_not_send_email": True,
+        "station_chief_v22_does_not_create_calendar_events": True,
+        "station_chief_v22_does_not_perform_web_requests": True,
+        "station_chief_v22_does_not_start_worker_processes": True,
+        "station_chief_v22_does_not_create_real_queue": True,
+        "station_chief_v22_does_not_execute_live_tasks_outside_controlled_business_workpack": True,
+        "station_chief_v22_does_not_create_v22_1": True,
+        "station_chief_v22_does_not_create_v23": True,
         "station_chief_v21_not_paper_only_readiness": True,
         "station_chief_v21_not_repo_only_doctrine": True,
         "station_chief_v21_controlled_local_workspace_layer_created": True,
@@ -2220,7 +2392,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "activation_tier": brief["activation_tier"],
         "baseline_preserved": True,
         "evidence": evidence,
-        "next_step": "Next step: v21.1 or broader external/business tool expansion requires explicit separate operator instruction.",
+        "next_step": "Next step: v22.1 or broader live external tool expansion requires explicit separate operator instruction.",
         "first_tiny_real_world_supervised_execution_candidate_available": True,
         "first_tiny_real_world_supervised_execution_candidate_local_only": True,
         "first_tiny_real_world_supervised_execution_candidate_requires_token": True,
@@ -12101,6 +12273,22 @@ def main() -> None:
     parser.add_argument("--station-chief-v21-artifact-workpack-receipt", action="store_true", help="Attach v21.0 workpack receipt")
     parser.add_argument("--station-chief-v21-artifact-factory-audit", action="store_true", help="Attach v21.0 artifact factory audit")
 
+    parser.add_argument("--station-chief-v22-controlled-business-workflow-schema", action="store_true", help="Print Station Chief v22.0 schema and exit")
+    parser.add_argument("--station-chief-v22-controlled-business-workflow", action="store_true", help="Attach Station Chief v22.0 bundle")
+    parser.add_argument("--station-chief-v22-business-manifest", action="store_true", help="Attach v22.0 business workflow manifest")
+    parser.add_argument("--station-chief-v22-workflow-type-registry", action="store_true", help="Attach v22.0 workflow type registry")
+    parser.add_argument("--station-chief-v22-business-workpack-schema", action="store_true", help="Attach v22.0 business workflow workpack schema")
+    parser.add_argument("--station-chief-v22-business-action-registry", action="store_true", help="Attach v22.0 business artifact action registry")
+    parser.add_argument("--station-chief-v22-agent-assignment-map", action="store_true", help="Attach v22.0 assignment map")
+    parser.add_argument("--station-chief-v22-execution-plan", action="store_true", help="Attach v22.0 execution plan")
+    parser.add_argument("--station-chief-v22-approved-business-workflow", action="store_true", help="Execute v22.0 controlled business workflow workpack")
+    parser.add_argument("--station-chief-v22-approval-phrase", type=str, help="Human approval phrase for v22.0 business workflow")
+    parser.add_argument("--station-chief-v22-operator-label", type=str, help="Metadata label for human operator")
+    parser.add_argument("--station-chief-v22-workpack-label", type=str, help="Metadata label for business workpack")
+    parser.add_argument("--station-chief-v22-client-label", type=str, help="Metadata label for business client")
+    parser.add_argument("--station-chief-v22-business-workpack-receipt", action="store_true", help="Attach v22.0 workpack receipt")
+    parser.add_argument("--station-chief-v22-business-workflow-audit", action="store_true", help="Attach v22.0 business workflow audit")
+
     args = parser.parse_args()
 
     if args.compare_dry_run_bundles:
@@ -13259,6 +13447,10 @@ def main() -> None:
         print(json.dumps(create_station_chief_v12_autonomous_worker_army_release_candidate_schema(), indent=2, ensure_ascii=False))
         return
 
+    if getattr(args, "station_chief_v22_controlled_business_workflow_schema", False):
+        print(json.dumps(create_station_chief_v22_controlled_business_workflow_schema(), indent=2, ensure_ascii=False))
+        return
+
     if getattr(args, "station_chief_v21_controlled_local_workspace_schema", False):
         print(json.dumps(create_station_chief_v21_controlled_local_workspace_schema(), indent=2, ensure_ascii=False))
         return
@@ -13421,6 +13613,9 @@ def main() -> None:
 
     if args.station_chief_v12_autonomous_worker_army_release_candidate or args.station_chief_v12_army_workers or args.station_chief_v12_army_squads or args.station_chief_v12_command_manifest or args.station_chief_v12_mission_envelopes or args.station_chief_v12_dispatch_matrix or args.station_chief_v12_army_cycle_plan or args.station_chief_v12_readiness_receipts or args.station_chief_v12_army_audit:
         result = attach_station_chief_v12_autonomous_worker_army_release_candidate(result, args)
+
+    if args.station_chief_v22_controlled_business_workflow or args.station_chief_v22_business_manifest or args.station_chief_v22_workflow_type_registry or args.station_chief_v22_business_workpack_schema or args.station_chief_v22_business_action_registry or args.station_chief_v22_agent_assignment_map or args.station_chief_v22_execution_plan or args.station_chief_v22_approved_business_workflow or args.station_chief_v22_business_workpack_receipt or args.station_chief_v22_business_workflow_audit:
+        result = attach_station_chief_v22_controlled_business_workflow_workpack(result, args)
 
     if args.station_chief_v21_controlled_local_workspace or args.station_chief_v21_local_workspace_manifest or args.station_chief_v21_artifact_workpack_schema or args.station_chief_v21_artifact_action_registry or args.station_chief_v21_agent_assignment_map or args.station_chief_v21_execution_plan or args.station_chief_v21_approved_artifact_factory or args.station_chief_v21_artifact_workpack_receipt or args.station_chief_v21_artifact_factory_audit:
         result = attach_station_chief_v21_controlled_local_workspace_artifact_factory(result, args)

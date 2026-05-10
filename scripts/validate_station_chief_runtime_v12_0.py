@@ -95,7 +95,7 @@ def _run_prior_validator(script_name: str) -> None:
 
 
 def _assert_no_future_files() -> None:
-    forbidden_globs = ["*v12_1*", "*v12.1*", "*v13_1*", "*v13.1*", "*v14_1*", "*v14.1*", "*v15_1*", "*v15.1*", "*v16_1*", "*v16.1*", "*v17_1*", "*v17.1*", "*v18_1*", "*v18.1*", "*v19_1*", "*v19.1*", "*v20_1*", "*v20.1*", "*v21_1*", "*v21.1*", "*v22*"]
+    forbidden_globs = ["*v12_1*", "*v12.1*", "*v13_1*", "*v13.1*", "*v14_1*", "*v14.1*", "*v15_1*", "*v15.1*", "*v16_1*", "*v16.1*", "*v17_1*", "*v17.1*", "*v18_1*", "*v18.1*", "*v19_1*", "*v19.1*", "*v20_1*", "*v20.1*", "*v21_1*", "*v21.1*", "*v22_1*", "*v22.1*", "*v23*"]
     for glob_pattern in forbidden_globs:
         matches = [
             path
@@ -146,7 +146,7 @@ def _assert_protected_paths_unmodified() -> None:
         path = path.lstrip(" M?AD")
         if path.startswith("__pycache__"):
             continue
-        ensure(path in allowed_paths or "validate_station_chief_runtime_" in path or ("v14" in path and "v14_1" not in path and "v14.1" not in path) or ("v15" in path and "v15_1" not in path and "v15.1" not in path) or ("v16" in path and "v16_1" not in path and "v16.1" not in path) or ("v17" in path and "v17_1" not in path and "v17.1" not in path) or ("v18" in path and "v18_1" not in path and "v18.1" not in path) or ("v19" in path and "v19_1" not in path and "v19.1" not in path) or ("v20" in path and "v20_1" not in path and "v20.1" not in path) or ("v21" in path and "v21_1" not in path and "v21.1" not in path and "v22" not in path) or path.startswith("10_runtime/__pycache__") or path.startswith("scripts/__pycache__"), f"Unexpected modified path: {path}")
+        ensure(path in allowed_paths or "validate_station_chief_runtime_" in path or ("v14" in path and "v14_1" not in path and "v14.1" not in path) or ("v15" in path and "v15_1" not in path and "v15.1" not in path) or ("v16" in path and "v16_1" not in path and "v16.1" not in path) or ("v17" in path and "v17_1" not in path and "v17.1" not in path) or ("v18" in path and "v18_1" not in path and "v18.1" not in path) or ("v19" in path and "v19_1" not in path and "v19.1" not in path) or ("v20" in path and "v20_1" not in path and "v20.1" not in path) or ("v21" in path and "v21_1" not in path and "v21.1" not in path) or ("v22" in path and "v22_1" not in path and "v22.1" not in path and "v23" not in path) or path.startswith("10_runtime/__pycache__") or path.startswith("scripts/__pycache__"), f"Unexpected modified path: {path}")
 
 
 def main():

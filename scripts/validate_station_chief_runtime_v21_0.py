@@ -44,12 +44,12 @@ def main():
     ensure(v21_report.exists(), "v21.0 report missing")
 
     # Versions
-    check_file_content(runtime_dir / "station_chief_runtime.py", r'STATION_CHIEF_RUNTIME_VERSION\s*=\s*"21\.0\.0"', "Runtime version not 21.0.0")
-    check_file_content(runtime_dir / "station_chief_release_lock.py", r'STABLE_RUNTIME_VERSION\s*=\s*"21\.0\.0"', "Release lock not 21.0.0")
-    check_file_content(runtime_dir / "station_chief_adapters.py", r'ADAPTER_MODULE_VERSION\s*=\s*"21\.0\.0"', "Adapter version not 21.0.0")
+    check_file_content(runtime_dir / "station_chief_runtime.py", r'STATION_CHIEF_RUNTIME_VERSION\s*=\s*"(21\.0\.0|22\.0\.0)"', "Runtime version not 21.0.0 or 22.0.0")
+    check_file_content(runtime_dir / "station_chief_release_lock.py", r'STABLE_RUNTIME_VERSION\s*=\s*"(21\.0\.0|22\.0\.0)"', "Release lock not 21.0.0 or 22.0.0")
+    check_file_content(runtime_dir / "station_chief_adapters.py", r'ADAPTER_MODULE_VERSION\s*=\s*"(21\.0\.0|22\.0\.0)"', "Adapter version not 21.0.0 or 22.0.0")
 
     # Fast future file check
-    future_patterns = ["*v21_1*", "*v21.1*", "*v22*"]
+    future_patterns = ["*v22_1*", "*v22.1*", "*v23*"]
     found_future = []
     for p in future_patterns:
         found_future.extend(list(root_dir.glob(p)))
@@ -61,7 +61,7 @@ def main():
     # Context selectors
     check_file_content(runtime_dir / "station_chief_release_lock.py", r'"validate_station_chief_runtime_v21_0\.py",', "v21.0 selector missing in release lock")
     check_file_content(runtime_dir / "station_chief_adapters.py", r'"validate_station_chief_runtime_v21_0\.py",', "v21.0 selector missing in adapters")
-    check_file_content(runtime_dir / "station_chief_runtime.py", r'if context == "validate_station_chief_runtime_v21_0\.py":\s+return "21\.0\.0"', "v21.0 selector missing in runtime")
+    check_file_content(runtime_dir / "station_chief_runtime.py", r'if context == "validate_station_chief_runtime_v21_0\.py":\s+return "(21\.0\.0|22\.0\.0)"', "v21.0 selector missing in runtime")
 
     # Read v21 module
     sys.path.insert(0, str(runtime_dir))
