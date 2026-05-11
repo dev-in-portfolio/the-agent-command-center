@@ -556,6 +556,40 @@ def score_candidate_utility(candidate: dict, evaluation: dict | None = None) -> 
         "fake_evidence_penalty_applied": fake_evidence_penalty_applied
     }
 
+def get_auto_self_improve_2_safety_matrix() -> dict:
+    return {
+        "allowed": [
+            "propose_sandbox_improvement",
+            "evaluate_sandbox_improvement",
+            "sandbox_self_authorize",
+            "create_sandbox_candidate_patch",
+            "write_sandbox_artifacts",
+            "run_sandbox_metadata_tests",
+            "create_promotion_barrier",
+            "recommend_operator_review",
+            "verify_evidence_paths",
+            "generate_checksum_manifest",
+            "generate_promotion_review_snippet",
+            "heuristic_utility_scoring"
+        ],
+        "denied": [
+            "mutate_official_repo",
+            "mutate_agent_command_center_2",
+            "promote_to_official",
+            "self_promote",
+            "deploy",
+            "use_credentials",
+            "read_secrets",
+            "read_environment",
+            "call_network",
+            "start_subprocess",
+            "weaken_validators",
+            "bypass_operator_for_official_promotion",
+            "write_repo_runtime_files_automatically",
+            "dynamic_bytecode_patching"
+        ]
+    }
+
 def create_auto_self_improve_2_bundle(
     candidate_title: str | None = None,
     candidate_summary: str | None = None,
@@ -607,38 +641,7 @@ def create_auto_self_improve_2_bundle(
         }
         writes["manifest"] = write_sandbox_artifact("sandbox_artifact_manifest", manifest_payload, auth_receipt, candidate_id=c_id)
 
-    safety_matrix = {
-        "allowed": [
-            "propose_sandbox_improvement",
-            "evaluate_sandbox_improvement",
-            "sandbox_self_authorize",
-            "create_sandbox_candidate_patch",
-            "write_sandbox_artifacts",
-            "run_sandbox_metadata_tests",
-            "create_promotion_barrier",
-            "recommend_operator_review",
-            "verify_evidence_paths",
-            "generate_checksum_manifest",
-            "generate_promotion_review_snippet",
-            "heuristic_utility_scoring"
-        ],
-        "denied": [
-            "mutate_official_repo",
-            "mutate_agent_command_center_2",
-            "promote_to_official",
-            "self_promote",
-            "deploy",
-            "use_credentials",
-            "read_secrets",
-            "read_environment",
-            "call_network",
-            "start_subprocess",
-            "weaken_validators",
-            "bypass_operator_for_official_promotion",
-            "write_repo_runtime_files_automatically",
-            "dynamic_bytecode_patching"
-        ]
-    }
+    safety_matrix = get_auto_self_improve_2_safety_matrix()
     
     bundle = {
         "auto_self_improve_2_active": True,
