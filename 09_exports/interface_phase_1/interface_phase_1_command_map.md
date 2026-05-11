@@ -1,32 +1,50 @@
-# Interface Phase 1 — Command Map
+# Interface Phase 1 — Command Map (Upgraded)
 
 ## Legend
 
 | Column | Description |
 |--------|-------------|
 | Menu | Menu option number |
+| CLI Flag | Non-interactive CLI flag |
 | Internal Action | Action function name |
 | Category | safe / controlled / locked / exit |
+| Risk Level | low / medium / high / informational |
 | Executes? | Whether the action runs commands on the system |
 | Writes Files? | Whether the action creates or modifies files |
 | Forbidden | Whether the action provides access to locked capabilities |
 
-## Command Map
+## Interactive Menu + CLI Flags
 
-| Menu | Internal Action | Category | Executes? | Writes Files? | Forbidden |
-|------|----------------|----------|-----------|---------------|-----------|
-| 1 | `show_status` | safe | No | No | No |
-| 2 | `run_validator_wall` | controlled | Yes (subprocess to validators) | No | No |
-| 3 | `list_artifacts` | safe | No | No | No |
-| 4 | `show_summaries` | safe | No | No | No |
-| 5 | `generate_session_report` | controlled | No | Yes (session report) | No |
-| 6 | `show_locked_actions` | safe | No | No | No |
-| 7 | `prepare_command_packet` | controlled | No | Yes (command packet) | No |
-| 8 | Exit | exit | No | No | No |
+| Menu | CLI Flag | Internal Action | Category | Risk Level | Executes? | Writes Files? | Forbidden |
+|------|----------|----------------|----------|------------|-----------|---------------|-----------|
+| 1 | `--status` | `show_status` | safe | low | No | No | No |
+| 2 | `--validator-wall` | `run_validator_wall` | controlled | low | Yes (subprocess) | No | No |
+| 3 | `--list-artifacts` | `list_artifacts` | safe | low | No | No | No |
+| 4 | `--show-summaries` | `show_summaries` | safe | low | No | No | No |
+| 5 | `--generate-session-report` | `generate_session_report` | controlled | low | No | Yes (session folder) | No |
+| 6 | `--show-locked` | `show_locked_actions` | safe | low | No | No | No |
+| 7 | `--prepare-packet <type>` | `prepare_command_packet` | controlled | varies | No | Yes (command packet) | No |
+| 8 | `--session-state` | `show_session_state` | safe | low | No | No | No |
+| 9 | — | Exit | exit | — | No | No | No |
+
+## Command Packet Types
+
+| Type | Risk Level | Preflight Checks | Rollback Defined | Approval Phrase |
+|------|------------|-----------------|-----------------|-----------------|
+| validator_wall | low | Yes | Yes (none needed) | I_APPROVE_PREPARED_PACKET_VALIDATOR_WALL |
+| artifact_audit | low | Yes | Yes (none needed) | I_APPROVE_PREPARED_PACKET_ARTIFACT_AUDIT |
+| non_repo_gauntlet_review | low | Yes | Yes (none needed) | I_APPROVE_PREPARED_PACKET_NON_REPO_GAUNTLET_REVIEW |
+| trial_v3_review | low | Yes | Yes (none needed) | I_APPROVE_PREPARED_PACKET_TRIAL_V3_REVIEW |
+| migration_review | low | Yes | Yes (none needed) | I_APPROVE_PREPARED_PACKET_MIGRATION_REVIEW |
+| merge_review_packet | medium | Yes | Yes (git reset) | I_APPROVE_PREPARED_PACKET_MERGE_REVIEW_PACKET |
+| interface_phase_1_merge_review | medium | Yes | Yes (git reset) | I_APPROVE_PREPARED_PACKET_INTERFACE_PHASE_1_MERGE_REVIEW |
+| interface_phase_2_planning | informational | Yes | Yes (none needed) | I_APPROVE_PREPARED_PACKET_INTERFACE_PHASE_2_PLANNING |
+| artifact_integrity_audit | low | Yes | Yes (none needed) | I_APPROVE_PREPARED_PACKET_ARTIFACT_INTEGRITY_AUDIT |
+| release_readiness_review | medium | Yes | Yes (promotion is irreversible) | I_APPROVE_PREPARED_PACKET_RELEASE_READINESS_REVIEW |
+| cleanup_branch_review | low | Yes | Yes (reflog) | I_APPROVE_PREPARED_PACKET_CLEANUP_BRANCH_REVIEW |
+| branch_delete_review | high | Yes | Yes (reflog, may not recover remote) | I_APPROVE_PREPARED_PACKET_BRANCH_DELETE_REVIEW |
 
 ## Locked Action Map
-
-These actions exist in the policy but are never exposed in the menu. The CLI refuses them at every layer.
 
 | Action | Lock Reason |
 |--------|-------------|

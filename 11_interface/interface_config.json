@@ -1,0 +1,18 @@
+{
+  "product_repo": "dev-in-portfolio/the-agent-command-center",
+  "source_lineage": "dev-in-portfolio/agent-command-center-3",
+  "runtime_version_expected": "25.0.0",
+  "interface_phase": "1",
+  "mode": "CLI operator console",
+  "artifact_packages": [
+    "09_exports/100_round_trial_v3",
+    "09_exports/non_repo_gauntlet_001",
+    "09_exports/repo_migration",
+    "09_exports/interface_phase_1"
+  ],
+  "locked_repos": [
+    "dev-in-portfolio/agent-command-center",
+    "dev-in-portfolio/agent-command-center-2",
+    "dev-in-portfolio/agent-command-center-3"
+  ]
+}

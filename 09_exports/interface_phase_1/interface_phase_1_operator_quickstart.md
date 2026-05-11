@@ -1,9 +1,37 @@
 # Interface Phase 1 — CLI Operator Console Quickstart
 
-## Run the Interface
+## Interactive Run
 
 ```bash
 python3 11_interface/station_chief_cli.py
+```
+
+## Non-Interactive Examples
+
+```bash
+# View system status
+python3 11_interface/station_chief_cli.py --status
+
+# Run validator wall
+python3 11_interface/station_chief_cli.py --validator-wall
+
+# List artifact packages
+python3 11_interface/station_chief_cli.py --list-artifacts
+
+# Show latest summaries
+python3 11_interface/station_chief_cli.py --show-summaries
+
+# Show locked actions
+python3 11_interface/station_chief_cli.py --show-locked
+
+# Show current session state
+python3 11_interface/station_chief_cli.py --session-state
+
+# Prepare a command packet (non-interactive)
+python3 11_interface/station_chief_cli.py --prepare-packet validator_wall
+
+# Generate session report
+python3 11_interface/station_chief_cli.py --generate-session-report
 ```
 
 ## Example Menu
@@ -22,48 +50,64 @@ python3 11_interface/station_chief_cli.py
   5. Generate operator session report [controlled]
   6. Show locked actions [safe]
   7. Prepare command packet [controlled]
-  8. Exit
+  8. Show current session state [safe]
+  9. Exit
 ```
 
 ## Safe First Actions
 
-Start with these read-only actions to learn the environment:
+Start with these read-only actions:
 
-1. **Option 1 — Show system status** — confirms the product repo, source lineage, runtime version, and locked capabilities.
+1. **Option 1 — Show system status** — confirms product repo, source lineage, runtime, capabilities.
 2. **Option 6 — Show locked actions** — lists everything the interface refuses to do.
-3. **Option 3 — List artifact packages** — shows available export packages.
+3. **Option 8 — Show current session state** — see session ID, branch, commit, actions.
 
 ## How to Run Validator Wall
 
-Select **option 2**. The CLI will run all three validators sequentially and display PASS/FAIL for each. Output includes stdout from each validator.
+Select **option 2** or run `--validator-wall`. All three validators run sequentially with PASS/FAIL output, durations, and recommendations.
 
 ## How to Generate Session Report
 
-Select **option 5** after running some actions. A session report is written to:
+Select **option 5** or run `--generate-session-report`. Written to:
 
 ```
-09_exports/interface_phase_1/operator_session_report.md
+09_exports/interface_phase_1/sessions/session_YYYYMMDD_HHMMSS/session_report.md
+09_exports/interface_phase_1/sessions/session_YYYYMMDD_HHMMSS/session_result.json
+09_exports/interface_phase_1/operator_session_report.md (latest)
 ```
 
-The report includes timestamps, repo name, actions run, validator results, and safety state.
+If validator wall ran, additional logs are saved:
+```
+.../validator_wall_stdout.txt
+.../validator_wall_result.json
+```
 
-The CLI will also prompt you to generate a session report before exit if one has not been written.
+If command packets were prepared, copies are saved under:
+```
+.../prepared_packets/
+```
 
 ## How to Prepare Command Packet
 
-Select **option 7**. Choose a packet type from:
+Select **option 7** or run `--prepare-packet <type>`. Available types:
 
-1. validator_wall
-2. artifact_audit
-3. non_repo_gauntlet_review
-4. trial_v3_review
-5. migration_review
-6. merge_review_packet
+- validator_wall
+- artifact_audit
+- non_repo_gauntlet_review
+- trial_v3_review
+- migration_review
+- merge_review_packet
+- interface_phase_1_merge_review
+- interface_phase_2_planning
+- artifact_integrity_audit
+- release_readiness_review
+- cleanup_branch_review
+- branch_delete_review
 
-The packet is written to:
+Written to:
 
 ```
 09_exports/interface_phase_1/command_packets/<type>_packet.md
 ```
 
-All packets have status `prepared_not_executed`. They contain allowed actions, forbidden actions, and exact commands for an operator to review and approve before executing.
+All packets have status `prepared_not_executed`. Each includes packet_id, risk_level, allowed/forbidden actions, preflight checklist, rollback notes, do_not_run_if conditions, and a required approval phrase.
