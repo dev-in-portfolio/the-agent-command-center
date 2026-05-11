@@ -342,7 +342,7 @@ def main():
            "CLI docstring/help does not mention --base")
     print("  [PASS] CLI help/docstring mentions --base")
 
-    # 33. E2E validator contains subprocess-based tests for all required commands
+    # 33. E2E validator tests all required commands (subprocess or direct module call)
     e2e_content = (SCRIPTS_DIR / "validate_interface_phase_1_e2e.py").read_text()
     required_e2e_commands = [
         "--status", "--list-artifacts", "--inspect-artifacts",
@@ -352,10 +352,10 @@ def main():
     ]
     for cmd in required_e2e_commands:
         ensure(cmd in e2e_content,
-               f"E2E validator missing subprocess test for {cmd}")
+               f"E2E validator missing coverage for {cmd}")
     ensure("execution_performed" in e2e_content,
            "E2E validator missing execution_performed checks")
-    print("  [PASS] E2E validator contains subprocess tests for all required commands")
+    print("  [PASS] E2E validator tests all required commands")
 
     # 34. Docs mention empty ledger allowed
     for doc_path in [
@@ -371,6 +371,33 @@ def main():
 
     # 35. No files outside allowed paths changed
     print("  [SKIP] Full git diff check deferred to Phase 12")
+
+    # 36. RC artifacts exist
+    rc_artifacts = [
+        EXPORTS_DIR / "interface_phase_1" / "interface_phase_1_acceptance_report.md",
+        EXPORTS_DIR / "interface_phase_1" / "merge_readiness" / "interface_phase_1_merge_readiness_packet.md",
+        EXPORTS_DIR / "interface_phase_1" / "phase_2_handoff_contract.md",
+        EXPORTS_DIR / "interface_phase_1" / "test_runs",
+        SCRIPTS_DIR / "demo_interface_phase_1.sh",
+        SCRIPTS_DIR / "validate_interface_phase_1_release_candidate.py",
+    ]
+    for artifact in rc_artifacts:
+        ensure(artifact.exists(), f"RC artifact missing: {artifact}")
+    print("  [PASS] All RC artifacts present")
+
+    # 37. RC validator contains required checks
+    rc_content = (SCRIPTS_DIR / "validate_interface_phase_1_release_candidate.py").read_text()
+    ensure("PASS_WITH_HIGH_CONFIDENCE" in rc_content, "RC validator missing acceptance report check")
+    ensure("merge_readiness" in rc_content, "RC validator missing merge-readiness check")
+    ensure("phase_2_handoff_contract" in rc_content, "RC validator missing handoff contract check")
+    ensure("INTERFACE_PHASE_1_RC_VALIDATION_PASS" in rc_content, "RC validator missing pass string")
+    print("  [PASS] RC validator references all RC artifacts")
+
+    # 38. Demo script references CLI and safe flags
+    demo_content = (SCRIPTS_DIR / "demo_interface_phase_1.sh").read_text()
+    ensure("station_chief_cli.py" in demo_content, "Demo script missing CLI reference")
+    ensure("--status" in demo_content, "Demo script missing --status")
+    print("  [PASS] Demo script references CLI and safe flags")
 
     print("\nINTERFACE_PHASE_1_CLI_VALIDATION_PASS")
 

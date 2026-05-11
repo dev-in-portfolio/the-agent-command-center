@@ -11,16 +11,20 @@ COMMAND_PACKETS_DIR = HERE.parent / "09_exports" / "interface_phase_1" / "comman
 ALLOWED_STATES = ["prepared", "reviewed", "approved_by_operator", "rejected_by_operator", "expired", "superseded"]
 
 
-def _ensure_ledger():
-    LEDGER_DIR.mkdir(parents=True, exist_ok=True)
-    if not LEDGER_FILE.exists():
-        LEDGER_FILE.write_text("")
+def _ensure_ledger(ledger_file=None):
+    if ledger_file is None:
+        ledger_file = LEDGER_FILE
+    ledger_file.parent.mkdir(parents=True, exist_ok=True)
+    if not ledger_file.exists():
+        ledger_file.write_text("")
 
 
-def _read_ledger():
-    _ensure_ledger()
+def _read_ledger(ledger_file=None):
+    if ledger_file is None:
+        ledger_file = LEDGER_FILE
+    _ensure_ledger(ledger_file)
     records = []
-    for line in LEDGER_FILE.read_text().strip().splitlines():
+    for line in ledger_file.read_text().strip().splitlines():
         if line.strip():
             try:
                 records.append(json.loads(line))
@@ -29,9 +33,11 @@ def _read_ledger():
     return records
 
 
-def _write_record(record):
-    _ensure_ledger()
-    with open(str(LEDGER_FILE), "a") as f:
+def _write_record(record, ledger_file=None):
+    if ledger_file is None:
+        ledger_file = LEDGER_FILE
+    _ensure_ledger(ledger_file)
+    with open(str(ledger_file), "a") as f:
         f.write(json.dumps(record) + "\n")
 
 
@@ -75,9 +81,11 @@ def _extract_packet_metadata(packet_path):
     return packet_id, approval_phrase
 
 
-def show_ledger():
-    _ensure_ledger()
-    records = _read_ledger()
+def show_ledger(ledger_file=None):
+    if ledger_file is None:
+        ledger_file = LEDGER_FILE
+    _ensure_ledger(ledger_file)
+    records = _read_ledger(ledger_file)
     if not records:
         print("  Approval ledger is empty.")
         return
@@ -92,7 +100,9 @@ def show_ledger():
         print(f"  [{state}] {pid} ({ptype}) @ {ts} | phrase_match={match} | exec={exec_p}")
 
 
-def review_packet(packet_path_str):
+def review_packet(packet_path_str, ledger_file=None):
+    if ledger_file is None:
+        ledger_file = LEDGER_FILE
     p = _validate_packet_path(packet_path_str)
     if not p:
         print(f"  ERROR: Invalid packet path: {packet_path_str}")
@@ -114,13 +124,15 @@ def review_packet(packet_path_str):
         "execution_performed": False,
         "notes": "Packet reviewed. No approval or rejection recorded.",
     }
-    _write_record(record)
+    _write_record(record, ledger_file)
     print(f"  [INFO] Packet reviewed: {packet_id or 'unknown'}")
     print(f"  Expected approval phrase: {approval_phrase or 'not detected'}")
     return {"status": "PASS", "record": record}
 
 
-def approve_packet(packet_path_str, phrase_entered):
+def approve_packet(packet_path_str, phrase_entered, ledger_file=None):
+    if ledger_file is None:
+        ledger_file = LEDGER_FILE
     p = _validate_packet_path(packet_path_str)
     if not p:
         print(f"  ERROR: Invalid packet path: {packet_path_str}")
@@ -148,7 +160,7 @@ def approve_packet(packet_path_str, phrase_entered):
         "execution_performed": False,
         "notes": f"Packet {'approved' if phrase_match else 'rejected'} by operator. No commands executed.",
     }
-    _write_record(record)
+    _write_record(record, ledger_file)
     if phrase_match:
         print(f"  [PASS] Packet approved: {packet_id or 'unknown'}")
         print(f"  Phrase match: YES")
@@ -161,7 +173,9 @@ def approve_packet(packet_path_str, phrase_entered):
     return {"status": "PASS" if phrase_match else "WARNING", "record": record}
 
 
-def reject_packet(packet_path_str, note):
+def reject_packet(packet_path_str, note, ledger_file=None):
+    if ledger_file is None:
+        ledger_file = LEDGER_FILE
     p = _validate_packet_path(packet_path_str)
     if not p:
         print(f"  ERROR: Invalid packet path: {packet_path_str}")
@@ -183,7 +197,7 @@ def reject_packet(packet_path_str, note):
         "execution_performed": False,
         "notes": note or "Rejected by operator.",
     }
-    _write_record(record)
+    _write_record(record, ledger_file)
     print(f"  [INFO] Packet rejected: {packet_id or 'unknown'}")
     print(f"  Reason: {note or 'Not specified'}")
     return {"status": "PASS", "record": record}

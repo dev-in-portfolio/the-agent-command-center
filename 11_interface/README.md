@@ -109,6 +109,15 @@ tracks the lifecycle of every command packet review, approval, and rejection eve
 - States: `prepared` → `reviewed` → `approved_by_operator` / `rejected_by_operator`
   / `expired` / `superseded`.
 
+## Test Ledger
+
+E2E validation uses a separate test ledger at
+`09_exports/interface_phase_1/test_runs/e2e_ledger_test.jsonl` to avoid polluting the
+production ledger. Tests 12-15 in the E2E validator call module functions directly with
+`ledger_file=TEST_LEDGER`. The production ledger is never modified by automated tests.
+CLI `--show-approval-ledger` always reads the production ledger.
+All records in both ledgers have `execution_performed: false`.
+
 ## Future Phases
 
 | Phase | Description |

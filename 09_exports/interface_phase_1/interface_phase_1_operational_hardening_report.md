@@ -81,6 +81,14 @@ interface/phase-1-operational-hardening
   review/approval/rejection events have been recorded yet. It is not evidence of failure
   by itself. Every ledger record, once present, includes `execution_performed: false`.
 
+## 10b. Test Ledger Separation
+
+- Production ledger: `09_exports/interface_phase_1/approval_ledger/approval_ledger.jsonl`
+- Test ledger: `09_exports/interface_phase_1/test_runs/e2e_ledger_test.jsonl`
+- E2E tests 12-15 call module functions directly with `ledger_file=TEST_LEDGER`
+- Production ledger is never modified by automated tests
+- CLI `--show-approval-ledger` always reads the production ledger
+
 ## 11. Validator Upgrades
 
 - CLI validator: 29 checks (was 18) — added module existence, action registry content, policy enforcer behavior (allow/refuse), artifact inspector coverage, branch review sanitize, approval ledger presence, SAFE/CONTROLLED_ACTIONS updates, registry consistency

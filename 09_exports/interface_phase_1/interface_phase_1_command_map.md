@@ -38,6 +38,12 @@
 | `--approve-packet <path> <phrase>` | `review_packet_approval` | controlled | low | No | Yes (ledger record) |
 | `--reject-packet <path> [reason]` | `review_packet_approval` | controlled | low | No | Yes (ledger record) |
 
+## Test Ledger
+
+A separate test ledger at `09_exports/interface_phase_1/test_runs/e2e_ledger_test.jsonl` is used
+by the E2E validator for tests 12-15. The production ledger (`approval_ledger.jsonl`) is never
+modified during automated testing. All records in both ledgers have `execution_performed: false`.
+
 ## Command Packet Types
 
 | Type | Risk Level | Preflight Checks | Rollback Defined | Approval Phrase |

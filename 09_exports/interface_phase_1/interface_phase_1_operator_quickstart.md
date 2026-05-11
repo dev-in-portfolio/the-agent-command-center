@@ -144,3 +144,13 @@ tracks review/approval/rejection events.
 - Every ledger record includes `execution_performed: false`. Records never represent
   actual execution — only the operator's review decision.
 - Lifecycle: `prepared` → `reviewed` → `approved_by_operator` / `rejected_by_operator`
+
+## Test Ledger
+
+E2E validation uses a separate test ledger at `09_exports/interface_phase_1/test_runs/e2e_ledger_test.jsonl`
+to avoid polluting the production ledger. Tests 12-15 in the E2E validator write to the test ledger
+via direct module calls with `ledger_file=TEST_LEDGER`. The production ledger is never modified by tests.
+
+- Test ledger is cleared before each E2E run
+- CLI `--show-approval-ledger` always reads the production ledger
+- Test ledger records also enforce `execution_performed: false`
