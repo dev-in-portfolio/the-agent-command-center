@@ -133,3 +133,14 @@ Written to:
 ```
 
 All packets have status `prepared_not_executed`. Each includes packet_id, risk_level, allowed/forbidden actions, preflight checklist, rollback notes, do_not_run_if conditions, and a required approval phrase.
+
+## Approval Ledger
+
+The approval ledger at `09_exports/interface_phase_1/approval_ledger/approval_ledger.jsonl`
+tracks review/approval/rejection events.
+
+- The ledger is allowed to start empty. An empty ledger means no events have been recorded yet.
+  It is not evidence of failure.
+- Every ledger record includes `execution_performed: false`. Records never represent
+  actual execution — only the operator's review decision.
+- Lifecycle: `prepared` → `reviewed` → `approved_by_operator` / `rejected_by_operator`

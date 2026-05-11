@@ -77,6 +77,9 @@ interface/phase-1-operational-hardening
 - Approval requires exact phrase match: `I_APPROVE_PREPARED_PACKET_<TYPE>`
 - Mismatch auto-sets state to `rejected_by_operator`
 - States: prepared → reviewed → approved_by_operator / rejected_by_operator / expired / superseded
+- `approval_ledger.jsonl` is allowed to start empty. An empty ledger means no packet
+  review/approval/rejection events have been recorded yet. It is not evidence of failure
+  by itself. Every ledger record, once present, includes `execution_performed: false`.
 
 ## 11. Validator Upgrades
 
@@ -96,6 +99,15 @@ Secure. All locked actions refused. No bypass paths.
 - Action registry is static; no runtime re-registration
 - Ledger state transitions are forward-only (no undo)
 
-## 14. Recommended Next Phase
+## 14. Fix Pass Corrections
+
+This fix pass corrected the following issues identified after the initial landing:
+
+- **E2E validator rewritten**: now runs 18 real CLI subprocess tests (was 15 shallow module-import tests)
+- **`--inspect-artifact <package_id>` added**: allows inspecting a single named package; invalid IDs fail safely
+- **Branch review `--base` parsing fixed**: supports `--prepare-branch-review <branch> --base <base>`; rejects path traversal, control chars, missing values
+- **Empty ledger documented**: explicit statement that empty `approval_ledger.jsonl` is allowed and is not evidence of failure; all records must have `execution_performed: false`
+
+## 15. Recommended Next Phase
 
 Proceed to final Interface Phase 1 validation sweep: run all 6 validators, commit, push, and prepare for Phase 2 (TUI) planning.

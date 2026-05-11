@@ -14,7 +14,8 @@ Usage:
   python3 11_interface/station_chief_cli.py --prepare-packet <type>
   python3 11_interface/station_chief_cli.py --generate-session-report
   python3 11_interface/station_chief_cli.py --inspect-artifacts
-  python3 11_interface/station_chief_cli.py --prepare-branch-review <branch>
+  python3 11_interface/station_chief_cli.py --inspect-artifact <package_id>
+  python3 11_interface/station_chief_cli.py --prepare-branch-review <branch> [--base <base>]
   python3 11_interface/station_chief_cli.py --review-packet <path>
   python3 11_interface/station_chief_cli.py --approve-packet <path> <phrase>
   python3 11_interface/station_chief_cli.py --reject-packet <path>
@@ -177,18 +178,49 @@ def non_interactive_mode(session_log):
         print(f"  Status: prepared_not_executed")
     elif flag == "--inspect-artifacts":
         actions.action_inspect_artifact_packages(session_log)
-    elif flag == "--prepare-branch-review":
-        base = args[2] if len(args) >= 3 else "master"
-        branch = base
-        base = "master"
-        if len(args) >= 3:
-            branch = args[1]
-            if len(args) >= 4:
-                base = args[2]
-        else:
-            print("  ERROR: --prepare-branch-review requires a branch name.")
-            print("  Usage: --prepare-branch-review <branch> [base-branch]")
+    elif flag == "--inspect-artifact":
+        if len(args) < 2:
+            print("  ERROR: --inspect-artifact requires a package_id argument.")
+            print("  Valid IDs: trial_v3, non_repo_gauntlet_001, repo_migration, interface_phase_1, interface_sessions")
             sys.exit(1)
+        package_id = args[1]
+        actions.action_inspect_single_artifact_package(session_log, package_id)
+    elif flag == "--prepare-branch-review":
+        if len(args) < 2:
+            print("  ERROR: --prepare-branch-review requires a branch name.")
+            print("  Usage: --prepare-branch-review <branch> [--base <base-branch>]")
+            sys.exit(1)
+        branch = args[1]
+        base = "master"
+        i = 2
+        while i < len(args):
+            if args[i] == "--base":
+                if i + 1 >= len(args):
+                    print("  ERROR: --base requires a base branch name.")
+                    sys.exit(1)
+                base = args[i + 1]
+                i += 2
+            else:
+                print(f"  ERROR: Unexpected argument '{args[i]}'.")
+                print("  Usage: --prepare-branch-review <branch> [--base <base-branch>]")
+                sys.exit(1)
+        import re
+        for name in [branch, base]:
+            if not name or not isinstance(name, str):
+                print(f"  ERROR: Invalid branch name.")
+                sys.exit(1)
+            if len(name) > 200:
+                print(f"  ERROR: Branch name too long: {name[:30]}...")
+                sys.exit(1)
+            if ".." in name:
+                print(f"  ERROR: Path traversal detected in branch name: {name}")
+                sys.exit(1)
+            if name.startswith("/") or name.startswith("~"):
+                print(f"  ERROR: Absolute or home-relative path in branch name: {name}")
+                sys.exit(1)
+            if re.search(r"[\x00-\x1f\x7f]", name):
+                print(f"  ERROR: Control characters in branch name.")
+                sys.exit(1)
         actions.action_prepare_branch_review(session_log, branch, base)
     elif flag == "--review-packet":
         if len(args) < 2:
@@ -219,9 +251,10 @@ def non_interactive_mode(session_log):
         print("  Flags: --status, --validator-wall, --list-artifacts, --show-summaries,")
         print("         --show-locked, --session-state, --generate-session-report,")
         print("         --prepare-packet <type>, --inspect-artifacts,")
-        print("         --prepare-branch-review <branch>, --review-packet <path>,")
-        print("         --approve-packet <path> <phrase>, --reject-packet <path>,")
-        print("         --show-approval-ledger")
+        print("         --inspect-artifact <package_id>,")
+        print("         --prepare-branch-review <branch> [--base <base>],")
+        print("         --review-packet <path>, --approve-packet <path> <phrase>,")
+        print("         --reject-packet <path>, --show-approval-ledger")
         sys.exit(1)
 
     session_log.close()

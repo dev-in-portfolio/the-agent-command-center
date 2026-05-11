@@ -95,6 +95,20 @@ python3 11_interface/station_chief_cli.py --show-approval-ledger
 - No os.environ access anywhere in interface code
 - No network imports (requests, urllib, http.client, socket)
 
+## Approval Ledger
+
+The approval ledger at `09_exports/interface_phase_1/approval_ledger/approval_ledger.jsonl`
+tracks the lifecycle of every command packet review, approval, and rejection event.
+
+- `approval_ledger.jsonl` is allowed to start empty. An empty ledger means no packet
+  review/approval/rejection events have been recorded yet. It is not evidence of failure
+  by itself.
+- Every ledger record, once present, includes `execution_performed: false`.
+- Records never represent actual execution. They only track the human operator's
+  review decision.
+- States: `prepared` → `reviewed` → `approved_by_operator` / `rejected_by_operator`
+  / `expired` / `superseded`.
+
 ## Future Phases
 
 | Phase | Description |

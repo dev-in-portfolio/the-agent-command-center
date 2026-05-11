@@ -320,7 +320,56 @@ def main():
     ensure(len(registry_errors) == 0, f"Action registry validation errors: {registry_errors}")
     print("  [PASS] Action registry is internally consistent")
 
-    # 29. No files outside allowed paths changed
+    # 29. CLI includes --inspect-artifact flag
+    ensure("--inspect-artifact" in cli_content,
+           "CLI missing --inspect-artifact flag")
+    print("  [PASS] CLI includes --inspect-artifact flag")
+
+    # 30. Action registry inspect_artifact_package includes --inspect-artifact
+    inspect_entry = registry.ACTION_REGISTRY.get("inspect_artifact_package", {})
+    ensure("--inspect-artifact" in inspect_entry.get("cli_flags", []),
+           "Action registry inspect_artifact_package missing --inspect-artifact in cli_flags")
+    print("  [PASS] Action registry inspect_artifact_package includes --inspect-artifact flag")
+
+    # 31. CLI includes --base support for branch review
+    ensure("--base" in cli_content,
+           "CLI missing --base support for branch review")
+    print("  [PASS] CLI includes --base support for branch review")
+
+    # 32. CLI help/docstring mentions --base or explicit base syntax
+    help_text = (INTERFACE_DIR / "station_chief_cli.py").read_text()
+    ensure("--base" in help_text,
+           "CLI docstring/help does not mention --base")
+    print("  [PASS] CLI help/docstring mentions --base")
+
+    # 33. E2E validator contains subprocess-based tests for all required commands
+    e2e_content = (SCRIPTS_DIR / "validate_interface_phase_1_e2e.py").read_text()
+    required_e2e_commands = [
+        "--status", "--list-artifacts", "--inspect-artifacts",
+        "--inspect-artifact", "--prepare-packet", "--prepare-branch-review",
+        "--show-approval-ledger", "--review-packet",
+        "--approve-packet", "--reject-packet",
+    ]
+    for cmd in required_e2e_commands:
+        ensure(cmd in e2e_content,
+               f"E2E validator missing subprocess test for {cmd}")
+    ensure("execution_performed" in e2e_content,
+           "E2E validator missing execution_performed checks")
+    print("  [PASS] E2E validator contains subprocess tests for all required commands")
+
+    # 34. Docs mention empty ledger allowed
+    for doc_path in [
+        INTERFACE_DIR / "README.md",
+        EXPORTS_DIR / "interface_phase_1" / "interface_phase_1_operational_hardening_report.md",
+        EXPORTS_DIR / "interface_phase_1" / "interface_phase_1_operator_quickstart.md",
+    ]:
+        if doc_path.exists():
+            content = doc_path.read_text()
+            ensure("empty" in content.lower() and "ledger" in content.lower(),
+                   f"Doc {doc_path.name} does not mention empty ledger")
+    print("  [PASS] All docs mention empty ledger is allowed")
+
+    # 35. No files outside allowed paths changed
     print("  [SKIP] Full git diff check deferred to Phase 12")
 
     print("\nINTERFACE_PHASE_1_CLI_VALIDATION_PASS")

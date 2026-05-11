@@ -866,6 +866,47 @@ def action_inspect_artifact_packages(session_log):
     session_log.record_action("inspect_artifact_packages", result_rec, next_action)
 
 
+def action_inspect_single_artifact_package(session_log, package_id):
+    inspector = _load_artifact_inspector()
+    valid_ids = list(inspector.PACKAGE_DEFINITIONS.keys())
+    if package_id not in valid_ids:
+        print(f"  ERROR: Unknown package_id '{package_id}'.")
+        print(f"  Valid package IDs: {', '.join(valid_ids)}")
+        next_action = "Use --inspect-artifacts to see all packages."
+        print(f"  Recommended next action: {next_action}")
+        result_rec = _make_result("inspect_artifact_package", "FAIL",
+                                  f"Invalid package_id: {package_id}",
+                                  recommended_next=next_action)
+        session_log.record_action("inspect_artifact_package", result_rec, next_action)
+        return
+
+    result = inspector.inspect_package(package_id)
+    st = result.get("status", "UNKNOWN")
+    pname = result.get("package_name", package_id)
+    if not result.get("exists"):
+        print(f"  [{st}] {pname} ({package_id}) — directory not found")
+        print(f"        Expected files missing: {', '.join(result.get('expected_files_missing', []))}")
+    else:
+        print(f"  [{st}] {pname} ({package_id})")
+        print(f"        Files: {result.get('file_count', '?')}, "
+              f"Dirs: {result.get('directory_count', '?')}, "
+              f"Verdict: {result.get('final_verdict', 'not detected')}")
+        if result.get("expected_files_missing"):
+            print(f"        Missing: {', '.join(result['expected_files_missing'])}")
+        if result.get("zero_byte_files"):
+            print(f"        Zero-byte files: {len(result['zero_byte_files'])}")
+        if result.get("warnings"):
+            for w in result["warnings"]:
+                print(f"        Warning: {w}")
+
+    next_action = "Use --inspect-artifacts for full inspection, or generate session report."
+    print(f"  Recommended next action: {next_action}")
+    result_rec = _make_result("inspect_artifact_package", "PASS" if result.get("exists") else "FAIL",
+                              f"Inspected {pname} ({package_id})",
+                              recommended_next=next_action)
+    session_log.record_action("inspect_artifact_package", result_rec, next_action)
+
+
 def action_prepare_branch_review(session_log, review_branch=None, base_branch="master"):
     _banner("INFO", "Preparing branch review packet...")
     brm = _load_branch_review()
