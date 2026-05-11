@@ -134,10 +134,16 @@ def main():
 
     # 5. Sandbox Artifact Writes
     print("Testing sandbox artifact writes...")
-    res = lab2.write_sandbox_artifact("sandbox_mutation_audit", {"test": True}, receipt_low)
-    ensure(res["artifact_write_performed"] is True, "Sandbox write failed")
-    ensure(res["controlled_artifact_path"].startswith("/tmp/auto_self_improve_2_sandbox"), "Wrong sandbox path")
-    ensure("agent-command-center" not in res["controlled_artifact_path"], "Sandbox path in repo")
+    # Trigger a full bundle to test manifest creation
+    bundle_test = lab2.create_auto_self_improve_2_bundle(candidate_title="manifest_test", risk_level="low")
+    writes = bundle_test.get("artifact_writes", {})
+    
+    ensure("audit" in writes and writes["audit"]["artifact_write_performed"] is True, "Sandbox audit write failed")
+    ensure("manifest" in writes and writes["manifest"]["artifact_write_performed"] is True, "Sandbox manifest write failed")
+    
+    manifest_path = writes["manifest"]["controlled_artifact_path"]
+    ensure(manifest_path.startswith("/tmp/auto_self_improve_2_sandbox"), "Wrong sandbox path for manifest")
+    ensure("agent-command-center" not in manifest_path, "Sandbox path in repo")
 
     # 6. Core v25 Validator Pass
     print("Verifying core v25 validator status...")

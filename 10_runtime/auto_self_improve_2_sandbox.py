@@ -147,7 +147,7 @@ def write_sandbox_artifact(artifact_name: str, payload: dict, authorization_rece
     if not authorization_receipt["sandbox_self_authorization_granted"]:
         return {"artifact_write_performed": False, "error": "Authorization missing"}
         
-    allowed_names = ["sandbox_candidate_patch", "sandbox_test_result", "sandbox_self_authorization_receipt", "sandbox_mutation_audit"]
+    allowed_names = ["sandbox_candidate_patch", "sandbox_test_result", "sandbox_self_authorization_receipt", "sandbox_mutation_audit", "sandbox_artifact_manifest"]
     if artifact_name not in allowed_names:
         return {"artifact_write_performed": False, "error": f"Unknown artifact name: {artifact_name}"}
         
@@ -511,6 +511,14 @@ def create_auto_self_improve_2_bundle(
         writes["patch"] = write_sandbox_artifact("sandbox_candidate_patch", patch, auth_receipt, candidate_id=c_id)
         writes["test"] = write_sandbox_artifact("sandbox_test_result", test_result, auth_receipt, candidate_id=c_id)
         writes["audit"] = write_sandbox_artifact("sandbox_mutation_audit", audit, auth_receipt, candidate_id=c_id)
+        
+        # New Feature: Unified Artifact Manifest
+        manifest_payload = {
+            "manifest_id": sha256_digest({"c": c_id, "type": "artifact_manifest"}),
+            "candidate_id": c_id,
+            "artifacts_written": [res for k, res in writes.items() if res.get("artifact_write_performed")]
+        }
+        writes["manifest"] = write_sandbox_artifact("sandbox_artifact_manifest", manifest_payload, auth_receipt, candidate_id=c_id)
 
     safety_matrix = {
         "allowed": [
