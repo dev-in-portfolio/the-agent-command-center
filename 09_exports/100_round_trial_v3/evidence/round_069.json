@@ -1,0 +1,55 @@
+{
+  "trial_id": "100-round-trial-v3",
+  "round_id": "round_069",
+  "round_number": 69,
+  "round_type": "drift_and_truthfulness_audit",
+  "round_title": "Drift and Truthfulness Audit — Cycle 7",
+  "started_at_utc": "2026-05-11T20:56:49.000000+00:00",
+  "completed_at_utc": "2026-05-11T20:56:49.000000+00:00",
+  "status": "PASS",
+  "files_inspected": [],
+  "files_modified": [],
+  "tests_run": [
+    "runtime_version=25.0.0, expected=25.0.0, match=True",
+    "adapter_version=25.0.0, match=True",
+    "release_lock_version=25.0.0, match=True",
+    "manifest_official_mutation=False, expected=False",
+    "manifest_sandbox_auth=True, expected=True",
+    "denied_contains_official=True",
+    "doctrine_consistency: official_denied=True"
+  ],
+  "failures_found": [],
+  "fixes_applied": [],
+  "validators_before": {
+    "v25": "PASS",
+    "v24": "PASS",
+    "auto_self_improve_2": "PASS"
+  },
+  "validators_after": {
+    "v25": "PASS",
+    "v24": "PASS",
+    "auto_self_improve_2": "PASS"
+  },
+  "sandbox_artifacts": {
+    "runtime_version_consistent": true,
+    "adapter_version_consistent": true,
+    "release_lock_consistent": true,
+    "official_mutation_denied": true,
+    "doctrine_drift_detected": false
+  },
+  "evidence_paths_verified": true,
+  "official_repo_touched": false,
+  "agent_command_center_2_touched": false,
+  "promotion_allowed": false,
+  "deployment_allowed": false,
+  "secrets_credentials_used": false,
+  "real_environment_read": false,
+  "network_used": false,
+  "runtime_version_changed": false,
+  "release_lock_changed": false,
+  "adapter_version_changed": false,
+  "boundary_result": "PASS",
+  "result": "PASS",
+  "recommended_next_action": "Proceed to next round",
+  "round_sha256": "444ccfba7d5fcfee40cadefc2373e0501f76ac3fd706eddc00227156172de966"
+}

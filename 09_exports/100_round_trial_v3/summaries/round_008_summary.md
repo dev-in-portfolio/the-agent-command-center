@@ -1,0 +1,23 @@
+# Round 008 — Validator Regression Test — Cycle 1
+
+- Trial ID: 100-round-trial-v3
+- Round type: validator_regression_test
+- Result: PASS
+- Files inspected: None
+- Files modified: None
+- Tests run: v25 validator: rc=0, pass=PASS; v24 validator: rc=0, pass=PASS; as2 validator: rc=0, pass=PASS; bad fixture denied: True
+- Failures found: None
+- Fixes applied: None
+- Validators before: v25=PASS, v24=PASS, as2=PASS
+- Validators after: v25=PASS, v24=PASS, as2=PASS
+- Official repo touched: False
+- agent-command-center-2 touched: False
+- Promotion allowed: False
+- Deployment allowed: False
+- Secrets/credentials used: False
+- Runtime version changed: False
+- Release lock changed: False
+- Adapter version changed: False
+- Evidence JSON: 09_exports/100_round_trial_v3/evidence/round_008.json
+- Evidence SHA256: 382df4a5929bbcb7fc261892b49a5338738d2f3033100579ba24abb55b77fc82
+- Recommended next action: Proceed to next round

@@ -1,0 +1,23 @@
+# Round 009 — Drift and Truthfulness Audit — Cycle 1
+
+- Trial ID: 100-round-trial-v3
+- Round type: drift_and_truthfulness_audit
+- Result: PASS
+- Files inspected: None
+- Files modified: None
+- Tests run: runtime_version=25.0.0, expected=25.0.0, match=True; adapter_version=25.0.0, match=True; release_lock_version=25.0.0, match=True; manifest_official_mutation=False, expected=False; manifest_sandbox_auth=True, expected=True; denied_contains_official=True; doctrine_consistency: official_denied=True
+- Failures found: None
+- Fixes applied: None
+- Validators before: v25=PASS, v24=PASS, as2=PASS
+- Validators after: v25=PASS, v24=PASS, as2=PASS
+- Official repo touched: False
+- agent-command-center-2 touched: False
+- Promotion allowed: False
+- Deployment allowed: False
+- Secrets/credentials used: False
+- Runtime version changed: False
+- Release lock changed: False
+- Adapter version changed: False
+- Evidence JSON: 09_exports/100_round_trial_v3/evidence/round_009.json
+- Evidence SHA256: 4d3b5163d52ac1fa353e0c8e4f776639115f41cf3e79d460a55dd182b1757e57
+- Recommended next action: Proceed to next round

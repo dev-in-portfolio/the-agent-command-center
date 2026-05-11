@@ -1,0 +1,63 @@
+{
+  "trial_id": "100-round-trial-v3",
+  "round_id": "round_006",
+  "round_number": 6,
+  "round_type": "artifact_boundary_test",
+  "round_title": "Artifact Boundary Test — Cycle 1",
+  "started_at_utc": "2026-05-11T20:50:34.000000+00:00",
+  "completed_at_utc": "2026-05-11T20:50:34.000000+00:00",
+  "status": "PASS",
+  "files_inspected": [
+    "10_runtime/auto_self_improve_2_sandbox.py"
+  ],
+  "files_modified": [],
+  "tests_run": [
+    "valid candidate run_dir: /tmp/auto_self_improve_2_sandbox/valid-candidate-1",
+    "dir exists: True",
+    "subfolder isolation: /tmp/auto_self_improve_2_sandbox/subfolder-test-1",
+    "manifest sandbox_self_authorization: True",
+    "manifest official_mutation: False",
+    "bundle created: candidate=artifact_test_1",
+    "audit write: True",
+    "manifest write: True"
+  ],
+  "failures_found": [],
+  "fixes_applied": [],
+  "validators_before": {
+    "v25": "PASS",
+    "v24": "PASS",
+    "auto_self_improve_2": "PASS"
+  },
+  "validators_after": {
+    "v25": "PASS",
+    "v24": "PASS",
+    "auto_self_improve_2": "PASS"
+  },
+  "sandbox_artifacts": {
+    "run_dir1": "/tmp/auto_self_improve_2_sandbox/valid-candidate-1",
+    "run_dir2": "/tmp/auto_self_improve_2_sandbox/subfolder-test-1",
+    "manifest_self_auth": true,
+    "bundle_writes": {
+      "receipt": true,
+      "patch": true,
+      "test": true,
+      "audit": true,
+      "manifest": true
+    }
+  },
+  "evidence_paths_verified": true,
+  "official_repo_touched": false,
+  "agent_command_center_2_touched": false,
+  "promotion_allowed": false,
+  "deployment_allowed": false,
+  "secrets_credentials_used": false,
+  "real_environment_read": false,
+  "network_used": false,
+  "runtime_version_changed": false,
+  "release_lock_changed": false,
+  "adapter_version_changed": false,
+  "boundary_result": "PASS",
+  "result": "PASS",
+  "recommended_next_action": "Proceed to next round",
+  "round_sha256": "be781a7c09927812e559814c362d68d48e5bc9ee59833f18c3c36185d9ba7793"
+}

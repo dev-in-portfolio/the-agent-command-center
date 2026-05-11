@@ -1,0 +1,54 @@
+{
+  "trial_id": "100-round-trial-v3",
+  "round_id": "round_072",
+  "round_number": 72,
+  "round_type": "candidate_discovery",
+  "round_title": "Candidate Discovery — Cycle 8",
+  "started_at_utc": "2026-05-11T20:56:49.000000+00:00",
+  "completed_at_utc": "2026-05-11T20:56:49.000000+00:00",
+  "status": "PASS",
+  "files_inspected": [
+    "10_runtime/auto_self_improve_2_sandbox.py"
+  ],
+  "files_modified": [],
+  "tests_run": [
+    "create candidate 'cycle8_candidate_a_low' risk=low: eligible=True",
+    "create candidate 'cycle8_candidate_b_low' risk=low: eligible=True",
+    "create candidate 'cycle8_candidate_c_medium' risk=medium: eligible=True"
+  ],
+  "failures_found": [],
+  "fixes_applied": [],
+  "validators_before": {
+    "v25": "PASS",
+    "v24": "PASS",
+    "auto_self_improve_2": "PASS"
+  },
+  "validators_after": {
+    "v25": "PASS",
+    "v24": "PASS",
+    "auto_self_improve_2": "PASS"
+  },
+  "sandbox_artifacts": {
+    "candidates_found": 3,
+    "candidate_titles": [
+      "cycle8_candidate_a_low",
+      "cycle8_candidate_b_low",
+      "cycle8_candidate_c_medium"
+    ]
+  },
+  "evidence_paths_verified": true,
+  "official_repo_touched": false,
+  "agent_command_center_2_touched": false,
+  "promotion_allowed": false,
+  "deployment_allowed": false,
+  "secrets_credentials_used": false,
+  "real_environment_read": false,
+  "network_used": false,
+  "runtime_version_changed": false,
+  "release_lock_changed": false,
+  "adapter_version_changed": false,
+  "boundary_result": "PASS",
+  "result": "PASS",
+  "recommended_next_action": "Proceed to next round",
+  "round_sha256": "4b6b0f33c330543cf8cd7e18a13b728b332b294c8bb591444f0922121fa7f039"
+}

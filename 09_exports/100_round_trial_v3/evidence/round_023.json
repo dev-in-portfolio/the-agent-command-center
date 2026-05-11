@@ -1,0 +1,51 @@
+{
+  "trial_id": "100-round-trial-v3",
+  "round_id": "round_023",
+  "round_number": 23,
+  "round_type": "self_selected_safe_candidate",
+  "round_title": "Safe Candidate Selection — Cycle 3",
+  "started_at_utc": "2026-05-11T20:52:22.000000+00:00",
+  "completed_at_utc": "2026-05-11T20:52:22.000000+00:00",
+  "status": "PASS",
+  "files_inspected": [
+    "10_runtime/auto_self_improve_2_sandbox.py"
+  ],
+  "files_modified": [],
+  "tests_run": [
+    "create safe candidate: eligible=True",
+    "safe authorization: granted=True",
+    "high-risk denial: granted=False, reason=high_risk_candidate_denied"
+  ],
+  "failures_found": [],
+  "fixes_applied": [],
+  "validators_before": {
+    "v25": "PASS",
+    "v24": "PASS",
+    "auto_self_improve_2": "PASS"
+  },
+  "validators_after": {
+    "v25": "PASS",
+    "v24": "PASS",
+    "auto_self_improve_2": "PASS"
+  },
+  "sandbox_artifacts": {
+    "safe_candidate_title": "safe_candidate_cycle3",
+    "safe_authorized": true,
+    "unsafe_denied": true
+  },
+  "evidence_paths_verified": true,
+  "official_repo_touched": false,
+  "agent_command_center_2_touched": false,
+  "promotion_allowed": false,
+  "deployment_allowed": false,
+  "secrets_credentials_used": false,
+  "real_environment_read": false,
+  "network_used": false,
+  "runtime_version_changed": false,
+  "release_lock_changed": false,
+  "adapter_version_changed": false,
+  "boundary_result": "PASS",
+  "result": "PASS",
+  "recommended_next_action": "Proceed to next round",
+  "round_sha256": "35e4d77de877ebf15cc92f74c72e3a2b76ef5c8511411666b6cdc5a93209627b"
+}
