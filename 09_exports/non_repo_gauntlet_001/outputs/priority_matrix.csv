@@ -1,0 +1,11 @@
+order_priority,client_name,order_value,days_late,status,action,owner,deadline
+1,Great Lakes Grocery,34000,7,CRITICAL,Status call June 11; substitute backordered items,Ops Director,June 11
+2,Great Lakes Grocery,28000,5,CRITICAL,Partial ship available items; communicate delay,Sales VP,June 11
+3,Midwest Fresh Market,12000,10,LATE,Full ship (all items in stock),Warehouse Lead,June 11
+4,Midwest Fresh Market,9500,8,LATE,Full ship,Warehouse Lead,June 11
+5,Chicago Co-op,8000,6,LATE,Check backorder status; prepare substitution,CSR Lead,June 12
+6,Indiana Natural Foods,7500,4,AT RISK,Priority pick before more items go late,Dispatcher,June 12
+7,Great Lakes Grocery,22000,3,AT RISK,Prevent this from going critical,Ops Director,June 13
+8,Michigan Health Foods,6500,5,LATE,Full ship,Warehouse Lead,June 12
+9,Ohio Valley Distributors,5500,7,LATE,Partial ship; communicate delay,CSR Lead,June 11
+10,Indiana Natural Foods,4800,2,AT RISK,Include in priority pick run,Dispatcher,June 13

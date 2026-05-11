@@ -1,0 +1,80 @@
+first_name,last_name,email,phone,address,city,state,zip,route_zone,notes
+Alice,Johnson,alice.johnson@email.com,555-123-4567,123 Oak St,Springfield,IL,62701,A,Preferred customer
+Bob,Smith,bob.smith@email.com,555-234-5678,456 Maple Ave,Springfield,IL,62702,A,
+Charlie,Brown,charlie.brown@email.com,555-345-6789,789 Pine Rd,Decatur,IL,62521,B,Night delivery only
+Diana,Prince,diana.prince@email.com,555-456-7890,321 Elm Blvd,Decatur,IL,62522,B,
+Evan,Davis,evan.davis@email.com,555-567-8901,654 Cedar Ln,Champaign,IL,61820,C,
+Fiona,Garcia,fiona.garcia@email.com,555-678-9012,987 Birch Dr,Champaign,IL,61821,C,Rear entrance
+George,Martinez,george.martinez@email.com,555-789-0123,147 Walnut Way,Peoria,IL,61602,D,Call before delivery
+Hannah,Lee,hannah.lee@email.com,555-890-1234,258 Ash Ct,Peoria,IL,61603,D,
+Ian,Wilson,ian.wilson@email.com,555-901-2345,369 Cherry St,Bloomington,IL,61701,E,
+Julia,Taylor,julia.taylor@email.com,555-012-3456,159 Spruce Ave,Bloomington,IL,61702,E,
+Kevin,Anderson,kevin.anderson@email.com,555-123-7890,753 Hickory Rd,Rockford,IL,61101,F,
+Laura,Thomas,laura.thomas@email.com,555-234-8901,951 Poplar St,Rockford,IL,61102,F,Gate code 4521
+Mike,Jackson,mike.jackson@email.com,555-345-9012,468 Willow Dr,Peoria,IL,61604,D,Leave at door
+Nancy,White,nancy.white@email.com,555-456-0123,572 Sycamore Ct,Champaign,IL,61822,C,
+Oscar,Harris,oscar.harris@email.com,555-567-1234,684 Aspen Way,Decatur,IL,62523,B,
+Patricia,Clark,patricia.clark@email.com,555-678-2345,796 Fir Circle,Springfield,IL,62703,A,Weekend delivery
+Quinn,Walker,quinn.walker@email.com,555-789-3456,135 Pine St,Springfield,IL,62701,A,
+Rachel,Young,rachel.young@email.com,555-890-4567,246 Oak Ave,Decatur,IL,62521,B,
+Sam,King,sam.king@email.com,555-901-5678,357 Maple Dr,Champaign,IL,61820,C,What's up doc
+Tina,Wright,tina.wright@email.com,555-012-6789,468 Elm Ln,Peoria,IL,61602,D,
+Uma,Scott,uma.scott@email.com,555-123-8901,579 Cedar Ct,Peoria,IL,61603,D,
+Victor,Green,victor.green@email.com,555-234-9012,680 Birch Way,Bloomington,IL,61701,E,
+Wendy,Baker,wendy.baker@email.com,555-345-0123,791 Walnut Dr,Rockford,IL,61101,F,
+Xander,Nelson,xander.nelson@email.com,555-456-1234,157 Ash Blvd,Rockford,IL,61102,F,
+Yvonne,Carter,yvonne.carter@email.com,555-567-2345,268 Cherry Ct,Springfield,IL,62702,A,
+Zachary,Mitchell,zachary.mitchell@email.com,555-678-3456,379 Spruce Dr,Decatur,IL,62522,B,
+Alice,Johnson,alice.johnson@email.com,555-123-4567,123 Oak St,Springfield,IL,62701,A,DUPLICATE
+Bob,Smith,bob.smith@email.com,555-234-5678,456 Maple Ave,Springfield,IL,62702,A,DUPLICATE
+,,alice.johnson@email.com,555-123-4567,123 Oak St,Springfield,IL,62701,A,Missing name
+Abigail,jhonson,abby.j@email.com,555.123.4567,123 Oke St,Springfield,IL,62701,A,Misspelled last name
+Charles,Brwn,charlie.b@email.com,555-345-6789,789 Pne Rd,Decatur,IL,62521,B,Misspelled last name
+Evan,Davis,evan.davis@email.com,+1(555)567-8901,654 Cedar Ln,Champaign,IL,61820,C,Format variant phone
+Fiona,Garcia,fiona.garcia@email.com,555.678.9012,987 Birch Dr,Champaign,IL,61821,C,Format variant phone
+kevin,anderson,kevin.a@email.com,555-123-7890,753 Hickory Rd,Rockford,IL,61101,F,Case mismatch 1
+Laura,THOMAS,laura.t@email.com,555-234-8901,951 Poplar St,Rockford,IL,61102,F,Case mismatch 2
+Mike,Jackson,mike.jackson@email.com,555-345-9012,468 Willow Dr,Peoria,IL,61604,D,Duplicate phone
+Nancy,White,nancy.white@email.com,(555)456-0123,572 Sycamore Ct,Champaign,IL,61822,C,Format variant phone
+Oscar,Harris,oscar.harris@email.com+15555671234,684 Aspen Way,Decatur,IL,62523,B,Phone glued to email
+Patricia,Clark,patricia.clark@email.com,,796 Fir Circle,Springfield,IL,62703,A,Missing phone
+Quinn,Walker,qwalker@email.com,555-789-3456,135 Pine St,Springfield,IL,62701,A,Different email
+Racheal,Young,rachel.y@email.com,555-890-4567,246 Oak Ave,Decatur,IL,62521,B,Name variant
+Sam,Kong,sam.kong@email.com,555-901-5678,357 Maple Dr,Champaign,IL,61820,C,Last name mismatch
+Tina,Wright,tina.wright@email.com,555-012-6789,468 Elm Ln,Peoria,IL,61602,D,Duplicate
+Uma,Scott,uma.scott@email.com,555-123-8901,579 Cedar Ct,Peoria,IL,61603,D,duplicate
+Victor,Green,victor.green@email.com,555-234-9012,680 Birch Way,Bloomington,IL,61701,E,duplicate
+Wendy,Baker,wendy.baker@email.com,555-345-0123,791 Walnut Dr,Rockford,IL,61101,F,duplicate
+Xander,Nelson,xander.nelson@email.com,555-456-1234,157 Ash Blvd,Rockford,IL,61102,F,duplicate
+Yvonne,Carter,yvonne.carter@email.com,555-567-2345,268 Cherry Ct,Springfield,IL,62702,A,duplicate
+Zachary,Mitchell,zachary.mitchell@email.com,555-678-3456,379 Spruce Dr,Decatur,IL,62522,B,duplicate
+,Roberts,emma.roberts@email.com,555-789-4567,951 Cedar Ln,Springfield,IL,62701,A,Missing first name
+Frank,,frank@email.com,555-890-5678,147 Elm Dr,Decatur,IL,62521,B,Missing last name
+Grace,Hill,grace.hill@email.com,555-901-6789,258 Oak Ct,Champaign,IL,61820,C,Zone changed
+Henry,Cook,henry.cook@email.com,+1 555-012-7890,369 Maple Blvd,Peoria,IL,61602,D,Format variant
+Iris,Collins,iris.collins@email.com,555.123.9012,470 Pine Dr,Bloomington,IL,61701,E,Format variant
+Jack,Foster,jack.foster@email.com,555-234-0123,581 Birch Ct,Rockford,IL,61101,F,
+Karen,Rivera,karen.rivera@email.com,555-345-1234,692 Cedar Dr,Springfield,IL,62702,A,New customer
+Leo,Cooper,leo.cooper@email.com,555-456-2345,703 Oak Ln,Decatur,IL,62521,B,
+Mona,Richardson,mona.richardson@email.com,555-567-3456,814 Elm Ave,Champaign,IL,61820,C,Buzzer 42
+Nate,Howard,nate.howard@email.com,555-678-4567,925 Maple Ct,Peoria,IL,61604,D,
+Olive,Ward,olive.ward@email.com,555-789-5678,369 Walnut Dr,Bloomington,IL,61701,E,
+Pete,Torres,pete.torres@email.com,555-890-6789,159 Pine Ln,Rockford,IL,61102,F,
+Quincy,Coleman,quincy.coleman@email.com,555-901-7890,258 Oak Dr,Springfield,IL,62701,A,
+Rosa,Alexander,rosa.alexander@email.com,555-012-8901,357 Elm Ct,Decatur,IL,62521,B,Delivery notes in all caps
+Steve,Russell,steve.russell@email.com,555-123-9012,456 Birch Dr,Champaign,IL,61820,C,
+Tracy,Diaz,tracy.diaz@email.com,555-234-0123,567 Pine Ave,Peoria,IL,61602,D,
+Ulysses,Hayes,ulysses.hayes@email.com,555-345-1234,678 Oak Ct,Bloomington,IL,61701,E,
+Vera,Crawford,vera.crawford@email.com,555-456-2345,789 Maple Dr,Rockford,IL,61102,F,
+Will,Webb,will.webb@email.com,555-567-3456,890 Cedar Blvd,Springfield,IL,62702,A,Last order returned
+Xena,Fernandez,xena.fernandez@email.com,555-678-4567,901 Elm Way,Decatur,IL,62522,B,
+Yuri,Sullivan,yuri.sullivan@email.com,555-789-5678,123 Oak Dr,Champaign,IL,61821,C,
+Zoe,Powell,zoe.powell@email.com,555-890-6789,234 Birch Ct,Peoria,IL,61603,D,
+Aaron,Butler,aaron.butler@email.com,555-901-7890,345 Maple Ave,Bloomington,IL,61702,E,
+Beth,Fisher,beth.fisher@email.com,555-012-8901,456 Pine Dr,Rockford,IL,61101,F,
+Carl,Simmons,carl.simmons@email.com,555-123-9012,567 Oak Ln,Springfield,IL,62702,A,Senior discount applies
+Dina,Brooks,dina.brooks@email.com,555-234-0123,678 Elm St,Decatur,IL,62521,B,
+Eric,Jenkins,eric.jenkins@email.com,555-345-1234,789 Cedar Ave,Champaign,IL,61820,C,
+Fran,Gibson,fran.gibson@email.com,555-456-2345,890 Birch Dr,Peoria,IL,61604,D,Special instructions: leave with neighbor
+Grant,Griffin,grant.griffin@email.com,555-567-3456,901 Maple Ct,Bloomington,IL,61701,E,Call first
+Holly,Caldwell,holly.caldwell@email.com,555-678-4567,123 Oak Way,Rockford,IL,61102,F,

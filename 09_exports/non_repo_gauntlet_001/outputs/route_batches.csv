@@ -1,0 +1,80 @@
+batch,zone,name,address,city,state,zip,phone,notes,needs_review
+B001,A,Alice Johnson,123 Oak St,Springfield,IL,62701,(555) 123-4567,Preferred customer,
+B001,A,Bob Smith,456 Maple Ave,Springfield,IL,62702,(555) 234-5678,,
+B001,A,Patricia Clark,796 Fir Circle,Springfield,IL,62703,(555) 678-2345,Weekend delivery,
+B001,A,Quinn Walker,135 Pine St,Springfield,IL,62701,(555) 789-3456,,
+B001,A,Yvonne Carter,268 Cherry Ct,Springfield,IL,62702,(555) 567-2345,,
+B002,A,Alice Johnson,123 Oak St,Springfield,IL,62701,(555) 123-4567,DUPLICATE,DUPLICATE
+B002,A,Bob Smith,456 Maple Ave,Springfield,IL,62702,(555) 234-5678,DUPLICATE,DUPLICATE
+B002,A,anonymous_giraffe NeedsName,123 Oak St,Springfield,IL,62701,(555) 123-4567,Missing name,"YES — missing name, placeholder assigned; DUPLICATE"
+B002,A,Abigail Jhonson,123 Oke St,Springfield,IL,62701,(555) 123-4567,Misspelled last name,
+B002,A,Patricia Clark,796 Fir Circle,Springfield,IL,62703,MISSING,Missing phone,DUPLICATE
+B003,A,Quinn Walker,135 Pine St,Springfield,IL,62701,(555) 789-3456,Different email,DUPLICATE
+B003,A,Yvonne Carter,268 Cherry Ct,Springfield,IL,62702,(555) 567-2345,duplicate,DUPLICATE
+B003,A,mystery_squid Roberts,951 Cedar Ln,Springfield,IL,62701,(555) 789-4567,Missing first name,"YES — missing first name, placeholder assigned"
+B003,A,Karen Rivera,692 Cedar Dr,Springfield,IL,62702,(555) 345-1234,New customer,
+B003,A,Quincy Coleman,258 Oak Dr,Springfield,IL,62701,(555) 901-7890,,
+B004,A,Will Webb,890 Cedar Blvd,Springfield,IL,62702,(555) 567-3456,Last order returned,
+B004,A,Carl Simmons,567 Oak Ln,Springfield,IL,62702,(555) 123-9012,Senior discount applies,
+B005,B,Charlie Brown,789 Pine Rd,Decatur,IL,62521,(555) 345-6789,Night delivery only,
+B005,B,Diana Prince,321 Elm Blvd,Decatur,IL,62522,(555) 456-7890,,
+B005,B,Oscar Harris,684 Aspen Way,Decatur,IL,62523,(555) 567-1234,,
+B005,B,Rachel Young,246 Oak Ave,Decatur,IL,62521,(555) 890-4567,,
+B005,B,Zachary Mitchell,379 Spruce Dr,Decatur,IL,62522,(555) 678-3456,,
+B006,B,Charles Brwn,789 Pne Rd,Decatur,IL,62521,(555) 345-6789,Misspelled last name,
+B006,B,Racheal Young,246 Oak Ave,Decatur,IL,62521,(555) 890-4567,Name variant,
+B006,B,Zachary Mitchell,379 Spruce Dr,Decatur,IL,62522,(555) 678-3456,duplicate,DUPLICATE
+B006,B,Frank NeedsSurname,147 Elm Dr,Decatur,IL,62521,(555) 890-5678,Missing last name,"YES — missing last name, placeholder assigned"
+B006,B,Leo Cooper,703 Oak Ln,Decatur,IL,62521,(555) 456-2345,,
+B007,B,Rosa Alexander,357 Elm Ct,Decatur,IL,62521,(555) 012-8901,Delivery notes in all caps,
+B007,B,Xena Fernandez,901 Elm Way,Decatur,IL,62522,(555) 678-4567,,
+B007,B,Dina Brooks,678 Elm St,Decatur,IL,62521,(555) 234-0123,,
+B008,C,Evan Davis,654 Cedar Ln,Champaign,IL,61820,(555) 567-8901,,
+B008,C,Fiona Garcia,987 Birch Dr,Champaign,IL,61821,(555) 678-9012,Rear entrance,
+B008,C,Nancy White,572 Sycamore Ct,Champaign,IL,61822,(555) 456-0123,,
+B008,C,Sam King,357 Maple Dr,Champaign,IL,61820,(555) 901-5678,What's up doc,
+B008,C,Evan Davis,654 Cedar Ln,Champaign,IL,61820,(555) 567-8901,Format variant phone,DUPLICATE
+B009,C,Fiona Garcia,987 Birch Dr,Champaign,IL,61821,(555) 678-9012,Format variant phone,DUPLICATE
+B009,C,Nancy White,572 Sycamore Ct,Champaign,IL,61822,(555) 456-0123,Format variant phone,DUPLICATE
+B009,C,Sam Kong,357 Maple Dr,Champaign,IL,61820,(555) 901-5678,Last name mismatch,
+B009,C,Grace Hill,258 Oak Ct,Champaign,IL,61820,(555) 901-6789,Zone changed,
+B009,C,Mona Richardson,814 Elm Ave,Champaign,IL,61820,(555) 567-3456,Buzzer 42,
+B010,C,Steve Russell,456 Birch Dr,Champaign,IL,61820,(555) 123-9012,,
+B010,C,Yuri Sullivan,123 Oak Dr,Champaign,IL,61821,(555) 789-5678,,
+B010,C,Eric Jenkins,789 Cedar Ave,Champaign,IL,61820,(555) 345-1234,,
+B011,D,George Martinez,147 Walnut Way,Peoria,IL,61602,(555) 789-0123,Call before delivery,
+B011,D,Hannah Lee,258 Ash Ct,Peoria,IL,61603,(555) 890-1234,,
+B011,D,Mike Jackson,468 Willow Dr,Peoria,IL,61604,(555) 345-9012,Leave at door,
+B011,D,Tina Wright,468 Elm Ln,Peoria,IL,61602,(555) 012-6789,,
+B011,D,Uma Scott,579 Cedar Ct,Peoria,IL,61603,(555) 123-8901,,
+B012,D,Mike Jackson,468 Willow Dr,Peoria,IL,61604,(555) 345-9012,Duplicate phone,DUPLICATE
+B012,D,Tina Wright,468 Elm Ln,Peoria,IL,61602,(555) 012-6789,Duplicate,DUPLICATE
+B012,D,Uma Scott,579 Cedar Ct,Peoria,IL,61603,(555) 123-8901,duplicate,DUPLICATE
+B012,D,Henry Cook,369 Maple Blvd,Peoria,IL,61602,(555) 012-7890,Format variant,
+B012,D,Nate Howard,925 Maple Ct,Peoria,IL,61604,(555) 678-4567,,
+B013,D,Tracy Diaz,567 Pine Ave,Peoria,IL,61602,(555) 234-0123,,
+B013,D,Zoe Powell,234 Birch Ct,Peoria,IL,61603,(555) 890-6789,,
+B013,D,Fran Gibson,890 Birch Dr,Peoria,IL,61604,(555) 456-2345,Special instructions: leave with neighbor,
+B014,E,Ian Wilson,369 Cherry St,Bloomington,IL,61701,(555) 901-2345,,
+B014,E,Julia Taylor,159 Spruce Ave,Bloomington,IL,61702,(555) 012-3456,,
+B014,E,Victor Green,680 Birch Way,Bloomington,IL,61701,(555) 234-9012,,
+B014,E,Victor Green,680 Birch Way,Bloomington,IL,61701,(555) 234-9012,duplicate,DUPLICATE
+B014,E,Iris Collins,470 Pine Dr,Bloomington,IL,61701,(555) 123-9012,Format variant,
+B015,E,Olive Ward,369 Walnut Dr,Bloomington,IL,61701,(555) 789-5678,,
+B015,E,Ulysses Hayes,678 Oak Ct,Bloomington,IL,61701,(555) 345-1234,,
+B015,E,Aaron Butler,345 Maple Ave,Bloomington,IL,61702,(555) 901-7890,,
+B015,E,Grant Griffin,901 Maple Ct,Bloomington,IL,61701,(555) 567-3456,Call first,
+B016,F,Kevin Anderson,753 Hickory Rd,Rockford,IL,61101,(555) 123-7890,,
+B016,F,Laura Thomas,951 Poplar St,Rockford,IL,61102,(555) 234-8901,Gate code 4521,
+B016,F,Wendy Baker,791 Walnut Dr,Rockford,IL,61101,(555) 345-0123,,
+B016,F,Xander Nelson,157 Ash Blvd,Rockford,IL,61102,(555) 456-1234,,
+B016,F,Kevin Anderson,753 Hickory Rd,Rockford,IL,61101,(555) 123-7890,Case mismatch 1,DUPLICATE
+B017,F,Laura Thomas,951 Poplar St,Rockford,IL,61102,(555) 234-8901,Case mismatch 2,DUPLICATE
+B017,F,Wendy Baker,791 Walnut Dr,Rockford,IL,61101,(555) 345-0123,duplicate,DUPLICATE
+B017,F,Xander Nelson,157 Ash Blvd,Rockford,IL,61102,(555) 456-1234,duplicate,DUPLICATE
+B017,F,Jack Foster,581 Birch Ct,Rockford,IL,61101,(555) 234-0123,,
+B017,F,Pete Torres,159 Pine Ln,Rockford,IL,61102,(555) 890-6789,,
+B018,F,Vera Crawford,789 Maple Dr,Rockford,IL,61102,(555) 456-2345,,
+B018,F,Beth Fisher,456 Pine Dr,Rockford,IL,61101,(555) 012-8901,,
+B018,F,Holly Caldwell,123 Oak Way,Rockford,IL,61102,(555) 678-4567,,
+B019,Phone glued to email,Oscar Harris,Decatur,IL,62523,B,684 Aspen Way (unusual format),,
