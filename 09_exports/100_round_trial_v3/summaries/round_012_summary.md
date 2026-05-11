@@ -1,0 +1,23 @@
+# Round 012 — Candidate Discovery — Cycle 2
+
+- Trial ID: 100-round-trial-v3
+- Round type: candidate_discovery
+- Result: PASS
+- Files inspected: 10_runtime/auto_self_improve_2_sandbox.py
+- Files modified: None
+- Tests run: create candidate 'cycle2_candidate_a_low' risk=low: eligible=True; create candidate 'cycle2_candidate_b_low' risk=low: eligible=True; create candidate 'cycle2_candidate_c_medium' risk=medium: eligible=True
+- Failures found: None
+- Fixes applied: None
+- Validators before: v25=PASS, v24=PASS, as2=PASS
+- Validators after: v25=PASS, v24=PASS, as2=PASS
+- Official repo touched: False
+- agent-command-center-2 touched: False
+- Promotion allowed: False
+- Deployment allowed: False
+- Secrets/credentials used: False
+- Runtime version changed: False
+- Release lock changed: False
+- Adapter version changed: False
+- Evidence JSON: 09_exports/100_round_trial_v3/evidence/round_012.json
+- Evidence SHA256: cd1a161951641603ebd03518b75cbebf06e1b360bafd033d73eb222bfbf4e40e
+- Recommended next action: Proceed to next round

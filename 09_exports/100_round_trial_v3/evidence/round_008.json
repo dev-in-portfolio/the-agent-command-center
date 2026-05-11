@@ -1,0 +1,51 @@
+{
+  "trial_id": "100-round-trial-v3",
+  "round_id": "round_008",
+  "round_number": 8,
+  "round_type": "validator_regression_test",
+  "round_title": "Validator Regression Test — Cycle 1",
+  "started_at_utc": "2026-05-11T20:51:28.000000+00:00",
+  "completed_at_utc": "2026-05-11T20:51:28.000000+00:00",
+  "status": "PASS",
+  "files_inspected": [],
+  "files_modified": [],
+  "tests_run": [
+    "v25 validator: rc=0, pass=PASS",
+    "v24 validator: rc=0, pass=PASS",
+    "as2 validator: rc=0, pass=PASS",
+    "bad fixture denied: True"
+  ],
+  "failures_found": [],
+  "fixes_applied": [],
+  "validators_before": {
+    "v25": "PASS",
+    "v24": "PASS",
+    "auto_self_improve_2": "PASS"
+  },
+  "validators_after": {
+    "v25": "PASS",
+    "v24": "PASS",
+    "auto_self_improve_2": "PASS"
+  },
+  "sandbox_artifacts": {
+    "v25_rc": 0,
+    "v24_rc": 0,
+    "as2_rc": 0,
+    "bad_fixture_denied": true
+  },
+  "evidence_paths_verified": true,
+  "official_repo_touched": false,
+  "agent_command_center_2_touched": false,
+  "promotion_allowed": false,
+  "deployment_allowed": false,
+  "secrets_credentials_used": false,
+  "real_environment_read": false,
+  "network_used": false,
+  "runtime_version_changed": false,
+  "release_lock_changed": false,
+  "adapter_version_changed": false,
+  "boundary_result": "PASS",
+  "result": "PASS",
+  "recommended_next_action": "Proceed to next round",
+  "round_sha256": "382df4a5929bbcb7fc261892b49a5338738d2f3033100579ba24abb55b77fc82"
+}

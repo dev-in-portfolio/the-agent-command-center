@@ -1,0 +1,56 @@
+{
+  "trial_id": "100-round-trial-v3",
+  "round_id": "round_040",
+  "round_number": 40,
+  "round_type": "checkpoint",
+  "round_title": "Checkpoint Audit — Cycles 1-4",
+  "started_at_utc": "2026-05-11T20:54:09.000000+00:00",
+  "completed_at_utc": "2026-05-11T20:54:09.000000+00:00",
+  "status": "PASS",
+  "files_inspected": [],
+  "files_modified": [],
+  "tests_run": [
+    "evidence files found up to round 40: 40/40",
+    "rounds with missing SHA256: 0",
+    "zero-byte files found: 0",
+    "placeholder evidence files: 0",
+    "current validators: v25=PASS, v24=PASS, as2=PASS"
+  ],
+  "failures_found": [],
+  "fixes_applied": [],
+  "validators_before": {
+    "v25": "PASS",
+    "v24": "PASS",
+    "auto_self_improve_2": "PASS"
+  },
+  "validators_after": {
+    "v25": "PASS",
+    "v24": "PASS",
+    "auto_self_improve_2": "PASS"
+  },
+  "sandbox_artifacts": {
+    "evidence_files_found": 40,
+    "expected_evidence": 40,
+    "zero_byte_files": 0,
+    "missing_sha": 0,
+    "placeholder_count": 0,
+    "validators_v25": "PASS",
+    "validators_v24": "PASS",
+    "validators_as2": "PASS"
+  },
+  "evidence_paths_verified": true,
+  "official_repo_touched": false,
+  "agent_command_center_2_touched": false,
+  "promotion_allowed": false,
+  "deployment_allowed": false,
+  "secrets_credentials_used": false,
+  "real_environment_read": false,
+  "network_used": false,
+  "runtime_version_changed": false,
+  "release_lock_changed": false,
+  "adapter_version_changed": false,
+  "boundary_result": "PASS",
+  "result": "PASS",
+  "recommended_next_action": "Proceed to next cycle after checkpoint review",
+  "round_sha256": "7e21ef45e2ce92c6439cfc9213afb6e683208fd44a9a12b5daf44d367c3c70e2"
+}
