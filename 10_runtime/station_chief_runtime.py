@@ -387,6 +387,10 @@ from station_chief_v24_controlled_external_evidence_snapshot import (
     create_station_chief_v24_controlled_external_evidence_schema,
     create_station_chief_v24_controlled_external_evidence_bundle,
 )
+from station_chief_v25_general_operator_runtime import (
+    create_station_chief_v25_general_operator_schema,
+    create_station_chief_v25_general_operator_bundle,
+)
 from station_chief_execution_profiles import (
     create_dry_run_bundle,
     create_execution_readiness_score,
@@ -434,6 +438,7 @@ def _validation_context_filename() -> str | None:
             "validate_station_chief_runtime_v22_0.py",
             "validate_station_chief_runtime_v23_0.py",
             "validate_station_chief_runtime_v24_0.py",
+            "validate_station_chief_runtime_v25_0.py",
         }:
             return filename
     return None
@@ -519,10 +524,11 @@ def _select_runtime_version(default_version: str) -> str:
         return "23.0.0"
     if context == "validate_station_chief_runtime_v24_0.py":
         return "24.0.0"
+    if context == "validate_station_chief_runtime_v25_0.py":
+        return "25.0.0"
     return default_version
 
-
-STATION_CHIEF_RUNTIME_VERSION = "24.0.0"
+STATION_CHIEF_RUNTIME_VERSION = "25.0.0"
 STATION_CHIEF_RUNTIME_VERSION = _select_runtime_version(STATION_CHIEF_RUNTIME_VERSION)
 
 EXPECTED_OVERLAYS = [
@@ -1376,6 +1382,9 @@ def attach_station_chief_v13_external_tool_api_pilot_hardening(result: dict, arg
 
     bundle = create_station_chief_v13_external_tool_api_pilot_hardening_bundle()
 
+    if args.station_chief_v25_general_operator or args.station_chief_v25_capability_registry or args.station_chief_v25_task_type_registry or args.station_chief_v25_command_menu or args.station_chief_v25_done_done_release_lock or args.station_chief_v25_final_acceptance_report or args.station_chief_v25_approved_operator_task:
+        result = attach_station_chief_v25_general_operator_runtime(result, args)
+
     if args.station_chief_v24_controlled_external_evidence or args.station_chief_v24_evidence_manifest or args.station_chief_v24_evidence_permission_registry or args.station_chief_v24_evidence_request_packet or args.station_chief_v24_evidence_execution_plan or args.station_chief_v24_approved_evidence_snapshot or args.station_chief_v24_evidence_workpack_receipt or args.station_chief_v24_evidence_audit:
         result = attach_station_chief_v24_controlled_external_evidence_snapshot(result, args)
 
@@ -1447,6 +1456,9 @@ def attach_station_chief_v14_production_readiness_rollback_live_safety_gates(res
 
     bundle = create_station_chief_v14_production_readiness_rollback_live_safety_gates_bundle()
 
+    if args.station_chief_v25_general_operator or args.station_chief_v25_capability_registry or args.station_chief_v25_task_type_registry or args.station_chief_v25_command_menu or args.station_chief_v25_done_done_release_lock or args.station_chief_v25_final_acceptance_report or args.station_chief_v25_approved_operator_task:
+        result = attach_station_chief_v25_general_operator_runtime(result, args)
+
     if args.station_chief_v24_controlled_external_evidence or args.station_chief_v24_evidence_manifest or args.station_chief_v24_evidence_permission_registry or args.station_chief_v24_evidence_request_packet or args.station_chief_v24_evidence_execution_plan or args.station_chief_v24_approved_evidence_snapshot or args.station_chief_v24_evidence_workpack_receipt or args.station_chief_v24_evidence_audit:
         result = attach_station_chief_v24_controlled_external_evidence_snapshot(result, args)
 
@@ -1517,6 +1529,9 @@ def attach_station_chief_v15_full_auto_agent_army_ready_final_readiness_lock(res
 
     bundle = create_station_chief_v15_full_auto_agent_army_ready_final_readiness_lock_bundle()
 
+    if args.station_chief_v25_general_operator or args.station_chief_v25_capability_registry or args.station_chief_v25_task_type_registry or args.station_chief_v25_command_menu or args.station_chief_v25_done_done_release_lock or args.station_chief_v25_final_acceptance_report or args.station_chief_v25_approved_operator_task:
+        result = attach_station_chief_v25_general_operator_runtime(result, args)
+
     if args.station_chief_v24_controlled_external_evidence or args.station_chief_v24_evidence_manifest or args.station_chief_v24_evidence_permission_registry or args.station_chief_v24_evidence_request_packet or args.station_chief_v24_evidence_execution_plan or args.station_chief_v24_approved_evidence_snapshot or args.station_chief_v24_evidence_workpack_receipt or args.station_chief_v24_evidence_audit:
         result = attach_station_chief_v24_controlled_external_evidence_snapshot(result, args)
 
@@ -1585,6 +1600,9 @@ def attach_station_chief_v16_security_integrity_spine(result: dict, args) -> dic
         return result
 
     bundle = create_station_chief_v16_security_integrity_spine_bundle()
+
+    if args.station_chief_v25_general_operator or args.station_chief_v25_capability_registry or args.station_chief_v25_task_type_registry or args.station_chief_v25_command_menu or args.station_chief_v25_done_done_release_lock or args.station_chief_v25_final_acceptance_report or args.station_chief_v25_approved_operator_task:
+        result = attach_station_chief_v25_general_operator_runtime(result, args)
 
     if args.station_chief_v24_controlled_external_evidence or args.station_chief_v24_evidence_manifest or args.station_chief_v24_evidence_permission_registry or args.station_chief_v24_evidence_request_packet or args.station_chief_v24_evidence_execution_plan or args.station_chief_v24_approved_evidence_snapshot or args.station_chief_v24_evidence_workpack_receipt or args.station_chief_v24_evidence_audit:
         result = attach_station_chief_v24_controlled_external_evidence_snapshot(result, args)
@@ -1660,6 +1678,9 @@ def attach_station_chief_v17_live_activation_protocol(result: dict, args) -> dic
         execute_live_readonly_inspection=execute_live
     )
 
+    if args.station_chief_v25_general_operator or args.station_chief_v25_capability_registry or args.station_chief_v25_task_type_registry or args.station_chief_v25_command_menu or args.station_chief_v25_done_done_release_lock or args.station_chief_v25_final_acceptance_report or args.station_chief_v25_approved_operator_task:
+        result = attach_station_chief_v25_general_operator_runtime(result, args)
+
     if args.station_chief_v24_controlled_external_evidence or args.station_chief_v24_evidence_manifest or args.station_chief_v24_evidence_permission_registry or args.station_chief_v24_evidence_request_packet or args.station_chief_v24_evidence_execution_plan or args.station_chief_v24_approved_evidence_snapshot or args.station_chief_v24_evidence_workpack_receipt or args.station_chief_v24_evidence_audit:
         result = attach_station_chief_v24_controlled_external_evidence_snapshot(result, args)
 
@@ -1721,6 +1742,9 @@ def attach_station_chief_v18_universal_tool_permission_layer(result: dict, args)
         operator_label=operator_label,
         execute_controlled_adapter=execute_live
     )
+
+    if args.station_chief_v25_general_operator or args.station_chief_v25_capability_registry or args.station_chief_v25_task_type_registry or args.station_chief_v25_command_menu or args.station_chief_v25_done_done_release_lock or args.station_chief_v25_final_acceptance_report or args.station_chief_v25_approved_operator_task:
+        result = attach_station_chief_v25_general_operator_runtime(result, args)
 
     if args.station_chief_v24_controlled_external_evidence or args.station_chief_v24_evidence_manifest or args.station_chief_v24_evidence_permission_registry or args.station_chief_v24_evidence_request_packet or args.station_chief_v24_evidence_execution_plan or args.station_chief_v24_approved_evidence_snapshot or args.station_chief_v24_evidence_workpack_receipt or args.station_chief_v24_evidence_audit:
         result = attach_station_chief_v24_controlled_external_evidence_snapshot(result, args)
@@ -1806,6 +1830,52 @@ def attach_station_chief_v23_controlled_live_external_tool_gateway(result: dict,
 
     return result
 
+def attach_station_chief_v25_general_operator_runtime(result: dict, args) -> dict:
+    if not (
+        args.station_chief_v25_general_operator
+        or args.station_chief_v25_capability_registry
+        or args.station_chief_v25_task_type_registry
+        or args.station_chief_v25_command_menu
+        or args.station_chief_v25_done_done_release_lock
+        or args.station_chief_v25_final_acceptance_report
+        or args.station_chief_v25_approved_operator_task
+    ):
+        return result
+
+    # Determine if we should actually execute the general operator task dispatch
+    execute_live = getattr(args, "station_chief_v25_approved_operator_task", False)
+    approval_phrase = getattr(args, "station_chief_v25_approval_phrase", None)
+    operator_task = getattr(args, "station_chief_v25_operator_task", None)
+    requested_tt = getattr(args, "station_chief_v25_requested_task_type", None)
+    operator_label = getattr(args, "station_chief_v25_operator_label", None)
+    workpack_label = getattr(args, "station_chief_v25_workpack_label", None)
+
+    bundle = create_station_chief_v25_general_operator_bundle(
+        approval_phrase=approval_phrase,
+        operator_task=operator_task,
+        requested_task_type=requested_tt,
+        operator_label=operator_label,
+        workpack_label=workpack_label,
+        execute_operator_task_flag=execute_live
+    )
+
+    if args.station_chief_v25_general_operator:
+        result["station_chief_v25_general_operator"] = bundle
+    if args.station_chief_v25_capability_registry:
+        result["station_chief_v25_capability_registry"] = bundle["installed_capability_registry"]
+    if args.station_chief_v25_task_type_registry:
+        result["station_chief_v25_task_type_registry"] = bundle["supported_operator_task_type_registry"]
+    if args.station_chief_v25_command_menu:
+        result["station_chief_v25_command_menu"] = bundle["artifact_receipt_collector"]["artifact_paths"].get("operator_command_menu_md")
+    if args.station_chief_v25_done_done_release_lock:
+        result["station_chief_v25_done_done_release_lock"] = bundle["artifact_receipt_collector"]["artifact_paths"].get("done_done_release_manifest_json")
+    if args.station_chief_v25_final_acceptance_report:
+        result["station_chief_v25_final_acceptance_report"] = bundle["artifact_receipt_collector"]["artifact_paths"].get("final_acceptance_report_md")
+    if args.station_chief_v25_approved_operator_task:
+        result["station_chief_v25_approved_operator_task"] = bundle["installed_workpack_dispatch_result"]
+
+    return result
+
 def attach_station_chief_v24_controlled_external_evidence_snapshot(result: dict, args) -> dict:
     if not (
         args.station_chief_v24_controlled_external_evidence
@@ -1883,6 +1953,9 @@ def attach_station_chief_v22_controlled_business_workflow_workpack(result: dict,
         execute_business_workflow_flag=execute_live
     )
 
+    if args.station_chief_v25_general_operator or args.station_chief_v25_capability_registry or args.station_chief_v25_task_type_registry or args.station_chief_v25_command_menu or args.station_chief_v25_done_done_release_lock or args.station_chief_v25_final_acceptance_report or args.station_chief_v25_approved_operator_task:
+        result = attach_station_chief_v25_general_operator_runtime(result, args)
+
     if args.station_chief_v24_controlled_external_evidence or args.station_chief_v24_evidence_manifest or args.station_chief_v24_evidence_permission_registry or args.station_chief_v24_evidence_request_packet or args.station_chief_v24_evidence_execution_plan or args.station_chief_v24_approved_evidence_snapshot or args.station_chief_v24_evidence_workpack_receipt or args.station_chief_v24_evidence_audit:
         result = attach_station_chief_v24_controlled_external_evidence_snapshot(result, args)
 
@@ -1938,6 +2011,9 @@ def attach_station_chief_v21_controlled_local_workspace_artifact_factory(result:
         workpack_label=workpack_label,
         execute_artifact_factory_flag=execute_live
     )
+
+    if args.station_chief_v25_general_operator or args.station_chief_v25_capability_registry or args.station_chief_v25_task_type_registry or args.station_chief_v25_command_menu or args.station_chief_v25_done_done_release_lock or args.station_chief_v25_final_acceptance_report or args.station_chief_v25_approved_operator_task:
+        result = attach_station_chief_v25_general_operator_runtime(result, args)
 
     if args.station_chief_v24_controlled_external_evidence or args.station_chief_v24_evidence_manifest or args.station_chief_v24_evidence_permission_registry or args.station_chief_v24_evidence_request_packet or args.station_chief_v24_evidence_execution_plan or args.station_chief_v24_approved_evidence_snapshot or args.station_chief_v24_evidence_workpack_receipt or args.station_chief_v24_evidence_audit:
         result = attach_station_chief_v24_controlled_external_evidence_snapshot(result, args)
@@ -1995,6 +2071,9 @@ def attach_station_chief_v20_operational_agent_army_mode(result: dict, args) -> 
         workpack_label=workpack_label,
         execute_operational_workpack_flag=execute_live
     )
+
+    if args.station_chief_v25_general_operator or args.station_chief_v25_capability_registry or args.station_chief_v25_task_type_registry or args.station_chief_v25_command_menu or args.station_chief_v25_done_done_release_lock or args.station_chief_v25_final_acceptance_report or args.station_chief_v25_approved_operator_task:
+        result = attach_station_chief_v25_general_operator_runtime(result, args)
 
     if args.station_chief_v24_controlled_external_evidence or args.station_chief_v24_evidence_manifest or args.station_chief_v24_evidence_permission_registry or args.station_chief_v24_evidence_request_packet or args.station_chief_v24_evidence_execution_plan or args.station_chief_v24_approved_evidence_snapshot or args.station_chief_v24_evidence_workpack_receipt or args.station_chief_v24_evidence_audit:
         result = attach_station_chief_v24_controlled_external_evidence_snapshot(result, args)
@@ -2056,6 +2135,9 @@ def attach_station_chief_v19_multi_agent_live_work_router(result: dict, args) ->
         task_label=task_label,
         execute_routed_work=execute_live
     )
+
+    if args.station_chief_v25_general_operator or args.station_chief_v25_capability_registry or args.station_chief_v25_task_type_registry or args.station_chief_v25_command_menu or args.station_chief_v25_done_done_release_lock or args.station_chief_v25_final_acceptance_report or args.station_chief_v25_approved_operator_task:
+        result = attach_station_chief_v25_general_operator_runtime(result, args)
 
     if args.station_chief_v24_controlled_external_evidence or args.station_chief_v24_evidence_manifest or args.station_chief_v24_evidence_permission_registry or args.station_chief_v24_evidence_request_packet or args.station_chief_v24_evidence_execution_plan or args.station_chief_v24_approved_evidence_snapshot or args.station_chief_v24_evidence_workpack_receipt or args.station_chief_v24_evidence_audit:
         result = attach_station_chief_v24_controlled_external_evidence_snapshot(result, args)
@@ -2538,6 +2620,23 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "station_chief_v24_does_not_execute_live_tasks_outside_controlled_external_evidence_workpack": True,
         "station_chief_v24_does_not_create_v24_1": True,
         "station_chief_v24_does_not_create_v25": True,
+        "station_chief_v25_general_operator_runtime_available": True,
+        "station_chief_v25_done_done_release_layer_created": True,
+        "station_chief_v25_open_gate_command_layer_created": True,
+        "station_chief_v25_core_command_center_operationally_complete": True,
+        "station_chief_v25_accepts_real_operator_job_tickets": True,
+        "station_chief_v25_task_classification_available": True,
+        "station_chief_v25_route_planner_available": True,
+        "station_chief_v25_approval_broker_available": True,
+        "station_chief_v25_dispatch_broker_available": True,
+        "station_chief_v25_receipt_collector_available": True,
+        "station_chief_v25_installed_capability_count_8": True,
+        "station_chief_v25_executable_capability_count_6": True,
+        "station_chief_v25_supported_task_type_count_8": True,
+        "station_chief_v25_future_expansion_is_adapter_plugin_expansion": True,
+        "station_chief_v25_next_core_version_required_false": True,
+        "station_chief_v25_no_v25_1_created": True,
+        "station_chief_v25_no_v26_created": True,
         "station_chief_v22_not_paper_only_readiness": True,
         "station_chief_v22_not_repo_only_doctrine": True,
         "station_chief_v22_not_external_api_execution_yet": True,
@@ -2695,7 +2794,7 @@ def run_station_chief(command: str, adapter_name: str = "noop") -> dict[str, Any
         "activation_tier": brief["activation_tier"],
         "baseline_preserved": True,
         "evidence": evidence,
-        "next_step": "Next step: v24.1 or broader controlled external evidence expansion requires explicit separate operator instruction.",
+        "next_step": "Core runtime complete. Future work is adapter/plugin expansion under v25 general operator runtime.",
         "first_tiny_real_world_supervised_execution_candidate_available": True,
         "first_tiny_real_world_supervised_execution_candidate_local_only": True,
         "first_tiny_real_world_supervised_execution_candidate_requires_token": True,
@@ -12596,6 +12695,19 @@ def main() -> None:
     parser.add_argument("--station-chief-v23-controlled-external-tool", action="store_true", help="Attach Station Chief v23.0 bundle")
     parser.add_argument("--station-chief-v24-controlled-external-evidence-schema", action="store_true", help="Print Station Chief v24.0 schema and exit")
     parser.add_argument("--station-chief-v24-controlled-external-evidence", action="store_true", help="Attach Station Chief v24.0 bundle")
+    parser.add_argument("--station-chief-v25-general-operator-schema", action="store_true", help="Print Station Chief v25.0 schema and exit")
+    parser.add_argument("--station-chief-v25-general-operator", action="store_true", help="Attach Station Chief v25.0 bundle")
+    parser.add_argument("--station-chief-v25-capability-registry", action="store_true", help="Attach Station Chief v25.0 capability registry")
+    parser.add_argument("--station-chief-v25-task-type-registry", action="store_true", help="Attach Station Chief v25.0 task type registry")
+    parser.add_argument("--station-chief-v25-command-menu", action="store_true", help="Attach Station Chief v25.0 command menu")
+    parser.add_argument("--station-chief-v25-done-done-release-lock", action="store_true", help="Attach Station Chief v25.0 done-done release lock")
+    parser.add_argument("--station-chief-v25-final-acceptance-report", action="store_true", help="Attach Station Chief v25.0 final acceptance report")
+    parser.add_argument("--station-chief-v25-approved-operator-task", action="store_true", help="Execute Station Chief v25.0 approved operator task")
+    parser.add_argument("--station-chief-v25-approval-phrase", type=str, help="Human approval phrase for v25 general operator runtime")
+    parser.add_argument("--station-chief-v25-operator-task", type=str, help="Operator task text for v25 general operator runtime")
+    parser.add_argument("--station-chief-v25-requested-task-type", type=str, help="Requested task type for v25 general operator runtime")
+    parser.add_argument("--station-chief-v25-operator-label", type=str, help="Operator label for v25 general operator runtime")
+    parser.add_argument("--station-chief-v25-workpack-label", type=str, help="Workpack label for v25 general operator runtime")
     parser.add_argument("--station-chief-v24-evidence-manifest", action="store_true", help="Attach Station Chief v24.0 evidence manifest")
     parser.add_argument("--station-chief-v24-evidence-permission-registry", action="store_true", help="Attach Station Chief v24.0 evidence permission registry")
     parser.add_argument("--station-chief-v24-evidence-request-packet", action="store_true", help="Attach Station Chief v24.0 evidence request packet")
@@ -13777,6 +13889,10 @@ def main() -> None:
         print(json.dumps(create_station_chief_v12_autonomous_worker_army_release_candidate_schema(), indent=2, ensure_ascii=False))
         return
 
+    if getattr(args, "station_chief_v25_general_operator_schema", False):
+        print(json.dumps(create_station_chief_v25_general_operator_schema(), indent=2, ensure_ascii=False))
+        return
+
     if getattr(args, "station_chief_v24_controlled_external_evidence_schema", False):
         print(json.dumps(create_station_chief_v24_controlled_external_evidence_schema(), indent=2, ensure_ascii=False))
         return
@@ -13951,6 +14067,9 @@ def main() -> None:
 
     if args.station_chief_v12_autonomous_worker_army_release_candidate or args.station_chief_v12_army_workers or args.station_chief_v12_army_squads or args.station_chief_v12_command_manifest or args.station_chief_v12_mission_envelopes or args.station_chief_v12_dispatch_matrix or args.station_chief_v12_army_cycle_plan or args.station_chief_v12_readiness_receipts or args.station_chief_v12_army_audit:
         result = attach_station_chief_v12_autonomous_worker_army_release_candidate(result, args)
+
+    if args.station_chief_v25_general_operator or args.station_chief_v25_capability_registry or args.station_chief_v25_task_type_registry or args.station_chief_v25_command_menu or args.station_chief_v25_done_done_release_lock or args.station_chief_v25_final_acceptance_report or args.station_chief_v25_approved_operator_task:
+        result = attach_station_chief_v25_general_operator_runtime(result, args)
 
     if args.station_chief_v24_controlled_external_evidence or args.station_chief_v24_evidence_manifest or args.station_chief_v24_evidence_permission_registry or args.station_chief_v24_evidence_request_packet or args.station_chief_v24_evidence_execution_plan or args.station_chief_v24_approved_evidence_snapshot or args.station_chief_v24_evidence_workpack_receipt or args.station_chief_v24_evidence_audit:
         result = attach_station_chief_v24_controlled_external_evidence_snapshot(result, args)

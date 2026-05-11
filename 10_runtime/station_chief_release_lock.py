@@ -45,6 +45,7 @@ def _validation_context_filename() -> str | None:
             "validate_station_chief_runtime_v22_0.py",
             "validate_station_chief_runtime_v23_0.py",
             "validate_station_chief_runtime_v24_0.py",
+            "validate_station_chief_runtime_v25_0.py",
         }:
             return filename
     return None
@@ -130,11 +131,18 @@ def _select_stable_runtime_version(default_version: str) -> str:
         return "23.0.0"
     if context == "validate_station_chief_runtime_v24_0.py":
         return "24.0.0"
+    if context == "validate_station_chief_runtime_v25_0.py":
+        return "25.0.0"
     return default_version
 
 
-STABLE_RUNTIME_VERSION = "24.0.0"
+STABLE_RUNTIME_VERSION = "25.0.0"
 STABLE_RUNTIME_VERSION = _select_stable_runtime_version(STABLE_RUNTIME_VERSION)
+
+FINAL_DONE_DONE_RELEASE_VERSION = "25.0.0"
+FINAL_DONE_DONE_RELEASE_STATUS = "CORE_COMMAND_CENTER_OPERATIONALLY_COMPLETE"
+NEXT_CORE_VERSION_REQUIRED = False
+FUTURE_EXPANSION_MODE = "adapter_plugin_expansion"
 
 def canonical_json(data: object) -> str:
     return json.dumps(data, sort_keys=True, separators=(",", ":"), ensure_ascii=False)

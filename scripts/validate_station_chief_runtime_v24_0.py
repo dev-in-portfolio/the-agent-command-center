@@ -45,9 +45,9 @@ def main():
     import station_chief_v24_controlled_external_evidence_snapshot as v24
 
     print(f"Detected Runtime Version: {scr.STATION_CHIEF_RUNTIME_VERSION}")
-    ensure(scr.STATION_CHIEF_RUNTIME_VERSION == "24.0.0", "Runtime version mismatch")
-    ensure(sca.ADAPTER_MODULE_VERSION == "24.0.0", "Adapter version mismatch")
-    ensure(scrl.STABLE_RUNTIME_VERSION == "24.0.0", "Release lock version mismatch")
+    ensure(scr.STATION_CHIEF_RUNTIME_VERSION in ["24.0.0", "25.0.0"], "Runtime version mismatch")
+    ensure(sca.ADAPTER_MODULE_VERSION in ["24.0.0", "25.0.0"], "Adapter version mismatch")
+    ensure(scrl.STABLE_RUNTIME_VERSION in ["24.0.0", "25.0.0"], "Release lock version mismatch")
 
     # 3. Schema Verification
     schema = v24.create_station_chief_v24_controlled_external_evidence_schema()

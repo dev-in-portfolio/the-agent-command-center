@@ -1,48 +1,32 @@
-# Station Chief Runtime v24.0.0
+# Station Chief Runtime v25.0.0
 
 ## Status
-Station Chief Runtime upgraded to v24.0.0. Locked 175-family baseline preserved. v8.0 through v23.0 preserved. Station Chief v24.0 Controlled External Evidence Snapshot Gateway / Allowlisted Content Digest Workpack Candidate added.
+Station Chief Runtime upgraded to v25.0.0. Locked 175-family baseline preserved. v8.0 through v24.0 preserved. Station Chief v25.0 General Operator Task Runtime / Open-Gate Release Layer added.
 
 ## What This Adds
-- v24.0 is the first controlled external content digest layer
-- v24.0 is not paper-only readiness; it includes a safe live external fetch capability
-- v24.0 creates the controlled external evidence snapshot gateway
-- v24.0 creates an external evidence permission registry
-- v24.0 creates ten external evidence categories
-- v24.0 enables exactly one executable external evidence category
-- v24.0 locks nine external evidence categories
-- v24.0 allows exactly one HTTPS GET to https://example.com/ when approved
-- v24.0 extracts sanitized title and sanitized preview only
-- v24.0 caps sanitized preview at 280 characters
-- v24.0 never prints, stores, or returns raw response body content
-- v24.0 never stores full visible text
-- v24.0 routes the operational chain through the existing v23/v22/v21/v20/v19/v18/v17 path
-- v24.0 writes only controlled external evidence artifacts outside the repo
-- v24.0 creates external evidence receipts
-- v24.0 creates external evidence handoff ledger
-- v24.0 creates external evidence audit record
-- v24.0 requires exact human approval phrase
-- v24.0 does not start real worker processes
-- v24.0 does not start background agents
-- v24.0 does not mutate repo files
-- v24.0 does not commit or push
-- v24.0 does not deploy
-- v24.0 does not touch production
-- v24.0 does not access credentials/tokens/secrets/env/keys/vaults
-- v24.0 does not send emails
-- v24.0 does not create calendar events
-- v24.0 does not perform database operations
-- v24.0 does not execute deployment adapters live
-- v24.0 does not generate binary documents or binary spreadsheets
-- v24.0 does not create real queues
-- v24.0 does not route to real worker processes
-- v24.0 does not perform uncontrolled live orchestration
-- v24.0 does not create v24.1
-- v24.0 does not create v25
-- Next internal label:
-  v24.1 or broader controlled external evidence expansion requires explicit separate operator instruction
+- v25.0 is the done-done release layer
+- v25.0 is the general operator task runtime
+- v25.0 is the open-gate command layer
+- v25.0 is not another endless capability expansion
+- v25.0 converts the completed controlled stack into a usable operator command system
+- v25.0 accepts real job tickets
+- v25.0 classifies operator tasks
+- v25.0 routes to installed workpacks
+- v25.0 requests approval when needed
+- v25.0 dispatches approved work to installed controlled workpacks
+- v25.0 returns artifacts, receipts, and audits
+- v25.0 refuses unsupported or unsafe tasks
+- v25.0 declares the core command center operationally complete
+- future work is adapter/plugin expansion under v25, not core runtime unfinished
+- v25.0 does not create v25.1
+- v25.0 does not create v26
+- next core version required: false
 
 ## History
+### v24.0.0
+Station Chief Runtime upgraded to v24.0.0. Locked 175-family baseline preserved. v8.0 through v23.0 preserved. Station Chief v24.0 Controlled External Evidence Snapshot Gateway / Allowlisted Content Digest Workpack Candidate added.
+Next internal label: v24.1 or broader controlled external evidence expansion requires explicit separate operator instruction.
+
 ### v23.0.0
 Station Chief Runtime upgraded to v23.0.0. Locked 175-family baseline preserved. v8.0 through v22.0 preserved. Station Chief v23.0 Controlled Live External Tool Gateway / Allowlisted Web Probe Workpack Candidate added.
 Next internal label: v23.1 or broader live external tool expansion requires explicit separate operator instruction.

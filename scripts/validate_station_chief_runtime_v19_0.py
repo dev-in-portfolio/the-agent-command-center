@@ -44,14 +44,14 @@ def main():
     ensure(v19_report.exists(), "v19.0 report missing")
 
     # Versions
-    check_file_content(runtime_dir / "station_chief_runtime.py", r'STATION_CHIEF_RUNTIME_VERSION\s*=\s*"(19\.0\.0|20\.0\.0|21\.0\.0|22\.0\.0|23\.0\.0|24\.0\.0)"', "Runtime version not 19.0.0 or 20.0.0")
-    check_file_content(runtime_dir / "station_chief_release_lock.py", r'STABLE_RUNTIME_VERSION\s*=\s*"(19\.0\.0|20\.0\.0|21\.0\.0|22\.0\.0|23\.0\.0|24\.0\.0)"', "Release lock not 19.0.0 or 20.0.0")
-    check_file_content(runtime_dir / "station_chief_adapters.py", r'ADAPTER_MODULE_VERSION\s*=\s*"(19\.0\.0|20\.0\.0|21\.0\.0|22\.0\.0|23\.0\.0|24\.0\.0)"', "Adapter version not 19.0.0 or 20.0.0")
+    check_file_content(runtime_dir / "station_chief_runtime.py", r'STATION_CHIEF_RUNTIME_VERSION\s*=\s*"(19\.0\.0|20\.0\.0|21\.0\.0|22\.0\.0|23\.0\.0|24\.0\.0|25\.0\.0)"', "Runtime version not 19.0.0 or 20.0.0")
+    check_file_content(runtime_dir / "station_chief_release_lock.py", r'STABLE_RUNTIME_VERSION\s*=\s*"(19\.0\.0|20\.0\.0|21\.0\.0|22\.0\.0|23\.0\.0|24\.0\.0|25\.0\.0)"', "Release lock not 19.0.0 or 20.0.0")
+    check_file_content(runtime_dir / "station_chief_adapters.py", r'ADAPTER_MODULE_VERSION\s*=\s*"(19\.0\.0|20\.0\.0|21\.0\.0|22\.0\.0|23\.0\.0|24\.0\.0|25\.0\.0)"', "Adapter version not 19.0.0 or 20.0.0")
 
     # Future files
     
     # Fast future file check (non-recursive to avoid huge node_modules scan)
-    future_patterns = ["*v20_1*", "*v20.1*", "*v21_1*", "*v21.1*", "*v22_1*", "*v22.1*", "*v23_1*", "*v23.1*",  "*v24_1*", "*v24.1*", "*v25*"]
+    future_patterns = ["*v20_1*", "*v20.1*", "*v21_1*", "*v21.1*", "*v22_1*", "*v22.1*", "*v23_1*", "*v23.1*",  "*v24_1*", "*v24.1*",  "*v25_1*", "*v25.1*", "*v26*"]
     found_future = []
     for p in future_patterns:
         found_future.extend(list(root_dir.glob(p)))
