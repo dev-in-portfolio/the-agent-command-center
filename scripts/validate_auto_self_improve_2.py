@@ -34,6 +34,26 @@ def main():
     ensure(lab2.AUTO_SELF_IMPROVE_2_CAN_SELF_AUTHORIZE_SANDBOX is True, "Self-authorization must be allowed for sandbox")
     ensure(lab2.AUTO_SELF_IMPROVE_2_CAN_MUTATE_OFFICIAL is False, "Official mutation must be denied")
     
+    # 2.1 Timestamp Logic Verification
+    ensure(hasattr(lab2, "create_sandbox_audit_timestamp"), "create_sandbox_audit_timestamp helper missing")
+    ts_meta = lab2.create_sandbox_audit_timestamp()
+    ensure(ts_meta["timestamp_format"] == "utc_iso_8601", "Invalid timestamp format")
+    ensure(ts_meta["timestamp_source"] == "python_datetime_standard_library", "Invalid timestamp source")
+    ensure(ts_meta["environment_read_performed"] is False, "Timestamp helper must not read environment")
+    ensure(ts_meta["credential_access_performed"] is False, "Timestamp helper must not access credentials")
+    ensure(ts_meta["secret_read_performed"] is False, "Timestamp helper must not read secrets")
+    ensure(ts_meta["network_access_performed"] is False, "Timestamp helper must not access network")
+    
+    ts_val = ts_meta["timestamp_utc"]
+    ensure(isinstance(ts_val, str) and len(ts_val) > 0, "Timestamp value must be a non-empty string")
+    ensure("+00:00" in ts_val or ts_val.endswith("Z"), "Timestamp must contain UTC timezone info")
+    
+    # Check placeholder removal
+    lab_content = lab_module.read_text()
+    ensure("'timestamp': 0" not in lab_content, "Placeholder 'timestamp': 0 still exists")
+    ensure('"timestamp": 0' not in lab_content, 'Placeholder "timestamp": 0 still exists')
+    ensure("timestamp_created_for" in lab_content, "Audit timestamp implementation not found in module")
+    
     # 3. Forbidden Implementation Patterns
     content = lab_module.read_text()
     forbidden = [

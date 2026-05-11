@@ -2,6 +2,7 @@ import json
 import hashlib
 import re
 from pathlib import Path
+from datetime import datetime, timezone
 
 AUTO_SELF_IMPROVE_2_VERSION = "1.0.0"
 AUTO_SELF_IMPROVE_2_LAB_ID = "auto-self-improve-2"
@@ -193,6 +194,18 @@ def create_promotion_barrier_record(candidate: dict, evaluation: dict, test_resu
         "promotion_status": "OPERATOR_REVIEW_REQUIRED_FOR_ANY_OFFICIAL_PROMOTION"
     }
 
+def create_sandbox_audit_timestamp() -> dict:
+    return {
+        "timestamp_format": "utc_iso_8601",
+        "timestamp_utc": datetime.now(timezone.utc).isoformat(),
+        "timestamp_source": "python_datetime_standard_library",
+        "timestamp_created_for": "auto_self_improve_2_sandbox_audit",
+        "environment_read_performed": False,
+        "credential_access_performed": False,
+        "secret_read_performed": False,
+        "network_access_performed": False
+    }
+
 def create_auto_self_improve_2_bundle(
     candidate_title: str | None = None,
     candidate_summary: str | None = None,
@@ -212,7 +225,13 @@ def create_auto_self_improve_2_bundle(
         "audit_id": sha256_digest({"c": candidate["candidate_id"], "stage": "audit"}),
         "mutation_type": "sandbox_only",
         "authorized_by": AUTO_SELF_IMPROVE_2_LAB_ID,
-        "timestamp": 0 # Placeholder
+        "timestamp": create_sandbox_audit_timestamp(),
+        "official_repo_touched": False,
+        "propose_only_repo_touched": False,
+        "deployment_performed": False,
+        "credentials_used": False,
+        "secrets_read": False,
+        "promotion_allowed": False
     }
     
     # Write artifacts if authorized
