@@ -67,6 +67,13 @@ def create_sandbox_improvement_candidate(
         risk = "unknown"
         
     verification = verify_repo_relative_evidence_paths(evidence_paths)
+    evidence_verified = False
+    if verification["verification_passed"] and verification["path_count"] > 0 and verification["all_paths_exist"] and verification["all_paths_repo_relative"]:
+        evidence_verified = True
+        
+    self_auth_eligible = False
+    if risk in ["low", "medium"] and evidence_verified:
+        self_auth_eligible = True
         
     return {
         "candidate_id": sha256_digest({"title": title, "target": target, "risk": risk, "paths": evidence_paths}),
@@ -77,7 +84,11 @@ def create_sandbox_improvement_candidate(
         "proposed_by": AUTO_SELF_IMPROVE_2_LAB_ID,
         "evidence_paths": evidence_paths,
         "evidence_path_verification": verification,
-        "evidence_paths_verified": verification["all_paths_exist"],
+        "evidence_paths_verified": evidence_verified,
+        "evidence_required_for_self_authorization": True,
+        "evidence_present": not verification["no_evidence_paths_provided"],
+        "evidence_verified": evidence_verified,
+        "self_authorization_eligible": self_auth_eligible,
         "sandbox_self_authorization_requested": True,
         "official_authorization_requested": False,
         "may_mutate_sandbox": True,
@@ -112,9 +123,18 @@ def evaluate_sandbox_candidate(candidate: dict) -> dict:
     }
 
 def create_sandbox_self_authorization_receipt(candidate: dict, evaluation: dict) -> dict:
-    # Grant sandbox authorization for low/medium risk only
-    granted = (candidate["risk_level"] in ["low", "medium"])
+    granted = False
+    denial_reason = None
     
+    if candidate.get("risk_level") not in ["low", "medium"]:
+        denial_reason = "high_risk_candidate_denied"
+    elif not candidate.get("evidence_verified"):
+        denial_reason = "missing_verified_evidence_denied"
+    elif candidate.get("official_authorization_requested") or candidate.get("may_promote_to_official"):
+        denial_reason = "official_or_promotion_scope_denied"
+    elif candidate.get("self_authorization_eligible"):
+        granted = True
+        
     return {
         "self_authorization_receipt_id": sha256_digest({"c": candidate["candidate_id"], "granted": granted}),
         "sandbox_self_authorization_granted": granted,
@@ -123,7 +143,12 @@ def create_sandbox_self_authorization_receipt(candidate: dict, evaluation: dict)
         "promotion_authorization_granted": False,
         "deployment_authorization_granted": False,
         "credentials_authorization_granted": False,
-        "operator_required_for_official_promotion": True
+        "operator_required_for_official_promotion": True,
+        "denial_reason": denial_reason,
+        "evidence_required_for_self_authorization": True,
+        "evidence_verified_for_authorization": candidate.get("evidence_verified", False),
+        "no_evidence_self_authorization_allowed": False,
+        "fake_evidence_self_authorization_allowed": False
     }
 
 def create_sandbox_candidate_patch(candidate: dict, authorization_receipt: dict) -> dict:
@@ -147,7 +172,7 @@ def write_sandbox_artifact(artifact_name: str, payload: dict, authorization_rece
     if not authorization_receipt["sandbox_self_authorization_granted"]:
         return {"artifact_write_performed": False, "error": "Authorization missing"}
         
-    allowed_names = ["sandbox_candidate_patch", "sandbox_test_result", "sandbox_self_authorization_receipt", "sandbox_mutation_audit"]
+    allowed_names = ["sandbox_candidate_patch", "sandbox_test_result", "sandbox_self_authorization_receipt", "sandbox_mutation_audit", "sandbox_artifact_manifest"]
     if artifact_name not in allowed_names:
         return {"artifact_write_performed": False, "error": f"Unknown artifact name: {artifact_name}"}
         
@@ -236,14 +261,37 @@ def create_sandbox_audit_timestamp() -> dict:
     }
 
 def verify_repo_relative_evidence_paths(paths: list[str] | None, repo_root: str | None = None) -> dict:
-    root = Path(repo_root) if repo_root else Path.cwd()
+    actual_root = Path.cwd().resolve()
+    requested_root = Path(repo_root).resolve() if repo_root else actual_root
+    
+    override_requested = (repo_root is not None)
+    override_allowed = False
+    override_rejected = False
+    root_to_use = actual_root
+
+    if override_requested:
+        if str(requested_root) == str(actual_root):
+            override_allowed = True
+        else:
+            override_rejected = True
+            
     checked_paths = []
     valid_count = 0
     invalid_count = 0
-    all_exist = True
-    all_relative = True
+    all_exist = False
+    all_relative = False
+    verification_passed = False
+    empty_path_rejected = False
+    no_evidence_paths_provided = False
     
-    if paths:
+    if override_rejected:
+        # Do not check paths against external root
+        pass
+    elif not paths:
+        no_evidence_paths_provided = True
+    else:
+        all_exist = True
+        all_relative = True
         for p_str in paths:
             is_valid = True
             exists = False
@@ -260,16 +308,19 @@ def verify_repo_relative_evidence_paths(paths: list[str] | None, repo_root: str 
                 reason = "path_traversal_rejected"
             elif not p_str.strip():
                 is_valid = False
+                empty_path_rejected = True
                 reason = "empty_path_rejected"
             
             if is_valid:
-                target_path = root / p
-                exists = target_path.exists()
-                if not exists:
-                    all_exist = False
-                    invalid_count += 1
+                target_path = (root_to_use / p).resolve()
+                if not str(target_path).startswith(str(root_to_use)):
+                    is_valid = False
+                    reason = "outside_repo_root_rejected"
                 else:
-                    valid_count += 1
+                    exists = target_path.exists()
+                    
+            if is_valid and exists:
+                valid_count += 1
             else:
                 all_exist = False
                 invalid_count += 1
@@ -281,23 +332,39 @@ def verify_repo_relative_evidence_paths(paths: list[str] | None, repo_root: str 
                 "reason": reason
             })
             
-    return {
-        "verification_id": sha256_digest({"paths": paths, "root": str(root)}),
-        "repo_root_used": str(root),
+        verification_passed = (valid_count > 0 and invalid_count == 0 and all_exist and all_relative)
+
+    res = {
+        "verification_id": sha256_digest({"paths": paths, "root": str(root_to_use)}),
+        "repo_root_used": str(root_to_use),
         "path_count": len(paths) if paths else 0,
         "valid_path_count": valid_count,
         "invalid_path_count": invalid_count,
-        "all_paths_exist": all_exist if paths else True,
+        "all_paths_exist": all_exist,
         "all_paths_repo_relative": all_relative,
+        "verification_passed": verification_passed,
         "checked_paths": checked_paths,
+        "evidence_paths_required": True,
+        "evidence_paths_present": not no_evidence_paths_provided,
+        "no_evidence_paths_provided": no_evidence_paths_provided,
+        "empty_path_rejected": empty_path_rejected,
+        "repo_file_contents_read": False,
         "official_repo_touched": False,
         "propose_only_repo_touched": False,
         "credential_access_performed": False,
         "secret_read_performed": False,
         "environment_read_performed": False,
-        "network_access_performed": False,
-        "repo_file_contents_read": False
+        "network_access_performed": False
     }
+    
+    if override_requested:
+        res["repo_root_override_requested"] = True
+        res["repo_root_override_allowed"] = override_allowed
+        res["repo_root_override_rejected"] = override_rejected
+        if override_rejected:
+            res["external_repo_root_probe_blocked"] = True
+            
+    return res
 
 def create_promotion_barrier_doctrine_hash(repo_root: str | None = None) -> dict:
     root = Path(repo_root) if repo_root else Path.cwd()
@@ -428,12 +495,25 @@ def create_operator_promotion_review_snippet(candidate: dict | None = None) -> d
     }
 
 def score_candidate_utility(candidate: dict, evaluation: dict | None = None) -> dict:
-    # Heuristic scoring model v1
-    evidence_score = 5.0
-    if candidate.get("evidence_path_verification", {}).get("all_paths_exist"):
+    # Heuristic scoring model v1.1
+    evidence_score = 0.0
+    evidence_penalty_applied = False
+    missing_evidence_penalty_applied = False
+    fake_evidence_penalty_applied = False
+    
+    verification = candidate.get("evidence_path_verification", {})
+    if verification.get("no_evidence_paths_provided"):
+        evidence_score = 0.0
+        missing_evidence_penalty_applied = True
+        evidence_penalty_applied = True
+    elif not verification.get("all_paths_exist"):
+        evidence_score = 1.0 # Penalize fake evidence heavily
+        fake_evidence_penalty_applied = True
+        evidence_penalty_applied = True
+    elif verification.get("all_paths_exist"):
         evidence_score = 10.0
-    elif candidate.get("evidence_path_verification", {}).get("valid_path_count", 0) > 0:
-        evidence_score = 7.0
+    elif verification.get("valid_path_count", 0) > 0:
+        evidence_score = 6.0
         
     safety_score = 8.0
     title = candidate.get("title", "").lower()
@@ -452,21 +532,28 @@ def score_candidate_utility(candidate: dict, evaluation: dict | None = None) -> 
     if candidate.get("risk_level") == "medium":
         risk_score = 3.0
     elif candidate.get("risk_level") == "high":
-        risk_score = 8.0
+        risk_score = 10.0 # Increase penalty for high risk
         
     containment_score = 10.0 # Default for sandbox lab
     
     priority = evidence_score + safety_score + operator_score + future_score + containment_score - risk_score
     
+    # Unverified evidence penalty
+    if evidence_penalty_applied:
+        priority -= 15.0
+    
     return {
-        "scoring_model_version": "auto-self-improve-2-heuristic-utility-v1",
+        "scoring_model_version": "auto-self-improve-2-heuristic-utility-v1.1",
         "evidence_strength_score": evidence_score,
         "safety_value_score": safety_score,
         "operator_value_score": operator_score,
         "future_self_improvement_value_score": future_score,
         "implementation_risk_score": risk_score,
         "containment_confidence_score": containment_score,
-        "priority_score": priority
+        "priority_score": max(0.0, priority),
+        "evidence_penalty_applied": evidence_penalty_applied,
+        "missing_evidence_penalty_applied": missing_evidence_penalty_applied,
+        "fake_evidence_penalty_applied": fake_evidence_penalty_applied
     }
 
 def create_auto_self_improve_2_bundle(
@@ -511,6 +598,14 @@ def create_auto_self_improve_2_bundle(
         writes["patch"] = write_sandbox_artifact("sandbox_candidate_patch", patch, auth_receipt, candidate_id=c_id)
         writes["test"] = write_sandbox_artifact("sandbox_test_result", test_result, auth_receipt, candidate_id=c_id)
         writes["audit"] = write_sandbox_artifact("sandbox_mutation_audit", audit, auth_receipt, candidate_id=c_id)
+        
+        # New Feature: Unified Artifact Manifest
+        manifest_payload = {
+            "manifest_id": sha256_digest({"c": c_id, "type": "artifact_manifest"}),
+            "candidate_id": c_id,
+            "artifacts_written": [res for k, res in writes.items() if res.get("artifact_write_performed")]
+        }
+        writes["manifest"] = write_sandbox_artifact("sandbox_artifact_manifest", manifest_payload, auth_receipt, candidate_id=c_id)
 
     safety_matrix = {
         "allowed": [

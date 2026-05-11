@@ -48,5 +48,17 @@
 - No secrets or credentials.
 - No self-promotion.
 
+### Breaker Fix Batch #1
+- Required verified repo-relative evidence before sandbox self-authorization.
+- Blocked fake evidence self-authorization.
+- Blocked no-evidence self-authorization.
+- Blocked external repo_root filesystem probes.
+- Added regression tests for BG001, BG004, and BG012.
+- No official repo modification.
+- No repo 2 modification.
+- No promotion.
+- No deployment.
+- No secrets or credentials.
+
 ## Confirmation
 This lab is strictly contained to the `agent-command-center-3` repository. It is authorized to self-authorize sandbox-only mutations within its defined boundary, but remains prohibited from promoting results to the official lineage without manual operator intervention.
