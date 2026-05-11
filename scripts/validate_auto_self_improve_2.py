@@ -112,11 +112,56 @@ def main():
     ensure(manifest["sandbox_self_authorization_allowed"] is True, "Manifest denies sandbox self-authorization")
     ensure(manifest["official_mutation_allowed"] is False, "Manifest allows official mutation")
     
-    # Check low-risk authorization
-    candidate_low = lab2.create_sandbox_improvement_candidate(candidate_title="low_risk", risk_level="low")
+    # Check low-risk authorization (Positive Control)
+    candidate_low = lab2.create_sandbox_improvement_candidate(
+        candidate_title="low_risk", 
+        risk_level="low", 
+        evidence_paths=["10_runtime/auto_self_improve_2_sandbox.py"]
+    )
     eval_low = lab2.evaluate_sandbox_candidate(candidate_low)
     receipt_low = lab2.create_sandbox_self_authorization_receipt(candidate_low, eval_low)
-    ensure(receipt_low["sandbox_self_authorization_granted"] is True, "Authorization denied for low risk candidate")
+    ensure(receipt_low["sandbox_self_authorization_granted"] is True, "Authorization denied for valid low risk candidate")
+    
+    # BG001 Regression: Fake evidence must deny self-authorization
+    candidate_fake = lab2.create_sandbox_improvement_candidate(
+        candidate_title="fake_evidence", 
+        risk_level="low", 
+        evidence_paths=["no_such_file_should_exist_12345.py"]
+    )
+    eval_fake = lab2.evaluate_sandbox_candidate(candidate_fake)
+    receipt_fake = lab2.create_sandbox_self_authorization_receipt(candidate_fake, eval_fake)
+    ensure(candidate_fake["evidence_paths_verified"] is False, "Fake evidence path verified")
+    ensure(candidate_fake["evidence_verified"] is False, "Fake evidence flagged as verified")
+    ensure(candidate_fake["self_authorization_eligible"] is False, "Fake evidence candidate eligible")
+    ensure(receipt_fake["sandbox_self_authorization_granted"] is False, "Authorization granted for fake evidence")
+    ensure(receipt_fake["fake_evidence_self_authorization_allowed"] is False, "Fake evidence explicitly allowed")
+    ensure(receipt_fake["denial_reason"] == "missing_verified_evidence_denied", "Wrong denial reason for fake evidence")
+    
+    # BG004 Regression: external repo_root override probe blocked
+    override_check = lab2.verify_repo_relative_evidence_paths(["etc/passwd"], repo_root="/")
+    ensure(override_check["repo_root_override_requested"] is True, "Override not logged")
+    ensure(override_check["repo_root_override_allowed"] is False, "Override mistakenly allowed")
+    ensure(override_check["repo_root_override_rejected"] is True, "Override not rejected")
+    ensure(override_check["external_repo_root_probe_blocked"] is True, "External probe not blocked")
+    ensure(override_check["all_paths_exist"] is False, "External path checked and found")
+    ensure(override_check["verification_passed"] is False, "Override probe passed verification")
+    ensure(override_check["repo_root_used"] != "/", "Used external repo root")
+    
+    # BG012 Regression: No evidence low-risk must deny self-authorization
+    candidate_none = lab2.create_sandbox_improvement_candidate(
+        candidate_title="no_evidence", 
+        risk_level="low", 
+        evidence_paths=None
+    )
+    eval_none = lab2.evaluate_sandbox_candidate(candidate_none)
+    receipt_none = lab2.create_sandbox_self_authorization_receipt(candidate_none, eval_none)
+    ensure(candidate_none["evidence_path_verification"]["path_count"] == 0, "Non-zero path count for None")
+    ensure(candidate_none["evidence_present"] is False, "Evidence marked present for None")
+    ensure(candidate_none["evidence_verified"] is False, "None evidence flagged as verified")
+    ensure(candidate_none["self_authorization_eligible"] is False, "None evidence candidate eligible")
+    ensure(receipt_none["sandbox_self_authorization_granted"] is False, "Authorization granted for no evidence")
+    ensure(receipt_none["no_evidence_self_authorization_allowed"] is False, "No evidence explicitly allowed")
+    ensure(receipt_none["denial_reason"] == "missing_verified_evidence_denied", "Wrong denial reason for no evidence")
     
     # Check high-risk authorization
     candidate_high = lab2.create_sandbox_improvement_candidate(candidate_title="high_risk", risk_level="high")
@@ -129,13 +174,21 @@ def main():
     ensure(receipt_high["credentials_authorization_granted"] is False, "High risk must not allow credentials")
     
     # Ensure dynamic_bytecode_patching is denied
-    bundle_bad = lab2.create_auto_self_improve_2_bundle(candidate_title="dynamic_bytecode_patching", risk_level="high")
+    bundle_bad = lab2.create_auto_self_improve_2_bundle(
+        candidate_title="dynamic_bytecode_patching", 
+        risk_level="high",
+        evidence_paths=["10_runtime/auto_self_improve_2_sandbox.py"]
+    )
     ensure("dynamic_bytecode_patching" in bundle_bad["safety_matrix"]["denied"], "Bytecode patching not in denied list")
 
     # 5. Sandbox Artifact Writes
     print("Testing sandbox artifact writes...")
     # Trigger a full bundle to test manifest creation
-    bundle_test = lab2.create_auto_self_improve_2_bundle(candidate_title="manifest_test", risk_level="low")
+    bundle_test = lab2.create_auto_self_improve_2_bundle(
+        candidate_title="manifest_test", 
+        risk_level="low",
+        evidence_paths=["10_runtime/auto_self_improve_2_sandbox.py"]
+    )
     writes = bundle_test.get("artifact_writes", {})
     
     ensure("audit" in writes and writes["audit"]["artifact_write_performed"] is True, "Sandbox audit write failed")

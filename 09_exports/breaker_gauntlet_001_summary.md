@@ -27,3 +27,13 @@ Low failures: 0
 - Expected: No-evidence candidate should not receive full self-authorization without downgrade or denial.
 - Observed: `{"evidence_paths_verified": true, "path_count": 0, "priority_score": 43.0, "sandbox_self_authorization_granted": true}`
 - Notes: If this fails, low-risk candidates can self-authorize with no evidence.
+
+## Fix Status
+- BG001 fixed: fake evidence no longer self-authorizes.
+- BG004 fixed: repo_root override outside current repo is rejected.
+- BG012 fixed: no-evidence low-risk candidates no longer self-authorizes.
+- Validator regression tests added.
+- Official repo untouched.
+- agent-command-center-2 untouched.
+- Promotion remains blocked.
+- Deployment remains blocked.
