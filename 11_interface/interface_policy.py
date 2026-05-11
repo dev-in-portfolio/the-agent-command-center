@@ -3,12 +3,16 @@ SAFE_ACTIONS = [
     "list_artifacts",
     "show_locked_actions",
     "show_summaries",
+    "inspect_artifact_package",
+    "show_approval_ledger",
 ]
 
 CONTROLLED_ACTIONS = [
     "run_validator_wall",
     "generate_session_report",
     "prepare_command_packet",
+    "prepare_branch_review",
+    "review_packet_approval",
 ]
 
 LOCKED_ACTIONS = [

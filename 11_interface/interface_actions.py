@@ -807,3 +807,167 @@ def action_show_session_state(session_log):
 
     result = _make_result("show_session_state", "PASS", "Session state displayed")
     session_log.record_action("show_session_state", result)
+
+
+def _load_artifact_inspector():
+    path = HERE / "interface_artifact_inspector.py"
+    spec = importlib.util.spec_from_file_location("interface_artifact_inspector", str(path))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def _load_branch_review():
+    path = HERE / "interface_branch_review.py"
+    spec = importlib.util.spec_from_file_location("interface_branch_review", str(path))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def _load_approval_ledger():
+    path = HERE / "interface_approval_ledger.py"
+    spec = importlib.util.spec_from_file_location("interface_approval_ledger", str(path))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def action_inspect_artifact_packages(session_log):
+    _banner("INFO", "Deep artifact inspection...")
+    inspector = _load_artifact_inspector()
+    results = inspector.inspect_all_packages()
+
+    counts = {"PASS": 0, "WARNING": 0, "MISSING": 0}
+    for pid, result in results.items():
+        st = result.get("status", "UNKNOWN")
+        counts[st] = counts.get(st, 0) + 1
+        print(f"  [{st}] {result['package_name']} ({pid})")
+        print(f"        Files: {result.get('file_count', '?')}, "
+              f"Dirs: {result.get('directory_count', '?')}, "
+              f"Verdict: {result.get('final_verdict', 'not detected')}")
+        if result.get("expected_files_missing"):
+            print(f"        Missing: {', '.join(result['expected_files_missing'])}")
+        if result.get("zero_byte_files"):
+            print(f"        Zero-byte files: {len(result['zero_byte_files'])}")
+        if result.get("warnings"):
+            for w in result["warnings"]:
+                print(f"        Warning: {w}")
+        print()
+
+    summary = f"{counts.get('PASS', 0)} PASS, {counts.get('WARNING', 0)} WARNING, {counts.get('MISSING', 0)} MISSING"
+    _banner("INFO", f"Artifact inspection complete: {summary}")
+
+    next_action = "Generate session report or show summaries."
+    print(f"  Recommended next action: {next_action}")
+    result_rec = _make_result("inspect_artifact_packages", "PASS",
+                              f"Artifact inspection: {summary}",
+                              recommended_next=next_action)
+    session_log.record_action("inspect_artifact_packages", result_rec, next_action)
+
+
+def action_prepare_branch_review(session_log, review_branch=None, base_branch="master"):
+    _banner("INFO", "Preparing branch review packet...")
+    brm = _load_branch_review()
+
+    if not review_branch:
+        print("  ERROR: Branch name required.")
+        print("  Usage: --prepare-branch-review <branch-name> [base-branch]")
+        return
+
+    result = brm.prepare_branch_review(review_branch, base_branch)
+    if result.get("status") == "FAIL":
+        _banner("FAIL", f"Branch review failed: {result.get('error', 'unknown')}")
+        return
+
+    _banner("PASS", f"Branch review packet generated")
+    print(f"  Review ID: {result['review_id']}")
+    print(f"  Path: {result['review_path']}")
+    print(f"  Risk level: {result['risk_level']}")
+    print(f"  Changed files: {result['changed_files']}")
+    print(f"  Decision: {result['decision']}")
+    print("  Status: prepared_not_merged | Merge Performed: false")
+    print("  Deployment Performed: false | Official Repo Touched: false")
+
+    next_action = "Review the branch review packet, or run approval ledger."
+    print(f"  Recommended next action: {next_action}")
+    result_rec = _make_result("prepare_branch_review", "PASS",
+                              f"Branch review: {result['review_id']}",
+                              recommended_next=next_action)
+    session_log.record_action("prepare_branch_review", result_rec, next_action)
+
+
+def action_review_packet(session_log, packet_path_arg=None):
+    _banner("INFO", "Reviewing command packet...")
+    al = _load_approval_ledger()
+
+    if not packet_path_arg:
+        print("  ERROR: Packet path required.")
+        print("  Usage: --review-packet <packet-path>")
+        return
+
+    result = al.review_packet(packet_path_arg)
+    if result.get("status") == "FAIL":
+        _banner("FAIL", f"Packet review failed: {result.get('error', 'unknown')}")
+        return
+
+    next_action = "Approve or reject the packet using --approve-packet or --reject-packet."
+    print(f"  Recommended next action: {next_action}")
+    result_rec = _make_result("review_packet", "PASS", "Packet reviewed",
+                              recommended_next=next_action)
+    session_log.record_action("review_packet_approval", result_rec, next_action)
+
+
+def action_approve_packet(session_log, packet_path_arg=None, phrase=None):
+    _banner("INFO", "Approving command packet...")
+    al = _load_approval_ledger()
+
+    if not packet_path_arg or not phrase:
+        print("  ERROR: Packet path and approval phrase required.")
+        print("  Usage: --approve-packet <packet-path> <approval-phrase>")
+        return
+
+    result = al.approve_packet(packet_path_arg, phrase)
+    if result.get("status") == "FAIL":
+        _banner("FAIL", f"Packet approval failed: {result.get('error', 'unknown')}")
+        return
+
+    next_action = "Check the approval ledger with --show-approval-ledger."
+    print(f"  Recommended next action: {next_action}")
+    result_rec = _make_result("approve_packet", result["status"],
+                              "Packet approval processed",
+                              recommended_next=next_action)
+    session_log.record_action("review_packet_approval", result_rec, next_action)
+
+
+def action_reject_packet(session_log, packet_path_arg=None, reason=None):
+    _banner("INFO", "Rejecting command packet...")
+    al = _load_approval_ledger()
+
+    if not packet_path_arg:
+        print("  ERROR: Packet path required.")
+        print("  Usage: --reject-packet <packet-path> [reason]")
+        return
+
+    result = al.reject_packet(packet_path_arg, reason or "Rejected by operator via CLI.")
+    if result.get("status") == "FAIL":
+        _banner("FAIL", f"Packet rejection failed: {result.get('error', 'unknown')}")
+        return
+
+    next_action = "Check the approval ledger with --show-approval-ledger."
+    print(f"  Recommended next action: {next_action}")
+    result_rec = _make_result("reject_packet", "PASS", "Packet rejected",
+                              recommended_next=next_action)
+    session_log.record_action("review_packet_approval", result_rec, next_action)
+
+
+def action_show_approval_ledger(session_log):
+    _banner("INFO", "Approval ledger")
+    al = _load_approval_ledger()
+    al.show_ledger()
+
+    next_action = "Review or approve/reject a packet."
+    print(f"  Recommended next action: {next_action}")
+    result_rec = _make_result("show_approval_ledger", "PASS", "Approval ledger displayed",
+                              recommended_next=next_action)
+    session_log.record_action("show_approval_ledger", result_rec, next_action)

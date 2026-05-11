@@ -138,7 +138,16 @@ No (git push token will be used for push only)
 - Network-dependent validators (v24 fetches example.com) fail if offline
 - Artifact content preview limited to 12 lines
 
-## 25. Recommended Next Phase
+## 25. Operational Hardening Phase Added
+
+Phase 1.6–1.10 operational hardening has been applied on top of this upgrade. See:
+- `interface_phase_1_operational_hardening_report.md` for full details
+- New modules: `interface_action_registry.py`, `interface_policy_enforcer.py`, `interface_artifact_inspector.py`, `interface_branch_review.py`, `interface_approval_ledger.py`
+- CLI menu extended to 10 options (Exit moved to 11)
+- 6 new non-interactive flags added
+- New e2e validator: `scripts/validate_interface_phase_1_e2e.py` (15 tests)
+
+## 26. Recommended Next Phase
 
 Proceed to Interface Phase 2 — TUI (terminal user interface) with:
 - curses or textual-based interactive console

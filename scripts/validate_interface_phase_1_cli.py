@@ -96,6 +96,8 @@ def main():
         "Show locked actions",
         "Prepare command packet",
         "Show current session state",
+        "Inspect artifact packages",
+        "Show approval ledger",
         "Exit",
     ]
     for item in required_menu_items:
@@ -175,6 +177,9 @@ def main():
         "--status", "--validator-wall", "--list-artifacts",
         "--show-summaries", "--show-locked", "--session-state",
         "--prepare-packet", "--generate-session-report",
+        "--inspect-artifacts", "--prepare-branch-review",
+        "--review-packet", "--approve-packet", "--reject-packet",
+        "--show-approval-ledger",
     ]
     for flag in noninteractive_flags:
         ensure(flag in cli_content, f"Non-interactive flag missing: {flag}")
@@ -221,7 +226,101 @@ def main():
         ensure(False, f"Invalid packet test error: {e}")
     print("  [PASS] Invalid non-interactive packet type fails safely")
 
-    # 18. No files outside allowed paths changed
+    # 18. New hardening modules exist and define required exports
+    new_modules = [
+        ("interface_action_registry.py", "ACTION_REGISTRY"),
+        ("interface_policy_enforcer.py", "enforce_allowed"),
+        ("interface_artifact_inspector.py", "inspect_all_packages"),
+        ("interface_branch_review.py", "prepare_branch_review"),
+        ("interface_approval_ledger.py", "show_ledger"),
+    ]
+    for fname, export_name in new_modules:
+        fpath = INTERFACE_DIR / fname
+        ensure(fpath.exists(), f"Required module missing: {fname}")
+        content = fpath.read_text()
+        ensure(export_name in content, f"Module {fname} missing required export: {export_name}")
+    print("  [PASS] All 5 hardening modules present with required exports")
+
+    # 19. Action registry has all 12 required actions
+    registry = load_module("interface_action_registry", INTERFACE_DIR / "interface_action_registry.py")
+    required_action_ids = [
+        "show_status", "run_validator_wall", "list_artifacts", "show_summaries",
+        "generate_session_report", "show_locked_actions", "prepare_command_packet",
+        "show_session_state", "inspect_artifact_package", "prepare_branch_review",
+        "review_packet_approval", "show_approval_ledger",
+    ]
+    for aid in required_action_ids:
+        ensure(aid in registry.ACTION_REGISTRY, f"Action registry missing: {aid}")
+    print("  [PASS] Action registry contains all 12 required actions")
+
+    # 20. Policy enforcer raises PolicyRefusal for unknown actions
+    enforcer = load_module("interface_policy_enforcer", INTERFACE_DIR / "interface_policy_enforcer.py")
+    try:
+        enforcer.enforce_allowed("__definitely_not_a_real_action__")
+        ensure(False, "Policy enforcer did not refuse unknown action")
+    except enforcer.PolicyRefusal:
+        pass
+    print("  [PASS] Policy enforcer refuses unknown actions")
+
+    # 21. Policy enforcer raises PolicyRefusal for locked actions
+    try:
+        enforcer.enforce_allowed("mutate_official_repo")
+        ensure(False, "Policy enforcer did not refuse locked action")
+    except enforcer.PolicyRefusal:
+        pass
+    print("  [PASS] Policy enforcer refuses locked actions")
+
+    # 22. Policy enforcer allows safe actions
+    try:
+        enforcer.enforce_allowed("show_status")
+    except enforcer.PolicyRefusal as e:
+        ensure(False, f"Policy enforcer refused safe action: {e}")
+    print("  [PASS] Policy enforcer allows safe actions")
+
+    # 23. Artifact inspector inspects all 5 packages
+    inspector = load_module("interface_artifact_inspector", INTERFACE_DIR / "interface_artifact_inspector.py")
+    ensure(len(inspector.PACKAGE_DEFINITIONS) >= 5, "Artifact inspector should have 5+ packages")
+    all_results = inspector.inspect_all_packages()
+    for pid in inspector.PACKAGE_DEFINITIONS:
+        ensure(pid in all_results, f"inspect_all_packages missing result for {pid}")
+    print(f"  [PASS] Artifact inspector inspects all {len(inspector.PACKAGE_DEFINITIONS)} packages")
+
+    # 24. Branch review produces valid packet format
+    brm = load_module("interface_branch_review", INTERFACE_DIR / "interface_branch_review.py")
+    safe_name = brm.sanitize_branch_name("test/branch-name")
+    ensure(safe_name is not None and "/" not in safe_name, "sanitize_branch_name should replace slashes")
+    unsafe = brm.sanitize_branch_name("..")
+    ensure(unsafe is None, "sanitize_branch_name should reject '..'")
+    print("  [PASS] Branch review sanitize_branch_name works correctly")
+
+    # 25. Approval ledger lifecycle functions exist
+    ledger = load_module("interface_approval_ledger", INTERFACE_DIR / "interface_approval_ledger.py")
+    ensure(hasattr(ledger, "show_ledger"), "Approval ledger missing show_ledger")
+    ensure(hasattr(ledger, "review_packet"), "Approval ledger missing review_packet")
+    ensure(hasattr(ledger, "approve_packet"), "Approval ledger missing approve_packet")
+    ensure(hasattr(ledger, "reject_packet"), "Approval ledger missing reject_packet")
+    print("  [PASS] Approval ledger all lifecycle functions present")
+
+    # 26. Policy.py SAFE_ACTIONS updated with new actions
+    ensure("inspect_artifact_package" in policy.SAFE_ACTIONS,
+           "SAFE_ACTIONS missing inspect_artifact_package")
+    ensure("show_approval_ledger" in policy.SAFE_ACTIONS,
+           "SAFE_ACTIONS missing show_approval_ledger")
+    print("  [PASS] Policy SAFE_ACTIONS includes new hardening actions")
+
+    # 27. Policy.py CONTROLLED_ACTIONS updated with new actions
+    ensure("prepare_branch_review" in policy.CONTROLLED_ACTIONS,
+           "CONTROLLED_ACTIONS missing prepare_branch_review")
+    ensure("review_packet_approval" in policy.CONTROLLED_ACTIONS,
+           "CONTROLLED_ACTIONS missing review_packet_approval")
+    print("  [PASS] Policy CONTROLLED_ACTIONS includes new hardening actions")
+
+    # 28. Action registry validate consistency
+    registry_errors = enforcer.validate_action_registry()
+    ensure(len(registry_errors) == 0, f"Action registry validation errors: {registry_errors}")
+    print("  [PASS] Action registry is internally consistent")
+
+    # 29. No files outside allowed paths changed
     print("  [SKIP] Full git diff check deferred to Phase 12")
 
     print("\nINTERFACE_PHASE_1_CLI_VALIDATION_PASS")

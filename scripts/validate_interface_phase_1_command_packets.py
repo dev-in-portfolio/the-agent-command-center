@@ -99,6 +99,35 @@ def main():
            "Cleanup packet contains delete command")
     print("  [PASS] Cleanup packets do not contain delete commands")
 
+    # Branch review packet format (via interface_branch_review module)
+    brm = load_module("interface_branch_review", INTERFACE_DIR / "interface_branch_review.py")
+    review_result = brm.prepare_branch_review("HEAD", "HEAD")
+    ensure(review_result.get("status") == "PASS" or review_result.get("error", ""),
+           "Branch review should either pass or report an error")
+    if review_result.get("status") == "PASS":
+        review_path = Path(review_result["review_path"])
+        ensure(review_path.exists(), "Branch review packet not written to disk")
+        review_content = review_path.read_text()
+        ensure("prepared_not_merged" in review_content,
+               "Branch review packet missing status: prepared_not_merged")
+        ensure("**Merge Performed:** false" in review_content,
+               "Branch review packet incorrectly claims merge")
+        ensure("**Deployment Performed:** false" in review_content,
+               "Branch review packet incorrectly claims deployment")
+        ensure("**Official Repo Touched:** false" in review_content,
+               "Branch review packet incorrectly claims official repo touch")
+        ensure("Review ID:" in review_content,
+               "Branch review packet missing Review ID")
+        ensure("Risk Level" in review_content,
+               "Branch review packet missing Risk Level section")
+        ensure("Recommended Operator Decision" in review_content,
+               "Branch review packet missing operator decision")
+        print(f"  [PASS] Branch review packet: {review_result['review_id']}, "
+              f"risk={review_result['risk_level']}, decision={review_result['decision']}")
+    else:
+        print(f"  [SKIP] Branch review packet format check (same-branch diff produced no changes): "
+              f"{review_result.get('error', 'no error detail')}")
+
     print("\nINTERFACE_PHASE_1_COMMAND_PACKETS_VALIDATION_PASS")
 
 

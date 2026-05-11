@@ -2,28 +2,28 @@
 
 ## What This Is
 
-Phase 1 of the Station Chief v25 operator interface for **The Agent Command Center** (now at Phase 1.1–1.5 upgrade). A safe, boring, terminal command menu that lets a human operator interact with the product/interface workspace.
+Phase 1 of the Station Chief v25 operator interface for **The Agent Command Center** (now at Phase 1.6–1.10 operational hardening). A safe, boring, terminal command menu that lets a human operator interact with the product/interface workspace.
 
 ## Why This Repo
 
 This interface lives in `dev-in-portfolio/the-agent-command-center`, the dedicated product repo cloned from the validated `agent-command-center-3` sandbox line. It separates product/interface work from sandbox validation.
 
-## Phase 1.1–1.5 Upgrade Summary
+## Phase 1.6–1.10 Operational Hardening Summary
 
-The base Phase 1 CLI has been upgraded with:
+The Phase 1.1–1.5 upgrade has been hardened with:
 
 | Area | Upgrade |
 |------|---------|
-| Accuracy | Fixed scoreboard path, file counting uses .is_file(), session report ordering |
-| UX | Result banners [PASS/FAIL/WARNING/INFO], last action tracking, action recommendations, pause-after-action, session state |
-| Packets | 12 packet types with full schema: packet_id, risk_level, approval_phrase, preflight checklist, rollback notes, do_not_run_if conditions |
-| Session logging | session_id, git branch/commit tracking, session folders with JSON/stdout/packets, SHA256 packet hashes |
-| Artifact viewer | Detailed package status: expected files, missing files, zero-byte files, detected verdicts, manifest status |
-| Non-interactive | CLI flags for all actions: --status, --validator-wall, --list-artifacts, --show-summaries, --show-locked, --session-state, --prepare-packet, --generate-session-report |
-| Config | interface_config.json for product identity and locked repos |
-| Validator | 18 checks including smoke tests, forbidden import scan, non-interactive flag tests, invalid packet type test |
+| Action Registry | Centralised metadata for 12 actions with category, risk_level, cli_flags, menu_option, allowed_paths, forbidden_capabilities |
+| Policy Enforcer | `enforce_allowed()` raises `PolicyRefusal` for locked/unknown actions; `validate_action_registry()` checks consistency |
+| Artifact Inspector | Deep inspection engine: 5-package definitions, verdict extraction, stale claim detection, zero-byte/missing detection |
+| Branch Review | Safe branch review packet generator using `git diff --name-only`; risk classification; human review checklist; never merges/pushes/deletes |
+| Approval Ledger | JSONL-based lifecycle tracking (prepared, reviewed, approved/rejected_by_operator); all records `execution_performed: false` |
+| CLI | Menu options 9-10 (artifact inspection, approval ledger); 6 new non-interactive flags |
+| Policy | SAFE_ACTIONS and CONTROLLED_ACTIONS updated with new hardening actions; action registry auto-validated |
+| Validator | 29 checks in CLI validator (+11); branch review packet check in command packet validator; new 15-test e2e validator |
 
-## What It Can Do (Upgraded)
+## What It Can Do (Hardened)
 
 - Show system status (product repo, source lineage, runtime version, locked/unlocked capabilities)
 - Run validator wall (all three validators with PASS/FAIL/summary)
@@ -33,7 +33,10 @@ The base Phase 1 CLI has been upgraded with:
 - Show locked actions
 - Prepare hardened command packets (12 types, full preflight + rollback schema)
 - Show current session state (ID, branch, commit, action count, errors)
-- Non-interactive mode via CLI flags
+- **Deep-inspect artifact packages** (9. Inspect artifact packages / `--inspect-artifacts`)
+- **Prepare branch review packets** (`--prepare-branch-review <branch> [base]`)
+- **Review, approve, reject command packets** (`--review-packet`, `--approve-packet`, `--reject-packet`)
+- **Show approval ledger** (10. Show approval ledger / `--show-approval-ledger`)
 
 ## What It Cannot Do
 
@@ -72,6 +75,12 @@ python3 11_interface/station_chief_cli.py --show-locked
 python3 11_interface/station_chief_cli.py --session-state
 python3 11_interface/station_chief_cli.py --prepare-packet validator_wall
 python3 11_interface/station_chief_cli.py --generate-session-report
+python3 11_interface/station_chief_cli.py --inspect-artifacts
+python3 11_interface/station_chief_cli.py --prepare-branch-review <branch>
+python3 11_interface/station_chief_cli.py --review-packet <path>
+python3 11_interface/station_chief_cli.py --approve-packet <path> <phrase>
+python3 11_interface/station_chief_cli.py --reject-packet <path>
+python3 11_interface/station_chief_cli.py --show-approval-ledger
 ```
 
 ## Safety Boundaries

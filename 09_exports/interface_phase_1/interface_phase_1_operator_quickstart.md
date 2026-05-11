@@ -32,6 +32,24 @@ python3 11_interface/station_chief_cli.py --prepare-packet validator_wall
 
 # Generate session report
 python3 11_interface/station_chief_cli.py --generate-session-report
+
+# Deep-inspect artifact packages
+python3 11_interface/station_chief_cli.py --inspect-artifacts
+
+# Prepare a branch review packet
+python3 11_interface/station_chief_cli.py --prepare-branch-review <branch-name>
+
+# Review a command packet in the approval ledger
+python3 11_interface/station_chief_cli.py --review-packet <path-to-packet>
+
+# Approve a command packet
+python3 11_interface/station_chief_cli.py --approve-packet <path> <approval-phrase>
+
+# Reject a command packet
+python3 11_interface/station_chief_cli.py --reject-packet <path>
+
+# Show the approval ledger
+python3 11_interface/station_chief_cli.py --show-approval-ledger
 ```
 
 ## Example Menu
@@ -51,7 +69,9 @@ python3 11_interface/station_chief_cli.py --generate-session-report
   6. Show locked actions [safe]
   7. Prepare command packet [controlled]
   8. Show current session state [safe]
-  9. Exit
+  9. Inspect artifact packages [safe]
+  10. Show approval ledger [controlled]
+  11. Exit
 ```
 
 ## Safe First Actions
@@ -61,6 +81,8 @@ Start with these read-only actions:
 1. **Option 1 — Show system status** — confirms product repo, source lineage, runtime, capabilities.
 2. **Option 6 — Show locked actions** — lists everything the interface refuses to do.
 3. **Option 8 — Show current session state** — see session ID, branch, commit, actions.
+4. **Option 9 — Inspect artifact packages** — deep-inspect all 5 packages for missing/zero-byte files and verdicts.
+5. **Option 10 — Show approval ledger** — view lifecycle states of all prepared command packets.
 
 ## How to Run Validator Wall
 

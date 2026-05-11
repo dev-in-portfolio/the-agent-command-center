@@ -1,4 +1,4 @@
-# Interface Phase 1 — Command Map (Upgraded)
+# Interface Phase 1 — Command Map (Operationally Hardened)
 
 ## Legend
 
@@ -6,26 +6,37 @@
 |--------|-------------|
 | Menu | Menu option number |
 | CLI Flag | Non-interactive CLI flag |
-| Internal Action | Action function name |
+| Internal Action | Action function name (action_id) |
 | Category | safe / controlled / locked / exit |
-| Risk Level | low / medium / high / informational |
+| Risk Level | none / low / medium / high / informational |
 | Executes? | Whether the action runs commands on the system |
 | Writes Files? | Whether the action creates or modifies files |
 | Forbidden | Whether the action provides access to locked capabilities |
 
 ## Interactive Menu + CLI Flags
 
-| Menu | CLI Flag | Internal Action | Category | Risk Level | Executes? | Writes Files? | Forbidden |
-|------|----------|----------------|----------|------------|-----------|---------------|-----------|
-| 1 | `--status` | `show_status` | safe | low | No | No | No |
+| Menu | CLI Flag | Action ID | Category | Risk Level | Executes? | Writes Files? | Forbidden |
+|------|----------|-----------|----------|------------|-----------|---------------|-----------|
+| 1 | `--status` | `show_status` | safe | none | No | No | No |
 | 2 | `--validator-wall` | `run_validator_wall` | controlled | low | Yes (subprocess) | No | No |
-| 3 | `--list-artifacts` | `list_artifacts` | safe | low | No | No | No |
-| 4 | `--show-summaries` | `show_summaries` | safe | low | No | No | No |
+| 3 | `--list-artifacts` | `list_artifacts` | safe | none | No | No | No |
+| 4 | `--show-summaries` | `show_summaries` | safe | none | No | No | No |
 | 5 | `--generate-session-report` | `generate_session_report` | controlled | low | No | Yes (session folder) | No |
-| 6 | `--show-locked` | `show_locked_actions` | safe | low | No | No | No |
-| 7 | `--prepare-packet <type>` | `prepare_command_packet` | controlled | varies | No | Yes (command packet) | No |
-| 8 | `--session-state` | `show_session_state` | safe | low | No | No | No |
-| 9 | — | Exit | exit | — | No | No | No |
+| 6 | `--show-locked` | `show_locked_actions` | safe | none | No | No | No |
+| 7 | `--prepare-packet <type>` | `prepare_command_packet` | controlled | low | No | Yes (command packet) | No |
+| 8 | `--session-state` | `show_session_state` | safe | none | No | No | No |
+| 9 | `--inspect-artifacts` | `inspect_artifact_package` | safe | none | No | No | No |
+| 10 | `--show-approval-ledger` | `show_approval_ledger` | controlled | none | No | No | No |
+| 11 | — | Exit | exit | — | No | No | No |
+
+## CLI-Only Flags (No Menu Entry)
+
+| CLI Flag | Action ID | Category | Risk Level | Executes? | Writes Files? |
+|----------|-----------|----------|------------|-----------|---------------|
+| `--prepare-branch-review <branch> [base]` | `prepare_branch_review` | controlled | low | Yes (git diff) | Yes (branch review packet) |
+| `--review-packet <path>` | `review_packet_approval` | controlled | low | No | Yes (ledger record) |
+| `--approve-packet <path> <phrase>` | `review_packet_approval` | controlled | low | No | Yes (ledger record) |
+| `--reject-packet <path> [reason]` | `review_packet_approval` | controlled | low | No | Yes (ledger record) |
 
 ## Command Packet Types
 

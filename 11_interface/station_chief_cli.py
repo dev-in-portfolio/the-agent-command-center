@@ -13,6 +13,12 @@ Usage:
   python3 11_interface/station_chief_cli.py --session-state
   python3 11_interface/station_chief_cli.py --prepare-packet <type>
   python3 11_interface/station_chief_cli.py --generate-session-report
+  python3 11_interface/station_chief_cli.py --inspect-artifacts
+  python3 11_interface/station_chief_cli.py --prepare-branch-review <branch>
+  python3 11_interface/station_chief_cli.py --review-packet <path>
+  python3 11_interface/station_chief_cli.py --approve-packet <path> <phrase>
+  python3 11_interface/station_chief_cli.py --reject-packet <path>
+  python3 11_interface/station_chief_cli.py --show-approval-ledger
 """
 import sys
 import importlib.util
@@ -45,7 +51,9 @@ MENU_OPTIONS = {
     "6": ("Show locked actions", actions.action_show_locked_actions, "safe"),
     "7": ("Prepare command packet", actions.action_prepare_command_packet, "controlled"),
     "8": ("Show current session state", actions.action_show_session_state, "safe"),
-    "9": ("Exit", None, "exit"),
+    "9": ("Inspect artifact packages", actions.action_inspect_artifact_packages, "safe"),
+    "10": ("Show approval ledger", actions.action_show_approval_ledger, "controlled"),
+    "11": ("Exit", None, "exit"),
 }
 
 VALID_PACKET_TYPES = [
@@ -89,7 +97,7 @@ def interactive_mode(session_log):
             print()
             choice = "9"
 
-        if choice == "9":
+        if choice == "11":
             has_report = len(session_log.reports_generated) > 0
             if not has_report and len(session_log.actions_completed) > 0:
                 print("\n  Session report has not been written.")
@@ -104,7 +112,7 @@ def interactive_mode(session_log):
             sys.exit(0)
 
         if choice not in MENU_OPTIONS:
-            print("  Invalid choice. Enter 1-9.")
+            print("  Invalid choice. Enter 1-11.")
             continue
 
         label, action_fn, category = MENU_OPTIONS[choice]
@@ -159,7 +167,6 @@ def non_interactive_mode(session_log):
             print(f"  ERROR: Invalid packet type '{ptype}'.")
             print(f"  Valid types: {', '.join(VALID_PACKET_TYPES)}")
             sys.exit(1)
-        # Use actions module directly (already loaded via importlib)
         actions.COMMAND_PACKETS.mkdir(parents=True, exist_ok=True)
         packet_path = actions.COMMAND_PACKETS / f"{ptype}_packet.md"
         content, packet_id, approval_phrase = actions._write_packet(ptype, session_log)
@@ -168,6 +175,42 @@ def non_interactive_mode(session_log):
         print(f"  [PASS] Packet prepared: {packet_path}")
         print(f"  Packet ID: {packet_id}")
         print(f"  Status: prepared_not_executed")
+    elif flag == "--inspect-artifacts":
+        actions.action_inspect_artifact_packages(session_log)
+    elif flag == "--prepare-branch-review":
+        base = args[2] if len(args) >= 3 else "master"
+        branch = base
+        base = "master"
+        if len(args) >= 3:
+            branch = args[1]
+            if len(args) >= 4:
+                base = args[2]
+        else:
+            print("  ERROR: --prepare-branch-review requires a branch name.")
+            print("  Usage: --prepare-branch-review <branch> [base-branch]")
+            sys.exit(1)
+        actions.action_prepare_branch_review(session_log, branch, base)
+    elif flag == "--review-packet":
+        if len(args) < 2:
+            print("  ERROR: --review-packet requires a packet path.")
+            print("  Usage: --review-packet <packet-path>")
+            sys.exit(1)
+        actions.action_review_packet(session_log, args[1])
+    elif flag == "--approve-packet":
+        if len(args) < 3:
+            print("  ERROR: --approve-packet requires packet path and approval phrase.")
+            print("  Usage: --approve-packet <packet-path> <approval-phrase>")
+            sys.exit(1)
+        actions.action_approve_packet(session_log, args[1], args[2])
+    elif flag == "--reject-packet":
+        if len(args) < 2:
+            print("  ERROR: --reject-packet requires a packet path.")
+            print("  Usage: --reject-packet <packet-path> [reason]")
+            sys.exit(1)
+        reason = " ".join(args[2:]) if len(args) > 2 else None
+        actions.action_reject_packet(session_log, args[1], reason)
+    elif flag == "--show-approval-ledger":
+        actions.action_show_approval_ledger(session_log)
     elif flag in ("--help", "-h"):
         print(__doc__)
     else:
@@ -175,7 +218,10 @@ def non_interactive_mode(session_log):
         print("  Usage: python3 11_interface/station_chief_cli.py [--flag]")
         print("  Flags: --status, --validator-wall, --list-artifacts, --show-summaries,")
         print("         --show-locked, --session-state, --generate-session-report,")
-        print("         --prepare-packet <type>")
+        print("         --prepare-packet <type>, --inspect-artifacts,")
+        print("         --prepare-branch-review <branch>, --review-packet <path>,")
+        print("         --approve-packet <path> <phrase>, --reject-packet <path>,")
+        print("         --show-approval-ledger")
         sys.exit(1)
 
     session_log.close()
