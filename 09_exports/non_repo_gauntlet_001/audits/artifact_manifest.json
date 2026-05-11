@@ -1,0 +1,144 @@
+{
+  "gauntlet_id": "non-repo-gauntlet-001",
+  "generated_at": "2026-05-11T21:26:03Z",
+  "total_expected": 33,
+  "total_present": 33,
+  "total_missing": 0,
+  "total_zero_byte": 0,
+  "artifacts": {
+    "09_exports/non_repo_gauntlet_001/outputs/cleaned_contacts.csv": {
+      "size": 11433,
+      "sha256": "851faea56fe4104bba5f3eda282b514edde908fbe0cf3e46dd83e7d3463fb84d"
+    },
+    "09_exports/non_repo_gauntlet_001/outputs/duplicate_report.md": {
+      "size": 2648,
+      "sha256": "647626e94f6b5bd54fafed7c440d5de0cbdd838250f73b30d62284323674876f"
+    },
+    "09_exports/non_repo_gauntlet_001/outputs/data_quality_report.md": {
+      "size": 794,
+      "sha256": "16d3a1b1f3e4509c71b4bd421a8866def3a33cf0a6a5dd9e284a9d41f315e6ab"
+    },
+    "09_exports/non_repo_gauntlet_001/outputs/route_zone_plan.md": {
+      "size": 6926,
+      "sha256": "ed1e6c14ff42550532568f55f3233a25c50a0febd0645cd3fb1038783e634120"
+    },
+    "09_exports/non_repo_gauntlet_001/outputs/route_batches.csv": {
+      "size": 6545,
+      "sha256": "eeb23f4a4d3dc1f117b7ab0faedeb5856cb9ffcff68e36206b5599dd27dfc705"
+    },
+    "09_exports/non_repo_gauntlet_001/outputs/catering_event_plan.md": {
+      "size": 3271,
+      "sha256": "f8737b5b05fee0cafaaec31d3611a5c42cca1e19e68aeee76d96a3c89345f0a0"
+    },
+    "09_exports/non_repo_gauntlet_001/outputs/catering_prep_timeline.csv": {
+      "size": 1563,
+      "sha256": "55d00de0f1ca3c0aaebcc86c578bca471f17ba43055f0b02950f8163e8b6de73"
+    },
+    "09_exports/non_repo_gauntlet_001/outputs/allergen_matrix.csv": {
+      "size": 1417,
+      "sha256": "57df5d879cbbdb5f1fa4af62aff25a83c3efb88ef80afe00ab74e54582fcf30d"
+    },
+    "09_exports/non_repo_gauntlet_001/outputs/equipment_pull_list.md": {
+      "size": 827,
+      "sha256": "fca11aa42b1e0d7eddd37ca85b5f63786ca9e4e4be1ae1a9359bed19590dd141"
+    },
+    "09_exports/non_repo_gauntlet_001/outputs/staffing_plan.md": {
+      "size": 898,
+      "sha256": "298edec48c048712977a805d8af5047fca1809b404a913f606c3dcc14e44d33c"
+    },
+    "09_exports/non_repo_gauntlet_001/outputs/synthetic_insurance_recommendation_matrix.csv": {
+      "size": 5730,
+      "sha256": "ad566f269fb287c2b6ea09bd99fed06a345d6c68b194420930163a1bea3ac558"
+    },
+    "09_exports/non_repo_gauntlet_001/outputs/insurance_reasoning_report.md": {
+      "size": 1124,
+      "sha256": "ba110d73545035c414c0395e1eb26a89431b35a8b825da84037e3b4395f4003c"
+    },
+    "09_exports/non_repo_gauntlet_001/outputs/client_script_examples.md": {
+      "size": 1479,
+      "sha256": "c7a32e487ceae2505f1f3d67b1ea52914a55b5fbc3c149bcc9f9eec57d7069db"
+    },
+    "09_exports/non_repo_gauntlet_001/outputs/query_letter.md": {
+      "size": 1204,
+      "sha256": "8efaa8e396034b48add0998d5c2a4c3bd731d32de2ff9d057652ba0d33e7b2ca"
+    },
+    "09_exports/non_repo_gauntlet_001/outputs/one_sentence_hook.md": {
+      "size": 106,
+      "sha256": "5b12bc67110ed0bd7202b36bb0d5c4cecd6938dfb8468d7e7005b0af4563732e"
+    },
+    "09_exports/non_repo_gauntlet_001/outputs/short_pitch_75_words.md": {
+      "size": 400,
+      "sha256": "f7ec93acd9ab68df75bd84bd9e6cd6b8f18ec4467d83300f0c4c50f739fad15a"
+    },
+    "09_exports/non_repo_gauntlet_001/outputs/query_pitch_250_words.md": {
+      "size": 1092,
+      "sha256": "c8a4990293005aed7f8131516fc00ac438786ca7ac520d4813820ffec812fce0"
+    },
+    "09_exports/non_repo_gauntlet_001/outputs/back_cover_description.md": {
+      "size": 636,
+      "sha256": "cfa9fc313ece2c068231f5577703838bf63cb6fce0f1810e0c66ddca30421985"
+    },
+    "09_exports/non_repo_gauntlet_001/outputs/synopsis_300_words.md": {
+      "size": 1500,
+      "sha256": "233085f1ea8eda02cfcf0353dcad38ed83effd2bb69acf1d99c8ced6e4a2a616"
+    },
+    "09_exports/non_repo_gauntlet_001/outputs/submission_metadata.md": {
+      "size": 1011,
+      "sha256": "e68edebc3c05d55a64c7847c7282599ba9a9a80a2e97d872fd65d1e60da79984"
+    },
+    "09_exports/non_repo_gauntlet_001/outputs/operations_rescue_plan.md": {
+      "size": 2152,
+      "sha256": "9a12067e897364e71ece1d3e5c83a44c85e9d3e555409969fc32aa471e149414"
+    },
+    "09_exports/non_repo_gauntlet_001/outputs/priority_matrix.csv": {
+      "size": 976,
+      "sha256": "aaa6384a704bd4be1d502d63385011cae7228b1c7b6c70b054bdadbba2a23c93"
+    },
+    "09_exports/non_repo_gauntlet_001/outputs/owner_role_map.md": {
+      "size": 1174,
+      "sha256": "7cf70cc41bae13c2ad69790958553c78096f71c11f009b60d265f812ec782a9f"
+    },
+    "09_exports/non_repo_gauntlet_001/outputs/client_communication_draft.md": {
+      "size": 1738,
+      "sha256": "f72d15cd1f9ffbc877ef9adb933c32dd971212613471f53e645271f7d2930368"
+    },
+    "09_exports/non_repo_gauntlet_001/outputs/contradiction_resolution_report.md": {
+      "size": 3745,
+      "sha256": "0c6432da3838765c94da1d8604a15daa191e19607217bce5d76d593a4a9cbbca"
+    },
+    "09_exports/non_repo_gauntlet_001/outputs/final_instruction_interpretation.md": {
+      "size": 777,
+      "sha256": "43d7da96523db3d4f9caf5f1060a957433e226828f88d7242ee1f518ab027666"
+    },
+    "09_exports/non_repo_gauntlet_001/outputs/executive_summary_packet.md": {
+      "size": 4299,
+      "sha256": "f39dc07eb009e0e14164b3ff983b508ef21b24b1ecf369914248dd126f352c25"
+    },
+    "09_exports/non_repo_gauntlet_001/audits/hallucination_audit.md": {
+      "size": 2542,
+      "sha256": "6ce0546bd176b6e4d064f6e5473d383c390d0b3f1a55e555fc351dba152b7237"
+    },
+    "09_exports/non_repo_gauntlet_001/audits/unsupported_claims_report.md": {
+      "size": 1058,
+      "sha256": "4928f04e42c6b590da65e0f7f6095bab42758668c0ac7628f4bc483b222d0249"
+    },
+    "09_exports/non_repo_gauntlet_001/audits/artifact_completeness_audit.md": {
+      "size": 3503,
+      "sha256": "92d3a7c79fef2573453c5f8f7e8b7a9c82646187405fd8a73bf89648f276f1b6"
+    },
+    "09_exports/non_repo_gauntlet_001/audits/artifact_manifest.json": {
+      "size": 5907,
+      "sha256": "8121b5da8a9095b78f40f7f9577c9c76918950a610821104cbb7d9e49754f09d"
+    },
+    "09_exports/non_repo_gauntlet_001/scoreboards/operator_usefulness_scoreboard.md": {
+      "size": 1928,
+      "sha256": "ba3c0bc5cad9828ad647ba991624cc4e0f8da3e929408b82f1bb39916993d3af"
+    },
+    "09_exports/non_repo_gauntlet_001/final_non_repo_gauntlet_001_acceptance_report.md": {
+      "size": 2721,
+      "sha256": "b45f1f1987a96dc4261e534a21422f74b4f15148e437f1d09cff5ffb5307e587"
+    }
+  },
+  "missing": [],
+  "zero_byte": []
+}

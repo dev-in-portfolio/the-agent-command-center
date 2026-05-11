@@ -1,0 +1,20 @@
+time_start,duration_min,activity,location,staff_assigned,notes
+10:00,60,Ingredient receiving and inspection,Loading Dock,2 crew,Delivery window 08:00-09:30
+10:00,120,Vegetable prep (all),Main Kitchen,2 line cooks,Sequence: root veg first, then delicate
+10:00,90,Sauce and dressing prep,Main Kitchen,1 sous chef,Makes all GF and vegan versions
+11:00,120,Protein prep (chicken marinate),Satellite Kitchen,2 line cooks,Halal portion separate
+11:00,90,Appetizer assembly (cold),Main Kitchen,1 line cook,Nut-free zone
+12:00,120,Baking (breads, desserts),Main Kitchen,1 pastry chef,Stagger oven use
+12:00,90,Salmon portion and chill,Satellite Kitchen,1 line cook,Keep separate from chicken
+13:00,90,Hot apps par-cook,Main Kitchen,1 line cook,Reheat during SW1
+13:00,60,Chafing dish setup,Rented Equipment,2 crew,Verify all 40 chafing dishes
+14:00,120,Plating setup and station prep,Both Kitchens,All staff,Assign plating stations
+15:00,60,Final garnish and QC,Both Kitchens,Executive Chef,Allergy check pass
+16:00,60,Transport to venue,Van,1 driver,Hot boxes loaded last
+17:00,60,Venue setup,Convention Center,4 crew,Arrange serving stations
+17:30,30,FOH briefing,Convention Center,All FOH,Allergy table assignment review
+18:00,60,SW1: Cocktail hour,Main Hall,6 servers + 2 bartenders,Passed apps
+19:15,105,SW2: Dinner service,Main Hall,8 servers,Plated — track allergy tables
+21:00,60,SW3: Dessert buffet,Buffet Area,4 servers,Label all items
+22:00,60,SW4: Late snack,Grazing Area,3 servers,Stagger refill
+23:00,30,Breakdown and cleanup,All,All staff,Return rentals

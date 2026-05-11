@@ -1,0 +1,86 @@
+{
+  "event": {
+    "name": "Synthetic Spring Gala 2026",
+    "date": "2026-06-15",
+    "time": "18:00-23:00",
+    "venue": "Riverside Convention Center, Hall B"
+  },
+  "guests": {
+    "total": 175,
+    "dietary_restrictions": [
+      {"id": "DR001", "name": "Vegan", "count": 12},
+      {"id": "DR002", "name": "Gluten-free", "count": 8},
+      {"id": "DR003", "name": "Nut allergy", "count": 5},
+      {"id": "DR004", "name": "Dairy-free", "count": 7},
+      {"id": "DR005", "name": "Shellfish allergy", "count": 3},
+      {"id": "DR006", "name": "Kosher", "count": 4},
+      {"id": "DR007", "name": "Diabetic-friendly", "count": 6},
+      {"id": "DR008", "name": "Low sodium", "count": 3},
+      {"id": "DR009", "name": "Halal", "count": 5},
+      {"id": "DR010", "name": "Soy-free", "count": 2},
+      {"id": "DR011", "name": "Egg allergy", "count": 3},
+      {"id": "DR012", "name": "FODMAP", "count": 2}
+    ],
+    "known_allergy_conflicts": [
+      "Guest #42: vegan AND nut allergy — dessert options conflict",
+      "Guest #87: gluten-free AND kosher — limited protein overlap",
+      "Guest #103: dairy-free AND low-sodium — cheese and salt restricted",
+      "Guest #55: shellfish allergy but seated at seafood station table",
+      "Guest #118: halal AND diabetic-friendly — sweetener options limited"
+    ]
+  },
+  "service": {
+    "windows": [
+      {"id": "SW1", "name": "Cocktail hour", "time": "18:00-19:00", "type": "passed_appetizers", "guest_count": 175},
+      {"id": "SW2", "name": "Dinner service", "time": "19:15-21:00", "type": "plated_dinner", "guest_count": 175},
+      {"id": "SW3", "name": "Dessert & coffee", "time": "21:00-22:00", "type": "buffet", "guest_count": 150},
+      {"id": "SW4", "name": "Late night snack", "time": "22:00-23:00", "type": "grazing_table", "guest_count": 100}
+    ]
+  },
+  "prep": {
+    "locations": [
+      {"id": "PL1", "name": "Main Kitchen", "capacity": "10 staff", "equipment": "6 burners, 2 ovens, 1 grill, 1 flat-top"},
+      {"id": "PL2", "name": "Satellite Kitchen", "capacity": "4 staff", "equipment": "4 burners, 1 oven, no grill"}
+    ],
+    "timeline_hours": 8,
+    "prep_start": "10:00"
+  },
+  "constraints": {
+    "oven_space": "Main Kitchen: 2 ovens (6 racks total). Satellite: 1 oven (3 racks total). Must share across all hot items.",
+    "staff": {
+      "total_available": 14,
+      "roles_needed": ["executive_chef", "sous_chef", "line_cooks", "pastry_chef", "dishwashers", "servers", "bartenders"],
+      "notes": "Staff cannot exceed 40-hour week aggregate. Overtime budget limited."
+    },
+    "budget": {
+      "total_ceiling": 12500,
+      "currency": "USD",
+      "per_person_target": 55,
+      "labor_budget": 4200,
+      "food_budget": 5800,
+      "equipment_rental": 1500,
+      "misc": 1000,
+      "notes": "Equipment rental includes chafing dishes, warming trays, and serving platters already quoted. Labor budget is tight — cannot add more than 2 overtime hours per person."
+    },
+    "delivery": {
+      "ingredient_window": "08:00-09:30",
+      "equipment_window": "07:00-08:30",
+      "notes": "Late delivery risks entire timeline"
+    },
+    "equipment": {
+      "owned": ["2 tilt skillets", "4 food processors", "3 mixers", "2 slicers", "1 meat grinder"],
+      "rental_required": ["40 chafing dishes", "200 dinner plates", "200 salad plates", "175 wine glasses", "200 water glasses", "200 coffee cups", "8 warming trays", "2 portable hot boxes"],
+      "bottleneck": "Only 4 food processors available — all chopping must be sequenced"
+    }
+  },
+  "allergy_conflict_traps": [
+    "Menu includes pesto pasta (pine nuts) — 5 guests with nut allergy",
+    "Dessert option includes flourless chocolate cake (contains eggs) — 3 guests with egg allergy",
+    "Cocktail hour includes shrimp cocktail — 3 guests with shellfish allergy",
+    "Dinner salad includes croutons (gluten) — 8 guests gluten-free",
+    "Grazing table includes cheese board — 7 guests dairy-free",
+    " 'Vegan option' currently listed as 'vegetable stir-fry with tofu' (soy) — 2 guests soy-free",
+    "Kosher guests cannot have meat and dairy together — seating plate design matters",
+    "Halal chicken option must use separate cooking surface — only 1 flat-top available in Main Kitchen"
+  ]
+}

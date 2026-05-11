@@ -1,0 +1,16 @@
+menu_item,contains_gluten,contains_dairy,contains_nuts,contains_eggs,contains_soy,contains_shellfish,vegan,gluten_free,notes
+Bruschetta (no cheese),TRUE,FALSE,FALSE,FALSE,FALSE,FALSE,TRUE,TRUE,Vegan option
+Vegetable spring rolls,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,TRUE,FALSE,Fried in separate oil
+Meatballs GF,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,TRUE,GF breadcrumb binder
+Shrimp skewers,FALSE,FALSE,FALSE,FALSE,FALSE,TRUE,FALSE,TRUE,Separate station from other apps
+Chicken skewers,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,TRUE,Shellfish allergy alternative
+Herb-roasted chicken,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,TRUE,Halal portion separate
+Grilled salmon,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,TRUE,Omega-3 alternative
+Stuffed portobello,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,TRUE,TRUE,Vegan main (no soy)
+Roasted vegetables,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,TRUE,TRUE,All dietary OK
+Mixed green salad,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,TRUE,TRUE,Croutons on side
+Flourless chocolate cake,FALSE,FALSE,FALSE,TRUE,FALSE,FALSE,FALSE,TRUE,Labeled for egg allergy
+Vegan sorbet trio,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,TRUE,TRUE,Nut-free verified
+Mini sliders,TRUE,TRUE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,GF bun available on request
+Veggie cups with hummus,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,TRUE,TRUE,Labeled
+Cheese board,FALSE,TRUE,FALSE,FALSE,FALSE,FALSE,FALSE,TRUE,Dairy-free alternative available
