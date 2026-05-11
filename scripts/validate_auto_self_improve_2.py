@@ -97,6 +97,13 @@ def main():
     # Barrier fix should score higher on safety
     ensure(score_high["safety_value_score"] > score_low["safety_value_score"], "Scoring heuristic not working for safety")
 
+    # 2.8 Safety Matrix
+    ensure(hasattr(lab2, "get_auto_self_improve_2_safety_matrix"), "get_auto_self_improve_2_safety_matrix missing")
+    safety_matrix = lab2.get_auto_self_improve_2_safety_matrix()
+    ensure("allowed" in safety_matrix, "Safety matrix missing allowed list")
+    ensure("denied" in safety_matrix, "Safety matrix missing denied list")
+    ensure("mutate_official_repo" in safety_matrix["denied"], "Official mutation not denied in matrix")
+
     # 3. Forbidden Implementation Patterns
     content = lab_module.read_text()
     forbidden = [
