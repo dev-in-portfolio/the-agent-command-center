@@ -3,6 +3,11 @@
 ## Status
 Station Chief Runtime upgraded to v25.0.0. Locked 175-family baseline preserved. v8.0 through v24.0 preserved. Station Chief v25.0 General Operator Task Runtime / Open-Gate Release Layer added.
 
+## Lab Status: auto-self-improve-2
+- **Identity:** auto-self-improve-2
+- **Mode:** CONTAINED_SANDBOX
+- **Authorized:** SANDBOX_ONLY
+
 ## What This Adds
 - v25.0 is the done-done release layer
 - v25.0 is the general operator task runtime

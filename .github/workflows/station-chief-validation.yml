@@ -27,6 +27,9 @@ jobs:
       - name: Run v25.0 validator
         run: python3 scripts/validate_station_chief_runtime_v25_0.py
 
+      - name: Run auto-self-improve-2 validator
+        run: python3 scripts/validate_auto_self_improve_2.py
+
       - name: Run v24.0 validator
         run: python3 scripts/validate_station_chief_runtime_v24_0.py
 
