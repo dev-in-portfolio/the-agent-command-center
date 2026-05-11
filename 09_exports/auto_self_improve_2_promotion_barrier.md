@@ -19,3 +19,13 @@ Strict protocol to prevent accidental self-promotion into the official lineage.
 - [x] No automatic pull request to official repo.
 - [x] No shared credentials with official repo for mutation.
 - [x] No bypassing validators for official status.
+- [x] Programmatic barrier doctrine hash included in records.
+
+## Operator Promotion Review Template
+Any future official promotion of lab results must be a separate operator-approved action.
+
+**Constraints:**
+1. Sandbox success is NOT official promotion.
+2. The lab cannot promote itself.
+3. Official repo remains protected.
+4. Promotion review snippets are for informational purposes only.

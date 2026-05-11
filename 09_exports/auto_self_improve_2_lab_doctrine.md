@@ -39,3 +39,10 @@ The official repository (`dev-in-portfolio/agent-command-center`) and the propos
 All authorized mutations and artifacts must be contained within:
 `/tmp/auto_self_improve_2_sandbox/`
 Any attempt to write outside this directory during self-improvement execution is a violation of the lab doctrine.
+
+## Autonomous Evolution Rules (Batch 2)
+- **Evidence Verification:** All improvement candidates must cite repo-relative evidence paths that exist at the time of proposal.
+- **Artifact Isolation:** Sandbox artifacts should be isolated by candidate or run-specific subfolders to prevent collision.
+- **High-Risk Rejection:** Candidates identified as high-risk by the scoring heuristic must not be self-authorized.
+- **Promotion Review:** Programmatic promotion review snippets are for informational review only and do not constitute approval or promotion.
+- **Official Integrity:** Official promotion always requires a separate, manual, operator-approved action outside the lab repository.

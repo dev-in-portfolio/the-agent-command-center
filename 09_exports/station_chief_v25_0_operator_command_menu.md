@@ -27,6 +27,31 @@ All executable tasks require the exact approval phrase:
 - **Production Mutation:** DISABLED.
 - **Uncontrolled Autonomy:** DISABLED.
 
+## Lab Repositories and Self-Improvement Modes
+The Station Chief ecosystem includes specialized labs for autonomous evolution within protected boundaries.
+
+- **Official repo:** `dev-in-portfolio/agent-command-center`
+  - **Purpose:** Operator-approved lineage only.
+- **Lab repo 1:** `dev-in-portfolio/agent-command-center-2`
+  - **Identity:** `auto-self-improve-1`
+  - **Mode:** Propose/evaluate/rank/archive/recommend only.
+  - **Constraints:** Cannot self-authorize, self-mutate, or self-promote.
+- **Lab repo 2:** `dev-in-portfolio/agent-command-center-3`
+  - **Identity:** `auto-self-improve-2`
+  - **Mode:** Contained sandbox self-improvement.
+  - **Constraints:** Can self-authorize sandbox metadata/mutations only. Cannot touch official repo, repo 2, deploy, use secrets, or self-promote.
+
+## Safe Lab Run Examples
+To trigger a sandbox improvement hunt in the active lab:
+```bash
+cd agent-command-center-3
+python3 scripts/validate_station_chief_runtime_v25_0.py
+python3 scripts/validate_auto_self_improve_2.py
+```
+- Sandbox artifacts live under `/tmp/auto_self_improve_2_sandbox/`.
+- Official promotion requires explicit future operator approval.
+- Sandbox success is NOT official promotion.
+
 ## Core Status
 **DONE-DONE RELEASE**
 Core command center is operationally complete. Future work is adapter/plugin expansion.

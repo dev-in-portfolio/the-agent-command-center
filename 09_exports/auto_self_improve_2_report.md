@@ -33,5 +33,20 @@
 - No environment, credential, secret, network, deployment, or official repo access.
 - Official promotion remains blocked.
 
+### Operator-Approved Sandbox Patch Batch #2
+- Implemented evidence path verification.
+- Added tamper-evident promotion barrier doctrine hash.
+- Added candidate/run-specific sandbox subfolder isolation.
+- Added lab discovery instructions to operator command menu.
+- Added adversarial high-risk rejection validator test.
+- Added runtime checksum manifest.
+- Added operator promotion review snippet.
+- Added heuristic utility scoring.
+- No official repo modification.
+- No repo 2 modification.
+- No deployment.
+- No secrets or credentials.
+- No self-promotion.
+
 ## Confirmation
 This lab is strictly contained to the `agent-command-center-3` repository. It is authorized to self-authorize sandbox-only mutations within its defined boundary, but remains prohibited from promoting results to the official lineage without manual operator intervention.

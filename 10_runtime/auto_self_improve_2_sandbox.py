@@ -56,7 +56,8 @@ def create_sandbox_improvement_candidate(
     candidate_title: str | None = None,
     candidate_summary: str | None = None,
     mutation_target: str | None = None,
-    risk_level: str | None = None
+    risk_level: str | None = None,
+    evidence_paths: list[str] | None = None
 ) -> dict:
     title = normalize_text(candidate_title, "untitled_candidate")
     summary = candidate_summary or "No summary provided."
@@ -65,13 +66,18 @@ def create_sandbox_improvement_candidate(
     if risk not in ["low", "medium", "high"]:
         risk = "unknown"
         
+    verification = verify_repo_relative_evidence_paths(evidence_paths)
+        
     return {
-        "candidate_id": sha256_digest({"title": title, "target": target, "risk": risk}),
+        "candidate_id": sha256_digest({"title": title, "target": target, "risk": risk, "paths": evidence_paths}),
         "title": title,
         "summary": summary,
         "mutation_target": target,
         "risk_level": risk,
         "proposed_by": AUTO_SELF_IMPROVE_2_LAB_ID,
+        "evidence_paths": evidence_paths,
+        "evidence_path_verification": verification,
+        "evidence_paths_verified": verification["all_paths_exist"],
         "sandbox_self_authorization_requested": True,
         "official_authorization_requested": False,
         "may_mutate_sandbox": True,
@@ -86,8 +92,11 @@ def evaluate_sandbox_candidate(candidate: dict) -> dict:
     s_risk = 1.0 if candidate["risk_level"] == "low" else 5.0
     p_risk = 9.0 # Official promotion is always high risk from lab
     
+    # Heuristic utility scoring
+    utility = score_candidate_utility(candidate)
+    
     priority = "medium"
-    if safety > 8.0 and usefulness > 7.0:
+    if safety > 8.0 and utility["priority_score"] > 35.0:
         priority = "high"
         
     return {
@@ -97,6 +106,8 @@ def evaluate_sandbox_candidate(candidate: dict) -> dict:
         "usefulness_score": usefulness,
         "sandbox_mutation_risk_score": s_risk,
         "promotion_risk_score": p_risk,
+        "utility_scoring": utility,
+        "priority_score": utility["priority_score"],
         "sandbox_test_priority": priority
     }
 
@@ -132,7 +143,7 @@ def create_sandbox_candidate_patch(candidate: dict, authorization_receipt: dict)
         "promotion_allowed": False
     }
 
-def write_sandbox_artifact(artifact_name: str, payload: dict, authorization_receipt: dict) -> dict:
+def write_sandbox_artifact(artifact_name: str, payload: dict, authorization_receipt: dict, candidate_id: str | None = None, run_label: str | None = None, use_isolated_subfolder: bool = True) -> dict:
     if not authorization_receipt["sandbox_self_authorization_granted"]:
         return {"artifact_write_performed": False, "error": "Authorization missing"}
         
@@ -140,10 +151,22 @@ def write_sandbox_artifact(artifact_name: str, payload: dict, authorization_rece
     if artifact_name not in allowed_names:
         return {"artifact_write_performed": False, "error": f"Unknown artifact name: {artifact_name}"}
         
-    sandbox_dir = Path(AUTO_SELF_IMPROVE_2_SANDBOX_DIR)
-    artifact_path = sandbox_dir / f"{artifact_name}.json"
+    sandbox_base = Path(AUTO_SELF_IMPROVE_2_SANDBOX_DIR)
+    target_dir = sandbox_base
+    subfolder_used = False
     
-    sandbox_dir.mkdir(parents=True, exist_ok=True)
+    if use_isolated_subfolder and (candidate_id or run_label):
+        run_meta = create_sandbox_run_directory(candidate_id, run_label)
+        target_dir = Path(run_meta["run_directory"])
+        subfolder_used = True
+        
+    artifact_path = target_dir / f"{artifact_name}.json"
+    
+    # Final safety check: must be under sandbox_base
+    if not str(artifact_path.resolve()).startswith(str(sandbox_base.resolve())):
+        return {"artifact_write_performed": False, "error": "Sandbox directory escape detected"}
+        
+    target_dir.mkdir(parents=True, exist_ok=True)
     content = canonical_json(payload)
     artifact_path.write_text(content)
     readback = artifact_path.read_text()
@@ -156,7 +179,9 @@ def write_sandbox_artifact(artifact_name: str, payload: dict, authorization_rece
         "artifact_sha256": hashlib.sha256(readback.encode("utf-8")).hexdigest(),
         "artifact_byte_count": len(readback),
         "artifact_line_count": len(readback.splitlines()),
-        "artifact_readback_verified": (readback == content)
+        "artifact_readback_verified": (readback == content),
+        "sandbox_subfolder_isolation_used": subfolder_used,
+        "sandbox_directory_escape": False
     }
 
 def run_sandbox_candidate_test(candidate: dict, patch: dict, authorization_receipt: dict) -> dict:
@@ -182,6 +207,7 @@ def run_sandbox_candidate_test(candidate: dict, patch: dict, authorization_recei
     }
 
 def create_promotion_barrier_record(candidate: dict, evaluation: dict, test_result: dict) -> dict:
+    doctrine_hash = create_promotion_barrier_doctrine_hash()
     return {
         "barrier_record_id": sha256_digest({"candidate": candidate["candidate_id"], "barrier": "official"}),
         "official_promotion_blocked": True,
@@ -191,7 +217,10 @@ def create_promotion_barrier_record(candidate: dict, evaluation: dict, test_resu
         "propose_only_repo_protected": True,
         "deployment_blocked": True,
         "credentials_blocked": True,
-        "promotion_status": "OPERATOR_REVIEW_REQUIRED_FOR_ANY_OFFICIAL_PROMOTION"
+        "promotion_status": "OPERATOR_REVIEW_REQUIRED_FOR_ANY_OFFICIAL_PROMOTION",
+        "promotion_barrier_doctrine_hash": doctrine_hash,
+        "tamper_evident_barrier_hash_created": True,
+        "doctrine_content_returned": False
     }
 
 def create_sandbox_audit_timestamp() -> dict:
@@ -206,19 +235,258 @@ def create_sandbox_audit_timestamp() -> dict:
         "network_access_performed": False
     }
 
+def verify_repo_relative_evidence_paths(paths: list[str] | None, repo_root: str | None = None) -> dict:
+    root = Path(repo_root) if repo_root else Path.cwd()
+    checked_paths = []
+    valid_count = 0
+    invalid_count = 0
+    all_exist = True
+    all_relative = True
+    
+    if paths:
+        for p_str in paths:
+            is_valid = True
+            exists = False
+            reason = None
+            
+            p = Path(p_str)
+            if p.is_absolute():
+                is_valid = False
+                all_relative = False
+                reason = "absolute_path_rejected"
+            elif ".." in p_str:
+                is_valid = False
+                all_relative = False
+                reason = "path_traversal_rejected"
+            elif not p_str.strip():
+                is_valid = False
+                reason = "empty_path_rejected"
+            
+            if is_valid:
+                target_path = root / p
+                exists = target_path.exists()
+                if not exists:
+                    all_exist = False
+                    invalid_count += 1
+                else:
+                    valid_count += 1
+            else:
+                all_exist = False
+                invalid_count += 1
+                
+            checked_paths.append({
+                "path": p_str,
+                "is_valid_format": is_valid,
+                "exists": exists,
+                "reason": reason
+            })
+            
+    return {
+        "verification_id": sha256_digest({"paths": paths, "root": str(root)}),
+        "repo_root_used": str(root),
+        "path_count": len(paths) if paths else 0,
+        "valid_path_count": valid_count,
+        "invalid_path_count": invalid_count,
+        "all_paths_exist": all_exist if paths else True,
+        "all_paths_repo_relative": all_relative,
+        "checked_paths": checked_paths,
+        "official_repo_touched": False,
+        "propose_only_repo_touched": False,
+        "credential_access_performed": False,
+        "secret_read_performed": False,
+        "environment_read_performed": False,
+        "network_access_performed": False,
+        "repo_file_contents_read": False
+    }
+
+def create_promotion_barrier_doctrine_hash(repo_root: str | None = None) -> dict:
+    root = Path(repo_root) if repo_root else Path.cwd()
+    doctrine_path = root / "09_exports" / "auto_self_improve_2_promotion_barrier.md"
+    
+    exists = doctrine_path.exists()
+    sha256 = None
+    byte_count = 0
+    line_count = 0
+    
+    if exists:
+        content = doctrine_path.read_text()
+        sha256 = hashlib.sha256(content.encode("utf-8")).hexdigest()
+        byte_count = len(content)
+        line_count = len(content.splitlines())
+        
+    return {
+        "doctrine_hash_id": sha256_digest({"path": str(doctrine_path), "exists": exists, "sha": sha256}),
+        "doctrine_file_path": str(doctrine_path),
+        "doctrine_file_exists": exists,
+        "doctrine_sha256": sha256,
+        "doctrine_byte_count": byte_count,
+        "doctrine_line_count": line_count,
+        "doctrine_content_returned": False,
+        "official_repo_touched": False,
+        "propose_only_repo_touched": False,
+        "credential_access_performed": False,
+        "secret_read_performed": False,
+        "environment_read_performed": False,
+        "network_access_performed": False
+    }
+
+def create_sandbox_run_directory(candidate_id: str | None = None, run_label: str | None = None) -> dict:
+    label = normalize_text(candidate_id or run_label, "default_run")
+    # Sanitize further
+    label = re.sub(r'[^a-z0-9_-]', '', label)
+    
+    sandbox_base = Path(AUTO_SELF_IMPROVE_2_SANDBOX_DIR)
+    run_dir = sandbox_base / label
+    
+    # Ensure it's still under sandbox_base
+    if not str(run_dir.resolve()).startswith(str(sandbox_base.resolve())):
+        label = "safe_fallback_run"
+        run_dir = sandbox_base / label
+        
+    run_dir.mkdir(parents=True, exist_ok=True)
+    
+    return {
+        "run_directory_id": sha256_digest({"label": label, "base": str(sandbox_base)}),
+        "sandbox_base_dir": str(sandbox_base),
+        "run_directory": str(run_dir),
+        "run_label": label,
+        "directory_created": run_dir.exists(),
+        "sandbox_directory_escape": False,
+        "official_repo_touched": False,
+        "propose_only_repo_touched": False
+    }
+
+def create_lab_runtime_checksum_manifest(repo_root: str | None = None) -> dict:
+    root = Path(repo_root) if repo_root else Path.cwd()
+    files_to_check = [
+        "10_runtime/auto_self_improve_2_sandbox.py",
+        "scripts/validate_auto_self_improve_2.py",
+        "09_exports/auto_self_improve_2_lab_doctrine.md",
+        "09_exports/auto_self_improve_2_promotion_barrier.md"
+    ]
+    
+    file_metadata = []
+    all_present = True
+    for f_path in files_to_check:
+        p = root / f_path
+        exists = p.exists()
+        sha = None
+        bc = 0
+        lc = 0
+        if exists:
+            content = p.read_text()
+            sha = hashlib.sha256(content.encode("utf-8")).hexdigest()
+            bc = len(content)
+            lc = len(content.splitlines())
+        else:
+            all_present = False
+            
+        file_metadata.append({
+            "path": f_path,
+            "exists": exists,
+            "sha256": sha,
+            "byte_count": bc,
+            "line_count": lc,
+            "content_returned": False
+        })
+        
+    return {
+        "checksum_manifest_id": sha256_digest(file_metadata),
+        "file_count": len(files_to_check),
+        "files": file_metadata,
+        "all_expected_files_present": all_present,
+        "official_repo_touched": False,
+        "propose_only_repo_touched": False,
+        "credential_access_performed": False,
+        "secret_read_performed": False,
+        "environment_read_performed": False,
+        "network_access_performed": False
+    }
+
+def create_operator_promotion_review_snippet(candidate: dict | None = None) -> dict:
+    c_id = candidate.get("candidate_id") if candidate else "unknown"
+    return {
+        "snippet_id": sha256_digest({"c": c_id, "type": "promotion_review"}),
+        "snippet_type": "operator_promotion_review_template",
+        "candidate_id": c_id,
+        "official_promotion_performed": False,
+        "self_promotion_performed": False,
+        "operator_approval_required": True,
+        "required_operator_checks": [
+            "review candidate evidence",
+            "review affected files",
+            "review validator plan",
+            "run lab validators",
+            "create explicit official promotion prompt",
+            "patch official repo only in separate operator-approved action"
+        ],
+        "promotion_warning": "Sandbox success is not official promotion.",
+        "official_repo_touched": False,
+        "propose_only_repo_touched": False,
+        "deployment_performed": False,
+        "credentials_used": False
+    }
+
+def score_candidate_utility(candidate: dict, evaluation: dict | None = None) -> dict:
+    # Heuristic scoring model v1
+    evidence_score = 5.0
+    if candidate.get("evidence_path_verification", {}).get("all_paths_exist"):
+        evidence_score = 10.0
+    elif candidate.get("evidence_path_verification", {}).get("valid_path_count", 0) > 0:
+        evidence_score = 7.0
+        
+    safety_score = 8.0
+    title = candidate.get("title", "").lower()
+    if any(k in title for k in ["barrier", "safety", "deny", "protect"]):
+        safety_score = 10.0
+        
+    operator_score = 7.0
+    if any(k in title for k in ["menu", "doc", "instruction", "report", "snippet"]):
+        operator_score = 10.0
+        
+    future_score = 6.0
+    if any(k in title for k in ["validator", "evidence", "ranking", "sandbox", "boundary", "checksum"]):
+        future_score = 9.0
+        
+    risk_score = 1.0
+    if candidate.get("risk_level") == "medium":
+        risk_score = 3.0
+    elif candidate.get("risk_level") == "high":
+        risk_score = 8.0
+        
+    containment_score = 10.0 # Default for sandbox lab
+    
+    priority = evidence_score + safety_score + operator_score + future_score + containment_score - risk_score
+    
+    return {
+        "scoring_model_version": "auto-self-improve-2-heuristic-utility-v1",
+        "evidence_strength_score": evidence_score,
+        "safety_value_score": safety_score,
+        "operator_value_score": operator_score,
+        "future_self_improvement_value_score": future_score,
+        "implementation_risk_score": risk_score,
+        "containment_confidence_score": containment_score,
+        "priority_score": priority
+    }
+
 def create_auto_self_improve_2_bundle(
     candidate_title: str | None = None,
     candidate_summary: str | None = None,
     mutation_target: str | None = None,
-    risk_level: str | None = None
+    risk_level: str | None = None,
+    evidence_paths: list[str] | None = None
 ) -> dict:
     manifest = create_auto_self_improve_2_manifest()
-    candidate = create_sandbox_improvement_candidate(candidate_title, candidate_summary, mutation_target, risk_level)
+    candidate = create_sandbox_improvement_candidate(candidate_title, candidate_summary, mutation_target, risk_level, evidence_paths)
     evaluation = evaluate_sandbox_candidate(candidate)
     auth_receipt = create_sandbox_self_authorization_receipt(candidate, evaluation)
     patch = create_sandbox_candidate_patch(candidate, auth_receipt)
     test_result = run_sandbox_candidate_test(candidate, patch, auth_receipt)
     barrier = create_promotion_barrier_record(candidate, evaluation, test_result)
+    
+    # New Batch 2 Features
+    checksums = create_lab_runtime_checksum_manifest()
+    snippet = create_operator_promotion_review_snippet(candidate)
     
     # Audit record for the mutation
     audit = {
@@ -231,16 +499,18 @@ def create_auto_self_improve_2_bundle(
         "deployment_performed": False,
         "credentials_used": False,
         "secrets_read": False,
-        "promotion_allowed": False
+        "promotion_allowed": False,
+        "evidence_path_verification": candidate["evidence_path_verification"]
     }
     
     # Write artifacts if authorized
     writes = {}
     if auth_receipt["sandbox_self_authorization_granted"]:
-        writes["receipt"] = write_sandbox_artifact("sandbox_self_authorization_receipt", auth_receipt, auth_receipt)
-        writes["patch"] = write_sandbox_artifact("sandbox_candidate_patch", patch, auth_receipt)
-        writes["test"] = write_sandbox_artifact("sandbox_test_result", test_result, auth_receipt)
-        writes["audit"] = write_sandbox_artifact("sandbox_mutation_audit", audit, auth_receipt)
+        c_id = candidate["candidate_id"]
+        writes["receipt"] = write_sandbox_artifact("sandbox_self_authorization_receipt", auth_receipt, auth_receipt, candidate_id=c_id)
+        writes["patch"] = write_sandbox_artifact("sandbox_candidate_patch", patch, auth_receipt, candidate_id=c_id)
+        writes["test"] = write_sandbox_artifact("sandbox_test_result", test_result, auth_receipt, candidate_id=c_id)
+        writes["audit"] = write_sandbox_artifact("sandbox_mutation_audit", audit, auth_receipt, candidate_id=c_id)
 
     safety_matrix = {
         "allowed": [
@@ -251,7 +521,11 @@ def create_auto_self_improve_2_bundle(
             "write_sandbox_artifacts",
             "run_sandbox_metadata_tests",
             "create_promotion_barrier",
-            "recommend_operator_review"
+            "recommend_operator_review",
+            "verify_evidence_paths",
+            "generate_checksum_manifest",
+            "generate_promotion_review_snippet",
+            "heuristic_utility_scoring"
         ],
         "denied": [
             "mutate_official_repo",
@@ -266,7 +540,8 @@ def create_auto_self_improve_2_bundle(
             "start_subprocess",
             "weaken_validators",
             "bypass_operator_for_official_promotion",
-            "write_repo_runtime_files_automatically"
+            "write_repo_runtime_files_automatically",
+            "dynamic_bytecode_patching"
         ]
     }
     
@@ -297,6 +572,8 @@ def create_auto_self_improve_2_bundle(
         "patch": patch,
         "test_result": test_result,
         "barrier": barrier,
+        "checksum_manifest": checksums,
+        "promotion_review_snippet": snippet,
         "artifact_writes": writes,
         "safety_matrix": safety_matrix
     }
