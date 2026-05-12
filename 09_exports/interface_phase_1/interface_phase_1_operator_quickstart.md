@@ -1,5 +1,23 @@
 # Interface Phase 1 — CLI Operator Console Quickstart
 
+## Final Acceptance Report
+
+The final Phase 1 release-candidate acceptance report is at:
+`09_exports/interface_phase_1/interface_phase_1_final_acceptance_report.md`
+
+## Release-Candidate Validator
+
+The RC validator pass string is: `INTERFACE_PHASE_1_RELEASE_CANDIDATE_VALIDATION_PASS`
+
+## Demo Script
+
+The demo at `scripts/demo_interface_phase_1.sh` is safe and non-destructive.
+It does not run `--validator-wall` automatically. To run validators manually:
+
+```bash
+python3 11_interface/station_chief_cli.py --validator-wall
+```
+
 ## Interactive Run
 
 ```bash

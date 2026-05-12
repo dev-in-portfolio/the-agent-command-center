@@ -99,7 +99,7 @@ dev-in-portfolio/agent-command-center-3
 - **CLI Validator:** INTERFACE_PHASE_1_CLI_VALIDATION_PASS (35 checks)
 - **Command Packet Validator:** INTERFACE_PHASE_1_COMMAND_PACKETS_VALIDATION_PASS
 - **E2E Validator:** INTERFACE_PHASE_1_E2E_VALIDATION_PASS (18 tests)
-- **RC Validator:** INTERFACE_PHASE_1_RC_VALIDATION_PASS (new)
+- **RC Validator:** INTERFACE_PHASE_1_RELEASE_CANDIDATE_VALIDATION_PASS
 - **Runtime v25:** STATION_CHIEF_RUNTIME_V25_0_VALIDATION_PASS
 - **Runtime v24:** STATION_CHIEF_RUNTIME_V24_0_VALIDATION_PASS
 - **Auto Self-Improve:** AUTO_SELF_IMPROVE_2_VALIDATION_PASS
@@ -245,11 +245,11 @@ Secure. All locked actions refused. No bypass paths.
 
 ## 30. Release Candidate Artifacts
 
+- **Final acceptance report:** `09_exports/interface_phase_1/interface_phase_1_final_acceptance_report.md`
 - **Merge-readiness packet:** `09_exports/interface_phase_1/merge_readiness/interface_phase_1_merge_readiness_packet.md`
-- **Demo script:** `scripts/demo_interface_phase_1.sh`
+- **Demo script:** `scripts/demo_interface_phase_1.sh` (safe demo, no auto validator-wall)
 - **Phase 2 handoff contract:** `09_exports/interface_phase_1/phase_2_handoff_contract.md`
-- **RC validator:** `scripts/validate_interface_phase_1_release_candidate.py`
-- **Final acceptance report:** This document (32 sections)
+- **RC validator:** `scripts/validate_interface_phase_1_release_candidate.py` (pass string: `INTERFACE_PHASE_1_RELEASE_CANDIDATE_VALIDATION_PASS`)
 
 ## 31. Recommended Next Phase
 

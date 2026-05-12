@@ -372,32 +372,85 @@ def main():
     # 35. No files outside allowed paths changed
     print("  [SKIP] Full git diff check deferred to Phase 12")
 
-    # 36. RC artifacts exist
+    # 36. RC artifacts exist (including final acceptance report)
     rc_artifacts = [
+        EXPORTS_DIR / "interface_phase_1" / "interface_phase_1_final_acceptance_report.md",
         EXPORTS_DIR / "interface_phase_1" / "interface_phase_1_acceptance_report.md",
         EXPORTS_DIR / "interface_phase_1" / "merge_readiness" / "interface_phase_1_merge_readiness_packet.md",
         EXPORTS_DIR / "interface_phase_1" / "phase_2_handoff_contract.md",
         EXPORTS_DIR / "interface_phase_1" / "test_runs",
         SCRIPTS_DIR / "demo_interface_phase_1.sh",
         SCRIPTS_DIR / "validate_interface_phase_1_release_candidate.py",
+        EXPORTS_DIR / "interface_phase_1" / "interface_phase_1_demo_notes.md",
     ]
     for artifact in rc_artifacts:
         ensure(artifact.exists(), f"RC artifact missing: {artifact}")
     print("  [PASS] All RC artifacts present")
 
-    # 37. RC validator contains required checks
+    # 37. RC validator contains correct pass string (not old one)
     rc_content = (SCRIPTS_DIR / "validate_interface_phase_1_release_candidate.py").read_text()
     ensure("PASS_WITH_HIGH_CONFIDENCE" in rc_content, "RC validator missing acceptance report check")
     ensure("merge_readiness" in rc_content, "RC validator missing merge-readiness check")
     ensure("phase_2_handoff_contract" in rc_content, "RC validator missing handoff contract check")
-    ensure("INTERFACE_PHASE_1_RC_VALIDATION_PASS" in rc_content, "RC validator missing pass string")
-    print("  [PASS] RC validator references all RC artifacts")
+    ensure("INTERFACE_PHASE_1_RELEASE_CANDIDATE_VALIDATION_PASS" in rc_content,
+           "RC validator missing correct pass string")
+    print("  [PASS] RC validator has correct pass string")
 
     # 38. Demo script references CLI and safe flags
     demo_content = (SCRIPTS_DIR / "demo_interface_phase_1.sh").read_text()
     ensure("station_chief_cli.py" in demo_content, "Demo script missing CLI reference")
     ensure("--status" in demo_content, "Demo script missing --status")
     print("  [PASS] Demo script references CLI and safe flags")
+
+    # 39. Final acceptance report exists with required content
+    far = EXPORTS_DIR / "interface_phase_1" / "interface_phase_1_final_acceptance_report.md"
+    ensure(far.exists(), "Final acceptance report missing")
+    far_content = far.read_text()
+    ensure("PASS_WITH_HIGH_CONFIDENCE" in far_content or "PASS_WITH_NOTES" in far_content,
+           "Final acceptance report missing verdict")
+    ensure("merge performed" in far_content.lower() and "false" in far_content.lower(),
+           "Final acceptance report missing merge performed: false")
+    ensure("deployment performed" in far_content.lower() and "false" in far_content.lower(),
+           "Final acceptance report missing deployment performed: false")
+    ensure("official repo touched" in far_content.lower() and "false" in far_content.lower(),
+           "Final acceptance report missing official repo touched: false")
+    ensure("Phase 2 handoff contract" in far_content,
+           "Final acceptance report missing Phase 2 handoff contract reference")
+    ensure("ready for merge review" in far_content.lower() or "merge readiness" in far_content.lower(),
+           "Final acceptance report missing merge readiness reference")
+    print("  [PASS] Final acceptance report contains required content")
+
+    # 40. RC validator no longer has old pass string
+    ensure("INTERFACE_PHASE_1_RC_VALIDATION_PASS" not in rc_content,
+           "RC validator still has old pass string INTERFACE_PHASE_1_RC_VALIDATION_PASS")
+    print("  [PASS] RC validator does not contain old pass string")
+
+    # 41. Demo script does not contain --validator-wall
+    ensure("--validator-wall" not in demo_content,
+           "Demo script must not run --validator-wall automatically")
+    print("  [PASS] Demo script does not auto-run validator-wall")
+
+    # 42. Demo script does not contain forbidden patterns
+    forbidden_demo_patterns = [
+        "git push", "git merge", "gh pr", "curl", "wget", "ssh", "scp",
+        "deploy", "secrets", "credentials",
+    ]
+    for pattern in forbidden_demo_patterns:
+        ensure(pattern not in demo_content,
+               f"Demo script contains forbidden pattern: {pattern}")
+    print("  [PASS] Demo script has no forbidden patterns")
+
+    # 43. Demo script contains required safe flags and operations
+    required_safe_demo = [
+        "--status", "--show-locked", "--list-artifacts",
+        "--inspect-artifacts", "--inspect-artifact trial_v3",
+        "--prepare-packet validator_wall", "--show-approval-ledger",
+        "--generate-session-report",
+    ]
+    for item in required_safe_demo:
+        ensure(item in demo_content,
+               f"Demo script missing required safe operation: {item}")
+    print("  [PASS] Demo script contains all required safe operations")
 
     print("\nINTERFACE_PHASE_1_CLI_VALIDATION_PASS")
 

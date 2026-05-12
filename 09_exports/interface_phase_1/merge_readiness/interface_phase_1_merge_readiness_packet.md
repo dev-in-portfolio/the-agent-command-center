@@ -56,7 +56,8 @@ All criteria below have been met.
 - [x] Runtime validators v25/v24 plus auto-self-improve all pass
 
 ### Documentation
-- [x] Acceptance report (32 sections, `PASS_WITH_HIGH_CONFIDENCE`)
+- [x] Final acceptance report (`interface_phase_1_final_acceptance_report.md`, `PASS_WITH_HIGH_CONFIDENCE`)
+- [x] Historical acceptance report (32 sections, `PASS_WITH_HIGH_CONFIDENCE`)
 - [x] Operator quickstart guide
 - [x] Command map
 - [x] Upgrade report
@@ -65,9 +66,9 @@ All criteria below have been met.
 
 ### Artifacts
 - [x] Merge-readiness packet (this file)
-- [x] Demo script
+- [x] Demo script (safe, no auto validator-wall)
 - [x] Phase 2 handoff contract
-- [x] RC validator
+- [x] RC validator (`INTERFACE_PHASE_1_RELEASE_CANDIDATE_VALIDATION_PASS`)
 
 ## Allowed Actions (Post-Merge)
 - Human review of all changed files

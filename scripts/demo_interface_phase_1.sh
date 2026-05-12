@@ -1,10 +1,16 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Interface Phase 1 — Demo Script
-# This script demonstrates the CLI Operator Console in demo mode.
-# It runs safe, read-only commands and prepares controlled artifacts.
-# No git push, merge, PR, curl, or secrets are used.
+# SAFE DEMO ONLY
+# Does not push to any environment.
+# Does not perform any merge action.
+# Does not push to remote.
+# Does not open PRs.
+# Does not call network.
+# Does not execute command packets.
+# Does not touch official/repo2/repo3.
+# Does not use any secret or credential values.
+# Validator wall is intentionally not executed by this safe demo.
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 CLI="$ROOT/11_interface/station_chief_cli.py"
@@ -36,29 +42,34 @@ echo ">>> 4. Inspect artifact packages"
 python3 "$CLI" --inspect-artifacts
 echo ""
 
-# 5. Show session state
-echo ">>> 5. Show session state"
+# 5. Inspect specific artifact package
+echo ">>> 5. Inspect artifact package: trial_v3"
+python3 "$CLI" --inspect-artifact trial_v3
+echo ""
+
+# 6. Show session state
+echo ">>> 6. Show session state"
 python3 "$CLI" --session-state
 echo ""
 
-# 6. Prepare command packet (validator_wall)
-echo ">>> 6. Prepare command packet: validator_wall"
+# 7. Prepare command packet (validator_wall)
+echo ">>> 7. Prepare command packet: validator_wall"
 python3 "$CLI" --prepare-packet validator_wall
 echo ""
 
-# 7. Show approval ledger
-echo ">>> 7. Show approval ledger"
+# 8. Show approval ledger
+echo ">>> 8. Show approval ledger"
 python3 "$CLI" --show-approval-ledger
 echo ""
 
-# 8. Show summaries
-echo ">>> 8. Show latest summaries"
+# 9. Show summaries
+echo ">>> 9. Show latest summaries"
 python3 "$CLI" --show-summaries
 echo ""
 
-# 9. Run validator wall
-echo ">>> 9. Run validator wall (all validators)"
-python3 "$CLI" --validator-wall
+echo ">>> Optional validation step skipped in safe demo"
+echo "To run the validator wall manually, use the CLI validator-wall flag."
+echo "Note: validators may run checks that depend on local runtime/repo state."
 echo ""
 
 # 10. Generate session report

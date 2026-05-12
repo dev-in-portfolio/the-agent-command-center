@@ -1,5 +1,21 @@
 # Interface Phase 1 — Command Map (Operationally Hardened)
 
+## Final Acceptance Report
+
+The final Phase 1 acceptance report is at:
+`09_exports/interface_phase_1/interface_phase_1_final_acceptance_report.md`
+Verdict: **PASS_WITH_HIGH_CONFIDENCE**. Merge performed: false, deployment performed: false,
+official repo touched: false, repo2/repo3 touched: false, secrets/credentials used: false.
+
+## Release-Candidate Validator
+
+Pass string: `INTERFACE_PHASE_1_RELEASE_CANDIDATE_VALIDATION_PASS`
+
+## Demo Script
+
+The demo script at `scripts/demo_interface_phase_1.sh` is safe and non-destructive.
+It does not run `--validator-wall` automatically. Validator wall can be run manually by the operator.
+
 ## Legend
 
 | Column | Description |
