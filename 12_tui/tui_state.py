@@ -6,6 +6,7 @@ ROOT = Path(__file__).resolve().parent.parent
 PHASE1 = ROOT / "11_interface"
 PHASE2_EXPORTS = ROOT / "09_exports" / "interface_phase_2"
 SESSION_DIR = PHASE2_EXPORTS / "sessions"
+SNAPSHOT_DIR = PHASE2_EXPORTS / "snapshots"
 
 _loaded_modules = {}
 
@@ -64,8 +65,11 @@ def get_actions():
 class TUIState:
     def __init__(self):
         self.current_screen = "dashboard"
+        self.previous_screen = None
+        self.screen_history = []
         self.session_id = f"TUI-{datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S-%f')}"
         self.started_at = datetime.now(timezone.utc).isoformat()
+        self.last_refreshed_at = self.started_at
         self.screens_viewed = []
         self.actions_requested = []
         self.actions_completed = []
@@ -79,6 +83,44 @@ class TUIState:
         self.last_validator_results = {}
         self.artifact_cache = None
         self.ledger_cache = None
+        self.selected_artifact_package = None
+        self.selected_packet_type = None
+        self.selected_branch_review = None
+        self.selected_ledger_filter = None
+        self.last_action_name = None
+        self.last_action_status = None
+        self.recommended_next_action = None
+
+    @property
+    def breadcrumbs(self):
+        crumbs = []
+        for s in self.screen_history:
+            crumbs.append(s.replace("_", " ").title())
+        crumbs.append(self.current_screen.replace("_", " ").title())
+        return " > ".join(crumbs)
+
+    def navigate_to(self, screen_name):
+        if screen_name == self.current_screen:
+            return
+        self.previous_screen = self.current_screen
+        self.screen_history.append(self.current_screen)
+        if len(self.screen_history) > 20:
+            self.screen_history = self.screen_history[-20:]
+        self.current_screen = screen_name
+        self.record_screen(screen_name)
+
+    def go_back(self):
+        if self.screen_history:
+            prev = self.screen_history.pop()
+            self.previous_screen = self.current_screen
+            self.current_screen = prev
+            return True
+        return False
+
+    def go_home(self):
+        self.screen_history.clear()
+        self.previous_screen = self.current_screen
+        self.current_screen = "dashboard"
 
     def record_screen(self, screen_name):
         if screen_name not in self.screens_viewed:
@@ -89,12 +131,19 @@ class TUIState:
 
     def record_action_completed(self, action):
         self.actions_completed.append(action)
+        self.last_action_name = action
+        self.last_action_status = "PASS"
 
     def record_action_refused(self, action, reason):
         self.actions_refused.append({"action": action, "reason": reason})
+        self.last_action_name = action
+        self.last_action_status = "REFUSED"
 
     def record_validator_run(self, name, status):
-        self.validator_runs.append({"name": name, "status": status, "ts": datetime.now(timezone.utc).isoformat()})
+        self.validator_runs.append({
+            "name": name, "status": status,
+            "ts": datetime.now(timezone.utc).isoformat()
+        })
         self.last_validator_results[name] = status
 
     def record_packet_prepared(self, packet_type):
@@ -114,6 +163,7 @@ class TUIState:
             "session_id": self.session_id,
             "started_at_utc": self.started_at,
             "ended_at_utc": datetime.now(timezone.utc).isoformat(),
+            "current_screen": self.current_screen,
             "screens_viewed": self.screens_viewed,
             "actions_requested": len(self.actions_requested),
             "actions_completed": len(self.actions_completed),
@@ -138,6 +188,36 @@ class TUIState:
 def write_session_report(state):
     SESSION_DIR.mkdir(parents=True, exist_ok=True)
     summary = state.get_summary()
-    report_path = SESSION_DIR / f"session_{state.session_id}.json"
-    report_path.write_text(json.dumps(summary, indent=2))
-    return report_path
+    sid = state.session_id
+    report_md = SESSION_DIR / f"session_{sid}.md"
+    report_json = SESSION_DIR / f"session_{sid}.json"
+    lines = []
+    lines.append(f"# Session Report: {sid}")
+    lines.append("")
+    lines.append(f"**Started at UTC:** {state.started_at}")
+    lines.append(f"**Ended at UTC:** {summary['ended_at_utc']}")
+    lines.append(f"**Current screen:** {summary['current_screen']}")
+    lines.append("")
+    lines.append("## Activity Summary")
+    lines.append(f"- Screens viewed: {len(state.screens_viewed)}")
+    lines.append(f"- Actions requested: {summary['actions_requested']}")
+    lines.append(f"- Actions completed: {summary['actions_completed']}")
+    lines.append(f"- Actions refused: {summary['actions_refused']}")
+    lines.append(f"- Validator runs: {summary['validator_runs']}")
+    lines.append(f"- Packets prepared: {summary['packets_prepared']}")
+    lines.append(f"- Branch reviews prepared: {summary['branch_reviews_prepared']}")
+    lines.append(f"- Ledger records created: {summary['ledger_records_created']}")
+    lines.append(f"- Errors: {summary['errors']}")
+    lines.append("")
+    lines.append("## Boundary State")
+    bs = summary["final_boundary_state"]
+    for k, v in bs.items():
+        lines.append(f"- {k}: {v}")
+    lines.append("")
+    if state.last_action_name:
+        lines.append(f"**Last action:** {state.last_action_name} [{state.last_action_status}]")
+    if state.recommended_next_action:
+        lines.append(f"**Recommended next:** {state.recommended_next_action}")
+    report_md.write_text("\n".join(lines))
+    report_json.write_text(json.dumps(summary, indent=2))
+    return report_md

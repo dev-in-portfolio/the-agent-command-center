@@ -3,13 +3,14 @@ from tui_state import TUIState, write_session_report
 from tui_renderer import (
     render_dashboard, render_action_registry, render_artifact_inspector,
     render_validator_wall, render_command_packet_prep, render_branch_review_prep,
-    render_approval_ledger, render_help, SEPARATOR,
+    render_approval_ledger, render_safety_monitor, render_help,
+    render_safety_boundary_help, SNAPSHOT_FORMATS, SEPARATOR,
 )
 from tui_safe_actions import (
     run_validator_wall, prepare_command_packet,
     prepare_branch_review, review_packet, approve_packet, reject_packet,
 )
-from tui_keymap import KEY_TO_SCREEN, is_valid_key, get_screen_for_key
+from tui_keymap import KEY_TO_SCREEN, is_valid_key, get_screen_for_key, FORBIDDEN_SCREEN_NAMES
 
 
 def handle_dashboard_input(state, key, get_input_fn):
@@ -32,16 +33,13 @@ def handle_validator_wall_input(state, key, get_input_fn):
         if confirmation.strip() == "RUN_VALIDATOR_WALL":
             print()
             print("  Running validator wall...")
-            results = run_validator_wall()
-            state.last_validator_results = results
+            results = run_validator_wall(state)
             for name, status in results.items():
-                state.record_validator_run(name, status)
-                outcome = "PASS" if status == "PASS" else "FAIL"
-                s = f"  [{outcome}] {name}"
+                badge = "[PASS]" if status == "PASS" else "[FAIL]"
+                s = f"  {badge} {name}"
                 if status != "PASS":
                     s += f" ({status})"
                 print(s)
-            state.record_action_completed("validator_wall")
         else:
             print("  Cancelled.")
     return get_screen_for_key(key)
@@ -66,10 +64,10 @@ def handle_command_packet_prep_input(state, key, get_input_fn):
                     print(f"  [PASS] Packet prepared: {ptype}")
                     state.record_packet_prepared(ptype)
                     state.record_action_completed(f"prepare_packet_{ptype}")
+                    state.recommended_next_action = "Review the prepared packet or generate a session report."
                 else:
                     print(f"  [FAIL] {result.get('error', 'unknown error')}")
-                    state.record_action_refused(f"prepare_packet_{ptype}",
-                                                result.get('error', 'unknown'))
+                    state.record_action_refused(f"prepare_packet_{ptype}", result.get('error', 'unknown'))
             else:
                 print("  Invalid choice.")
         else:
@@ -90,15 +88,23 @@ def handle_branch_review_prep_input(state, key, get_input_fn):
             return get_screen_for_key(key)
         branch = parts[0]
         base = parts[1] if len(parts) > 1 else None
+        from tui_safe_actions import _load_p1_module
+        brm = _load_p1_module("interface_branch_review")
+        sanitized = brm.sanitize_branch_name(branch) if hasattr(brm, "sanitize_branch_name") else branch
+        if sanitized is None:
+            print(f"  [FAIL] Invalid branch name: {branch}")
+            state.record_action_refused(f"branch_review_{branch}", "Invalid branch name")
+            return get_screen_for_key(key)
+        print(f"  Branch validated: {sanitized}")
         result = prepare_branch_review(branch, base)
         if result.get("status") == "PASS":
             print(f"  [PASS] Branch review prepared for {branch}")
             state.record_branch_review(branch, base or "master")
             state.record_action_completed(f"branch_review_{branch}")
+            state.recommended_next_action = "Review the branch review packet or run validators."
         else:
             print(f"  [FAIL] {result.get('error', 'unknown error')}")
-            state.record_action_refused(f"branch_review_{branch}",
-                                        result.get('error', 'unknown'))
+            state.record_action_refused(f"branch_review_{branch}", result.get('error', 'unknown'))
     return get_screen_for_key(key)
 
 
@@ -118,10 +124,10 @@ def handle_approval_ledger_input(state, key, get_input_fn):
                     print("  [PASS] Packet reviewed.")
                     state.record_ledger_write()
                     state.record_action_completed("review_packet")
+                    state.recommended_next_action = "Approve or reject the packet."
                 else:
                     print(f"  [FAIL] {result.get('error', 'unknown')}")
-                    state.record_action_refused("review_packet",
-                                                result.get('error', 'unknown'))
+                    state.record_action_refused("review_packet", result.get('error', 'unknown'))
         elif opt == "2":
             p = get_input_fn("  Packet path: ").strip()
             phrase = get_input_fn("  Approval phrase: ").strip()
@@ -131,10 +137,10 @@ def handle_approval_ledger_input(state, key, get_input_fn):
                     print(f"  [{result['status']}] Packet approval processed.")
                     state.record_ledger_write()
                     state.record_action_completed("approve_packet")
+                    state.recommended_next_action = "Check the approval ledger."
                 else:
                     print(f"  [FAIL] {result.get('error', 'unknown')}")
-                    state.record_action_refused("approve_packet",
-                                                result.get('error', 'unknown'))
+                    state.record_action_refused("approve_packet", result.get('error', 'unknown'))
         elif opt == "3":
             p = get_input_fn("  Packet path: ").strip()
             note = get_input_fn("  Reason (optional): ").strip()
@@ -144,12 +150,16 @@ def handle_approval_ledger_input(state, key, get_input_fn):
                     print("  [PASS] Packet rejected.")
                     state.record_ledger_write()
                     state.record_action_completed("reject_packet")
+                    state.recommended_next_action = "Check the approval ledger."
                 else:
                     print(f"  [FAIL] {result.get('error', 'unknown')}")
-                    state.record_action_refused("reject_packet",
-                                                result.get('error', 'unknown'))
+                    state.record_action_refused("reject_packet", result.get('error', 'unknown'))
         else:
             print("  Cancelled.")
+    return get_screen_for_key(key)
+
+
+def handle_safety_monitor_input(state, key, get_input_fn):
     return get_screen_for_key(key)
 
 
@@ -165,6 +175,7 @@ SCREEN_HANDLERS = {
     "command_packet_prep": handle_command_packet_prep_input,
     "branch_review_prep": handle_branch_review_prep_input,
     "approval_ledger": handle_approval_ledger_input,
+    "safety_monitor": handle_safety_monitor_input,
     "help": handle_help_input,
 }
 
@@ -176,5 +187,6 @@ SCREEN_RENDERERS = {
     "command_packet_prep": render_command_packet_prep,
     "branch_review_prep": render_branch_review_prep,
     "approval_ledger": render_approval_ledger,
+    "safety_monitor": render_safety_monitor,
     "help": render_help,
 }

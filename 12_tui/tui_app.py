@@ -1,11 +1,11 @@
 import sys
-import shutil
 from pathlib import Path
+from datetime import datetime, timezone
 
 from tui_state import TUIState, write_session_report
 from tui_screens import SCREEN_HANDLERS, SCREEN_RENDERERS
-from tui_keymap import KEY_TO_SCREEN, is_valid_key, HELP_TEXT
-from tui_renderer import render_snapshot, SEPARATOR
+from tui_keymap import KEY_TO_SCREEN, is_valid_key, NAV_KEYS, FORBIDDEN_SCREEN_NAMES
+from tui_renderer import SNAPSHOT_FORMATS, SEPARATOR
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -22,7 +22,7 @@ def run_plain_text(state):
         if not handler:
             break
 
-        print("  [1-8] navigate  [r] refresh  [h] help  [q] quit")
+        print("  [1-9] navigate  [b]back  [d]home  [?]help  [r]refresh  [h]help  [q]quit")
         try:
             raw = input("  > ").strip().lower()
         except (EOFError, KeyboardInterrupt):
@@ -33,29 +33,68 @@ def run_plain_text(state):
             break
         elif raw == "r":
             state.refresh_counter += 1
+            state.last_refreshed_at = datetime.now(timezone.utc).isoformat()
             continue
         elif raw == "h":
-            state.current_screen = "help"
-            state.record_screen("help")
+            state.navigate_to("help")
             continue
-        elif is_valid_key(raw):
-            new_screen = KEY_TO_SCREEN.get(raw)
-            if new_screen and new_screen not in ("quit", "refresh", "help"):
-                state.current_screen = new_screen
-                state.record_screen(new_screen)
-                continue
+        elif raw == "b":
+            state.go_back()
+            continue
+        elif raw == "d":
+            state.go_home()
+            continue
+        elif raw == "?":
+            print()
+            print("  Screen-specific help for:", state.current_screen)
+            print("  See help screen (8) for full keymap.")
+            continue
         elif raw == "4":
-            handler(state, "4", lambda prompt="": input(prompt))
+            state.navigate_to("validator_wall")
+            print()
+            print(SCREEN_RENDERERS["validator_wall"](state))
+            print()
+            h = SCREEN_HANDLERS.get("validator_wall")
+            if h:
+                h(state, "4", lambda prompt="": input(prompt))
             continue
         elif raw == "5":
-            handler(state, "5", lambda prompt="": input(prompt))
+            state.navigate_to("command_packet_prep")
+            print()
+            print(SCREEN_RENDERERS["command_packet_prep"](state))
+            print()
+            h = SCREEN_HANDLERS.get("command_packet_prep")
+            if h:
+                h(state, "5", lambda prompt="": input(prompt))
             continue
         elif raw == "6":
-            handler(state, "6", lambda prompt="": input(prompt))
+            state.navigate_to("branch_review_prep")
+            print()
+            print(SCREEN_RENDERERS["branch_review_prep"](state))
+            print()
+            h = SCREEN_HANDLERS.get("branch_review_prep")
+            if h:
+                h(state, "6", lambda prompt="": input(prompt))
             continue
         elif raw == "7":
-            handler(state, "7", lambda prompt="": input(prompt))
+            state.navigate_to("approval_ledger")
+            print()
+            print(SCREEN_RENDERERS["approval_ledger"](state))
+            print()
+            h = SCREEN_HANDLERS.get("approval_ledger")
+            if h:
+                h(state, "7", lambda prompt="": input(prompt))
             continue
+        elif raw in NAV_KEYS:
+            new_screen = KEY_TO_SCREEN.get(raw)
+            if new_screen and new_screen not in ("quit", "refresh", "help", "back", "dashboard", "screen_help"):
+                state.navigate_to(new_screen)
+                continue
+        elif is_valid_key(raw):
+            new_screen = KEY_TO_SCREEN.get(raw)
+            if new_screen and new_screen not in ("quit", "refresh", "help", "back", "dashboard", "screen_help"):
+                state.navigate_to(new_screen)
+                continue
         else:
             print(f"  Unknown key: {raw}")
             continue
@@ -68,9 +107,6 @@ def run_plain_text(state):
 
 
 def _curses_main(stdscr):
-    from tui_state import TUIState, write_session_report
-    from tui_screens import SCREEN_HANDLERS, SCREEN_RENDERERS
-
     curses = __import__("curses")
     curses.curs_set(0)
     stdscr.keypad(True)
@@ -108,7 +144,7 @@ def _curses_main(stdscr):
                     pass
 
         max_y, max_x = stdscr.getmaxyx()
-        prompt = "  [1-8] navigate  [r] refresh  [h] help  [q] quit"
+        prompt = "  [1-9] nav  [b]back  [d]home  [?]help  [r]refresh  [q]quit"
         try:
             stdscr.addstr(max_y - 1, 0, prompt[:max_x - 1])
         except curses.error:
@@ -121,10 +157,18 @@ def _curses_main(stdscr):
             break
         elif key == ord("r"):
             state.refresh_counter += 1
+            state.last_refreshed_at = datetime.now(timezone.utc).isoformat()
             continue
         elif key == ord("h"):
-            state.current_screen = "help"
-            state.record_screen("help")
+            state.navigate_to("help")
+            continue
+        elif key == ord("b"):
+            state.go_back()
+            continue
+        elif key == ord("d"):
+            state.go_home()
+            continue
+        elif key == ord("?"):
             continue
         elif key == ord("4"):
             handler = SCREEN_HANDLERS.get("validator_wall")
@@ -158,18 +202,16 @@ def _curses_main(stdscr):
                 stdscr.refresh()
                 handler(state, "7", lambda prompt="": _curses_get_input(stdscr, prompt))
             continue
-        elif ord("1") <= key <= ord("3") or key == ord("8"):
+        elif ord("1") <= key <= ord("3") or key == ord("8") or key == ord("9"):
             raw = chr(key)
             new_screen = KEY_TO_SCREEN.get(raw)
-            if new_screen and new_screen not in ("quit", "refresh", "help"):
-                state.current_screen = new_screen
-                state.record_screen(new_screen)
+            if new_screen and new_screen not in ("quit", "refresh", "help", "back", "dashboard", "screen_help"):
+                state.navigate_to(new_screen)
             continue
         elif chr(key) in KEY_TO_SCREEN:
             new_screen = KEY_TO_SCREEN.get(chr(key))
-            if new_screen and new_screen not in ("quit", "refresh", "help", "4", "5", "6", "7"):
-                state.current_screen = new_screen
-                state.record_screen(new_screen)
+            if new_screen and new_screen not in ("quit", "refresh", "help", "back", "dashboard", "screen_help", "4", "5", "6", "7"):
+                state.navigate_to(new_screen)
             continue
 
     write_session_report(state)
@@ -224,5 +266,31 @@ def run_curses():
     curses.wrapper(_curses_main)
 
 
-def run_snapshot(state):
-    print(render_snapshot(state))
+def run_snapshot(state, fmt="text", save=False):
+    if fmt not in SNAPSHOT_FORMATS:
+        print(f"ERROR: Unknown snapshot format: {fmt}")
+        print("Supported formats: text, markdown, json, compact, full")
+        sys.exit(2)
+    render_fn = SNAPSHOT_FORMATS[fmt]
+    output = render_fn(state)
+    if save:
+        from tui_state import SNAPSHOT_DIR
+        ts = datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%S")
+        ext = {"text": "txt", "markdown": "md", "json": "json", "compact": "txt", "full": "txt"}
+        ext_map = ext.get(fmt, "txt")
+        SNAPSHOT_DIR.mkdir(parents=True, exist_ok=True)
+        snap_path = SNAPSHOT_DIR / f"snapshot_{ts}.{ext_map}"
+        snap_path.write_text(output)
+        print(f"Snapshot saved: {snap_path}")
+    else:
+        print(output)
+
+
+def run_format_help():
+    print("Snapshot format options:")
+    print("  --snapshot --format text       Plain text (default)")
+    print("  --snapshot --format markdown   Markdown document")
+    print("  --snapshot --format json       JSON data")
+    print("  --snapshot --format compact    Compact one-line summary")
+    print("  --snapshot --format full       Full detailed snapshot")
+    print("  --snapshot --format json --save  Save to file")

@@ -1,6 +1,8 @@
 import subprocess
 import sys
+import json
 from pathlib import Path
+from datetime import datetime, timezone
 
 ROOT = Path(__file__).resolve().parent.parent
 PHASE1 = ROOT / "11_interface"
@@ -20,7 +22,7 @@ def _load_p1_module(name):
     return mod
 
 
-def run_validator_wall():
+def run_validator_wall(state=None):
     validators = [
         ("CLI", ["python3", str(ROOT / "scripts/validate_interface_phase_1_cli.py")]),
         ("Command Packets", ["python3", str(ROOT / "scripts/validate_interface_phase_1_command_packets.py")]),
@@ -28,16 +30,43 @@ def run_validator_wall():
         ("RC", ["python3", str(ROOT / "scripts/validate_interface_phase_1_release_candidate.py")]),
     ]
     results = {}
+    stdout_data = {}
     for name, cmd in validators:
         try:
             r = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
+            stdout_data[name] = r.stdout
             if r.returncode == 0:
                 results[name] = "PASS"
             else:
                 results[name] = "FAIL"
+        except subprocess.TimeoutExpired:
+            results[name] = "TIMEOUT"
+            stdout_data[name] = ""
         except Exception as e:
             results[name] = f"ERROR: {e}"
+            stdout_data[name] = ""
+        if state:
+            state.record_validator_run(name, results[name])
+    if state:
+        state.last_validator_results = results
+        state.record_action_completed("validator_wall")
+        _save_validator_wall_log(state, results, stdout_data)
     return results
+
+
+def _save_validator_wall_log(state, results, stdout_data):
+    from tui_state import SESSION_DIR
+    sid = state.session_id
+    session_dir = SESSION_DIR / sid
+    session_dir.mkdir(parents=True, exist_ok=True)
+    result_path = session_dir / "validator_wall_result.json"
+    result_path.write_text(json.dumps(results, indent=2))
+    stdout_path = session_dir / "validator_wall_stdout.txt"
+    stdout_lines = []
+    for name, text in stdout_data.items():
+        stdout_lines.append(f"=== {name} ===")
+        stdout_lines.append(text)
+    stdout_path.write_text("\n".join(stdout_lines))
 
 
 def prepare_command_packet(packet_type):
