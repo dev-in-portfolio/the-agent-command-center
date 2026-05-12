@@ -7,4 +7,4 @@
 - Backend functions are strictly read-only.
 - No dangerous imports or command execution logic found.
 - Outbound network calls are forbidden in backend logic.
-- Live testing pending valid URL resolution.
+- Same-origin fetch restriction verified in scanner logic.

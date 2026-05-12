@@ -1,18 +1,19 @@
 # Backend Phase 4A Acceptance Report
 
 ## Verdict
-**FAIL_BRANCH_PREVIEW** (DNS Resolution Error)
+**PARTIAL_PASS_FIXES_REQUIRED** (Live preview pending Netlify settings)
 
 ## Summary
-Local validation and code audit pass with high confidence. However, the live Netlify branch preview could not be tested because the generated URL exceeds the 63-character DNS limit for subdomains.
+Local validation and code audit pass with high confidence. The backend foundation and frontend integration are technically correct. However, live testing on Netlify is currently blocked because branch deploys are not active for non-production branches.
 
 ## Achievements
-- Read-only endpoints implemented and audited.
+- Read-only endpoints implemented and audited locally.
 - Backend Status panel verified in built artifacts.
 - Local validators (13/13) pass.
+- Short-branch strategy (`b/ph4a`) confirmed DNS resolution.
 
 ## Issues
-- **Branch Preview URL unreachable**: `backend-phase-4-read-only-api-foundation--the-agent-command-center-dashboard.netlify.app` is 76 characters long (Limit: 63).
+- **Branch Preview URL 404s**: Netlify has not yet served a deploy for the branch.
 
 ## Recommended Next Decision
-Rename branch `backend/phase-4-read-only-api-foundation` to a shorter name and retry preview.
+Enable Netlify branch deploys or open a PR to trigger a Deploy Preview, then complete the live smoke test.

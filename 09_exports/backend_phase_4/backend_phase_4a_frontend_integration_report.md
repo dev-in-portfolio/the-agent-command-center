@@ -1,7 +1,7 @@
 # Backend Phase 4A Frontend Integration Report
 
 ## Status
-**FAIL_BRANCH_PREVIEW** (Live check skipped)
+**PARTIAL_PASS_FIXES_REQUIRED** (Live check pending)
 
 ## Dashboard Changes
 - Added Backend Status panel.
@@ -9,4 +9,4 @@
 
 ## Verification
 - Local: Verified panel exists and JS is correct.
-- Live: Skip due to DNS resolution error (URL too long).
+- Live: Pending reachable Netlify branch preview URL.
