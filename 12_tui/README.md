@@ -17,11 +17,16 @@ Interface Phase 2: Terminal UI operator dashboard for The Agent Command Center.
 ## Usage
 
 ```bash
-python3 12_tui/station_chief_tui.py           # curses mode
-python3 12_tui/station_chief_tui.py --no-curses   # plain text
-python3 12_tui/station_chief_tui.py --snapshot     # non-interactive
-python3 12_tui/station_chief_tui.py --help         # help
+python3 12_tui/station_chief_tui.py                 # curses mode
+python3 12_tui/station_chief_tui.py --no-curses         # plain text
+python3 12_tui/station_chief_tui.py --snapshot           # non-interactive
+python3 12_tui/station_chief_tui.py --help               # help
+python3 12_tui/station_chief_tui.py --invalid-flag       # ERROR, exit 2
 ```
+
+Supported flags: `--snapshot`, `--no-curses`, `--help`, `-h`.
+Any other flag or positional argument is rejected with exit code 2.
+No TUI mode is entered on invalid flags.
 
 ## Architecture
 

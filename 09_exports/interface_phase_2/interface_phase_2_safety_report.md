@@ -37,6 +37,14 @@ that explicitly reports:
 - `secrets`, `credentials`
 - `free_shell`
 
+## Invalid Flag Rejection
+
+| Invariant | Enforced By | Verification |
+|-----------|-------------|-------------|
+| Unknown flags rejected with exit 2 | `station_chief_tui.py` ALLOWED_FLAGS check before any state or UI init | test_17, test_13 |
+| Positional arguments rejected with exit 2 | `station_chief_tui.py` early validation | test_17 |
+| No TUI mode entered on invalid flags | Validation occurs before any TUI imports | test_17 |
+
 ## Verdict
 
 All safety boundaries are enforced. Phase 2 introduces no new risk surface.

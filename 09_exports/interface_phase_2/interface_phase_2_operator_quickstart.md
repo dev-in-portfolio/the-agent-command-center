@@ -22,6 +22,10 @@ python3 12_tui/station_chief_tui.py --snapshot
 python3 12_tui/station_chief_tui.py --help
 ```
 
+Supported flags: `--snapshot`, `--no-curses`, `--help`, `-h`.
+Any other flag or positional argument is rejected with exit code 2 and an error message.
+The TUI will not enter curses or plain-text mode on invalid flags.
+
 ## Navigation
 
 | Key | Screen |

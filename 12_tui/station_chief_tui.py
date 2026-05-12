@@ -16,8 +16,22 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "12_tui"))
 
 
+ALLOWED_FLAGS = {"--snapshot", "--no-curses", "--help", "-h"}
+
+
 def main():
     args = sys.argv[1:]
+
+    for a in args:
+        if a.startswith("-") and a not in ALLOWED_FLAGS:
+            print(f"ERROR: Unknown flag: {a}")
+            print("Run with --help for usage.")
+            sys.exit(2)
+
+    if args and not args[0].startswith("-"):
+        print(f"ERROR: Unexpected argument: {args[0]}")
+        print("Run with --help for usage.")
+        sys.exit(2)
 
     if "--help" in args or "-h" in args:
         print(__doc__)

@@ -1,32 +1,61 @@
-# Interface Phase 2 Acceptance Report
+# Interface Phase 2 — TUI Operator Dashboard Acceptance Report
 
-**Status:** ACCEPTED
-**Version:** 1.0.0
-**Date:** 2026-05-12
+## Executive Verdict
 
-## Acceptance Criteria
+**PASS_WITH_HIGH_CONFIDENCE**
 
-| # | Criterion | Status | Notes |
-|---|-----------|--------|-------|
-| 1 | TUI entrypoint `station_chief_tui.py` exists | PASS | Separate from Phase 1 CLI |
-| 2 | `--snapshot` mode prints dashboard and exits | PASS | Non-interactive read-only |
-| 3 | `--no-curses` mode provides interactive terminal UI | PASS | Readline-based fallback |
-| 4 | `--help` documents all flags | PASS | Full usage in docstring |
-| 5 | curses mode preferred, graceful fallback | PASS | Import guard + try/except |
-| 6 | All 8 screens renderable | PASS | Dashboard, Actions, Artifacts, Validator, Packet, Branch, Ledger, Help |
-| 7 | Validator wall requires RUN_VALIDATOR_WALL confirmation | PASS | String comparison, no bypass |
-| 8 | Command packet prep creates packets without execution | PASS | Reuses Phase 1 `interface_actions` |
-| 9 | Branch review prep creates reviews without merge/push | PASS | Reuses Phase 1 `interface_branch_review` |
-| 10 | Approval ledger operations set exec=false | PASS | All ledger writes preserve invariant |
-| 11 | No forbidden network/shell imports in TUI code | PASS | Validated by test_11 |
-| 12 | Phase 1 CLI entrypoint preserved | PASS | Not modified |
-| 13 | Session logs written to phase-2 sessions dir | PASS | Separate from Phase 1 |
-| 14 | All safety boundaries enforced | PASS | No deploy, merge, push, secrets |
+## Report Metadata
 
-## Summary
+| Field | Value |
+|-------|-------|
+| Target repo | dev-in-portfolio/the-agent-command-center |
+| Source lineage | dev-in-portfolio/agent-command-center-3 |
+| Base branch | master |
+| Phase 2 branch | interface/phase-2-tui-operator-dashboard |
+| Phase 1 dependency status | STABLE — all validators passing |
+| TUI entrypoint | 12_tui/station_chief_tui.py |
+| Snapshot mode | Implemented: `--snapshot` prints dashboard and exits |
+| No-curses mode | Implemented: `--no-curses` forces plain-text interactive mode |
+| Screens implemented | 8: dashboard, action_registry, artifact_inspector, validator_wall, command_packet_prep, branch_review_prep, approval_ledger, help |
+| Keymap implemented | Yes — keys 1-8, q, r, h |
+| Backend modules reused | All Phase 1 modules via importlib (action_registry, policy, artifact_inspector, branch_review, approval_ledger, session_log, actions) |
+| Policy enforcer status | Reused from Phase 1 — unknown and locked actions refused |
+| Artifact inspector status | Reused from Phase 1 — read-only inspection of all 5 packages |
+| Branch review status | Reused from Phase 1 — prepares review packets without merge/push |
+| Approval ledger status | Reused from Phase 1 — review/approve/reject with exec=false invariant |
+| Session logging status | Writes to 09_exports/interface_phase_2/sessions/ |
+| Validator wall confirmation | Required: must type `RUN_VALIDATOR_WALL` |
+| Command packet execution status | DISABLED — packets prepared but never executed |
+| Locked actions status | All 14 locked actions enforced — no key bindings, no access |
+| Runtime validators | auto-self-improve-2: PASS, v25.0: PASS, v24.0: PASS |
+| Interface Phase 1 validators | CLI: PASS, command_packets: PASS, E2E: PASS, RC: PASS |
+| Interface Phase 2 validators | TUI: 15/15 PASS, E2E: 12/12 PASS |
 
-Interface Phase 2 TUI Operator Dashboard meets all acceptance criteria.
-The TUI layer sits cleanly on top of Phase 1 backend modules without duplication,
-enforces all safety invariants, and provides both curses and plain-text interactive modes.
+## Safety Invariants
 
-**Final Verdict:** ACCEPTED
+| Invariant | Value |
+|-----------|-------|
+| Official repo touched | false |
+| agent-command-center-2 touched | false |
+| agent-command-center-3 touched | false |
+| Deployment performed | false |
+| Secrets/credentials used | false |
+| Command packets executed | false |
+| Merge performed | false |
+| Runtime files changed | false |
+| Existing Phase 1 files modified | false |
+
+## Known Limitations
+
+1. No web dashboard — Phase 2 is TUI-only by design
+2. No curses on minimal environments — falls back to plain-text readline mode
+3. No cross-session persistence beyond JSON session logs
+4. No multi-user support — single operator session at a time
+
+## Recommended Next Phase
+
+Phase 3 should build a web-based operator dashboard on top of the same Phase 1 backend modules, preserving all safety invariants and reusing the Phase 2 screen architecture as a design reference.
+
+## Final Verdict
+
+**PASS_WITH_HIGH_CONFIDENCE**

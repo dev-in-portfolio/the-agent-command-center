@@ -165,6 +165,24 @@ def test_12_snapshot_no_curses_requirement():
     print("  [PASS] test_12: --snapshot works without curses")
 
 
+def test_13_invalid_flag_rejected():
+    r = subprocess.run(
+        [sys.executable, TUI, "--definitely-not-real"],
+        capture_output=True, text=True, timeout=30
+    )
+    ensure(r.returncode != 0, "Invalid flag must exit nonzero")
+    ensure(
+        "ERROR" in r.stdout or "Unknown flag" in r.stdout or "unknown flag" in r.stdout.lower()
+        or "Usage" in r.stdout or "--help" in r.stdout,
+        "Invalid flag must print error message referencing --help or Usage"
+    )
+    ensure("Traceback" not in r.stdout and "Traceback" not in r.stderr,
+           "Invalid flag must not produce traceback")
+    ensure("THE AGENT COMMAND CENTER" not in r.stdout,
+           "Invalid flag must not enter TUI mode")
+    print("  [PASS] test_13: Invalid flag rejected with nonzero exit, error message, no traceback")
+
+
 def main():
     print("Starting Interface Phase 2 E2E Validation...")
     print()
@@ -182,6 +200,7 @@ def main():
         test_10_session_report_written,
         test_11_tui_no_forbidden_flags,
         test_12_snapshot_no_curses_requirement,
+        test_13_invalid_flag_rejected,
     ]
 
     passed = 0
