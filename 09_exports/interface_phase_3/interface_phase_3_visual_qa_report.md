@@ -39,6 +39,10 @@
 - PASS_WITH_HIGH_CONFIDENCE no longer overflows cards
 - no horizontal page clipping on tablet/mobile
 - safety bar chip row constrained
+- status card title wrapping fixed
+- Phase 1/2/3 status titles render normally
+- machine/verdict strings wrap only inside intended badge/token areas
+- no horizontal card overflow
 - Verdict: PASS_WITH_HIGH_CONFIDENCE
 
 
