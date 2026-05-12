@@ -1,0 +1,1338 @@
+{
+  "dashboard_id": "PH3-20260512-212811",
+  "created_at_utc": "2026-05-12T21:28:11Z",
+  "phase": "Interface Phase 3",
+  "repo": "dev-in-portfolio/the-agent-command-center",
+  "source_lineage": "dev-in-portfolio/agent-command-center-3",
+  "mode": "static_local_dashboard",
+  "phase_1_status": {
+    "source_file_path": "11_interface/interface_action_registry.py",
+    "source_exists": true,
+    "source_type": "module",
+    "source_confidence": "direct_module_read",
+    "cli_exists": true,
+    "action_registry_exists": true,
+    "policy_enforcer_exists": true,
+    "artifact_inspector_exists": true,
+    "branch_review_exists": true,
+    "approval_ledger_exists": true,
+    "command_packets_supported_not_executable_here": true,
+    "detected_verdict": "PASS_WITH_HIGH_CONFIDENCE",
+    "summary": "Phase 1 backend remains the source of truth."
+  },
+  "phase_2_status": {
+    "source_file_path": "12_tui/tui_state.py",
+    "source_exists": true,
+    "source_type": "module",
+    "source_confidence": "direct_module_read",
+    "tui_exists": true,
+    "validators_exist": true,
+    "snapshot_schema_contract_exists": true,
+    "final_diff_audit_exists": true,
+    "operator_command_card_exists": true,
+    "phase_3_handoff_exists": true,
+    "detected_verdict": "PASS_WITH_HIGH_CONFIDENCE",
+    "summary": "Phase 2 TUI and contracts remain intact."
+  },
+  "phase_3_status": {
+    "source_file_path": "13_web_dashboard/build_phase3_dashboard.py",
+    "source_exists": true,
+    "source_type": "generated_static_snapshot",
+    "source_confidence": "generated_static_snapshot",
+    "build_command": "python3 13_web_dashboard/build_phase3_dashboard.py",
+    "build_report_path": "09_exports/interface_phase_3/interface_phase_3_static_build_report.md",
+    "output_path": "13_web_dashboard/dist/index.html",
+    "dashboard_data_json_path": "13_web_dashboard/dist/dashboard_data.json",
+    "print_html_path": "13_web_dashboard/dist/print.html",
+    "snapshot_schema_contract_path": "09_exports/interface_phase_3/snapshot_schema_contract.md",
+    "snapshot_modes": [
+      "json",
+      "markdown",
+      "summary",
+      "full"
+    ],
+    "save_snapshot_behavior": "defaults_to_json_when_no_mode_is_given",
+    "detected_verdict": "PASS_WITH_HIGH_CONFIDENCE",
+    "summary": "Read-Only Operations Dashboard build and exports are available."
+  },
+  "safety_status": {
+    "official_repo": "LOCKED",
+    "repo_2": "LOCKED",
+    "repo_3": "LOCKED",
+    "deployment": "DISABLED",
+    "secrets": "DISABLED",
+    "credentials": "DISABLED",
+    "command_packet_execution": "DISABLED",
+    "free_form_shell": "DISABLED",
+    "merge": "DISABLED",
+    "push": "DISABLED",
+    "pr_creation": "DISABLED",
+    "network_behavior": "DISABLED",
+    "api_server": "DISABLED",
+    "hosted_app": "DISABLED"
+  },
+  "boundary_status": {
+    "official_repo_touched": false,
+    "repo_2_touched": false,
+    "repo_3_touched": false,
+    "deployment_performed": false,
+    "secrets_credentials_used": false,
+    "command_packets_executed": false,
+    "merge_performed": false,
+    "push_performed": false,
+    "pr_created": false,
+    "network_used": false
+  },
+  "action_registry_summary": {
+    "source_file_path": "11_interface/interface_action_registry.py",
+    "source_exists": true,
+    "source_type": "module",
+    "source_confidence": "direct_module_read",
+    "total_actions": 12,
+    "safe_count": 6,
+    "controlled_count": 6,
+    "locked_count": 0,
+    "validation_notes": [],
+    "actions": [
+      {
+        "action_id": "generate_session_report",
+        "label": "Generate operator session report",
+        "category": "controlled",
+        "risk_level": "low",
+        "writes_files": true,
+        "runs_commands": false,
+        "dashboard_allowed": true,
+        "reason": "dashboard can display only",
+        "source_file_path": "11_interface/interface_action_registry.py",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read"
+      },
+      {
+        "action_id": "inspect_artifact_package",
+        "label": "Inspect artifact packages",
+        "category": "safe",
+        "risk_level": "none",
+        "writes_files": false,
+        "runs_commands": false,
+        "dashboard_allowed": true,
+        "reason": "dashboard can display only",
+        "source_file_path": "11_interface/interface_action_registry.py",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read"
+      },
+      {
+        "action_id": "list_artifacts",
+        "label": "List artifact packages",
+        "category": "safe",
+        "risk_level": "none",
+        "writes_files": false,
+        "runs_commands": false,
+        "dashboard_allowed": true,
+        "reason": "dashboard can display only",
+        "source_file_path": "11_interface/interface_action_registry.py",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read"
+      },
+      {
+        "action_id": "prepare_branch_review",
+        "label": "Prepare branch review packet",
+        "category": "controlled",
+        "risk_level": "low",
+        "writes_files": true,
+        "runs_commands": true,
+        "dashboard_allowed": true,
+        "reason": "dashboard can display only",
+        "source_file_path": "11_interface/interface_action_registry.py",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read"
+      },
+      {
+        "action_id": "prepare_command_packet",
+        "label": "Prepare command packet",
+        "category": "controlled",
+        "risk_level": "low",
+        "writes_files": true,
+        "runs_commands": false,
+        "dashboard_allowed": true,
+        "reason": "dashboard can display only",
+        "source_file_path": "11_interface/interface_action_registry.py",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read"
+      },
+      {
+        "action_id": "review_packet_approval",
+        "label": "Review packet approval",
+        "category": "controlled",
+        "risk_level": "low",
+        "writes_files": true,
+        "runs_commands": false,
+        "dashboard_allowed": true,
+        "reason": "dashboard can display only",
+        "source_file_path": "11_interface/interface_action_registry.py",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read"
+      },
+      {
+        "action_id": "run_validator_wall",
+        "label": "Run validator wall",
+        "category": "controlled",
+        "risk_level": "low",
+        "writes_files": false,
+        "runs_commands": true,
+        "dashboard_allowed": true,
+        "reason": "dashboard can display only",
+        "source_file_path": "11_interface/interface_action_registry.py",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read"
+      },
+      {
+        "action_id": "show_approval_ledger",
+        "label": "Show approval ledger",
+        "category": "controlled",
+        "risk_level": "none",
+        "writes_files": false,
+        "runs_commands": false,
+        "dashboard_allowed": true,
+        "reason": "dashboard can display only",
+        "source_file_path": "11_interface/interface_action_registry.py",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read"
+      },
+      {
+        "action_id": "show_locked_actions",
+        "label": "Show locked actions",
+        "category": "safe",
+        "risk_level": "none",
+        "writes_files": false,
+        "runs_commands": false,
+        "dashboard_allowed": true,
+        "reason": "dashboard can display only",
+        "source_file_path": "11_interface/interface_action_registry.py",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read"
+      },
+      {
+        "action_id": "show_session_state",
+        "label": "Show current session state",
+        "category": "safe",
+        "risk_level": "none",
+        "writes_files": false,
+        "runs_commands": false,
+        "dashboard_allowed": true,
+        "reason": "dashboard can display only",
+        "source_file_path": "11_interface/interface_action_registry.py",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read"
+      },
+      {
+        "action_id": "show_status",
+        "label": "Show system status",
+        "category": "safe",
+        "risk_level": "none",
+        "writes_files": false,
+        "runs_commands": false,
+        "dashboard_allowed": true,
+        "reason": "dashboard can display only",
+        "source_file_path": "11_interface/interface_action_registry.py",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read"
+      },
+      {
+        "action_id": "show_summaries",
+        "label": "Show latest trial / gauntlet summaries",
+        "category": "safe",
+        "risk_level": "none",
+        "writes_files": false,
+        "runs_commands": false,
+        "dashboard_allowed": true,
+        "reason": "dashboard can display only",
+        "source_file_path": "11_interface/interface_action_registry.py",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read"
+      }
+    ],
+    "summary": "12 actions, 6 safe, 6 controlled."
+  },
+  "artifact_summary": {
+    "source_file_path": "11_interface/interface_artifact_inspector.py",
+    "source_exists": true,
+    "source_type": "module",
+    "source_confidence": "direct_module_read",
+    "package_count": 5,
+    "packages": [
+      {
+        "package_id": "trial_v3",
+        "package_name": "100-Round Trial v3",
+        "exists": true,
+        "final_verdict": "**PASS_WITH_HIGH_CONFIDENCE**",
+        "missing_expected_files_count": 0,
+        "missing_expected_files": [],
+        "zero_byte_count": 0,
+        "zero_byte_files": [],
+        "warnings_count": 0,
+        "warnings": [],
+        "status": "PASS",
+        "report_path": "09_exports/100_round_trial_v3",
+        "recommended_next_action": "## 5. Recommended Next Tier",
+        "source_file_path": "09_exports/100_round_trial_v3",
+        "source_exists": true,
+        "source_type": "report_derived",
+        "source_confidence": "report_derived"
+      },
+      {
+        "package_id": "non_repo_gauntlet_001",
+        "package_name": "Non-Repo Gauntlet #1",
+        "exists": true,
+        "final_verdict": "**PASS_WITH_NOTES**",
+        "missing_expected_files_count": 0,
+        "missing_expected_files": [],
+        "zero_byte_count": 0,
+        "zero_byte_files": [],
+        "warnings_count": 0,
+        "warnings": [],
+        "status": "PASS",
+        "report_path": "09_exports/non_repo_gauntlet_001",
+        "recommended_next_action": "## 18. Recommended Next Non-Repo Test Tier",
+        "source_file_path": "09_exports/non_repo_gauntlet_001",
+        "source_exists": true,
+        "source_type": "report_derived",
+        "source_confidence": "report_derived"
+      },
+      {
+        "package_id": "repo_migration",
+        "package_name": "Repo Migration",
+        "exists": false,
+        "final_verdict": "not detected",
+        "missing_expected_files_count": 1,
+        "missing_expected_files": [
+          "the_agent_command_center_migration_report.md"
+        ],
+        "zero_byte_count": 0,
+        "zero_byte_files": [],
+        "warnings_count": 1,
+        "warnings": [
+          "Package directory not found"
+        ],
+        "status": "MISSING",
+        "report_path": "09_exports/repo_migration",
+        "recommended_next_action": "not detected",
+        "source_file_path": "09_exports/repo_migration",
+        "source_exists": false,
+        "source_type": "file_existence_check",
+        "source_confidence": "file_existence_check"
+      },
+      {
+        "package_id": "interface_phase_1",
+        "package_name": "Interface Phase 1",
+        "exists": true,
+        "final_verdict": "**PASS_WITH_HIGH_CONFIDENCE**",
+        "missing_expected_files_count": 0,
+        "missing_expected_files": [],
+        "zero_byte_count": 0,
+        "zero_byte_files": [],
+        "warnings_count": 0,
+        "warnings": [],
+        "status": "PASS",
+        "report_path": "09_exports/interface_phase_1",
+        "recommended_next_action": "## 31. Recommended Next Phase",
+        "source_file_path": "09_exports/interface_phase_1",
+        "source_exists": true,
+        "source_type": "report_derived",
+        "source_confidence": "report_derived"
+      },
+      {
+        "package_id": "interface_sessions",
+        "package_name": "Interface Phase 1 Sessions",
+        "exists": true,
+        "final_verdict": "not detected",
+        "missing_expected_files_count": 0,
+        "missing_expected_files": [],
+        "zero_byte_count": 0,
+        "zero_byte_files": [],
+        "warnings_count": 0,
+        "warnings": [],
+        "status": "PASS",
+        "report_path": "09_exports/interface_phase_1/sessions",
+        "recommended_next_action": "not detected",
+        "source_file_path": "09_exports/interface_phase_1/sessions",
+        "source_exists": true,
+        "source_type": "report_derived",
+        "source_confidence": "report_derived"
+      }
+    ],
+    "exists": false,
+    "verdict": "PASS_WITH_HIGH_CONFIDENCE",
+    "warnings_count": 1,
+    "missing_count": 1,
+    "zero_byte_count": 0,
+    "summary": "5 packages inspected."
+  },
+  "approval_ledger_summary": {
+    "source_file_path": "09_exports/interface_phase_1/approval_ledger/approval_ledger.jsonl",
+    "source_exists": true,
+    "source_type": "module",
+    "source_confidence": "direct_module_read",
+    "record_count": 8,
+    "bad_execution_records": 0,
+    "empty_ledger_allowed": true,
+    "last_record_state": "rejected_by_operator",
+    "execution_performed_invariant": true,
+    "state_counts": {
+      "reviewed": 2,
+      "rejected_by_operator": 4,
+      "approved_by_operator": 2
+    },
+    "timeline": [
+      {
+        "timestamp_utc": "2026-05-11T23:28:02.607534+00:00",
+        "packet_id": "PKT-VALIDATOR_WALL-20260511-232801",
+        "state": "reviewed",
+        "execution_performed": false
+      },
+      {
+        "timestamp_utc": "2026-05-11T23:28:02.831996+00:00",
+        "packet_id": "PKT-VALIDATOR_WALL-20260511-232801",
+        "state": "rejected_by_operator",
+        "execution_performed": false
+      },
+      {
+        "timestamp_utc": "2026-05-11T23:28:03.056675+00:00",
+        "packet_id": "PKT-VALIDATOR_WALL-20260511-232801",
+        "state": "approved_by_operator",
+        "execution_performed": false
+      },
+      {
+        "timestamp_utc": "2026-05-11T23:28:03.278304+00:00",
+        "packet_id": "PKT-VALIDATOR_WALL-20260511-232801",
+        "state": "rejected_by_operator",
+        "execution_performed": false
+      },
+      {
+        "timestamp_utc": "2026-05-11T23:28:14.071126+00:00",
+        "packet_id": "PKT-VALIDATOR_WALL-20260511-232812",
+        "state": "reviewed",
+        "execution_performed": false
+      },
+      {
+        "timestamp_utc": "2026-05-11T23:28:14.309064+00:00",
+        "packet_id": "PKT-VALIDATOR_WALL-20260511-232812",
+        "state": "rejected_by_operator",
+        "execution_performed": false
+      },
+      {
+        "timestamp_utc": "2026-05-11T23:28:14.555990+00:00",
+        "packet_id": "PKT-VALIDATOR_WALL-20260511-232812",
+        "state": "approved_by_operator",
+        "execution_performed": false
+      },
+      {
+        "timestamp_utc": "2026-05-11T23:28:14.801194+00:00",
+        "packet_id": "PKT-VALIDATOR_WALL-20260511-232812",
+        "state": "rejected_by_operator",
+        "execution_performed": false
+      }
+    ],
+    "summary": "8 records with execution_performed remaining false."
+  },
+  "branch_review_summary": {
+    "source_file_path": "11_interface/interface_branch_review.py",
+    "source_exists": true,
+    "source_type": "module",
+    "source_confidence": "direct_module_read",
+    "packet_count": 2,
+    "latest_packet": {
+      "status": "prepared_not_merged",
+      "review_path": "09_exports/interface_phase_1/branch_reviews/interface_phase-1-operational-hardening_review.md",
+      "review_id": "BR-20260512-211548-interface_phase-",
+      "branch": "interface/phase-1-operational-hardening",
+      "base_branch": "interface/phase-1-upgrade-pack",
+      "decision": "needs_fixes",
+      "risk_level": "unknown",
+      "changed_file_count": 28,
+      "merge_performed": false,
+      "deployment_performed": false,
+      "changed_files": [
+        "09_exports/interface_phase_1/approval_ledger/approval_ledger.jsonl",
+        "09_exports/interface_phase_1/branch_reviews/HEAD_review.md",
+        "09_exports/interface_phase_1/branch_reviews/interface_phase-1-operational-hardening_review.md",
+        "09_exports/interface_phase_1/command_packets/validator_wall_packet.md",
+        "09_exports/interface_phase_1/interface_phase_1_acceptance_report.md",
+        "09_exports/interface_phase_1/interface_phase_1_command_map.md",
+        "09_exports/interface_phase_1/interface_phase_1_demo_notes.md",
+        "09_exports/interface_phase_1/interface_phase_1_final_acceptance_report.md",
+        "09_exports/interface_phase_1/interface_phase_1_operational_hardening_report.md",
+        "09_exports/interface_phase_1/interface_phase_1_operator_quickstart.md",
+        "09_exports/interface_phase_1/interface_phase_1_upgrade_report.md",
+        "09_exports/interface_phase_1/merge_readiness/interface_phase_1_merge_readiness_packet.md",
+        "09_exports/interface_phase_1/phase_2_handoff_contract.md",
+        "09_exports/interface_phase_1/test_runs/e2e_ledger_test.jsonl",
+        "11_interface/README.md",
+        "11_interface/interface_action_registry.py",
+        "11_interface/interface_actions.py",
+        "11_interface/interface_approval_ledger.py",
+        "11_interface/interface_artifact_inspector.py",
+        "11_interface/interface_branch_review.py"
+      ]
+    },
+    "prepared_state": "prepared_not_merged",
+    "merge_performed": false,
+    "deployment_performed": false,
+    "summary": "2 branch review packets available."
+  },
+  "session_summary": {
+    "source_file_path": "11_interface/interface_session_log.py",
+    "source_exists": true,
+    "source_type": "module",
+    "source_confidence": "direct_module_read",
+    "phase_1_session_count": 0,
+    "phase_2_session_count": 1104,
+    "phase_1_sessions": [],
+    "phase_2_sessions": [
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-003552-941813.json",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-003553-105151.json",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-003553-250918.json",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-003553-595299.json",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-005008-088668.json",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-005008-322806.json",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-005008-568779.json",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-005009-191712.json",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-005146-028915.json",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-005146-196918.json",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-005146-345295.json",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-005146-678025.json",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-005559-505434.json",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-005559-687069.json",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-005559-898613.json",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-005600-518669.json",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-010659-402818.json",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-010659-789477.json",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-010700-237154.json",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-010701-420946.json"
+    ],
+    "phase_1_session_reports": [],
+    "phase_2_session_reports": [
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011229-842899.md",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011229-999276.md",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011230-166341.md",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011230-551231.md",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011317-052899.md",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011317-218441.md",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011317-376546.md",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011317-737442.md",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011319-347636.md",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011319-496309.md",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011319-659043.md",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011319-989166.md",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011337-112531.md",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011337-262997.md",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011337-592139.md",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011337-642118.md",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011409-460897.md",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-012528-432498.md",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-012528-665210.md",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-012528-888786.md"
+    ],
+    "phase_3_build_report": "09_exports/interface_phase_3/interface_phase_3_static_build_report.md",
+    "phase_3_note": "no live session mutation unless build report is written",
+    "session_logs_read_only": true,
+    "summary": "0 phase 1 sessions, 1104 phase 2 sessions."
+  },
+  "validator_status": {
+    "source_file_path": "09_exports/interface_phase_3/interface_phase_3_acceptance_report.md",
+    "source_exists": true,
+    "source_type": "report",
+    "source_confidence": "report_derived",
+    "phase_1": {
+      "source_file_path": "09_exports/interface_phase_1/interface_phase_1_final_acceptance_report.md",
+      "source_exists": true,
+      "source_type": "report",
+      "source_confidence": "report_derived",
+      "status": "PASS_WITH_HIGH_CONFIDENCE",
+      "commands": [
+        {
+          "command": "python3 scripts/validate_interface_phase_1_cli.py",
+          "purpose": "Validate Phase 1 CLI and backend contracts",
+          "expected_pass_string": "INTERFACE_PHASE_1_CLI_VALIDATION_PASS",
+          "recommended_run_order": 1,
+          "post_merge_run_order": 1,
+          "last_known_status": "PASS",
+          "source_file_path": "scripts/validate_interface_phase_1_cli.py",
+          "source_exists": true,
+          "source_type": "module",
+          "source_confidence": "report_derived",
+          "copy_text": "python3 scripts/validate_interface_phase_1_cli.py"
+        },
+        {
+          "command": "python3 scripts/validate_interface_phase_1_command_packets.py",
+          "purpose": "Validate Phase 1 command packet safety",
+          "expected_pass_string": "INTERFACE_PHASE_1_COMMAND_PACKETS_VALIDATION_PASS",
+          "recommended_run_order": 2,
+          "post_merge_run_order": 2,
+          "last_known_status": "PASS",
+          "source_file_path": "scripts/validate_interface_phase_1_command_packets.py",
+          "source_exists": true,
+          "source_type": "module",
+          "source_confidence": "report_derived",
+          "copy_text": "python3 scripts/validate_interface_phase_1_command_packets.py"
+        },
+        {
+          "command": "python3 scripts/validate_interface_phase_1_e2e.py",
+          "purpose": "Validate Phase 1 end-to-end behavior",
+          "expected_pass_string": "INTERFACE_PHASE_1_E2E_VALIDATION_PASS",
+          "recommended_run_order": 3,
+          "post_merge_run_order": 3,
+          "last_known_status": "PASS",
+          "source_file_path": "scripts/validate_interface_phase_1_e2e.py",
+          "source_exists": true,
+          "source_type": "module",
+          "source_confidence": "report_derived",
+          "copy_text": "python3 scripts/validate_interface_phase_1_e2e.py"
+        },
+        {
+          "command": "python3 scripts/validate_interface_phase_1_release_candidate.py",
+          "purpose": "Validate Phase 1 release candidate posture",
+          "expected_pass_string": "INTERFACE_PHASE_1_RELEASE_CANDIDATE_VALIDATION_PASS",
+          "recommended_run_order": 4,
+          "post_merge_run_order": 4,
+          "last_known_status": "PASS",
+          "source_file_path": "scripts/validate_interface_phase_1_release_candidate.py",
+          "source_exists": true,
+          "source_type": "module",
+          "source_confidence": "report_derived",
+          "copy_text": "python3 scripts/validate_interface_phase_1_release_candidate.py"
+        }
+      ]
+    },
+    "phase_2": {
+      "source_file_path": "09_exports/interface_phase_2/interface_phase_2_final_acceptance_report.md",
+      "source_exists": true,
+      "source_type": "report",
+      "source_confidence": "report_derived",
+      "status": "PASS_WITH_HIGH_CONFIDENCE",
+      "commands": [
+        {
+          "command": "python3 scripts/validate_interface_phase_2_tui.py",
+          "purpose": "Validate the Phase 2 TUI dashboard",
+          "expected_pass_string": "INTERFACE_PHASE_2_TUI_VALIDATION_PASS",
+          "recommended_run_order": 1,
+          "post_merge_run_order": 1,
+          "last_known_status": "PASS",
+          "source_file_path": "scripts/validate_interface_phase_2_tui.py",
+          "source_exists": true,
+          "source_type": "module",
+          "source_confidence": "report_derived",
+          "copy_text": "python3 scripts/validate_interface_phase_2_tui.py"
+        },
+        {
+          "command": "python3 scripts/validate_interface_phase_2_e2e.py",
+          "purpose": "Validate Phase 2 end-to-end behavior",
+          "expected_pass_string": "INTERFACE_PHASE_2_E2E_VALIDATION_PASS",
+          "recommended_run_order": 2,
+          "post_merge_run_order": 2,
+          "last_known_status": "PASS",
+          "source_file_path": "scripts/validate_interface_phase_2_e2e.py",
+          "source_exists": true,
+          "source_type": "module",
+          "source_confidence": "report_derived",
+          "copy_text": "python3 scripts/validate_interface_phase_2_e2e.py"
+        }
+      ]
+    },
+    "phase_3_dashboard": {
+      "source_file_path": "09_exports/interface_phase_3/interface_phase_3_acceptance_report.md",
+      "source_exists": true,
+      "source_type": "report",
+      "source_confidence": "report_derived",
+      "status": "PASS_WITH_HIGH_CONFIDENCE",
+      "commands": [
+        {
+          "command": "python3 scripts/validate_interface_phase_3_dashboard.py",
+          "purpose": "Validate the static dashboard build and contract",
+          "expected_pass_string": "INTERFACE_PHASE_3_DASHBOARD_VALIDATION_PASS",
+          "recommended_run_order": 1,
+          "post_merge_run_order": 1,
+          "last_known_status": "PASS",
+          "source_file_path": "scripts/validate_interface_phase_3_dashboard.py",
+          "source_exists": true,
+          "source_type": "module",
+          "source_confidence": "report_derived",
+          "copy_text": "python3 scripts/validate_interface_phase_3_dashboard.py"
+        },
+        {
+          "command": "python3 scripts/validate_interface_phase_3_e2e.py",
+          "purpose": "Validate Phase 3 end-to-end static behavior",
+          "expected_pass_string": "INTERFACE_PHASE_3_E2E_VALIDATION_PASS",
+          "recommended_run_order": 2,
+          "post_merge_run_order": 2,
+          "last_known_status": "PASS",
+          "source_file_path": "scripts/validate_interface_phase_3_e2e.py",
+          "source_exists": true,
+          "source_type": "module",
+          "source_confidence": "report_derived",
+          "copy_text": "python3 scripts/validate_interface_phase_3_e2e.py"
+        }
+      ]
+    },
+    "runtime": {
+      "source_file_path": "09_exports/interface_phase_3/interface_phase_3_release_candidate_report.md",
+      "source_exists": true,
+      "source_type": "report",
+      "source_confidence": "report_derived",
+      "status": "PASS_WITH_HIGH_CONFIDENCE",
+      "commands": [
+        {
+          "command": "python3 scripts/validate_auto_self_improve_2.py",
+          "purpose": "Validate auto-self-improve runtime routing",
+          "expected_pass_string": "AUTO_SELF_IMPROVE_2_VALIDATION_PASS",
+          "recommended_run_order": 1,
+          "post_merge_run_order": 1,
+          "last_known_status": "unknown",
+          "source_file_path": "scripts/validate_auto_self_improve_2.py",
+          "source_exists": true,
+          "source_type": "module",
+          "source_confidence": "report_derived",
+          "copy_text": "python3 scripts/validate_auto_self_improve_2.py"
+        },
+        {
+          "command": "python3 scripts/validate_station_chief_runtime_v25_0.py",
+          "purpose": "Validate Station Chief runtime v25.0",
+          "expected_pass_string": "STATION_CHIEF_RUNTIME_V25_0_VALIDATION_PASS",
+          "recommended_run_order": 2,
+          "post_merge_run_order": 2,
+          "last_known_status": "unknown",
+          "source_file_path": "scripts/validate_station_chief_runtime_v25_0.py",
+          "source_exists": true,
+          "source_type": "module",
+          "source_confidence": "report_derived",
+          "copy_text": "python3 scripts/validate_station_chief_runtime_v25_0.py"
+        },
+        {
+          "command": "python3 scripts/validate_station_chief_runtime_v24_0.py",
+          "purpose": "Validate Station Chief runtime v24.0",
+          "expected_pass_string": "STATION_CHIEF_RUNTIME_V24_0_VALIDATION_PASS",
+          "recommended_run_order": 3,
+          "post_merge_run_order": 3,
+          "last_known_status": "unknown",
+          "source_file_path": "scripts/validate_station_chief_runtime_v24_0.py",
+          "source_exists": true,
+          "source_type": "module",
+          "source_confidence": "report_derived",
+          "copy_text": "python3 scripts/validate_station_chief_runtime_v24_0.py"
+        }
+      ]
+    },
+    "summary": "Validator commands are documented and copyable; browser execution remains disabled."
+  },
+  "document_index": {
+    "source_file_path": "09_exports/interface_phase_3/interface_phase_3_acceptance_report.md",
+    "source_exists": true,
+    "source_type": "module",
+    "source_confidence": "direct_module_read",
+    "document_count": 18,
+    "documents": [
+      {
+        "document_id": "p1-final-acceptance",
+        "title": "Phase 1 Final Acceptance Report",
+        "path": "09_exports/interface_phase_1/interface_phase_1_final_acceptance_report.md",
+        "exists": true,
+        "category": "phase_1",
+        "detected_verdict": "PASS_WITH_HIGH_CONFIDENCE",
+        "source_confidence": "report_derived",
+        "recommended_review_order": 1,
+        "preview": "# Interface Phase 1 Final Acceptance Report | This is the final Phase 1 release-candidate acceptance report. | The historical Phase 1 acceptance report remains at:",
+        "source_file_path": "09_exports/interface_phase_1/interface_phase_1_final_acceptance_report.md",
+        "source_exists": true,
+        "source_type": "report"
+      },
+      {
+        "document_id": "p1-acceptance",
+        "title": "Phase 1 Acceptance Report",
+        "path": "09_exports/interface_phase_1/interface_phase_1_acceptance_report.md",
+        "exists": true,
+        "category": "phase_1",
+        "detected_verdict": "PASS_WITH_HIGH_CONFIDENCE",
+        "source_confidence": "report_derived",
+        "recommended_review_order": 2,
+        "preview": "# Interface Phase 1 \u2014 CLI Operator Console Acceptance Report | ## 1. Executive Verdict | **PASS_WITH_HIGH_CONFIDENCE**",
+        "source_file_path": "09_exports/interface_phase_1/interface_phase_1_acceptance_report.md",
+        "source_exists": true,
+        "source_type": "report"
+      },
+      {
+        "document_id": "p1-quickstart",
+        "title": "Phase 1 Operator Quickstart",
+        "path": "09_exports/interface_phase_1/interface_phase_1_operator_quickstart.md",
+        "exists": true,
+        "category": "phase_1",
+        "detected_verdict": "unknown",
+        "source_confidence": "report_derived",
+        "recommended_review_order": 3,
+        "preview": "# Interface Phase 1 \u2014 CLI Operator Console Quickstart | ## Final Acceptance Report | The final Phase 1 release-candidate acceptance report is at:",
+        "source_file_path": "09_exports/interface_phase_1/interface_phase_1_operator_quickstart.md",
+        "source_exists": true,
+        "source_type": "report"
+      },
+      {
+        "document_id": "p1-command-map",
+        "title": "Phase 1 Command Map",
+        "path": "09_exports/interface_phase_1/interface_phase_1_command_map.md",
+        "exists": true,
+        "category": "phase_1",
+        "detected_verdict": "PASS_WITH_HIGH_CONFIDENCE",
+        "source_confidence": "report_derived",
+        "recommended_review_order": 4,
+        "preview": "# Interface Phase 1 \u2014 Command Map (Operationally Hardened) | ## Final Acceptance Report | The final Phase 1 acceptance report is at:",
+        "source_file_path": "09_exports/interface_phase_1/interface_phase_1_command_map.md",
+        "source_exists": true,
+        "source_type": "report"
+      },
+      {
+        "document_id": "p2-final-diff-audit",
+        "title": "Phase 2 Final Diff Audit",
+        "path": "09_exports/interface_phase_2/interface_phase_2_final_diff_audit.md",
+        "exists": true,
+        "category": "phase_2",
+        "detected_verdict": "PASS_WITH_HIGH_CONFIDENCE",
+        "source_confidence": "report_derived",
+        "recommended_review_order": 5,
+        "preview": "# Interface Phase 2 Final Diff Audit | | Field | Value | | |-------|-------|",
+        "source_file_path": "09_exports/interface_phase_2/interface_phase_2_final_diff_audit.md",
+        "source_exists": true,
+        "source_type": "report"
+      },
+      {
+        "document_id": "p2-operator-command-card",
+        "title": "Phase 2 Operator Command Card",
+        "path": "09_exports/interface_phase_2/interface_phase_2_operator_command_card.md",
+        "exists": true,
+        "category": "phase_2",
+        "detected_verdict": "unknown",
+        "source_confidence": "report_derived",
+        "recommended_review_order": 6,
+        "preview": "# Interface Phase 2 Operator Command Card | Quick reference for the Phase 2 TUI Operator Dashboard. | ## TUI Commands",
+        "source_file_path": "09_exports/interface_phase_2/interface_phase_2_operator_command_card.md",
+        "source_exists": true,
+        "source_type": "report"
+      },
+      {
+        "document_id": "p2-clean-checkout",
+        "title": "Phase 2 Clean Checkout Checklist",
+        "path": "09_exports/interface_phase_2/interface_phase_2_clean_checkout_checklist.md",
+        "exists": true,
+        "category": "phase_2",
+        "detected_verdict": "unknown",
+        "source_confidence": "report_derived",
+        "recommended_review_order": 7,
+        "preview": "# Interface Phase 2 Clean Checkout Checklist | This document describes how a reviewer can perform an independent green-field validation of the `interface/phase-2-tui-operator-dashboard` branch. | ## Prerequisites",
+        "source_file_path": "09_exports/interface_phase_2/interface_phase_2_clean_checkout_checklist.md",
+        "source_exists": true,
+        "source_type": "report"
+      },
+      {
+        "document_id": "p2-snapshot-schema",
+        "title": "Phase 2 Snapshot Schema Contract",
+        "path": "09_exports/interface_phase_2/snapshot_schema_contract.md",
+        "exists": true,
+        "category": "phase_2",
+        "detected_verdict": "unknown",
+        "source_confidence": "report_derived",
+        "recommended_review_order": 8,
+        "preview": "# Interface Phase 2 Snapshot Schema Contract | ## Version 1.0 | This contract defines the stable JSON schema for `--snapshot --format json` output.",
+        "source_file_path": "09_exports/interface_phase_2/snapshot_schema_contract.md",
+        "source_exists": true,
+        "source_type": "report"
+      },
+      {
+        "document_id": "p2-final-acceptance",
+        "title": "Phase 2 Final Acceptance Report",
+        "path": "09_exports/interface_phase_2/interface_phase_2_final_acceptance_report.md",
+        "exists": true,
+        "category": "phase_2",
+        "detected_verdict": "PASS_WITH_HIGH_CONFIDENCE",
+        "source_confidence": "report_derived",
+        "recommended_review_order": 9,
+        "preview": "# Interface Phase 2 Final Acceptance Report | | Field | Value | | |-------|-------|",
+        "source_file_path": "09_exports/interface_phase_2/interface_phase_2_final_acceptance_report.md",
+        "source_exists": true,
+        "source_type": "report"
+      },
+      {
+        "document_id": "p2-release-candidate",
+        "title": "Phase 2 Release Candidate Report",
+        "path": "09_exports/interface_phase_2/interface_phase_2_release_candidate_report.md",
+        "exists": true,
+        "category": "phase_2",
+        "detected_verdict": "PASS_WITH_HIGH_CONFIDENCE",
+        "source_confidence": "report_derived",
+        "recommended_review_order": 10,
+        "preview": "# Interface Phase 2 Release Candidate Report | | Field | Value | | |-------|-------|",
+        "source_file_path": "09_exports/interface_phase_2/interface_phase_2_release_candidate_report.md",
+        "source_exists": true,
+        "source_type": "report"
+      },
+      {
+        "document_id": "p2-merge-readiness",
+        "title": "Phase 2 Merge Readiness Packet",
+        "path": "09_exports/interface_phase_2/merge_readiness/interface_phase_2_merge_readiness_packet.md",
+        "exists": true,
+        "category": "phase_2",
+        "detected_verdict": "unknown",
+        "source_confidence": "report_derived",
+        "recommended_review_order": 11,
+        "preview": "# Interface Phase 2 Merge Readiness Packet | | Field | Value | | |-------|-------|",
+        "source_file_path": "09_exports/interface_phase_2/merge_readiness/interface_phase_2_merge_readiness_packet.md",
+        "source_exists": true,
+        "source_type": "report"
+      },
+      {
+        "document_id": "p3-acceptance",
+        "title": "Phase 3 Acceptance Report",
+        "path": "09_exports/interface_phase_3/interface_phase_3_acceptance_report.md",
+        "exists": true,
+        "category": "phase_3",
+        "detected_verdict": "PASS_WITH_HIGH_CONFIDENCE",
+        "source_confidence": "report_derived",
+        "recommended_review_order": 12,
+        "preview": "# Interface Phase 3 - Read-Only Operations Dashboard Acceptance Report | ## 1. Executive Verdict | PASS_WITH_HIGH_CONFIDENCE",
+        "source_file_path": "09_exports/interface_phase_3/interface_phase_3_acceptance_report.md",
+        "source_exists": true,
+        "source_type": "report"
+      },
+      {
+        "document_id": "p3-backend-reuse",
+        "title": "Phase 3 Backend Reuse Report",
+        "path": "09_exports/interface_phase_3/interface_phase_3_backend_reuse_report.md",
+        "exists": true,
+        "category": "phase_3",
+        "detected_verdict": "unknown",
+        "source_confidence": "report_derived",
+        "recommended_review_order": 13,
+        "preview": "# Interface Phase 3 Backend Reuse Report | Phase 3 does not invent a second policy or action model. It reuses the existing backend concepts as read-only source of truth. | ## Reused Modules",
+        "source_file_path": "09_exports/interface_phase_3/interface_phase_3_backend_reuse_report.md",
+        "source_exists": true,
+        "source_type": "report"
+      },
+      {
+        "document_id": "p3-safety",
+        "title": "Phase 3 Safety Report",
+        "path": "09_exports/interface_phase_3/interface_phase_3_safety_report.md",
+        "exists": true,
+        "category": "phase_3",
+        "detected_verdict": "unknown",
+        "source_confidence": "report_derived",
+        "recommended_review_order": 14,
+        "preview": "# Interface Phase 3 Safety Report | ## Safety Posture | - Static local only",
+        "source_file_path": "09_exports/interface_phase_3/interface_phase_3_safety_report.md",
+        "source_exists": true,
+        "source_type": "report"
+      },
+      {
+        "document_id": "p3-static-build",
+        "title": "Phase 3 Static Build Report",
+        "path": "09_exports/interface_phase_3/interface_phase_3_static_build_report.md",
+        "exists": true,
+        "category": "phase_3",
+        "detected_verdict": "unknown",
+        "source_confidence": "report_derived",
+        "recommended_review_order": 15,
+        "preview": "# Interface Phase 3 Static Build Report | - Dashboard ID: PH3-20260512-211456 | - Created at UTC: 2026-05-12T21:14:56Z",
+        "source_file_path": "09_exports/interface_phase_3/interface_phase_3_static_build_report.md",
+        "source_exists": true,
+        "source_type": "report"
+      },
+      {
+        "document_id": "p3-dashboard-map",
+        "title": "Phase 3 Dashboard Map",
+        "path": "09_exports/interface_phase_3/interface_phase_3_dashboard_map.md",
+        "exists": true,
+        "category": "phase_3",
+        "detected_verdict": "unknown",
+        "source_confidence": "report_derived",
+        "recommended_review_order": 16,
+        "preview": "# Interface Phase 3 Dashboard Map | | Dashboard section | Backend source | Safety category | Writes files? | Executes commands? | Uses network? | Notes | | |---|---|---|---|---|---|---|",
+        "source_file_path": "09_exports/interface_phase_3/interface_phase_3_dashboard_map.md",
+        "source_exists": true,
+        "source_type": "report"
+      },
+      {
+        "document_id": "p3-operator-quickstart",
+        "title": "Phase 3 Operator Quickstart",
+        "path": "09_exports/interface_phase_3/interface_phase_3_operator_quickstart.md",
+        "exists": true,
+        "category": "phase_3",
+        "detected_verdict": "unknown",
+        "source_confidence": "report_derived",
+        "recommended_review_order": 17,
+        "preview": "# Interface Phase 3 Operator Quickstart | ## Build | ```bash",
+        "source_file_path": "09_exports/interface_phase_3/interface_phase_3_operator_quickstart.md",
+        "source_exists": true,
+        "source_type": "report"
+      },
+      {
+        "document_id": "p3-handoff",
+        "title": "Phase 4 Handoff Contract",
+        "path": "09_exports/interface_phase_3/interface_phase_3_phase_4_handoff_contract.md",
+        "exists": true,
+        "category": "phase_3",
+        "detected_verdict": "unknown",
+        "source_confidence": "report_derived",
+        "recommended_review_order": 18,
+        "preview": "# Interface Phase 3 Phase 4 Handoff Contract | Phase 4 may extend the local review experience without weakening the Phase 1 through Phase 3 boundaries. | ## Allowed Phase 4 Ideas",
+        "source_file_path": "09_exports/interface_phase_3/interface_phase_3_phase_4_handoff_contract.md",
+        "source_exists": true,
+        "source_type": "report"
+      }
+    ],
+    "summary": "18 documents indexed for review."
+  },
+  "data_freshness": {
+    "source_file_path": "13_web_dashboard/build_phase3_dashboard.py",
+    "source_exists": true,
+    "source_type": "generated_static_snapshot",
+    "source_confidence": "generated_static_snapshot",
+    "generated_at_utc": "2026-05-12T21:28:12Z",
+    "freshness_status": "generated_static_snapshot",
+    "snapshot_age_seconds": 0,
+    "notes": [
+      "Dashboard data is generated locally from read-only sources.",
+      "No browser fetches are used for live file reads."
+    ],
+    "summary": "Freshly generated static snapshot."
+  },
+  "source_transparency": {
+    "source_file_path": "13_web_dashboard/build_phase3_dashboard.py",
+    "source_exists": true,
+    "source_type": "generated_static_snapshot",
+    "source_confidence": "generated_static_snapshot",
+    "sections": [
+      {
+        "section_id": "phase_1_status",
+        "title": "Phase 1 Status",
+        "source_file_path": "11_interface/interface_action_registry.py",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read",
+        "detected_verdict": "PASS_WITH_HIGH_CONFIDENCE"
+      },
+      {
+        "section_id": "phase_2_status",
+        "title": "Phase 2 Status",
+        "source_file_path": "12_tui/tui_state.py",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read",
+        "detected_verdict": "PASS_WITH_HIGH_CONFIDENCE"
+      },
+      {
+        "section_id": "phase_3_status",
+        "title": "Phase 3 Status",
+        "source_file_path": "13_web_dashboard/build_phase3_dashboard.py",
+        "source_exists": true,
+        "source_type": "generated_static_snapshot",
+        "source_confidence": "generated_static_snapshot",
+        "detected_verdict": "PASS_WITH_HIGH_CONFIDENCE"
+      },
+      {
+        "section_id": "action_registry_summary",
+        "title": "Action Registry Summary",
+        "source_file_path": "11_interface/interface_action_registry.py",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read",
+        "detected_verdict": "not applicable"
+      },
+      {
+        "section_id": "artifact_summary",
+        "title": "Artifact Summary",
+        "source_file_path": "11_interface/interface_artifact_inspector.py",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read",
+        "detected_verdict": "PASS_WITH_HIGH_CONFIDENCE"
+      },
+      {
+        "section_id": "approval_ledger_summary",
+        "title": "Approval Ledger Summary",
+        "source_file_path": "09_exports/interface_phase_1/approval_ledger/approval_ledger.jsonl",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read",
+        "detected_verdict": "execution_performed_false"
+      },
+      {
+        "section_id": "branch_review_summary",
+        "title": "Branch Review Summary",
+        "source_file_path": "11_interface/interface_branch_review.py",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read",
+        "detected_verdict": "needs_fixes"
+      },
+      {
+        "section_id": "session_summary",
+        "title": "Session Summary",
+        "source_file_path": "11_interface/interface_session_log.py",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read",
+        "detected_verdict": "read_only"
+      },
+      {
+        "section_id": "validator_status",
+        "title": "Validator Status",
+        "source_file_path": "09_exports/interface_phase_3/interface_phase_3_acceptance_report.md",
+        "source_exists": true,
+        "source_type": "report",
+        "source_confidence": "report_derived",
+        "detected_verdict": "unknown"
+      },
+      {
+        "section_id": "document_index",
+        "title": "Document Index",
+        "source_file_path": "09_exports/interface_phase_3/interface_phase_3_acceptance_report.md",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read",
+        "detected_verdict": "report_derived"
+      },
+      {
+        "section_id": "data_freshness",
+        "title": "Data Freshness",
+        "source_file_path": "13_web_dashboard/build_phase3_dashboard.py",
+        "source_exists": true,
+        "source_type": "generated_static_snapshot",
+        "source_confidence": "generated_static_snapshot",
+        "detected_verdict": "generated_static_snapshot"
+      },
+      {
+        "section_id": "compare_phases",
+        "title": "Compare Phases",
+        "source_file_path": "13_web_dashboard/build_phase3_dashboard.py",
+        "source_exists": true,
+        "source_type": "generated_static_snapshot",
+        "source_confidence": "generated_static_snapshot",
+        "detected_verdict": "report_derived"
+      }
+    ],
+    "summary": "Every major section exposes source file path, existence, source type, and confidence."
+  },
+  "recommended_next_action": "Open 13_web_dashboard/dist/index.html locally and review the safety boundary panel.",
+  "compare_phases": {
+    "source_file_path": "13_web_dashboard/build_phase3_dashboard.py",
+    "source_exists": true,
+    "source_type": "generated_static_snapshot",
+    "source_confidence": "generated_static_snapshot",
+    "phases": [
+      {
+        "phase": "Phase 1",
+        "status": "PASS_WITH_HIGH_CONFIDENCE",
+        "interface_type": "CLI Operator Console",
+        "main_entrypoint": "11_interface/station_chief_cli.py",
+        "can_render_status": true,
+        "can_prepare_packets": true,
+        "can_execute_packets": false,
+        "can_merge": false,
+        "can_deploy": false,
+        "can_use_secrets": false,
+        "validators": [
+          "validate_interface_phase_1_cli.py",
+          "validate_interface_phase_1_command_packets.py",
+          "validate_interface_phase_1_e2e.py",
+          "validate_interface_phase_1_release_candidate.py"
+        ],
+        "main_docs": [
+          "09_exports/interface_phase_1/interface_phase_1_final_acceptance_report.md"
+        ],
+        "safety_boundary": "Phase 1 policy enforcer"
+      },
+      {
+        "phase": "Phase 2",
+        "status": "PASS_WITH_HIGH_CONFIDENCE",
+        "interface_type": "TUI Operator Dashboard",
+        "main_entrypoint": "12_tui/station_chief_tui.py",
+        "can_render_status": true,
+        "can_prepare_packets": true,
+        "can_execute_packets": false,
+        "can_merge": false,
+        "can_deploy": false,
+        "can_use_secrets": false,
+        "validators": [
+          "validate_interface_phase_2_tui.py",
+          "validate_interface_phase_2_e2e.py"
+        ],
+        "main_docs": [
+          "09_exports/interface_phase_2/interface_phase_2_final_acceptance_report.md"
+        ],
+        "safety_boundary": "Phase 1 backend plus TUI contracts"
+      },
+      {
+        "phase": "Phase 3",
+        "status": "PASS_WITH_HIGH_CONFIDENCE",
+        "interface_type": "Read-Only Operations Dashboard",
+        "main_entrypoint": "13_web_dashboard/build_phase3_dashboard.py",
+        "can_render_status": true,
+        "can_prepare_packets": false,
+        "can_execute_packets": false,
+        "can_merge": false,
+        "can_deploy": false,
+        "can_use_secrets": false,
+        "validators": [
+          "validate_interface_phase_3_dashboard.py",
+          "validate_interface_phase_3_e2e.py"
+        ],
+        "main_docs": [
+          "09_exports/interface_phase_3/interface_phase_3_acceptance_report.md"
+        ],
+        "safety_boundary": "Static local read-only dashboard"
+      }
+    ]
+  },
+  "phase_3_safety_scan": {
+    "status": "WARNING",
+    "active_forbidden_findings": [],
+    "allowed_label_findings": [
+      {
+        "file": "13_web_dashboard/dashboard_renderer.py",
+        "line": 434,
+        "pattern": "NO DEPLOY",
+        "context": "<span>NO DEPLOY CONTROLS</span>",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_renderer.py",
+        "line": 435,
+        "pattern": "NO MERGE",
+        "context": "<span>NO MERGE CONTROLS</span>",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_renderer.py",
+        "line": 436,
+        "pattern": "NO SECRET ACCESS",
+        "context": "<span>NO SECRET ACCESS</span>",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_safety.py",
+        "line": 60,
+        "pattern": "Deployment: DISABLED",
+        "context": "\"Deployment: DISABLED\",",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_safety.py",
+        "line": 61,
+        "pattern": "Secrets: DISABLED",
+        "context": "\"Secrets: DISABLED\",",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_safety.py",
+        "line": 62,
+        "pattern": "Credentials: DISABLED",
+        "context": "\"Credentials: DISABLED\",",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_safety.py",
+        "line": 63,
+        "pattern": "Merge: DISABLED",
+        "context": "\"Merge: DISABLED\",",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_safety.py",
+        "line": 64,
+        "pattern": "Push: DISABLED",
+        "context": "\"Push: DISABLED\",",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_safety.py",
+        "line": 65,
+        "pattern": "Network behavior: DISABLED",
+        "context": "\"Network behavior: DISABLED\",",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_safety.py",
+        "line": 66,
+        "pattern": "API server: DISABLED",
+        "context": "\"API server: DISABLED\",",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_safety.py",
+        "line": 67,
+        "pattern": "Hosted app: DISABLED",
+        "context": "\"Hosted app: DISABLED\",",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_safety.py",
+        "line": 68,
+        "pattern": "Command packet execution: DISABLED",
+        "context": "\"Command packet execution: DISABLED\",",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_safety.py",
+        "line": 72,
+        "pattern": "NO DEPLOY",
+        "context": "\"NO DEPLOY\",",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_safety.py",
+        "line": 73,
+        "pattern": "NO MERGE",
+        "context": "\"NO MERGE\",",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_safety.py",
+        "line": 74,
+        "pattern": "NO PUSH",
+        "context": "\"NO PUSH\",",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_safety.py",
+        "line": 75,
+        "pattern": "NO SECRET ACCESS",
+        "context": "\"NO SECRET ACCESS\",",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_safety.py",
+        "line": 76,
+        "pattern": "NO COMMAND PACKET EXECUTION",
+        "context": "\"NO COMMAND PACKET EXECUTION\",",
+        "reason": "allowed safety text"
+      }
+    ],
+    "files_scanned": [
+      "13_web_dashboard/build_phase3_dashboard.py",
+      "13_web_dashboard/dashboard_data.py",
+      "13_web_dashboard/dashboard_renderer.py",
+      "13_web_dashboard/dashboard_schema.py",
+      "13_web_dashboard/dashboard_safety.py",
+      "13_web_dashboard/static/dashboard.css",
+      "13_web_dashboard/static/dashboard.js",
+      "13_web_dashboard/templates/index_template.html"
+    ],
+    "notes": []
+  }
+}

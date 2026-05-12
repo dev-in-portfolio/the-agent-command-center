@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{TITLE}}</title>
+  <link rel="stylesheet" href="./static/dashboard.css">
+</head>
+<body class="{{BODY_CLASS}}">
+  <a class="skip-link" href="#dashboard-main">Skip to dashboard content</a>
+  <div class="page-shell">
+    {{HEADER}}
+    {{TOOLBAR}}
+    <main id="dashboard-main" class="dashboard" tabindex="-1">
+      {{SECTIONS}}
+    </main>
+  </div>
+  <script type="application/json" id="dashboard-data">{{DASHBOARD_DATA_JSON}}</script>
+  {{SCRIPTS}}
+</body>
+</html>
