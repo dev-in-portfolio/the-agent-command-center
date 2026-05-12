@@ -14,7 +14,7 @@
 | Phase | Component | Status |
 |-------|-----------|--------|
 | 2.12 | Test artifact isolation — validator writes to `test_runs/`, not production paths | DONE |
-| 2.13 | Snapshot schema contract — JSON schema v1.0 with boundary booleans | DONE |
+| 2.13 | Snapshot schema contract — Interface Phase 2 Snapshot Schema Contract v1.0 with boundary booleans | DONE |
 | 2.14 | Safety scanner precision — separates active forbidden from allowed labels | DONE |
 | 2.15 | Interactive flow hardening — input validation, length limits, screen validation | DONE |
 | 2.16 | Merge-readiness finalizer — final reports, updated readiness packet | DONE |
@@ -23,7 +23,7 @@
 
 ### New Files
 - `12_tui/tui_safety_scanner.py` — Precision source scanner (active forbidden vs allowed labels)
-- `09_exports/interface_phase_2/snapshot_schema_contract.md` — JSON snapshot v1.0 contract
+- `09_exports/interface_phase_2/snapshot_schema_contract.md` — Interface Phase 2 Snapshot Schema Contract v1.0
 - `09_exports/interface_phase_2/interface_phase_2_final_acceptance_report.md` — This file
 - `09_exports/interface_phase_2/interface_phase_2_release_candidate_report.md` — RC report
 
@@ -65,8 +65,9 @@
 
 ## Schema Compliance
 
-- JSON snapshot schema version: `1.0`
-- All required root fields present: verified
+- Contract: Interface Phase 2 Snapshot Schema Contract v1.0
+- Required root fields: `snapshot_id`, `created_at_utc`, `safety_status`, `artifact_summary`, `approval_ledger_summary`, `validator_status`, `boundary_status`, `recommended_next_action` — all verified present
+- JSON snapshot values: `phase: "Interface Phase 2"`, `format: "json"` — verified
 - Safety status values valid (`LOCKED`/`DISABLED`): verified
 - Boundary values boolean and `false`: verified
 - Action registry fields non-negative int: verified

@@ -1,37 +1,27 @@
-# Snapshot JSON Schema Contract
+# Interface Phase 2 Snapshot Schema Contract
 
 ## Version 1.0
 
 This contract defines the stable JSON schema for `--snapshot --format json` output.
-Validators and downstream consumers MUST NOT assume any field beyond this contract exists.
+Validators and downstream consumers MUST NOT assume any field beyond this contract exists. The prompt-required fields below are primary and mandatory. Legacy/internal fields may exist as optional backward-compatible extras.
 
 ## Root Object
 
 ```json
 {
-  "timestamp": "2026-01-01 00:00:00 UTC",
+  "snapshot_id": "SNAP-20260101-000000-000000",
+  "created_at_utc": "2026-01-01T00:00:00",
+  "session_id": "TUI-20260101-000000-000000",
+  "phase": "Interface Phase 2",
   "repo": "dev-in-portfolio/the-agent-command-center",
   "source_lineage": "dev-in-portfolio/agent-command-center-3",
-  "phase": "2",
-  "mode": "TUI Operator Dashboard",
-  "session_id": "TUI-20260101-000000-000000",
-  "current_screen": "dashboard",
-  "safety": { /* see Safety Status */ },
-  "boundary": { /* see Boundary State */ },
-  "actions_completed": 0,
-  "actions_refused": 0,
-  "validator_runs": 0,
-  "packets_prepared": 0,
-  "branch_reviews_prepared": 0,
-  "ledger_records_created": 0,
-  "action_registry": { /* see Action Registry */ },
-  "last_validator_results": {},
-
-  "_schema_version": "1.0",
-  "_metadata": {
-    "source": "phase_2_tui_operator_dashboard",
-    "generated_by": "tui_renderer.render_snapshot_json"
-  }
+  "format": "json",
+  "safety_status": { /* see Safety Status */ },
+  "artifact_summary": { /* see Artifact Summary */ },
+  "approval_ledger_summary": { /* see Approval Ledger Summary */ },
+  "validator_status": { /* see Validator Status */ },
+  "boundary_status": { /* see Boundary Status */ },
+  "recommended_next_action": "Check the approval ledger"
 }
 ```
 
@@ -39,106 +29,127 @@ Validators and downstream consumers MUST NOT assume any field beyond this contra
 
 | Field | Type | Always Present |
 |-------|------|----------------|
-| `timestamp` | string | yes |
+| `snapshot_id` | string | yes |
+| `created_at_utc` | string | yes |
+| `session_id` | string | yes |
+| `phase` | string | yes |
 | `repo` | string | yes |
 | `source_lineage` | string | yes |
-| `phase` | string | yes |
-| `mode` | string | yes |
-| `session_id` | string | yes |
-| `current_screen` | string | yes |
-| `safety` | object | yes |
-| `boundary` | object | yes |
-| `actions_completed` | integer | yes |
-| `actions_refused` | integer | yes |
-| `validator_runs` | integer | yes |
-| `packets_prepared` | integer | yes |
-| `branch_reviews_prepared` | integer | yes |
-| `ledger_records_created` | integer | yes |
-| `action_registry` | object | yes |
-| `last_validator_results` | object | yes |
-| `_schema_version` | string | yes |
-| `_metadata` | object | yes |
+| `format` | string | yes |
+| `safety_status` | object | yes |
+| `artifact_summary` | object | yes |
+| `approval_ledger_summary` | object | yes |
+| `validator_status` | object | yes |
+| `boundary_status` | object | yes |
+| `recommended_next_action` | string | yes |
 
-## Safety Status (display strings)
+## Exact Field Values
 
-Each safety field value MUST be one of: `"LOCKED"`, `"DISABLED"`.
+| Field | Required Value |
+|-------|----------------|
+| `phase` | `"Interface Phase 2"` |
+| `repo` | `"dev-in-portfolio/the-agent-command-center"` |
+| `source_lineage` | `"dev-in-portfolio/agent-command-center-3"` |
+| `format` | `"json"` |
+
+## Safety Status
+
+Each field value MUST be one of: `"LOCKED"`, `"DISABLED"`.
 
 ```json
-"safety": {
+"safety_status": {
   "official_repo": "LOCKED",
-  "repo2": "LOCKED",
-  "repo3": "LOCKED",
+  "repo_2": "LOCKED",
+  "repo_3": "LOCKED",
   "deployment": "DISABLED",
   "secrets": "DISABLED",
   "credentials": "DISABLED",
   "command_packet_execution": "DISABLED",
+  "free_form_shell": "DISABLED",
   "merge": "DISABLED",
   "push": "DISABLED",
   "pr_creation": "DISABLED",
-  "free_form_shell": "DISABLED",
   "network_behavior": "DISABLED"
 }
 ```
 
-Allowed values per field: `"LOCKED"`, `"DISABLED"`.
+## Artifact Summary
 
-## Boundary State (boolean invariants)
+```json
+"artifact_summary": {
+  "package_count": 0,
+  "packages": []
+}
+```
 
-Each boundary field value MUST be a boolean (`true` or `false`).
+- `package_count` MUST be a non-negative integer.
+- `packages` MUST be a list.
+- Each package entry SHOULD contain `id` and `name`.
+
+## Approval Ledger Summary
+
+```json
+"approval_ledger_summary": {
+  "record_count": 0,
+  "bad_execution_records": 0,
+  "empty_ledger_allowed": true
+}
+```
+
+- `record_count` MUST be a non-negative integer.
+- `bad_execution_records` MUST be a non-negative integer.
+- `empty_ledger_allowed` MUST be boolean `true`.
+
+## Validator Status
+
+```json
+"validator_status": {
+  "phase_2_tui": "unknown",
+  "phase_2_e2e": "unknown",
+  "phase_1": "unknown",
+  "runtime": "unknown"
+}
+```
+
+Status values are strings. Common values: `"PASS"`, `"FAIL"`, `"unknown"`.
+
+## Boundary Status
+
+Each field value MUST be a boolean (`true` or `false`).
 Any value of `true` indicates a safety violation.
 
 ```json
-"boundary": {
+"boundary_status": {
   "official_repo_touched": false,
-  "repo2_touched": false,
-  "repo3_touched": false,
+  "repo_2_touched": false,
+  "repo_3_touched": false,
   "deployment_performed": false,
-  "secrets_used": false,
-  "credentials_used": false,
-  "command_packets_executed": false
+  "secrets_credentials_used": false,
+  "command_packets_executed": false,
+  "merge_performed": false
 }
 ```
 
 Allowed values per field: `false`. (`true` would indicate a safety breach.)
 
-## Action Registry
-
-```json
-"action_registry": {
-  "total": 0,
-  "safe": 0,
-  "controlled": 0,
-  "locked": 0
-}
-```
-
-All values are non-negative integers.
-
-## Validator Results
-
-```json
-"last_validator_results": {
-  "CLI": "PASS",
-  "Command Packets": "PASS",
-  "E2E": "PASS",
-  "RC": "PASS"
-}
-```
-
-Status values are strings. Common values: `"PASS"`, `"FAIL"`, `"TIMEOUT"`.
-
 ## Schema Validation Rules
 
 1. All required root fields MUST be present.
 2. Safety status values MUST be one of `"LOCKED"` or `"DISABLED"`.
-3. Boundary values MUST be boolean. All MUST be `false` in normal operation.
-4. `_schema_version` MUST be a valid semver string (e.g. `"1.0"`).
-5. No additional fields are forbidden at the root, but downstream consumers MUST only depend on fields listed in this contract.
-6. JSON must be valid per RFC 8259.
+3. Boundary status values MUST be boolean. All MUST be `false` in normal operation.
+4. `phase`, `repo`, `source_lineage`, `format` MUST match their exact required values.
+5. `artifact_summary.package_count` MUST be a non-negative integer.
+6. `artifact_summary.packages` MUST be a list.
+7. `approval_ledger_summary.record_count` MUST be a non-negative integer.
+8. `approval_ledger_summary.bad_execution_records` MUST be a non-negative integer.
+9. `approval_ledger_summary.empty_ledger_allowed` MUST be boolean `true`.
+10. `validator_status` MUST contain `phase_2_tui`, `phase_2_e2e`, `phase_1`, and `runtime`.
+11. `recommended_next_action` MUST be a string.
+12. No additional fields are forbidden at the root, but downstream consumers MUST only depend on fields listed in this contract.
+13. JSON must be valid per RFC 8259.
 
 ## Change Process
 
 - Schema version `1.0` is the initial release for Phase 2.
 - Minor bumps (e.g. `1.1`) indicate additive fields or widened allowed values.
 - Major bumps (e.g. `2.0`) indicate breaking changes or removed fields.
-- Schema version is recorded in `_schema_version` and `_metadata`.

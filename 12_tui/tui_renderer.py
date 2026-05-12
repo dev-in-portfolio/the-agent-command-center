@@ -545,6 +545,71 @@ def render_safety_boundary_help(state):
 
 # --- Snapshot Formats ---
 
+def _get_safety_status():
+    return {
+        "official_repo": "LOCKED",
+        "repo_2": "LOCKED",
+        "repo_3": "LOCKED",
+        "deployment": "DISABLED",
+        "secrets": "DISABLED",
+        "credentials": "DISABLED",
+        "command_packet_execution": "DISABLED",
+        "free_form_shell": "DISABLED",
+        "merge": "DISABLED",
+        "push": "DISABLED",
+        "pr_creation": "DISABLED",
+        "network_behavior": "DISABLED",
+    }
+
+
+def _get_artifact_summary_data():
+    try:
+        mod = _get_artifact_inspector()
+        packages = mod.inspect_all_packages() if hasattr(mod, "inspect_all_packages") else {}
+        package_list = []
+        for pid, info in packages.items():
+            package_list.append({
+                "id": pid,
+                "name": info.get("name", pid),
+                "exists": info.get("exists", False),
+            })
+        return {"package_count": len(package_list), "packages": package_list}
+    except Exception:
+        return {"package_count": 0, "packages": []}
+
+
+def _get_approval_ledger_summary_data():
+    try:
+        mod = _get_approval_ledger()
+        records = mod._read_ledger() if hasattr(mod, "_read_ledger") else []
+        bad = sum(1 for r in records if r.get("execution_performed") is not False)
+        return {"record_count": len(records), "bad_execution_records": bad, "empty_ledger_allowed": True}
+    except Exception:
+        return {"record_count": 0, "bad_execution_records": 0, "empty_ledger_allowed": True}
+
+
+def _get_validator_status(state):
+    vr = state.last_validator_results
+    return {
+        "phase_2_tui": vr.get("TUI", "unknown") or "unknown",
+        "phase_2_e2e": vr.get("E2E", "unknown") or "unknown",
+        "phase_1": vr.get("CLI", "unknown") or "unknown",
+        "runtime": "unknown",
+    }
+
+
+def _get_boundary_status(boundary):
+    return {
+        "official_repo_touched": boundary.get("official_repo_touched", False),
+        "repo_2_touched": boundary.get("repo2_touched", False),
+        "repo_3_touched": boundary.get("repo3_touched", False),
+        "deployment_performed": boundary.get("deployment_performed", False),
+        "secrets_credentials_used": boundary.get("secrets_used", False) or boundary.get("credentials_used", False),
+        "command_packets_executed": boundary.get("command_packets_executed", False),
+        "merge_performed": False,
+    }
+
+
 def _collect_snapshot_data(state):
     registry = _get_registry()
     locked = _get_locked_actions()
@@ -552,13 +617,23 @@ def _collect_snapshot_data(state):
     ctrl_count = sum(1 for a in registry.values() if a.get("category") == "controlled")
     summary = state.get_summary()
     boundary = summary.get("final_boundary_state", {})
+    now = datetime.now(timezone.utc)
     return {
-        "timestamp": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
+        "snapshot_id": f"SNAP-{now.strftime('%Y%m%d-%H%M%S-%f')}",
+        "created_at_utc": now.isoformat(),
+        "session_id": state.session_id,
+        "phase": "Interface Phase 2",
         "repo": "dev-in-portfolio/the-agent-command-center",
         "source_lineage": "dev-in-portfolio/agent-command-center-3",
-        "phase": "2",
+        "format": "json",
+        "safety_status": _get_safety_status(),
+        "artifact_summary": _get_artifact_summary_data(),
+        "approval_ledger_summary": _get_approval_ledger_summary_data(),
+        "validator_status": _get_validator_status(state),
+        "boundary_status": _get_boundary_status(boundary),
+        "recommended_next_action": state.recommended_next_action or "",
+        "timestamp": now.strftime("%Y-%m-%d %H:%M:%S UTC"),
         "mode": "TUI Operator Dashboard",
-        "session_id": state.session_id,
         "current_screen": state.current_screen,
         "safety": {
             "official_repo": "LOCKED",
@@ -587,7 +662,7 @@ def _collect_snapshot_data(state):
             "controlled": ctrl_count,
             "locked": len(locked),
         },
-        "last_validator_results": state.last_validator_results,
+        "last_validator_results": dict(state.last_validator_results),
         "_schema_version": "1.0",
         "_metadata": {
             "source": "phase_2_tui_operator_dashboard",

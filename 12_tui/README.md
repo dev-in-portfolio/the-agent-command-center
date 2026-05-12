@@ -12,7 +12,7 @@ Phase 2.1–2.11 Upgrade: Visual polish, navigation upgrades, artifact deep view
 | `tui_app.py` | Application controller: curses wrapper + plain-text loop + snapshot mode |
 | `tui_state.py` | Session state, Phase 1 module loading, navigation/breadcrumbs, session logs |
 | `tui_keymap.py` | Key bindings (1-9, q, r, h, b, d, ?), forbidden screen names |
-| `tui_renderer.py` | Screen rendering for all 9 screens + 5 snapshot formats + status badges |
+| `tui_renderer.py` | Screen rendering for all 9 screens + 5 snapshot formats + status badges; produces JSON per Interface Phase 2 Snapshot Schema Contract |
 | `tui_screens.py` | Input handlers per screen (9 screens: dashboard, actions, artifacts, validator, packet, branch, ledger, help, safety) |
 | `tui_safe_actions.py` | Safe wrappers for validator wall, packet prep, branch review, ledger |
 

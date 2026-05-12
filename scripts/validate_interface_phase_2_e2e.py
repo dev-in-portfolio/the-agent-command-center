@@ -176,9 +176,18 @@ def test_16_snapshot_save():
     ensure("Snapshot saved" in r.stdout, "Must confirm save")
     snap_dir = PHASE2_EXPORTS / "snapshots"
     ensure(snap_dir.exists(), "Snapshots dir must exist after save")
-    snap_files = list(snap_dir.glob("snapshot_*.json"))
+    snap_files = sorted(snap_dir.glob("snapshot_*.json"))
     ensure(len(snap_files) > 0, "At least one snapshot file must exist")
-    print(f"  [PASS] test_16: --snapshot --format json --save writes file")
+    latest = snap_files[-1]
+    saved_data = json.loads(latest.read_text())
+    for field in ("snapshot_id", "created_at_utc", "session_id", "phase",
+                  "repo", "source_lineage", "format",
+                  "safety_status", "artifact_summary", "approval_ledger_summary",
+                  "validator_status", "boundary_status", "recommended_next_action"):
+        ensure(field in saved_data, f"Saved JSON missing required field: {field}")
+    ensure(saved_data["phase"] == "Interface Phase 2", "Saved JSON phase must be 'Interface Phase 2'")
+    ensure(saved_data["format"] == "json", "Saved JSON format must be 'json'")
+    print(f"  [PASS] test_16: --snapshot --format json --save writes file with valid schema")
 
 
 def test_17_bad_snapshot_format():
@@ -288,6 +297,20 @@ def test_28_new_phase2_artifacts_exist():
     print("  [PASS] test_28: All Phase 2 upgrade-pack artifacts and test_runs/ dirs exist")
 
 
+def test_32_snapshot_schema_contract_doc():
+    contract = (PHASE2_EXPORTS / "snapshot_schema_contract.md")
+    ensure(contract.exists(), "snapshot_schema_contract.md must exist")
+    content = contract.read_text()
+    ensure("# Interface Phase 2 Snapshot Schema Contract" in content,
+           "Contract doc must have correct title")
+    for keyword in ("snapshot_id", "created_at_utc", "safety_status",
+                    "artifact_summary", "approval_ledger_summary",
+                    "validator_status", "boundary_status", "recommended_next_action",
+                    "Interface Phase 2"):
+        ensure(keyword in content, f"Contract doc missing keyword: {keyword}")
+    print("  [PASS] test_32: Snapshot schema contract doc has correct title and all required keywords")
+
+
 def test_31_safety_scanner_precision():
     from tui_safety_scanner import scan_source_files
     result = scan_source_files()
@@ -317,27 +340,54 @@ def test_30_json_schema_contract():
     ensure(r.returncode == 0, f"--snapshot --format json failed rc={r.returncode}")
     data = json.loads(r.stdout)
     required_root = [
-        "timestamp", "repo", "source_lineage", "phase", "mode",
-        "session_id", "current_screen", "safety", "boundary",
-        "actions_completed", "actions_refused", "validator_runs",
-        "packets_prepared", "branch_reviews_prepared", "ledger_records_created",
-        "action_registry", "last_validator_results",
-        "_schema_version", "_metadata",
+        "snapshot_id", "created_at_utc", "session_id", "phase",
+        "repo", "source_lineage", "format",
+        "safety_status", "artifact_summary", "approval_ledger_summary",
+        "validator_status", "boundary_status", "recommended_next_action",
     ]
     for field in required_root:
         ensure(field in data, f"JSON snapshot missing required root field: {field}")
-    allowed_safety = ("LOCKED", "DISABLED")
-    for k, v in data["safety"].items():
-        ensure(v in allowed_safety, f"Safety field '{k}' has invalid value: {v}")
-    for k, v in data["boundary"].items():
-        ensure(isinstance(v, bool), f"Boundary field '{k}' must be boolean, got {type(v).__name__}")
-        ensure(v is False, f"Boundary field '{k}' must be False, got {v}")
-    ensure(data["_schema_version"] == "1.0", f"Schema version must be 1.0, got {data['_schema_version']}")
-    ar = data["action_registry"]
-    for field in ("total", "safe", "controlled", "locked"):
-        ensure(field in ar, f"action_registry missing field: {field}")
-        ensure(isinstance(ar[field], int) and ar[field] >= 0, f"action_registry.{field} must be non-negative int")
-    print("  [PASS] test_30: JSON snapshot schema contract validated (1.0)")
+    ensure(data["phase"] == "Interface Phase 2", f"phase must be 'Interface Phase 2', got {data['phase']!r}")
+    ensure(data["repo"] == "dev-in-portfolio/the-agent-command-center", f"repo mismatch")
+    ensure(data["source_lineage"] == "dev-in-portfolio/agent-command-center-3", f"source_lineage mismatch")
+    ensure(data["format"] == "json", f"format must be 'json', got {data['format']!r}")
+    ss = data["safety_status"]
+    ensure(ss["official_repo"] == "LOCKED", "safety_status.official_repo must be LOCKED")
+    ensure(ss["repo_2"] == "LOCKED", "safety_status.repo_2 must be LOCKED")
+    ensure(ss["repo_3"] == "LOCKED", "safety_status.repo_3 must be LOCKED")
+    ensure(ss["deployment"] == "DISABLED", "safety_status.deployment must be DISABLED")
+    ensure(ss["secrets"] == "DISABLED", "safety_status.secrets must be DISABLED")
+    ensure(ss["credentials"] == "DISABLED", "safety_status.credentials must be DISABLED")
+    ensure(ss["command_packet_execution"] == "DISABLED", "safety_status.command_packet_execution must be DISABLED")
+    ensure(ss["free_form_shell"] == "DISABLED", "safety_status.free_form_shell must be DISABLED")
+    ensure(ss["merge"] == "DISABLED", "safety_status.merge must be DISABLED")
+    ensure(ss["push"] == "DISABLED", "safety_status.push must be DISABLED")
+    ensure(ss["pr_creation"] == "DISABLED", "safety_status.pr_creation must be DISABLED")
+    ensure(ss["network_behavior"] == "DISABLED", "safety_status.network_behavior must be DISABLED")
+    bs = data["boundary_status"]
+    for key in ("official_repo_touched", "repo_2_touched", "repo_3_touched",
+                "deployment_performed", "secrets_credentials_used",
+                "command_packets_executed", "merge_performed"):
+        ensure(key in bs, f"boundary_status missing field: {key}")
+        ensure(isinstance(bs[key], bool), f"boundary_status.{key} must be boolean, got {type(bs[key]).__name__}")
+        ensure(bs[key] is False, f"boundary_status.{key} must be False, got {bs[key]}")
+    ar = data["artifact_summary"]
+    ensure("package_count" in ar, "artifact_summary missing package_count")
+    ensure(isinstance(ar["package_count"], int) and ar["package_count"] >= 0,
+           "artifact_summary.package_count must be non-negative int")
+    ensure("packages" in ar, "artifact_summary missing packages")
+    ensure(isinstance(ar["packages"], list), "artifact_summary.packages must be list")
+    al = data["approval_ledger_summary"]
+    for key in ("record_count", "bad_execution_records"):
+        ensure(key in al, f"approval_ledger_summary missing {key}")
+        ensure(isinstance(al[key], int) and al[key] >= 0,
+               f"approval_ledger_summary.{key} must be non-negative int")
+    ensure(al.get("empty_ledger_allowed") is True, "approval_ledger_summary.empty_ledger_allowed must be True")
+    vs = data["validator_status"]
+    for key in ("phase_2_tui", "phase_2_e2e", "phase_1", "runtime"):
+        ensure(key in vs, f"validator_status missing field: {key}")
+    ensure(isinstance(data["recommended_next_action"], str), "recommended_next_action must be string")
+    print("  [PASS] test_30: JSON snapshot schema contract v1.0 validated (prompt-required fields)")
 
 
 def test_29_test_artifact_isolation():
@@ -395,6 +445,7 @@ def main():
         test_29_test_artifact_isolation,
         test_30_json_schema_contract,
         test_31_safety_scanner_precision,
+        test_32_snapshot_schema_contract_doc,
     ]
 
     passed = 0

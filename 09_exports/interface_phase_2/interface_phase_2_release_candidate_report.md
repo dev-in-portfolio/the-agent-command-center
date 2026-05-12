@@ -58,7 +58,9 @@ Release candidate for the Phase 2 TUI Operator Dashboard, including the full 2.1
 
 - No active forbidden patterns in TUI source code
 - All safety boundary invariants: false
-- JSON snapshot schema v1.0: compliant
+- Interface Phase 2 Snapshot Schema Contract v1.0: compliant
+  - Required root fields: `snapshot_id`, `created_at_utc`, `safety_status`, `artifact_summary`, `approval_ledger_summary`, `validator_status`, `boundary_status`, `recommended_next_action`
+  - Phase: `"Interface Phase 2"`, format: `"json"`
 - Test artifacts isolated to `test_runs/` — production paths untouched
 - Interactive flows hardened with input validation and length limits
 

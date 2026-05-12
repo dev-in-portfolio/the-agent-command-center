@@ -127,6 +127,7 @@ interface/phase-2-tui-operator-dashboard
 - `--format` only works with `--snapshot`
 - `--save` only works with `--snapshot`
 - Invalid format fails safely with exit 2
+- Snapshot schema contract fix: contract title corrected to "Interface Phase 2 Snapshot Schema Contract", required root fields documented (`snapshot_id`, `created_at_utc`, `safety_status`, `artifact_summary`, `approval_ledger_summary`, `validator_status`, `boundary_status`, `recommended_next_action`), phase/format values pinned to `"Interface Phase 2"` / `"json"`
 
 ## 14. TUI Test Hardening
 

@@ -68,6 +68,11 @@ Any other flag or positional argument is rejected with exit code 2.
 - Session logs written to `09_exports/interface_phase_2/sessions/`
 - Safety monitor (screen 9) scans for boundary violations
 
+## Snapshot Schema Contract
+
+The TUI adheres to the **Interface Phase 2 Snapshot Schema Contract** (`09_exports/interface_phase_2/snapshot_schema_contract.md`).
+JSON snapshots (`--snapshot --format json`) include these required root fields: `snapshot_id`, `created_at_utc`, `safety_status`, `artifact_summary`, `approval_ledger_summary`, `validator_status`, `boundary_status`, `recommended_next_action`. The `phase` field is always `"Interface Phase 2"` and `format` is always `"json"`.
+
 ## What's New in Phase 2.1–2.11
 
 - Visual polish: status badges, action banners, breadcrumbs, consistent borders

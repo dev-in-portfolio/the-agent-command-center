@@ -58,6 +58,10 @@ that explicitly reports:
 | --save only with --snapshot | Entrypoint validation | test_20 (TUI), test_19 (E2E) |
 | Invalid snapshot format fails safely | Entrypoint validation | test_21 (TUI), test_17 (E2E) |
 
+## Snapshot Schema Contract Compliance
+
+The JSON snapshot output complies with the **Interface Phase 2 Snapshot Schema Contract** (`09_exports/interface_phase_2/snapshot_schema_contract.md`). Required root fields (`snapshot_id`, `created_at_utc`, `safety_status`, `artifact_summary`, `approval_ledger_summary`, `validator_status`, `boundary_status`, `recommended_next_action`) are always present. Phase is set to `"Interface Phase 2"`, format to `"json"`. Boundary booleans in the snapshot match the state-boundary invariants enforced by the safety monitor.
+
 ## Verdict
 
 All safety boundaries are enforced. Phase 2.1–2.11 introduces no new risk surface.
