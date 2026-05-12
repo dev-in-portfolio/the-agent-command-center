@@ -744,17 +744,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
     header = f"""
     <header class="hero dashboard-shell">
       <div class="hero-copy">
-        <p class="eyebrow">The Agent Command Center</p>
-        <h1>Interface Phase 3: Static Local Web Dashboard</h1>
-        <p class="lede">Self-contained dist preview with relative assets, read-only data reuse, and collapsed deep-dive panels for operator review.</p>
-      </div>
-      <div class="hero-meta">
-        {_status_badge("STATIC LOCAL DASHBOARD")}
-        {_status_badge("NO DEPLOY")}
-        {_status_badge("NO MERGE")}
-        {_status_badge("NO PUSH")}
-        {_status_badge("NO SECRET ACCESS")}
-        {_status_badge("NO COMMAND PACKET EXECUTION")}
+        <h1>The Agent Command Center</h1>
       </div>
     </header>
     """

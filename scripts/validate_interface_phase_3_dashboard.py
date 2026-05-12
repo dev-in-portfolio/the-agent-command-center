@@ -135,8 +135,6 @@ def _validate_html_and_assets():
     html = _read_text(DIST_DIR / "index.html")
     for needle in [
         "The Agent Command Center",
-        "Interface Phase 3",
-        "Static Local Web Dashboard",
         "NO DEPLOY",
         "NO MERGE",
         "NO SECRET ACCESS",

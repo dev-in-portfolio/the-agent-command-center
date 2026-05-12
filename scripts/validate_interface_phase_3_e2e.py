@@ -182,8 +182,6 @@ def main():
     html = HTML.read_text(encoding="utf-8")
     for needle in [
         "The Agent Command Center",
-        "Interface Phase 3",
-        "Static Local Web Dashboard",
         "NO DEPLOY",
         "NO MERGE",
         "NO SECRET ACCESS",
