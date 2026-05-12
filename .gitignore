@@ -1,0 +1,8 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Phase 2 operator-generated artifacts
+09_exports/interface_phase_2/sessions/
+09_exports/interface_phase_2/snapshots/
+09_exports/interface_phase_2/test_runs/
