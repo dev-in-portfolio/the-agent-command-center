@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 
-PHASE_NAME = "Interface Phase 3"
+PHASE_NAME = "Read-Only Operations Dashboard"
 REPO_NAME = "dev-in-portfolio/the-agent-command-center"
 SOURCE_LINEAGE = "dev-in-portfolio/agent-command-center-3"
 MODE_NAME = "static_local_dashboard"

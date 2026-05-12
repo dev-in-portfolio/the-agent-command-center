@@ -1,4 +1,4 @@
-# Interface Phase 3 Dashboard Map
+# Read-Only Operations Dashboard Map
 
 | Dashboard section | Backend source | Safety category | Writes files? | Executes commands? | Uses network? | Notes |
 |---|---|---|---|---|---|---|

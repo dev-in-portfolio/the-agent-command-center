@@ -38,7 +38,7 @@ def _write_build_report(snapshot, validation_result, safety_result):
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
     report_path = REPORTS_DIR / "interface_phase_3_static_build_report.md"
     lines = [
-        "# Interface Phase 3 Static Build Report",
+        "# Read-Only Operations Dashboard Static Build Report",
         "",
         f"- Dashboard ID: {snapshot['dashboard_id']}",
         f"- Created at UTC: {snapshot['created_at_utc']}",
@@ -111,7 +111,7 @@ def _render_snapshot(mode_name, snapshot):
         return json.dumps(snapshot, indent=2, sort_keys=False)
     if mode_name == "markdown":
         lines = [
-            "# Interface Phase 3 Dashboard Snapshot",
+            "# Read-Only Operations Dashboard Snapshot",
             "",
             f"- Dashboard ID: {snapshot['dashboard_id']}",
             f"- Created at UTC: {snapshot['created_at_utc']}",
@@ -138,7 +138,7 @@ def _render_snapshot(mode_name, snapshot):
         return "\n".join(lines)
     if mode_name == "summary":
         return "\n".join([
-            "Interface Phase 3 dashboard snapshot",
+            "Read-Only Operations Dashboard snapshot",
             f"Dashboard ID: {snapshot['dashboard_id']}",
             f"Phase 3 verdict: {snapshot['phase_3_status'].get('detected_verdict', 'unknown')}",
             f"Action registry actions: {snapshot['action_registry_summary'].get('total_actions', 0)}",
@@ -147,7 +147,7 @@ def _render_snapshot(mode_name, snapshot):
         ])
     if mode_name == "full":
         return "\n".join([
-            "# Interface Phase 3 Dashboard Snapshot (Full)",
+            "# Read-Only Operations Dashboard Snapshot (Full)",
             "",
             json.dumps(snapshot, indent=2, sort_keys=False),
         ])
@@ -185,7 +185,7 @@ def _print_snapshot(mode_name, snapshot):
 def _build_parser():
     parser = argparse.ArgumentParser(
         prog="build_phase3_dashboard.py",
-        description="Build the Interface Phase 3 static local web dashboard.",
+        description="Build the Read-Only Operations Dashboard.",
     )
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument("--snapshot-json", action="store_true", help="Print the dashboard snapshot as JSON and exit.")

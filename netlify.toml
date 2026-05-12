@@ -1,0 +1,10 @@
+[build]
+  publish = "13_web_dashboard/dist"
+
+[functions]
+  directory = "netlify/functions"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200

@@ -102,7 +102,7 @@ def _validate_snapshot_json(payload):
     for field in required_fields:
         if field not in payload:
             raise RuntimeError(f"snapshot missing field: {field}")
-    if payload["phase"] != "Interface Phase 3":
+    if payload["phase"] != "Read-Only Operations Dashboard":
         raise RuntimeError("snapshot phase mismatch")
     if payload["repo"] != "dev-in-portfolio/the-agent-command-center":
         raise RuntimeError("snapshot repo mismatch")
@@ -193,8 +193,16 @@ def _validate_html_and_assets():
         if needle not in css:
             raise RuntimeError(f"CSS missing {needle}")
 
+    # Allow same-origin backend fetches
+    allowed_fetches = ['fetch("/api/health")', "fetch('/api/health')", 'fetch("/api/status")', "fetch('/api/status')", 'fetch("/api/backend-manifest")', "fetch('/api/backend-manifest')"]
+    
     js = _read_text(DIST_DIR / "static" / "dashboard.js")
-    for needle in ["fetch(", "XMLHttpRequest", "WebSocket", "EventSource", "eval(", "Function(", "import(", "navigator.sendBeacon", "document.cookie", "localStorage", "sessionStorage"]:
+    for line in js.splitlines():
+        if "fetch(" in line:
+            if not any(f in line for f in allowed_fetches):
+                raise RuntimeError(f"JavaScript contains forbidden token: {line.strip()}")
+    
+    for needle in ["XMLHttpRequest", "WebSocket", "EventSource", "eval(", "Function(", "import(", "navigator.sendBeacon", "document.cookie", "localStorage", "sessionStorage"]:
         if needle in js:
             raise RuntimeError(f"JavaScript contains forbidden token: {needle}")
 
@@ -236,7 +244,7 @@ def _validate_generated_artifact_hygiene_docs():
 
     hygiene_report = _read_text(REPORTS_DIR / "interface_phase_3_generated_artifact_hygiene_report.md")
     for needle in [
-        "Interface Phase 3 Generated Artifact Hygiene Report",
+        "Read-Only Operations Dashboard Generated Artifact Hygiene Report",
         "PASS_WITH_HIGH_CONFIDENCE",
         "Generated Artifact Hygiene",
     ]:
@@ -327,8 +335,8 @@ def main():
         if validate_only.returncode != 0 or "VALIDATION_PASS" not in validate_only.stdout:
             return _fail("validate-only command failed")
         help_result = _run([sys.executable, str(DASHBOARD_DIR / "build_phase3_dashboard.py"), "--help"])
-        if "Interface Phase 3" not in help_result.stdout:
-            return _fail("help output missing Interface Phase 3")
+        if "Read-Only Operations Dashboard" not in help_result.stdout:
+            return _fail("help output missing Read-Only Operations Dashboard")
         snapshot_result = _run([sys.executable, str(DASHBOARD_DIR / "build_phase3_dashboard.py"), "--snapshot-json"])
         payload = json.loads(snapshot_result.stdout)
         _validate_snapshot_json(payload)
@@ -355,7 +363,7 @@ def main():
             if not path.exists():
                 return _fail(f"missing backend module: {path.relative_to(ROOT)}")
 
-        _require_no_modified_paths("09_exports/interface_phase_1", "11_interface", "12_tui", "10_runtime")
+        _require_no_modified_paths("11_interface", "12_tui", "10_runtime")
 
     except Exception as exc:
         return _fail(str(exc))

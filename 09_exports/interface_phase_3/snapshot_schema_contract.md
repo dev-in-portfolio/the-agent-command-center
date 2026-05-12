@@ -1,4 +1,4 @@
-# Interface Phase 3 Snapshot Schema Contract
+# Read-Only Operations Dashboard Snapshot Schema Contract
 
 Required JSON schema fields:
 
@@ -6,7 +6,7 @@ Required JSON schema fields:
 {
   "dashboard_id": "...",
   "created_at_utc": "...",
-  "phase": "Interface Phase 3",
+  "phase": "Read-Only Operations Dashboard",
   "repo": "dev-in-portfolio/the-agent-command-center",
   "source_lineage": "dev-in-portfolio/agent-command-center-3",
   "mode": "static_local_dashboard",
@@ -30,7 +30,7 @@ Required JSON schema fields:
 
 Required exact values:
 
-- `phase == Interface Phase 3`
+- `phase == Read-Only Operations Dashboard`
 - `repo == dev-in-portfolio/the-agent-command-center`
 - `source_lineage == dev-in-portfolio/agent-command-center-3`
 - `mode == static_local_dashboard`

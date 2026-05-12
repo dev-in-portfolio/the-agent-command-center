@@ -334,6 +334,34 @@
     });
   }
 
+  function wireBackendButtons() {
+    var checkButton = byId("check-backend-button");
+    if (!checkButton) {
+      return;
+    }
+    checkButton.addEventListener("click", function () {
+      var statusText = byId("backend-fetch-status");
+      var responseArea = byId("backend-response-area");
+      var responseJson = byId("backend-response-json");
+
+      if (statusText) statusText.textContent = "Checking...";
+      
+      fetch("/api/health").then(function (res) {
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        return res.json();
+      }).then(function (data) {
+        if (statusText) statusText.textContent = "Backend reachable (Phase 4A Foundation).";
+        if (responseArea) responseArea.style.display = "block";
+        if (responseJson) responseJson.textContent = JSON.stringify(data, null, 2);
+        setStatus("Backend status check successful.", "pass");
+      }).catch(function (err) {
+        if (statusText) statusText.textContent = "Backend not reachable in this preview environment.";
+        if (responseArea) responseArea.style.display = "none";
+        setStatus("Backend check failed: " + err.message, "warning");
+      });
+    });
+  }
+
   function init() {
     var dashboardData = getDashboardData();
     window.__DASHBOARD_DATA__ = dashboardData;
@@ -343,6 +371,7 @@
     wireOpenSectionButtons();
     wireFilterButtons();
     wireSortButtons();
+    wireBackendButtons();
     installKeyboardShortcut();
     applyFilters();
     setStatus("Local UI ready.", "info");
