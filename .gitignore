@@ -6,3 +6,10 @@ __pycache__/
 09_exports/interface_phase_2/sessions/
 09_exports/interface_phase_2/snapshots/
 09_exports/interface_phase_2/test_runs/
+# Phase 3 generated snapshot exports
+09_exports/interface_phase_3/snapshots/dashboard_snapshot_*.json
+09_exports/interface_phase_3/snapshots/dashboard_snapshot_*.md
+09_exports/interface_phase_3/snapshots/dashboard_snapshot_*.txt
+
+# Phase 3 generated test artifacts
+09_exports/interface_phase_3/test_runs/

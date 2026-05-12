@@ -1,0 +1,1966 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Agent Command Center - Interface Phase 3</title>
+  <link rel="stylesheet" href="./static/dashboard.css">
+</head>
+<body class="dashboard-body">
+  <a class="skip-link" href="#dashboard-main">Skip to dashboard content</a>
+  <div class="page-shell">
+    
+    <header class="hero dashboard-shell">
+      <div class="hero-copy">
+        <p class="eyebrow">The Agent Command Center</p>
+        <h1>Interface Phase 3: Static Local Web Dashboard</h1>
+        <p class="lede">Self-contained dist preview with relative assets, read-only data reuse, and collapsed deep-dive panels for operator review.</p>
+      </div>
+      <div class="hero-meta">
+        <span class="badge unknown">STATIC LOCAL DASHBOARD</span>
+        <span class="badge unknown">NO DEPLOY</span>
+        <span class="badge unknown">NO MERGE</span>
+        <span class="badge unknown">NO PUSH</span>
+        <span class="badge unknown">NO SECRET ACCESS</span>
+        <span class="badge unknown">NO COMMAND PACKET EXECUTION</span>
+      </div>
+    </header>
+    
+    
+    <section class="toolbar-shell" aria-label="Dashboard tools">
+      <div class="toolbar-group">
+        <label class="sr-only" for="global-search">Search dashboard</label>
+        <input id="global-search" class="table-filter-wide" type="search" placeholder="Search all dashboard text" aria-label="Search all dashboard text">
+      </div>
+      <div class="toolbar-group">
+        <button type="button" class="toggle-button" data-panel-action="expand" data-panel-target="all" data-panel-state="open">Expand all groups</button>
+        <button type="button" class="toggle-button" data-panel-action="collapse" data-panel-target="all" data-panel-state="closed">Collapse all groups</button>
+        <button type="button" class="toggle-button" data-panel-action="compact" data-panel-target="all" data-panel-state="off">Compact view</button>
+      </div>
+      <div class="toolbar-group">
+        <button type="button" class="toggle-button" data-panel-action="expand" data-panel-target="source" data-panel-state="open">Expand source</button>
+        <button type="button" class="toggle-button" data-panel-action="collapse" data-panel-target="source" data-panel-state="closed">Collapse source</button>
+        <button type="button" class="toggle-button" data-panel-action="expand" data-panel-target="registry" data-panel-state="open">Expand registry</button>
+        <button type="button" class="toggle-button" data-panel-action="collapse" data-panel-target="registry" data-panel-state="closed">Collapse registry</button>
+        <button type="button" class="toggle-button" data-panel-action="expand" data-panel-target="reports" data-panel-state="open">Expand reports</button>
+        <button type="button" class="toggle-button" data-panel-action="collapse" data-panel-target="reports" data-panel-state="closed">Collapse reports</button>
+        <button type="button" class="toggle-button" data-panel-action="expand" data-panel-target="audit" data-panel-state="open">Expand audit</button>
+        <button type="button" class="toggle-button" data-panel-action="collapse" data-panel-target="audit" data-panel-state="closed">Collapse audit</button>
+      </div>
+      <div class="toolbar-group">
+        <button type="button" class="copy-button" data-copy-text="13_web_dashboard/dist/index.html" aria-label="Copy dashboard local file path">Copy dashboard path</button>
+        <button type="button" class="copy-button" data-copy-text="Static local dashboard build and exports are available." aria-label="Copy dashboard summary">Copy summary</button>
+      </div>
+      <div class="toolbar-group toolbar-note">
+        <span class="muted">Local-only preview supported from dist. No product server. No deployment. No merge. No push.</span>
+      </div>
+      <div class="toolbar-status" aria-live="polite">
+        <span id="copy-status" class="muted">Local UI ready.</span>
+      </div>
+    </section>
+    
+    <main id="dashboard-main" class="dashboard" tabindex="-1">
+      
+    <section class="safety-banner sticky-status" aria-label="Static local dashboard safety banner">
+      <strong>STATIC LOCAL DASHBOARD</strong>
+      <span>NO DEPLOY</span>
+      <span>NO MERGE</span>
+      <span>NO PUSH</span>
+      <span>NO SECRET ACCESS</span>
+      <span>NO COMMAND PACKET EXECUTION</span>
+    </section>
+    
+<section class="landing-shell" aria-label="Dashboard landing screen"><div class="landing-head"><p class="eyebrow">Operator Landing Screen</p><h2>Phase status and controlled navigation</h2><p class="lede">Open only the section you want to inspect. Heavy tables and audit dumps stay collapsed until requested.</p></div><div class="landing-cards">
+    <article class="card">
+      <div class="card-head">
+        <div>
+          <p class="card-kicker">Phase 1 status</p>
+          <h3>PASS_WITH_HIGH_CONFIDENCE</h3>
+        </div>
+        <span class="badge unknown">PASS_WITH_HIGH_CONFIDENCE</span>
+      </div>
+      <p class="card-body">Phase 1 backend remains the source of truth.</p>
+      
+    </article>
+    
+    <article class="card">
+      <div class="card-head">
+        <div>
+          <p class="card-kicker">Phase 2 status</p>
+          <h3>PASS_WITH_HIGH_CONFIDENCE</h3>
+        </div>
+        <span class="badge unknown">PASS_WITH_HIGH_CONFIDENCE</span>
+      </div>
+      <p class="card-body">Phase 2 TUI and contracts remain intact.</p>
+      
+    </article>
+    
+    <article class="card">
+      <div class="card-head">
+        <div>
+          <p class="card-kicker">Phase 3 status</p>
+          <h3>PASS_WITH_HIGH_CONFIDENCE</h3>
+        </div>
+        <span class="badge unknown">PASS_WITH_HIGH_CONFIDENCE</span>
+      </div>
+      <p class="card-body">Static local dashboard build and exports are available.</p>
+      
+    </article>
+    
+    <article class="card">
+      <div class="card-head">
+        <div>
+          <p class="card-kicker">Safety status</p>
+          <h3>WARNING</h3>
+        </div>
+        <span class="badge warning">WARNING</span>
+      </div>
+      <p class="card-body">Static local read-only dashboard with deployment, merge, push, secret access, and command packet execution disabled.</p>
+      
+    </article>
+    
+    <article class="card">
+      <div class="card-head">
+        <div>
+          <p class="card-kicker">Recommended next action</p>
+          <h3>INFO</h3>
+        </div>
+        <span class="badge info">INFO</span>
+      </div>
+      <p class="card-body">Open 13_web_dashboard/dist/index.html locally and review the safety boundary panel.</p>
+      
+    </article>
+    </div><div class="landing-actions"><h3>Open section buttons</h3><div class="section-grid"><button type="button" class="section-button" data-open-panel="safety-boundary" aria-controls="safety-boundary">Safety Boundary</button><button type="button" class="section-button" data-open-panel="action-registry" aria-controls="action-registry">Action Registry</button><button type="button" class="section-button" data-open-panel="artifact-packages" aria-controls="artifact-packages">Artifact Deep Dive</button><button type="button" class="section-button" data-open-panel="reports-library" aria-controls="reports-library">Reports Library</button><button type="button" class="section-button" data-open-panel="validator-command-center" aria-controls="validator-command-center">Validator Command Center</button><button type="button" class="section-button" data-open-panel="source-transparency" aria-controls="source-transparency">Source Transparency</button><button type="button" class="section-button" data-open-panel="compare-phases" aria-controls="compare-phases">Compare Phases</button><button type="button" class="section-button" data-open-panel="branch-review" aria-controls="branch-review">Branch Review</button><button type="button" class="section-button" data-open-panel="approval-ledger" aria-controls="approval-ledger">Approval Ledger</button><button type="button" class="section-button" data-open-panel="session-audit" aria-controls="session-audit">Audit / Session Data</button></div></div></section>
+
+    <details class="panel" data-section-group="source" id="safety-boundary">
+      <summary>Safety Boundary</summary>
+      <div class="panel-body">
+        
+    <div class="table-wrap">
+      <table class="data-table" id="safety-boundary-table" data-table-id="safety-boundary-table">
+        <caption>Safety boundary states</caption>
+        <thead>
+          <tr><th scope="col">Boundary</th><th scope="col">State</th></tr>
+        </thead>
+        <tbody><tr><th scope="row">Official repo</th><td><span class="badge locked">LOCKED</span></td></tr><tr><th scope="row">Repo 2</th><td><span class="badge locked">LOCKED</span></td></tr><tr><th scope="row">Repo 3</th><td><span class="badge locked">LOCKED</span></td></tr><tr><th scope="row">Deployment</th><td><span class="badge disabled">DISABLED</span></td></tr><tr><th scope="row">Secrets</th><td><span class="badge disabled">DISABLED</span></td></tr><tr><th scope="row">Credentials</th><td><span class="badge disabled">DISABLED</span></td></tr><tr><th scope="row">Command packet execution</th><td><span class="badge disabled">DISABLED</span></td></tr><tr><th scope="row">Free-form shell</th><td><span class="badge disabled">DISABLED</span></td></tr><tr><th scope="row">Merge</th><td><span class="badge disabled">DISABLED</span></td></tr><tr><th scope="row">Push</th><td><span class="badge disabled">DISABLED</span></td></tr><tr><th scope="row">PR creation</th><td><span class="badge disabled">DISABLED</span></td></tr><tr><th scope="row">Network behavior</th><td><span class="badge disabled">DISABLED</span></td></tr><tr><th scope="row">API server</th><td><span class="badge disabled">DISABLED</span></td></tr><tr><th scope="row">Hosted app</th><td><span class="badge disabled">DISABLED</span></td></tr></tbody>
+      </table>
+    </div>
+    
+      </div>
+    </details>
+    
+
+    <details class="panel" data-section-group="registry" id="action-registry">
+      <summary>Action Registry</summary>
+      <div class="panel-body">
+        <div class="stat-grid">
+    <div class="stat">
+      <span>Total actions</span>
+      <strong>12</strong>
+      
+    </div>
+    
+    <div class="stat">
+      <span>Safe</span>
+      <strong>6</strong>
+      <span class="mini-status"><span class="badge pass">PASS</span></span>
+    </div>
+    
+    <div class="stat">
+      <span>Controlled</span>
+      <strong>6</strong>
+      <span class="mini-status"><span class="badge warning">WARNING</span></span>
+    </div>
+    
+    <div class="stat">
+      <span>Locked</span>
+      <strong>0</strong>
+      <span class="mini-status"><span class="badge locked">LOCKED</span></span>
+    </div>
+    </div>
+    <div class="table-tools">
+      <label for="action-search" class="sr-only">Filter actions</label>
+      <input id="action-search" class="table-filter" type="search" placeholder="Search action rows" data-search-target="action-table" aria-label="Search action registry">
+      <div class="button-row">
+        <button type="button" class="toggle-button" data-action-filter="all">All</button>
+        <button type="button" class="toggle-button" data-action-filter="safe">SAFE</button>
+        <button type="button" class="toggle-button" data-action-filter="controlled">CONTROLLED</button>
+        <button type="button" class="toggle-button" data-action-filter="locked">LOCKED</button>
+        <button type="button" class="toggle-button" data-sort-table="action-table" data-sort-key="risk">Sort by risk</button>
+      </div>
+    </div>
+    
+    <div class="table-wrap">
+      <table class="data-table" id="action-table" data-table-id="action-table">
+        <caption>Action registry details</caption>
+        <thead>
+          <tr><th scope="col">Action ID</th><th scope="col">Label</th><th scope="col">Category</th><th scope="col">Risk</th><th scope="col">Writes files</th><th scope="col">Runs commands</th><th scope="col">Dashboard allowed</th><th scope="col">Reason</th></tr>
+        </thead>
+        <tbody><tr data-action-category="controlled" data-action-risk="low" data-action-dashboard-allowed="true" data-search-text="generate_session_report Generate operator session report controlled low dashboard can display only"><th scope="row"><code>generate_session_report</code></th><td>Generate operator session report</td><td><span class="badge warning">CONTROLLED</span></td><td><span class="badge pass">LOW</span></td><td>Yes</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="safe" data-action-risk="none" data-action-dashboard-allowed="true" data-search-text="inspect_artifact_package Inspect artifact packages safe none dashboard can display only"><th scope="row"><code>inspect_artifact_package</code></th><td>Inspect artifact packages</td><td><span class="badge pass">SAFE</span></td><td><span class="badge pass">NONE</span></td><td>No</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="safe" data-action-risk="none" data-action-dashboard-allowed="true" data-search-text="list_artifacts List artifact packages safe none dashboard can display only"><th scope="row"><code>list_artifacts</code></th><td>List artifact packages</td><td><span class="badge pass">SAFE</span></td><td><span class="badge pass">NONE</span></td><td>No</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="controlled" data-action-risk="low" data-action-dashboard-allowed="true" data-search-text="prepare_branch_review Prepare branch review packet controlled low dashboard can display only"><th scope="row"><code>prepare_branch_review</code></th><td>Prepare branch review packet</td><td><span class="badge warning">CONTROLLED</span></td><td><span class="badge pass">LOW</span></td><td>Yes</td><td>Yes</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="controlled" data-action-risk="low" data-action-dashboard-allowed="true" data-search-text="prepare_command_packet Prepare command packet controlled low dashboard can display only"><th scope="row"><code>prepare_command_packet</code></th><td>Prepare command packet</td><td><span class="badge warning">CONTROLLED</span></td><td><span class="badge pass">LOW</span></td><td>Yes</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="controlled" data-action-risk="low" data-action-dashboard-allowed="true" data-search-text="review_packet_approval Review packet approval controlled low dashboard can display only"><th scope="row"><code>review_packet_approval</code></th><td>Review packet approval</td><td><span class="badge warning">CONTROLLED</span></td><td><span class="badge pass">LOW</span></td><td>Yes</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="controlled" data-action-risk="low" data-action-dashboard-allowed="true" data-search-text="run_validator_wall Run validator wall controlled low dashboard can display only"><th scope="row"><code>run_validator_wall</code></th><td>Run validator wall</td><td><span class="badge warning">CONTROLLED</span></td><td><span class="badge pass">LOW</span></td><td>No</td><td>Yes</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="controlled" data-action-risk="none" data-action-dashboard-allowed="true" data-search-text="show_approval_ledger Show approval ledger controlled none dashboard can display only"><th scope="row"><code>show_approval_ledger</code></th><td>Show approval ledger</td><td><span class="badge warning">CONTROLLED</span></td><td><span class="badge pass">NONE</span></td><td>No</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="safe" data-action-risk="none" data-action-dashboard-allowed="true" data-search-text="show_locked_actions Show locked actions safe none dashboard can display only"><th scope="row"><code>show_locked_actions</code></th><td>Show locked actions</td><td><span class="badge pass">SAFE</span></td><td><span class="badge pass">NONE</span></td><td>No</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="safe" data-action-risk="none" data-action-dashboard-allowed="true" data-search-text="show_session_state Show current session state safe none dashboard can display only"><th scope="row"><code>show_session_state</code></th><td>Show current session state</td><td><span class="badge pass">SAFE</span></td><td><span class="badge pass">NONE</span></td><td>No</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="safe" data-action-risk="none" data-action-dashboard-allowed="true" data-search-text="show_status Show system status safe none dashboard can display only"><th scope="row"><code>show_status</code></th><td>Show system status</td><td><span class="badge pass">SAFE</span></td><td><span class="badge pass">NONE</span></td><td>No</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="safe" data-action-risk="none" data-action-dashboard-allowed="true" data-search-text="show_summaries Show latest trial / gauntlet summaries safe none dashboard can display only"><th scope="row"><code>show_summaries</code></th><td>Show latest trial / gauntlet summaries</td><td><span class="badge pass">SAFE</span></td><td><span class="badge pass">NONE</span></td><td>No</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr></tbody>
+      </table>
+    </div>
+    
+      </div>
+    </details>
+    
+
+    <details class="panel" data-section-group="registry" id="artifact-packages">
+      <summary>Artifact Deep Dive</summary>
+      <div class="panel-body">
+        <div class="stat-grid">
+    <div class="stat">
+      <span>Package count</span>
+      <strong>5</strong>
+      
+    </div>
+    
+    <div class="stat">
+      <span>Warnings</span>
+      <strong>1</strong>
+      <span class="mini-status"><span class="badge warning">WARNING</span></span>
+    </div>
+    
+    <div class="stat">
+      <span>Missing files</span>
+      <strong>1</strong>
+      <span class="mini-status"><span class="badge warning">WARNING</span></span>
+    </div>
+    
+    <div class="stat">
+      <span>Zero-byte files</span>
+      <strong>0</strong>
+      <span class="mini-status"><span class="badge pass">PASS</span></span>
+    </div>
+    </div>
+    <div class="table-tools">
+      <label for="artifact-search" class="sr-only">Filter artifacts</label>
+      <input id="artifact-search" class="table-filter" type="search" placeholder="Search artifact rows" data-search-target="artifact-table" aria-label="Search artifact packages">
+      <div class="button-row">
+        <button type="button" class="toggle-button" data-artifact-filter="all">All</button>
+        <button type="button" class="toggle-button" data-artifact-filter="exists">Exists</button>
+        <button type="button" class="toggle-button" data-artifact-filter="missing">Missing</button>
+        <button type="button" class="toggle-button" data-artifact-filter="warning">Warning</button>
+        <button type="button" class="toggle-button" data-sort-table="artifact-table" data-sort-key="warnings">Sort by warnings</button>
+        <button type="button" class="toggle-button" data-sort-table="artifact-table" data-sort-key="missing">Sort by missing files</button>
+      </div>
+    </div>
+    
+    <div class="table-wrap">
+      <table class="data-table" id="artifact-table" data-table-id="artifact-table">
+        <caption>Artifact package details</caption>
+        <thead>
+          <tr><th scope="col">Package ID</th><th scope="col">Package name</th><th scope="col">Exists</th><th scope="col">Verdict</th><th scope="col">Missing files</th><th scope="col">Zero-byte files</th><th scope="col">Warnings</th><th scope="col">Report path</th><th scope="col">Copy</th></tr>
+        </thead>
+        <tbody><tr data-package-exists="true" data-package-warnings="0" data-package-missing="0" data-package-verdict="**PASS_WITH_HIGH_CONFIDENCE**" data-search-text="trial_v3 100-Round Trial v3 **PASS_WITH_HIGH_CONFIDENCE** 09_exports/100_round_trial_v3  "><th scope="row"><code>trial_v3</code></th><td>100-Round Trial v3</td><td><span class="badge pass">PASS</span></td><td><span class="badge pass">PASS</span></td><td>0</td><td>0</td><td>0</td><td>09_exports/100_round_trial_v3</td></tr><tr data-package-exists="true" data-package-warnings="0" data-package-missing="0" data-package-verdict="**PASS_WITH_NOTES**" data-search-text="non_repo_gauntlet_001 Non-Repo Gauntlet #1 **PASS_WITH_NOTES** 09_exports/non_repo_gauntlet_001  "><th scope="row"><code>non_repo_gauntlet_001</code></th><td>Non-Repo Gauntlet #1</td><td><span class="badge pass">PASS</span></td><td><span class="badge pass">PASS</span></td><td>0</td><td>0</td><td>0</td><td>09_exports/non_repo_gauntlet_001</td></tr><tr data-package-exists="false" data-package-warnings="1" data-package-missing="1" data-package-verdict="not detected" data-search-text="repo_migration Repo Migration not detected 09_exports/repo_migration the_agent_command_center_migration_report.md Package directory not found"><th scope="row"><code>repo_migration</code></th><td>Repo Migration</td><td><span class="badge fail">FAIL</span></td><td><span class="badge fail">FAIL</span></td><td>1</td><td>0</td><td>1</td><td>09_exports/repo_migration</td></tr><tr data-package-exists="true" data-package-warnings="0" data-package-missing="0" data-package-verdict="**PASS_WITH_HIGH_CONFIDENCE**" data-search-text="interface_phase_1 Interface Phase 1 **PASS_WITH_HIGH_CONFIDENCE** 09_exports/interface_phase_1  "><th scope="row"><code>interface_phase_1</code></th><td>Interface Phase 1</td><td><span class="badge pass">PASS</span></td><td><span class="badge pass">PASS</span></td><td>0</td><td>0</td><td>0</td><td>09_exports/interface_phase_1</td></tr><tr data-package-exists="true" data-package-warnings="0" data-package-missing="0" data-package-verdict="not detected" data-search-text="interface_sessions Interface Phase 1 Sessions not detected 09_exports/interface_phase_1/sessions  "><th scope="row"><code>interface_sessions</code></th><td>Interface Phase 1 Sessions</td><td><span class="badge pass">PASS</span></td><td><span class="badge pass">PASS</span></td><td>0</td><td>0</td><td>0</td><td>09_exports/interface_phase_1/sessions</td></tr></tbody>
+      </table>
+    </div>
+    
+      </div>
+    </details>
+    
+
+    <details class="panel" data-section-group="reports" id="reports-library">
+      <summary>Reports Library</summary>
+      <div class="panel-body">
+        <div class="stat-grid">
+    <div class="stat">
+      <span>Documents</span>
+      <strong>18</strong>
+      
+    </div>
+    
+    <div class="stat">
+      <span>Reports library</span>
+      <strong>Ready</strong>
+      <span class="mini-status"><span class="badge info">INFO</span></span>
+    </div>
+    </div>
+    <div class="table-wrap">
+      <table class="data-table" id="reports-table" data-table-id="reports-table">
+        <caption>Phase 1, Phase 2, and Phase 3 documents</caption>
+        <thead>
+          <tr><th scope="col">Document ID</th><th scope="col">Title</th><th scope="col">Path</th><th scope="col">Exists</th><th scope="col">Category</th><th scope="col">Verdict</th><th scope="col">Confidence</th><th scope="col">Order</th><th scope="col">Preview</th><th scope="col">Copy</th></tr>
+        </thead>
+        <tbody><tr data-document-category="phase_1" data-document-verdict="PASS_WITH_HIGH_CONFIDENCE" data-search-text="p1-final-acceptance Phase 1 Final Acceptance Report 09_exports/interface_phase_1/interface_phase_1_final_acceptance_report.md True phase_1 PASS_WITH_HIGH_CONFIDENCE # Interface Phase 1 Final Acceptance Report | This is the final Phase 1 release-candidate acceptance report. | The historical Phase 1 acceptance report remains at:"><th scope="row"><code>p1-final-acceptance</code></th><td>Phase 1 Final Acceptance Report</td><td><a href="../../09_exports/interface_phase_1/interface_phase_1_final_acceptance_report.md" target="_blank" rel="noreferrer">09_exports/interface_phase_1/interface_phase_1_final_acceptance_report.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_1</td><td><span class="badge unknown">PASS_WITH_HIGH_CONFIDENCE</span></td><td><span class="badge pass">REPORT</span></td><td>1</td><td># Interface Phase 1 Final Acceptance Report | This is the final Phase 1 release-candidate acceptance report. | The historical Phase 1 acceptance report remains at:</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_1/interface_phase_1_final_acceptance_report.md" aria-label="Copy report path for Phase 1 Final Acceptance Report">Copy path</button></td></tr><tr data-document-category="phase_1" data-document-verdict="PASS_WITH_HIGH_CONFIDENCE" data-search-text="p1-acceptance Phase 1 Acceptance Report 09_exports/interface_phase_1/interface_phase_1_acceptance_report.md True phase_1 PASS_WITH_HIGH_CONFIDENCE # Interface Phase 1 — CLI Operator Console Acceptance Report | ## 1. Executive Verdict | **PASS_WITH_HIGH_CONFIDENCE**"><th scope="row"><code>p1-acceptance</code></th><td>Phase 1 Acceptance Report</td><td><a href="../../09_exports/interface_phase_1/interface_phase_1_acceptance_report.md" target="_blank" rel="noreferrer">09_exports/interface_phase_1/interface_phase_1_acceptance_report.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_1</td><td><span class="badge unknown">PASS_WITH_HIGH_CONFIDENCE</span></td><td><span class="badge pass">REPORT</span></td><td>2</td><td># Interface Phase 1 — CLI Operator Console Acceptance Report | ## 1. Executive Verdict | **PASS_WITH_HIGH_CONFIDENCE**</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_1/interface_phase_1_acceptance_report.md" aria-label="Copy report path for Phase 1 Acceptance Report">Copy path</button></td></tr><tr data-document-category="phase_1" data-document-verdict="unknown" data-search-text="p1-quickstart Phase 1 Operator Quickstart 09_exports/interface_phase_1/interface_phase_1_operator_quickstart.md True phase_1 unknown # Interface Phase 1 — CLI Operator Console Quickstart | ## Final Acceptance Report | The final Phase 1 release-candidate acceptance report is at:"><th scope="row"><code>p1-quickstart</code></th><td>Phase 1 Operator Quickstart</td><td><a href="../../09_exports/interface_phase_1/interface_phase_1_operator_quickstart.md" target="_blank" rel="noreferrer">09_exports/interface_phase_1/interface_phase_1_operator_quickstart.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_1</td><td><span class="badge unknown">UNKNOWN</span></td><td><span class="badge pass">REPORT</span></td><td>3</td><td># Interface Phase 1 — CLI Operator Console Quickstart | ## Final Acceptance Report | The final Phase 1 release-candidate acceptance report is at:</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_1/interface_phase_1_operator_quickstart.md" aria-label="Copy report path for Phase 1 Operator Quickstart">Copy path</button></td></tr><tr data-document-category="phase_1" data-document-verdict="PASS_WITH_HIGH_CONFIDENCE" data-search-text="p1-command-map Phase 1 Command Map 09_exports/interface_phase_1/interface_phase_1_command_map.md True phase_1 PASS_WITH_HIGH_CONFIDENCE # Interface Phase 1 — Command Map (Operationally Hardened) | ## Final Acceptance Report | The final Phase 1 acceptance report is at:"><th scope="row"><code>p1-command-map</code></th><td>Phase 1 Command Map</td><td><a href="../../09_exports/interface_phase_1/interface_phase_1_command_map.md" target="_blank" rel="noreferrer">09_exports/interface_phase_1/interface_phase_1_command_map.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_1</td><td><span class="badge unknown">PASS_WITH_HIGH_CONFIDENCE</span></td><td><span class="badge pass">REPORT</span></td><td>4</td><td># Interface Phase 1 — Command Map (Operationally Hardened) | ## Final Acceptance Report | The final Phase 1 acceptance report is at:</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_1/interface_phase_1_command_map.md" aria-label="Copy report path for Phase 1 Command Map">Copy path</button></td></tr><tr data-document-category="phase_2" data-document-verdict="PASS_WITH_HIGH_CONFIDENCE" data-search-text="p2-final-diff-audit Phase 2 Final Diff Audit 09_exports/interface_phase_2/interface_phase_2_final_diff_audit.md True phase_2 PASS_WITH_HIGH_CONFIDENCE # Interface Phase 2 Final Diff Audit | | Field | Value | | |-------|-------|"><th scope="row"><code>p2-final-diff-audit</code></th><td>Phase 2 Final Diff Audit</td><td><a href="../../09_exports/interface_phase_2/interface_phase_2_final_diff_audit.md" target="_blank" rel="noreferrer">09_exports/interface_phase_2/interface_phase_2_final_diff_audit.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_2</td><td><span class="badge unknown">PASS_WITH_HIGH_CONFIDENCE</span></td><td><span class="badge pass">REPORT</span></td><td>5</td><td># Interface Phase 2 Final Diff Audit | | Field | Value | | |-------|-------|</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_2/interface_phase_2_final_diff_audit.md" aria-label="Copy report path for Phase 2 Final Diff Audit">Copy path</button></td></tr><tr data-document-category="phase_2" data-document-verdict="unknown" data-search-text="p2-operator-command-card Phase 2 Operator Command Card 09_exports/interface_phase_2/interface_phase_2_operator_command_card.md True phase_2 unknown # Interface Phase 2 Operator Command Card | Quick reference for the Phase 2 TUI Operator Dashboard. | ## TUI Commands"><th scope="row"><code>p2-operator-command-card</code></th><td>Phase 2 Operator Command Card</td><td><a href="../../09_exports/interface_phase_2/interface_phase_2_operator_command_card.md" target="_blank" rel="noreferrer">09_exports/interface_phase_2/interface_phase_2_operator_command_card.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_2</td><td><span class="badge unknown">UNKNOWN</span></td><td><span class="badge pass">REPORT</span></td><td>6</td><td># Interface Phase 2 Operator Command Card | Quick reference for the Phase 2 TUI Operator Dashboard. | ## TUI Commands</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_2/interface_phase_2_operator_command_card.md" aria-label="Copy report path for Phase 2 Operator Command Card">Copy path</button></td></tr><tr data-document-category="phase_2" data-document-verdict="unknown" data-search-text="p2-clean-checkout Phase 2 Clean Checkout Checklist 09_exports/interface_phase_2/interface_phase_2_clean_checkout_checklist.md True phase_2 unknown # Interface Phase 2 Clean Checkout Checklist | This document describes how a reviewer can perform an independent green-field validation of the `interface/phase-2-tui-operator-dashboard` branch. | ## Prerequisites"><th scope="row"><code>p2-clean-checkout</code></th><td>Phase 2 Clean Checkout Checklist</td><td><a href="../../09_exports/interface_phase_2/interface_phase_2_clean_checkout_checklist.md" target="_blank" rel="noreferrer">09_exports/interface_phase_2/interface_phase_2_clean_checkout_checklist.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_2</td><td><span class="badge unknown">UNKNOWN</span></td><td><span class="badge pass">REPORT</span></td><td>7</td><td># Interface Phase 2 Clean Checkout Checklist | This document describes how a reviewer can perform an independent green-field validation of the `interface/phase-2-tui-operator-dashboard` branch. | ## Prerequisites</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_2/interface_phase_2_clean_checkout_checklist.md" aria-label="Copy report path for Phase 2 Clean Checkout Checklist">Copy path</button></td></tr><tr data-document-category="phase_2" data-document-verdict="unknown" data-search-text="p2-snapshot-schema Phase 2 Snapshot Schema Contract 09_exports/interface_phase_2/snapshot_schema_contract.md True phase_2 unknown # Interface Phase 2 Snapshot Schema Contract | ## Version 1.0 | This contract defines the stable JSON schema for `--snapshot --format json` output."><th scope="row"><code>p2-snapshot-schema</code></th><td>Phase 2 Snapshot Schema Contract</td><td><a href="../../09_exports/interface_phase_2/snapshot_schema_contract.md" target="_blank" rel="noreferrer">09_exports/interface_phase_2/snapshot_schema_contract.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_2</td><td><span class="badge unknown">UNKNOWN</span></td><td><span class="badge pass">REPORT</span></td><td>8</td><td># Interface Phase 2 Snapshot Schema Contract | ## Version 1.0 | This contract defines the stable JSON schema for `--snapshot --format json` output.</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_2/snapshot_schema_contract.md" aria-label="Copy report path for Phase 2 Snapshot Schema Contract">Copy path</button></td></tr><tr data-document-category="phase_2" data-document-verdict="PASS_WITH_HIGH_CONFIDENCE" data-search-text="p2-final-acceptance Phase 2 Final Acceptance Report 09_exports/interface_phase_2/interface_phase_2_final_acceptance_report.md True phase_2 PASS_WITH_HIGH_CONFIDENCE # Interface Phase 2 Final Acceptance Report | | Field | Value | | |-------|-------|"><th scope="row"><code>p2-final-acceptance</code></th><td>Phase 2 Final Acceptance Report</td><td><a href="../../09_exports/interface_phase_2/interface_phase_2_final_acceptance_report.md" target="_blank" rel="noreferrer">09_exports/interface_phase_2/interface_phase_2_final_acceptance_report.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_2</td><td><span class="badge unknown">PASS_WITH_HIGH_CONFIDENCE</span></td><td><span class="badge pass">REPORT</span></td><td>9</td><td># Interface Phase 2 Final Acceptance Report | | Field | Value | | |-------|-------|</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_2/interface_phase_2_final_acceptance_report.md" aria-label="Copy report path for Phase 2 Final Acceptance Report">Copy path</button></td></tr><tr data-document-category="phase_2" data-document-verdict="PASS_WITH_HIGH_CONFIDENCE" data-search-text="p2-release-candidate Phase 2 Release Candidate Report 09_exports/interface_phase_2/interface_phase_2_release_candidate_report.md True phase_2 PASS_WITH_HIGH_CONFIDENCE # Interface Phase 2 Release Candidate Report | | Field | Value | | |-------|-------|"><th scope="row"><code>p2-release-candidate</code></th><td>Phase 2 Release Candidate Report</td><td><a href="../../09_exports/interface_phase_2/interface_phase_2_release_candidate_report.md" target="_blank" rel="noreferrer">09_exports/interface_phase_2/interface_phase_2_release_candidate_report.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_2</td><td><span class="badge unknown">PASS_WITH_HIGH_CONFIDENCE</span></td><td><span class="badge pass">REPORT</span></td><td>10</td><td># Interface Phase 2 Release Candidate Report | | Field | Value | | |-------|-------|</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_2/interface_phase_2_release_candidate_report.md" aria-label="Copy report path for Phase 2 Release Candidate Report">Copy path</button></td></tr><tr data-document-category="phase_2" data-document-verdict="unknown" data-search-text="p2-merge-readiness Phase 2 Merge Readiness Packet 09_exports/interface_phase_2/merge_readiness/interface_phase_2_merge_readiness_packet.md True phase_2 unknown # Interface Phase 2 Merge Readiness Packet | | Field | Value | | |-------|-------|"><th scope="row"><code>p2-merge-readiness</code></th><td>Phase 2 Merge Readiness Packet</td><td><a href="../../09_exports/interface_phase_2/merge_readiness/interface_phase_2_merge_readiness_packet.md" target="_blank" rel="noreferrer">09_exports/interface_phase_2/merge_readiness/interface_phase_2_merge_readiness_packet.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_2</td><td><span class="badge unknown">UNKNOWN</span></td><td><span class="badge pass">REPORT</span></td><td>11</td><td># Interface Phase 2 Merge Readiness Packet | | Field | Value | | |-------|-------|</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_2/merge_readiness/interface_phase_2_merge_readiness_packet.md" aria-label="Copy report path for Phase 2 Merge Readiness Packet">Copy path</button></td></tr><tr data-document-category="phase_3" data-document-verdict="PASS_WITH_HIGH_CONFIDENCE" data-search-text="p3-acceptance Phase 3 Acceptance Report 09_exports/interface_phase_3/interface_phase_3_acceptance_report.md True phase_3 PASS_WITH_HIGH_CONFIDENCE # Interface Phase 3 - Static Local Web Dashboard Acceptance Report | ## 1. Executive Verdict | PASS_WITH_HIGH_CONFIDENCE"><th scope="row"><code>p3-acceptance</code></th><td>Phase 3 Acceptance Report</td><td><a href="../../09_exports/interface_phase_3/interface_phase_3_acceptance_report.md" target="_blank" rel="noreferrer">09_exports/interface_phase_3/interface_phase_3_acceptance_report.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_3</td><td><span class="badge unknown">PASS_WITH_HIGH_CONFIDENCE</span></td><td><span class="badge pass">REPORT</span></td><td>12</td><td># Interface Phase 3 - Static Local Web Dashboard Acceptance Report | ## 1. Executive Verdict | PASS_WITH_HIGH_CONFIDENCE</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_3/interface_phase_3_acceptance_report.md" aria-label="Copy report path for Phase 3 Acceptance Report">Copy path</button></td></tr><tr data-document-category="phase_3" data-document-verdict="unknown" data-search-text="p3-backend-reuse Phase 3 Backend Reuse Report 09_exports/interface_phase_3/interface_phase_3_backend_reuse_report.md True phase_3 unknown # Interface Phase 3 Backend Reuse Report | Phase 3 does not invent a second policy or action model. It reuses the existing backend concepts as read-only source of truth. | ## Reused Modules"><th scope="row"><code>p3-backend-reuse</code></th><td>Phase 3 Backend Reuse Report</td><td><a href="../../09_exports/interface_phase_3/interface_phase_3_backend_reuse_report.md" target="_blank" rel="noreferrer">09_exports/interface_phase_3/interface_phase_3_backend_reuse_report.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_3</td><td><span class="badge unknown">UNKNOWN</span></td><td><span class="badge pass">REPORT</span></td><td>13</td><td># Interface Phase 3 Backend Reuse Report | Phase 3 does not invent a second policy or action model. It reuses the existing backend concepts as read-only source of truth. | ## Reused Modules</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_3/interface_phase_3_backend_reuse_report.md" aria-label="Copy report path for Phase 3 Backend Reuse Report">Copy path</button></td></tr><tr data-document-category="phase_3" data-document-verdict="unknown" data-search-text="p3-safety Phase 3 Safety Report 09_exports/interface_phase_3/interface_phase_3_safety_report.md True phase_3 unknown # Interface Phase 3 Safety Report | ## Safety Posture | - Static local only"><th scope="row"><code>p3-safety</code></th><td>Phase 3 Safety Report</td><td><a href="../../09_exports/interface_phase_3/interface_phase_3_safety_report.md" target="_blank" rel="noreferrer">09_exports/interface_phase_3/interface_phase_3_safety_report.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_3</td><td><span class="badge unknown">UNKNOWN</span></td><td><span class="badge pass">REPORT</span></td><td>14</td><td># Interface Phase 3 Safety Report | ## Safety Posture | - Static local only</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_3/interface_phase_3_safety_report.md" aria-label="Copy report path for Phase 3 Safety Report">Copy path</button></td></tr><tr data-document-category="phase_3" data-document-verdict="unknown" data-search-text="p3-static-build Phase 3 Static Build Report 09_exports/interface_phase_3/interface_phase_3_static_build_report.md True phase_3 unknown # Interface Phase 3 Static Build Report | - Dashboard ID: PH3-20260512-201316 | - Created at UTC: 2026-05-12T20:13:16Z"><th scope="row"><code>p3-static-build</code></th><td>Phase 3 Static Build Report</td><td><a href="../../09_exports/interface_phase_3/interface_phase_3_static_build_report.md" target="_blank" rel="noreferrer">09_exports/interface_phase_3/interface_phase_3_static_build_report.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_3</td><td><span class="badge unknown">UNKNOWN</span></td><td><span class="badge pass">REPORT</span></td><td>15</td><td># Interface Phase 3 Static Build Report | - Dashboard ID: PH3-20260512-201316 | - Created at UTC: 2026-05-12T20:13:16Z</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_3/interface_phase_3_static_build_report.md" aria-label="Copy report path for Phase 3 Static Build Report">Copy path</button></td></tr><tr data-document-category="phase_3" data-document-verdict="unknown" data-search-text="p3-dashboard-map Phase 3 Dashboard Map 09_exports/interface_phase_3/interface_phase_3_dashboard_map.md True phase_3 unknown # Interface Phase 3 Dashboard Map | | Dashboard section | Backend source | Safety category | Writes files? | Executes commands? | Uses network? | Notes | | |---|---|---|---|---|---|---|"><th scope="row"><code>p3-dashboard-map</code></th><td>Phase 3 Dashboard Map</td><td><a href="../../09_exports/interface_phase_3/interface_phase_3_dashboard_map.md" target="_blank" rel="noreferrer">09_exports/interface_phase_3/interface_phase_3_dashboard_map.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_3</td><td><span class="badge unknown">UNKNOWN</span></td><td><span class="badge pass">REPORT</span></td><td>16</td><td># Interface Phase 3 Dashboard Map | | Dashboard section | Backend source | Safety category | Writes files? | Executes commands? | Uses network? | Notes | | |---|---|---|---|---|---|---|</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_3/interface_phase_3_dashboard_map.md" aria-label="Copy report path for Phase 3 Dashboard Map">Copy path</button></td></tr><tr data-document-category="phase_3" data-document-verdict="unknown" data-search-text="p3-operator-quickstart Phase 3 Operator Quickstart 09_exports/interface_phase_3/interface_phase_3_operator_quickstart.md True phase_3 unknown # Interface Phase 3 Operator Quickstart | ## Build | ```bash"><th scope="row"><code>p3-operator-quickstart</code></th><td>Phase 3 Operator Quickstart</td><td><a href="../../09_exports/interface_phase_3/interface_phase_3_operator_quickstart.md" target="_blank" rel="noreferrer">09_exports/interface_phase_3/interface_phase_3_operator_quickstart.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_3</td><td><span class="badge unknown">UNKNOWN</span></td><td><span class="badge pass">REPORT</span></td><td>17</td><td># Interface Phase 3 Operator Quickstart | ## Build | ```bash</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_3/interface_phase_3_operator_quickstart.md" aria-label="Copy report path for Phase 3 Operator Quickstart">Copy path</button></td></tr><tr data-document-category="phase_3" data-document-verdict="unknown" data-search-text="p3-handoff Phase 4 Handoff Contract 09_exports/interface_phase_3/interface_phase_3_phase_4_handoff_contract.md True phase_3 unknown # Interface Phase 3 Phase 4 Handoff Contract | Phase 4 may extend the local review experience without weakening the Phase 1 through Phase 3 boundaries. | ## Allowed Phase 4 Ideas"><th scope="row"><code>p3-handoff</code></th><td>Phase 4 Handoff Contract</td><td><a href="../../09_exports/interface_phase_3/interface_phase_3_phase_4_handoff_contract.md" target="_blank" rel="noreferrer">09_exports/interface_phase_3/interface_phase_3_phase_4_handoff_contract.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_3</td><td><span class="badge unknown">UNKNOWN</span></td><td><span class="badge pass">REPORT</span></td><td>18</td><td># Interface Phase 3 Phase 4 Handoff Contract | Phase 4 may extend the local review experience without weakening the Phase 1 through Phase 3 boundaries. | ## Allowed Phase 4 Ideas</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_3/interface_phase_3_phase_4_handoff_contract.md" aria-label="Copy report path for Phase 4 Handoff Contract">Copy path</button></td></tr></tbody>
+      </table>
+    </div>
+    
+      </div>
+    </details>
+    
+
+    <details class="panel" data-section-group="audit" id="validator-command-center">
+      <summary>Validator Command Center</summary>
+      <div class="panel-body">
+        <div class="stat-grid">
+    <div class="stat">
+      <span>Phase 1</span>
+      <strong>PASS_WITH_HIGH_CONFIDENCE</strong>
+      <span class="mini-status"><span class="badge unknown">PASS_WITH_HIGH_CONFIDENCE</span></span>
+    </div>
+    
+    <div class="stat">
+      <span>Phase 2</span>
+      <strong>PASS_WITH_HIGH_CONFIDENCE</strong>
+      <span class="mini-status"><span class="badge unknown">PASS_WITH_HIGH_CONFIDENCE</span></span>
+    </div>
+    
+    <div class="stat">
+      <span>Phase 3 dashboard</span>
+      <strong>PASS_WITH_HIGH_CONFIDENCE</strong>
+      <span class="mini-status"><span class="badge unknown">PASS_WITH_HIGH_CONFIDENCE</span></span>
+    </div>
+    
+    <div class="stat">
+      <span>Runtime</span>
+      <strong>PASS_WITH_HIGH_CONFIDENCE</strong>
+      <span class="mini-status"><span class="badge unknown">PASS_WITH_HIGH_CONFIDENCE</span></span>
+    </div>
+    </div><h4>Phase 1 validator commands</h4>
+    <div class="table-wrap">
+      <table class="data-table" id="validator-phase_1-table" data-table-id="validator-phase_1-table">
+        <caption>Phase 1 validator command list</caption>
+        <thead>
+          <tr><th scope="col">Command</th><th scope="col">Purpose</th><th scope="col">Expected pass string</th><th scope="col">Recommended run order</th><th scope="col">Post-merge run order</th><th scope="col">Last known status</th><th scope="col">Copy</th></tr>
+        </thead>
+        <tbody><tr data-validator-phase="Phase 1" data-validator-status="PASS" data-search-text="python3 scripts/validate_interface_phase_1_cli.py Validate Phase 1 CLI and backend contracts INTERFACE_PHASE_1_CLI_VALIDATION_PASS PASS"><th scope="row"><code>python3 scripts/validate_interface_phase_1_cli.py</code></th><td>Validate Phase 1 CLI and backend contracts</td><td>INTERFACE_PHASE_1_CLI_VALIDATION_PASS</td><td>1</td><td>1</td><td><span class="badge pass">PASS</span></td><td><button type="button" class="copy-button small" data-copy-text="python3 scripts/validate_interface_phase_1_cli.py" aria-label="Copy validator command for python3 scripts/validate_interface_phase_1_cli.py">Copy command</button></td></tr><tr data-validator-phase="Phase 1" data-validator-status="PASS" data-search-text="python3 scripts/validate_interface_phase_1_command_packets.py Validate Phase 1 command packet safety INTERFACE_PHASE_1_COMMAND_PACKETS_VALIDATION_PASS PASS"><th scope="row"><code>python3 scripts/validate_interface_phase_1_command_packets.py</code></th><td>Validate Phase 1 command packet safety</td><td>INTERFACE_PHASE_1_COMMAND_PACKETS_VALIDATION_PASS</td><td>2</td><td>2</td><td><span class="badge pass">PASS</span></td><td><button type="button" class="copy-button small" data-copy-text="python3 scripts/validate_interface_phase_1_command_packets.py" aria-label="Copy validator command for python3 scripts/validate_interface_phase_1_command_packets.py">Copy command</button></td></tr><tr data-validator-phase="Phase 1" data-validator-status="PASS" data-search-text="python3 scripts/validate_interface_phase_1_e2e.py Validate Phase 1 end-to-end behavior INTERFACE_PHASE_1_E2E_VALIDATION_PASS PASS"><th scope="row"><code>python3 scripts/validate_interface_phase_1_e2e.py</code></th><td>Validate Phase 1 end-to-end behavior</td><td>INTERFACE_PHASE_1_E2E_VALIDATION_PASS</td><td>3</td><td>3</td><td><span class="badge pass">PASS</span></td><td><button type="button" class="copy-button small" data-copy-text="python3 scripts/validate_interface_phase_1_e2e.py" aria-label="Copy validator command for python3 scripts/validate_interface_phase_1_e2e.py">Copy command</button></td></tr><tr data-validator-phase="Phase 1" data-validator-status="PASS" data-search-text="python3 scripts/validate_interface_phase_1_release_candidate.py Validate Phase 1 release candidate posture INTERFACE_PHASE_1_RELEASE_CANDIDATE_VALIDATION_PASS PASS"><th scope="row"><code>python3 scripts/validate_interface_phase_1_release_candidate.py</code></th><td>Validate Phase 1 release candidate posture</td><td>INTERFACE_PHASE_1_RELEASE_CANDIDATE_VALIDATION_PASS</td><td>4</td><td>4</td><td><span class="badge pass">PASS</span></td><td><button type="button" class="copy-button small" data-copy-text="python3 scripts/validate_interface_phase_1_release_candidate.py" aria-label="Copy validator command for python3 scripts/validate_interface_phase_1_release_candidate.py">Copy command</button></td></tr></tbody>
+      </table>
+    </div>
+    <h4>Phase 2 validator commands</h4>
+    <div class="table-wrap">
+      <table class="data-table" id="validator-phase_2-table" data-table-id="validator-phase_2-table">
+        <caption>Phase 2 validator command list</caption>
+        <thead>
+          <tr><th scope="col">Command</th><th scope="col">Purpose</th><th scope="col">Expected pass string</th><th scope="col">Recommended run order</th><th scope="col">Post-merge run order</th><th scope="col">Last known status</th><th scope="col">Copy</th></tr>
+        </thead>
+        <tbody><tr data-validator-phase="Phase 2" data-validator-status="PASS" data-search-text="python3 scripts/validate_interface_phase_2_tui.py Validate the Phase 2 TUI dashboard INTERFACE_PHASE_2_TUI_VALIDATION_PASS PASS"><th scope="row"><code>python3 scripts/validate_interface_phase_2_tui.py</code></th><td>Validate the Phase 2 TUI dashboard</td><td>INTERFACE_PHASE_2_TUI_VALIDATION_PASS</td><td>1</td><td>1</td><td><span class="badge pass">PASS</span></td><td><button type="button" class="copy-button small" data-copy-text="python3 scripts/validate_interface_phase_2_tui.py" aria-label="Copy validator command for python3 scripts/validate_interface_phase_2_tui.py">Copy command</button></td></tr><tr data-validator-phase="Phase 2" data-validator-status="PASS" data-search-text="python3 scripts/validate_interface_phase_2_e2e.py Validate Phase 2 end-to-end behavior INTERFACE_PHASE_2_E2E_VALIDATION_PASS PASS"><th scope="row"><code>python3 scripts/validate_interface_phase_2_e2e.py</code></th><td>Validate Phase 2 end-to-end behavior</td><td>INTERFACE_PHASE_2_E2E_VALIDATION_PASS</td><td>2</td><td>2</td><td><span class="badge pass">PASS</span></td><td><button type="button" class="copy-button small" data-copy-text="python3 scripts/validate_interface_phase_2_e2e.py" aria-label="Copy validator command for python3 scripts/validate_interface_phase_2_e2e.py">Copy command</button></td></tr></tbody>
+      </table>
+    </div>
+    <h4>Phase 3 validator commands</h4>
+    <div class="table-wrap">
+      <table class="data-table" id="validator-phase_3_dashboard-table" data-table-id="validator-phase_3_dashboard-table">
+        <caption>Phase 3 validator command list</caption>
+        <thead>
+          <tr><th scope="col">Command</th><th scope="col">Purpose</th><th scope="col">Expected pass string</th><th scope="col">Recommended run order</th><th scope="col">Post-merge run order</th><th scope="col">Last known status</th><th scope="col">Copy</th></tr>
+        </thead>
+        <tbody><tr data-validator-phase="Phase 3" data-validator-status="PASS" data-search-text="python3 scripts/validate_interface_phase_3_dashboard.py Validate the static dashboard build and contract INTERFACE_PHASE_3_DASHBOARD_VALIDATION_PASS PASS"><th scope="row"><code>python3 scripts/validate_interface_phase_3_dashboard.py</code></th><td>Validate the static dashboard build and contract</td><td>INTERFACE_PHASE_3_DASHBOARD_VALIDATION_PASS</td><td>1</td><td>1</td><td><span class="badge pass">PASS</span></td><td><button type="button" class="copy-button small" data-copy-text="python3 scripts/validate_interface_phase_3_dashboard.py" aria-label="Copy validator command for python3 scripts/validate_interface_phase_3_dashboard.py">Copy command</button></td></tr><tr data-validator-phase="Phase 3" data-validator-status="PASS" data-search-text="python3 scripts/validate_interface_phase_3_e2e.py Validate Phase 3 end-to-end static behavior INTERFACE_PHASE_3_E2E_VALIDATION_PASS PASS"><th scope="row"><code>python3 scripts/validate_interface_phase_3_e2e.py</code></th><td>Validate Phase 3 end-to-end static behavior</td><td>INTERFACE_PHASE_3_E2E_VALIDATION_PASS</td><td>2</td><td>2</td><td><span class="badge pass">PASS</span></td><td><button type="button" class="copy-button small" data-copy-text="python3 scripts/validate_interface_phase_3_e2e.py" aria-label="Copy validator command for python3 scripts/validate_interface_phase_3_e2e.py">Copy command</button></td></tr></tbody>
+      </table>
+    </div>
+    <h4>Runtime validator commands</h4>
+    <div class="table-wrap">
+      <table class="data-table" id="validator-runtime-table" data-table-id="validator-runtime-table">
+        <caption>Runtime validator command list</caption>
+        <thead>
+          <tr><th scope="col">Command</th><th scope="col">Purpose</th><th scope="col">Expected pass string</th><th scope="col">Recommended run order</th><th scope="col">Post-merge run order</th><th scope="col">Last known status</th><th scope="col">Copy</th></tr>
+        </thead>
+        <tbody><tr data-validator-phase="Runtime" data-validator-status="unknown" data-search-text="python3 scripts/validate_auto_self_improve_2.py Validate auto-self-improve runtime routing AUTO_SELF_IMPROVE_2_VALIDATION_PASS unknown"><th scope="row"><code>python3 scripts/validate_auto_self_improve_2.py</code></th><td>Validate auto-self-improve runtime routing</td><td>AUTO_SELF_IMPROVE_2_VALIDATION_PASS</td><td>1</td><td>1</td><td><span class="badge unknown">UNKNOWN</span></td><td><button type="button" class="copy-button small" data-copy-text="python3 scripts/validate_auto_self_improve_2.py" aria-label="Copy validator command for python3 scripts/validate_auto_self_improve_2.py">Copy command</button></td></tr><tr data-validator-phase="Runtime" data-validator-status="unknown" data-search-text="python3 scripts/validate_station_chief_runtime_v25_0.py Validate Station Chief runtime v25.0 STATION_CHIEF_RUNTIME_V25_0_VALIDATION_PASS unknown"><th scope="row"><code>python3 scripts/validate_station_chief_runtime_v25_0.py</code></th><td>Validate Station Chief runtime v25.0</td><td>STATION_CHIEF_RUNTIME_V25_0_VALIDATION_PASS</td><td>2</td><td>2</td><td><span class="badge unknown">UNKNOWN</span></td><td><button type="button" class="copy-button small" data-copy-text="python3 scripts/validate_station_chief_runtime_v25_0.py" aria-label="Copy validator command for python3 scripts/validate_station_chief_runtime_v25_0.py">Copy command</button></td></tr><tr data-validator-phase="Runtime" data-validator-status="unknown" data-search-text="python3 scripts/validate_station_chief_runtime_v24_0.py Validate Station Chief runtime v24.0 STATION_CHIEF_RUNTIME_V24_0_VALIDATION_PASS unknown"><th scope="row"><code>python3 scripts/validate_station_chief_runtime_v24_0.py</code></th><td>Validate Station Chief runtime v24.0</td><td>STATION_CHIEF_RUNTIME_V24_0_VALIDATION_PASS</td><td>3</td><td>3</td><td><span class="badge unknown">UNKNOWN</span></td><td><button type="button" class="copy-button small" data-copy-text="python3 scripts/validate_station_chief_runtime_v24_0.py" aria-label="Copy validator command for python3 scripts/validate_station_chief_runtime_v24_0.py">Copy command</button></td></tr></tbody>
+      </table>
+    </div>
+    
+      </div>
+    </details>
+    
+
+    <details class="panel" data-section-group="source" id="source-transparency">
+      <summary>Source Transparency</summary>
+      <div class="panel-body">
+        <div class="stat-grid">
+    <div class="stat">
+      <span>Generated at</span>
+      <strong>2026-05-12T20:14:03Z</strong>
+      
+    </div>
+    
+    <div class="stat">
+      <span>Freshness status</span>
+      <strong>generated_static_snapshot</strong>
+      <span class="mini-status"><span class="badge unknown">GENERATED_STATIC_SNAPSHOT</span></span>
+    </div>
+    
+    <div class="stat">
+      <span>Snapshot age seconds</span>
+      <strong>0</strong>
+      
+    </div>
+    
+    <div class="stat">
+      <span>Source confidence</span>
+      <strong>generated_static_snapshot</strong>
+      <span class="mini-status"><span class="badge info">INFO</span></span>
+    </div>
+    </div><ul class="compact-list"><li>Dashboard data is generated locally from read-only sources.</li><li>No browser fetches are used for live file reads.</li></ul>
+    <div class="table-wrap">
+      <table class="data-table" id="source-transparency-table" data-table-id="source-transparency-table">
+        <caption>Source transparency by section</caption>
+        <thead>
+          <tr><th scope="col">Section</th><th scope="col">Source path</th><th scope="col">Exists</th><th scope="col">Source type</th><th scope="col">Confidence</th><th scope="col">Detected verdict</th></tr>
+        </thead>
+        <tbody><tr data-search-text="phase_1_status Phase 1 Status 11_interface/interface_action_registry.py module direct_module_read PASS_WITH_HIGH_CONFIDENCE"><th scope="row">Phase 1 Status</th><td><code>11_interface/interface_action_registry.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>PASS_WITH_HIGH_CONFIDENCE</td></tr><tr data-search-text="phase_2_status Phase 2 Status 12_tui/tui_state.py module direct_module_read PASS_WITH_HIGH_CONFIDENCE"><th scope="row">Phase 2 Status</th><td><code>12_tui/tui_state.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>PASS_WITH_HIGH_CONFIDENCE</td></tr><tr data-search-text="phase_3_status Phase 3 Status 13_web_dashboard/build_phase3_dashboard.py generated_static_snapshot generated_static_snapshot PASS_WITH_HIGH_CONFIDENCE"><th scope="row">Phase 3 Status</th><td><code>13_web_dashboard/build_phase3_dashboard.py</code></td><td><span class="badge pass">PASS</span></td><td>generated_static_snapshot</td><td><span class="badge info">GENERATED</span></td><td>PASS_WITH_HIGH_CONFIDENCE</td></tr><tr data-search-text="action_registry_summary Action Registry Summary 11_interface/interface_action_registry.py module direct_module_read not applicable"><th scope="row">Action Registry Summary</th><td><code>11_interface/interface_action_registry.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>not applicable</td></tr><tr data-search-text="artifact_summary Artifact Summary 11_interface/interface_artifact_inspector.py module direct_module_read PASS_WITH_HIGH_CONFIDENCE"><th scope="row">Artifact Summary</th><td><code>11_interface/interface_artifact_inspector.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>PASS_WITH_HIGH_CONFIDENCE</td></tr><tr data-search-text="approval_ledger_summary Approval Ledger Summary 09_exports/interface_phase_1/approval_ledger/approval_ledger.jsonl module direct_module_read execution_performed_false"><th scope="row">Approval Ledger Summary</th><td><code>09_exports/interface_phase_1/approval_ledger/approval_ledger.jsonl</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>execution_performed_false</td></tr><tr data-search-text="branch_review_summary Branch Review Summary 11_interface/interface_branch_review.py module direct_module_read needs_fixes"><th scope="row">Branch Review Summary</th><td><code>11_interface/interface_branch_review.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>needs_fixes</td></tr><tr data-search-text="session_summary Session Summary 11_interface/interface_session_log.py module direct_module_read read_only"><th scope="row">Session Summary</th><td><code>11_interface/interface_session_log.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>read_only</td></tr><tr data-search-text="validator_status Validator Status 09_exports/interface_phase_3/interface_phase_3_acceptance_report.md report report_derived unknown"><th scope="row">Validator Status</th><td><code>09_exports/interface_phase_3/interface_phase_3_acceptance_report.md</code></td><td><span class="badge pass">PASS</span></td><td>report</td><td><span class="badge pass">REPORT</span></td><td>unknown</td></tr><tr data-search-text="document_index Document Index 09_exports/interface_phase_3/interface_phase_3_acceptance_report.md module direct_module_read report_derived"><th scope="row">Document Index</th><td><code>09_exports/interface_phase_3/interface_phase_3_acceptance_report.md</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>report_derived</td></tr><tr data-search-text="data_freshness Data Freshness 13_web_dashboard/build_phase3_dashboard.py generated_static_snapshot generated_static_snapshot generated_static_snapshot"><th scope="row">Data Freshness</th><td><code>13_web_dashboard/build_phase3_dashboard.py</code></td><td><span class="badge pass">PASS</span></td><td>generated_static_snapshot</td><td><span class="badge info">GENERATED</span></td><td>generated_static_snapshot</td></tr><tr data-search-text="compare_phases Compare Phases 13_web_dashboard/build_phase3_dashboard.py generated_static_snapshot generated_static_snapshot report_derived"><th scope="row">Compare Phases</th><td><code>13_web_dashboard/build_phase3_dashboard.py</code></td><td><span class="badge pass">PASS</span></td><td>generated_static_snapshot</td><td><span class="badge info">GENERATED</span></td><td>report_derived</td></tr></tbody>
+      </table>
+    </div>
+    
+      </div>
+    </details>
+    
+
+    <details class="panel" data-section-group="source" id="compare-phases">
+      <summary>Compare Phases</summary>
+      <div class="panel-body">
+        
+    <div class="table-wrap">
+      <table class="data-table" id="compare-phases-table" data-table-id="compare-phases-table">
+        <caption>Phase comparison summary</caption>
+        <thead>
+          <tr><th scope="col">Phase</th><th scope="col">Status</th><th scope="col">Interface type</th><th scope="col">Main entrypoint</th><th scope="col">Can render status</th><th scope="col">Can prepare packets</th><th scope="col">Can execute packets</th><th scope="col">Can merge</th><th scope="col">Can deploy</th><th scope="col">Can use secrets</th><th scope="col">Validators</th><th scope="col">Main docs</th><th scope="col">Safety boundary</th></tr>
+        </thead>
+        <tbody><tr data-search-text="Phase 1 CLI Operator Console 11_interface/station_chief_cli.py PASS_WITH_HIGH_CONFIDENCE Phase 1 policy enforcer"><th scope="row">Phase 1</th><td>PASS_WITH_HIGH_CONFIDENCE</td><td>CLI Operator Console</td><td><code>11_interface/station_chief_cli.py</code></td><td><span class="badge pass">PASS</span></td><td><span class="badge pass">PASS</span></td><td><span class="badge disabled">DISABLED</span></td><td><span class="badge disabled">DISABLED</span></td><td><span class="badge disabled">DISABLED</span></td><td><span class="badge disabled">DISABLED</span></td><td>validate_interface_phase_1_cli.py, validate_interface_phase_1_command_packets.py, validate_interface_phase_1_e2e.py, validate_interface_phase_1_release_candidate.py</td><td>09_exports/interface_phase_1/interface_phase_1_final_acceptance_report.md</td><td>Phase 1 policy enforcer</td></tr><tr data-search-text="Phase 2 TUI Operator Dashboard 12_tui/station_chief_tui.py PASS_WITH_HIGH_CONFIDENCE Phase 1 backend plus TUI contracts"><th scope="row">Phase 2</th><td>PASS_WITH_HIGH_CONFIDENCE</td><td>TUI Operator Dashboard</td><td><code>12_tui/station_chief_tui.py</code></td><td><span class="badge pass">PASS</span></td><td><span class="badge pass">PASS</span></td><td><span class="badge disabled">DISABLED</span></td><td><span class="badge disabled">DISABLED</span></td><td><span class="badge disabled">DISABLED</span></td><td><span class="badge disabled">DISABLED</span></td><td>validate_interface_phase_2_tui.py, validate_interface_phase_2_e2e.py</td><td>09_exports/interface_phase_2/interface_phase_2_final_acceptance_report.md</td><td>Phase 1 backend plus TUI contracts</td></tr><tr data-search-text="Phase 3 Static Local Web Dashboard 13_web_dashboard/build_phase3_dashboard.py PASS_WITH_HIGH_CONFIDENCE Static local read-only dashboard"><th scope="row">Phase 3</th><td>PASS_WITH_HIGH_CONFIDENCE</td><td>Static Local Web Dashboard</td><td><code>13_web_dashboard/build_phase3_dashboard.py</code></td><td><span class="badge pass">PASS</span></td><td><span class="badge disabled">DISABLED</span></td><td><span class="badge disabled">DISABLED</span></td><td><span class="badge disabled">DISABLED</span></td><td><span class="badge disabled">DISABLED</span></td><td><span class="badge disabled">DISABLED</span></td><td>validate_interface_phase_3_dashboard.py, validate_interface_phase_3_e2e.py</td><td>09_exports/interface_phase_3/interface_phase_3_acceptance_report.md</td><td>Static local read-only dashboard</td></tr></tbody>
+      </table>
+    </div>
+    
+      </div>
+    </details>
+    
+
+    <details class="panel" data-section-group="audit" id="branch-review">
+      <summary>Branch Review</summary>
+      <div class="panel-body">
+        <div class="stat-grid">
+    <div class="stat">
+      <span>Packet count</span>
+      <strong>2</strong>
+      
+    </div>
+    
+    <div class="stat">
+      <span>Prepared state</span>
+      <strong>prepared_not_merged</strong>
+      
+    </div>
+    
+    <div class="stat">
+      <span>Merge performed</span>
+      <strong>false</strong>
+      <span class="mini-status"><span class="badge disabled">DISABLED</span></span>
+    </div>
+    
+    <div class="stat">
+      <span>Deployment performed</span>
+      <strong>false</strong>
+      <span class="mini-status"><span class="badge disabled">DISABLED</span></span>
+    </div>
+    
+    <div class="stat">
+      <span>Risk level</span>
+      <strong>unknown</strong>
+      <span class="mini-status"><span class="badge unknown">UNKNOWN</span></span>
+    </div>
+    </div>
+    <div class="callout">
+      <h4>Latest packet</h4>
+      <pre class="code-block">{
+  &quot;status&quot;: &quot;prepared_not_merged&quot;,
+  &quot;review_path&quot;: &quot;09_exports/interface_phase_1/branch_reviews/interface_phase-1-operational-hardening_review.md&quot;,
+  &quot;review_id&quot;: &quot;BR-20260512-200912-interface_phase-&quot;,
+  &quot;branch&quot;: &quot;interface/phase-1-operational-hardening&quot;,
+  &quot;base_branch&quot;: &quot;interface/phase-1-upgrade-pack&quot;,
+  &quot;decision&quot;: &quot;needs_fixes&quot;,
+  &quot;risk_level&quot;: &quot;unknown&quot;,
+  &quot;changed_file_count&quot;: 28,
+  &quot;merge_performed&quot;: false,
+  &quot;deployment_performed&quot;: false,
+  &quot;changed_files&quot;: [
+    &quot;09_exports/interface_phase_1/approval_ledger/approval_ledger.jsonl&quot;,
+    &quot;09_exports/interface_phase_1/branch_reviews/HEAD_review.md&quot;,
+    &quot;09_exports/interface_phase_1/branch_reviews/interface_phase-1-operational-hardening_review.md&quot;,
+    &quot;09_exports/interface_phase_1/command_packets/validator_wall_packet.md&quot;,
+    &quot;09_exports/interface_phase_1/interface_phase_1_acceptance_report.md&quot;,
+    &quot;09_exports/interface_phase_1/interface_phase_1_command_map.md&quot;,
+    &quot;09_exports/interface_phase_1/interface_phase_1_demo_notes.md&quot;,
+    &quot;09_exports/interface_phase_1/interface_phase_1_final_acceptance_report.md&quot;,
+    &quot;09_exports/interface_phase_1/interface_phase_1_operational_hardening_report.md&quot;,
+    &quot;09_exports/interface_phase_1/interface_phase_1_operator_quickstart.md&quot;,
+    &quot;09_exports/interface_phase_1/interface_phase_1_upgrade_report.md&quot;,
+    &quot;09_exports/interface_phase_1/merge_readiness/interface_phase_1_merge_readiness_packet.md&quot;,
+    &quot;09_exports/interface_phase_1/phase_2_handoff_contract.md&quot;,
+    &quot;09_exports/interface_phase_1/test_runs/e2e_ledger_test.jsonl&quot;,
+    &quot;11_interface/README.md&quot;,
+    &quot;11_interface/interface_action_registry.py&quot;,
+    &quot;11_interface/interface_actions.py&quot;,
+    &quot;11_interface/interface_approval_ledger.py&quot;,
+    &quot;11_interface/interface_artifact_inspector.py&quot;,
+    &quot;11_interface/interface_branch_review.py&quot;
+  ]
+}</pre>
+      <p class="muted">Report path: <code>09_exports/interface_phase_1/branch_reviews/interface_phase-1-operational-hardening_review.md</code></p>
+    </div>
+    
+      </div>
+    </details>
+    
+
+    <details class="panel" data-section-group="audit" id="approval-ledger">
+      <summary>Approval Ledger</summary>
+      <div class="panel-body">
+        <div class="stat-grid">
+    <div class="stat">
+      <span>Record count</span>
+      <strong>8</strong>
+      
+    </div>
+    
+    <div class="stat">
+      <span>Bad execution records</span>
+      <strong>0</strong>
+      <span class="mini-status"><span class="badge pass">PASS</span></span>
+    </div>
+    
+    <div class="stat">
+      <span>Empty ledger allowed</span>
+      <strong>true</strong>
+      <span class="mini-status"><span class="badge pass">PASS</span></span>
+    </div>
+    
+    <div class="stat">
+      <span>Last record state</span>
+      <strong>rejected_by_operator</strong>
+      
+    </div>
+    
+    <div class="stat">
+      <span>Execution invariant</span>
+      <strong>PASS</strong>
+      <span class="mini-status"><span class="badge pass">PASS</span></span>
+    </div>
+    </div><ul class="compact-list"><li><code>2026-05-11T23:28:02.607534+00:00</code> - PKT-VALIDATOR_WALL-20260511-232801 - reviewed - execution_performed=False</li><li><code>2026-05-11T23:28:02.831996+00:00</code> - PKT-VALIDATOR_WALL-20260511-232801 - rejected_by_operator - execution_performed=False</li><li><code>2026-05-11T23:28:03.056675+00:00</code> - PKT-VALIDATOR_WALL-20260511-232801 - approved_by_operator - execution_performed=False</li><li><code>2026-05-11T23:28:03.278304+00:00</code> - PKT-VALIDATOR_WALL-20260511-232801 - rejected_by_operator - execution_performed=False</li><li><code>2026-05-11T23:28:14.071126+00:00</code> - PKT-VALIDATOR_WALL-20260511-232812 - reviewed - execution_performed=False</li><li><code>2026-05-11T23:28:14.309064+00:00</code> - PKT-VALIDATOR_WALL-20260511-232812 - rejected_by_operator - execution_performed=False</li><li><code>2026-05-11T23:28:14.555990+00:00</code> - PKT-VALIDATOR_WALL-20260511-232812 - approved_by_operator - execution_performed=False</li><li><code>2026-05-11T23:28:14.801194+00:00</code> - PKT-VALIDATOR_WALL-20260511-232812 - rejected_by_operator - execution_performed=False</li></ul>
+      </div>
+    </details>
+    
+
+    <details class="panel" data-section-group="audit" id="session-audit">
+      <summary>Audit / Session Data</summary>
+      <div class="panel-body">
+        <div class="stat-grid">
+    <div class="stat">
+      <span>Phase 1 sessions</span>
+      <strong>0</strong>
+      
+    </div>
+    
+    <div class="stat">
+      <span>Phase 2 sessions</span>
+      <strong>888</strong>
+      
+    </div>
+    
+    <div class="stat">
+      <span>Phase 3 note</span>
+      <strong>no live session mutation unless build report is written</strong>
+      
+    </div>
+    
+    <div class="stat">
+      <span>Read-only logs</span>
+      <strong>true</strong>
+      <span class="mini-status"><span class="badge pass">PASS</span></span>
+    </div>
+    </div><p class="muted">Phase 3 build report: <code>09_exports/interface_phase_3/interface_phase_3_static_build_report.md</code></p><div class="split"><div><h4>Phase 1 session paths</h4><p class="muted">None detected.</p></div><div><h4>Phase 2 session paths</h4><ul class="compact-list"><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-003552-941813.json</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-003553-105151.json</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-003553-250918.json</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-003553-595299.json</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-005008-088668.json</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-005008-322806.json</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-005008-568779.json</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-005009-191712.json</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-005146-028915.json</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-005146-196918.json</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-005146-345295.json</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-005146-678025.json</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-005559-505434.json</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-005559-687069.json</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-005559-898613.json</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-005600-518669.json</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-010659-402818.json</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-010659-789477.json</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-010700-237154.json</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-010701-420946.json</li></ul></div></div><h4>Phase 1 session reports</h4><p class="muted">None detected.</p><h4>Phase 2 session reports</h4><ul class="compact-list"><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-011229-842899.md</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-011229-999276.md</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-011230-166341.md</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-011230-551231.md</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-011317-052899.md</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-011317-218441.md</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-011317-376546.md</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-011317-737442.md</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-011319-347636.md</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-011319-496309.md</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-011319-659043.md</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-011319-989166.md</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-011337-112531.md</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-011337-262997.md</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-011337-592139.md</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-011337-642118.md</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-011409-460897.md</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-012528-432498.md</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-012528-665210.md</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-012528-888786.md</li></ul>
+      </div>
+    </details>
+    
+
+    <footer class="footer">
+      <p>Generated locally. Static file. No server required. No network required. No secrets used. No commands executed except dashboard build/validation.</p>
+    </footer>
+    
+    </main>
+  </div>
+  <script type="application/json" id="dashboard-data">{
+  "dashboard_id": "PH3-20260512-201402",
+  "created_at_utc": "2026-05-12T20:14:02Z",
+  "phase": "Interface Phase 3",
+  "repo": "dev-in-portfolio/the-agent-command-center",
+  "source_lineage": "dev-in-portfolio/agent-command-center-3",
+  "mode": "static_local_dashboard",
+  "phase_1_status": {
+    "source_file_path": "11_interface/interface_action_registry.py",
+    "source_exists": true,
+    "source_type": "module",
+    "source_confidence": "direct_module_read",
+    "cli_exists": true,
+    "action_registry_exists": true,
+    "policy_enforcer_exists": true,
+    "artifact_inspector_exists": true,
+    "branch_review_exists": true,
+    "approval_ledger_exists": true,
+    "command_packets_supported_not_executable_here": true,
+    "detected_verdict": "PASS_WITH_HIGH_CONFIDENCE",
+    "summary": "Phase 1 backend remains the source of truth."
+  },
+  "phase_2_status": {
+    "source_file_path": "12_tui/tui_state.py",
+    "source_exists": true,
+    "source_type": "module",
+    "source_confidence": "direct_module_read",
+    "tui_exists": true,
+    "validators_exist": true,
+    "snapshot_schema_contract_exists": true,
+    "final_diff_audit_exists": true,
+    "operator_command_card_exists": true,
+    "phase_3_handoff_exists": true,
+    "detected_verdict": "PASS_WITH_HIGH_CONFIDENCE",
+    "summary": "Phase 2 TUI and contracts remain intact."
+  },
+  "phase_3_status": {
+    "source_file_path": "13_web_dashboard/build_phase3_dashboard.py",
+    "source_exists": true,
+    "source_type": "generated_static_snapshot",
+    "source_confidence": "generated_static_snapshot",
+    "build_command": "python3 13_web_dashboard/build_phase3_dashboard.py",
+    "build_report_path": "09_exports/interface_phase_3/interface_phase_3_static_build_report.md",
+    "output_path": "13_web_dashboard/dist/index.html",
+    "dashboard_data_json_path": "13_web_dashboard/dist/dashboard_data.json",
+    "print_html_path": "13_web_dashboard/dist/print.html",
+    "snapshot_schema_contract_path": "09_exports/interface_phase_3/snapshot_schema_contract.md",
+    "snapshot_modes": [
+      "json",
+      "markdown",
+      "summary",
+      "full"
+    ],
+    "save_snapshot_behavior": "defaults_to_json_when_no_mode_is_given",
+    "detected_verdict": "PASS_WITH_HIGH_CONFIDENCE",
+    "summary": "Static local dashboard build and exports are available."
+  },
+  "safety_status": {
+    "official_repo": "LOCKED",
+    "repo_2": "LOCKED",
+    "repo_3": "LOCKED",
+    "deployment": "DISABLED",
+    "secrets": "DISABLED",
+    "credentials": "DISABLED",
+    "command_packet_execution": "DISABLED",
+    "free_form_shell": "DISABLED",
+    "merge": "DISABLED",
+    "push": "DISABLED",
+    "pr_creation": "DISABLED",
+    "network_behavior": "DISABLED",
+    "api_server": "DISABLED",
+    "hosted_app": "DISABLED"
+  },
+  "boundary_status": {
+    "official_repo_touched": false,
+    "repo_2_touched": false,
+    "repo_3_touched": false,
+    "deployment_performed": false,
+    "secrets_credentials_used": false,
+    "command_packets_executed": false,
+    "merge_performed": false,
+    "push_performed": false,
+    "pr_created": false,
+    "network_used": false
+  },
+  "action_registry_summary": {
+    "source_file_path": "11_interface/interface_action_registry.py",
+    "source_exists": true,
+    "source_type": "module",
+    "source_confidence": "direct_module_read",
+    "total_actions": 12,
+    "safe_count": 6,
+    "controlled_count": 6,
+    "locked_count": 0,
+    "validation_notes": [],
+    "actions": [
+      {
+        "action_id": "generate_session_report",
+        "label": "Generate operator session report",
+        "category": "controlled",
+        "risk_level": "low",
+        "writes_files": true,
+        "runs_commands": false,
+        "dashboard_allowed": true,
+        "reason": "dashboard can display only",
+        "source_file_path": "11_interface/interface_action_registry.py",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read"
+      },
+      {
+        "action_id": "inspect_artifact_package",
+        "label": "Inspect artifact packages",
+        "category": "safe",
+        "risk_level": "none",
+        "writes_files": false,
+        "runs_commands": false,
+        "dashboard_allowed": true,
+        "reason": "dashboard can display only",
+        "source_file_path": "11_interface/interface_action_registry.py",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read"
+      },
+      {
+        "action_id": "list_artifacts",
+        "label": "List artifact packages",
+        "category": "safe",
+        "risk_level": "none",
+        "writes_files": false,
+        "runs_commands": false,
+        "dashboard_allowed": true,
+        "reason": "dashboard can display only",
+        "source_file_path": "11_interface/interface_action_registry.py",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read"
+      },
+      {
+        "action_id": "prepare_branch_review",
+        "label": "Prepare branch review packet",
+        "category": "controlled",
+        "risk_level": "low",
+        "writes_files": true,
+        "runs_commands": true,
+        "dashboard_allowed": true,
+        "reason": "dashboard can display only",
+        "source_file_path": "11_interface/interface_action_registry.py",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read"
+      },
+      {
+        "action_id": "prepare_command_packet",
+        "label": "Prepare command packet",
+        "category": "controlled",
+        "risk_level": "low",
+        "writes_files": true,
+        "runs_commands": false,
+        "dashboard_allowed": true,
+        "reason": "dashboard can display only",
+        "source_file_path": "11_interface/interface_action_registry.py",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read"
+      },
+      {
+        "action_id": "review_packet_approval",
+        "label": "Review packet approval",
+        "category": "controlled",
+        "risk_level": "low",
+        "writes_files": true,
+        "runs_commands": false,
+        "dashboard_allowed": true,
+        "reason": "dashboard can display only",
+        "source_file_path": "11_interface/interface_action_registry.py",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read"
+      },
+      {
+        "action_id": "run_validator_wall",
+        "label": "Run validator wall",
+        "category": "controlled",
+        "risk_level": "low",
+        "writes_files": false,
+        "runs_commands": true,
+        "dashboard_allowed": true,
+        "reason": "dashboard can display only",
+        "source_file_path": "11_interface/interface_action_registry.py",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read"
+      },
+      {
+        "action_id": "show_approval_ledger",
+        "label": "Show approval ledger",
+        "category": "controlled",
+        "risk_level": "none",
+        "writes_files": false,
+        "runs_commands": false,
+        "dashboard_allowed": true,
+        "reason": "dashboard can display only",
+        "source_file_path": "11_interface/interface_action_registry.py",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read"
+      },
+      {
+        "action_id": "show_locked_actions",
+        "label": "Show locked actions",
+        "category": "safe",
+        "risk_level": "none",
+        "writes_files": false,
+        "runs_commands": false,
+        "dashboard_allowed": true,
+        "reason": "dashboard can display only",
+        "source_file_path": "11_interface/interface_action_registry.py",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read"
+      },
+      {
+        "action_id": "show_session_state",
+        "label": "Show current session state",
+        "category": "safe",
+        "risk_level": "none",
+        "writes_files": false,
+        "runs_commands": false,
+        "dashboard_allowed": true,
+        "reason": "dashboard can display only",
+        "source_file_path": "11_interface/interface_action_registry.py",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read"
+      },
+      {
+        "action_id": "show_status",
+        "label": "Show system status",
+        "category": "safe",
+        "risk_level": "none",
+        "writes_files": false,
+        "runs_commands": false,
+        "dashboard_allowed": true,
+        "reason": "dashboard can display only",
+        "source_file_path": "11_interface/interface_action_registry.py",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read"
+      },
+      {
+        "action_id": "show_summaries",
+        "label": "Show latest trial / gauntlet summaries",
+        "category": "safe",
+        "risk_level": "none",
+        "writes_files": false,
+        "runs_commands": false,
+        "dashboard_allowed": true,
+        "reason": "dashboard can display only",
+        "source_file_path": "11_interface/interface_action_registry.py",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read"
+      }
+    ],
+    "summary": "12 actions, 6 safe, 6 controlled."
+  },
+  "artifact_summary": {
+    "source_file_path": "11_interface/interface_artifact_inspector.py",
+    "source_exists": true,
+    "source_type": "module",
+    "source_confidence": "direct_module_read",
+    "package_count": 5,
+    "packages": [
+      {
+        "package_id": "trial_v3",
+        "package_name": "100-Round Trial v3",
+        "exists": true,
+        "final_verdict": "**PASS_WITH_HIGH_CONFIDENCE**",
+        "missing_expected_files_count": 0,
+        "missing_expected_files": [],
+        "zero_byte_count": 0,
+        "zero_byte_files": [],
+        "warnings_count": 0,
+        "warnings": [],
+        "status": "PASS",
+        "report_path": "09_exports/100_round_trial_v3",
+        "recommended_next_action": "## 5. Recommended Next Tier",
+        "source_file_path": "09_exports/100_round_trial_v3",
+        "source_exists": true,
+        "source_type": "report_derived",
+        "source_confidence": "report_derived"
+      },
+      {
+        "package_id": "non_repo_gauntlet_001",
+        "package_name": "Non-Repo Gauntlet #1",
+        "exists": true,
+        "final_verdict": "**PASS_WITH_NOTES**",
+        "missing_expected_files_count": 0,
+        "missing_expected_files": [],
+        "zero_byte_count": 0,
+        "zero_byte_files": [],
+        "warnings_count": 0,
+        "warnings": [],
+        "status": "PASS",
+        "report_path": "09_exports/non_repo_gauntlet_001",
+        "recommended_next_action": "## 18. Recommended Next Non-Repo Test Tier",
+        "source_file_path": "09_exports/non_repo_gauntlet_001",
+        "source_exists": true,
+        "source_type": "report_derived",
+        "source_confidence": "report_derived"
+      },
+      {
+        "package_id": "repo_migration",
+        "package_name": "Repo Migration",
+        "exists": false,
+        "final_verdict": "not detected",
+        "missing_expected_files_count": 1,
+        "missing_expected_files": [
+          "the_agent_command_center_migration_report.md"
+        ],
+        "zero_byte_count": 0,
+        "zero_byte_files": [],
+        "warnings_count": 1,
+        "warnings": [
+          "Package directory not found"
+        ],
+        "status": "MISSING",
+        "report_path": "09_exports/repo_migration",
+        "recommended_next_action": "not detected",
+        "source_file_path": "09_exports/repo_migration",
+        "source_exists": false,
+        "source_type": "file_existence_check",
+        "source_confidence": "file_existence_check"
+      },
+      {
+        "package_id": "interface_phase_1",
+        "package_name": "Interface Phase 1",
+        "exists": true,
+        "final_verdict": "**PASS_WITH_HIGH_CONFIDENCE**",
+        "missing_expected_files_count": 0,
+        "missing_expected_files": [],
+        "zero_byte_count": 0,
+        "zero_byte_files": [],
+        "warnings_count": 0,
+        "warnings": [],
+        "status": "PASS",
+        "report_path": "09_exports/interface_phase_1",
+        "recommended_next_action": "## 31. Recommended Next Phase",
+        "source_file_path": "09_exports/interface_phase_1",
+        "source_exists": true,
+        "source_type": "report_derived",
+        "source_confidence": "report_derived"
+      },
+      {
+        "package_id": "interface_sessions",
+        "package_name": "Interface Phase 1 Sessions",
+        "exists": true,
+        "final_verdict": "not detected",
+        "missing_expected_files_count": 0,
+        "missing_expected_files": [],
+        "zero_byte_count": 0,
+        "zero_byte_files": [],
+        "warnings_count": 0,
+        "warnings": [],
+        "status": "PASS",
+        "report_path": "09_exports/interface_phase_1/sessions",
+        "recommended_next_action": "not detected",
+        "source_file_path": "09_exports/interface_phase_1/sessions",
+        "source_exists": true,
+        "source_type": "report_derived",
+        "source_confidence": "report_derived"
+      }
+    ],
+    "exists": false,
+    "verdict": "PASS_WITH_HIGH_CONFIDENCE",
+    "warnings_count": 1,
+    "missing_count": 1,
+    "zero_byte_count": 0,
+    "summary": "5 packages inspected."
+  },
+  "approval_ledger_summary": {
+    "source_file_path": "09_exports/interface_phase_1/approval_ledger/approval_ledger.jsonl",
+    "source_exists": true,
+    "source_type": "module",
+    "source_confidence": "direct_module_read",
+    "record_count": 8,
+    "bad_execution_records": 0,
+    "empty_ledger_allowed": true,
+    "last_record_state": "rejected_by_operator",
+    "execution_performed_invariant": true,
+    "state_counts": {
+      "reviewed": 2,
+      "rejected_by_operator": 4,
+      "approved_by_operator": 2
+    },
+    "timeline": [
+      {
+        "timestamp_utc": "2026-05-11T23:28:02.607534+00:00",
+        "packet_id": "PKT-VALIDATOR_WALL-20260511-232801",
+        "state": "reviewed",
+        "execution_performed": false
+      },
+      {
+        "timestamp_utc": "2026-05-11T23:28:02.831996+00:00",
+        "packet_id": "PKT-VALIDATOR_WALL-20260511-232801",
+        "state": "rejected_by_operator",
+        "execution_performed": false
+      },
+      {
+        "timestamp_utc": "2026-05-11T23:28:03.056675+00:00",
+        "packet_id": "PKT-VALIDATOR_WALL-20260511-232801",
+        "state": "approved_by_operator",
+        "execution_performed": false
+      },
+      {
+        "timestamp_utc": "2026-05-11T23:28:03.278304+00:00",
+        "packet_id": "PKT-VALIDATOR_WALL-20260511-232801",
+        "state": "rejected_by_operator",
+        "execution_performed": false
+      },
+      {
+        "timestamp_utc": "2026-05-11T23:28:14.071126+00:00",
+        "packet_id": "PKT-VALIDATOR_WALL-20260511-232812",
+        "state": "reviewed",
+        "execution_performed": false
+      },
+      {
+        "timestamp_utc": "2026-05-11T23:28:14.309064+00:00",
+        "packet_id": "PKT-VALIDATOR_WALL-20260511-232812",
+        "state": "rejected_by_operator",
+        "execution_performed": false
+      },
+      {
+        "timestamp_utc": "2026-05-11T23:28:14.555990+00:00",
+        "packet_id": "PKT-VALIDATOR_WALL-20260511-232812",
+        "state": "approved_by_operator",
+        "execution_performed": false
+      },
+      {
+        "timestamp_utc": "2026-05-11T23:28:14.801194+00:00",
+        "packet_id": "PKT-VALIDATOR_WALL-20260511-232812",
+        "state": "rejected_by_operator",
+        "execution_performed": false
+      }
+    ],
+    "summary": "8 records with execution_performed remaining false."
+  },
+  "branch_review_summary": {
+    "source_file_path": "11_interface/interface_branch_review.py",
+    "source_exists": true,
+    "source_type": "module",
+    "source_confidence": "direct_module_read",
+    "packet_count": 2,
+    "latest_packet": {
+      "status": "prepared_not_merged",
+      "review_path": "09_exports/interface_phase_1/branch_reviews/interface_phase-1-operational-hardening_review.md",
+      "review_id": "BR-20260512-200912-interface_phase-",
+      "branch": "interface/phase-1-operational-hardening",
+      "base_branch": "interface/phase-1-upgrade-pack",
+      "decision": "needs_fixes",
+      "risk_level": "unknown",
+      "changed_file_count": 28,
+      "merge_performed": false,
+      "deployment_performed": false,
+      "changed_files": [
+        "09_exports/interface_phase_1/approval_ledger/approval_ledger.jsonl",
+        "09_exports/interface_phase_1/branch_reviews/HEAD_review.md",
+        "09_exports/interface_phase_1/branch_reviews/interface_phase-1-operational-hardening_review.md",
+        "09_exports/interface_phase_1/command_packets/validator_wall_packet.md",
+        "09_exports/interface_phase_1/interface_phase_1_acceptance_report.md",
+        "09_exports/interface_phase_1/interface_phase_1_command_map.md",
+        "09_exports/interface_phase_1/interface_phase_1_demo_notes.md",
+        "09_exports/interface_phase_1/interface_phase_1_final_acceptance_report.md",
+        "09_exports/interface_phase_1/interface_phase_1_operational_hardening_report.md",
+        "09_exports/interface_phase_1/interface_phase_1_operator_quickstart.md",
+        "09_exports/interface_phase_1/interface_phase_1_upgrade_report.md",
+        "09_exports/interface_phase_1/merge_readiness/interface_phase_1_merge_readiness_packet.md",
+        "09_exports/interface_phase_1/phase_2_handoff_contract.md",
+        "09_exports/interface_phase_1/test_runs/e2e_ledger_test.jsonl",
+        "11_interface/README.md",
+        "11_interface/interface_action_registry.py",
+        "11_interface/interface_actions.py",
+        "11_interface/interface_approval_ledger.py",
+        "11_interface/interface_artifact_inspector.py",
+        "11_interface/interface_branch_review.py"
+      ]
+    },
+    "prepared_state": "prepared_not_merged",
+    "merge_performed": false,
+    "deployment_performed": false,
+    "summary": "2 branch review packets available."
+  },
+  "session_summary": {
+    "source_file_path": "11_interface/interface_session_log.py",
+    "source_exists": true,
+    "source_type": "module",
+    "source_confidence": "direct_module_read",
+    "phase_1_session_count": 0,
+    "phase_2_session_count": 888,
+    "phase_1_sessions": [],
+    "phase_2_sessions": [
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-003552-941813.json",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-003553-105151.json",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-003553-250918.json",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-003553-595299.json",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-005008-088668.json",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-005008-322806.json",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-005008-568779.json",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-005009-191712.json",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-005146-028915.json",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-005146-196918.json",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-005146-345295.json",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-005146-678025.json",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-005559-505434.json",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-005559-687069.json",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-005559-898613.json",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-005600-518669.json",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-010659-402818.json",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-010659-789477.json",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-010700-237154.json",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-010701-420946.json"
+    ],
+    "phase_1_session_reports": [],
+    "phase_2_session_reports": [
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011229-842899.md",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011229-999276.md",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011230-166341.md",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011230-551231.md",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011317-052899.md",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011317-218441.md",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011317-376546.md",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011317-737442.md",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011319-347636.md",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011319-496309.md",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011319-659043.md",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011319-989166.md",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011337-112531.md",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011337-262997.md",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011337-592139.md",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011337-642118.md",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011409-460897.md",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-012528-432498.md",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-012528-665210.md",
+      "09_exports/interface_phase_2/sessions/session_TUI-20260512-012528-888786.md"
+    ],
+    "phase_3_build_report": "09_exports/interface_phase_3/interface_phase_3_static_build_report.md",
+    "phase_3_note": "no live session mutation unless build report is written",
+    "session_logs_read_only": true,
+    "summary": "0 phase 1 sessions, 888 phase 2 sessions."
+  },
+  "validator_status": {
+    "source_file_path": "09_exports/interface_phase_3/interface_phase_3_acceptance_report.md",
+    "source_exists": true,
+    "source_type": "report",
+    "source_confidence": "report_derived",
+    "phase_1": {
+      "source_file_path": "09_exports/interface_phase_1/interface_phase_1_final_acceptance_report.md",
+      "source_exists": true,
+      "source_type": "report",
+      "source_confidence": "report_derived",
+      "status": "PASS_WITH_HIGH_CONFIDENCE",
+      "commands": [
+        {
+          "command": "python3 scripts/validate_interface_phase_1_cli.py",
+          "purpose": "Validate Phase 1 CLI and backend contracts",
+          "expected_pass_string": "INTERFACE_PHASE_1_CLI_VALIDATION_PASS",
+          "recommended_run_order": 1,
+          "post_merge_run_order": 1,
+          "last_known_status": "PASS",
+          "source_file_path": "scripts/validate_interface_phase_1_cli.py",
+          "source_exists": true,
+          "source_type": "module",
+          "source_confidence": "report_derived",
+          "copy_text": "python3 scripts/validate_interface_phase_1_cli.py"
+        },
+        {
+          "command": "python3 scripts/validate_interface_phase_1_command_packets.py",
+          "purpose": "Validate Phase 1 command packet safety",
+          "expected_pass_string": "INTERFACE_PHASE_1_COMMAND_PACKETS_VALIDATION_PASS",
+          "recommended_run_order": 2,
+          "post_merge_run_order": 2,
+          "last_known_status": "PASS",
+          "source_file_path": "scripts/validate_interface_phase_1_command_packets.py",
+          "source_exists": true,
+          "source_type": "module",
+          "source_confidence": "report_derived",
+          "copy_text": "python3 scripts/validate_interface_phase_1_command_packets.py"
+        },
+        {
+          "command": "python3 scripts/validate_interface_phase_1_e2e.py",
+          "purpose": "Validate Phase 1 end-to-end behavior",
+          "expected_pass_string": "INTERFACE_PHASE_1_E2E_VALIDATION_PASS",
+          "recommended_run_order": 3,
+          "post_merge_run_order": 3,
+          "last_known_status": "PASS",
+          "source_file_path": "scripts/validate_interface_phase_1_e2e.py",
+          "source_exists": true,
+          "source_type": "module",
+          "source_confidence": "report_derived",
+          "copy_text": "python3 scripts/validate_interface_phase_1_e2e.py"
+        },
+        {
+          "command": "python3 scripts/validate_interface_phase_1_release_candidate.py",
+          "purpose": "Validate Phase 1 release candidate posture",
+          "expected_pass_string": "INTERFACE_PHASE_1_RELEASE_CANDIDATE_VALIDATION_PASS",
+          "recommended_run_order": 4,
+          "post_merge_run_order": 4,
+          "last_known_status": "PASS",
+          "source_file_path": "scripts/validate_interface_phase_1_release_candidate.py",
+          "source_exists": true,
+          "source_type": "module",
+          "source_confidence": "report_derived",
+          "copy_text": "python3 scripts/validate_interface_phase_1_release_candidate.py"
+        }
+      ]
+    },
+    "phase_2": {
+      "source_file_path": "09_exports/interface_phase_2/interface_phase_2_final_acceptance_report.md",
+      "source_exists": true,
+      "source_type": "report",
+      "source_confidence": "report_derived",
+      "status": "PASS_WITH_HIGH_CONFIDENCE",
+      "commands": [
+        {
+          "command": "python3 scripts/validate_interface_phase_2_tui.py",
+          "purpose": "Validate the Phase 2 TUI dashboard",
+          "expected_pass_string": "INTERFACE_PHASE_2_TUI_VALIDATION_PASS",
+          "recommended_run_order": 1,
+          "post_merge_run_order": 1,
+          "last_known_status": "PASS",
+          "source_file_path": "scripts/validate_interface_phase_2_tui.py",
+          "source_exists": true,
+          "source_type": "module",
+          "source_confidence": "report_derived",
+          "copy_text": "python3 scripts/validate_interface_phase_2_tui.py"
+        },
+        {
+          "command": "python3 scripts/validate_interface_phase_2_e2e.py",
+          "purpose": "Validate Phase 2 end-to-end behavior",
+          "expected_pass_string": "INTERFACE_PHASE_2_E2E_VALIDATION_PASS",
+          "recommended_run_order": 2,
+          "post_merge_run_order": 2,
+          "last_known_status": "PASS",
+          "source_file_path": "scripts/validate_interface_phase_2_e2e.py",
+          "source_exists": true,
+          "source_type": "module",
+          "source_confidence": "report_derived",
+          "copy_text": "python3 scripts/validate_interface_phase_2_e2e.py"
+        }
+      ]
+    },
+    "phase_3_dashboard": {
+      "source_file_path": "09_exports/interface_phase_3/interface_phase_3_acceptance_report.md",
+      "source_exists": true,
+      "source_type": "report",
+      "source_confidence": "report_derived",
+      "status": "PASS_WITH_HIGH_CONFIDENCE",
+      "commands": [
+        {
+          "command": "python3 scripts/validate_interface_phase_3_dashboard.py",
+          "purpose": "Validate the static dashboard build and contract",
+          "expected_pass_string": "INTERFACE_PHASE_3_DASHBOARD_VALIDATION_PASS",
+          "recommended_run_order": 1,
+          "post_merge_run_order": 1,
+          "last_known_status": "PASS",
+          "source_file_path": "scripts/validate_interface_phase_3_dashboard.py",
+          "source_exists": true,
+          "source_type": "module",
+          "source_confidence": "report_derived",
+          "copy_text": "python3 scripts/validate_interface_phase_3_dashboard.py"
+        },
+        {
+          "command": "python3 scripts/validate_interface_phase_3_e2e.py",
+          "purpose": "Validate Phase 3 end-to-end static behavior",
+          "expected_pass_string": "INTERFACE_PHASE_3_E2E_VALIDATION_PASS",
+          "recommended_run_order": 2,
+          "post_merge_run_order": 2,
+          "last_known_status": "PASS",
+          "source_file_path": "scripts/validate_interface_phase_3_e2e.py",
+          "source_exists": true,
+          "source_type": "module",
+          "source_confidence": "report_derived",
+          "copy_text": "python3 scripts/validate_interface_phase_3_e2e.py"
+        }
+      ]
+    },
+    "runtime": {
+      "source_file_path": "09_exports/interface_phase_3/interface_phase_3_release_candidate_report.md",
+      "source_exists": true,
+      "source_type": "report",
+      "source_confidence": "report_derived",
+      "status": "PASS_WITH_HIGH_CONFIDENCE",
+      "commands": [
+        {
+          "command": "python3 scripts/validate_auto_self_improve_2.py",
+          "purpose": "Validate auto-self-improve runtime routing",
+          "expected_pass_string": "AUTO_SELF_IMPROVE_2_VALIDATION_PASS",
+          "recommended_run_order": 1,
+          "post_merge_run_order": 1,
+          "last_known_status": "unknown",
+          "source_file_path": "scripts/validate_auto_self_improve_2.py",
+          "source_exists": true,
+          "source_type": "module",
+          "source_confidence": "report_derived",
+          "copy_text": "python3 scripts/validate_auto_self_improve_2.py"
+        },
+        {
+          "command": "python3 scripts/validate_station_chief_runtime_v25_0.py",
+          "purpose": "Validate Station Chief runtime v25.0",
+          "expected_pass_string": "STATION_CHIEF_RUNTIME_V25_0_VALIDATION_PASS",
+          "recommended_run_order": 2,
+          "post_merge_run_order": 2,
+          "last_known_status": "unknown",
+          "source_file_path": "scripts/validate_station_chief_runtime_v25_0.py",
+          "source_exists": true,
+          "source_type": "module",
+          "source_confidence": "report_derived",
+          "copy_text": "python3 scripts/validate_station_chief_runtime_v25_0.py"
+        },
+        {
+          "command": "python3 scripts/validate_station_chief_runtime_v24_0.py",
+          "purpose": "Validate Station Chief runtime v24.0",
+          "expected_pass_string": "STATION_CHIEF_RUNTIME_V24_0_VALIDATION_PASS",
+          "recommended_run_order": 3,
+          "post_merge_run_order": 3,
+          "last_known_status": "unknown",
+          "source_file_path": "scripts/validate_station_chief_runtime_v24_0.py",
+          "source_exists": true,
+          "source_type": "module",
+          "source_confidence": "report_derived",
+          "copy_text": "python3 scripts/validate_station_chief_runtime_v24_0.py"
+        }
+      ]
+    },
+    "summary": "Validator commands are documented and copyable; browser execution remains disabled."
+  },
+  "document_index": {
+    "source_file_path": "09_exports/interface_phase_3/interface_phase_3_acceptance_report.md",
+    "source_exists": true,
+    "source_type": "module",
+    "source_confidence": "direct_module_read",
+    "document_count": 18,
+    "documents": [
+      {
+        "document_id": "p1-final-acceptance",
+        "title": "Phase 1 Final Acceptance Report",
+        "path": "09_exports/interface_phase_1/interface_phase_1_final_acceptance_report.md",
+        "exists": true,
+        "category": "phase_1",
+        "detected_verdict": "PASS_WITH_HIGH_CONFIDENCE",
+        "source_confidence": "report_derived",
+        "recommended_review_order": 1,
+        "preview": "# Interface Phase 1 Final Acceptance Report | This is the final Phase 1 release-candidate acceptance report. | The historical Phase 1 acceptance report remains at:",
+        "source_file_path": "09_exports/interface_phase_1/interface_phase_1_final_acceptance_report.md",
+        "source_exists": true,
+        "source_type": "report"
+      },
+      {
+        "document_id": "p1-acceptance",
+        "title": "Phase 1 Acceptance Report",
+        "path": "09_exports/interface_phase_1/interface_phase_1_acceptance_report.md",
+        "exists": true,
+        "category": "phase_1",
+        "detected_verdict": "PASS_WITH_HIGH_CONFIDENCE",
+        "source_confidence": "report_derived",
+        "recommended_review_order": 2,
+        "preview": "# Interface Phase 1 \u2014 CLI Operator Console Acceptance Report | ## 1. Executive Verdict | **PASS_WITH_HIGH_CONFIDENCE**",
+        "source_file_path": "09_exports/interface_phase_1/interface_phase_1_acceptance_report.md",
+        "source_exists": true,
+        "source_type": "report"
+      },
+      {
+        "document_id": "p1-quickstart",
+        "title": "Phase 1 Operator Quickstart",
+        "path": "09_exports/interface_phase_1/interface_phase_1_operator_quickstart.md",
+        "exists": true,
+        "category": "phase_1",
+        "detected_verdict": "unknown",
+        "source_confidence": "report_derived",
+        "recommended_review_order": 3,
+        "preview": "# Interface Phase 1 \u2014 CLI Operator Console Quickstart | ## Final Acceptance Report | The final Phase 1 release-candidate acceptance report is at:",
+        "source_file_path": "09_exports/interface_phase_1/interface_phase_1_operator_quickstart.md",
+        "source_exists": true,
+        "source_type": "report"
+      },
+      {
+        "document_id": "p1-command-map",
+        "title": "Phase 1 Command Map",
+        "path": "09_exports/interface_phase_1/interface_phase_1_command_map.md",
+        "exists": true,
+        "category": "phase_1",
+        "detected_verdict": "PASS_WITH_HIGH_CONFIDENCE",
+        "source_confidence": "report_derived",
+        "recommended_review_order": 4,
+        "preview": "# Interface Phase 1 \u2014 Command Map (Operationally Hardened) | ## Final Acceptance Report | The final Phase 1 acceptance report is at:",
+        "source_file_path": "09_exports/interface_phase_1/interface_phase_1_command_map.md",
+        "source_exists": true,
+        "source_type": "report"
+      },
+      {
+        "document_id": "p2-final-diff-audit",
+        "title": "Phase 2 Final Diff Audit",
+        "path": "09_exports/interface_phase_2/interface_phase_2_final_diff_audit.md",
+        "exists": true,
+        "category": "phase_2",
+        "detected_verdict": "PASS_WITH_HIGH_CONFIDENCE",
+        "source_confidence": "report_derived",
+        "recommended_review_order": 5,
+        "preview": "# Interface Phase 2 Final Diff Audit | | Field | Value | | |-------|-------|",
+        "source_file_path": "09_exports/interface_phase_2/interface_phase_2_final_diff_audit.md",
+        "source_exists": true,
+        "source_type": "report"
+      },
+      {
+        "document_id": "p2-operator-command-card",
+        "title": "Phase 2 Operator Command Card",
+        "path": "09_exports/interface_phase_2/interface_phase_2_operator_command_card.md",
+        "exists": true,
+        "category": "phase_2",
+        "detected_verdict": "unknown",
+        "source_confidence": "report_derived",
+        "recommended_review_order": 6,
+        "preview": "# Interface Phase 2 Operator Command Card | Quick reference for the Phase 2 TUI Operator Dashboard. | ## TUI Commands",
+        "source_file_path": "09_exports/interface_phase_2/interface_phase_2_operator_command_card.md",
+        "source_exists": true,
+        "source_type": "report"
+      },
+      {
+        "document_id": "p2-clean-checkout",
+        "title": "Phase 2 Clean Checkout Checklist",
+        "path": "09_exports/interface_phase_2/interface_phase_2_clean_checkout_checklist.md",
+        "exists": true,
+        "category": "phase_2",
+        "detected_verdict": "unknown",
+        "source_confidence": "report_derived",
+        "recommended_review_order": 7,
+        "preview": "# Interface Phase 2 Clean Checkout Checklist | This document describes how a reviewer can perform an independent green-field validation of the `interface/phase-2-tui-operator-dashboard` branch. | ## Prerequisites",
+        "source_file_path": "09_exports/interface_phase_2/interface_phase_2_clean_checkout_checklist.md",
+        "source_exists": true,
+        "source_type": "report"
+      },
+      {
+        "document_id": "p2-snapshot-schema",
+        "title": "Phase 2 Snapshot Schema Contract",
+        "path": "09_exports/interface_phase_2/snapshot_schema_contract.md",
+        "exists": true,
+        "category": "phase_2",
+        "detected_verdict": "unknown",
+        "source_confidence": "report_derived",
+        "recommended_review_order": 8,
+        "preview": "# Interface Phase 2 Snapshot Schema Contract | ## Version 1.0 | This contract defines the stable JSON schema for `--snapshot --format json` output.",
+        "source_file_path": "09_exports/interface_phase_2/snapshot_schema_contract.md",
+        "source_exists": true,
+        "source_type": "report"
+      },
+      {
+        "document_id": "p2-final-acceptance",
+        "title": "Phase 2 Final Acceptance Report",
+        "path": "09_exports/interface_phase_2/interface_phase_2_final_acceptance_report.md",
+        "exists": true,
+        "category": "phase_2",
+        "detected_verdict": "PASS_WITH_HIGH_CONFIDENCE",
+        "source_confidence": "report_derived",
+        "recommended_review_order": 9,
+        "preview": "# Interface Phase 2 Final Acceptance Report | | Field | Value | | |-------|-------|",
+        "source_file_path": "09_exports/interface_phase_2/interface_phase_2_final_acceptance_report.md",
+        "source_exists": true,
+        "source_type": "report"
+      },
+      {
+        "document_id": "p2-release-candidate",
+        "title": "Phase 2 Release Candidate Report",
+        "path": "09_exports/interface_phase_2/interface_phase_2_release_candidate_report.md",
+        "exists": true,
+        "category": "phase_2",
+        "detected_verdict": "PASS_WITH_HIGH_CONFIDENCE",
+        "source_confidence": "report_derived",
+        "recommended_review_order": 10,
+        "preview": "# Interface Phase 2 Release Candidate Report | | Field | Value | | |-------|-------|",
+        "source_file_path": "09_exports/interface_phase_2/interface_phase_2_release_candidate_report.md",
+        "source_exists": true,
+        "source_type": "report"
+      },
+      {
+        "document_id": "p2-merge-readiness",
+        "title": "Phase 2 Merge Readiness Packet",
+        "path": "09_exports/interface_phase_2/merge_readiness/interface_phase_2_merge_readiness_packet.md",
+        "exists": true,
+        "category": "phase_2",
+        "detected_verdict": "unknown",
+        "source_confidence": "report_derived",
+        "recommended_review_order": 11,
+        "preview": "# Interface Phase 2 Merge Readiness Packet | | Field | Value | | |-------|-------|",
+        "source_file_path": "09_exports/interface_phase_2/merge_readiness/interface_phase_2_merge_readiness_packet.md",
+        "source_exists": true,
+        "source_type": "report"
+      },
+      {
+        "document_id": "p3-acceptance",
+        "title": "Phase 3 Acceptance Report",
+        "path": "09_exports/interface_phase_3/interface_phase_3_acceptance_report.md",
+        "exists": true,
+        "category": "phase_3",
+        "detected_verdict": "PASS_WITH_HIGH_CONFIDENCE",
+        "source_confidence": "report_derived",
+        "recommended_review_order": 12,
+        "preview": "# Interface Phase 3 - Static Local Web Dashboard Acceptance Report | ## 1. Executive Verdict | PASS_WITH_HIGH_CONFIDENCE",
+        "source_file_path": "09_exports/interface_phase_3/interface_phase_3_acceptance_report.md",
+        "source_exists": true,
+        "source_type": "report"
+      },
+      {
+        "document_id": "p3-backend-reuse",
+        "title": "Phase 3 Backend Reuse Report",
+        "path": "09_exports/interface_phase_3/interface_phase_3_backend_reuse_report.md",
+        "exists": true,
+        "category": "phase_3",
+        "detected_verdict": "unknown",
+        "source_confidence": "report_derived",
+        "recommended_review_order": 13,
+        "preview": "# Interface Phase 3 Backend Reuse Report | Phase 3 does not invent a second policy or action model. It reuses the existing backend concepts as read-only source of truth. | ## Reused Modules",
+        "source_file_path": "09_exports/interface_phase_3/interface_phase_3_backend_reuse_report.md",
+        "source_exists": true,
+        "source_type": "report"
+      },
+      {
+        "document_id": "p3-safety",
+        "title": "Phase 3 Safety Report",
+        "path": "09_exports/interface_phase_3/interface_phase_3_safety_report.md",
+        "exists": true,
+        "category": "phase_3",
+        "detected_verdict": "unknown",
+        "source_confidence": "report_derived",
+        "recommended_review_order": 14,
+        "preview": "# Interface Phase 3 Safety Report | ## Safety Posture | - Static local only",
+        "source_file_path": "09_exports/interface_phase_3/interface_phase_3_safety_report.md",
+        "source_exists": true,
+        "source_type": "report"
+      },
+      {
+        "document_id": "p3-static-build",
+        "title": "Phase 3 Static Build Report",
+        "path": "09_exports/interface_phase_3/interface_phase_3_static_build_report.md",
+        "exists": true,
+        "category": "phase_3",
+        "detected_verdict": "unknown",
+        "source_confidence": "report_derived",
+        "recommended_review_order": 15,
+        "preview": "# Interface Phase 3 Static Build Report | - Dashboard ID: PH3-20260512-201316 | - Created at UTC: 2026-05-12T20:13:16Z",
+        "source_file_path": "09_exports/interface_phase_3/interface_phase_3_static_build_report.md",
+        "source_exists": true,
+        "source_type": "report"
+      },
+      {
+        "document_id": "p3-dashboard-map",
+        "title": "Phase 3 Dashboard Map",
+        "path": "09_exports/interface_phase_3/interface_phase_3_dashboard_map.md",
+        "exists": true,
+        "category": "phase_3",
+        "detected_verdict": "unknown",
+        "source_confidence": "report_derived",
+        "recommended_review_order": 16,
+        "preview": "# Interface Phase 3 Dashboard Map | | Dashboard section | Backend source | Safety category | Writes files? | Executes commands? | Uses network? | Notes | | |---|---|---|---|---|---|---|",
+        "source_file_path": "09_exports/interface_phase_3/interface_phase_3_dashboard_map.md",
+        "source_exists": true,
+        "source_type": "report"
+      },
+      {
+        "document_id": "p3-operator-quickstart",
+        "title": "Phase 3 Operator Quickstart",
+        "path": "09_exports/interface_phase_3/interface_phase_3_operator_quickstart.md",
+        "exists": true,
+        "category": "phase_3",
+        "detected_verdict": "unknown",
+        "source_confidence": "report_derived",
+        "recommended_review_order": 17,
+        "preview": "# Interface Phase 3 Operator Quickstart | ## Build | ```bash",
+        "source_file_path": "09_exports/interface_phase_3/interface_phase_3_operator_quickstart.md",
+        "source_exists": true,
+        "source_type": "report"
+      },
+      {
+        "document_id": "p3-handoff",
+        "title": "Phase 4 Handoff Contract",
+        "path": "09_exports/interface_phase_3/interface_phase_3_phase_4_handoff_contract.md",
+        "exists": true,
+        "category": "phase_3",
+        "detected_verdict": "unknown",
+        "source_confidence": "report_derived",
+        "recommended_review_order": 18,
+        "preview": "# Interface Phase 3 Phase 4 Handoff Contract | Phase 4 may extend the local review experience without weakening the Phase 1 through Phase 3 boundaries. | ## Allowed Phase 4 Ideas",
+        "source_file_path": "09_exports/interface_phase_3/interface_phase_3_phase_4_handoff_contract.md",
+        "source_exists": true,
+        "source_type": "report"
+      }
+    ],
+    "summary": "18 documents indexed for review."
+  },
+  "data_freshness": {
+    "source_file_path": "13_web_dashboard/build_phase3_dashboard.py",
+    "source_exists": true,
+    "source_type": "generated_static_snapshot",
+    "source_confidence": "generated_static_snapshot",
+    "generated_at_utc": "2026-05-12T20:14:03Z",
+    "freshness_status": "generated_static_snapshot",
+    "snapshot_age_seconds": 0,
+    "notes": [
+      "Dashboard data is generated locally from read-only sources.",
+      "No browser fetches are used for live file reads."
+    ],
+    "summary": "Freshly generated static snapshot."
+  },
+  "source_transparency": {
+    "source_file_path": "13_web_dashboard/build_phase3_dashboard.py",
+    "source_exists": true,
+    "source_type": "generated_static_snapshot",
+    "source_confidence": "generated_static_snapshot",
+    "sections": [
+      {
+        "section_id": "phase_1_status",
+        "title": "Phase 1 Status",
+        "source_file_path": "11_interface/interface_action_registry.py",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read",
+        "detected_verdict": "PASS_WITH_HIGH_CONFIDENCE"
+      },
+      {
+        "section_id": "phase_2_status",
+        "title": "Phase 2 Status",
+        "source_file_path": "12_tui/tui_state.py",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read",
+        "detected_verdict": "PASS_WITH_HIGH_CONFIDENCE"
+      },
+      {
+        "section_id": "phase_3_status",
+        "title": "Phase 3 Status",
+        "source_file_path": "13_web_dashboard/build_phase3_dashboard.py",
+        "source_exists": true,
+        "source_type": "generated_static_snapshot",
+        "source_confidence": "generated_static_snapshot",
+        "detected_verdict": "PASS_WITH_HIGH_CONFIDENCE"
+      },
+      {
+        "section_id": "action_registry_summary",
+        "title": "Action Registry Summary",
+        "source_file_path": "11_interface/interface_action_registry.py",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read",
+        "detected_verdict": "not applicable"
+      },
+      {
+        "section_id": "artifact_summary",
+        "title": "Artifact Summary",
+        "source_file_path": "11_interface/interface_artifact_inspector.py",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read",
+        "detected_verdict": "PASS_WITH_HIGH_CONFIDENCE"
+      },
+      {
+        "section_id": "approval_ledger_summary",
+        "title": "Approval Ledger Summary",
+        "source_file_path": "09_exports/interface_phase_1/approval_ledger/approval_ledger.jsonl",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read",
+        "detected_verdict": "execution_performed_false"
+      },
+      {
+        "section_id": "branch_review_summary",
+        "title": "Branch Review Summary",
+        "source_file_path": "11_interface/interface_branch_review.py",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read",
+        "detected_verdict": "needs_fixes"
+      },
+      {
+        "section_id": "session_summary",
+        "title": "Session Summary",
+        "source_file_path": "11_interface/interface_session_log.py",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read",
+        "detected_verdict": "read_only"
+      },
+      {
+        "section_id": "validator_status",
+        "title": "Validator Status",
+        "source_file_path": "09_exports/interface_phase_3/interface_phase_3_acceptance_report.md",
+        "source_exists": true,
+        "source_type": "report",
+        "source_confidence": "report_derived",
+        "detected_verdict": "unknown"
+      },
+      {
+        "section_id": "document_index",
+        "title": "Document Index",
+        "source_file_path": "09_exports/interface_phase_3/interface_phase_3_acceptance_report.md",
+        "source_exists": true,
+        "source_type": "module",
+        "source_confidence": "direct_module_read",
+        "detected_verdict": "report_derived"
+      },
+      {
+        "section_id": "data_freshness",
+        "title": "Data Freshness",
+        "source_file_path": "13_web_dashboard/build_phase3_dashboard.py",
+        "source_exists": true,
+        "source_type": "generated_static_snapshot",
+        "source_confidence": "generated_static_snapshot",
+        "detected_verdict": "generated_static_snapshot"
+      },
+      {
+        "section_id": "compare_phases",
+        "title": "Compare Phases",
+        "source_file_path": "13_web_dashboard/build_phase3_dashboard.py",
+        "source_exists": true,
+        "source_type": "generated_static_snapshot",
+        "source_confidence": "generated_static_snapshot",
+        "detected_verdict": "report_derived"
+      }
+    ],
+    "summary": "Every major section exposes source file path, existence, source type, and confidence."
+  },
+  "recommended_next_action": "Open 13_web_dashboard/dist/index.html locally and review the safety boundary panel.",
+  "compare_phases": {
+    "source_file_path": "13_web_dashboard/build_phase3_dashboard.py",
+    "source_exists": true,
+    "source_type": "generated_static_snapshot",
+    "source_confidence": "generated_static_snapshot",
+    "phases": [
+      {
+        "phase": "Phase 1",
+        "status": "PASS_WITH_HIGH_CONFIDENCE",
+        "interface_type": "CLI Operator Console",
+        "main_entrypoint": "11_interface/station_chief_cli.py",
+        "can_render_status": true,
+        "can_prepare_packets": true,
+        "can_execute_packets": false,
+        "can_merge": false,
+        "can_deploy": false,
+        "can_use_secrets": false,
+        "validators": [
+          "validate_interface_phase_1_cli.py",
+          "validate_interface_phase_1_command_packets.py",
+          "validate_interface_phase_1_e2e.py",
+          "validate_interface_phase_1_release_candidate.py"
+        ],
+        "main_docs": [
+          "09_exports/interface_phase_1/interface_phase_1_final_acceptance_report.md"
+        ],
+        "safety_boundary": "Phase 1 policy enforcer"
+      },
+      {
+        "phase": "Phase 2",
+        "status": "PASS_WITH_HIGH_CONFIDENCE",
+        "interface_type": "TUI Operator Dashboard",
+        "main_entrypoint": "12_tui/station_chief_tui.py",
+        "can_render_status": true,
+        "can_prepare_packets": true,
+        "can_execute_packets": false,
+        "can_merge": false,
+        "can_deploy": false,
+        "can_use_secrets": false,
+        "validators": [
+          "validate_interface_phase_2_tui.py",
+          "validate_interface_phase_2_e2e.py"
+        ],
+        "main_docs": [
+          "09_exports/interface_phase_2/interface_phase_2_final_acceptance_report.md"
+        ],
+        "safety_boundary": "Phase 1 backend plus TUI contracts"
+      },
+      {
+        "phase": "Phase 3",
+        "status": "PASS_WITH_HIGH_CONFIDENCE",
+        "interface_type": "Static Local Web Dashboard",
+        "main_entrypoint": "13_web_dashboard/build_phase3_dashboard.py",
+        "can_render_status": true,
+        "can_prepare_packets": false,
+        "can_execute_packets": false,
+        "can_merge": false,
+        "can_deploy": false,
+        "can_use_secrets": false,
+        "validators": [
+          "validate_interface_phase_3_dashboard.py",
+          "validate_interface_phase_3_e2e.py"
+        ],
+        "main_docs": [
+          "09_exports/interface_phase_3/interface_phase_3_acceptance_report.md"
+        ],
+        "safety_boundary": "Static local read-only dashboard"
+      }
+    ]
+  },
+  "phase_3_safety_scan": {
+    "status": "WARNING",
+    "active_forbidden_findings": [],
+    "allowed_label_findings": [
+      {
+        "file": "13_web_dashboard/dashboard_renderer.py",
+        "line": 431,
+        "pattern": "NO DEPLOY",
+        "context": "<span>NO DEPLOY<\/span>",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_renderer.py",
+        "line": 432,
+        "pattern": "NO MERGE",
+        "context": "<span>NO MERGE<\/span>",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_renderer.py",
+        "line": 433,
+        "pattern": "NO PUSH",
+        "context": "<span>NO PUSH<\/span>",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_renderer.py",
+        "line": 434,
+        "pattern": "NO SECRET ACCESS",
+        "context": "<span>NO SECRET ACCESS<\/span>",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_renderer.py",
+        "line": 435,
+        "pattern": "NO COMMAND PACKET EXECUTION",
+        "context": "<span>NO COMMAND PACKET EXECUTION<\/span>",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_renderer.py",
+        "line": 751,
+        "pattern": "NO DEPLOY",
+        "context": "{_status_badge(\"NO DEPLOY\")}",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_renderer.py",
+        "line": 752,
+        "pattern": "NO MERGE",
+        "context": "{_status_badge(\"NO MERGE\")}",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_renderer.py",
+        "line": 753,
+        "pattern": "NO PUSH",
+        "context": "{_status_badge(\"NO PUSH\")}",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_renderer.py",
+        "line": 754,
+        "pattern": "NO SECRET ACCESS",
+        "context": "{_status_badge(\"NO SECRET ACCESS\")}",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_renderer.py",
+        "line": 755,
+        "pattern": "NO COMMAND PACKET EXECUTION",
+        "context": "{_status_badge(\"NO COMMAND PACKET EXECUTION\")}",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_safety.py",
+        "line": 60,
+        "pattern": "Deployment: DISABLED",
+        "context": "\"Deployment: DISABLED\",",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_safety.py",
+        "line": 61,
+        "pattern": "Secrets: DISABLED",
+        "context": "\"Secrets: DISABLED\",",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_safety.py",
+        "line": 62,
+        "pattern": "Credentials: DISABLED",
+        "context": "\"Credentials: DISABLED\",",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_safety.py",
+        "line": 63,
+        "pattern": "Merge: DISABLED",
+        "context": "\"Merge: DISABLED\",",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_safety.py",
+        "line": 64,
+        "pattern": "Push: DISABLED",
+        "context": "\"Push: DISABLED\",",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_safety.py",
+        "line": 65,
+        "pattern": "Network behavior: DISABLED",
+        "context": "\"Network behavior: DISABLED\",",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_safety.py",
+        "line": 66,
+        "pattern": "API server: DISABLED",
+        "context": "\"API server: DISABLED\",",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_safety.py",
+        "line": 67,
+        "pattern": "Hosted app: DISABLED",
+        "context": "\"Hosted app: DISABLED\",",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_safety.py",
+        "line": 68,
+        "pattern": "Command packet execution: DISABLED",
+        "context": "\"Command packet execution: DISABLED\",",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_safety.py",
+        "line": 72,
+        "pattern": "NO DEPLOY",
+        "context": "\"NO DEPLOY\",",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_safety.py",
+        "line": 73,
+        "pattern": "NO MERGE",
+        "context": "\"NO MERGE\",",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_safety.py",
+        "line": 74,
+        "pattern": "NO PUSH",
+        "context": "\"NO PUSH\",",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_safety.py",
+        "line": 75,
+        "pattern": "NO SECRET ACCESS",
+        "context": "\"NO SECRET ACCESS\",",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_safety.py",
+        "line": 76,
+        "pattern": "NO COMMAND PACKET EXECUTION",
+        "context": "\"NO COMMAND PACKET EXECUTION\",",
+        "reason": "allowed safety text"
+      }
+    ],
+    "files_scanned": [
+      "13_web_dashboard/build_phase3_dashboard.py",
+      "13_web_dashboard/dashboard_data.py",
+      "13_web_dashboard/dashboard_renderer.py",
+      "13_web_dashboard/dashboard_schema.py",
+      "13_web_dashboard/dashboard_safety.py",
+      "13_web_dashboard/static/dashboard.css",
+      "13_web_dashboard/static/dashboard.js",
+      "13_web_dashboard/templates/index_template.html"
+    ],
+    "notes": []
+  }
+}</script>
+  <script src="./static/dashboard.js"></script>
+</body>
+</html>
