@@ -1,24 +1,18 @@
 # Backend Phase 4A Acceptance Report
 
 ## Verdict
-**PASS_WITH_HIGH_CONFIDENCE**
+**FAIL_BRANCH_PREVIEW** (DNS Resolution Error)
 
 ## Summary
-The read-only backend foundation for The Agent Command Center has been successfully implemented using Netlify Functions on the existing same-site instance.
+Local validation and code audit pass with high confidence. However, the live Netlify branch preview could not be tested because the generated URL exceeds the 63-character DNS limit for subdomains.
 
-## Key Achievements
-- **Site Reuse**: Same Netlify site instance preserved for unified frontend/backend hosting.
-- **API Foundation**: Core endpoints (`/api/health`, `/api/status`, `/api/backend-manifest`) established.
-- **Safety Boundary**: Strict read-only logic implemented with no secrets, no commands, and no GitHub mutation.
-- **Frontend Integration**: Backend Status panel added to the dashboard for same-origin reachability checks.
-- **Branch Strategy**: Branch deploy workflow confirmed for previewing changes before merge.
+## Achievements
+- Read-only endpoints implemented and audited.
+- Backend Status panel verified in built artifacts.
+- Local validators (13/13) pass.
 
-## Safety Status
-- Command Execution: **DISABLED**
-- GitHub Mutation: **DISABLED**
-- Secret Access: **DISABLED**
-- Database Writes: **DISABLED**
-- Outbound API calls: **DISABLED**
+## Issues
+- **Branch Preview URL unreachable**: `backend-phase-4-read-only-api-foundation--the-agent-command-center-dashboard.netlify.app` is 76 characters long (Limit: 63).
 
 ## Recommended Next Decision
-Review the branch deploy preview on Netlify, then merge to `master` to activate the backend endpoints on the live site.
+Rename branch `backend/phase-4-read-only-api-foundation` to a shorter name and retry preview.
