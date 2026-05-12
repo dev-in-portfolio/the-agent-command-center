@@ -2,12 +2,13 @@ import sys
 from pathlib import Path
 from datetime import datetime, timezone
 
-from tui_state import TUIState, write_session_report
+from tui_state import TUIState, write_session_report, VALID_SCREENS
 from tui_screens import SCREEN_HANDLERS, SCREEN_RENDERERS
 from tui_keymap import KEY_TO_SCREEN, is_valid_key, NAV_KEYS, FORBIDDEN_SCREEN_NAMES
 from tui_renderer import SNAPSHOT_FORMATS, SEPARATOR
 
 ROOT = Path(__file__).resolve().parent.parent
+_MAX_RAW_INPUT = 1000
 
 
 def run_plain_text(state):
@@ -24,10 +25,11 @@ def run_plain_text(state):
 
         print("  [1-9] navigate  [b]back  [d]home  [?]help  [r]refresh  [h]help  [q]quit")
         try:
-            raw = input("  > ").strip().lower()
+            raw_line = input("  > ")
         except (EOFError, KeyboardInterrupt):
             print()
             break
+        raw = raw_line.strip().lower()[:_MAX_RAW_INPUT] if raw_line else ""
 
         if raw == "q":
             break
@@ -266,7 +268,7 @@ def run_curses():
     curses.wrapper(_curses_main)
 
 
-def run_snapshot(state, fmt="text", save=False):
+def run_snapshot(state, fmt="text", save=False, output_dir=None):
     if fmt not in SNAPSHOT_FORMATS:
         print(f"ERROR: Unknown snapshot format: {fmt}")
         print("Supported formats: text, markdown, json, compact, full")
@@ -274,12 +276,14 @@ def run_snapshot(state, fmt="text", save=False):
     render_fn = SNAPSHOT_FORMATS[fmt]
     output = render_fn(state)
     if save:
-        from tui_state import SNAPSHOT_DIR
+        if output_dir is None:
+            from tui_state import SNAPSHOT_DIR
+            output_dir = SNAPSHOT_DIR
         ts = datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%S")
         ext = {"text": "txt", "markdown": "md", "json": "json", "compact": "txt", "full": "txt"}
         ext_map = ext.get(fmt, "txt")
-        SNAPSHOT_DIR.mkdir(parents=True, exist_ok=True)
-        snap_path = SNAPSHOT_DIR / f"snapshot_{ts}.{ext_map}"
+        output_dir.mkdir(parents=True, exist_ok=True)
+        snap_path = output_dir / f"snapshot_{ts}.{ext_map}"
         snap_path.write_text(output)
         print(f"Snapshot saved: {snap_path}")
     else:

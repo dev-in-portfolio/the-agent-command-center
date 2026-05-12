@@ -25,12 +25,16 @@ def handle_artifact_inspector_input(state, key, get_input_fn):
     return get_screen_for_key(key)
 
 
+_MAX_INPUT_LEN = 500
+
+
 def handle_validator_wall_input(state, key, get_input_fn):
     if key == "4":
         print()
         print("  Enter RUN_VALIDATOR_WALL to confirm, or anything else to cancel.")
-        confirmation = get_input_fn("  > ")
-        if confirmation.strip() == "RUN_VALIDATOR_WALL":
+        raw = get_input_fn("  > ")
+        confirmation = raw.strip()[:_MAX_INPUT_LEN] if raw else ""
+        if confirmation == "RUN_VALIDATOR_WALL":
             print()
             print("  Running validator wall...")
             results = run_validator_wall(state)
@@ -54,7 +58,8 @@ def handle_command_packet_prep_input(state, key, get_input_fn):
             "migration_review", "merge_review_packet",
             "artifact_integrity_audit", "cleanup_branch_review",
         ]
-        choice = get_input_fn("  > ").strip()
+        raw = get_input_fn("  > ")
+        choice = raw.strip()[:_MAX_INPUT_LEN] if raw else ""
         if choice.isdigit():
             idx = int(choice)
             if 1 <= idx <= len(packet_types):
@@ -81,8 +86,9 @@ def handle_branch_review_prep_input(state, key, get_input_fn):
         print("  Enter branch name and optional base branch.")
         print("  Format: <branch> [base_branch]")
         print("  Example: interface/phase-2-tui-operator-dashboard master")
-        raw = get_input_fn("  > ").strip()
-        parts = raw.split()
+        raw = get_input_fn("  > ")
+        cleaned = raw.strip()[:_MAX_INPUT_LEN] if raw else ""
+        parts = cleaned.split()
         if not parts:
             print("  Cancelled.")
             return get_screen_for_key(key)
@@ -115,9 +121,11 @@ def handle_approval_ledger_input(state, key, get_input_fn):
         print("  1. Review a packet")
         print("  2. Approve a packet (by phrase)")
         print("  3. Reject a packet (by note)")
-        opt = get_input_fn("  Enter option (1-3, or 0 to cancel): ").strip()
+        raw_opt = get_input_fn("  Enter option (1-3, or 0 to cancel): ")
+        opt = raw_opt.strip()[:_MAX_INPUT_LEN] if raw_opt else ""
         if opt == "1":
-            p = get_input_fn("  Packet path: ").strip()
+            raw_p = get_input_fn("  Packet path: ")
+            p = raw_p.strip()[:_MAX_INPUT_LEN] if raw_p else ""
             if p:
                 result = review_packet(p)
                 if result.get("status") == "PASS":
@@ -129,8 +137,10 @@ def handle_approval_ledger_input(state, key, get_input_fn):
                     print(f"  [FAIL] {result.get('error', 'unknown')}")
                     state.record_action_refused("review_packet", result.get('error', 'unknown'))
         elif opt == "2":
-            p = get_input_fn("  Packet path: ").strip()
-            phrase = get_input_fn("  Approval phrase: ").strip()
+            raw_p = get_input_fn("  Packet path: ")
+            p = raw_p.strip()[:_MAX_INPUT_LEN] if raw_p else ""
+            raw_phrase = get_input_fn("  Approval phrase: ")
+            phrase = raw_phrase.strip()[:_MAX_INPUT_LEN] if raw_phrase else ""
             if p and phrase:
                 result = approve_packet(p, phrase)
                 if result.get("status") in ("PASS", "WARNING"):
@@ -142,8 +152,10 @@ def handle_approval_ledger_input(state, key, get_input_fn):
                     print(f"  [FAIL] {result.get('error', 'unknown')}")
                     state.record_action_refused("approve_packet", result.get('error', 'unknown'))
         elif opt == "3":
-            p = get_input_fn("  Packet path: ").strip()
-            note = get_input_fn("  Reason (optional): ").strip()
+            raw_p = get_input_fn("  Packet path: ")
+            p = raw_p.strip()[:_MAX_INPUT_LEN] if raw_p else ""
+            raw_note = get_input_fn("  Reason (optional): ")
+            note = raw_note.strip()[:_MAX_INPUT_LEN] if raw_note else ""
             if p:
                 result = reject_packet(p, note)
                 if result.get("status") == "PASS":

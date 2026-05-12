@@ -272,6 +272,7 @@ def test_18_snapshot_save_works():
                        capture_output=True, text=True, timeout=30)
     ensure(r.returncode == 0, f"--snapshot --format json --save exited {r.returncode}")
     ensure("Snapshot saved" in r.stdout, "Must confirm snapshot save")
+    ensure("snapshots/snapshot_" in r.stdout, "Must save to snapshots/ dir")
     print("  [PASS] test_18: Snapshot save works")
 
 
@@ -349,14 +350,15 @@ def test_25_no_tui_redefines_backend():
 
 
 def test_26_session_file_creation():
-    from tui_state import TUIState, write_session_report
+    from tui_state import TUIState, write_session_report, TEST_SESSION_DIR
     s = TUIState()
-    p = write_session_report(s)
+    p = write_session_report(s, session_dir=TEST_SESSION_DIR)
     ensure(p.exists(), "Session file must exist")
     ensure(p.suffix == ".md", "Session file must be markdown")
     json_path = p.with_suffix(".json")
     ensure(json_path.exists(), "Session JSON must exist")
-    print(f"  [PASS] test_26: Session files created at {p.parent.name}/{p.name}")
+    ensure("test_runs" in str(p), "Session file must be under test_runs/")
+    print(f"  [PASS] test_26: Session files created under test_runs/sessions/")
 
 
 def test_27_snapshot_dir():
@@ -375,7 +377,86 @@ def test_28_new_phase2_artifacts_exist():
     ]
     for path in required:
         ensure(path.exists(), f"Required artifact missing: {path.relative_to(ROOT)}")
-    print("  [PASS] test_28: All Phase 2 upgrade-pack artifacts exist")
+    test_runs = PHASE2_EXPORTS / "test_runs"
+    ensure(test_runs.is_dir(), "test_runs/ directory must exist")
+    ensure((test_runs / "snapshots").is_dir(), "test_runs/snapshots/ must exist")
+    ensure((test_runs / "sessions").is_dir(), "test_runs/sessions/ must exist")
+    ensure((test_runs / "ledgers").is_dir(), "test_runs/ledgers/ must exist")
+    ensure((test_runs / "reports").is_dir(), "test_runs/reports/ must exist")
+    print("  [PASS] test_28: All Phase 2 upgrade-pack artifacts and test_runs/ dirs exist")
+
+
+def test_31_safety_scanner_precision():
+    from tui_safety_scanner import scan_source_files
+    result = scan_source_files()
+    required_keys = ["status", "active_forbidden_findings", "allowed_label_findings",
+                     "files_scanned", "notes"]
+    for key in required_keys:
+        ensure(key in result, f"safety scanner result missing key: {key}")
+    ensure(result["status"] in ("PASS", "WARNING", "FAIL"),
+           f"status must be valid, got {result['status']}")
+    ensure(isinstance(result["active_forbidden_findings"], list),
+           "active_forbidden_findings must be a list")
+    ensure(isinstance(result["allowed_label_findings"], list),
+           "allowed_label_findings must be a list")
+    for finding in result["active_forbidden_findings"]:
+        for key in ("file", "line", "pattern", "context", "severity"):
+            ensure(key in finding, f"active finding missing key: {key}")
+    for finding in result["allowed_label_findings"]:
+        for key in ("file", "line", "pattern", "context", "reason"):
+            ensure(key in finding, f"allowed label finding missing key: {key}")
+    ensure(len(result["files_scanned"]) > 0, "Must scan at least one file")
+    ensure(result["status"] != "FAIL", "Safety scanner must not find active forbidden patterns")
+    print(f"  [PASS] test_31: Safety scanner precision OK — status={result['status']}")
+
+
+def test_30_json_schema_contract():
+    from tui_state import TUIState
+    state = TUIState()
+    from tui_renderer import render_snapshot_json
+    raw = render_snapshot_json(state)
+    data = json.loads(raw)
+    required_root = [
+        "timestamp", "repo", "source_lineage", "phase", "mode",
+        "session_id", "current_screen", "safety", "boundary",
+        "actions_completed", "actions_refused", "validator_runs",
+        "packets_prepared", "branch_reviews_prepared", "ledger_records_created",
+        "action_registry", "last_validator_results",
+        "_schema_version", "_metadata",
+    ]
+    for field in required_root:
+        ensure(field in data, f"JSON snapshot missing required root field: {field}")
+    allowed_safety = ("LOCKED", "DISABLED")
+    for k, v in data["safety"].items():
+        ensure(v in allowed_safety, f"Safety field '{k}' has invalid value: {v}")
+    for k, v in data["boundary"].items():
+        ensure(isinstance(v, bool), f"Boundary field '{k}' must be boolean, got {type(v).__name__}")
+        ensure(v is False, f"Boundary field '{k}' must be False, got {v}")
+    ensure(data["_schema_version"] == "1.0", f"Schema version must be 1.0, got {data['_schema_version']}")
+    ar = data["action_registry"]
+    for field in ("total", "safe", "controlled", "locked"):
+        ensure(field in ar, f"action_registry missing field: {field}")
+        ensure(isinstance(ar[field], int) and ar[field] >= 0, f"action_registry.{field} must be non-negative int")
+    print("  [PASS] test_30: JSON snapshot schema contract validated (1.0)")
+
+
+def test_29_test_artifact_isolation():
+    from tui_state import TUIState, write_session_report, \
+        TEST_RUNS_DIR, TEST_SESSION_DIR, TEST_SNAPSHOT_DIR, \
+        SESSION_DIR, SNAPSHOT_DIR
+    ensure(str(TEST_RUNS_DIR).endswith("test_runs"), "TEST_RUNS_DIR must point to test_runs/")
+    ensure(str(TEST_SESSION_DIR).endswith("test_runs/sessions"), "TEST_SESSION_DIR must be under test_runs/")
+    ensure(str(TEST_SNAPSHOT_DIR).endswith("test_runs/snapshots"), "TEST_SNAPSHOT_DIR must be under test_runs/")
+    ensure(str(SESSION_DIR).endswith("sessions") and "test_runs" not in str(SESSION_DIR),
+           "SESSION_DIR must be production path, not test_runs")
+    ensure(str(SNAPSHOT_DIR).endswith("snapshots") and "test_runs" not in str(SNAPSHOT_DIR),
+           "SNAPSHOT_DIR must be production path, not test_runs")
+    s = TUIState()
+    p = write_session_report(s, session_dir=TEST_SESSION_DIR)
+    ensure("test_runs/sessions" in str(p), "Validator session file must go to test_runs/sessions/")
+    ensure("sessions" not in str(p.parent.parent) or "test_runs" in str(p),
+           "Must NOT write to production sessions/ dir")
+    print("  [PASS] test_29: Test artifact isolation — validator writes to test_runs/, not production paths")
 
 
 def main():
@@ -411,6 +492,9 @@ def main():
         test_26_session_file_creation,
         test_27_snapshot_dir,
         test_28_new_phase2_artifacts_exist,
+        test_29_test_artifact_isolation,
+        test_30_json_schema_contract,
+        test_31_safety_scanner_precision,
     ]
 
     passed = 0

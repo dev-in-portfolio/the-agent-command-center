@@ -7,6 +7,15 @@ PHASE1 = ROOT / "11_interface"
 PHASE2_EXPORTS = ROOT / "09_exports" / "interface_phase_2"
 SESSION_DIR = PHASE2_EXPORTS / "sessions"
 SNAPSHOT_DIR = PHASE2_EXPORTS / "snapshots"
+TEST_RUNS_DIR = PHASE2_EXPORTS / "test_runs"
+TEST_SESSION_DIR = TEST_RUNS_DIR / "sessions"
+TEST_SNAPSHOT_DIR = TEST_RUNS_DIR / "snapshots"
+
+VALID_SCREENS = {
+    "dashboard", "action_registry", "artifact_inspector",
+    "validator_wall", "command_packet_prep", "branch_review_prep",
+    "approval_ledger", "safety_monitor", "help",
+}
 
 _loaded_modules = {}
 
@@ -100,6 +109,11 @@ class TUIState:
         return " > ".join(crumbs)
 
     def navigate_to(self, screen_name):
+        if not isinstance(screen_name, str) or not screen_name:
+            return
+        if screen_name not in VALID_SCREENS:
+            self.record_error(f"invalid screen: {screen_name}")
+            return
         if screen_name == self.current_screen:
             return
         self.previous_screen = self.current_screen
@@ -127,19 +141,29 @@ class TUIState:
             self.screens_viewed.append(screen_name)
 
     def record_action_requested(self, action):
+        if not isinstance(action, str) or len(action) > 200:
+            return
         self.actions_requested.append(action)
 
     def record_action_completed(self, action):
+        if not isinstance(action, str) or len(action) > 200:
+            return
         self.actions_completed.append(action)
         self.last_action_name = action
         self.last_action_status = "PASS"
 
     def record_action_refused(self, action, reason):
+        if not isinstance(action, str) or len(action) > 200:
+            return
+        if not isinstance(reason, str):
+            reason = str(reason) if reason else "unknown"
         self.actions_refused.append({"action": action, "reason": reason})
         self.last_action_name = action
         self.last_action_status = "REFUSED"
 
     def record_validator_run(self, name, status):
+        if not isinstance(name, str) or not isinstance(status, str):
+            return
         self.validator_runs.append({
             "name": name, "status": status,
             "ts": datetime.now(timezone.utc).isoformat()
@@ -147,15 +171,23 @@ class TUIState:
         self.last_validator_results[name] = status
 
     def record_packet_prepared(self, packet_type):
+        if not isinstance(packet_type, str) or len(packet_type) > 100:
+            return
         self.packets_prepared.append(packet_type)
 
     def record_branch_review(self, branch, base):
+        if not isinstance(branch, str) or len(branch) > 200:
+            return
+        if not isinstance(base, str):
+            base = "master"
         self.branch_reviews_prepared.append({"branch": branch, "base": base})
 
     def record_ledger_write(self):
         self.ledger_records_created += 1
 
     def record_error(self, error):
+        if not isinstance(error, str):
+            error = str(error) if error else "unknown error"
         self.errors.append(error)
 
     def get_summary(self):
@@ -185,12 +217,14 @@ class TUIState:
         }
 
 
-def write_session_report(state):
-    SESSION_DIR.mkdir(parents=True, exist_ok=True)
+def write_session_report(state, session_dir=None):
+    if session_dir is None:
+        session_dir = SESSION_DIR
+    session_dir.mkdir(parents=True, exist_ok=True)
     summary = state.get_summary()
     sid = state.session_id
-    report_md = SESSION_DIR / f"session_{sid}.md"
-    report_json = SESSION_DIR / f"session_{sid}.json"
+    report_md = session_dir / f"session_{sid}.md"
+    report_json = session_dir / f"session_{sid}.json"
     lines = []
     lines.append(f"# Session Report: {sid}")
     lines.append("")

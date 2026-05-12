@@ -435,24 +435,18 @@ def render_safety_monitor(state):
     except Exception:
         lines.append(f"  {BADGE_WARN} Keymap check skipped")
     try:
-        source_dir = Path(__file__).resolve().parent
-        _S = "".join
-        forbidden_patterns = [
-            _S(["shell", "=True"]), "os.system", "eval(", "exec(",
-            _S(["git", " push"]), _S(["git", " merge"]), _S(["gh", " pr"]),
-            "deploy", _S(["os", ".environ"]),
-        ]
-        findings = []
-        for f in source_dir.glob("*.py"):
-            content = f.read_text()
-            for pat in forbidden_patterns:
-                if pat in content:
-                    findings.append((f.name, pat))
-        if findings:
-            for fn, pat in findings[:5]:
-                lines.append(f"  {BADGE_WARN} {fn}: contains '{pat}'")
+        from tui_safety_scanner import scan_source_files
+        scan_result = scan_source_files()
+        if scan_result["active_forbidden_findings"]:
+            for finding in scan_result["active_forbidden_findings"][:5]:
+                lines.append(f"  {BADGE_FAIL} {finding['file']}:{finding['line']} active '{finding['pattern']}'")
+            lines.append(f"  {BADGE_FAIL} Active forbidden patterns detected")
+        elif scan_result["allowed_label_findings"]:
+            for finding in scan_result["allowed_label_findings"][:3]:
+                lines.append(f"  {BADGE_INFO} {finding['file']}:{finding['line']} label '{finding['pattern']}'")
+            lines.append(f"  {BADGE_PASS} Source scan: no active forbidden patterns")
         else:
-            lines.append(f"  {BADGE_PASS} Source scan: no forbidden patterns")
+            lines.append(f"  {BADGE_PASS} Source scan: no forbidden patterns found")
     except Exception:
         lines.append(f"  {BADGE_WARN} Source scan skipped")
     try:
@@ -556,6 +550,8 @@ def _collect_snapshot_data(state):
     locked = _get_locked_actions()
     safe_count = sum(1 for a in registry.values() if a.get("category") == "safe")
     ctrl_count = sum(1 for a in registry.values() if a.get("category") == "controlled")
+    summary = state.get_summary()
+    boundary = summary.get("final_boundary_state", {})
     return {
         "timestamp": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
         "repo": "dev-in-portfolio/the-agent-command-center",
@@ -578,6 +574,7 @@ def _collect_snapshot_data(state):
             "free_form_shell": "DISABLED",
             "network_behavior": "DISABLED",
         },
+        "boundary": dict(boundary),
         "actions_completed": len(state.actions_completed),
         "actions_refused": len(state.actions_refused),
         "validator_runs": len(state.validator_runs),
@@ -591,6 +588,11 @@ def _collect_snapshot_data(state):
             "locked": len(locked),
         },
         "last_validator_results": state.last_validator_results,
+        "_schema_version": "1.0",
+        "_metadata": {
+            "source": "phase_2_tui_operator_dashboard",
+            "generated_by": "tui_renderer.render_snapshot_json",
+        },
     }
 
 

@@ -54,10 +54,11 @@ def run_validator_wall(state=None):
     return results
 
 
-def _save_validator_wall_log(state, results, stdout_data):
-    from tui_state import SESSION_DIR
-    sid = state.session_id
-    session_dir = SESSION_DIR / sid
+def _save_validator_wall_log(state, results, stdout_data, session_dir=None):
+    if session_dir is None:
+        from tui_state import SESSION_DIR
+        sid = state.session_id
+        session_dir = SESSION_DIR / sid
     session_dir.mkdir(parents=True, exist_ok=True)
     result_path = session_dir / "validator_wall_result.json"
     result_path.write_text(json.dumps(results, indent=2))
