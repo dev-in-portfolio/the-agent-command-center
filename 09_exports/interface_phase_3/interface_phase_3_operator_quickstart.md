@@ -10,9 +10,9 @@ python3 13_web_dashboard/build_phase3_dashboard.py
 
 `13_web_dashboard/dist/index.html`
 
-## Open Locally
+## Open Preview or Host Statically
 
-Open `13_web_dashboard/dist/index.html` directly in a browser. No server is required.
+Open `13_web_dashboard/dist/index.html` directly in a browser. No backend server is required.
 
 ## Temporary Local Preview
 
@@ -24,7 +24,7 @@ cd 13_web_dashboard/dist && python3 -m http.server 8080 --bind 127.0.0.1
 
 Preview URL: `http://127.0.0.1:8080`
 
-This preview is local-only, temporary, and not product behavior.
+This preview is static hosting ready, temporary, and not product behavior.
 The built `dist/` output is self-contained and loads `./static/dashboard.css` and `./static/dashboard.js` from inside the served root.
 
 ## Snapshot Modes
@@ -53,18 +53,18 @@ python3 scripts/validate_interface_phase_3_e2e.py
 
 ## Safety Limitations
 
-- No server
+- No backend server
 - No deployment
 - No merge
 - No push
 - No PR creation
 - No secrets or credentials
 - No command packet execution
-- No network access
+- No outbound/API network calls access
 
 ## Notes
 
-The dashboard is local-only and read-only. It reuses Phase 1 and Phase 2 source modules as the operating boundary.
+The dashboard is static hosting ready and read-only. It reuses Phase 1 and Phase 2 source modules as the operating boundary.
 
 
 ## Visual Rebuild Confirmations
@@ -80,5 +80,5 @@ The dashboard is local-only and read-only. It reuses Phase 1 and Phase 2 source 
 - no ../static/ references
 - local preview works from 13_web_dashboard/dist
 - Visual QA report path: 09_exports/interface_phase_3/interface_phase_3_visual_qa_report.md
-- No server product behavior
+- No application/API backend server behavior
 - No deploy/merge/push/secret/packet execution

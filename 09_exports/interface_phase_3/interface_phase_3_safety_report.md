@@ -3,8 +3,8 @@
 ## Safety Posture
 
 - Static local only
-- No server
-- No network
+- No backend server
+- No outbound/API network calls
 - No deploy
 - No merge
 - No push
@@ -72,5 +72,5 @@ The Phase 3 safety scanner separates active forbidden findings from allowed safe
 - no ../static/ references
 - local preview works from 13_web_dashboard/dist
 - Visual QA report path: 09_exports/interface_phase_3/interface_phase_3_visual_qa_report.md
-- No server product behavior
+- No application/API backend server behavior
 - No deploy/merge/push/secret/packet execution

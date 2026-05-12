@@ -6,7 +6,7 @@ PASS_WITH_HIGH_CONFIDENCE
 
 ## Release Candidate Notes
 
-The static local dashboard is ready for merge review as a local-only browser surface.
+The static local dashboard is ready for merge review as a static hosting ready browser surface.
 
 Generated artifact hygiene is in place:
 
@@ -31,8 +31,8 @@ Generated artifact hygiene is in place:
 
 ## Boundary Statement
 
-- No server
-- No network
+- No backend server
+- No outbound/API network calls
 - No deploy
 - No merge
 - No push
@@ -60,5 +60,5 @@ ready_for_merge_review
 - no ../static/ references
 - local preview works from 13_web_dashboard/dist
 - Visual QA report path: 09_exports/interface_phase_3/interface_phase_3_visual_qa_report.md
-- No server product behavior
+- No application/API backend server behavior
 - No deploy/merge/push/secret/packet execution

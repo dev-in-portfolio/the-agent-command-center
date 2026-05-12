@@ -1,4 +1,4 @@
-# Interface Phase 3 - Static Local Web Dashboard Acceptance Report
+# Interface Phase 3 - Read-Only Operations Dashboard Acceptance Report
 
 ## 1. Executive Verdict
 
@@ -92,7 +92,7 @@ PASS. Present and used for Phase 3 safety validation.
 
 ## 18. No-Server Status
 
-PASS. No server is required or started.
+PASS. No backend server is required or started.
 
 ## 19. Network Status
 
@@ -172,8 +172,8 @@ false
 ## 34. Known Limitations
 
 - Static only
-- No server
-- No network
+- No backend server
+- No outbound/API network calls
 - No command packet execution
 - No merge or push
 - No secrets or credentials access

@@ -199,7 +199,7 @@ def _collect_phase_3_status():
         "snapshot_modes": ["json", "markdown", "summary", "full"],
         "save_snapshot_behavior": "defaults_to_json_when_no_mode_is_given",
         "detected_verdict": _detect_verdict(_read_text(PHASE3_EXPORTS / "interface_phase_3_acceptance_report.md")),
-        "summary": "Static local dashboard build and exports are available.",
+        "summary": "Read-Only Operations Dashboard build and exports are available.",
     }
 
 
@@ -805,7 +805,7 @@ def _collect_compare_phases():
             {
                 "phase": "Phase 3",
                 "status": "PASS_WITH_HIGH_CONFIDENCE",
-                "interface_type": "Static Local Web Dashboard",
+                "interface_type": "Read-Only Operations Dashboard",
                 "main_entrypoint": "13_web_dashboard/build_phase3_dashboard.py",
                 "can_render_status": True,
                 "can_prepare_packets": False,

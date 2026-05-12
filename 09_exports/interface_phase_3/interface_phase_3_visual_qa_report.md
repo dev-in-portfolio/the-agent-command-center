@@ -21,8 +21,8 @@
 19. **Mobile/tablet readability improved:** Responsive grid layout and media queries applied.
 20. **Safety banner remains visible:** Yes, `.safety-banner` is `position: sticky`.
 21. **No external assets:** Confirmed. All assets are local.
-22. **No server product behavior:** Confirmed. Static HTML only.
-23. **No network product behavior:** Confirmed. JS does not make network requests.
+22. **No application/API backend server behavior:** Confirmed. Static HTML only.
+23. **No outbound/API network calls product behavior:** Confirmed. JS does not make network requests.
 24. **No deploy/merge/push behavior:** Confirmed. Build is local only.
 25. **Known limitations:** JS search functionality relies on DOM manipulation.
 26. **Recommended next operator decision:** Merge branch `interface/phase-3-static-local-dashboard` into `master`.

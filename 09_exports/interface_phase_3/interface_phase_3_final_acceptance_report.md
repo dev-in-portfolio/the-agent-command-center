@@ -25,8 +25,8 @@ Phase 3 now provides a more usable, more reviewable, more source-transparent, mo
 ## Safety Summary
 
 - Static local only
-- No server
-- No network
+- No backend server
+- No outbound/API network calls
 - No deploy
 - No merge
 - No push
@@ -71,5 +71,5 @@ Proceed to separate merge review, then keep Phase 4 strictly within the local st
 - no ../static/ references
 - local preview works from 13_web_dashboard/dist
 - Visual QA report path: 09_exports/interface_phase_3/interface_phase_3_visual_qa_report.md
-- No server product behavior
+- No application/API backend server behavior
 - No deploy/merge/push/secret/packet execution

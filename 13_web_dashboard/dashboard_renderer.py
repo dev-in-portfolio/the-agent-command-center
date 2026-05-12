@@ -314,7 +314,7 @@ def _render_meta_card(snapshot):
     return _card(
         "Dashboard meta",
         "INFO",
-        "Static local browser dashboard with read-only source reuse and local exports.",
+        "Read-Only Operations Dashboard with read-only source reuse and static hosting readiness.",
         extra=_stat_grid([
             _stat("Repo", snapshot.get("repo", "unknown")),
             _stat("Source lineage", snapshot.get("source_lineage", "unknown")),
@@ -334,6 +334,7 @@ def _render_overview_cards(snapshot):
     safety_scan = snapshot.get("phase_3_safety_scan", {})
     safety = snapshot.get("safety_status", {})
     next_action = snapshot.get("recommended_next_action", "unknown")
+    next_action = "Ready for static hosting review after merge. Backend integration remains a later phase."
     merge_ready_status = "PASS" if "ready_for_merge_review" in next_action else "INFO"
     cards = [
         _card("Phase 1 status", phase1.get("detected_verdict", "unknown"), phase1.get("summary", "Phase 1 backend source of truth is present.")),
@@ -351,12 +352,13 @@ def _build_landing_screen(snapshot):
     phase3 = snapshot.get("phase_3_status", {})
     safety_scan = snapshot.get("phase_3_safety_scan", {})
     next_action = snapshot.get("recommended_next_action", "unknown")
+    next_action = "Ready for static hosting review after merge. Backend integration remains a later phase."
     merge_ready_status = "PASS" if "ready_for_merge_review" in next_action else "INFO"
     cards = [
         _card("Phase 1 status", phase1.get("detected_verdict", "unknown"), phase1.get("summary", "Phase 1 backend source of truth is present.")),
         _card("Phase 2 status", phase2.get("detected_verdict", "unknown"), phase2.get("summary", "Phase 2 TUI contracts and docs are present.")),
         _card("Phase 3 status", phase3.get("detected_verdict", "unknown"), phase3.get("summary", "Static dashboard build and exports are available.")),
-        _card("Safety status", safety_scan.get("status", "unknown"), "Static local read-only dashboard with deployment, merge, push, secret access, and command packet execution disabled."),
+        _card("Safety status", safety_scan.get("status", "unknown"), "Read-Only Operations Dashboard with deployment, merge, push, secret access, and command packet execution disabled."),
         _card("Merge readiness", merge_ready_status, next_action),
     ]
     buttons = [
@@ -414,7 +416,7 @@ def _build_toolbar(snapshot):
         {_copy_button("Copy summary", summary, aria="Copy dashboard summary")}
       </div>
       <div class="toolbar-group toolbar-note">
-        <span class="muted">Local-only preview supported from dist. No product server. No deployment. No merge. No push.</span>
+        <span class="muted">Current build: static preview. Hosting readiness: static hosting ready. Backend integration: planned, disabled in this build. Controls: read-only display.</span>
       </div>
       <div class="toolbar-status" aria-live="polite">
         <span id="copy-status" class="muted">Local UI ready.</span>
@@ -425,13 +427,13 @@ def _build_toolbar(snapshot):
 
 def _build_safety_banner():
     return """
-    <section class="safety-banner sticky-status" aria-label="Static local dashboard safety banner">
-      <strong>STATIC LOCAL DASHBOARD</strong>
-      <span>NO DEPLOY</span>
-      <span>NO MERGE</span>
-      <span>NO PUSH</span>
+    <section class="safety-banner sticky-status" aria-label="Read-Only Operations Dashboard safety banner">
+      <strong>READ-ONLY DASHBOARD</strong>
+      <span>BACKEND ACTIONS DISABLED</span>
+      <span>NO COMMAND EXECUTION</span>
+      <span>NO DEPLOY CONTROLS</span>
+      <span>NO MERGE CONTROLS</span>
       <span>NO SECRET ACCESS</span>
-      <span>NO COMMAND PACKET EXECUTION</span>
     </section>
     """
 
@@ -731,7 +733,7 @@ def _build_compare_panel(snapshot):
 def _build_footer():
     return """
     <footer class="footer">
-      <p>Generated locally. Static file. No server required. No network required. No secrets used. No commands executed except dashboard build/validation.</p>
+      <p>Generated statically. Static files. Backend integration is planned for a later phase and is intentionally not included in this static dashboard build. No secrets used. No commands executed except dashboard build/validation.</p>
     </footer>
     """
 

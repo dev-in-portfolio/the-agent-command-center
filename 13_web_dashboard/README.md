@@ -1,4 +1,4 @@
-# Interface Phase 3 - Static Local Web Dashboard
+# Interface Phase 3 - Read-Only Operations Dashboard
 
 Phase 3 is a static, local, browser-friendly dashboard for The Agent Command Center.
 
@@ -44,9 +44,9 @@ Generated artifact hygiene:
 - Hygiene report: `09_exports/interface_phase_3/interface_phase_3_generated_artifact_hygiene_report.md`
 - Visual QA report: `09_exports/interface_phase_3/interface_phase_3_visual_qa_report.md`
 
-## Open Locally
+## Open Preview or Host Statically
 
-Open `13_web_dashboard/dist/index.html` directly in a browser. No server is required.
+Open `13_web_dashboard/dist/index.html` directly in a browser. No backend server is required.
 The built `dist/` output is self-contained and loads its own `./static/dashboard.css` and `./static/dashboard.js` copies.
 
 ## Temporary Local Preview
@@ -139,7 +139,7 @@ Phase 3 consumes read-only data from:
 
 ## What Waits for Phase 4
 
-Phase 4 may build on this dashboard with more local-only review workflows, better static diff comparisons, and optional per-branch generated dashboards. It must keep the Phase 1 through Phase 3 safety boundaries intact.
+Phase 4 may build on this dashboard with more static hosting ready review workflows, better static diff comparisons, and optional per-branch generated dashboards. It must keep the Phase 1 through Phase 3 safety boundaries intact.
 
 
 ## Visual Rebuild Confirmations
@@ -155,5 +155,5 @@ Phase 4 may build on this dashboard with more local-only review workflows, bette
 - no ../static/ references
 - local preview works from 13_web_dashboard/dist
 - Visual QA report path: 09_exports/interface_phase_3/interface_phase_3_visual_qa_report.md
-- No server product behavior
+- No application/API backend server behavior
 - No deploy/merge/push/secret/packet execution

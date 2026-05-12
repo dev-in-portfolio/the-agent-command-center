@@ -135,8 +135,11 @@ def _validate_html_and_assets():
     html = _read_text(DIST_DIR / "index.html")
     for needle in [
         "The Agent Command Center",
-        "NO DEPLOY",
-        "NO MERGE",
+        "READ-ONLY DASHBOARD",
+        "BACKEND ACTIONS DISABLED",
+        "NO COMMAND EXECUTION",
+        "NO DEPLOY CONTROLS",
+        "NO MERGE CONTROLS",
         "NO SECRET ACCESS",
         "Action Registry",
         "Artifact Deep Dive",

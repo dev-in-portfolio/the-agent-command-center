@@ -26,7 +26,7 @@ PASS_WITH_HIGH_CONFIDENCE
   - `13_web_dashboard/dist/static/dashboard.js`
 - Timestamped snapshot exports are ignored going forward.
 - Generated test-run artifacts are ignored going forward.
-- No server code is added for the preview step.
+- No backend server code is added for the preview step.
 
 ## 6. Intentionally Tracked Generated Files
 
@@ -168,5 +168,5 @@ ready_for_merge_review
 - no ../static/ references
 - local preview works from 13_web_dashboard/dist
 - Visual QA report path: 09_exports/interface_phase_3/interface_phase_3_visual_qa_report.md
-- No server product behavior
+- No application/API backend server behavior
 - No deploy/merge/push/secret/packet execution

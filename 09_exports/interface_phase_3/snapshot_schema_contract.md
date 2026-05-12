@@ -71,4 +71,4 @@ Validator expectations:
 - `document_index.documents` exists
 - `data_freshness` exists
 - `source_transparency.sections` exists
-- Snapshot is local-only and read-only
+- Snapshot is static hosting ready and read-only

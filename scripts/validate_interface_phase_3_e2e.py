@@ -182,8 +182,11 @@ def main():
     html = HTML.read_text(encoding="utf-8")
     for needle in [
         "The Agent Command Center",
-        "NO DEPLOY",
-        "NO MERGE",
+        "READ-ONLY DASHBOARD",
+        "BACKEND ACTIONS DISABLED",
+        "NO COMMAND EXECUTION",
+        "NO DEPLOY CONTROLS",
+        "NO MERGE CONTROLS",
         "NO SECRET ACCESS",
         "Action Registry",
         "Artifact Deep Dive",

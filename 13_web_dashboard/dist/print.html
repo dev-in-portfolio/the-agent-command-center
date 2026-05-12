@@ -12,39 +12,26 @@
     
     <header class="hero dashboard-shell">
       <div class="hero-copy">
-        <p class="eyebrow">The Agent Command Center</p>
-        <h1>Interface Phase 3: Static Local Web Dashboard</h1>
-        <p class="lede">Self-contained dist preview with relative assets, read-only data reuse, and collapsed deep-dive panels for operator review.</p>
-      </div>
-      <div class="hero-meta">
-        <span class="badge unknown">STATIC LOCAL DASHBOARD</span>
-        <span class="badge unknown">NO DEPLOY</span>
-        <span class="badge unknown">NO MERGE</span>
-        <span class="badge unknown">NO PUSH</span>
-        <span class="badge unknown">NO SECRET ACCESS</span>
-        <span class="badge unknown">NO COMMAND PACKET EXECUTION</span>
+        <h1>The Agent Command Center</h1>
       </div>
     </header>
     
     
     <main id="dashboard-main" class="dashboard" tabindex="-1">
       
-    <section class="safety-banner sticky-status" aria-label="Static local dashboard safety banner">
-      <strong>STATIC LOCAL DASHBOARD</strong>
-      <span>NO DEPLOY</span>
-      <span>NO MERGE</span>
-      <span>NO PUSH</span>
+    <section class="safety-banner sticky-status" aria-label="Read-Only Operations Dashboard safety banner">
+      <strong>READ-ONLY DASHBOARD</strong>
+      <span>BACKEND ACTIONS DISABLED</span>
+      <span>NO COMMAND EXECUTION</span>
+      <span>NO DEPLOY CONTROLS</span>
+      <span>NO MERGE CONTROLS</span>
       <span>NO SECRET ACCESS</span>
-      <span>NO COMMAND PACKET EXECUTION</span>
     </section>
     
 <section class="landing-shell" aria-label="Dashboard landing screen"><div class="landing-head"><p class="eyebrow">Operator Landing Screen</p><h2>Phase status and controlled navigation</h2><p class="lede">Open only the section you want to inspect. Heavy tables and audit dumps stay collapsed until requested.</p></div><div class="landing-cards">
     <article class="card">
       <div class="card-head">
-        <div>
-          <p class="card-kicker">Phase 1 status</p>
-          <h3>PASS_WITH_HIGH_CONFIDENCE</h3>
-        </div>
+        <h3 class="card-title">Phase 1 status</h3>
         <span class="badge unknown">PASS_WITH_HIGH_CONFIDENCE</span>
       </div>
       <p class="card-body">Phase 1 backend remains the source of truth.</p>
@@ -53,10 +40,7 @@
     
     <article class="card">
       <div class="card-head">
-        <div>
-          <p class="card-kicker">Phase 2 status</p>
-          <h3>PASS_WITH_HIGH_CONFIDENCE</h3>
-        </div>
+        <h3 class="card-title">Phase 2 status</h3>
         <span class="badge unknown">PASS_WITH_HIGH_CONFIDENCE</span>
       </div>
       <p class="card-body">Phase 2 TUI and contracts remain intact.</p>
@@ -65,37 +49,28 @@
     
     <article class="card">
       <div class="card-head">
-        <div>
-          <p class="card-kicker">Phase 3 status</p>
-          <h3>PASS_WITH_HIGH_CONFIDENCE</h3>
-        </div>
+        <h3 class="card-title">Phase 3 status</h3>
         <span class="badge unknown">PASS_WITH_HIGH_CONFIDENCE</span>
       </div>
-      <p class="card-body">Static local dashboard build and exports are available.</p>
+      <p class="card-body">Read-Only Operations Dashboard build and exports are available.</p>
       
     </article>
     
     <article class="card">
       <div class="card-head">
-        <div>
-          <p class="card-kicker">Safety status</p>
-          <h3>WARNING</h3>
-        </div>
+        <h3 class="card-title">Safety status</h3>
         <span class="badge warning">WARNING</span>
       </div>
-      <p class="card-body">Static local read-only dashboard with deployment, merge, push, secret access, and command packet execution disabled.</p>
+      <p class="card-body">Read-Only Operations Dashboard with deployment, merge, push, secret access, and command packet execution disabled.</p>
       
     </article>
     
     <article class="card">
       <div class="card-head">
-        <div>
-          <p class="card-kicker">Merge readiness</p>
-          <h3>INFO</h3>
-        </div>
+        <h3 class="card-title">Merge readiness</h3>
         <span class="badge info">INFO</span>
       </div>
-      <p class="card-body">Open 13_web_dashboard/dist/index.html locally and review the safety boundary panel.</p>
+      <p class="card-body">Ready for static hosting review after merge. Backend integration remains a later phase.</p>
       
     </article>
     </div><div class="landing-actions"><h3>Open section buttons</h3><div class="section-grid"><button type="button" class="section-button" data-open-panel="safety-boundary" aria-controls="safety-boundary">Safety Boundary</button><button type="button" class="section-button" data-open-panel="action-registry" aria-controls="action-registry">Action Registry</button><button type="button" class="section-button" data-open-panel="artifact-packages" aria-controls="artifact-packages">Artifact Deep Dive</button><button type="button" class="section-button" data-open-panel="reports-library" aria-controls="reports-library">Reports Library</button><button type="button" class="section-button" data-open-panel="validator-command-center" aria-controls="validator-command-center">Validator Command Center</button><button type="button" class="section-button" data-open-panel="source-transparency" aria-controls="source-transparency">Source Transparency</button><button type="button" class="section-button" data-open-panel="compare-phases" aria-controls="compare-phases">Compare Phases</button><button type="button" class="section-button" data-open-panel="branch-review" aria-controls="branch-review">Branch Review</button><button type="button" class="section-button" data-open-panel="approval-ledger" aria-controls="approval-ledger">Approval Ledger</button><button type="button" class="section-button" data-open-panel="session-audit" aria-controls="session-audit">Audit / Session Data</button></div></div></section>
@@ -184,7 +159,7 @@
     
     <div class="stat">
       <span>Warnings</span>
-      <strong>2</strong>
+      <strong>1</strong>
       <span class="mini-status"><span class="badge warning">WARNING</span></span>
     </div>
     
@@ -196,8 +171,8 @@
     
     <div class="stat">
       <span>Zero-byte files</span>
-      <strong>1</strong>
-      <span class="mini-status"><span class="badge warning">WARNING</span></span>
+      <strong>0</strong>
+      <span class="mini-status"><span class="badge pass">PASS</span></span>
     </div>
     </div>
     <div class="table-tools">
@@ -219,7 +194,7 @@
         <thead>
           <tr><th scope="col">Package ID</th><th scope="col">Package name</th><th scope="col">Exists</th><th scope="col">Verdict</th><th scope="col">Missing files</th><th scope="col">Zero-byte files</th><th scope="col">Warnings</th><th scope="col">Report path</th><th scope="col">Copy</th></tr>
         </thead>
-        <tbody><tr data-package-exists="true" data-package-warnings="0" data-package-missing="0" data-package-verdict="**PASS_WITH_HIGH_CONFIDENCE**" data-search-text="trial_v3 100-Round Trial v3 **PASS_WITH_HIGH_CONFIDENCE** 09_exports/100_round_trial_v3  "><th scope="row"><code>trial_v3</code></th><td>100-Round Trial v3</td><td><span class="badge pass">PASS</span></td><td><span class="badge pass">PASS</span></td><td>0</td><td>0</td><td>0</td><td>09_exports/100_round_trial_v3</td></tr><tr data-package-exists="true" data-package-warnings="0" data-package-missing="0" data-package-verdict="**PASS_WITH_NOTES**" data-search-text="non_repo_gauntlet_001 Non-Repo Gauntlet #1 **PASS_WITH_NOTES** 09_exports/non_repo_gauntlet_001  "><th scope="row"><code>non_repo_gauntlet_001</code></th><td>Non-Repo Gauntlet #1</td><td><span class="badge pass">PASS</span></td><td><span class="badge pass">PASS</span></td><td>0</td><td>0</td><td>0</td><td>09_exports/non_repo_gauntlet_001</td></tr><tr data-package-exists="false" data-package-warnings="1" data-package-missing="1" data-package-verdict="not detected" data-search-text="repo_migration Repo Migration not detected 09_exports/repo_migration the_agent_command_center_migration_report.md Package directory not found"><th scope="row"><code>repo_migration</code></th><td>Repo Migration</td><td><span class="badge fail">FAIL</span></td><td><span class="badge fail">FAIL</span></td><td>1</td><td>0</td><td>1</td><td>09_exports/repo_migration</td></tr><tr data-package-exists="true" data-package-warnings="1" data-package-missing="0" data-package-verdict="**PASS_WITH_HIGH_CONFIDENCE**" data-search-text="interface_phase_1 Interface Phase 1 **PASS_WITH_HIGH_CONFIDENCE** 09_exports/interface_phase_1  Zero-byte files: 1 detected"><th scope="row"><code>interface_phase_1</code></th><td>Interface Phase 1</td><td><span class="badge pass">PASS</span></td><td><span class="badge warning">WARNING</span></td><td>0</td><td>1</td><td>1</td><td>09_exports/interface_phase_1</td></tr><tr data-package-exists="true" data-package-warnings="0" data-package-missing="0" data-package-verdict="not detected" data-search-text="interface_sessions Interface Phase 1 Sessions not detected 09_exports/interface_phase_1/sessions  "><th scope="row"><code>interface_sessions</code></th><td>Interface Phase 1 Sessions</td><td><span class="badge pass">PASS</span></td><td><span class="badge pass">PASS</span></td><td>0</td><td>0</td><td>0</td><td>09_exports/interface_phase_1/sessions</td></tr></tbody>
+        <tbody><tr data-package-exists="true" data-package-warnings="0" data-package-missing="0" data-package-verdict="**PASS_WITH_HIGH_CONFIDENCE**" data-search-text="trial_v3 100-Round Trial v3 **PASS_WITH_HIGH_CONFIDENCE** 09_exports/100_round_trial_v3  "><th scope="row"><code>trial_v3</code></th><td>100-Round Trial v3</td><td><span class="badge pass">PASS</span></td><td><span class="badge pass">PASS</span></td><td>0</td><td>0</td><td>0</td><td>09_exports/100_round_trial_v3</td></tr><tr data-package-exists="true" data-package-warnings="0" data-package-missing="0" data-package-verdict="**PASS_WITH_NOTES**" data-search-text="non_repo_gauntlet_001 Non-Repo Gauntlet #1 **PASS_WITH_NOTES** 09_exports/non_repo_gauntlet_001  "><th scope="row"><code>non_repo_gauntlet_001</code></th><td>Non-Repo Gauntlet #1</td><td><span class="badge pass">PASS</span></td><td><span class="badge pass">PASS</span></td><td>0</td><td>0</td><td>0</td><td>09_exports/non_repo_gauntlet_001</td></tr><tr data-package-exists="false" data-package-warnings="1" data-package-missing="1" data-package-verdict="not detected" data-search-text="repo_migration Repo Migration not detected 09_exports/repo_migration the_agent_command_center_migration_report.md Package directory not found"><th scope="row"><code>repo_migration</code></th><td>Repo Migration</td><td><span class="badge fail">FAIL</span></td><td><span class="badge fail">FAIL</span></td><td>1</td><td>0</td><td>1</td><td>09_exports/repo_migration</td></tr><tr data-package-exists="true" data-package-warnings="0" data-package-missing="0" data-package-verdict="**PASS_WITH_HIGH_CONFIDENCE**" data-search-text="interface_phase_1 Interface Phase 1 **PASS_WITH_HIGH_CONFIDENCE** 09_exports/interface_phase_1  "><th scope="row"><code>interface_phase_1</code></th><td>Interface Phase 1</td><td><span class="badge pass">PASS</span></td><td><span class="badge pass">PASS</span></td><td>0</td><td>0</td><td>0</td><td>09_exports/interface_phase_1</td></tr><tr data-package-exists="true" data-package-warnings="0" data-package-missing="0" data-package-verdict="not detected" data-search-text="interface_sessions Interface Phase 1 Sessions not detected 09_exports/interface_phase_1/sessions  "><th scope="row"><code>interface_sessions</code></th><td>Interface Phase 1 Sessions</td><td><span class="badge pass">PASS</span></td><td><span class="badge pass">PASS</span></td><td>0</td><td>0</td><td>0</td><td>09_exports/interface_phase_1/sessions</td></tr></tbody>
       </table>
     </div>
     
@@ -249,7 +224,7 @@
         <thead>
           <tr><th scope="col">Document ID</th><th scope="col">Title</th><th scope="col">Path</th><th scope="col">Exists</th><th scope="col">Category</th><th scope="col">Verdict</th><th scope="col">Confidence</th><th scope="col">Order</th><th scope="col">Preview</th><th scope="col">Copy</th></tr>
         </thead>
-        <tbody><tr data-document-category="phase_1" data-document-verdict="PASS_WITH_HIGH_CONFIDENCE" data-search-text="p1-final-acceptance Phase 1 Final Acceptance Report 09_exports/interface_phase_1/interface_phase_1_final_acceptance_report.md True phase_1 PASS_WITH_HIGH_CONFIDENCE # Interface Phase 1 Final Acceptance Report | This is the final Phase 1 release-candidate acceptance report. | The historical Phase 1 acceptance report remains at:"><th scope="row"><code>p1-final-acceptance</code></th><td>Phase 1 Final Acceptance Report</td><td><a href="../../09_exports/interface_phase_1/interface_phase_1_final_acceptance_report.md" target="_blank" rel="noreferrer">09_exports/interface_phase_1/interface_phase_1_final_acceptance_report.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_1</td><td><span class="badge unknown">PASS_WITH_HIGH_CONFIDENCE</span></td><td><span class="badge pass">REPORT</span></td><td>1</td><td># Interface Phase 1 Final Acceptance Report | This is the final Phase 1 release-candidate acceptance report. | The historical Phase 1 acceptance report remains at:</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_1/interface_phase_1_final_acceptance_report.md" aria-label="Copy report path for Phase 1 Final Acceptance Report">Copy path</button></td></tr><tr data-document-category="phase_1" data-document-verdict="PASS_WITH_HIGH_CONFIDENCE" data-search-text="p1-acceptance Phase 1 Acceptance Report 09_exports/interface_phase_1/interface_phase_1_acceptance_report.md True phase_1 PASS_WITH_HIGH_CONFIDENCE # Interface Phase 1 — CLI Operator Console Acceptance Report | ## 1. Executive Verdict | **PASS_WITH_HIGH_CONFIDENCE**"><th scope="row"><code>p1-acceptance</code></th><td>Phase 1 Acceptance Report</td><td><a href="../../09_exports/interface_phase_1/interface_phase_1_acceptance_report.md" target="_blank" rel="noreferrer">09_exports/interface_phase_1/interface_phase_1_acceptance_report.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_1</td><td><span class="badge unknown">PASS_WITH_HIGH_CONFIDENCE</span></td><td><span class="badge pass">REPORT</span></td><td>2</td><td># Interface Phase 1 — CLI Operator Console Acceptance Report | ## 1. Executive Verdict | **PASS_WITH_HIGH_CONFIDENCE**</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_1/interface_phase_1_acceptance_report.md" aria-label="Copy report path for Phase 1 Acceptance Report">Copy path</button></td></tr><tr data-document-category="phase_1" data-document-verdict="unknown" data-search-text="p1-quickstart Phase 1 Operator Quickstart 09_exports/interface_phase_1/interface_phase_1_operator_quickstart.md True phase_1 unknown # Interface Phase 1 — CLI Operator Console Quickstart | ## Final Acceptance Report | The final Phase 1 release-candidate acceptance report is at:"><th scope="row"><code>p1-quickstart</code></th><td>Phase 1 Operator Quickstart</td><td><a href="../../09_exports/interface_phase_1/interface_phase_1_operator_quickstart.md" target="_blank" rel="noreferrer">09_exports/interface_phase_1/interface_phase_1_operator_quickstart.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_1</td><td><span class="badge unknown">UNKNOWN</span></td><td><span class="badge pass">REPORT</span></td><td>3</td><td># Interface Phase 1 — CLI Operator Console Quickstart | ## Final Acceptance Report | The final Phase 1 release-candidate acceptance report is at:</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_1/interface_phase_1_operator_quickstart.md" aria-label="Copy report path for Phase 1 Operator Quickstart">Copy path</button></td></tr><tr data-document-category="phase_1" data-document-verdict="PASS_WITH_HIGH_CONFIDENCE" data-search-text="p1-command-map Phase 1 Command Map 09_exports/interface_phase_1/interface_phase_1_command_map.md True phase_1 PASS_WITH_HIGH_CONFIDENCE # Interface Phase 1 — Command Map (Operationally Hardened) | ## Final Acceptance Report | The final Phase 1 acceptance report is at:"><th scope="row"><code>p1-command-map</code></th><td>Phase 1 Command Map</td><td><a href="../../09_exports/interface_phase_1/interface_phase_1_command_map.md" target="_blank" rel="noreferrer">09_exports/interface_phase_1/interface_phase_1_command_map.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_1</td><td><span class="badge unknown">PASS_WITH_HIGH_CONFIDENCE</span></td><td><span class="badge pass">REPORT</span></td><td>4</td><td># Interface Phase 1 — Command Map (Operationally Hardened) | ## Final Acceptance Report | The final Phase 1 acceptance report is at:</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_1/interface_phase_1_command_map.md" aria-label="Copy report path for Phase 1 Command Map">Copy path</button></td></tr><tr data-document-category="phase_2" data-document-verdict="PASS_WITH_HIGH_CONFIDENCE" data-search-text="p2-final-diff-audit Phase 2 Final Diff Audit 09_exports/interface_phase_2/interface_phase_2_final_diff_audit.md True phase_2 PASS_WITH_HIGH_CONFIDENCE # Interface Phase 2 Final Diff Audit | | Field | Value | | |-------|-------|"><th scope="row"><code>p2-final-diff-audit</code></th><td>Phase 2 Final Diff Audit</td><td><a href="../../09_exports/interface_phase_2/interface_phase_2_final_diff_audit.md" target="_blank" rel="noreferrer">09_exports/interface_phase_2/interface_phase_2_final_diff_audit.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_2</td><td><span class="badge unknown">PASS_WITH_HIGH_CONFIDENCE</span></td><td><span class="badge pass">REPORT</span></td><td>5</td><td># Interface Phase 2 Final Diff Audit | | Field | Value | | |-------|-------|</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_2/interface_phase_2_final_diff_audit.md" aria-label="Copy report path for Phase 2 Final Diff Audit">Copy path</button></td></tr><tr data-document-category="phase_2" data-document-verdict="unknown" data-search-text="p2-operator-command-card Phase 2 Operator Command Card 09_exports/interface_phase_2/interface_phase_2_operator_command_card.md True phase_2 unknown # Interface Phase 2 Operator Command Card | Quick reference for the Phase 2 TUI Operator Dashboard. | ## TUI Commands"><th scope="row"><code>p2-operator-command-card</code></th><td>Phase 2 Operator Command Card</td><td><a href="../../09_exports/interface_phase_2/interface_phase_2_operator_command_card.md" target="_blank" rel="noreferrer">09_exports/interface_phase_2/interface_phase_2_operator_command_card.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_2</td><td><span class="badge unknown">UNKNOWN</span></td><td><span class="badge pass">REPORT</span></td><td>6</td><td># Interface Phase 2 Operator Command Card | Quick reference for the Phase 2 TUI Operator Dashboard. | ## TUI Commands</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_2/interface_phase_2_operator_command_card.md" aria-label="Copy report path for Phase 2 Operator Command Card">Copy path</button></td></tr><tr data-document-category="phase_2" data-document-verdict="unknown" data-search-text="p2-clean-checkout Phase 2 Clean Checkout Checklist 09_exports/interface_phase_2/interface_phase_2_clean_checkout_checklist.md True phase_2 unknown # Interface Phase 2 Clean Checkout Checklist | This document describes how a reviewer can perform an independent green-field validation of the `interface/phase-2-tui-operator-dashboard` branch. | ## Prerequisites"><th scope="row"><code>p2-clean-checkout</code></th><td>Phase 2 Clean Checkout Checklist</td><td><a href="../../09_exports/interface_phase_2/interface_phase_2_clean_checkout_checklist.md" target="_blank" rel="noreferrer">09_exports/interface_phase_2/interface_phase_2_clean_checkout_checklist.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_2</td><td><span class="badge unknown">UNKNOWN</span></td><td><span class="badge pass">REPORT</span></td><td>7</td><td># Interface Phase 2 Clean Checkout Checklist | This document describes how a reviewer can perform an independent green-field validation of the `interface/phase-2-tui-operator-dashboard` branch. | ## Prerequisites</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_2/interface_phase_2_clean_checkout_checklist.md" aria-label="Copy report path for Phase 2 Clean Checkout Checklist">Copy path</button></td></tr><tr data-document-category="phase_2" data-document-verdict="unknown" data-search-text="p2-snapshot-schema Phase 2 Snapshot Schema Contract 09_exports/interface_phase_2/snapshot_schema_contract.md True phase_2 unknown # Interface Phase 2 Snapshot Schema Contract | ## Version 1.0 | This contract defines the stable JSON schema for `--snapshot --format json` output."><th scope="row"><code>p2-snapshot-schema</code></th><td>Phase 2 Snapshot Schema Contract</td><td><a href="../../09_exports/interface_phase_2/snapshot_schema_contract.md" target="_blank" rel="noreferrer">09_exports/interface_phase_2/snapshot_schema_contract.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_2</td><td><span class="badge unknown">UNKNOWN</span></td><td><span class="badge pass">REPORT</span></td><td>8</td><td># Interface Phase 2 Snapshot Schema Contract | ## Version 1.0 | This contract defines the stable JSON schema for `--snapshot --format json` output.</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_2/snapshot_schema_contract.md" aria-label="Copy report path for Phase 2 Snapshot Schema Contract">Copy path</button></td></tr><tr data-document-category="phase_2" data-document-verdict="PASS_WITH_HIGH_CONFIDENCE" data-search-text="p2-final-acceptance Phase 2 Final Acceptance Report 09_exports/interface_phase_2/interface_phase_2_final_acceptance_report.md True phase_2 PASS_WITH_HIGH_CONFIDENCE # Interface Phase 2 Final Acceptance Report | | Field | Value | | |-------|-------|"><th scope="row"><code>p2-final-acceptance</code></th><td>Phase 2 Final Acceptance Report</td><td><a href="../../09_exports/interface_phase_2/interface_phase_2_final_acceptance_report.md" target="_blank" rel="noreferrer">09_exports/interface_phase_2/interface_phase_2_final_acceptance_report.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_2</td><td><span class="badge unknown">PASS_WITH_HIGH_CONFIDENCE</span></td><td><span class="badge pass">REPORT</span></td><td>9</td><td># Interface Phase 2 Final Acceptance Report | | Field | Value | | |-------|-------|</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_2/interface_phase_2_final_acceptance_report.md" aria-label="Copy report path for Phase 2 Final Acceptance Report">Copy path</button></td></tr><tr data-document-category="phase_2" data-document-verdict="PASS_WITH_HIGH_CONFIDENCE" data-search-text="p2-release-candidate Phase 2 Release Candidate Report 09_exports/interface_phase_2/interface_phase_2_release_candidate_report.md True phase_2 PASS_WITH_HIGH_CONFIDENCE # Interface Phase 2 Release Candidate Report | | Field | Value | | |-------|-------|"><th scope="row"><code>p2-release-candidate</code></th><td>Phase 2 Release Candidate Report</td><td><a href="../../09_exports/interface_phase_2/interface_phase_2_release_candidate_report.md" target="_blank" rel="noreferrer">09_exports/interface_phase_2/interface_phase_2_release_candidate_report.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_2</td><td><span class="badge unknown">PASS_WITH_HIGH_CONFIDENCE</span></td><td><span class="badge pass">REPORT</span></td><td>10</td><td># Interface Phase 2 Release Candidate Report | | Field | Value | | |-------|-------|</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_2/interface_phase_2_release_candidate_report.md" aria-label="Copy report path for Phase 2 Release Candidate Report">Copy path</button></td></tr><tr data-document-category="phase_2" data-document-verdict="unknown" data-search-text="p2-merge-readiness Phase 2 Merge Readiness Packet 09_exports/interface_phase_2/merge_readiness/interface_phase_2_merge_readiness_packet.md True phase_2 unknown # Interface Phase 2 Merge Readiness Packet | | Field | Value | | |-------|-------|"><th scope="row"><code>p2-merge-readiness</code></th><td>Phase 2 Merge Readiness Packet</td><td><a href="../../09_exports/interface_phase_2/merge_readiness/interface_phase_2_merge_readiness_packet.md" target="_blank" rel="noreferrer">09_exports/interface_phase_2/merge_readiness/interface_phase_2_merge_readiness_packet.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_2</td><td><span class="badge unknown">UNKNOWN</span></td><td><span class="badge pass">REPORT</span></td><td>11</td><td># Interface Phase 2 Merge Readiness Packet | | Field | Value | | |-------|-------|</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_2/merge_readiness/interface_phase_2_merge_readiness_packet.md" aria-label="Copy report path for Phase 2 Merge Readiness Packet">Copy path</button></td></tr><tr data-document-category="phase_3" data-document-verdict="PASS_WITH_HIGH_CONFIDENCE" data-search-text="p3-acceptance Phase 3 Acceptance Report 09_exports/interface_phase_3/interface_phase_3_acceptance_report.md True phase_3 PASS_WITH_HIGH_CONFIDENCE # Interface Phase 3 - Static Local Web Dashboard Acceptance Report | ## 1. Executive Verdict | PASS_WITH_HIGH_CONFIDENCE"><th scope="row"><code>p3-acceptance</code></th><td>Phase 3 Acceptance Report</td><td><a href="../../09_exports/interface_phase_3/interface_phase_3_acceptance_report.md" target="_blank" rel="noreferrer">09_exports/interface_phase_3/interface_phase_3_acceptance_report.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_3</td><td><span class="badge unknown">PASS_WITH_HIGH_CONFIDENCE</span></td><td><span class="badge pass">REPORT</span></td><td>12</td><td># Interface Phase 3 - Static Local Web Dashboard Acceptance Report | ## 1. Executive Verdict | PASS_WITH_HIGH_CONFIDENCE</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_3/interface_phase_3_acceptance_report.md" aria-label="Copy report path for Phase 3 Acceptance Report">Copy path</button></td></tr><tr data-document-category="phase_3" data-document-verdict="unknown" data-search-text="p3-backend-reuse Phase 3 Backend Reuse Report 09_exports/interface_phase_3/interface_phase_3_backend_reuse_report.md True phase_3 unknown # Interface Phase 3 Backend Reuse Report | Phase 3 does not invent a second policy or action model. It reuses the existing backend concepts as read-only source of truth. | ## Reused Modules"><th scope="row"><code>p3-backend-reuse</code></th><td>Phase 3 Backend Reuse Report</td><td><a href="../../09_exports/interface_phase_3/interface_phase_3_backend_reuse_report.md" target="_blank" rel="noreferrer">09_exports/interface_phase_3/interface_phase_3_backend_reuse_report.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_3</td><td><span class="badge unknown">UNKNOWN</span></td><td><span class="badge pass">REPORT</span></td><td>13</td><td># Interface Phase 3 Backend Reuse Report | Phase 3 does not invent a second policy or action model. It reuses the existing backend concepts as read-only source of truth. | ## Reused Modules</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_3/interface_phase_3_backend_reuse_report.md" aria-label="Copy report path for Phase 3 Backend Reuse Report">Copy path</button></td></tr><tr data-document-category="phase_3" data-document-verdict="unknown" data-search-text="p3-safety Phase 3 Safety Report 09_exports/interface_phase_3/interface_phase_3_safety_report.md True phase_3 unknown # Interface Phase 3 Safety Report | ## Safety Posture | - Static local only"><th scope="row"><code>p3-safety</code></th><td>Phase 3 Safety Report</td><td><a href="../../09_exports/interface_phase_3/interface_phase_3_safety_report.md" target="_blank" rel="noreferrer">09_exports/interface_phase_3/interface_phase_3_safety_report.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_3</td><td><span class="badge unknown">UNKNOWN</span></td><td><span class="badge pass">REPORT</span></td><td>14</td><td># Interface Phase 3 Safety Report | ## Safety Posture | - Static local only</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_3/interface_phase_3_safety_report.md" aria-label="Copy report path for Phase 3 Safety Report">Copy path</button></td></tr><tr data-document-category="phase_3" data-document-verdict="unknown" data-search-text="p3-static-build Phase 3 Static Build Report 09_exports/interface_phase_3/interface_phase_3_static_build_report.md True phase_3 unknown # Interface Phase 3 Static Build Report | - Dashboard ID: PH3-20260512-201402 | - Created at UTC: 2026-05-12T20:14:02Z"><th scope="row"><code>p3-static-build</code></th><td>Phase 3 Static Build Report</td><td><a href="../../09_exports/interface_phase_3/interface_phase_3_static_build_report.md" target="_blank" rel="noreferrer">09_exports/interface_phase_3/interface_phase_3_static_build_report.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_3</td><td><span class="badge unknown">UNKNOWN</span></td><td><span class="badge pass">REPORT</span></td><td>15</td><td># Interface Phase 3 Static Build Report | - Dashboard ID: PH3-20260512-201402 | - Created at UTC: 2026-05-12T20:14:02Z</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_3/interface_phase_3_static_build_report.md" aria-label="Copy report path for Phase 3 Static Build Report">Copy path</button></td></tr><tr data-document-category="phase_3" data-document-verdict="unknown" data-search-text="p3-dashboard-map Phase 3 Dashboard Map 09_exports/interface_phase_3/interface_phase_3_dashboard_map.md True phase_3 unknown # Interface Phase 3 Dashboard Map | | Dashboard section | Backend source | Safety category | Writes files? | Executes commands? | Uses network? | Notes | | |---|---|---|---|---|---|---|"><th scope="row"><code>p3-dashboard-map</code></th><td>Phase 3 Dashboard Map</td><td><a href="../../09_exports/interface_phase_3/interface_phase_3_dashboard_map.md" target="_blank" rel="noreferrer">09_exports/interface_phase_3/interface_phase_3_dashboard_map.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_3</td><td><span class="badge unknown">UNKNOWN</span></td><td><span class="badge pass">REPORT</span></td><td>16</td><td># Interface Phase 3 Dashboard Map | | Dashboard section | Backend source | Safety category | Writes files? | Executes commands? | Uses network? | Notes | | |---|---|---|---|---|---|---|</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_3/interface_phase_3_dashboard_map.md" aria-label="Copy report path for Phase 3 Dashboard Map">Copy path</button></td></tr><tr data-document-category="phase_3" data-document-verdict="unknown" data-search-text="p3-operator-quickstart Phase 3 Operator Quickstart 09_exports/interface_phase_3/interface_phase_3_operator_quickstart.md True phase_3 unknown # Interface Phase 3 Operator Quickstart | ## Build | ```bash"><th scope="row"><code>p3-operator-quickstart</code></th><td>Phase 3 Operator Quickstart</td><td><a href="../../09_exports/interface_phase_3/interface_phase_3_operator_quickstart.md" target="_blank" rel="noreferrer">09_exports/interface_phase_3/interface_phase_3_operator_quickstart.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_3</td><td><span class="badge unknown">UNKNOWN</span></td><td><span class="badge pass">REPORT</span></td><td>17</td><td># Interface Phase 3 Operator Quickstart | ## Build | ```bash</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_3/interface_phase_3_operator_quickstart.md" aria-label="Copy report path for Phase 3 Operator Quickstart">Copy path</button></td></tr><tr data-document-category="phase_3" data-document-verdict="unknown" data-search-text="p3-handoff Phase 4 Handoff Contract 09_exports/interface_phase_3/interface_phase_3_phase_4_handoff_contract.md True phase_3 unknown # Interface Phase 3 Phase 4 Handoff Contract | Phase 4 may extend the local review experience without weakening the Phase 1 through Phase 3 boundaries. | ## Allowed Phase 4 Ideas"><th scope="row"><code>p3-handoff</code></th><td>Phase 4 Handoff Contract</td><td><a href="../../09_exports/interface_phase_3/interface_phase_3_phase_4_handoff_contract.md" target="_blank" rel="noreferrer">09_exports/interface_phase_3/interface_phase_3_phase_4_handoff_contract.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_3</td><td><span class="badge unknown">UNKNOWN</span></td><td><span class="badge pass">REPORT</span></td><td>18</td><td># Interface Phase 3 Phase 4 Handoff Contract | Phase 4 may extend the local review experience without weakening the Phase 1 through Phase 3 boundaries. | ## Allowed Phase 4 Ideas</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_3/interface_phase_3_phase_4_handoff_contract.md" aria-label="Copy report path for Phase 4 Handoff Contract">Copy path</button></td></tr></tbody>
+        <tbody><tr data-document-category="phase_1" data-document-verdict="PASS_WITH_HIGH_CONFIDENCE" data-search-text="p1-final-acceptance Phase 1 Final Acceptance Report 09_exports/interface_phase_1/interface_phase_1_final_acceptance_report.md True phase_1 PASS_WITH_HIGH_CONFIDENCE # Interface Phase 1 Final Acceptance Report | This is the final Phase 1 release-candidate acceptance report. | The historical Phase 1 acceptance report remains at:"><th scope="row"><code>p1-final-acceptance</code></th><td>Phase 1 Final Acceptance Report</td><td><a href="../../09_exports/interface_phase_1/interface_phase_1_final_acceptance_report.md" target="_blank" rel="noreferrer">09_exports/interface_phase_1/interface_phase_1_final_acceptance_report.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_1</td><td><span class="badge unknown">PASS_WITH_HIGH_CONFIDENCE</span></td><td><span class="badge pass">REPORT</span></td><td>1</td><td># Interface Phase 1 Final Acceptance Report | This is the final Phase 1 release-candidate acceptance report. | The historical Phase 1 acceptance report remains at:</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_1/interface_phase_1_final_acceptance_report.md" aria-label="Copy report path for Phase 1 Final Acceptance Report">Copy path</button></td></tr><tr data-document-category="phase_1" data-document-verdict="PASS_WITH_HIGH_CONFIDENCE" data-search-text="p1-acceptance Phase 1 Acceptance Report 09_exports/interface_phase_1/interface_phase_1_acceptance_report.md True phase_1 PASS_WITH_HIGH_CONFIDENCE # Interface Phase 1 — CLI Operator Console Acceptance Report | ## 1. Executive Verdict | **PASS_WITH_HIGH_CONFIDENCE**"><th scope="row"><code>p1-acceptance</code></th><td>Phase 1 Acceptance Report</td><td><a href="../../09_exports/interface_phase_1/interface_phase_1_acceptance_report.md" target="_blank" rel="noreferrer">09_exports/interface_phase_1/interface_phase_1_acceptance_report.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_1</td><td><span class="badge unknown">PASS_WITH_HIGH_CONFIDENCE</span></td><td><span class="badge pass">REPORT</span></td><td>2</td><td># Interface Phase 1 — CLI Operator Console Acceptance Report | ## 1. Executive Verdict | **PASS_WITH_HIGH_CONFIDENCE**</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_1/interface_phase_1_acceptance_report.md" aria-label="Copy report path for Phase 1 Acceptance Report">Copy path</button></td></tr><tr data-document-category="phase_1" data-document-verdict="unknown" data-search-text="p1-quickstart Phase 1 Operator Quickstart 09_exports/interface_phase_1/interface_phase_1_operator_quickstart.md True phase_1 unknown # Interface Phase 1 — CLI Operator Console Quickstart | ## Final Acceptance Report | The final Phase 1 release-candidate acceptance report is at:"><th scope="row"><code>p1-quickstart</code></th><td>Phase 1 Operator Quickstart</td><td><a href="../../09_exports/interface_phase_1/interface_phase_1_operator_quickstart.md" target="_blank" rel="noreferrer">09_exports/interface_phase_1/interface_phase_1_operator_quickstart.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_1</td><td><span class="badge unknown">UNKNOWN</span></td><td><span class="badge pass">REPORT</span></td><td>3</td><td># Interface Phase 1 — CLI Operator Console Quickstart | ## Final Acceptance Report | The final Phase 1 release-candidate acceptance report is at:</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_1/interface_phase_1_operator_quickstart.md" aria-label="Copy report path for Phase 1 Operator Quickstart">Copy path</button></td></tr><tr data-document-category="phase_1" data-document-verdict="PASS_WITH_HIGH_CONFIDENCE" data-search-text="p1-command-map Phase 1 Command Map 09_exports/interface_phase_1/interface_phase_1_command_map.md True phase_1 PASS_WITH_HIGH_CONFIDENCE # Interface Phase 1 — Command Map (Operationally Hardened) | ## Final Acceptance Report | The final Phase 1 acceptance report is at:"><th scope="row"><code>p1-command-map</code></th><td>Phase 1 Command Map</td><td><a href="../../09_exports/interface_phase_1/interface_phase_1_command_map.md" target="_blank" rel="noreferrer">09_exports/interface_phase_1/interface_phase_1_command_map.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_1</td><td><span class="badge unknown">PASS_WITH_HIGH_CONFIDENCE</span></td><td><span class="badge pass">REPORT</span></td><td>4</td><td># Interface Phase 1 — Command Map (Operationally Hardened) | ## Final Acceptance Report | The final Phase 1 acceptance report is at:</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_1/interface_phase_1_command_map.md" aria-label="Copy report path for Phase 1 Command Map">Copy path</button></td></tr><tr data-document-category="phase_2" data-document-verdict="PASS_WITH_HIGH_CONFIDENCE" data-search-text="p2-final-diff-audit Phase 2 Final Diff Audit 09_exports/interface_phase_2/interface_phase_2_final_diff_audit.md True phase_2 PASS_WITH_HIGH_CONFIDENCE # Interface Phase 2 Final Diff Audit | | Field | Value | | |-------|-------|"><th scope="row"><code>p2-final-diff-audit</code></th><td>Phase 2 Final Diff Audit</td><td><a href="../../09_exports/interface_phase_2/interface_phase_2_final_diff_audit.md" target="_blank" rel="noreferrer">09_exports/interface_phase_2/interface_phase_2_final_diff_audit.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_2</td><td><span class="badge unknown">PASS_WITH_HIGH_CONFIDENCE</span></td><td><span class="badge pass">REPORT</span></td><td>5</td><td># Interface Phase 2 Final Diff Audit | | Field | Value | | |-------|-------|</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_2/interface_phase_2_final_diff_audit.md" aria-label="Copy report path for Phase 2 Final Diff Audit">Copy path</button></td></tr><tr data-document-category="phase_2" data-document-verdict="unknown" data-search-text="p2-operator-command-card Phase 2 Operator Command Card 09_exports/interface_phase_2/interface_phase_2_operator_command_card.md True phase_2 unknown # Interface Phase 2 Operator Command Card | Quick reference for the Phase 2 TUI Operator Dashboard. | ## TUI Commands"><th scope="row"><code>p2-operator-command-card</code></th><td>Phase 2 Operator Command Card</td><td><a href="../../09_exports/interface_phase_2/interface_phase_2_operator_command_card.md" target="_blank" rel="noreferrer">09_exports/interface_phase_2/interface_phase_2_operator_command_card.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_2</td><td><span class="badge unknown">UNKNOWN</span></td><td><span class="badge pass">REPORT</span></td><td>6</td><td># Interface Phase 2 Operator Command Card | Quick reference for the Phase 2 TUI Operator Dashboard. | ## TUI Commands</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_2/interface_phase_2_operator_command_card.md" aria-label="Copy report path for Phase 2 Operator Command Card">Copy path</button></td></tr><tr data-document-category="phase_2" data-document-verdict="unknown" data-search-text="p2-clean-checkout Phase 2 Clean Checkout Checklist 09_exports/interface_phase_2/interface_phase_2_clean_checkout_checklist.md True phase_2 unknown # Interface Phase 2 Clean Checkout Checklist | This document describes how a reviewer can perform an independent green-field validation of the `interface/phase-2-tui-operator-dashboard` branch. | ## Prerequisites"><th scope="row"><code>p2-clean-checkout</code></th><td>Phase 2 Clean Checkout Checklist</td><td><a href="../../09_exports/interface_phase_2/interface_phase_2_clean_checkout_checklist.md" target="_blank" rel="noreferrer">09_exports/interface_phase_2/interface_phase_2_clean_checkout_checklist.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_2</td><td><span class="badge unknown">UNKNOWN</span></td><td><span class="badge pass">REPORT</span></td><td>7</td><td># Interface Phase 2 Clean Checkout Checklist | This document describes how a reviewer can perform an independent green-field validation of the `interface/phase-2-tui-operator-dashboard` branch. | ## Prerequisites</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_2/interface_phase_2_clean_checkout_checklist.md" aria-label="Copy report path for Phase 2 Clean Checkout Checklist">Copy path</button></td></tr><tr data-document-category="phase_2" data-document-verdict="unknown" data-search-text="p2-snapshot-schema Phase 2 Snapshot Schema Contract 09_exports/interface_phase_2/snapshot_schema_contract.md True phase_2 unknown # Interface Phase 2 Snapshot Schema Contract | ## Version 1.0 | This contract defines the stable JSON schema for `--snapshot --format json` output."><th scope="row"><code>p2-snapshot-schema</code></th><td>Phase 2 Snapshot Schema Contract</td><td><a href="../../09_exports/interface_phase_2/snapshot_schema_contract.md" target="_blank" rel="noreferrer">09_exports/interface_phase_2/snapshot_schema_contract.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_2</td><td><span class="badge unknown">UNKNOWN</span></td><td><span class="badge pass">REPORT</span></td><td>8</td><td># Interface Phase 2 Snapshot Schema Contract | ## Version 1.0 | This contract defines the stable JSON schema for `--snapshot --format json` output.</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_2/snapshot_schema_contract.md" aria-label="Copy report path for Phase 2 Snapshot Schema Contract">Copy path</button></td></tr><tr data-document-category="phase_2" data-document-verdict="PASS_WITH_HIGH_CONFIDENCE" data-search-text="p2-final-acceptance Phase 2 Final Acceptance Report 09_exports/interface_phase_2/interface_phase_2_final_acceptance_report.md True phase_2 PASS_WITH_HIGH_CONFIDENCE # Interface Phase 2 Final Acceptance Report | | Field | Value | | |-------|-------|"><th scope="row"><code>p2-final-acceptance</code></th><td>Phase 2 Final Acceptance Report</td><td><a href="../../09_exports/interface_phase_2/interface_phase_2_final_acceptance_report.md" target="_blank" rel="noreferrer">09_exports/interface_phase_2/interface_phase_2_final_acceptance_report.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_2</td><td><span class="badge unknown">PASS_WITH_HIGH_CONFIDENCE</span></td><td><span class="badge pass">REPORT</span></td><td>9</td><td># Interface Phase 2 Final Acceptance Report | | Field | Value | | |-------|-------|</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_2/interface_phase_2_final_acceptance_report.md" aria-label="Copy report path for Phase 2 Final Acceptance Report">Copy path</button></td></tr><tr data-document-category="phase_2" data-document-verdict="PASS_WITH_HIGH_CONFIDENCE" data-search-text="p2-release-candidate Phase 2 Release Candidate Report 09_exports/interface_phase_2/interface_phase_2_release_candidate_report.md True phase_2 PASS_WITH_HIGH_CONFIDENCE # Interface Phase 2 Release Candidate Report | | Field | Value | | |-------|-------|"><th scope="row"><code>p2-release-candidate</code></th><td>Phase 2 Release Candidate Report</td><td><a href="../../09_exports/interface_phase_2/interface_phase_2_release_candidate_report.md" target="_blank" rel="noreferrer">09_exports/interface_phase_2/interface_phase_2_release_candidate_report.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_2</td><td><span class="badge unknown">PASS_WITH_HIGH_CONFIDENCE</span></td><td><span class="badge pass">REPORT</span></td><td>10</td><td># Interface Phase 2 Release Candidate Report | | Field | Value | | |-------|-------|</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_2/interface_phase_2_release_candidate_report.md" aria-label="Copy report path for Phase 2 Release Candidate Report">Copy path</button></td></tr><tr data-document-category="phase_2" data-document-verdict="unknown" data-search-text="p2-merge-readiness Phase 2 Merge Readiness Packet 09_exports/interface_phase_2/merge_readiness/interface_phase_2_merge_readiness_packet.md True phase_2 unknown # Interface Phase 2 Merge Readiness Packet | | Field | Value | | |-------|-------|"><th scope="row"><code>p2-merge-readiness</code></th><td>Phase 2 Merge Readiness Packet</td><td><a href="../../09_exports/interface_phase_2/merge_readiness/interface_phase_2_merge_readiness_packet.md" target="_blank" rel="noreferrer">09_exports/interface_phase_2/merge_readiness/interface_phase_2_merge_readiness_packet.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_2</td><td><span class="badge unknown">UNKNOWN</span></td><td><span class="badge pass">REPORT</span></td><td>11</td><td># Interface Phase 2 Merge Readiness Packet | | Field | Value | | |-------|-------|</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_2/merge_readiness/interface_phase_2_merge_readiness_packet.md" aria-label="Copy report path for Phase 2 Merge Readiness Packet">Copy path</button></td></tr><tr data-document-category="phase_3" data-document-verdict="PASS_WITH_HIGH_CONFIDENCE" data-search-text="p3-acceptance Phase 3 Acceptance Report 09_exports/interface_phase_3/interface_phase_3_acceptance_report.md True phase_3 PASS_WITH_HIGH_CONFIDENCE # Interface Phase 3 - Read-Only Operations Dashboard Acceptance Report | ## 1. Executive Verdict | PASS_WITH_HIGH_CONFIDENCE"><th scope="row"><code>p3-acceptance</code></th><td>Phase 3 Acceptance Report</td><td><a href="../../09_exports/interface_phase_3/interface_phase_3_acceptance_report.md" target="_blank" rel="noreferrer">09_exports/interface_phase_3/interface_phase_3_acceptance_report.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_3</td><td><span class="badge unknown">PASS_WITH_HIGH_CONFIDENCE</span></td><td><span class="badge pass">REPORT</span></td><td>12</td><td># Interface Phase 3 - Read-Only Operations Dashboard Acceptance Report | ## 1. Executive Verdict | PASS_WITH_HIGH_CONFIDENCE</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_3/interface_phase_3_acceptance_report.md" aria-label="Copy report path for Phase 3 Acceptance Report">Copy path</button></td></tr><tr data-document-category="phase_3" data-document-verdict="unknown" data-search-text="p3-backend-reuse Phase 3 Backend Reuse Report 09_exports/interface_phase_3/interface_phase_3_backend_reuse_report.md True phase_3 unknown # Interface Phase 3 Backend Reuse Report | Phase 3 does not invent a second policy or action model. It reuses the existing backend concepts as read-only source of truth. | ## Reused Modules"><th scope="row"><code>p3-backend-reuse</code></th><td>Phase 3 Backend Reuse Report</td><td><a href="../../09_exports/interface_phase_3/interface_phase_3_backend_reuse_report.md" target="_blank" rel="noreferrer">09_exports/interface_phase_3/interface_phase_3_backend_reuse_report.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_3</td><td><span class="badge unknown">UNKNOWN</span></td><td><span class="badge pass">REPORT</span></td><td>13</td><td># Interface Phase 3 Backend Reuse Report | Phase 3 does not invent a second policy or action model. It reuses the existing backend concepts as read-only source of truth. | ## Reused Modules</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_3/interface_phase_3_backend_reuse_report.md" aria-label="Copy report path for Phase 3 Backend Reuse Report">Copy path</button></td></tr><tr data-document-category="phase_3" data-document-verdict="unknown" data-search-text="p3-safety Phase 3 Safety Report 09_exports/interface_phase_3/interface_phase_3_safety_report.md True phase_3 unknown # Interface Phase 3 Safety Report | ## Safety Posture | - Static local only"><th scope="row"><code>p3-safety</code></th><td>Phase 3 Safety Report</td><td><a href="../../09_exports/interface_phase_3/interface_phase_3_safety_report.md" target="_blank" rel="noreferrer">09_exports/interface_phase_3/interface_phase_3_safety_report.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_3</td><td><span class="badge unknown">UNKNOWN</span></td><td><span class="badge pass">REPORT</span></td><td>14</td><td># Interface Phase 3 Safety Report | ## Safety Posture | - Static local only</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_3/interface_phase_3_safety_report.md" aria-label="Copy report path for Phase 3 Safety Report">Copy path</button></td></tr><tr data-document-category="phase_3" data-document-verdict="unknown" data-search-text="p3-static-build Phase 3 Static Build Report 09_exports/interface_phase_3/interface_phase_3_static_build_report.md True phase_3 unknown # Interface Phase 3 Static Build Report | - Dashboard ID: PH3-20260512-211456 | - Created at UTC: 2026-05-12T21:14:56Z"><th scope="row"><code>p3-static-build</code></th><td>Phase 3 Static Build Report</td><td><a href="../../09_exports/interface_phase_3/interface_phase_3_static_build_report.md" target="_blank" rel="noreferrer">09_exports/interface_phase_3/interface_phase_3_static_build_report.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_3</td><td><span class="badge unknown">UNKNOWN</span></td><td><span class="badge pass">REPORT</span></td><td>15</td><td># Interface Phase 3 Static Build Report | - Dashboard ID: PH3-20260512-211456 | - Created at UTC: 2026-05-12T21:14:56Z</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_3/interface_phase_3_static_build_report.md" aria-label="Copy report path for Phase 3 Static Build Report">Copy path</button></td></tr><tr data-document-category="phase_3" data-document-verdict="unknown" data-search-text="p3-dashboard-map Phase 3 Dashboard Map 09_exports/interface_phase_3/interface_phase_3_dashboard_map.md True phase_3 unknown # Interface Phase 3 Dashboard Map | | Dashboard section | Backend source | Safety category | Writes files? | Executes commands? | Uses network? | Notes | | |---|---|---|---|---|---|---|"><th scope="row"><code>p3-dashboard-map</code></th><td>Phase 3 Dashboard Map</td><td><a href="../../09_exports/interface_phase_3/interface_phase_3_dashboard_map.md" target="_blank" rel="noreferrer">09_exports/interface_phase_3/interface_phase_3_dashboard_map.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_3</td><td><span class="badge unknown">UNKNOWN</span></td><td><span class="badge pass">REPORT</span></td><td>16</td><td># Interface Phase 3 Dashboard Map | | Dashboard section | Backend source | Safety category | Writes files? | Executes commands? | Uses network? | Notes | | |---|---|---|---|---|---|---|</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_3/interface_phase_3_dashboard_map.md" aria-label="Copy report path for Phase 3 Dashboard Map">Copy path</button></td></tr><tr data-document-category="phase_3" data-document-verdict="unknown" data-search-text="p3-operator-quickstart Phase 3 Operator Quickstart 09_exports/interface_phase_3/interface_phase_3_operator_quickstart.md True phase_3 unknown # Interface Phase 3 Operator Quickstart | ## Build | ```bash"><th scope="row"><code>p3-operator-quickstart</code></th><td>Phase 3 Operator Quickstart</td><td><a href="../../09_exports/interface_phase_3/interface_phase_3_operator_quickstart.md" target="_blank" rel="noreferrer">09_exports/interface_phase_3/interface_phase_3_operator_quickstart.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_3</td><td><span class="badge unknown">UNKNOWN</span></td><td><span class="badge pass">REPORT</span></td><td>17</td><td># Interface Phase 3 Operator Quickstart | ## Build | ```bash</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_3/interface_phase_3_operator_quickstart.md" aria-label="Copy report path for Phase 3 Operator Quickstart">Copy path</button></td></tr><tr data-document-category="phase_3" data-document-verdict="unknown" data-search-text="p3-handoff Phase 4 Handoff Contract 09_exports/interface_phase_3/interface_phase_3_phase_4_handoff_contract.md True phase_3 unknown # Interface Phase 3 Phase 4 Handoff Contract | Phase 4 may extend the local review experience without weakening the Phase 1 through Phase 3 boundaries. | ## Allowed Phase 4 Ideas"><th scope="row"><code>p3-handoff</code></th><td>Phase 4 Handoff Contract</td><td><a href="../../09_exports/interface_phase_3/interface_phase_3_phase_4_handoff_contract.md" target="_blank" rel="noreferrer">09_exports/interface_phase_3/interface_phase_3_phase_4_handoff_contract.md</a></td><td><span class="badge pass">PASS</span></td><td>phase_3</td><td><span class="badge unknown">UNKNOWN</span></td><td><span class="badge pass">REPORT</span></td><td>18</td><td># Interface Phase 3 Phase 4 Handoff Contract | Phase 4 may extend the local review experience without weakening the Phase 1 through Phase 3 boundaries. | ## Allowed Phase 4 Ideas</td><td><button type="button" class="copy-button small" data-copy-text="09_exports/interface_phase_3/interface_phase_3_phase_4_handoff_contract.md" aria-label="Copy report path for Phase 4 Handoff Contract">Copy path</button></td></tr></tbody>
       </table>
     </div>
     
@@ -335,7 +310,7 @@
         <div class="stat-grid">
     <div class="stat">
       <span>Generated at</span>
-      <strong>2026-05-12T20:28:32Z</strong>
+      <strong>2026-05-12T21:28:12Z</strong>
       
     </div>
     
@@ -363,7 +338,7 @@
         <thead>
           <tr><th scope="col">Section</th><th scope="col">Source path</th><th scope="col">Exists</th><th scope="col">Source type</th><th scope="col">Confidence</th><th scope="col">Detected verdict</th></tr>
         </thead>
-        <tbody><tr data-search-text="phase_1_status Phase 1 Status 11_interface/interface_action_registry.py module direct_module_read PASS_WITH_HIGH_CONFIDENCE"><th scope="row">Phase 1 Status</th><td><code>11_interface/interface_action_registry.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>PASS_WITH_HIGH_CONFIDENCE</td></tr><tr data-search-text="phase_2_status Phase 2 Status 12_tui/tui_state.py module direct_module_read PASS_WITH_HIGH_CONFIDENCE"><th scope="row">Phase 2 Status</th><td><code>12_tui/tui_state.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>PASS_WITH_HIGH_CONFIDENCE</td></tr><tr data-search-text="phase_3_status Phase 3 Status 13_web_dashboard/build_phase3_dashboard.py generated_static_snapshot generated_static_snapshot PASS_WITH_HIGH_CONFIDENCE"><th scope="row">Phase 3 Status</th><td><code>13_web_dashboard/build_phase3_dashboard.py</code></td><td><span class="badge pass">PASS</span></td><td>generated_static_snapshot</td><td><span class="badge info">GENERATED</span></td><td>PASS_WITH_HIGH_CONFIDENCE</td></tr><tr data-search-text="action_registry_summary Action Registry Summary 11_interface/interface_action_registry.py module direct_module_read not applicable"><th scope="row">Action Registry Summary</th><td><code>11_interface/interface_action_registry.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>not applicable</td></tr><tr data-search-text="artifact_summary Artifact Summary 11_interface/interface_artifact_inspector.py module direct_module_read PASS_WITH_HIGH_CONFIDENCE"><th scope="row">Artifact Summary</th><td><code>11_interface/interface_artifact_inspector.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>PASS_WITH_HIGH_CONFIDENCE</td></tr><tr data-search-text="approval_ledger_summary Approval Ledger Summary 09_exports/interface_phase_1/approval_ledger/approval_ledger.jsonl module direct_module_read execution_performed_false"><th scope="row">Approval Ledger Summary</th><td><code>09_exports/interface_phase_1/approval_ledger/approval_ledger.jsonl</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>execution_performed_false</td></tr><tr data-search-text="branch_review_summary Branch Review Summary 11_interface/interface_branch_review.py module direct_module_read ready_for_review"><th scope="row">Branch Review Summary</th><td><code>11_interface/interface_branch_review.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>ready_for_review</td></tr><tr data-search-text="session_summary Session Summary 11_interface/interface_session_log.py module direct_module_read read_only"><th scope="row">Session Summary</th><td><code>11_interface/interface_session_log.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>read_only</td></tr><tr data-search-text="validator_status Validator Status 09_exports/interface_phase_3/interface_phase_3_acceptance_report.md report report_derived unknown"><th scope="row">Validator Status</th><td><code>09_exports/interface_phase_3/interface_phase_3_acceptance_report.md</code></td><td><span class="badge pass">PASS</span></td><td>report</td><td><span class="badge pass">REPORT</span></td><td>unknown</td></tr><tr data-search-text="document_index Document Index 09_exports/interface_phase_3/interface_phase_3_acceptance_report.md module direct_module_read report_derived"><th scope="row">Document Index</th><td><code>09_exports/interface_phase_3/interface_phase_3_acceptance_report.md</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>report_derived</td></tr><tr data-search-text="data_freshness Data Freshness 13_web_dashboard/build_phase3_dashboard.py generated_static_snapshot generated_static_snapshot generated_static_snapshot"><th scope="row">Data Freshness</th><td><code>13_web_dashboard/build_phase3_dashboard.py</code></td><td><span class="badge pass">PASS</span></td><td>generated_static_snapshot</td><td><span class="badge info">GENERATED</span></td><td>generated_static_snapshot</td></tr><tr data-search-text="compare_phases Compare Phases 13_web_dashboard/build_phase3_dashboard.py generated_static_snapshot generated_static_snapshot report_derived"><th scope="row">Compare Phases</th><td><code>13_web_dashboard/build_phase3_dashboard.py</code></td><td><span class="badge pass">PASS</span></td><td>generated_static_snapshot</td><td><span class="badge info">GENERATED</span></td><td>report_derived</td></tr></tbody>
+        <tbody><tr data-search-text="phase_1_status Phase 1 Status 11_interface/interface_action_registry.py module direct_module_read PASS_WITH_HIGH_CONFIDENCE"><th scope="row">Phase 1 Status</th><td><code>11_interface/interface_action_registry.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>PASS_WITH_HIGH_CONFIDENCE</td></tr><tr data-search-text="phase_2_status Phase 2 Status 12_tui/tui_state.py module direct_module_read PASS_WITH_HIGH_CONFIDENCE"><th scope="row">Phase 2 Status</th><td><code>12_tui/tui_state.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>PASS_WITH_HIGH_CONFIDENCE</td></tr><tr data-search-text="phase_3_status Phase 3 Status 13_web_dashboard/build_phase3_dashboard.py generated_static_snapshot generated_static_snapshot PASS_WITH_HIGH_CONFIDENCE"><th scope="row">Phase 3 Status</th><td><code>13_web_dashboard/build_phase3_dashboard.py</code></td><td><span class="badge pass">PASS</span></td><td>generated_static_snapshot</td><td><span class="badge info">GENERATED</span></td><td>PASS_WITH_HIGH_CONFIDENCE</td></tr><tr data-search-text="action_registry_summary Action Registry Summary 11_interface/interface_action_registry.py module direct_module_read not applicable"><th scope="row">Action Registry Summary</th><td><code>11_interface/interface_action_registry.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>not applicable</td></tr><tr data-search-text="artifact_summary Artifact Summary 11_interface/interface_artifact_inspector.py module direct_module_read PASS_WITH_HIGH_CONFIDENCE"><th scope="row">Artifact Summary</th><td><code>11_interface/interface_artifact_inspector.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>PASS_WITH_HIGH_CONFIDENCE</td></tr><tr data-search-text="approval_ledger_summary Approval Ledger Summary 09_exports/interface_phase_1/approval_ledger/approval_ledger.jsonl module direct_module_read execution_performed_false"><th scope="row">Approval Ledger Summary</th><td><code>09_exports/interface_phase_1/approval_ledger/approval_ledger.jsonl</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>execution_performed_false</td></tr><tr data-search-text="branch_review_summary Branch Review Summary 11_interface/interface_branch_review.py module direct_module_read needs_fixes"><th scope="row">Branch Review Summary</th><td><code>11_interface/interface_branch_review.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>needs_fixes</td></tr><tr data-search-text="session_summary Session Summary 11_interface/interface_session_log.py module direct_module_read read_only"><th scope="row">Session Summary</th><td><code>11_interface/interface_session_log.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>read_only</td></tr><tr data-search-text="validator_status Validator Status 09_exports/interface_phase_3/interface_phase_3_acceptance_report.md report report_derived unknown"><th scope="row">Validator Status</th><td><code>09_exports/interface_phase_3/interface_phase_3_acceptance_report.md</code></td><td><span class="badge pass">PASS</span></td><td>report</td><td><span class="badge pass">REPORT</span></td><td>unknown</td></tr><tr data-search-text="document_index Document Index 09_exports/interface_phase_3/interface_phase_3_acceptance_report.md module direct_module_read report_derived"><th scope="row">Document Index</th><td><code>09_exports/interface_phase_3/interface_phase_3_acceptance_report.md</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>report_derived</td></tr><tr data-search-text="data_freshness Data Freshness 13_web_dashboard/build_phase3_dashboard.py generated_static_snapshot generated_static_snapshot generated_static_snapshot"><th scope="row">Data Freshness</th><td><code>13_web_dashboard/build_phase3_dashboard.py</code></td><td><span class="badge pass">PASS</span></td><td>generated_static_snapshot</td><td><span class="badge info">GENERATED</span></td><td>generated_static_snapshot</td></tr><tr data-search-text="compare_phases Compare Phases 13_web_dashboard/build_phase3_dashboard.py generated_static_snapshot generated_static_snapshot report_derived"><th scope="row">Compare Phases</th><td><code>13_web_dashboard/build_phase3_dashboard.py</code></td><td><span class="badge pass">PASS</span></td><td>generated_static_snapshot</td><td><span class="badge info">GENERATED</span></td><td>report_derived</td></tr></tbody>
       </table>
     </div>
     
@@ -381,7 +356,7 @@
         <thead>
           <tr><th scope="col">Phase</th><th scope="col">Status</th><th scope="col">Interface type</th><th scope="col">Main entrypoint</th><th scope="col">Can render status</th><th scope="col">Can prepare packets</th><th scope="col">Can execute packets</th><th scope="col">Can merge</th><th scope="col">Can deploy</th><th scope="col">Can use secrets</th><th scope="col">Validators</th><th scope="col">Main docs</th><th scope="col">Safety boundary</th></tr>
         </thead>
-        <tbody><tr data-search-text="Phase 1 CLI Operator Console 11_interface/station_chief_cli.py PASS_WITH_HIGH_CONFIDENCE Phase 1 policy enforcer"><th scope="row">Phase 1</th><td>PASS_WITH_HIGH_CONFIDENCE</td><td>CLI Operator Console</td><td><code>11_interface/station_chief_cli.py</code></td><td><span class="badge pass">PASS</span></td><td><span class="badge pass">PASS</span></td><td><span class="badge disabled">DISABLED</span></td><td><span class="badge disabled">DISABLED</span></td><td><span class="badge disabled">DISABLED</span></td><td><span class="badge disabled">DISABLED</span></td><td>validate_interface_phase_1_cli.py, validate_interface_phase_1_command_packets.py, validate_interface_phase_1_e2e.py, validate_interface_phase_1_release_candidate.py</td><td>09_exports/interface_phase_1/interface_phase_1_final_acceptance_report.md</td><td>Phase 1 policy enforcer</td></tr><tr data-search-text="Phase 2 TUI Operator Dashboard 12_tui/station_chief_tui.py PASS_WITH_HIGH_CONFIDENCE Phase 1 backend plus TUI contracts"><th scope="row">Phase 2</th><td>PASS_WITH_HIGH_CONFIDENCE</td><td>TUI Operator Dashboard</td><td><code>12_tui/station_chief_tui.py</code></td><td><span class="badge pass">PASS</span></td><td><span class="badge pass">PASS</span></td><td><span class="badge disabled">DISABLED</span></td><td><span class="badge disabled">DISABLED</span></td><td><span class="badge disabled">DISABLED</span></td><td><span class="badge disabled">DISABLED</span></td><td>validate_interface_phase_2_tui.py, validate_interface_phase_2_e2e.py</td><td>09_exports/interface_phase_2/interface_phase_2_final_acceptance_report.md</td><td>Phase 1 backend plus TUI contracts</td></tr><tr data-search-text="Phase 3 Static Local Web Dashboard 13_web_dashboard/build_phase3_dashboard.py PASS_WITH_HIGH_CONFIDENCE Static local read-only dashboard"><th scope="row">Phase 3</th><td>PASS_WITH_HIGH_CONFIDENCE</td><td>Static Local Web Dashboard</td><td><code>13_web_dashboard/build_phase3_dashboard.py</code></td><td><span class="badge pass">PASS</span></td><td><span class="badge disabled">DISABLED</span></td><td><span class="badge disabled">DISABLED</span></td><td><span class="badge disabled">DISABLED</span></td><td><span class="badge disabled">DISABLED</span></td><td><span class="badge disabled">DISABLED</span></td><td>validate_interface_phase_3_dashboard.py, validate_interface_phase_3_e2e.py</td><td>09_exports/interface_phase_3/interface_phase_3_acceptance_report.md</td><td>Static local read-only dashboard</td></tr></tbody>
+        <tbody><tr data-search-text="Phase 1 CLI Operator Console 11_interface/station_chief_cli.py PASS_WITH_HIGH_CONFIDENCE Phase 1 policy enforcer"><th scope="row">Phase 1</th><td>PASS_WITH_HIGH_CONFIDENCE</td><td>CLI Operator Console</td><td><code>11_interface/station_chief_cli.py</code></td><td><span class="badge pass">PASS</span></td><td><span class="badge pass">PASS</span></td><td><span class="badge disabled">DISABLED</span></td><td><span class="badge disabled">DISABLED</span></td><td><span class="badge disabled">DISABLED</span></td><td><span class="badge disabled">DISABLED</span></td><td>validate_interface_phase_1_cli.py, validate_interface_phase_1_command_packets.py, validate_interface_phase_1_e2e.py, validate_interface_phase_1_release_candidate.py</td><td>09_exports/interface_phase_1/interface_phase_1_final_acceptance_report.md</td><td>Phase 1 policy enforcer</td></tr><tr data-search-text="Phase 2 TUI Operator Dashboard 12_tui/station_chief_tui.py PASS_WITH_HIGH_CONFIDENCE Phase 1 backend plus TUI contracts"><th scope="row">Phase 2</th><td>PASS_WITH_HIGH_CONFIDENCE</td><td>TUI Operator Dashboard</td><td><code>12_tui/station_chief_tui.py</code></td><td><span class="badge pass">PASS</span></td><td><span class="badge pass">PASS</span></td><td><span class="badge disabled">DISABLED</span></td><td><span class="badge disabled">DISABLED</span></td><td><span class="badge disabled">DISABLED</span></td><td><span class="badge disabled">DISABLED</span></td><td>validate_interface_phase_2_tui.py, validate_interface_phase_2_e2e.py</td><td>09_exports/interface_phase_2/interface_phase_2_final_acceptance_report.md</td><td>Phase 1 backend plus TUI contracts</td></tr><tr data-search-text="Phase 3 Read-Only Operations Dashboard 13_web_dashboard/build_phase3_dashboard.py PASS_WITH_HIGH_CONFIDENCE Static local read-only dashboard"><th scope="row">Phase 3</th><td>PASS_WITH_HIGH_CONFIDENCE</td><td>Read-Only Operations Dashboard</td><td><code>13_web_dashboard/build_phase3_dashboard.py</code></td><td><span class="badge pass">PASS</span></td><td><span class="badge disabled">DISABLED</span></td><td><span class="badge disabled">DISABLED</span></td><td><span class="badge disabled">DISABLED</span></td><td><span class="badge disabled">DISABLED</span></td><td><span class="badge disabled">DISABLED</span></td><td>validate_interface_phase_3_dashboard.py, validate_interface_phase_3_e2e.py</td><td>09_exports/interface_phase_3/interface_phase_3_acceptance_report.md</td><td>Static local read-only dashboard</td></tr></tbody>
       </table>
     </div>
     
@@ -419,8 +394,8 @@
     
     <div class="stat">
       <span>Risk level</span>
-      <strong>low</strong>
-      <span class="mini-status"><span class="badge pass">LOW</span></span>
+      <strong>unknown</strong>
+      <span class="mini-status"><span class="badge unknown">UNKNOWN</span></span>
     </div>
     </div>
     <div class="callout">
@@ -428,34 +403,35 @@
       <pre class="code-block">{
   &quot;status&quot;: &quot;prepared_not_merged&quot;,
   &quot;review_path&quot;: &quot;09_exports/interface_phase_1/branch_reviews/interface_phase-1-operational-hardening_review.md&quot;,
-  &quot;review_id&quot;: &quot;BR-20260511-232813-interface_phase-&quot;,
+  &quot;review_id&quot;: &quot;BR-20260512-211548-interface_phase-&quot;,
   &quot;branch&quot;: &quot;interface/phase-1-operational-hardening&quot;,
   &quot;base_branch&quot;: &quot;interface/phase-1-upgrade-pack&quot;,
-  &quot;decision&quot;: &quot;ready_for_review&quot;,
-  &quot;risk_level&quot;: &quot;low&quot;,
-  &quot;changed_file_count&quot;: 19,
+  &quot;decision&quot;: &quot;needs_fixes&quot;,
+  &quot;risk_level&quot;: &quot;unknown&quot;,
+  &quot;changed_file_count&quot;: 28,
   &quot;merge_performed&quot;: false,
   &quot;deployment_performed&quot;: false,
   &quot;changed_files&quot;: [
     &quot;09_exports/interface_phase_1/approval_ledger/approval_ledger.jsonl&quot;,
     &quot;09_exports/interface_phase_1/branch_reviews/HEAD_review.md&quot;,
+    &quot;09_exports/interface_phase_1/branch_reviews/interface_phase-1-operational-hardening_review.md&quot;,
     &quot;09_exports/interface_phase_1/command_packets/validator_wall_packet.md&quot;,
+    &quot;09_exports/interface_phase_1/interface_phase_1_acceptance_report.md&quot;,
     &quot;09_exports/interface_phase_1/interface_phase_1_command_map.md&quot;,
+    &quot;09_exports/interface_phase_1/interface_phase_1_demo_notes.md&quot;,
+    &quot;09_exports/interface_phase_1/interface_phase_1_final_acceptance_report.md&quot;,
     &quot;09_exports/interface_phase_1/interface_phase_1_operational_hardening_report.md&quot;,
     &quot;09_exports/interface_phase_1/interface_phase_1_operator_quickstart.md&quot;,
     &quot;09_exports/interface_phase_1/interface_phase_1_upgrade_report.md&quot;,
+    &quot;09_exports/interface_phase_1/merge_readiness/interface_phase_1_merge_readiness_packet.md&quot;,
+    &quot;09_exports/interface_phase_1/phase_2_handoff_contract.md&quot;,
+    &quot;09_exports/interface_phase_1/test_runs/e2e_ledger_test.jsonl&quot;,
     &quot;11_interface/README.md&quot;,
     &quot;11_interface/interface_action_registry.py&quot;,
     &quot;11_interface/interface_actions.py&quot;,
     &quot;11_interface/interface_approval_ledger.py&quot;,
     &quot;11_interface/interface_artifact_inspector.py&quot;,
-    &quot;11_interface/interface_branch_review.py&quot;,
-    &quot;11_interface/interface_policy.py&quot;,
-    &quot;11_interface/interface_policy_enforcer.py&quot;,
-    &quot;11_interface/station_chief_cli.py&quot;,
-    &quot;scripts/validate_interface_phase_1_cli.py&quot;,
-    &quot;scripts/validate_interface_phase_1_command_packets.py&quot;,
-    &quot;scripts/validate_interface_phase_1_e2e.py&quot;
+    &quot;11_interface/interface_branch_review.py&quot;
   ]
 }</pre>
       <p class="muted">Report path: <code>09_exports/interface_phase_1/branch_reviews/interface_phase-1-operational-hardening_review.md</code></p>
@@ -515,7 +491,7 @@
     
     <div class="stat">
       <span>Phase 2 sessions</span>
-      <strong>912</strong>
+      <strong>1104</strong>
       
     </div>
     
@@ -536,14 +512,14 @@
     
 
     <footer class="footer">
-      <p>Generated locally. Static file. No server required. No network required. No secrets used. No commands executed except dashboard build/validation.</p>
+      <p>Generated statically. Static files. Backend integration is planned for a later phase and is intentionally not included in this static dashboard build. No secrets used. No commands executed except dashboard build/validation.</p>
     </footer>
     
     </main>
   </div>
   <script type="application/json" id="dashboard-data">{
-  "dashboard_id": "PH3-20260512-202831",
-  "created_at_utc": "2026-05-12T20:28:31Z",
+  "dashboard_id": "PH3-20260512-212811",
+  "created_at_utc": "2026-05-12T21:28:11Z",
   "phase": "Interface Phase 3",
   "repo": "dev-in-portfolio/the-agent-command-center",
   "source_lineage": "dev-in-portfolio/agent-command-center-3",
@@ -596,7 +572,7 @@
     ],
     "save_snapshot_behavior": "defaults_to_json_when_no_mode_is_given",
     "detected_verdict": "PASS_WITH_HIGH_CONFIDENCE",
-    "summary": "Static local dashboard build and exports are available."
+    "summary": "Read-Only Operations Dashboard build and exports are available."
   },
   "safety_status": {
     "official_repo": "LOCKED",
@@ -883,15 +859,11 @@
         "final_verdict": "**PASS_WITH_HIGH_CONFIDENCE**",
         "missing_expected_files_count": 0,
         "missing_expected_files": [],
-        "zero_byte_count": 1,
-        "zero_byte_files": [
-          "interface_phase_1/test_runs/e2e_ledger_test.jsonl"
-        ],
-        "warnings_count": 1,
-        "warnings": [
-          "Zero-byte files: 1 detected"
-        ],
-        "status": "WARNING",
+        "zero_byte_count": 0,
+        "zero_byte_files": [],
+        "warnings_count": 0,
+        "warnings": [],
+        "status": "PASS",
         "report_path": "09_exports/interface_phase_1",
         "recommended_next_action": "## 31. Recommended Next Phase",
         "source_file_path": "09_exports/interface_phase_1",
@@ -921,9 +893,9 @@
     ],
     "exists": false,
     "verdict": "PASS_WITH_HIGH_CONFIDENCE",
-    "warnings_count": 2,
+    "warnings_count": 1,
     "missing_count": 1,
-    "zero_byte_count": 1,
+    "zero_byte_count": 0,
     "summary": "5 packages inspected."
   },
   "approval_ledger_summary": {
@@ -1002,34 +974,35 @@
     "latest_packet": {
       "status": "prepared_not_merged",
       "review_path": "09_exports/interface_phase_1/branch_reviews/interface_phase-1-operational-hardening_review.md",
-      "review_id": "BR-20260511-232813-interface_phase-",
+      "review_id": "BR-20260512-211548-interface_phase-",
       "branch": "interface/phase-1-operational-hardening",
       "base_branch": "interface/phase-1-upgrade-pack",
-      "decision": "ready_for_review",
-      "risk_level": "low",
-      "changed_file_count": 19,
+      "decision": "needs_fixes",
+      "risk_level": "unknown",
+      "changed_file_count": 28,
       "merge_performed": false,
       "deployment_performed": false,
       "changed_files": [
         "09_exports/interface_phase_1/approval_ledger/approval_ledger.jsonl",
         "09_exports/interface_phase_1/branch_reviews/HEAD_review.md",
+        "09_exports/interface_phase_1/branch_reviews/interface_phase-1-operational-hardening_review.md",
         "09_exports/interface_phase_1/command_packets/validator_wall_packet.md",
+        "09_exports/interface_phase_1/interface_phase_1_acceptance_report.md",
         "09_exports/interface_phase_1/interface_phase_1_command_map.md",
+        "09_exports/interface_phase_1/interface_phase_1_demo_notes.md",
+        "09_exports/interface_phase_1/interface_phase_1_final_acceptance_report.md",
         "09_exports/interface_phase_1/interface_phase_1_operational_hardening_report.md",
         "09_exports/interface_phase_1/interface_phase_1_operator_quickstart.md",
         "09_exports/interface_phase_1/interface_phase_1_upgrade_report.md",
+        "09_exports/interface_phase_1/merge_readiness/interface_phase_1_merge_readiness_packet.md",
+        "09_exports/interface_phase_1/phase_2_handoff_contract.md",
+        "09_exports/interface_phase_1/test_runs/e2e_ledger_test.jsonl",
         "11_interface/README.md",
         "11_interface/interface_action_registry.py",
         "11_interface/interface_actions.py",
         "11_interface/interface_approval_ledger.py",
         "11_interface/interface_artifact_inspector.py",
-        "11_interface/interface_branch_review.py",
-        "11_interface/interface_policy.py",
-        "11_interface/interface_policy_enforcer.py",
-        "11_interface/station_chief_cli.py",
-        "scripts/validate_interface_phase_1_cli.py",
-        "scripts/validate_interface_phase_1_command_packets.py",
-        "scripts/validate_interface_phase_1_e2e.py"
+        "11_interface/interface_branch_review.py"
       ]
     },
     "prepared_state": "prepared_not_merged",
@@ -1043,7 +1016,7 @@
     "source_type": "module",
     "source_confidence": "direct_module_read",
     "phase_1_session_count": 0,
-    "phase_2_session_count": 912,
+    "phase_2_session_count": 1104,
     "phase_1_sessions": [],
     "phase_2_sessions": [
       "09_exports/interface_phase_2/sessions/session_TUI-20260512-003552-941813.json",
@@ -1093,7 +1066,7 @@
     "phase_3_build_report": "09_exports/interface_phase_3/interface_phase_3_static_build_report.md",
     "phase_3_note": "no live session mutation unless build report is written",
     "session_logs_read_only": true,
-    "summary": "0 phase 1 sessions, 912 phase 2 sessions."
+    "summary": "0 phase 1 sessions, 1104 phase 2 sessions."
   },
   "validator_status": {
     "source_file_path": "09_exports/interface_phase_3/interface_phase_3_acceptance_report.md",
@@ -1451,7 +1424,7 @@
         "detected_verdict": "PASS_WITH_HIGH_CONFIDENCE",
         "source_confidence": "report_derived",
         "recommended_review_order": 12,
-        "preview": "# Interface Phase 3 - Static Local Web Dashboard Acceptance Report | ## 1. Executive Verdict | PASS_WITH_HIGH_CONFIDENCE",
+        "preview": "# Interface Phase 3 - Read-Only Operations Dashboard Acceptance Report | ## 1. Executive Verdict | PASS_WITH_HIGH_CONFIDENCE",
         "source_file_path": "09_exports/interface_phase_3/interface_phase_3_acceptance_report.md",
         "source_exists": true,
         "source_type": "report"
@@ -1493,7 +1466,7 @@
         "detected_verdict": "unknown",
         "source_confidence": "report_derived",
         "recommended_review_order": 15,
-        "preview": "# Interface Phase 3 Static Build Report | - Dashboard ID: PH3-20260512-201402 | - Created at UTC: 2026-05-12T20:14:02Z",
+        "preview": "# Interface Phase 3 Static Build Report | - Dashboard ID: PH3-20260512-211456 | - Created at UTC: 2026-05-12T21:14:56Z",
         "source_file_path": "09_exports/interface_phase_3/interface_phase_3_static_build_report.md",
         "source_exists": true,
         "source_type": "report"
@@ -1548,7 +1521,7 @@
     "source_exists": true,
     "source_type": "generated_static_snapshot",
     "source_confidence": "generated_static_snapshot",
-    "generated_at_utc": "2026-05-12T20:28:32Z",
+    "generated_at_utc": "2026-05-12T21:28:12Z",
     "freshness_status": "generated_static_snapshot",
     "snapshot_age_seconds": 0,
     "notes": [
@@ -1624,7 +1597,7 @@
         "source_exists": true,
         "source_type": "module",
         "source_confidence": "direct_module_read",
-        "detected_verdict": "ready_for_review"
+        "detected_verdict": "needs_fixes"
       },
       {
         "section_id": "session_summary",
@@ -1726,7 +1699,7 @@
       {
         "phase": "Phase 3",
         "status": "PASS_WITH_HIGH_CONFIDENCE",
-        "interface_type": "Static Local Web Dashboard",
+        "interface_type": "Read-Only Operations Dashboard",
         "main_entrypoint": "13_web_dashboard/build_phase3_dashboard.py",
         "can_render_status": true,
         "can_prepare_packets": false,
@@ -1751,23 +1724,16 @@
     "allowed_label_findings": [
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 433,
-        "pattern": "NO DEPLOY",
-        "context": "<span>NO DEPLOY<\/span>",
-        "reason": "allowed safety text"
-      },
-      {
-        "file": "13_web_dashboard/dashboard_renderer.py",
         "line": 434,
-        "pattern": "NO MERGE",
-        "context": "<span>NO MERGE<\/span>",
+        "pattern": "NO DEPLOY",
+        "context": "<span>NO DEPLOY CONTROLS<\/span>",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
         "line": 435,
-        "pattern": "NO PUSH",
-        "context": "<span>NO PUSH<\/span>",
+        "pattern": "NO MERGE",
+        "context": "<span>NO MERGE CONTROLS<\/span>",
         "reason": "allowed safety text"
       },
       {
@@ -1775,48 +1741,6 @@
         "line": 436,
         "pattern": "NO SECRET ACCESS",
         "context": "<span>NO SECRET ACCESS<\/span>",
-        "reason": "allowed safety text"
-      },
-      {
-        "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 437,
-        "pattern": "NO COMMAND PACKET EXECUTION",
-        "context": "<span>NO COMMAND PACKET EXECUTION<\/span>",
-        "reason": "allowed safety text"
-      },
-      {
-        "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 753,
-        "pattern": "NO DEPLOY",
-        "context": "{_status_badge(\"NO DEPLOY\")}",
-        "reason": "allowed safety text"
-      },
-      {
-        "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 754,
-        "pattern": "NO MERGE",
-        "context": "{_status_badge(\"NO MERGE\")}",
-        "reason": "allowed safety text"
-      },
-      {
-        "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 755,
-        "pattern": "NO PUSH",
-        "context": "{_status_badge(\"NO PUSH\")}",
-        "reason": "allowed safety text"
-      },
-      {
-        "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 756,
-        "pattern": "NO SECRET ACCESS",
-        "context": "{_status_badge(\"NO SECRET ACCESS\")}",
-        "reason": "allowed safety text"
-      },
-      {
-        "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 757,
-        "pattern": "NO COMMAND PACKET EXECUTION",
-        "context": "{_status_badge(\"NO COMMAND PACKET EXECUTION\")}",
         "reason": "allowed safety text"
       },
       {

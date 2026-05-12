@@ -156,8 +156,8 @@ PASS. Phase 3 reports exist under `09_exports/interface_phase_3/`.
 - [ ] Review source transparency panel
 - [ ] Review report library paths
 - [ ] Review validator command center
-- [ ] Confirm no server behavior
-- [ ] Confirm no network behavior
+- [ ] Confirm no backend server behavior
+- [ ] Confirm no outbound/API network calls behavior
 - [ ] Confirm no command packet execution
 
 ## 30. Risk Assessment
@@ -167,8 +167,8 @@ Low. The dashboard is static, local, and read-only.
 ## 31. Known Limitations
 
 - Static only
-- No server
-- No network
+- No backend server
+- No outbound/API network calls
 - No merge
 - No push
 - No secrets or credentials
@@ -192,5 +192,5 @@ Low. The dashboard is static, local, and read-only.
 - no ../static/ references
 - local preview works from 13_web_dashboard/dist
 - Visual QA report path: 09_exports/interface_phase_3/interface_phase_3_visual_qa_report.md
-- No server product behavior
+- No application/API backend server behavior
 - No deploy/merge/push/secret/packet execution
