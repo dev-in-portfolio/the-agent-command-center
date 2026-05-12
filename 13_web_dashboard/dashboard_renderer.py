@@ -336,13 +336,14 @@ def _render_overview_cards(snapshot):
     phase3 = snapshot.get("phase_3_status", {})
     safety_scan = snapshot.get("phase_3_safety_scan", {})
     safety = snapshot.get("safety_status", {})
-    next_action = snapshot.get("recommended_next_action", "")
+    next_action = snapshot.get("recommended_next_action", "unknown")
+    merge_ready_status = "PASS" if "ready_for_merge_review" in next_action else "INFO"
     cards = [
         _card("Phase 1 status", phase1.get("detected_verdict", "unknown"), phase1.get("summary", "Phase 1 backend source of truth is present.")),
         _card("Phase 2 status", phase2.get("detected_verdict", "unknown"), phase2.get("summary", "Phase 2 TUI contracts and docs are present.")),
         _card("Phase 3 build status", phase3.get("detected_verdict", "unknown"), phase3.get("summary", "Static dashboard build and exports are available.")),
         _card("Safety status", "LOCKED", safety_scan.get("status", "PASS")),
-        _card("Recommended next action", "INFO", next_action),
+        _card("Merge readiness", merge_ready_status, next_action),
     ]
     return '<section class="cards-grid">' + "".join(cards) + "</section>"
 
@@ -352,13 +353,14 @@ def _build_landing_screen(snapshot):
     phase2 = snapshot.get("phase_2_status", {})
     phase3 = snapshot.get("phase_3_status", {})
     safety_scan = snapshot.get("phase_3_safety_scan", {})
-    next_action = snapshot.get("recommended_next_action", "")
+    next_action = snapshot.get("recommended_next_action", "unknown")
+    merge_ready_status = "PASS" if "ready_for_merge_review" in next_action else "INFO"
     cards = [
         _card("Phase 1 status", phase1.get("detected_verdict", "unknown"), phase1.get("summary", "Phase 1 backend source of truth is present.")),
         _card("Phase 2 status", phase2.get("detected_verdict", "unknown"), phase2.get("summary", "Phase 2 TUI contracts and docs are present.")),
         _card("Phase 3 status", phase3.get("detected_verdict", "unknown"), phase3.get("summary", "Static dashboard build and exports are available.")),
         _card("Safety status", safety_scan.get("status", "unknown"), "Static local read-only dashboard with deployment, merge, push, secret access, and command packet execution disabled."),
-        _card("Recommended next action", "INFO", next_action),
+        _card("Merge readiness", merge_ready_status, next_action),
     ]
     buttons = [
         ("Safety Boundary", "safety-boundary"),

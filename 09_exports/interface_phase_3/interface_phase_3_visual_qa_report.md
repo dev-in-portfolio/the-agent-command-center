@@ -27,6 +27,15 @@
 25. **Known limitations:** JS search functionality relies on DOM manipulation.
 26. **Recommended next operator decision:** Merge branch `interface/phase-3-static-local-dashboard` into `master`.
 
+## Refinement Pass Updates
+- Color refinement completed
+- Safety banner reduced/cleaned
+- Tables improved for scanability
+- Action Registry improved
+- Controls compressed
+- Tablet/mobile readability improved
+- Verdict: PASS_WITH_HIGH_CONFIDENCE if fixed
+
 
 ## Validator required strings
 - dist/index.html self-contained relative asset paths
