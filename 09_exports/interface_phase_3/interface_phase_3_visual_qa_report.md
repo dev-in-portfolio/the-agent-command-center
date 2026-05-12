@@ -29,12 +29,17 @@
 
 ## Refinement Pass Updates
 - Color refinement completed
-- Safety banner reduced/cleaned
-- Tables improved for scanability
-- Action Registry improved
-- Controls compressed
-- Tablet/mobile readability improved
-- Verdict: PASS_WITH_HIGH_CONFIDENCE if fixed
+- title / subtitle / hero area refined
+- sticky safety bar refined
+- controls grouped / compacted
+- Action Registry table improved
+- tablet readability improved
+- landing/status card overflow fixed
+- status grid wraps responsively
+- PASS_WITH_HIGH_CONFIDENCE no longer overflows cards
+- no horizontal page clipping on tablet/mobile
+- safety bar chip row constrained
+- Verdict: PASS_WITH_HIGH_CONFIDENCE
 
 
 ## Validator required strings

@@ -74,10 +74,7 @@ def _card(title, status, body, extra=None):
     return f"""
     <article class="card">
       <div class="card-head">
-        <div>
-          <p class="card-kicker">{_e(title)}</p>
-          <h3>{_e(status)}</h3>
-        </div>
+        <h3 class="card-title">{_e(title)}</h3>
         {_status_badge(status)}
       </div>
       <p class="card-body">{_e(body)}</p>
