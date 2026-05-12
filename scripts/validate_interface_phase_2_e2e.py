@@ -266,6 +266,19 @@ def test_27_positional_args_rejected():
     print("  [PASS] test_27: Positional args rejected")
 
 
+def test_28_new_phase2_artifacts_exist():
+    required = [
+        ROOT / "scripts/demo_interface_phase_2_tui.sh",
+        PHASE2_EXPORTS / "interface_phase_2_demo_notes.md",
+        PHASE2_EXPORTS / "phase_3_handoff_contract.md",
+        PHASE2_EXPORTS / "merge_readiness/interface_phase_2_merge_readiness_packet.md",
+        PHASE2_EXPORTS / "interface_phase_2_upgrade_report.md",
+    ]
+    for path in required:
+        ensure(path.exists(), f"Required artifact missing: {path.relative_to(ROOT)}")
+    print("  [PASS] test_28: All Phase 2 upgrade-pack artifacts exist")
+
+
 def main():
     print("Starting Interface Phase 2 E2E Validation (Hardened)...")
     print()
@@ -298,6 +311,7 @@ def main():
         test_25_snapshot_compact,
         test_26_snapshot_full,
         test_27_positional_args_rejected,
+        test_28_new_phase2_artifacts_exist,
     ]
 
     passed = 0
