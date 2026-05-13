@@ -22,5 +22,13 @@
 - No backend behavior changed.
 - No new capabilities were enabled.
 
+## Validator Scope Note
+- `scripts/validate_backend_phase_4a_foundation.py` was minimally updated only to recognize already-approved same-origin static Phase 4D schema preview fetches.
+- No backend behavior changed.
+- No Netlify Functions changed.
+- No new network/external API behavior was added.
+- No action execution, deploy, merge, push, PR, GitHub mutation, or Netlify mutation behavior was enabled.
+- The allowed fetches remain same-origin static/API reads only.
+
 ## Conclusion
 Original Phase 4 is a visual and presentation-layer update only. It does not expand the system's operational capabilities or access to sensitive resources.
