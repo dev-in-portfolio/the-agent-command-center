@@ -12,3 +12,9 @@
 - `live_external_api_calls`: **false**
 - `command_execution`: **false**
 - `github_mutation`: **false**
+
+## Approved Diff Scope Notes
+The following security-critical files were updated to maintain system integrity while supporting the new snapshot visibility:
+- **13_web_dashboard/dashboard_safety.py**: Modified strictly to permit the same-origin static fetch of `./status_snapshot.json`. The scanner still forbids all external network behavior and unauthorized fetch calls.
+- **scripts/validate_backend_phase_4a_foundation.py**: Synchronized to acknowledge the dashboard's new authorized fetch call without reducing backend safety verification rigor.
+

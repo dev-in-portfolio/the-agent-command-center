@@ -18,5 +18,10 @@ This package successfully combines the safest first implementation of external i
 - GitHub Mutation: **DISABLED**
 - Netlify Mutation: **DISABLED**
 
+## Approved Diff Scope Notes
+The following files outside the primary Phase 4C/4D paths were modified and kept in the diff for technical necessity:
+- **13_web_dashboard/dashboard_safety.py**: Updated to allowlist the safe same-origin fetch of `./status_snapshot.json`. No external fetch or mutation paths were added.
+- **scripts/validate_backend_phase_4a_foundation.py**: Updated for compatibility with the new dashboard fetch call. No backend safety logic was weakened.
+
 ## Recommended Next Decision
 Merge this combined package to master and proceed to **Phase 4D Identity Selection** or **Action Request Queue Schema Design**.

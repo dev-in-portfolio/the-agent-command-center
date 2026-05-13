@@ -12,3 +12,9 @@
 - **Fetch Logic**: Dashboard successfully reads same-origin static artifacts.
 - **Fail-Safe**: UI gracefully handles missing snapshot files.
 - **UI Proportionality**: Panel remains subordinate to main dashboard content.
+
+## Approved Diff Scope Notes
+The dashboard integration required synchronized updates to the following files:
+- **13_web_dashboard/dashboard_safety.py**: Permit same-origin static artifact retrieval.
+- **scripts/validate_backend_phase_4a_foundation.py**: Validator compatibility update.
+
