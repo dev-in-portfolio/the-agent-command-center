@@ -17,3 +17,10 @@ Local validation and code audit pass with high confidence. The backend foundatio
 
 ## Recommended Next Decision
 Enable Netlify branch deploys or open a PR to trigger a Deploy Preview, then complete the live smoke test.
+
+## Live Preview Verification
+- **Active preview method**: PR deploy preview
+- **Active preview URL**: https://deploy-preview-1--the-agent-command-center-dashboard.netlify.app
+- **Endpoint status**: ALL_PASS
+- **Safety check**: VERIFIED_LIVE
+- **Recommended next operator decision**: ready_to_merge_phase_4a_to_master
