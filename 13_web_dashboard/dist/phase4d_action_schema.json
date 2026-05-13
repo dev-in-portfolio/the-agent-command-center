@@ -1,0 +1,72 @@
+{
+  "schema_mode": "static_inert_schema_preview",
+  "live_external_api_calls": false,
+  "github_api_calls": false,
+  "netlify_api_calls": false,
+  "browser_external_fetches": false,
+  "secrets_used": false,
+  "tokens_used": false,
+  "environment_variables_read": false,
+  "command_execution": false,
+  "github_mutation": false,
+  "netlify_mutation": false,
+  "deploy_controls": false,
+  "merge_controls": false,
+  "push_controls": false,
+  "pr_controls": false,
+  "action_execution": false,
+  "action_queue_live": false,
+  "schema_id": "phase4d_action_schema_v1",
+  "title": "Phase 4D Action Request Schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "request_id",
+    "action_id",
+    "requested_by",
+    "requested_role",
+    "risk_level",
+    "justification",
+    "requested_at_utc",
+    "target_scope",
+    "requested_effect",
+    "queue_state",
+    "implementation_status"
+  ],
+  "properties": {
+    "request_id": { "type": "string", "minLength": 1 },
+    "action_id": { "type": "string", "minLength": 1 },
+    "requested_by": { "type": "string", "minLength": 1 },
+    "requested_role": {
+      "type": "string",
+      "enum": ["operator_requester", "platform_admin"]
+    },
+    "risk_level": { "type": "string", "enum": ["low", "moderate", "high", "critical"] },
+    "justification": { "type": "string", "minLength": 10 },
+    "requested_at_utc": { "type": "string", "minLength": 10 },
+    "target_scope": { "type": "string", "minLength": 1 },
+    "requested_effect": { "type": "string", "minLength": 1 },
+    "queue_state": {
+      "type": "string",
+      "enum": ["draft", "requested", "approved", "denied", "expired", "cancelled"]
+    },
+    "implementation_status": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "real_queue_storage_implemented",
+        "action_execution_implemented",
+        "command_execution_added",
+        "github_mutation_added",
+        "netlify_mutation_added"
+      ],
+      "properties": {
+        "real_queue_storage_implemented": { "const": false },
+        "action_execution_implemented": { "const": false },
+        "command_execution_added": { "const": false },
+        "github_mutation_added": { "const": false },
+        "netlify_mutation_added": { "const": false }
+      }
+    }
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "schema_mode": "static_inert_schema_preview",
+  "live_external_api_calls": false,
+  "github_api_calls": false,
+  "netlify_api_calls": false,
+  "browser_external_fetches": false,
+  "secrets_used": false,
+  "tokens_used": false,
+  "environment_variables_read": false,
+  "command_execution": false,
+  "github_mutation": false,
+  "netlify_mutation": false,
+  "deploy_controls": false,
+  "merge_controls": false,
+  "push_controls": false,
+  "pr_controls": false,
+  "action_execution": false,
+  "action_queue_live": false,
+  "schema_id": "phase4d_risk_model_v1",
+  "title": "Phase 4D Risk Classification Model",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "risk_classes",
+    "future_controls",
+    "implementation_status"
+  ],
+  "properties": {
+    "risk_classes": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["level", "description", "execution_allowed_in_phase_4d"],
+        "properties": {
+          "level": { "type": "string", "enum": ["low", "moderate", "high", "critical"] },
+          "description": { "type": "string", "minLength": 5 },
+          "execution_allowed_in_phase_4d": { "const": false }
+        }
+      }
+    },
+    "future_controls": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["level", "required_review"],
+        "properties": {
+          "level": { "type": "string", "enum": ["low", "moderate", "high", "critical"] },
+          "required_review": { "type": "string", "minLength": 5 }
+        }
+      }
+    },
+    "implementation_status": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "action_execution_implemented",
+        "command_execution_added",
+        "github_api_calls_added",
+        "netlify_api_calls_added",
+        "external_api_calls_added"
+      ],
+      "properties": {
+        "action_execution_implemented": { "const": false },
+        "command_execution_added": { "const": false },
+        "github_api_calls_added": { "const": false },
+        "netlify_api_calls_added": { "const": false },
+        "external_api_calls_added": { "const": false }
+      }
+    }
+  }
+}

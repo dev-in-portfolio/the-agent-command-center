@@ -11,6 +11,9 @@ PRINT_HTML = ROOT / "13_web_dashboard" / "dist" / "print.html"
 DATA_JSON = ROOT / "13_web_dashboard" / "dist" / "dashboard_data.json"
 DIST_CSS = ROOT / "13_web_dashboard" / "dist" / "static" / "dashboard.css"
 DIST_JS = ROOT / "13_web_dashboard" / "dist" / "static" / "dashboard.js"
+PHASE4D_IDENTITY = ROOT / "13_web_dashboard" / "dist" / "phase4d_identity_schema.json"
+PHASE4D_ACTION = ROOT / "13_web_dashboard" / "dist" / "phase4d_action_schema.json"
+PHASE4D_AUDIT = ROOT / "13_web_dashboard" / "dist" / "phase4d_audit_schema.json"
 SNAPSHOT_DIR = ROOT / "09_exports" / "interface_phase_3" / "snapshots"
 GITIGNORE = ROOT / ".gitignore"
 HYGIENE_REPORT = ROOT / "09_exports" / "interface_phase_3" / "interface_phase_3_generated_artifact_hygiene_report.md"
@@ -52,7 +55,7 @@ def main():
     result = _run([sys.executable, str(DASHBOARD), "--validate-only"])
     if result.returncode != 0 or "VALIDATION_PASS" not in result.stdout:
         return _fail("validate-only command failed")
-    for path in [HTML, PRINT_HTML, DATA_JSON, DIST_CSS, DIST_JS]:
+    for path in [HTML, PRINT_HTML, DATA_JSON, DIST_CSS, DIST_JS, PHASE4D_IDENTITY, PHASE4D_ACTION, PHASE4D_AUDIT]:
         if not path.exists():
             return _fail(f"missing built artifact: {path.relative_to(ROOT)}")
 
@@ -198,6 +201,20 @@ def main():
         "Branch Review",
         "Approval Ledger",
         "Safety Boundary",
+        "Phase 4D Control Room Preview",
+        "Identity & Permissions Preview",
+        "Action Request Queue Preview",
+        "Audit Event Schema Preview",
+        "Risk Model Preview",
+        "DISABLED MOCK",
+        "SCHEMA PREVIEW ONLY",
+        "NO EXECUTION",
+        "NO MUTATION",
+        "NO DEPLOY",
+        "NO MERGE",
+        "NO PUSH",
+        "NO SECRET ACCESS",
+        "DISABLED — SCHEMA PREVIEW ONLY",
     ]:
         if needle not in html:
             return _fail(f"HTML missing {needle}")
@@ -212,6 +229,12 @@ def main():
         return _fail("HTML still references parent static directory")
     if 'data-open-panel="reports-library"' not in html:
         return _fail("HTML missing open section buttons")
+
+    allowed_fetches = ['fetch("/api/health")', "fetch('/api/health')", 'fetch("/api/status")', "fetch('/api/status')", 'fetch("/api/backend-manifest")', "fetch('/api/backend-manifest')", 'fetch("./status_snapshot.json")', "fetch('./status_snapshot.json')", 'fetch("./phase4d_identity_schema.json")', "fetch('./phase4d_identity_schema.json')", 'fetch("./phase4d_action_schema.json")', "fetch('./phase4d_action_schema.json')", 'fetch("./phase4d_audit_schema.json")', "fetch('./phase4d_audit_schema.json')", 'fetch("./phase4d_risk_model.json")', "fetch('./phase4d_risk_model.json')", 'fetch("./phase4d_approval_schema.json")', "fetch('./phase4d_approval_schema.json')"]
+    js = DIST_JS.read_text(encoding="utf-8")
+    for line in js.splitlines():
+        if "fetch(" in line and not any(f in line for f in allowed_fetches):
+            return _fail(f"JavaScript contains forbidden fetch: {line.strip()}")
 
     phase2_tui = _run([sys.executable, str(ROOT / "scripts" / "validate_interface_phase_2_tui.py")])
     phase2_e2e = _run([sys.executable, str(ROOT / "scripts" / "validate_interface_phase_2_e2e.py")])

@@ -106,7 +106,7 @@
       <p class="card-body">Ready for static hosting review after merge. Backend integration remains a later phase.</p>
       
     </article>
-    </div><div class="landing-actions"><h3>Open section buttons</h3><div class="section-grid"><button type="button" class="section-button" data-open-panel="safety-boundary" aria-controls="safety-boundary">Safety Boundary</button><button type="button" class="section-button" data-open-panel="action-registry" aria-controls="action-registry">Action Registry</button><button type="button" class="section-button" data-open-panel="artifact-packages" aria-controls="artifact-packages">Artifact Deep Dive</button><button type="button" class="section-button" data-open-panel="reports-library" aria-controls="reports-library">Reports Library</button><button type="button" class="section-button" data-open-panel="validator-command-center" aria-controls="validator-command-center">Validator Command Center</button><button type="button" class="section-button" data-open-panel="source-transparency" aria-controls="source-transparency">Source Transparency</button><button type="button" class="section-button" data-open-panel="compare-phases" aria-controls="compare-phases">Compare Phases</button><button type="button" class="section-button" data-open-panel="branch-review" aria-controls="branch-review">Branch Review</button><button type="button" class="section-button" data-open-panel="approval-ledger" aria-controls="approval-ledger">Approval Ledger</button><button type="button" class="section-button" data-open-panel="session-audit" aria-controls="session-audit">Audit / Session Data</button></div></div></section>
+    </div><div class="landing-actions"><h3>Open section buttons</h3><div class="section-grid"><button type="button" class="section-button" data-open-panel="phase4d-strategic-preview" aria-controls="phase4d-strategic-preview">Phase 4D Preview</button><button type="button" class="section-button" data-open-panel="safety-boundary" aria-controls="safety-boundary">Safety Boundary</button><button type="button" class="section-button" data-open-panel="action-registry" aria-controls="action-registry">Action Registry</button><button type="button" class="section-button" data-open-panel="artifact-packages" aria-controls="artifact-packages">Artifact Deep Dive</button><button type="button" class="section-button" data-open-panel="reports-library" aria-controls="reports-library">Reports Library</button><button type="button" class="section-button" data-open-panel="validator-command-center" aria-controls="validator-command-center">Validator Command Center</button><button type="button" class="section-button" data-open-panel="source-transparency" aria-controls="source-transparency">Source Transparency</button><button type="button" class="section-button" data-open-panel="compare-phases" aria-controls="compare-phases">Compare Phases</button><button type="button" class="section-button" data-open-panel="branch-review" aria-controls="branch-review">Branch Review</button><button type="button" class="section-button" data-open-panel="approval-ledger" aria-controls="approval-ledger">Approval Ledger</button><button type="button" class="section-button" data-open-panel="session-audit" aria-controls="session-audit">Audit / Session Data</button></div></div></section>
 
     <details class="panel" data-section-group="audit" open id="status-snapshot-panel">
       <summary>Static Status Snapshot</summary>
@@ -151,6 +151,145 @@
       <h4>Latest backend response</h4>
       <pre class="code-block" id="backend-response-json"></pre>
     </div>
+    
+      </div>
+    </details>
+    
+
+    <details class="panel" data-section-group="audit" open id="phase4d-strategic-preview">
+      <summary>Phase 4D Strategic Preview</summary>
+      <div class="panel-body">
+        <div class="stat-grid">
+    <div class="stat">
+      <span>Live auth</span>
+      <strong>false</strong>
+      <span class="mini-status"><span class="badge disabled">DISABLED</span></span>
+    </div>
+    
+    <div class="stat">
+      <span>Database</span>
+      <strong>false</strong>
+      <span class="mini-status"><span class="badge disabled">DISABLED</span></span>
+    </div>
+    
+    <div class="stat">
+      <span>Queue storage</span>
+      <strong>false</strong>
+      <span class="mini-status"><span class="badge disabled">DISABLED</span></span>
+    </div>
+    
+    <div class="stat">
+      <span>Execution</span>
+      <strong>false</strong>
+      <span class="mini-status"><span class="badge disabled">DISABLED</span></span>
+    </div>
+    
+    <div class="stat">
+      <span>External APIs</span>
+      <strong>false</strong>
+      <span class="mini-status"><span class="badge disabled">DISABLED</span></span>
+    </div>
+    </div>
+    <div class="cards-grid">
+      <article class="card">
+        <div class="card-head">
+          <h3 class="card-title">Phase 4D Control Room Preview</h3>
+          <span class="badge disabled">DISABLED</span>
+        </div>
+        <p class="card-body">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SECRET ACCESS.</p>
+        <div class="button-row">
+          <button type="button" class="toggle-button" disabled aria-disabled="true">DISABLED — SCHEMA PREVIEW ONLY</button>
+          <button type="button" class="toggle-button" disabled aria-disabled="true">DISABLED — SCHEMA PREVIEW ONLY</button>
+          <button type="button" class="toggle-button" disabled aria-disabled="true">DISABLED — SCHEMA PREVIEW ONLY</button>
+          <button type="button" class="toggle-button" disabled aria-disabled="true">DISABLED — SCHEMA PREVIEW ONLY</button>
+        </div>
+      </article>
+      <article class="card">
+        <div class="card-head">
+          <h3 class="card-title">Identity & Permissions Preview</h3>
+          <span class="badge disabled">DISABLED</span>
+        </div>
+        <p class="card-body">Recommended provider, roles, and permission boundaries are documented only.</p>
+        <div class="button-row">
+          <button type="button" class="section-button" id="load-phase4d-identity-schema-button">Load identity schema</button>
+          <button type="button" class="toggle-button" disabled aria-disabled="true">DISABLED — SCHEMA PREVIEW ONLY</button>
+        </div>
+        <div class="callout">
+          <p class="muted">DISABLED — SCHEMA PREVIEW ONLY</p>
+          <span id="phase4d-identity-status" class="muted">Not loaded.</span>
+          <div id="phase4d-identity-response-area" style="margin-top: 1rem; display: none;">
+            <pre class="code-block" id="phase4d-identity-response-json"></pre>
+          </div>
+        </div>
+      </article>
+      <article class="card">
+        <div class="card-head">
+          <h3 class="card-title">Action Request Queue Preview</h3>
+          <span class="badge disabled">DISABLED</span>
+        </div>
+        <p class="card-body">Queue intake is request-only and non-executing in this build.</p>
+        <div class="button-row">
+          <button type="button" class="section-button" id="load-phase4d-action-schema-button">Load action schema</button>
+          <button type="button" class="toggle-button" disabled aria-disabled="true">DISABLED — SCHEMA PREVIEW ONLY</button>
+        </div>
+        <div class="callout">
+          <p class="muted">DISABLED — SCHEMA PREVIEW ONLY</p>
+          <span id="phase4d-action-status" class="muted">Not loaded.</span>
+          <div id="phase4d-action-response-area" style="margin-top: 1rem; display: none;">
+            <pre class="code-block" id="phase4d-action-response-json"></pre>
+          </div>
+        </div>
+      </article>
+      <article class="card">
+        <div class="card-head">
+          <h3 class="card-title">Audit Event Schema Preview</h3>
+          <span class="badge disabled">DISABLED</span>
+        </div>
+        <p class="card-body">Audit, approval, and risk schemas are available as static previews.</p>
+        <div class="button-row">
+          <button type="button" class="section-button" id="load-phase4d-audit-schema-button">Load audit schema</button>
+          <button type="button" class="toggle-button" disabled aria-disabled="true">DISABLED — SCHEMA PREVIEW ONLY</button>
+        </div>
+        <div class="callout">
+          <p class="muted">DISABLED — SCHEMA PREVIEW ONLY</p>
+          <span id="phase4d-audit-status" class="muted">Not loaded.</span>
+          <div id="phase4d-audit-response-area" style="margin-top: 1rem; display: none;">
+            <pre class="code-block" id="phase4d-audit-response-json"></pre>
+          </div>
+        </div>
+      </article>
+      <article class="card">
+        <div class="card-head">
+          <h3 class="card-title">Risk Model Preview</h3>
+          <span class="badge disabled">DISABLED</span>
+        </div>
+        <p class="card-body">Risk classes remain static and inert in Phase 4D.</p>
+        <div class="button-row">
+          <button type="button" class="section-button" id="load-phase4d-risk-schema-button">Load risk model</button>
+          <button type="button" class="section-button" id="load-phase4d-approval-schema-button">Load approval schema</button>
+        </div>
+        <div class="callout">
+          <p class="muted">DISABLED — SCHEMA PREVIEW ONLY</p>
+          <span id="phase4d-risk-status" class="muted">Not loaded.</span>
+          <div id="phase4d-risk-response-area" style="margin-top: 1rem; display: none;">
+            <pre class="code-block" id="phase4d-risk-response-json"></pre>
+          </div>
+        </div>
+      </article>
+    </div>
+    <h4>Phase 4D contracts</h4><ul class="compact-list"><li>14_backend/phase_4d_identity_selection_recommendation.md</li><li>14_backend/phase_4d_role_permission_implementation_contract.md</li><li>14_backend/phase_4d_request_only_endpoint_contract.md</li><li>14_backend/phase_4d_disabled_dashboard_ui_contract.md</li><li>14_backend/phase_4d_execution_boundary_contract.md</li><li>14_backend/phase_4d_phase_4e_handoff_contract.md</li></ul>
+    <h4>Schema preview copies</h4>
+    
+    <div class="table-wrap">
+      <table class="data-table" id="phase4d-schema-table" data-table-id="phase4d-schema-table">
+        <caption>Phase 4D static schema previews</caption>
+        <thead>
+          <tr><th scope="col">Preview</th><th scope="col">Dist path</th><th scope="col">Exists</th></tr>
+        </thead>
+        <tbody><tr><th scope="row">Identity schema</th><td><code>13_web_dashboard/dist/phase4d_identity_schema.json</code></td><td><span class="badge pass">PASS</span></td></tr><tr><th scope="row">Action request schema</th><td><code>13_web_dashboard/dist/phase4d_action_schema.json</code></td><td><span class="badge pass">PASS</span></td></tr><tr><th scope="row">Audit event schema</th><td><code>13_web_dashboard/dist/phase4d_audit_schema.json</code></td><td><span class="badge pass">PASS</span></td></tr><tr><th scope="row">Human approval schema</th><td><code>13_web_dashboard/dist/phase4d_approval_schema.json</code></td><td><span class="badge pass">PASS</span></td></tr><tr><th scope="row">Risk model</th><td><code>13_web_dashboard/dist/phase4d_risk_model.json</code></td><td><span class="badge pass">PASS</span></td></tr></tbody>
+      </table>
+    </div>
+    
     
       </div>
     </details>
@@ -240,7 +379,7 @@
     
     <div class="stat">
       <span>Warnings</span>
-      <strong>1</strong>
+      <strong>2</strong>
       <span class="mini-status"><span class="badge warning">WARNING</span></span>
     </div>
     
@@ -252,8 +391,8 @@
     
     <div class="stat">
       <span>Zero-byte files</span>
-      <strong>0</strong>
-      <span class="mini-status"><span class="badge pass">PASS</span></span>
+      <strong>1</strong>
+      <span class="mini-status"><span class="badge warning">WARNING</span></span>
     </div>
     </div>
     <div class="table-tools">
@@ -275,7 +414,7 @@
         <thead>
           <tr><th scope="col">Package ID</th><th scope="col">Package name</th><th scope="col">Exists</th><th scope="col">Verdict</th><th scope="col">Missing files</th><th scope="col">Zero-byte files</th><th scope="col">Warnings</th><th scope="col">Report path</th><th scope="col">Copy</th></tr>
         </thead>
-        <tbody><tr data-package-exists="true" data-package-warnings="0" data-package-missing="0" data-package-verdict="**PASS_WITH_HIGH_CONFIDENCE**" data-search-text="trial_v3 100-Round Trial v3 **PASS_WITH_HIGH_CONFIDENCE** 09_exports/100_round_trial_v3  "><th scope="row"><code>trial_v3</code></th><td>100-Round Trial v3</td><td><span class="badge pass">PASS</span></td><td><span class="badge pass">PASS</span></td><td>0</td><td>0</td><td>0</td><td>09_exports/100_round_trial_v3</td></tr><tr data-package-exists="true" data-package-warnings="0" data-package-missing="0" data-package-verdict="**PASS_WITH_NOTES**" data-search-text="non_repo_gauntlet_001 Non-Repo Gauntlet #1 **PASS_WITH_NOTES** 09_exports/non_repo_gauntlet_001  "><th scope="row"><code>non_repo_gauntlet_001</code></th><td>Non-Repo Gauntlet #1</td><td><span class="badge pass">PASS</span></td><td><span class="badge pass">PASS</span></td><td>0</td><td>0</td><td>0</td><td>09_exports/non_repo_gauntlet_001</td></tr><tr data-package-exists="false" data-package-warnings="1" data-package-missing="1" data-package-verdict="not detected" data-search-text="repo_migration Repo Migration not detected 09_exports/repo_migration the_agent_command_center_migration_report.md Package directory not found"><th scope="row"><code>repo_migration</code></th><td>Repo Migration</td><td><span class="badge fail">FAIL</span></td><td><span class="badge fail">FAIL</span></td><td>1</td><td>0</td><td>1</td><td>09_exports/repo_migration</td></tr><tr data-package-exists="true" data-package-warnings="0" data-package-missing="0" data-package-verdict="**PASS_WITH_HIGH_CONFIDENCE**" data-search-text="interface_phase_1 Interface Phase 1 **PASS_WITH_HIGH_CONFIDENCE** 09_exports/interface_phase_1  "><th scope="row"><code>interface_phase_1</code></th><td>Interface Phase 1</td><td><span class="badge pass">PASS</span></td><td><span class="badge pass">PASS</span></td><td>0</td><td>0</td><td>0</td><td>09_exports/interface_phase_1</td></tr><tr data-package-exists="true" data-package-warnings="0" data-package-missing="0" data-package-verdict="not detected" data-search-text="interface_sessions Interface Phase 1 Sessions not detected 09_exports/interface_phase_1/sessions  "><th scope="row"><code>interface_sessions</code></th><td>Interface Phase 1 Sessions</td><td><span class="badge pass">PASS</span></td><td><span class="badge pass">PASS</span></td><td>0</td><td>0</td><td>0</td><td>09_exports/interface_phase_1/sessions</td></tr></tbody>
+        <tbody><tr data-package-exists="true" data-package-warnings="0" data-package-missing="0" data-package-verdict="**PASS_WITH_HIGH_CONFIDENCE**" data-search-text="trial_v3 100-Round Trial v3 **PASS_WITH_HIGH_CONFIDENCE** 09_exports/100_round_trial_v3  "><th scope="row"><code>trial_v3</code></th><td>100-Round Trial v3</td><td><span class="badge pass">PASS</span></td><td><span class="badge pass">PASS</span></td><td>0</td><td>0</td><td>0</td><td>09_exports/100_round_trial_v3</td></tr><tr data-package-exists="true" data-package-warnings="0" data-package-missing="0" data-package-verdict="**PASS_WITH_NOTES**" data-search-text="non_repo_gauntlet_001 Non-Repo Gauntlet #1 **PASS_WITH_NOTES** 09_exports/non_repo_gauntlet_001  "><th scope="row"><code>non_repo_gauntlet_001</code></th><td>Non-Repo Gauntlet #1</td><td><span class="badge pass">PASS</span></td><td><span class="badge pass">PASS</span></td><td>0</td><td>0</td><td>0</td><td>09_exports/non_repo_gauntlet_001</td></tr><tr data-package-exists="false" data-package-warnings="1" data-package-missing="1" data-package-verdict="not detected" data-search-text="repo_migration Repo Migration not detected 09_exports/repo_migration the_agent_command_center_migration_report.md Package directory not found"><th scope="row"><code>repo_migration</code></th><td>Repo Migration</td><td><span class="badge fail">FAIL</span></td><td><span class="badge fail">FAIL</span></td><td>1</td><td>0</td><td>1</td><td>09_exports/repo_migration</td></tr><tr data-package-exists="true" data-package-warnings="1" data-package-missing="0" data-package-verdict="**PASS_WITH_HIGH_CONFIDENCE**" data-search-text="interface_phase_1 Interface Phase 1 **PASS_WITH_HIGH_CONFIDENCE** 09_exports/interface_phase_1  Zero-byte files: 1 detected"><th scope="row"><code>interface_phase_1</code></th><td>Interface Phase 1</td><td><span class="badge pass">PASS</span></td><td><span class="badge warning">WARNING</span></td><td>0</td><td>1</td><td>1</td><td>09_exports/interface_phase_1</td></tr><tr data-package-exists="true" data-package-warnings="0" data-package-missing="0" data-package-verdict="not detected" data-search-text="interface_sessions Interface Phase 1 Sessions not detected 09_exports/interface_phase_1/sessions  "><th scope="row"><code>interface_sessions</code></th><td>Interface Phase 1 Sessions</td><td><span class="badge pass">PASS</span></td><td><span class="badge pass">PASS</span></td><td>0</td><td>0</td><td>0</td><td>09_exports/interface_phase_1/sessions</td></tr></tbody>
       </table>
     </div>
     
@@ -391,7 +530,7 @@
         <div class="stat-grid">
     <div class="stat">
       <span>Generated at</span>
-      <strong>2026-05-13T02:49:35Z</strong>
+      <strong>2026-05-13T17:05:22Z</strong>
       
     </div>
     
@@ -419,7 +558,7 @@
         <thead>
           <tr><th scope="col">Section</th><th scope="col">Source path</th><th scope="col">Exists</th><th scope="col">Source type</th><th scope="col">Confidence</th><th scope="col">Detected verdict</th></tr>
         </thead>
-        <tbody><tr data-search-text="phase_1_status Phase 1 Status 11_interface/interface_action_registry.py module direct_module_read PASS_WITH_HIGH_CONFIDENCE"><th scope="row">Phase 1 Status</th><td><code>11_interface/interface_action_registry.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>PASS_WITH_HIGH_CONFIDENCE</td></tr><tr data-search-text="phase_2_status Phase 2 Status 12_tui/tui_state.py module direct_module_read PASS_WITH_HIGH_CONFIDENCE"><th scope="row">Phase 2 Status</th><td><code>12_tui/tui_state.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>PASS_WITH_HIGH_CONFIDENCE</td></tr><tr data-search-text="phase_3_status Phase 3 Status 13_web_dashboard/build_phase3_dashboard.py generated_static_snapshot generated_static_snapshot PASS_WITH_HIGH_CONFIDENCE"><th scope="row">Phase 3 Status</th><td><code>13_web_dashboard/build_phase3_dashboard.py</code></td><td><span class="badge pass">PASS</span></td><td>generated_static_snapshot</td><td><span class="badge info">GENERATED</span></td><td>PASS_WITH_HIGH_CONFIDENCE</td></tr><tr data-search-text="action_registry_summary Action Registry Summary 11_interface/interface_action_registry.py module direct_module_read not applicable"><th scope="row">Action Registry Summary</th><td><code>11_interface/interface_action_registry.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>not applicable</td></tr><tr data-search-text="artifact_summary Artifact Summary 11_interface/interface_artifact_inspector.py module direct_module_read PASS_WITH_HIGH_CONFIDENCE"><th scope="row">Artifact Summary</th><td><code>11_interface/interface_artifact_inspector.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>PASS_WITH_HIGH_CONFIDENCE</td></tr><tr data-search-text="approval_ledger_summary Approval Ledger Summary 09_exports/interface_phase_1/approval_ledger/approval_ledger.jsonl module direct_module_read execution_performed_false"><th scope="row">Approval Ledger Summary</th><td><code>09_exports/interface_phase_1/approval_ledger/approval_ledger.jsonl</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>execution_performed_false</td></tr><tr data-search-text="branch_review_summary Branch Review Summary 11_interface/interface_branch_review.py module direct_module_read needs_fixes"><th scope="row">Branch Review Summary</th><td><code>11_interface/interface_branch_review.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>needs_fixes</td></tr><tr data-search-text="session_summary Session Summary 11_interface/interface_session_log.py module direct_module_read read_only"><th scope="row">Session Summary</th><td><code>11_interface/interface_session_log.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>read_only</td></tr><tr data-search-text="validator_status Validator Status 09_exports/interface_phase_3/interface_phase_3_acceptance_report.md report report_derived unknown"><th scope="row">Validator Status</th><td><code>09_exports/interface_phase_3/interface_phase_3_acceptance_report.md</code></td><td><span class="badge pass">PASS</span></td><td>report</td><td><span class="badge pass">REPORT</span></td><td>unknown</td></tr><tr data-search-text="document_index Document Index 09_exports/interface_phase_3/interface_phase_3_acceptance_report.md module direct_module_read report_derived"><th scope="row">Document Index</th><td><code>09_exports/interface_phase_3/interface_phase_3_acceptance_report.md</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>report_derived</td></tr><tr data-search-text="data_freshness Data Freshness 13_web_dashboard/build_phase3_dashboard.py generated_static_snapshot generated_static_snapshot generated_static_snapshot"><th scope="row">Data Freshness</th><td><code>13_web_dashboard/build_phase3_dashboard.py</code></td><td><span class="badge pass">PASS</span></td><td>generated_static_snapshot</td><td><span class="badge info">GENERATED</span></td><td>generated_static_snapshot</td></tr><tr data-search-text="compare_phases Compare Phases 13_web_dashboard/build_phase3_dashboard.py generated_static_snapshot generated_static_snapshot report_derived"><th scope="row">Compare Phases</th><td><code>13_web_dashboard/build_phase3_dashboard.py</code></td><td><span class="badge pass">PASS</span></td><td>generated_static_snapshot</td><td><span class="badge info">GENERATED</span></td><td>report_derived</td></tr></tbody>
+        <tbody><tr data-search-text="phase_1_status Phase 1 Status 11_interface/interface_action_registry.py module direct_module_read PASS_WITH_HIGH_CONFIDENCE"><th scope="row">Phase 1 Status</th><td><code>11_interface/interface_action_registry.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>PASS_WITH_HIGH_CONFIDENCE</td></tr><tr data-search-text="phase_2_status Phase 2 Status 12_tui/tui_state.py module direct_module_read PASS_WITH_HIGH_CONFIDENCE"><th scope="row">Phase 2 Status</th><td><code>12_tui/tui_state.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>PASS_WITH_HIGH_CONFIDENCE</td></tr><tr data-search-text="phase_3_status Phase 3 Status 13_web_dashboard/build_phase3_dashboard.py generated_static_snapshot generated_static_snapshot PASS_WITH_HIGH_CONFIDENCE"><th scope="row">Phase 3 Status</th><td><code>13_web_dashboard/build_phase3_dashboard.py</code></td><td><span class="badge pass">PASS</span></td><td>generated_static_snapshot</td><td><span class="badge info">GENERATED</span></td><td>PASS_WITH_HIGH_CONFIDENCE</td></tr><tr data-search-text="action_registry_summary Action Registry Summary 11_interface/interface_action_registry.py module direct_module_read not applicable"><th scope="row">Action Registry Summary</th><td><code>11_interface/interface_action_registry.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>not applicable</td></tr><tr data-search-text="artifact_summary Artifact Summary 11_interface/interface_artifact_inspector.py module direct_module_read PASS_WITH_HIGH_CONFIDENCE"><th scope="row">Artifact Summary</th><td><code>11_interface/interface_artifact_inspector.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>PASS_WITH_HIGH_CONFIDENCE</td></tr><tr data-search-text="approval_ledger_summary Approval Ledger Summary 09_exports/interface_phase_1/approval_ledger/approval_ledger.jsonl module direct_module_read execution_performed_false"><th scope="row">Approval Ledger Summary</th><td><code>09_exports/interface_phase_1/approval_ledger/approval_ledger.jsonl</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>execution_performed_false</td></tr><tr data-search-text="branch_review_summary Branch Review Summary 11_interface/interface_branch_review.py module direct_module_read ready_for_review"><th scope="row">Branch Review Summary</th><td><code>11_interface/interface_branch_review.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>ready_for_review</td></tr><tr data-search-text="session_summary Session Summary 11_interface/interface_session_log.py module direct_module_read read_only"><th scope="row">Session Summary</th><td><code>11_interface/interface_session_log.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>read_only</td></tr><tr data-search-text="validator_status Validator Status 09_exports/interface_phase_3/interface_phase_3_acceptance_report.md report report_derived unknown"><th scope="row">Validator Status</th><td><code>09_exports/interface_phase_3/interface_phase_3_acceptance_report.md</code></td><td><span class="badge pass">PASS</span></td><td>report</td><td><span class="badge pass">REPORT</span></td><td>unknown</td></tr><tr data-search-text="document_index Document Index 09_exports/interface_phase_3/interface_phase_3_acceptance_report.md module direct_module_read report_derived"><th scope="row">Document Index</th><td><code>09_exports/interface_phase_3/interface_phase_3_acceptance_report.md</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>report_derived</td></tr><tr data-search-text="data_freshness Data Freshness 13_web_dashboard/build_phase3_dashboard.py generated_static_snapshot generated_static_snapshot generated_static_snapshot"><th scope="row">Data Freshness</th><td><code>13_web_dashboard/build_phase3_dashboard.py</code></td><td><span class="badge pass">PASS</span></td><td>generated_static_snapshot</td><td><span class="badge info">GENERATED</span></td><td>generated_static_snapshot</td></tr><tr data-search-text="compare_phases Compare Phases 13_web_dashboard/build_phase3_dashboard.py generated_static_snapshot generated_static_snapshot report_derived"><th scope="row">Compare Phases</th><td><code>13_web_dashboard/build_phase3_dashboard.py</code></td><td><span class="badge pass">PASS</span></td><td>generated_static_snapshot</td><td><span class="badge info">GENERATED</span></td><td>report_derived</td></tr></tbody>
       </table>
     </div>
     
@@ -475,8 +614,8 @@
     
     <div class="stat">
       <span>Risk level</span>
-      <strong>unknown</strong>
-      <span class="mini-status"><span class="badge unknown">UNKNOWN</span></span>
+      <strong>low</strong>
+      <span class="mini-status"><span class="badge pass">LOW</span></span>
     </div>
     </div>
     <div class="callout">
@@ -484,35 +623,34 @@
       <pre class="code-block">{
   &quot;status&quot;: &quot;prepared_not_merged&quot;,
   &quot;review_path&quot;: &quot;09_exports/interface_phase_1/branch_reviews/interface_phase-1-operational-hardening_review.md&quot;,
-  &quot;review_id&quot;: &quot;BR-20260513-023814-interface_phase-&quot;,
+  &quot;review_id&quot;: &quot;BR-20260511-232813-interface_phase-&quot;,
   &quot;branch&quot;: &quot;interface/phase-1-operational-hardening&quot;,
   &quot;base_branch&quot;: &quot;interface/phase-1-upgrade-pack&quot;,
-  &quot;decision&quot;: &quot;needs_fixes&quot;,
-  &quot;risk_level&quot;: &quot;unknown&quot;,
-  &quot;changed_file_count&quot;: 28,
+  &quot;decision&quot;: &quot;ready_for_review&quot;,
+  &quot;risk_level&quot;: &quot;low&quot;,
+  &quot;changed_file_count&quot;: 19,
   &quot;merge_performed&quot;: false,
   &quot;deployment_performed&quot;: false,
   &quot;changed_files&quot;: [
     &quot;09_exports/interface_phase_1/approval_ledger/approval_ledger.jsonl&quot;,
     &quot;09_exports/interface_phase_1/branch_reviews/HEAD_review.md&quot;,
-    &quot;09_exports/interface_phase_1/branch_reviews/interface_phase-1-operational-hardening_review.md&quot;,
     &quot;09_exports/interface_phase_1/command_packets/validator_wall_packet.md&quot;,
-    &quot;09_exports/interface_phase_1/interface_phase_1_acceptance_report.md&quot;,
     &quot;09_exports/interface_phase_1/interface_phase_1_command_map.md&quot;,
-    &quot;09_exports/interface_phase_1/interface_phase_1_demo_notes.md&quot;,
-    &quot;09_exports/interface_phase_1/interface_phase_1_final_acceptance_report.md&quot;,
     &quot;09_exports/interface_phase_1/interface_phase_1_operational_hardening_report.md&quot;,
     &quot;09_exports/interface_phase_1/interface_phase_1_operator_quickstart.md&quot;,
     &quot;09_exports/interface_phase_1/interface_phase_1_upgrade_report.md&quot;,
-    &quot;09_exports/interface_phase_1/merge_readiness/interface_phase_1_merge_readiness_packet.md&quot;,
-    &quot;09_exports/interface_phase_1/phase_2_handoff_contract.md&quot;,
-    &quot;09_exports/interface_phase_1/test_runs/e2e_ledger_test.jsonl&quot;,
     &quot;11_interface/README.md&quot;,
     &quot;11_interface/interface_action_registry.py&quot;,
     &quot;11_interface/interface_actions.py&quot;,
     &quot;11_interface/interface_approval_ledger.py&quot;,
     &quot;11_interface/interface_artifact_inspector.py&quot;,
-    &quot;11_interface/interface_branch_review.py&quot;
+    &quot;11_interface/interface_branch_review.py&quot;,
+    &quot;11_interface/interface_policy.py&quot;,
+    &quot;11_interface/interface_policy_enforcer.py&quot;,
+    &quot;11_interface/station_chief_cli.py&quot;,
+    &quot;scripts/validate_interface_phase_1_cli.py&quot;,
+    &quot;scripts/validate_interface_phase_1_command_packets.py&quot;,
+    &quot;scripts/validate_interface_phase_1_e2e.py&quot;
   ]
 }</pre>
       <p class="muted">Report path: <code>09_exports/interface_phase_1/branch_reviews/interface_phase-1-operational-hardening_review.md</code></p>
@@ -572,7 +710,7 @@
     
     <div class="stat">
       <span>Phase 2 sessions</span>
-      <strong>3072</strong>
+      <strong>3456</strong>
       
     </div>
     
@@ -599,8 +737,8 @@
     </main>
   </div>
   <script type="application/json" id="dashboard-data">{
-  "dashboard_id": "PH3-20260513-024934",
-  "created_at_utc": "2026-05-13T02:49:34Z",
+  "dashboard_id": "PH3-20260513-170521",
+  "created_at_utc": "2026-05-13T17:05:21Z",
   "phase": "Read-Only Operations Dashboard",
   "repo": "dev-in-portfolio/the-agent-command-center",
   "source_lineage": "dev-in-portfolio/agent-command-center-3",
@@ -940,11 +1078,15 @@
         "final_verdict": "**PASS_WITH_HIGH_CONFIDENCE**",
         "missing_expected_files_count": 0,
         "missing_expected_files": [],
-        "zero_byte_count": 0,
-        "zero_byte_files": [],
-        "warnings_count": 0,
-        "warnings": [],
-        "status": "PASS",
+        "zero_byte_count": 1,
+        "zero_byte_files": [
+          "interface_phase_1/test_runs/e2e_ledger_test.jsonl"
+        ],
+        "warnings_count": 1,
+        "warnings": [
+          "Zero-byte files: 1 detected"
+        ],
+        "status": "WARNING",
         "report_path": "09_exports/interface_phase_1",
         "recommended_next_action": "## 31. Recommended Next Phase",
         "source_file_path": "09_exports/interface_phase_1",
@@ -974,9 +1116,9 @@
     ],
     "exists": false,
     "verdict": "PASS_WITH_HIGH_CONFIDENCE",
-    "warnings_count": 1,
+    "warnings_count": 2,
     "missing_count": 1,
-    "zero_byte_count": 0,
+    "zero_byte_count": 1,
     "summary": "5 packages inspected."
   },
   "approval_ledger_summary": {
@@ -1055,35 +1197,34 @@
     "latest_packet": {
       "status": "prepared_not_merged",
       "review_path": "09_exports/interface_phase_1/branch_reviews/interface_phase-1-operational-hardening_review.md",
-      "review_id": "BR-20260513-023814-interface_phase-",
+      "review_id": "BR-20260511-232813-interface_phase-",
       "branch": "interface/phase-1-operational-hardening",
       "base_branch": "interface/phase-1-upgrade-pack",
-      "decision": "needs_fixes",
-      "risk_level": "unknown",
-      "changed_file_count": 28,
+      "decision": "ready_for_review",
+      "risk_level": "low",
+      "changed_file_count": 19,
       "merge_performed": false,
       "deployment_performed": false,
       "changed_files": [
         "09_exports/interface_phase_1/approval_ledger/approval_ledger.jsonl",
         "09_exports/interface_phase_1/branch_reviews/HEAD_review.md",
-        "09_exports/interface_phase_1/branch_reviews/interface_phase-1-operational-hardening_review.md",
         "09_exports/interface_phase_1/command_packets/validator_wall_packet.md",
-        "09_exports/interface_phase_1/interface_phase_1_acceptance_report.md",
         "09_exports/interface_phase_1/interface_phase_1_command_map.md",
-        "09_exports/interface_phase_1/interface_phase_1_demo_notes.md",
-        "09_exports/interface_phase_1/interface_phase_1_final_acceptance_report.md",
         "09_exports/interface_phase_1/interface_phase_1_operational_hardening_report.md",
         "09_exports/interface_phase_1/interface_phase_1_operator_quickstart.md",
         "09_exports/interface_phase_1/interface_phase_1_upgrade_report.md",
-        "09_exports/interface_phase_1/merge_readiness/interface_phase_1_merge_readiness_packet.md",
-        "09_exports/interface_phase_1/phase_2_handoff_contract.md",
-        "09_exports/interface_phase_1/test_runs/e2e_ledger_test.jsonl",
         "11_interface/README.md",
         "11_interface/interface_action_registry.py",
         "11_interface/interface_actions.py",
         "11_interface/interface_approval_ledger.py",
         "11_interface/interface_artifact_inspector.py",
-        "11_interface/interface_branch_review.py"
+        "11_interface/interface_branch_review.py",
+        "11_interface/interface_policy.py",
+        "11_interface/interface_policy_enforcer.py",
+        "11_interface/station_chief_cli.py",
+        "scripts/validate_interface_phase_1_cli.py",
+        "scripts/validate_interface_phase_1_command_packets.py",
+        "scripts/validate_interface_phase_1_e2e.py"
       ]
     },
     "prepared_state": "prepared_not_merged",
@@ -1097,7 +1238,7 @@
     "source_type": "module",
     "source_confidence": "direct_module_read",
     "phase_1_session_count": 0,
-    "phase_2_session_count": 3072,
+    "phase_2_session_count": 3456,
     "phase_1_sessions": [],
     "phase_2_sessions": [
       "09_exports/interface_phase_2/sessions/session_TUI-20260512-003552-941813.json",
@@ -1147,7 +1288,7 @@
     "phase_3_build_report": "09_exports/interface_phase_3/interface_phase_3_static_build_report.md",
     "phase_3_note": "no live session mutation unless build report is written",
     "session_logs_read_only": true,
-    "summary": "0 phase 1 sessions, 3072 phase 2 sessions."
+    "summary": "0 phase 1 sessions, 3456 phase 2 sessions."
   },
   "validator_status": {
     "source_file_path": "09_exports/interface_phase_3/interface_phase_3_acceptance_report.md",
@@ -1602,7 +1743,7 @@
     "source_exists": true,
     "source_type": "generated_static_snapshot",
     "source_confidence": "generated_static_snapshot",
-    "generated_at_utc": "2026-05-13T02:49:35Z",
+    "generated_at_utc": "2026-05-13T17:05:22Z",
     "freshness_status": "generated_static_snapshot",
     "snapshot_age_seconds": 0,
     "notes": [
@@ -1678,7 +1819,7 @@
         "source_exists": true,
         "source_type": "module",
         "source_confidence": "direct_module_read",
-        "detected_verdict": "needs_fixes"
+        "detected_verdict": "ready_for_review"
       },
       {
         "section_id": "session_summary",
@@ -1805,23 +1946,51 @@
     "allowed_label_findings": [
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 434,
+        "line": 475,
         "pattern": "NO DEPLOY",
         "context": "<span>NO DEPLOY CONTROLS<\/span>",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 435,
+        "line": 476,
         "pattern": "NO MERGE",
         "context": "<span>NO MERGE CONTROLS<\/span>",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 436,
+        "line": 477,
         "pattern": "NO SECRET ACCESS",
         "context": "<span>NO SECRET ACCESS<\/span>",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_renderer.py",
+        "line": 855,
+        "pattern": "NO DEPLOY",
+        "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_renderer.py",
+        "line": 855,
+        "pattern": "NO MERGE",
+        "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_renderer.py",
+        "line": 855,
+        "pattern": "NO PUSH",
+        "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_renderer.py",
+        "line": 855,
+        "pattern": "NO SECRET ACCESS",
+        "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {

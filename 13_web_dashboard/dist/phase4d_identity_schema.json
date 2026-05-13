@@ -1,0 +1,73 @@
+{
+  "schema_mode": "static_inert_schema_preview",
+  "live_external_api_calls": false,
+  "github_api_calls": false,
+  "netlify_api_calls": false,
+  "browser_external_fetches": false,
+  "secrets_used": false,
+  "tokens_used": false,
+  "environment_variables_read": false,
+  "command_execution": false,
+  "github_mutation": false,
+  "netlify_mutation": false,
+  "deploy_controls": false,
+  "merge_controls": false,
+  "push_controls": false,
+  "pr_controls": false,
+  "action_execution": false,
+  "action_queue_live": false,
+  "schema_id": "phase4d_identity_schema_v1",
+  "title": "Phase 4D Identity Schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "identity_id",
+    "provider",
+    "subject",
+    "display_name",
+    "email",
+    "roles",
+    "status",
+    "implementation_status"
+  ],
+  "properties": {
+    "identity_id": { "type": "string", "minLength": 1 },
+    "provider": { "type": "string", "enum": ["netlify_identity", "other_future_provider"] },
+    "subject": { "type": "string", "minLength": 1 },
+    "display_name": { "type": "string", "minLength": 1 },
+    "email": { "type": "string", "minLength": 3 },
+    "roles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "enum": [
+          "public_viewer",
+          "operator_requester",
+          "operator_approver",
+          "security_auditor",
+          "platform_admin"
+        ]
+      }
+    },
+    "status": { "type": "string", "enum": ["planned", "disabled"] },
+    "implementation_status": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "live_auth_implemented",
+        "database_implemented",
+        "environment_variables_read",
+        "secrets_added",
+        "tokens_added"
+      ],
+      "properties": {
+        "live_auth_implemented": { "const": false },
+        "database_implemented": { "const": false },
+        "environment_variables_read": { "const": false },
+        "secrets_added": { "const": false },
+        "tokens_added": { "const": false }
+      }
+    }
+  }
+}
