@@ -43,7 +43,17 @@ def main():
 
     # Dashboard JS allowed fetches
     js_content = (ROOT / "13_web_dashboard/static/dashboard.js").read_text()
-    allowed = ["/api/health", "/api/status", "/api/backend-manifest", "./status_snapshot.json"]
+    allowed = [
+        "/api/health",
+        "/api/status",
+        "/api/backend-manifest",
+        "./status_snapshot.json",
+        "./phase4d_identity_schema.json",
+        "./phase4d_action_schema.json",
+        "./phase4d_audit_schema.json",
+        "./phase4d_risk_model.json",
+        "./phase4d_approval_schema.json",
+    ]
     for line in js_content.splitlines():
         if "fetch(" in line:
             if not any(a in line for a in allowed):

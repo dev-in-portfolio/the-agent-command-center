@@ -8,6 +8,26 @@ ROOT = Path(__file__).resolve().parent.parent
 SCHEMA_DIR = ROOT / "14_backend" / "schemas"
 DIST_DIR = ROOT / "13_web_dashboard" / "dist"
 
+REQUIRED_TOP_LEVEL_FLAGS = {
+    "schema_mode": "static_inert_schema_preview",
+    "live_external_api_calls": False,
+    "github_api_calls": False,
+    "netlify_api_calls": False,
+    "browser_external_fetches": False,
+    "secrets_used": False,
+    "tokens_used": False,
+    "environment_variables_read": False,
+    "command_execution": False,
+    "github_mutation": False,
+    "netlify_mutation": False,
+    "deploy_controls": False,
+    "merge_controls": False,
+    "push_controls": False,
+    "pr_controls": False,
+    "action_execution": False,
+    "action_queue_live": False,
+}
+
 SCHEMA_MAP = {
     "phase4d_identity_schema.json": "phase4d_identity_schema.json",
     "phase4d_action_schema.json": "phase4d_action_schema.json",
@@ -26,21 +46,12 @@ def _load_json(path):
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def _assert_false_flags(payload, found=None):
-    if found is None:
-        found = []
-    if isinstance(payload, dict):
-        for key, value in payload.items():
-            if key.endswith("_implemented") or key.endswith("_added") or key.endswith("_read"):
-                if isinstance(value, dict) and "const" in value:
-                    found.append((key, value.get("const")))
-                else:
-                    found.append((key, value))
-            _assert_false_flags(value, found)
-    elif isinstance(payload, list):
-        for item in payload:
-            _assert_false_flags(item, found)
-    return found
+def _validate_top_level_flags(source_name, payload):
+    for key, expected_value in REQUIRED_TOP_LEVEL_FLAGS.items():
+        actual_value = payload.get(key)
+        if actual_value != expected_value:
+            return _fail(f"schema top-level flag mismatch: {source_name}::{key}")
+    return 0
 
 
 def main():
@@ -51,10 +62,9 @@ def main():
         if not source_path.exists():
             return _fail(f"missing source schema: {source_name}")
         payload = _load_json(source_path)
-        false_flags = _assert_false_flags(payload)
-        for key, value in false_flags:
-            if value is not False:
-                return _fail(f"schema flag must be false: {source_name}::{key}")
+        rc = _validate_top_level_flags(source_name, payload)
+        if rc != 0:
+            return rc
         shutil.copy2(source_path, dest_path)
 
     print("PHASE_4D_SCHEMA_PREVIEW_BUILD_PASS")

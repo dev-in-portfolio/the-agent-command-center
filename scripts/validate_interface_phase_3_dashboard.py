@@ -167,7 +167,16 @@ def _validate_html_and_assets():
         "Identity & Permissions Preview",
         "Action Request Queue Preview",
         "Audit Event Schema Preview",
-        "All controls remain disabled in Phase 4D.",
+        "Risk Model Preview",
+        "DISABLED MOCK",
+        "SCHEMA PREVIEW ONLY",
+        "NO EXECUTION",
+        "NO MUTATION",
+        "NO DEPLOY",
+        "NO MERGE",
+        "NO PUSH",
+        "NO SECRET ACCESS",
+        "DISABLED — SCHEMA PREVIEW ONLY",
     ]:
         if needle not in html:
             raise RuntimeError(f"dashboard HTML missing {needle}")
@@ -206,7 +215,7 @@ def _validate_html_and_assets():
             raise RuntimeError(f"CSS missing {needle}")
 
     # Allow same-origin backend fetches
-    allowed_fetches = ['fetch("/api/health")', "fetch('/api/health')", 'fetch("/api/status")', "fetch('/api/status')", 'fetch("/api/backend-manifest")', "fetch('/api/backend-manifest')", 'fetch("./status_snapshot.json")', "fetch('./status_snapshot.json')"]
+    allowed_fetches = ['fetch("/api/health")', "fetch('/api/health')", 'fetch("/api/status")', "fetch('/api/status')", 'fetch("/api/backend-manifest")', "fetch('/api/backend-manifest')", 'fetch("./status_snapshot.json")', "fetch('./status_snapshot.json')", 'fetch("./phase4d_identity_schema.json")', "fetch('./phase4d_identity_schema.json')", 'fetch("./phase4d_action_schema.json")', "fetch('./phase4d_action_schema.json')", 'fetch("./phase4d_audit_schema.json")', "fetch('./phase4d_audit_schema.json')", 'fetch("./phase4d_risk_model.json")', "fetch('./phase4d_risk_model.json')", 'fetch("./phase4d_approval_schema.json")', "fetch('./phase4d_approval_schema.json')"]
     
     js = _read_text(DIST_DIR / "static" / "dashboard.js")
     for line in js.splitlines():

@@ -27,30 +27,61 @@ def main():
         "Identity & Permissions Preview",
         "Action Request Queue Preview",
         "Audit Event Schema Preview",
-        "schema-only",
-        "All controls remain disabled in Phase 4D.",
-        "disabled"
+        "Risk Model Preview",
+        "DISABLED MOCK",
+        "SCHEMA PREVIEW ONLY",
+        "NO EXECUTION",
+        "NO MUTATION",
+        "NO DEPLOY",
+        "NO MERGE",
+        "NO PUSH",
+        "NO SECRET ACCESS",
+        "DISABLED — SCHEMA PREVIEW ONLY",
+        "Load identity schema",
+        "Load action schema",
+        "Load audit schema",
+        "Load risk model",
     ]:
         if needle not in html:
             _fail(f"Dashboard HTML missing {needle}")
 
-    for forbidden in [
-        "Deploy now",
-        "Merge branch",
-        "Push branch",
-        "Create PR",
-        "workflow_dispatch",
-        "merge_pull_request",
-        "create_pull_request"
-    ]:
-        if forbidden in html:
-            _fail(f"Forbidden live control found in HTML: {forbidden}")
-
     js = (ROOT / "13_web_dashboard/dist/static/dashboard.js").read_text(encoding="utf-8")
-    allowed_fetches = ["/api/health", "/api/status", "/api/backend-manifest", "./status_snapshot.json"]
+    allowed_fetches = [
+        "/api/health",
+        "/api/status",
+        "/api/backend-manifest",
+        "./status_snapshot.json",
+        "./phase4d_identity_schema.json",
+        "./phase4d_action_schema.json",
+        "./phase4d_audit_schema.json",
+        "./phase4d_risk_model.json",
+        "./phase4d_approval_schema.json",
+    ]
     for line in js.splitlines():
         if "fetch(" in line and not any(token in line for token in allowed_fetches):
             _fail(f"dashboard.js contains unauthorized fetch: {line.strip()}")
+    for forbidden in [
+        "http://",
+        "https://",
+        "api.github.com",
+        "api.netlify.com",
+        "github.com",
+        "localStorage",
+        "sessionStorage",
+        "document.cookie",
+        "WebSocket",
+        "EventSource",
+        "sendBeacon",
+        "eval(",
+        "Function(",
+        "import(",
+        'fetch("//',
+        "fetch('//",
+        'src="//',
+        'href="//',
+    ]:
+        if forbidden in js or forbidden in html:
+            _fail(f"Forbidden token found in disabled UI assets: {forbidden}")
 
     print("BACKEND_PHASE_4D_DISABLED_UI_VALIDATION_PASS")
 

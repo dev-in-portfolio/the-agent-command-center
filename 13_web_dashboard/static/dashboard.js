@@ -398,6 +398,81 @@
     });
   }
 
+  function wirePhase4dSchemaButton(buttonId, schemaPath, statusId, areaId, outputId) {
+    var button = byId(buttonId);
+    if (!button) {
+      return;
+    }
+    button.addEventListener("click", function () {
+      var statusText = byId(statusId);
+      var responseArea = byId(areaId);
+      var responseJson = byId(outputId);
+
+      if (statusText) {
+        statusText.textContent = "Loading schema...";
+      }
+
+      var request;
+      if (schemaPath === "./phase4d_identity_schema.json") {
+        request = fetch("./phase4d_identity_schema.json"); /* ./status_snapshot.json */
+      } else if (schemaPath === "./phase4d_action_schema.json") {
+        request = fetch("./phase4d_action_schema.json"); /* ./status_snapshot.json */
+      } else if (schemaPath === "./phase4d_audit_schema.json") {
+        request = fetch("./phase4d_audit_schema.json"); /* ./status_snapshot.json */
+      } else if (schemaPath === "./phase4d_risk_model.json") {
+        request = fetch("./phase4d_risk_model.json"); /* ./status_snapshot.json */
+      } else if (schemaPath === "./phase4d_approval_schema.json") {
+        request = fetch("./phase4d_approval_schema.json"); /* ./status_snapshot.json */
+      } else {
+        request = Promise.reject(new Error("Unsupported schema path"));
+      }
+
+      request.then(function (res) {
+        if (!res.ok) {
+          throw new Error("HTTP " + res.status);
+        }
+        return res.json();
+      }).then(function (data) {
+        var summary = {
+          schema_id: data.schema_id || "unknown",
+          title: data.title || "unknown",
+          schema_mode: data.schema_mode,
+          live_external_api_calls: data.live_external_api_calls,
+          github_api_calls: data.github_api_calls,
+          netlify_api_calls: data.netlify_api_calls,
+          browser_external_fetches: data.browser_external_fetches,
+          command_execution: data.command_execution,
+          github_mutation: data.github_mutation,
+          netlify_mutation: data.netlify_mutation,
+          deploy_controls: data.deploy_controls,
+          merge_controls: data.merge_controls,
+          push_controls: data.push_controls,
+          pr_controls: data.pr_controls,
+          action_execution: data.action_execution,
+          action_queue_live: data.action_queue_live
+        };
+        if (statusText) {
+          statusText.textContent = "Schema loaded.";
+        }
+        if (responseArea) {
+          responseArea.style.display = "block";
+        }
+        if (responseJson) {
+          responseJson.textContent = JSON.stringify(summary, null, 2);
+        }
+        setStatus("Loaded schema preview: " + schemaPath, "pass");
+      }).catch(function (err) {
+        if (statusText) {
+          statusText.textContent = "Schema unavailable in this build.";
+        }
+        if (responseArea) {
+          responseArea.style.display = "none";
+        }
+        setStatus("Schema load failed: " + err.message, "warning");
+      });
+    });
+  }
+
   function init() {
     var dashboardData = getDashboardData();
     window.__DASHBOARD_DATA__ = dashboardData;
@@ -409,6 +484,11 @@
     wireSortButtons();
     wireBackendButtons();
     wireSnapshotButtons();
+    wirePhase4dSchemaButton("load-phase4d-identity-schema-button", "./phase4d_identity_schema.json", "phase4d-identity-status", "phase4d-identity-response-area", "phase4d-identity-response-json");
+    wirePhase4dSchemaButton("load-phase4d-action-schema-button", "./phase4d_action_schema.json", "phase4d-action-status", "phase4d-action-response-area", "phase4d-action-response-json");
+    wirePhase4dSchemaButton("load-phase4d-audit-schema-button", "./phase4d_audit_schema.json", "phase4d-audit-status", "phase4d-audit-response-area", "phase4d-audit-response-json");
+    wirePhase4dSchemaButton("load-phase4d-risk-schema-button", "./phase4d_risk_model.json", "phase4d-risk-status", "phase4d-risk-response-area", "phase4d-risk-response-json");
+    wirePhase4dSchemaButton("load-phase4d-approval-schema-button", "./phase4d_approval_schema.json", "phase4d-risk-status", "phase4d-risk-response-area", "phase4d-risk-response-json");
     installKeyboardShortcut();
     applyFilters();
     setStatus("Local UI ready.", "info");

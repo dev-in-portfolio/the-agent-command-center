@@ -180,7 +180,7 @@ def _phase4d_schema_meta():
         ("phase4d_action_schema.json", "Action request schema"),
         ("phase4d_audit_schema.json", "Audit event schema"),
         ("phase4d_approval_schema.json", "Human approval schema"),
-        ("phase4d_risk_model.json", "Risk classification model"),
+        ("phase4d_risk_model.json", "Risk model"),
     ]:
         dist_path = PHASE4D_DIST_DIR / name
         exists = dist_path.exists()
@@ -852,7 +852,7 @@ def _build_phase4d_preview_panel():
           <h3 class="card-title">Phase 4D Control Room Preview</h3>
           {status}
         </div>
-        <p class="card-body">Static contract surface only. This is a schema-only preview. All controls remain disabled in Phase 4D.</p>
+        <p class="card-body">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SECRET ACCESS.</p>
         <div class="button-row">
           {request_button}
           {approve_button}
@@ -867,8 +867,15 @@ def _build_phase4d_preview_panel():
         </div>
         <p class="card-body">Recommended provider, roles, and permission boundaries are documented only.</p>
         <div class="button-row">
-          {identity_button}
+          {identity_load_button}
           {role_button}
+        </div>
+        <div class="callout">
+          <p class="muted">DISABLED — SCHEMA PREVIEW ONLY</p>
+          <span id="phase4d-identity-status" class="muted">Not loaded.</span>
+          <div id="phase4d-identity-response-area" style="margin-top: 1rem; display: none;">
+            <pre class="code-block" id="phase4d-identity-response-json"></pre>
+          </div>
         </div>
       </article>
       <article class="card">
@@ -878,8 +885,15 @@ def _build_phase4d_preview_panel():
         </div>
         <p class="card-body">Queue intake is request-only and non-executing in this build.</p>
         <div class="button-row">
-          {queue_button}
+          {action_load_button}
           {push_button}
+        </div>
+        <div class="callout">
+          <p class="muted">DISABLED — SCHEMA PREVIEW ONLY</p>
+          <span id="phase4d-action-status" class="muted">Not loaded.</span>
+          <div id="phase4d-action-response-area" style="margin-top: 1rem; display: none;">
+            <pre class="code-block" id="phase4d-action-response-json"></pre>
+          </div>
         </div>
       </article>
       <article class="card">
@@ -889,23 +903,50 @@ def _build_phase4d_preview_panel():
         </div>
         <p class="card-body">Audit, approval, and risk schemas are available as static previews.</p>
         <div class="button-row">
-          {audit_button}
+          {audit_load_button}
           {pr_button}
+        </div>
+        <div class="callout">
+          <p class="muted">DISABLED — SCHEMA PREVIEW ONLY</p>
+          <span id="phase4d-audit-status" class="muted">Not loaded.</span>
+          <div id="phase4d-audit-response-area" style="margin-top: 1rem; display: none;">
+            <pre class="code-block" id="phase4d-audit-response-json"></pre>
+          </div>
+        </div>
+      </article>
+      <article class="card">
+        <div class="card-head">
+          <h3 class="card-title">Risk Model Preview</h3>
+          {status}
+        </div>
+        <p class="card-body">Risk classes remain static and inert in Phase 4D.</p>
+        <div class="button-row">
+          {risk_load_button}
+          {approval_load_button}
+        </div>
+        <div class="callout">
+          <p class="muted">DISABLED — SCHEMA PREVIEW ONLY</p>
+          <span id="phase4d-risk-status" class="muted">Not loaded.</span>
+          <div id="phase4d-risk-response-area" style="margin-top: 1rem; display: none;">
+            <pre class="code-block" id="phase4d-risk-response-json"></pre>
+          </div>
         </div>
       </article>
     </div>
     """.format(
         status=_status_badge("DISABLED"),
-        request_button=_disabled_button("Request action disabled"),
-        approve_button=_disabled_button("Approve disabled"),
-        deploy_button=_disabled_button("Deploy disabled"),
-        merge_button=_disabled_button("Merge disabled"),
-        identity_button=_disabled_button("Identity setup disabled"),
-        role_button=_disabled_button("Role grant disabled"),
-        queue_button=_disabled_button("Queue move disabled"),
-        push_button=_disabled_button("Push disabled"),
-        audit_button=_disabled_button("Audit export disabled"),
-        pr_button=_disabled_button("PR disabled"),
+        request_button=_disabled_button("DISABLED — SCHEMA PREVIEW ONLY"),
+        approve_button=_disabled_button("DISABLED — SCHEMA PREVIEW ONLY"),
+        deploy_button=_disabled_button("DISABLED — SCHEMA PREVIEW ONLY"),
+        merge_button=_disabled_button("DISABLED — SCHEMA PREVIEW ONLY"),
+        identity_load_button='<button type="button" class="section-button" id="load-phase4d-identity-schema-button">Load identity schema</button>',
+        role_button=_disabled_button("DISABLED — SCHEMA PREVIEW ONLY"),
+        action_load_button='<button type="button" class="section-button" id="load-phase4d-action-schema-button">Load action schema</button>',
+        push_button=_disabled_button("DISABLED — SCHEMA PREVIEW ONLY"),
+        audit_load_button='<button type="button" class="section-button" id="load-phase4d-audit-schema-button">Load audit schema</button>',
+        pr_button=_disabled_button("DISABLED — SCHEMA PREVIEW ONLY"),
+        risk_load_button='<button type="button" class="section-button" id="load-phase4d-risk-schema-button">Load risk model</button>',
+        approval_load_button='<button type="button" class="section-button" id="load-phase4d-approval-schema-button">Load approval schema</button>',
     )
 
     schema_summary = _stat_grid([
@@ -928,17 +969,8 @@ def _build_phase4d_preview_panel():
     previews = """
     <h4>Schema preview copies</h4>
     {table}
-    <h4>Identity schema JSON</h4>
-    {identity}
-    <h4>Action request schema JSON</h4>
-    {action}
-    <h4>Audit event schema JSON</h4>
-    {audit}
     """.format(
         table=_table(["Preview", "Dist path", "Exists"], schema_rows, "phase4d-schema-table", "Phase 4D static schema previews"),
-        identity=_json_preview(PHASE4D_DIST_DIR / "phase4d_identity_schema.json", "Identity schema preview missing."),
-        action=_json_preview(PHASE4D_DIST_DIR / "phase4d_action_schema.json", "Action schema preview missing."),
-        audit=_json_preview(PHASE4D_DIST_DIR / "phase4d_audit_schema.json", "Audit schema preview missing."),
     )
 
     return _details(
