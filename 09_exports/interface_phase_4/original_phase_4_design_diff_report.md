@@ -15,6 +15,10 @@
 - **Header:** Implemented gradient background for the hero section to distinguish it from the content area.
 - **Panels:** Refined `<summary>` styling with bold text and accent color transitions on hover.
 
-## Responsiveness
-- Optimized card grids for better stacking on tablet devices.
-- Refined toolbar layout for mobile viewports.
+## Responsive Layout Fix
+- Fixed tablet and expanded-window layout behaviors.
+- Improved Phase 4D preview card wrapping by constraining `min-width` on grid children.
+- Added safe internal scrolling and max-height to schema JSON code blocks to prevent layout blowout.
+- Improved sticky safety banner to flex and wrap smoothly on smaller screens.
+- Improved button row wrapping and card containment to keep the UI clean across breakpoints.
+- No backend behavior, capabilities, or Netlify Functions were changed.

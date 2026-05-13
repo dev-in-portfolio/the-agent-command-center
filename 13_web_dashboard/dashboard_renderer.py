@@ -873,7 +873,7 @@ def _build_phase4d_preview_panel():
         <div class="callout">
           <p class="muted">DISABLED — SCHEMA PREVIEW ONLY</p>
           <span id="phase4d-identity-status" class="muted">Not loaded.</span>
-          <div id="phase4d-identity-response-area" style="margin-top: 1rem; display: none;">
+          <div id="phase4d-identity-response-area" style="margin-top: 1rem; display: none; overflow: hidden; width: 100%;">
             <pre class="code-block" id="phase4d-identity-response-json"></pre>
           </div>
         </div>
@@ -891,7 +891,7 @@ def _build_phase4d_preview_panel():
         <div class="callout">
           <p class="muted">DISABLED — SCHEMA PREVIEW ONLY</p>
           <span id="phase4d-action-status" class="muted">Not loaded.</span>
-          <div id="phase4d-action-response-area" style="margin-top: 1rem; display: none;">
+          <div id="phase4d-action-response-area" style="margin-top: 1rem; display: none; overflow: hidden; width: 100%;">
             <pre class="code-block" id="phase4d-action-response-json"></pre>
           </div>
         </div>
@@ -909,7 +909,7 @@ def _build_phase4d_preview_panel():
         <div class="callout">
           <p class="muted">DISABLED — SCHEMA PREVIEW ONLY</p>
           <span id="phase4d-audit-status" class="muted">Not loaded.</span>
-          <div id="phase4d-audit-response-area" style="margin-top: 1rem; display: none;">
+          <div id="phase4d-audit-response-area" style="margin-top: 1rem; display: none; overflow: hidden; width: 100%;">
             <pre class="code-block" id="phase4d-audit-response-json"></pre>
           </div>
         </div>
@@ -927,7 +927,7 @@ def _build_phase4d_preview_panel():
         <div class="callout">
           <p class="muted">DISABLED — SCHEMA PREVIEW ONLY</p>
           <span id="phase4d-risk-status" class="muted">Not loaded.</span>
-          <div id="phase4d-risk-response-area" style="margin-top: 1rem; display: none;">
+          <div id="phase4d-risk-response-area" style="margin-top: 1rem; display: none; overflow: hidden; width: 100%;">
             <pre class="code-block" id="phase4d-risk-response-json"></pre>
           </div>
         </div>
