@@ -1,0 +1,47 @@
+{
+  "schema_id": "phase4d_approval_schema_v1",
+  "title": "Phase 4D Human Approval Schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "approval_id",
+    "request_id",
+    "approver_id",
+    "approver_role",
+    "decision",
+    "decision_reason",
+    "decision_at_utc",
+    "confirmation_phrase_required",
+    "confirmation_phrase_provided",
+    "dual_control_required",
+    "implementation_status"
+  ],
+  "properties": {
+    "approval_id": { "type": "string", "minLength": 1 },
+    "request_id": { "type": "string", "minLength": 1 },
+    "approver_id": { "type": "string", "minLength": 1 },
+    "approver_role": { "type": "string", "enum": ["operator_approver", "platform_admin"] },
+    "decision": { "type": "string", "enum": ["approved", "denied", "expired"] },
+    "decision_reason": { "type": "string", "minLength": 5 },
+    "decision_at_utc": { "type": "string", "minLength": 10 },
+    "confirmation_phrase_required": { "type": "boolean" },
+    "confirmation_phrase_provided": { "type": "boolean" },
+    "dual_control_required": { "type": "boolean" },
+    "implementation_status": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "live_auth_implemented",
+        "real_queue_storage_implemented",
+        "action_execution_implemented",
+        "browser_external_fetches_added"
+      ],
+      "properties": {
+        "live_auth_implemented": { "const": false },
+        "real_queue_storage_implemented": { "const": false },
+        "action_execution_implemented": { "const": false },
+        "browser_external_fetches_added": { "const": false }
+      }
+    }
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "schema_id": "phase4d_audit_schema_v1",
+  "title": "Phase 4D Audit Event Schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "event_id",
+    "event_type",
+    "actor_id",
+    "actor_role",
+    "request_id",
+    "action_id",
+    "risk_level",
+    "event_at_utc",
+    "decision_state",
+    "target_scope",
+    "evidence_refs",
+    "implementation_status"
+  ],
+  "properties": {
+    "event_id": { "type": "string", "minLength": 1 },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "request_created",
+        "request_updated",
+        "request_cancelled",
+        "approval_granted",
+        "approval_denied",
+        "approval_expired",
+        "policy_override_recorded",
+        "execution_blocked"
+      ]
+    },
+    "actor_id": { "type": "string", "minLength": 1 },
+    "actor_role": { "type": "string", "minLength": 1 },
+    "request_id": { "type": "string", "minLength": 1 },
+    "action_id": { "type": "string", "minLength": 1 },
+    "risk_level": { "type": "string", "enum": ["low", "moderate", "high", "critical"] },
+    "event_at_utc": { "type": "string", "minLength": 10 },
+    "decision_state": { "type": "string", "enum": ["requested", "approved", "denied", "expired", "blocked"] },
+    "target_scope": { "type": "string", "minLength": 1 },
+    "evidence_refs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "implementation_status": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "database_implemented",
+        "real_queue_storage_implemented",
+        "action_execution_implemented",
+        "external_api_calls_added"
+      ],
+      "properties": {
+        "database_implemented": { "const": false },
+        "real_queue_storage_implemented": { "const": false },
+        "action_execution_implemented": { "const": false },
+        "external_api_calls_added": { "const": false }
+      }
+    }
+  }
+}

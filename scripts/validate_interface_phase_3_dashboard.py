@@ -49,6 +49,13 @@ REQUIRED_REPORTS = [
     REPORTS_DIR / "merge_readiness" / "interface_phase_3_merge_readiness_packet.md",
 ]
 
+REQUIRED_PHASE4D_PREVIEWS = [
+    ROOT / "13_web_dashboard" / "build_phase4d_schema_previews.py",
+    ROOT / "13_web_dashboard" / "dist" / "phase4d_identity_schema.json",
+    ROOT / "13_web_dashboard" / "dist" / "phase4d_action_schema.json",
+    ROOT / "13_web_dashboard" / "dist" / "phase4d_audit_schema.json",
+]
+
 
 def _fail(message):
     print(f"ERROR: {message}", file=sys.stderr)
@@ -156,6 +163,11 @@ def _validate_html_and_assets():
         "landing-shell",
         "section-button",
         "dashboard-shell",
+        "Phase 4D Control Room Preview",
+        "Identity & Permissions Preview",
+        "Action Request Queue Preview",
+        "Audit Event Schema Preview",
+        "All controls remain disabled in Phase 4D.",
     ]:
         if needle not in html:
             raise RuntimeError(f"dashboard HTML missing {needle}")
@@ -326,7 +338,7 @@ def _validate_source_code_patterns():
 
 
 def main():
-    for path in REQUIRED_PHASE3_FILES + REQUIRED_REPORTS:
+    for path in REQUIRED_PHASE3_FILES + REQUIRED_REPORTS + REQUIRED_PHASE4D_PREVIEWS:
         if not path.exists():
             return _fail(f"missing required file: {path.relative_to(ROOT)}")
 
