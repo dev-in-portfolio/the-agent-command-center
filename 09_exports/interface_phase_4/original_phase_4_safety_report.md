@@ -14,5 +14,13 @@
 - [PASS] No secrets, tokens, or environment variables exposed to the browser.
 - [PASS] Netlify Functions remain in Phase 4A foundation mode.
 
+## Validator Tightening
+- Original Phase 4 E2E validator now directly checks forbidden diff paths.
+- It checks dangerous browser/runtime patterns.
+- It checks same-origin-only fetch targets.
+- It checks no Netlify Functions, Phase 1, Phase 2, or runtime files were modified.
+- No backend behavior changed.
+- No new capabilities were enabled.
+
 ## Conclusion
 Original Phase 4 is a visual and presentation-layer update only. It does not expand the system's operational capabilities or access to sensitive resources.
