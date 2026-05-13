@@ -392,37 +392,37 @@ def _build_landing_screen(snapshot):
     phase3 = snapshot.get("phase_3_status", {})
     safety_scan = snapshot.get("phase_3_safety_scan", {})
     next_action = snapshot.get("recommended_next_action", "unknown")
-    next_action = "Ready for static hosting review after merge. Backend integration remains a later phase."
+    next_action = "Ready for production polish review. Backend integration remains a later phase."
     merge_ready_status = "PASS" if "ready_for_merge_review" in next_action else "INFO"
     cards = [
         _card("Phase 1 status", phase1.get("detected_verdict", "unknown"), phase1.get("summary", "Phase 1 backend source of truth is present.")),
         _card("Phase 2 status", phase2.get("detected_verdict", "unknown"), phase2.get("summary", "Phase 2 TUI contracts and docs are present.")),
         _card("Phase 3 status", phase3.get("detected_verdict", "unknown"), phase3.get("summary", "Read-Only Operations Dashboard build and exports are available.")),
-        _card("Safety status", safety_scan.get("status", "unknown"), "Read-Only Operations Dashboard with deployment, merge, push, secret access, and command packet execution disabled."),
-        _card("Merge readiness", merge_ready_status, next_action),
+        _card("Safety status", safety_scan.get("status", "unknown"), "Production-hosted dashboard with deployment, merge, push, secret access, and command execution disabled."),
+        _card("Roadmap status", merge_ready_status, next_action),
     ]
     buttons = [
-        ("Phase 4D Preview", "phase4d-strategic-preview"),
+        ("Roadmap Re-Anchor", "roadmap-reanchor"),
         ("Safety Boundary", "safety-boundary"),
+        ("Phase 4D Preview", "phase4d-strategic-preview"),
         ("Action Registry", "action-registry"),
-        ("Artifact Deep Dive", "artifact-packages"),
         ("Reports Library", "reports-library"),
-        ("Validator Command Center", "validator-command-center"),
-        ("Source Transparency", "source-transparency"),
-        ("Compare Phases", "compare-phases"),
-        ("Branch Review", "branch-review"),
-        ("Approval Ledger", "approval-ledger"),
-        ("Audit / Session Data", "session-audit"),
+        ("Validator Center", "validator-command-center"),
+        ("Status Snapshot", "status-snapshot-panel"),
+        ("Backend Status", "backend-status-panel"),
+        ("Artifacts", "artifact-packages"),
+        ("Source Info", "source-transparency"),
+        ("Audit / Session", "session-audit"),
     ]
     return (
         '<section class="landing-shell" aria-label="Dashboard landing screen">'
         '<div class="landing-head">'
-        '<p class="eyebrow">Operator Landing Screen</p>'
-        '<h2>Phase status and controlled navigation</h2>'
-        '<p class="lede">Open only the section you want to inspect. Heavy tables and audit dumps stay collapsed until requested.</p>'
+        '<p class="eyebrow">Command Center Overview</p>'
+        '<h2>Production Presentation & Safety Review</h2>'
+        '<p class="lede">Review the core project roadmap, safety boundaries, and static schema previews. Technical audits and raw session data are available in the sections below.</p>'
         '</div>'
         '<div class="landing-cards">' + "".join(cards) + "</div>"
-        '<div class="landing-actions"><h3>Open section buttons</h3><div class="section-grid">' +
+        '<div class="landing-actions"><h3>Jump to section</h3><div class="section-grid">' +
         "".join(_open_section_button(label, panel_id) for label, panel_id in buttons) +
         "</div></div></section>"
     )
@@ -982,13 +982,40 @@ def _build_phase4d_preview_panel():
     )
 
 
+def _build_roadmap_panel():
+    body = """
+    <div class="callout">
+      <p>The inserted backend safety track is now locked and verified.</p>
+      <p>The project is returning to the original roadmap:</p>
+      <ul class="compact-list">
+        <li><strong>Original Phase 1</strong> — CLI / Command Packet Layer (Complete)</li>
+        <li><strong>Original Phase 2</strong> — TUI / Terminal Operator Layer (Complete)</li>
+        <li><strong>Original Phase 3</strong> — Static Dashboard (Complete)</li>
+        <li><strong>Original Phase 4</strong> — Hosted / Production Dashboard Polish (ACTIVE)</li>
+        <li><strong>Original Phase 5</strong> — Interactive Operator Workflow Layer (Planned)</li>
+        <li><strong>Original +1</strong> — Controlled Agent / Automation Layer (Planned)</li>
+      </ul>
+      <p style="margin-top: 1rem;"><strong>Current active direction:</strong> Original Phase 4 — Hosted / Production Dashboard Polish</p>
+      <p class="muted">Note: Phase 4E is intentionally deferred.</p>
+    </div>
+    """
+    return _details(
+        "Roadmap Re-Anchor",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="roadmap-reanchor"
+    )
+
+
 def render_html(snapshot, compact_view=False, print_mode=False):
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
     header = f"""
     <header class="hero dashboard-shell">
       <div class="hero-copy">
         <h1>The Agent Command Center</h1>
-        <p class="lede">A read-only operations dashboard for reviewing system status, safety boundaries, artifacts, validators, reports, and merge readiness.</p>
+        <p class="lede">A read-only production dashboard for reviewing system status, safety boundaries, static schemas, and operator workflow readiness.</p>
+        <p class="muted" style="margin-top: 0.5rem; font-size: 0.85rem;">Production-hosted. Static/inert. No command execution. No deploy, merge, push, or mutation controls.</p>
       </div>
     </header>
     """
@@ -997,14 +1024,15 @@ def render_html(snapshot, compact_view=False, print_mode=False):
     sections = [
         _build_safety_banner(),
         _build_landing_screen(snapshot),
+        _details("Safety Boundary Summary", _build_safety_boundary(snapshot), "source", open_by_default=True, panel_id="safety-boundary"),
+        _build_roadmap_panel(),
+        _build_phase4d_preview_panel(),
         _build_status_snapshot_panel(snapshot),
         _build_backend_status_panel(snapshot),
-        _build_phase4d_preview_panel(),
-        _details("Safety Boundary", _build_safety_boundary(snapshot), "source", open_by_default=False, panel_id="safety-boundary"),
         _build_action_panel(snapshot),
-        _build_artifact_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),
+        _build_artifact_panel(snapshot),
         _build_source_transparency_panel(snapshot),
         _build_compare_panel(snapshot),
         _build_branch_review_panel(snapshot),

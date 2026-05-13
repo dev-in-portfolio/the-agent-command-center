@@ -13,7 +13,8 @@
     <header class="hero dashboard-shell">
       <div class="hero-copy">
         <h1>The Agent Command Center</h1>
-        <p class="lede">A read-only operations dashboard for reviewing system status, safety boundaries, artifacts, validators, reports, and merge readiness.</p>
+        <p class="lede">A read-only production dashboard for reviewing system status, safety boundaries, static schemas, and operator workflow readiness.</p>
+        <p class="muted" style="margin-top: 0.5rem; font-size: 0.85rem;">Production-hosted. Static/inert. No command execution. No deploy, merge, push, or mutation controls.</p>
       </div>
     </header>
     
@@ -61,7 +62,7 @@
       <span>NO SECRET ACCESS</span>
     </section>
     
-<section class="landing-shell" aria-label="Dashboard landing screen"><div class="landing-head"><p class="eyebrow">Operator Landing Screen</p><h2>Phase status and controlled navigation</h2><p class="lede">Open only the section you want to inspect. Heavy tables and audit dumps stay collapsed until requested.</p></div><div class="landing-cards">
+<section class="landing-shell" aria-label="Dashboard landing screen"><div class="landing-head"><p class="eyebrow">Command Center Overview</p><h2>Production Presentation & Safety Review</h2><p class="lede">Review the core project roadmap, safety boundaries, and static schema previews. Technical audits and raw session data are available in the sections below.</p></div><div class="landing-cards">
     <article class="card">
       <div class="card-head">
         <h3 class="card-title">Phase 1 status</h3>
@@ -94,62 +95,55 @@
         <h3 class="card-title">Safety status</h3>
         <span class="badge warning">WARNING</span>
       </div>
-      <p class="card-body">Read-Only Operations Dashboard with deployment, merge, push, secret access, and command packet execution disabled.</p>
+      <p class="card-body">Production-hosted dashboard with deployment, merge, push, secret access, and command execution disabled.</p>
       
     </article>
     
     <article class="card">
       <div class="card-head">
-        <h3 class="card-title">Merge readiness</h3>
+        <h3 class="card-title">Roadmap status</h3>
         <span class="badge info">INFO</span>
       </div>
-      <p class="card-body">Ready for static hosting review after merge. Backend integration remains a later phase.</p>
+      <p class="card-body">Ready for production polish review. Backend integration remains a later phase.</p>
       
     </article>
-    </div><div class="landing-actions"><h3>Open section buttons</h3><div class="section-grid"><button type="button" class="section-button" data-open-panel="phase4d-strategic-preview" aria-controls="phase4d-strategic-preview">Phase 4D Preview</button><button type="button" class="section-button" data-open-panel="safety-boundary" aria-controls="safety-boundary">Safety Boundary</button><button type="button" class="section-button" data-open-panel="action-registry" aria-controls="action-registry">Action Registry</button><button type="button" class="section-button" data-open-panel="artifact-packages" aria-controls="artifact-packages">Artifact Deep Dive</button><button type="button" class="section-button" data-open-panel="reports-library" aria-controls="reports-library">Reports Library</button><button type="button" class="section-button" data-open-panel="validator-command-center" aria-controls="validator-command-center">Validator Command Center</button><button type="button" class="section-button" data-open-panel="source-transparency" aria-controls="source-transparency">Source Transparency</button><button type="button" class="section-button" data-open-panel="compare-phases" aria-controls="compare-phases">Compare Phases</button><button type="button" class="section-button" data-open-panel="branch-review" aria-controls="branch-review">Branch Review</button><button type="button" class="section-button" data-open-panel="approval-ledger" aria-controls="approval-ledger">Approval Ledger</button><button type="button" class="section-button" data-open-panel="session-audit" aria-controls="session-audit">Audit / Session Data</button></div></div></section>
+    </div><div class="landing-actions"><h3>Jump to section</h3><div class="section-grid"><button type="button" class="section-button" data-open-panel="roadmap-reanchor" aria-controls="roadmap-reanchor">Roadmap Re-Anchor</button><button type="button" class="section-button" data-open-panel="safety-boundary" aria-controls="safety-boundary">Safety Boundary</button><button type="button" class="section-button" data-open-panel="phase4d-strategic-preview" aria-controls="phase4d-strategic-preview">Phase 4D Preview</button><button type="button" class="section-button" data-open-panel="action-registry" aria-controls="action-registry">Action Registry</button><button type="button" class="section-button" data-open-panel="reports-library" aria-controls="reports-library">Reports Library</button><button type="button" class="section-button" data-open-panel="validator-command-center" aria-controls="validator-command-center">Validator Center</button><button type="button" class="section-button" data-open-panel="status-snapshot-panel" aria-controls="status-snapshot-panel">Status Snapshot</button><button type="button" class="section-button" data-open-panel="backend-status-panel" aria-controls="backend-status-panel">Backend Status</button><button type="button" class="section-button" data-open-panel="artifact-packages" aria-controls="artifact-packages">Artifacts</button><button type="button" class="section-button" data-open-panel="source-transparency" aria-controls="source-transparency">Source Info</button><button type="button" class="section-button" data-open-panel="session-audit" aria-controls="session-audit">Audit / Session</button></div></div></section>
 
-    <details class="panel" data-section-group="audit" open id="status-snapshot-panel">
-      <summary>Static Status Snapshot</summary>
+    <details class="panel" data-section-group="source" open id="safety-boundary">
+      <summary>Safety Boundary Summary</summary>
       <div class="panel-body">
         
-    <div class="stat-grid">
-      <div class="stat"><span>Snapshot mode</span><strong>static read-only</strong></div>
-      <div class="stat"><span>Source</span><strong>local repository reports</strong></div>
-      <div class="stat"><span>Live external API</span><strong>Disabled</strong></div>
-      <div class="stat"><span>Secrets/tokens</span><strong>Not used</strong></div>
-      <div class="stat"><span>Mutation</span><strong>Disabled</strong></div>
-    </div>
-    <div class="toolbar-group" style="margin-top: 1rem;">
-      <button type="button" class="section-button" id="load-snapshot-button">Load static snapshot</button>
-      <span id="snapshot-fetch-status" class="muted" style="margin-left: 1rem;">Not loaded.</span>
-    </div>
-    <div id="snapshot-response-area" style="margin-top: 1rem; display: none;">
-      <h4>Latest static snapshot</h4>
-      <pre class="code-block" id="snapshot-response-json"></pre>
+    <div class="table-wrap">
+      <table class="data-table" id="safety-boundary-table" data-table-id="safety-boundary-table">
+        <caption>Safety boundary states</caption>
+        <thead>
+          <tr><th scope="col">Boundary</th><th scope="col">State</th></tr>
+        </thead>
+        <tbody><tr><th scope="row">Official repo</th><td><span class="badge locked">LOCKED</span></td></tr><tr><th scope="row">Repo 2</th><td><span class="badge locked">LOCKED</span></td></tr><tr><th scope="row">Repo 3</th><td><span class="badge locked">LOCKED</span></td></tr><tr><th scope="row">Deployment</th><td><span class="badge disabled">DISABLED</span></td></tr><tr><th scope="row">Secrets</th><td><span class="badge disabled">DISABLED</span></td></tr><tr><th scope="row">Credentials</th><td><span class="badge disabled">DISABLED</span></td></tr><tr><th scope="row">Command packet execution</th><td><span class="badge disabled">DISABLED</span></td></tr><tr><th scope="row">Free-form shell</th><td><span class="badge disabled">DISABLED</span></td></tr><tr><th scope="row">Merge</th><td><span class="badge disabled">DISABLED</span></td></tr><tr><th scope="row">Push</th><td><span class="badge disabled">DISABLED</span></td></tr><tr><th scope="row">PR creation</th><td><span class="badge disabled">DISABLED</span></td></tr><tr><th scope="row">Network behavior</th><td><span class="badge disabled">DISABLED</span></td></tr><tr><th scope="row">API server</th><td><span class="badge disabled">DISABLED</span></td></tr><tr><th scope="row">Hosted app</th><td><span class="badge disabled">DISABLED</span></td></tr></tbody>
+      </table>
     </div>
     
       </div>
     </details>
     
 
-    <details class="panel" data-section-group="audit" open id="backend-status-panel">
-      <summary>Backend Status</summary>
+    <details class="panel" data-section-group="source" open id="roadmap-reanchor">
+      <summary>Roadmap Re-Anchor</summary>
       <div class="panel-body">
         
-    <div class="stat-grid">
-      <div class="stat"><span>Backend integration</span><strong>Phase 4A read-only foundation</strong></div>
-      <div class="stat"><span>Backend actions</span><strong>Disabled</strong></div>
-      <div class="stat"><span>Command execution</span><strong>Disabled</strong></div>
-      <div class="stat"><span>GitHub mutation</span><strong>Disabled</strong></div>
-      <div class="stat"><span>Controls</span><strong>Disabled</strong></div>
-    </div>
-    <div class="toolbar-group" style="margin-top: 1rem;">
-      <button type="button" class="section-button" id="check-backend-button">Check backend status</button>
-      <span id="backend-fetch-status" class="muted" style="margin-left: 1rem;">Not checked.</span>
-    </div>
-    <div id="backend-response-area" style="margin-top: 1rem; display: none;">
-      <h4>Latest backend response</h4>
-      <pre class="code-block" id="backend-response-json"></pre>
+    <div class="callout">
+      <p>The inserted backend safety track is now locked and verified.</p>
+      <p>The project is returning to the original roadmap:</p>
+      <ul class="compact-list">
+        <li><strong>Original Phase 1</strong> — CLI / Command Packet Layer (Complete)</li>
+        <li><strong>Original Phase 2</strong> — TUI / Terminal Operator Layer (Complete)</li>
+        <li><strong>Original Phase 3</strong> — Static Dashboard (Complete)</li>
+        <li><strong>Original Phase 4</strong> — Hosted / Production Dashboard Polish (ACTIVE)</li>
+        <li><strong>Original Phase 5</strong> — Interactive Operator Workflow Layer (Planned)</li>
+        <li><strong>Original +1</strong> — Controlled Agent / Automation Layer (Planned)</li>
+      </ul>
+      <p style="margin-top: 1rem;"><strong>Current active direction:</strong> Original Phase 4 — Hosted / Production Dashboard Polish</p>
+      <p class="muted">Note: Phase 4E is intentionally deferred.</p>
     </div>
     
       </div>
@@ -295,18 +289,48 @@
     </details>
     
 
-    <details class="panel" data-section-group="source" id="safety-boundary">
-      <summary>Safety Boundary</summary>
+    <details class="panel" data-section-group="audit" open id="status-snapshot-panel">
+      <summary>Static Status Snapshot</summary>
       <div class="panel-body">
         
-    <div class="table-wrap">
-      <table class="data-table" id="safety-boundary-table" data-table-id="safety-boundary-table">
-        <caption>Safety boundary states</caption>
-        <thead>
-          <tr><th scope="col">Boundary</th><th scope="col">State</th></tr>
-        </thead>
-        <tbody><tr><th scope="row">Official repo</th><td><span class="badge locked">LOCKED</span></td></tr><tr><th scope="row">Repo 2</th><td><span class="badge locked">LOCKED</span></td></tr><tr><th scope="row">Repo 3</th><td><span class="badge locked">LOCKED</span></td></tr><tr><th scope="row">Deployment</th><td><span class="badge disabled">DISABLED</span></td></tr><tr><th scope="row">Secrets</th><td><span class="badge disabled">DISABLED</span></td></tr><tr><th scope="row">Credentials</th><td><span class="badge disabled">DISABLED</span></td></tr><tr><th scope="row">Command packet execution</th><td><span class="badge disabled">DISABLED</span></td></tr><tr><th scope="row">Free-form shell</th><td><span class="badge disabled">DISABLED</span></td></tr><tr><th scope="row">Merge</th><td><span class="badge disabled">DISABLED</span></td></tr><tr><th scope="row">Push</th><td><span class="badge disabled">DISABLED</span></td></tr><tr><th scope="row">PR creation</th><td><span class="badge disabled">DISABLED</span></td></tr><tr><th scope="row">Network behavior</th><td><span class="badge disabled">DISABLED</span></td></tr><tr><th scope="row">API server</th><td><span class="badge disabled">DISABLED</span></td></tr><tr><th scope="row">Hosted app</th><td><span class="badge disabled">DISABLED</span></td></tr></tbody>
-      </table>
+    <div class="stat-grid">
+      <div class="stat"><span>Snapshot mode</span><strong>static read-only</strong></div>
+      <div class="stat"><span>Source</span><strong>local repository reports</strong></div>
+      <div class="stat"><span>Live external API</span><strong>Disabled</strong></div>
+      <div class="stat"><span>Secrets/tokens</span><strong>Not used</strong></div>
+      <div class="stat"><span>Mutation</span><strong>Disabled</strong></div>
+    </div>
+    <div class="toolbar-group" style="margin-top: 1rem;">
+      <button type="button" class="section-button" id="load-snapshot-button">Load static snapshot</button>
+      <span id="snapshot-fetch-status" class="muted" style="margin-left: 1rem;">Not loaded.</span>
+    </div>
+    <div id="snapshot-response-area" style="margin-top: 1rem; display: none;">
+      <h4>Latest static snapshot</h4>
+      <pre class="code-block" id="snapshot-response-json"></pre>
+    </div>
+    
+      </div>
+    </details>
+    
+
+    <details class="panel" data-section-group="audit" open id="backend-status-panel">
+      <summary>Backend Status</summary>
+      <div class="panel-body">
+        
+    <div class="stat-grid">
+      <div class="stat"><span>Backend integration</span><strong>Phase 4A read-only foundation</strong></div>
+      <div class="stat"><span>Backend actions</span><strong>Disabled</strong></div>
+      <div class="stat"><span>Command execution</span><strong>Disabled</strong></div>
+      <div class="stat"><span>GitHub mutation</span><strong>Disabled</strong></div>
+      <div class="stat"><span>Controls</span><strong>Disabled</strong></div>
+    </div>
+    <div class="toolbar-group" style="margin-top: 1rem;">
+      <button type="button" class="section-button" id="check-backend-button">Check backend status</button>
+      <span id="backend-fetch-status" class="muted" style="margin-left: 1rem;">Not checked.</span>
+    </div>
+    <div id="backend-response-area" style="margin-top: 1rem; display: none;">
+      <h4>Latest backend response</h4>
+      <pre class="code-block" id="backend-response-json"></pre>
     </div>
     
       </div>
@@ -360,61 +384,6 @@
           <tr><th scope="col">Action ID</th><th scope="col">Label</th><th scope="col">Category</th><th scope="col">Risk</th><th scope="col">Writes files</th><th scope="col">Runs commands</th><th scope="col">Dashboard allowed</th><th scope="col">Reason</th></tr>
         </thead>
         <tbody><tr data-action-category="controlled" data-action-risk="low" data-action-dashboard-allowed="true" data-search-text="generate_session_report Generate operator session report controlled low dashboard can display only"><th scope="row"><code>generate_session_report</code></th><td>Generate operator session report</td><td><span class="badge warning">CONTROLLED</span></td><td><span class="badge pass">LOW</span></td><td>Yes</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="safe" data-action-risk="none" data-action-dashboard-allowed="true" data-search-text="inspect_artifact_package Inspect artifact packages safe none dashboard can display only"><th scope="row"><code>inspect_artifact_package</code></th><td>Inspect artifact packages</td><td><span class="badge pass">SAFE</span></td><td><span class="badge pass">NONE</span></td><td>No</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="safe" data-action-risk="none" data-action-dashboard-allowed="true" data-search-text="list_artifacts List artifact packages safe none dashboard can display only"><th scope="row"><code>list_artifacts</code></th><td>List artifact packages</td><td><span class="badge pass">SAFE</span></td><td><span class="badge pass">NONE</span></td><td>No</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="controlled" data-action-risk="low" data-action-dashboard-allowed="true" data-search-text="prepare_branch_review Prepare branch review packet controlled low dashboard can display only"><th scope="row"><code>prepare_branch_review</code></th><td>Prepare branch review packet</td><td><span class="badge warning">CONTROLLED</span></td><td><span class="badge pass">LOW</span></td><td>Yes</td><td>Yes</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="controlled" data-action-risk="low" data-action-dashboard-allowed="true" data-search-text="prepare_command_packet Prepare command packet controlled low dashboard can display only"><th scope="row"><code>prepare_command_packet</code></th><td>Prepare command packet</td><td><span class="badge warning">CONTROLLED</span></td><td><span class="badge pass">LOW</span></td><td>Yes</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="controlled" data-action-risk="low" data-action-dashboard-allowed="true" data-search-text="review_packet_approval Review packet approval controlled low dashboard can display only"><th scope="row"><code>review_packet_approval</code></th><td>Review packet approval</td><td><span class="badge warning">CONTROLLED</span></td><td><span class="badge pass">LOW</span></td><td>Yes</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="controlled" data-action-risk="low" data-action-dashboard-allowed="true" data-search-text="run_validator_wall Run validator wall controlled low dashboard can display only"><th scope="row"><code>run_validator_wall</code></th><td>Run validator wall</td><td><span class="badge warning">CONTROLLED</span></td><td><span class="badge pass">LOW</span></td><td>No</td><td>Yes</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="controlled" data-action-risk="none" data-action-dashboard-allowed="true" data-search-text="show_approval_ledger Show approval ledger controlled none dashboard can display only"><th scope="row"><code>show_approval_ledger</code></th><td>Show approval ledger</td><td><span class="badge warning">CONTROLLED</span></td><td><span class="badge pass">NONE</span></td><td>No</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="safe" data-action-risk="none" data-action-dashboard-allowed="true" data-search-text="show_locked_actions Show locked actions safe none dashboard can display only"><th scope="row"><code>show_locked_actions</code></th><td>Show locked actions</td><td><span class="badge pass">SAFE</span></td><td><span class="badge pass">NONE</span></td><td>No</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="safe" data-action-risk="none" data-action-dashboard-allowed="true" data-search-text="show_session_state Show current session state safe none dashboard can display only"><th scope="row"><code>show_session_state</code></th><td>Show current session state</td><td><span class="badge pass">SAFE</span></td><td><span class="badge pass">NONE</span></td><td>No</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="safe" data-action-risk="none" data-action-dashboard-allowed="true" data-search-text="show_status Show system status safe none dashboard can display only"><th scope="row"><code>show_status</code></th><td>Show system status</td><td><span class="badge pass">SAFE</span></td><td><span class="badge pass">NONE</span></td><td>No</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="safe" data-action-risk="none" data-action-dashboard-allowed="true" data-search-text="show_summaries Show latest trial / gauntlet summaries safe none dashboard can display only"><th scope="row"><code>show_summaries</code></th><td>Show latest trial / gauntlet summaries</td><td><span class="badge pass">SAFE</span></td><td><span class="badge pass">NONE</span></td><td>No</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr></tbody>
-      </table>
-    </div>
-    
-      </div>
-    </details>
-    
-
-    <details class="panel" data-section-group="registry" id="artifact-packages">
-      <summary>Artifact Deep Dive</summary>
-      <div class="panel-body">
-        <div class="stat-grid">
-    <div class="stat">
-      <span>Package count</span>
-      <strong>5</strong>
-      
-    </div>
-    
-    <div class="stat">
-      <span>Warnings</span>
-      <strong>2</strong>
-      <span class="mini-status"><span class="badge warning">WARNING</span></span>
-    </div>
-    
-    <div class="stat">
-      <span>Missing files</span>
-      <strong>1</strong>
-      <span class="mini-status"><span class="badge warning">WARNING</span></span>
-    </div>
-    
-    <div class="stat">
-      <span>Zero-byte files</span>
-      <strong>1</strong>
-      <span class="mini-status"><span class="badge warning">WARNING</span></span>
-    </div>
-    </div>
-    <div class="table-tools">
-      <label for="artifact-search" class="sr-only">Filter artifacts</label>
-      <input id="artifact-search" class="table-filter" type="search" placeholder="Search artifact rows" data-search-target="artifact-table" aria-label="Search artifact packages">
-      <div class="button-row">
-        <button type="button" class="toggle-button" data-artifact-filter="all">All</button>
-        <button type="button" class="toggle-button" data-artifact-filter="exists">Exists</button>
-        <button type="button" class="toggle-button" data-artifact-filter="missing">Missing</button>
-        <button type="button" class="toggle-button" data-artifact-filter="warning">Warning</button>
-        <button type="button" class="toggle-button" data-sort-table="artifact-table" data-sort-key="warnings">Sort by warnings</button>
-        <button type="button" class="toggle-button" data-sort-table="artifact-table" data-sort-key="missing">Sort by missing files</button>
-      </div>
-    </div>
-    
-    <div class="table-wrap">
-      <table class="data-table" id="artifact-table" data-table-id="artifact-table">
-        <caption>Artifact package details</caption>
-        <thead>
-          <tr><th scope="col">Package ID</th><th scope="col">Package name</th><th scope="col">Exists</th><th scope="col">Verdict</th><th scope="col">Missing files</th><th scope="col">Zero-byte files</th><th scope="col">Warnings</th><th scope="col">Report path</th><th scope="col">Copy</th></tr>
-        </thead>
-        <tbody><tr data-package-exists="true" data-package-warnings="0" data-package-missing="0" data-package-verdict="**PASS_WITH_HIGH_CONFIDENCE**" data-search-text="trial_v3 100-Round Trial v3 **PASS_WITH_HIGH_CONFIDENCE** 09_exports/100_round_trial_v3  "><th scope="row"><code>trial_v3</code></th><td>100-Round Trial v3</td><td><span class="badge pass">PASS</span></td><td><span class="badge pass">PASS</span></td><td>0</td><td>0</td><td>0</td><td>09_exports/100_round_trial_v3</td></tr><tr data-package-exists="true" data-package-warnings="0" data-package-missing="0" data-package-verdict="**PASS_WITH_NOTES**" data-search-text="non_repo_gauntlet_001 Non-Repo Gauntlet #1 **PASS_WITH_NOTES** 09_exports/non_repo_gauntlet_001  "><th scope="row"><code>non_repo_gauntlet_001</code></th><td>Non-Repo Gauntlet #1</td><td><span class="badge pass">PASS</span></td><td><span class="badge pass">PASS</span></td><td>0</td><td>0</td><td>0</td><td>09_exports/non_repo_gauntlet_001</td></tr><tr data-package-exists="false" data-package-warnings="1" data-package-missing="1" data-package-verdict="not detected" data-search-text="repo_migration Repo Migration not detected 09_exports/repo_migration the_agent_command_center_migration_report.md Package directory not found"><th scope="row"><code>repo_migration</code></th><td>Repo Migration</td><td><span class="badge fail">FAIL</span></td><td><span class="badge fail">FAIL</span></td><td>1</td><td>0</td><td>1</td><td>09_exports/repo_migration</td></tr><tr data-package-exists="true" data-package-warnings="1" data-package-missing="0" data-package-verdict="**PASS_WITH_HIGH_CONFIDENCE**" data-search-text="interface_phase_1 Interface Phase 1 **PASS_WITH_HIGH_CONFIDENCE** 09_exports/interface_phase_1  Zero-byte files: 1 detected"><th scope="row"><code>interface_phase_1</code></th><td>Interface Phase 1</td><td><span class="badge pass">PASS</span></td><td><span class="badge warning">WARNING</span></td><td>0</td><td>1</td><td>1</td><td>09_exports/interface_phase_1</td></tr><tr data-package-exists="true" data-package-warnings="0" data-package-missing="0" data-package-verdict="not detected" data-search-text="interface_sessions Interface Phase 1 Sessions not detected 09_exports/interface_phase_1/sessions  "><th scope="row"><code>interface_sessions</code></th><td>Interface Phase 1 Sessions</td><td><span class="badge pass">PASS</span></td><td><span class="badge pass">PASS</span></td><td>0</td><td>0</td><td>0</td><td>09_exports/interface_phase_1/sessions</td></tr></tbody>
       </table>
     </div>
     
@@ -524,13 +493,68 @@
     </details>
     
 
+    <details class="panel" data-section-group="registry" id="artifact-packages">
+      <summary>Artifact Deep Dive</summary>
+      <div class="panel-body">
+        <div class="stat-grid">
+    <div class="stat">
+      <span>Package count</span>
+      <strong>5</strong>
+      
+    </div>
+    
+    <div class="stat">
+      <span>Warnings</span>
+      <strong>1</strong>
+      <span class="mini-status"><span class="badge warning">WARNING</span></span>
+    </div>
+    
+    <div class="stat">
+      <span>Missing files</span>
+      <strong>1</strong>
+      <span class="mini-status"><span class="badge warning">WARNING</span></span>
+    </div>
+    
+    <div class="stat">
+      <span>Zero-byte files</span>
+      <strong>0</strong>
+      <span class="mini-status"><span class="badge pass">PASS</span></span>
+    </div>
+    </div>
+    <div class="table-tools">
+      <label for="artifact-search" class="sr-only">Filter artifacts</label>
+      <input id="artifact-search" class="table-filter" type="search" placeholder="Search artifact rows" data-search-target="artifact-table" aria-label="Search artifact packages">
+      <div class="button-row">
+        <button type="button" class="toggle-button" data-artifact-filter="all">All</button>
+        <button type="button" class="toggle-button" data-artifact-filter="exists">Exists</button>
+        <button type="button" class="toggle-button" data-artifact-filter="missing">Missing</button>
+        <button type="button" class="toggle-button" data-artifact-filter="warning">Warning</button>
+        <button type="button" class="toggle-button" data-sort-table="artifact-table" data-sort-key="warnings">Sort by warnings</button>
+        <button type="button" class="toggle-button" data-sort-table="artifact-table" data-sort-key="missing">Sort by missing files</button>
+      </div>
+    </div>
+    
+    <div class="table-wrap">
+      <table class="data-table" id="artifact-table" data-table-id="artifact-table">
+        <caption>Artifact package details</caption>
+        <thead>
+          <tr><th scope="col">Package ID</th><th scope="col">Package name</th><th scope="col">Exists</th><th scope="col">Verdict</th><th scope="col">Missing files</th><th scope="col">Zero-byte files</th><th scope="col">Warnings</th><th scope="col">Report path</th><th scope="col">Copy</th></tr>
+        </thead>
+        <tbody><tr data-package-exists="true" data-package-warnings="0" data-package-missing="0" data-package-verdict="**PASS_WITH_HIGH_CONFIDENCE**" data-search-text="trial_v3 100-Round Trial v3 **PASS_WITH_HIGH_CONFIDENCE** 09_exports/100_round_trial_v3  "><th scope="row"><code>trial_v3</code></th><td>100-Round Trial v3</td><td><span class="badge pass">PASS</span></td><td><span class="badge pass">PASS</span></td><td>0</td><td>0</td><td>0</td><td>09_exports/100_round_trial_v3</td></tr><tr data-package-exists="true" data-package-warnings="0" data-package-missing="0" data-package-verdict="**PASS_WITH_NOTES**" data-search-text="non_repo_gauntlet_001 Non-Repo Gauntlet #1 **PASS_WITH_NOTES** 09_exports/non_repo_gauntlet_001  "><th scope="row"><code>non_repo_gauntlet_001</code></th><td>Non-Repo Gauntlet #1</td><td><span class="badge pass">PASS</span></td><td><span class="badge pass">PASS</span></td><td>0</td><td>0</td><td>0</td><td>09_exports/non_repo_gauntlet_001</td></tr><tr data-package-exists="false" data-package-warnings="1" data-package-missing="1" data-package-verdict="not detected" data-search-text="repo_migration Repo Migration not detected 09_exports/repo_migration the_agent_command_center_migration_report.md Package directory not found"><th scope="row"><code>repo_migration</code></th><td>Repo Migration</td><td><span class="badge fail">FAIL</span></td><td><span class="badge fail">FAIL</span></td><td>1</td><td>0</td><td>1</td><td>09_exports/repo_migration</td></tr><tr data-package-exists="true" data-package-warnings="0" data-package-missing="0" data-package-verdict="**PASS_WITH_HIGH_CONFIDENCE**" data-search-text="interface_phase_1 Interface Phase 1 **PASS_WITH_HIGH_CONFIDENCE** 09_exports/interface_phase_1  "><th scope="row"><code>interface_phase_1</code></th><td>Interface Phase 1</td><td><span class="badge pass">PASS</span></td><td><span class="badge pass">PASS</span></td><td>0</td><td>0</td><td>0</td><td>09_exports/interface_phase_1</td></tr><tr data-package-exists="true" data-package-warnings="0" data-package-missing="0" data-package-verdict="not detected" data-search-text="interface_sessions Interface Phase 1 Sessions not detected 09_exports/interface_phase_1/sessions  "><th scope="row"><code>interface_sessions</code></th><td>Interface Phase 1 Sessions</td><td><span class="badge pass">PASS</span></td><td><span class="badge pass">PASS</span></td><td>0</td><td>0</td><td>0</td><td>09_exports/interface_phase_1/sessions</td></tr></tbody>
+      </table>
+    </div>
+    
+      </div>
+    </details>
+    
+
     <details class="panel" data-section-group="source" id="source-transparency">
       <summary>Source Transparency</summary>
       <div class="panel-body">
         <div class="stat-grid">
     <div class="stat">
       <span>Generated at</span>
-      <strong>2026-05-13T17:05:22Z</strong>
+      <strong>2026-05-13T21:38:54Z</strong>
       
     </div>
     
@@ -558,7 +582,7 @@
         <thead>
           <tr><th scope="col">Section</th><th scope="col">Source path</th><th scope="col">Exists</th><th scope="col">Source type</th><th scope="col">Confidence</th><th scope="col">Detected verdict</th></tr>
         </thead>
-        <tbody><tr data-search-text="phase_1_status Phase 1 Status 11_interface/interface_action_registry.py module direct_module_read PASS_WITH_HIGH_CONFIDENCE"><th scope="row">Phase 1 Status</th><td><code>11_interface/interface_action_registry.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>PASS_WITH_HIGH_CONFIDENCE</td></tr><tr data-search-text="phase_2_status Phase 2 Status 12_tui/tui_state.py module direct_module_read PASS_WITH_HIGH_CONFIDENCE"><th scope="row">Phase 2 Status</th><td><code>12_tui/tui_state.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>PASS_WITH_HIGH_CONFIDENCE</td></tr><tr data-search-text="phase_3_status Phase 3 Status 13_web_dashboard/build_phase3_dashboard.py generated_static_snapshot generated_static_snapshot PASS_WITH_HIGH_CONFIDENCE"><th scope="row">Phase 3 Status</th><td><code>13_web_dashboard/build_phase3_dashboard.py</code></td><td><span class="badge pass">PASS</span></td><td>generated_static_snapshot</td><td><span class="badge info">GENERATED</span></td><td>PASS_WITH_HIGH_CONFIDENCE</td></tr><tr data-search-text="action_registry_summary Action Registry Summary 11_interface/interface_action_registry.py module direct_module_read not applicable"><th scope="row">Action Registry Summary</th><td><code>11_interface/interface_action_registry.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>not applicable</td></tr><tr data-search-text="artifact_summary Artifact Summary 11_interface/interface_artifact_inspector.py module direct_module_read PASS_WITH_HIGH_CONFIDENCE"><th scope="row">Artifact Summary</th><td><code>11_interface/interface_artifact_inspector.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>PASS_WITH_HIGH_CONFIDENCE</td></tr><tr data-search-text="approval_ledger_summary Approval Ledger Summary 09_exports/interface_phase_1/approval_ledger/approval_ledger.jsonl module direct_module_read execution_performed_false"><th scope="row">Approval Ledger Summary</th><td><code>09_exports/interface_phase_1/approval_ledger/approval_ledger.jsonl</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>execution_performed_false</td></tr><tr data-search-text="branch_review_summary Branch Review Summary 11_interface/interface_branch_review.py module direct_module_read ready_for_review"><th scope="row">Branch Review Summary</th><td><code>11_interface/interface_branch_review.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>ready_for_review</td></tr><tr data-search-text="session_summary Session Summary 11_interface/interface_session_log.py module direct_module_read read_only"><th scope="row">Session Summary</th><td><code>11_interface/interface_session_log.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>read_only</td></tr><tr data-search-text="validator_status Validator Status 09_exports/interface_phase_3/interface_phase_3_acceptance_report.md report report_derived unknown"><th scope="row">Validator Status</th><td><code>09_exports/interface_phase_3/interface_phase_3_acceptance_report.md</code></td><td><span class="badge pass">PASS</span></td><td>report</td><td><span class="badge pass">REPORT</span></td><td>unknown</td></tr><tr data-search-text="document_index Document Index 09_exports/interface_phase_3/interface_phase_3_acceptance_report.md module direct_module_read report_derived"><th scope="row">Document Index</th><td><code>09_exports/interface_phase_3/interface_phase_3_acceptance_report.md</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>report_derived</td></tr><tr data-search-text="data_freshness Data Freshness 13_web_dashboard/build_phase3_dashboard.py generated_static_snapshot generated_static_snapshot generated_static_snapshot"><th scope="row">Data Freshness</th><td><code>13_web_dashboard/build_phase3_dashboard.py</code></td><td><span class="badge pass">PASS</span></td><td>generated_static_snapshot</td><td><span class="badge info">GENERATED</span></td><td>generated_static_snapshot</td></tr><tr data-search-text="compare_phases Compare Phases 13_web_dashboard/build_phase3_dashboard.py generated_static_snapshot generated_static_snapshot report_derived"><th scope="row">Compare Phases</th><td><code>13_web_dashboard/build_phase3_dashboard.py</code></td><td><span class="badge pass">PASS</span></td><td>generated_static_snapshot</td><td><span class="badge info">GENERATED</span></td><td>report_derived</td></tr></tbody>
+        <tbody><tr data-search-text="phase_1_status Phase 1 Status 11_interface/interface_action_registry.py module direct_module_read PASS_WITH_HIGH_CONFIDENCE"><th scope="row">Phase 1 Status</th><td><code>11_interface/interface_action_registry.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>PASS_WITH_HIGH_CONFIDENCE</td></tr><tr data-search-text="phase_2_status Phase 2 Status 12_tui/tui_state.py module direct_module_read PASS_WITH_HIGH_CONFIDENCE"><th scope="row">Phase 2 Status</th><td><code>12_tui/tui_state.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>PASS_WITH_HIGH_CONFIDENCE</td></tr><tr data-search-text="phase_3_status Phase 3 Status 13_web_dashboard/build_phase3_dashboard.py generated_static_snapshot generated_static_snapshot PASS_WITH_HIGH_CONFIDENCE"><th scope="row">Phase 3 Status</th><td><code>13_web_dashboard/build_phase3_dashboard.py</code></td><td><span class="badge pass">PASS</span></td><td>generated_static_snapshot</td><td><span class="badge info">GENERATED</span></td><td>PASS_WITH_HIGH_CONFIDENCE</td></tr><tr data-search-text="action_registry_summary Action Registry Summary 11_interface/interface_action_registry.py module direct_module_read not applicable"><th scope="row">Action Registry Summary</th><td><code>11_interface/interface_action_registry.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>not applicable</td></tr><tr data-search-text="artifact_summary Artifact Summary 11_interface/interface_artifact_inspector.py module direct_module_read PASS_WITH_HIGH_CONFIDENCE"><th scope="row">Artifact Summary</th><td><code>11_interface/interface_artifact_inspector.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>PASS_WITH_HIGH_CONFIDENCE</td></tr><tr data-search-text="approval_ledger_summary Approval Ledger Summary 09_exports/interface_phase_1/approval_ledger/approval_ledger.jsonl module direct_module_read execution_performed_false"><th scope="row">Approval Ledger Summary</th><td><code>09_exports/interface_phase_1/approval_ledger/approval_ledger.jsonl</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>execution_performed_false</td></tr><tr data-search-text="branch_review_summary Branch Review Summary 11_interface/interface_branch_review.py module direct_module_read needs_fixes"><th scope="row">Branch Review Summary</th><td><code>11_interface/interface_branch_review.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>needs_fixes</td></tr><tr data-search-text="session_summary Session Summary 11_interface/interface_session_log.py module direct_module_read read_only"><th scope="row">Session Summary</th><td><code>11_interface/interface_session_log.py</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>read_only</td></tr><tr data-search-text="validator_status Validator Status 09_exports/interface_phase_3/interface_phase_3_acceptance_report.md report report_derived unknown"><th scope="row">Validator Status</th><td><code>09_exports/interface_phase_3/interface_phase_3_acceptance_report.md</code></td><td><span class="badge pass">PASS</span></td><td>report</td><td><span class="badge pass">REPORT</span></td><td>unknown</td></tr><tr data-search-text="document_index Document Index 09_exports/interface_phase_3/interface_phase_3_acceptance_report.md module direct_module_read report_derived"><th scope="row">Document Index</th><td><code>09_exports/interface_phase_3/interface_phase_3_acceptance_report.md</code></td><td><span class="badge pass">PASS</span></td><td>module</td><td><span class="badge info">DIRECT</span></td><td>report_derived</td></tr><tr data-search-text="data_freshness Data Freshness 13_web_dashboard/build_phase3_dashboard.py generated_static_snapshot generated_static_snapshot generated_static_snapshot"><th scope="row">Data Freshness</th><td><code>13_web_dashboard/build_phase3_dashboard.py</code></td><td><span class="badge pass">PASS</span></td><td>generated_static_snapshot</td><td><span class="badge info">GENERATED</span></td><td>generated_static_snapshot</td></tr><tr data-search-text="compare_phases Compare Phases 13_web_dashboard/build_phase3_dashboard.py generated_static_snapshot generated_static_snapshot report_derived"><th scope="row">Compare Phases</th><td><code>13_web_dashboard/build_phase3_dashboard.py</code></td><td><span class="badge pass">PASS</span></td><td>generated_static_snapshot</td><td><span class="badge info">GENERATED</span></td><td>report_derived</td></tr></tbody>
       </table>
     </div>
     
@@ -614,8 +638,8 @@
     
     <div class="stat">
       <span>Risk level</span>
-      <strong>low</strong>
-      <span class="mini-status"><span class="badge pass">LOW</span></span>
+      <strong>unknown</strong>
+      <span class="mini-status"><span class="badge unknown">UNKNOWN</span></span>
     </div>
     </div>
     <div class="callout">
@@ -623,34 +647,35 @@
       <pre class="code-block">{
   &quot;status&quot;: &quot;prepared_not_merged&quot;,
   &quot;review_path&quot;: &quot;09_exports/interface_phase_1/branch_reviews/interface_phase-1-operational-hardening_review.md&quot;,
-  &quot;review_id&quot;: &quot;BR-20260511-232813-interface_phase-&quot;,
+  &quot;review_id&quot;: &quot;BR-20260513-183156-interface_phase-&quot;,
   &quot;branch&quot;: &quot;interface/phase-1-operational-hardening&quot;,
   &quot;base_branch&quot;: &quot;interface/phase-1-upgrade-pack&quot;,
-  &quot;decision&quot;: &quot;ready_for_review&quot;,
-  &quot;risk_level&quot;: &quot;low&quot;,
-  &quot;changed_file_count&quot;: 19,
+  &quot;decision&quot;: &quot;needs_fixes&quot;,
+  &quot;risk_level&quot;: &quot;unknown&quot;,
+  &quot;changed_file_count&quot;: 28,
   &quot;merge_performed&quot;: false,
   &quot;deployment_performed&quot;: false,
   &quot;changed_files&quot;: [
     &quot;09_exports/interface_phase_1/approval_ledger/approval_ledger.jsonl&quot;,
     &quot;09_exports/interface_phase_1/branch_reviews/HEAD_review.md&quot;,
+    &quot;09_exports/interface_phase_1/branch_reviews/interface_phase-1-operational-hardening_review.md&quot;,
     &quot;09_exports/interface_phase_1/command_packets/validator_wall_packet.md&quot;,
+    &quot;09_exports/interface_phase_1/interface_phase_1_acceptance_report.md&quot;,
     &quot;09_exports/interface_phase_1/interface_phase_1_command_map.md&quot;,
+    &quot;09_exports/interface_phase_1/interface_phase_1_demo_notes.md&quot;,
+    &quot;09_exports/interface_phase_1/interface_phase_1_final_acceptance_report.md&quot;,
     &quot;09_exports/interface_phase_1/interface_phase_1_operational_hardening_report.md&quot;,
     &quot;09_exports/interface_phase_1/interface_phase_1_operator_quickstart.md&quot;,
     &quot;09_exports/interface_phase_1/interface_phase_1_upgrade_report.md&quot;,
+    &quot;09_exports/interface_phase_1/merge_readiness/interface_phase_1_merge_readiness_packet.md&quot;,
+    &quot;09_exports/interface_phase_1/phase_2_handoff_contract.md&quot;,
+    &quot;09_exports/interface_phase_1/test_runs/e2e_ledger_test.jsonl&quot;,
     &quot;11_interface/README.md&quot;,
     &quot;11_interface/interface_action_registry.py&quot;,
     &quot;11_interface/interface_actions.py&quot;,
     &quot;11_interface/interface_approval_ledger.py&quot;,
     &quot;11_interface/interface_artifact_inspector.py&quot;,
-    &quot;11_interface/interface_branch_review.py&quot;,
-    &quot;11_interface/interface_policy.py&quot;,
-    &quot;11_interface/interface_policy_enforcer.py&quot;,
-    &quot;11_interface/station_chief_cli.py&quot;,
-    &quot;scripts/validate_interface_phase_1_cli.py&quot;,
-    &quot;scripts/validate_interface_phase_1_command_packets.py&quot;,
-    &quot;scripts/validate_interface_phase_1_e2e.py&quot;
+    &quot;11_interface/interface_branch_review.py&quot;
   ]
 }</pre>
       <p class="muted">Report path: <code>09_exports/interface_phase_1/branch_reviews/interface_phase-1-operational-hardening_review.md</code></p>
@@ -710,7 +735,7 @@
     
     <div class="stat">
       <span>Phase 2 sessions</span>
-      <strong>3456</strong>
+      <strong>4008</strong>
       
     </div>
     
@@ -737,8 +762,8 @@
     </main>
   </div>
   <script type="application/json" id="dashboard-data">{
-  "dashboard_id": "PH3-20260513-170521",
-  "created_at_utc": "2026-05-13T17:05:21Z",
+  "dashboard_id": "PH3-20260513-213852",
+  "created_at_utc": "2026-05-13T21:38:52Z",
   "phase": "Read-Only Operations Dashboard",
   "repo": "dev-in-portfolio/the-agent-command-center",
   "source_lineage": "dev-in-portfolio/agent-command-center-3",
@@ -1078,15 +1103,11 @@
         "final_verdict": "**PASS_WITH_HIGH_CONFIDENCE**",
         "missing_expected_files_count": 0,
         "missing_expected_files": [],
-        "zero_byte_count": 1,
-        "zero_byte_files": [
-          "interface_phase_1/test_runs/e2e_ledger_test.jsonl"
-        ],
-        "warnings_count": 1,
-        "warnings": [
-          "Zero-byte files: 1 detected"
-        ],
-        "status": "WARNING",
+        "zero_byte_count": 0,
+        "zero_byte_files": [],
+        "warnings_count": 0,
+        "warnings": [],
+        "status": "PASS",
         "report_path": "09_exports/interface_phase_1",
         "recommended_next_action": "## 31. Recommended Next Phase",
         "source_file_path": "09_exports/interface_phase_1",
@@ -1116,9 +1137,9 @@
     ],
     "exists": false,
     "verdict": "PASS_WITH_HIGH_CONFIDENCE",
-    "warnings_count": 2,
+    "warnings_count": 1,
     "missing_count": 1,
-    "zero_byte_count": 1,
+    "zero_byte_count": 0,
     "summary": "5 packages inspected."
   },
   "approval_ledger_summary": {
@@ -1197,34 +1218,35 @@
     "latest_packet": {
       "status": "prepared_not_merged",
       "review_path": "09_exports/interface_phase_1/branch_reviews/interface_phase-1-operational-hardening_review.md",
-      "review_id": "BR-20260511-232813-interface_phase-",
+      "review_id": "BR-20260513-183156-interface_phase-",
       "branch": "interface/phase-1-operational-hardening",
       "base_branch": "interface/phase-1-upgrade-pack",
-      "decision": "ready_for_review",
-      "risk_level": "low",
-      "changed_file_count": 19,
+      "decision": "needs_fixes",
+      "risk_level": "unknown",
+      "changed_file_count": 28,
       "merge_performed": false,
       "deployment_performed": false,
       "changed_files": [
         "09_exports/interface_phase_1/approval_ledger/approval_ledger.jsonl",
         "09_exports/interface_phase_1/branch_reviews/HEAD_review.md",
+        "09_exports/interface_phase_1/branch_reviews/interface_phase-1-operational-hardening_review.md",
         "09_exports/interface_phase_1/command_packets/validator_wall_packet.md",
+        "09_exports/interface_phase_1/interface_phase_1_acceptance_report.md",
         "09_exports/interface_phase_1/interface_phase_1_command_map.md",
+        "09_exports/interface_phase_1/interface_phase_1_demo_notes.md",
+        "09_exports/interface_phase_1/interface_phase_1_final_acceptance_report.md",
         "09_exports/interface_phase_1/interface_phase_1_operational_hardening_report.md",
         "09_exports/interface_phase_1/interface_phase_1_operator_quickstart.md",
         "09_exports/interface_phase_1/interface_phase_1_upgrade_report.md",
+        "09_exports/interface_phase_1/merge_readiness/interface_phase_1_merge_readiness_packet.md",
+        "09_exports/interface_phase_1/phase_2_handoff_contract.md",
+        "09_exports/interface_phase_1/test_runs/e2e_ledger_test.jsonl",
         "11_interface/README.md",
         "11_interface/interface_action_registry.py",
         "11_interface/interface_actions.py",
         "11_interface/interface_approval_ledger.py",
         "11_interface/interface_artifact_inspector.py",
-        "11_interface/interface_branch_review.py",
-        "11_interface/interface_policy.py",
-        "11_interface/interface_policy_enforcer.py",
-        "11_interface/station_chief_cli.py",
-        "scripts/validate_interface_phase_1_cli.py",
-        "scripts/validate_interface_phase_1_command_packets.py",
-        "scripts/validate_interface_phase_1_e2e.py"
+        "11_interface/interface_branch_review.py"
       ]
     },
     "prepared_state": "prepared_not_merged",
@@ -1238,7 +1260,7 @@
     "source_type": "module",
     "source_confidence": "direct_module_read",
     "phase_1_session_count": 0,
-    "phase_2_session_count": 3456,
+    "phase_2_session_count": 4008,
     "phase_1_sessions": [],
     "phase_2_sessions": [
       "09_exports/interface_phase_2/sessions/session_TUI-20260512-003552-941813.json",
@@ -1288,7 +1310,7 @@
     "phase_3_build_report": "09_exports/interface_phase_3/interface_phase_3_static_build_report.md",
     "phase_3_note": "no live session mutation unless build report is written",
     "session_logs_read_only": true,
-    "summary": "0 phase 1 sessions, 3456 phase 2 sessions."
+    "summary": "0 phase 1 sessions, 4008 phase 2 sessions."
   },
   "validator_status": {
     "source_file_path": "09_exports/interface_phase_3/interface_phase_3_acceptance_report.md",
@@ -1743,7 +1765,7 @@
     "source_exists": true,
     "source_type": "generated_static_snapshot",
     "source_confidence": "generated_static_snapshot",
-    "generated_at_utc": "2026-05-13T17:05:22Z",
+    "generated_at_utc": "2026-05-13T21:38:54Z",
     "freshness_status": "generated_static_snapshot",
     "snapshot_age_seconds": 0,
     "notes": [
@@ -1819,7 +1841,7 @@
         "source_exists": true,
         "source_type": "module",
         "source_confidence": "direct_module_read",
-        "detected_verdict": "ready_for_review"
+        "detected_verdict": "needs_fixes"
       },
       {
         "section_id": "session_summary",

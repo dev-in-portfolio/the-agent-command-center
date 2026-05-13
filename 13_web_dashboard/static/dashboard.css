@@ -66,30 +66,31 @@ pre.code-block { font-family: var(--mono); font-size: 0.85em; padding: 1rem; bor
 .hero {
   display: grid;
   grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.95fr);
-  gap: 1.25rem;
-  padding: 1.5rem;
+  gap: 2rem;
+  padding: 2.5rem;
   border: 1px solid var(--stroke);
   border-radius: var(--radius);
-  background: var(--panel);
+  background: linear-gradient(145deg, var(--panel), var(--bg));
   box-shadow: var(--shadow);
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
   box-sizing: border-box;
   max-width: 100%;
 }
 
 .hero-copy h1 {
-  margin: 0 0 0.5rem;
-  font-size: clamp(1.5rem, 2.5vw, 2.2rem);
-  line-height: 1.2;
+  margin: 0 0 1rem;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.1;
   color: var(--text);
-  font-weight: 700;
+  font-weight: 800;
+  letter-spacing: -0.02em;
 }
 
 .eyebrow {
-  margin: 0 0 0.4rem;
+  margin: 0 0 0.6rem;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  font-size: 0.8rem;
   font-weight: 700;
   color: var(--accent-2);
 }
@@ -97,14 +98,15 @@ pre.code-block { font-family: var(--mono); font-size: 0.85em; padding: 1rem; bor
 .lede {
   margin: 0;
   color: var(--text-secondary);
-  font-size: 1rem;
+  font-size: 1.1rem;
+  line-height: 1.6;
 }
 
 .hero-meta {
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
-  gap: 0.4rem;
+  gap: 0.6rem;
 }
 .hero-meta .badge {
   font-size: 0.65rem;
@@ -156,8 +158,8 @@ pre.code-block { font-family: var(--mono); font-size: 0.85em; padding: 1rem; bor
 
 .landing-shell {
   display: grid;
-  gap: 1.25rem;
-  padding: 1.5rem;
+  gap: 2rem;
+  padding: 2.5rem;
   border: 1px solid var(--stroke);
   border-radius: var(--radius);
   background: var(--panel);
@@ -167,31 +169,32 @@ pre.code-block { font-family: var(--mono); font-size: 0.85em; padding: 1rem; bor
 }
 
 .landing-head h2 {
-  margin: 0 0 0.25rem;
-  font-size: clamp(1.2rem, 2vw, 1.8rem);
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 700;
 }
 
-.landing-actions { display: grid; gap: 0.75rem; }
-.landing-actions h3 { margin: 0; font-size: 1rem; color: var(--text-secondary); }
+.landing-actions { display: grid; gap: 1rem; }
+.landing-actions h3 { margin: 0; font-size: 1.1rem; color: var(--text-secondary); font-weight: 600; }
 
 .landing-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: 1.5rem;
 }
 
 .section-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
-  gap: 0.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  gap: 0.75rem;
 }
 
 .toolbar-shell {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
-  margin: 1.5rem 0;
-  padding: 1rem;
+  gap: 1rem;
+  margin: 2rem 0;
+  padding: 1.25rem;
   border-radius: var(--radius-sm);
   border: 1px solid var(--stroke);
   background: var(--panel);
@@ -225,34 +228,40 @@ pre.code-block { font-family: var(--mono); font-size: 0.85em; padding: 1rem; bor
 }
 
 .card {
-  padding: 1.25rem;
+  padding: 1.5rem;
   min-height: auto;
   display: flex;
   flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
 .card-head {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
   flex-wrap: wrap;
 }
 
 .card-title {
   margin: 0;
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: var(--text);
-  font-weight: 600;
+  font-weight: 700;
   flex: 1;
   white-space: normal;
   word-break: normal;
   overflow-wrap: normal;
-  line-height: 1.25;
+  line-height: 1.2;
 }
 
-.card-body, .card p { margin: 0; color: var(--text-secondary); flex-grow: 1; font-size: 0.9rem; }
+.card-body, .card p { margin: 0; color: var(--text-secondary); flex-grow: 1; font-size: 0.95rem; line-height: 1.5; }
 .card-extra { margin-top: 0.75rem; word-break: break-word; overflow-wrap: break-word; }
 
 .panel { overflow: hidden; background: var(--panel); max-width: 100%; box-sizing: border-box; }
@@ -260,9 +269,9 @@ pre.code-block { font-family: var(--mono); font-size: 0.85em; padding: 1rem; bor
 .panel summary {
   cursor: pointer;
   list-style: none;
-  padding: 1rem 1.25rem;
-  font-size: 1.05rem;
-  font-weight: 600;
+  padding: 1.25rem 1.5rem;
+  font-size: 1.15rem;
+  font-weight: 700;
   background: var(--card);
   border-bottom: 1px solid transparent;
   display: flex;
@@ -270,11 +279,11 @@ pre.code-block { font-family: var(--mono); font-size: 0.85em; padding: 1rem; bor
   justify-content: space-between;
   gap: 1rem;
   color: var(--text);
-  transition: background 0.15s;
+  transition: background 0.15s, color 0.15s;
 }
 
 .panel[open] summary { border-bottom-color: var(--stroke); }
-.panel summary:hover { background: var(--card-elevated); }
+.panel summary:hover { background: var(--card-elevated); color: var(--accent); }
 .panel summary::-webkit-details-marker { display: none; }
 .panel summary::after {
   content: "↓";
