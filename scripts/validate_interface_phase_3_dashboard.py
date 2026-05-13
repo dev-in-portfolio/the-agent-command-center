@@ -194,7 +194,7 @@ def _validate_html_and_assets():
             raise RuntimeError(f"CSS missing {needle}")
 
     # Allow same-origin backend fetches
-    allowed_fetches = ['fetch("/api/health")', "fetch('/api/health')", 'fetch("/api/status")', "fetch('/api/status')", 'fetch("/api/backend-manifest")', "fetch('/api/backend-manifest')"]
+    allowed_fetches = ['fetch("/api/health")', "fetch('/api/health')", 'fetch("/api/status")', "fetch('/api/status')", 'fetch("/api/backend-manifest")', "fetch('/api/backend-manifest')", 'fetch("./status_snapshot.json")', "fetch('./status_snapshot.json')"]
     
     js = _read_text(DIST_DIR / "static" / "dashboard.js")
     for line in js.splitlines():

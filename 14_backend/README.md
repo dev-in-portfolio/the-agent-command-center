@@ -61,6 +61,30 @@ Phase 4C establishes the framework for safe, read-only data synchronization with
 - [Dashboard Status UI Plan](./phase_4c_dashboard_status_ui_plan.md)
 - [Phase 4D Gate Review](./phase_4c_phase_4d_gate_review.md)
 
+## Phase 4C: Snapshot Prototype
+
+Phase 4C provides a zero-secret static status artifact for dashboard visibility.
+
+### Docs
+- [Prototype Plan](./phase_4c_snapshot_prototype_plan.md)
+- [Schema](./phase_4c_snapshot_schema.md)
+- [Generation Contract](./phase_4c_snapshot_generation_contract.md)
+- [Dashboard Contract](./phase_4c_snapshot_dashboard_contract.md)
+- [Safety Report](./phase_4c_snapshot_safety_report.md)
+
+## Phase 4D: Gate Review
+
+Phase 4D defines the mandatory security milestones required before interactive features.
+
+### Docs
+- [Gate Review Overview](./phase_4d_gate_review.md)
+- [Decision Matrix](./phase_4d_gate_decision_matrix.md)
+- [Readiness Checklist](./phase_4d_action_request_readiness_checklist.md)
+- [Forbidden until Approved](./phase_4d_forbidden_until_approved.md)
+- [Human Approval Contract](./phase_4d_human_approval_contract.md)
+- [Audit Requirements](./phase_4d_audit_requirements.md)
+- [Safe Next Steps](./phase_4d_safe_next_steps.md)
+
 ## Future Phases
 - **Phase 4B**: Auth/permissions planning.
 - **Phase 4C**: Read-only GitHub integration.

@@ -362,6 +362,42 @@
     });
   }
 
+  function wireSnapshotButtons() {
+    var loadButton = byId("load-snapshot-button");
+    if (!loadButton) {
+      return;
+    }
+    loadButton.addEventListener("click", function () {
+      var statusText = byId("snapshot-fetch-status");
+      var responseArea = byId("snapshot-response-area");
+      var responseJson = byId("snapshot-response-json");
+
+      if (statusText) statusText.textContent = "Loading snapshot...";
+
+      fetch("./status_snapshot.json").then(function (res) {
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        return res.json();
+      }).then(function (data) {
+        if (statusText) statusText.textContent = "Static snapshot loaded (v1).";
+        if (responseArea) responseArea.style.display = "block";
+        if (responseJson) responseJson.textContent = JSON.stringify({
+          snapshot_version: data.snapshot_version,
+          mode: data.mode,
+          phase_status: data.phase_status,
+          live_external_api_calls: data.live_external_api_calls,
+          github_api_calls: data.github_api_calls,
+          netlify_api_calls: data.netlify_api_calls,
+          timestamp_utc: data.timestamp_utc
+        }, null, 2);
+        setStatus("Snapshot load successful.", "pass");
+      }).catch(function (err) {
+        if (statusText) statusText.textContent = "Static snapshot not available in this build.";
+        if (responseArea) responseArea.style.display = "none";
+        setStatus("Snapshot load failed: " + err.message, "warning");
+      });
+    });
+  }
+
   function init() {
     var dashboardData = getDashboardData();
     window.__DASHBOARD_DATA__ = dashboardData;
@@ -372,6 +408,7 @@
     wireFilterButtons();
     wireSortButtons();
     wireBackendButtons();
+    wireSnapshotButtons();
     installKeyboardShortcut();
     applyFilters();
     setStatus("Local UI ready.", "info");
