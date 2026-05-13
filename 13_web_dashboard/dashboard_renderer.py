@@ -846,7 +846,7 @@ def _build_phase4d_preview_panel():
         )
 
     control_room = """
-    <div class="cards-grid">
+    <div class="phase4d-preview-grid">
       <article class="card">
         <div class="card-head">
           <h3 class="card-title">Phase 4D Control Room Preview</h3>
@@ -873,9 +873,6 @@ def _build_phase4d_preview_panel():
         <div class="callout">
           <p class="muted">DISABLED — SCHEMA PREVIEW ONLY</p>
           <span id="phase4d-identity-status" class="muted">Not loaded.</span>
-          <div id="phase4d-identity-response-area" style="margin-top: 1rem; display: none; overflow: hidden; width: 100%;">
-            <pre class="code-block" id="phase4d-identity-response-json"></pre>
-          </div>
         </div>
       </article>
       <article class="card">
@@ -891,9 +888,6 @@ def _build_phase4d_preview_panel():
         <div class="callout">
           <p class="muted">DISABLED — SCHEMA PREVIEW ONLY</p>
           <span id="phase4d-action-status" class="muted">Not loaded.</span>
-          <div id="phase4d-action-response-area" style="margin-top: 1rem; display: none; overflow: hidden; width: 100%;">
-            <pre class="code-block" id="phase4d-action-response-json"></pre>
-          </div>
         </div>
       </article>
       <article class="card">
@@ -909,9 +903,6 @@ def _build_phase4d_preview_panel():
         <div class="callout">
           <p class="muted">DISABLED — SCHEMA PREVIEW ONLY</p>
           <span id="phase4d-audit-status" class="muted">Not loaded.</span>
-          <div id="phase4d-audit-response-area" style="margin-top: 1rem; display: none; overflow: hidden; width: 100%;">
-            <pre class="code-block" id="phase4d-audit-response-json"></pre>
-          </div>
         </div>
       </article>
       <article class="card">
@@ -927,11 +918,13 @@ def _build_phase4d_preview_panel():
         <div class="callout">
           <p class="muted">DISABLED — SCHEMA PREVIEW ONLY</p>
           <span id="phase4d-risk-status" class="muted">Not loaded.</span>
-          <div id="phase4d-risk-response-area" style="margin-top: 1rem; display: none; overflow: hidden; width: 100%;">
-            <pre class="code-block" id="phase4d-risk-response-json"></pre>
-          </div>
         </div>
       </article>
+      
+      <section class="schema-output-panel" id="phase4d-schema-output-panel" style="display: none;">
+        <h4>Static schema preview output</h4>
+        <pre class="code-block schema-preview-code" id="phase4d-shared-response-json"></pre>
+      </section>
     </div>
     """.format(
         status=_status_badge("DISABLED"),

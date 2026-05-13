@@ -15,10 +15,14 @@
 - **Header:** Implemented gradient background for the hero section to distinguish it from the content area.
 - **Panels:** Refined `<summary>` styling with bold text and accent color transitions on hover.
 
-## Responsive Layout Fix
-- Fixed tablet and expanded-window layout behaviors.
-- Improved Phase 4D preview card wrapping by constraining `min-width` on grid children.
-- Added safe internal scrolling and max-height to schema JSON code blocks to prevent layout blowout.
-- Improved sticky safety banner to flex and wrap smoothly on smaller screens.
-- Improved button row wrapping and card containment to keep the UI clean across breakpoints.
-- No backend behavior, capabilities, or Netlify Functions were changed.
+## Second Responsive Layout Fix
+- The first responsive pass did not fully fix the Phase 4D card grid stretching.
+- Fixed CSS grid equal-height stretching by aligning grid items and cards to start (`align-items: start`, `align-self: start`).
+- Prevented unloaded cards from becoming giant empty rectangles.
+- Added a dedicated `.phase4d-preview-grid` class to handle tablet layout cleanly (1-2 columns instead of squeezing).
+- Moved schema JSON preview output out of individual cards into a single shared `.schema-output-panel` below the grid.
+- Preserved same-origin static schema loading logic.
+- No backend behavior, Netlify Functions, or capabilities were changed.
+
+## Conclusion
+These updates finalize the transition to a polished, professional production presentation layer while strictly upholding all safety boundaries.
