@@ -216,7 +216,7 @@ def _scan_js_html_file(path, active_findings, allowed_findings):
         # Allow same-origin backend health/status/manifest checks
         is_allowed_fetch = False
         if "fetch(" in stripped:
-            if any(x in stripped for x in ['fetch("/api/health")', "fetch('/api/health')", 'fetch("/api/status")', "fetch('/api/status')", 'fetch("/api/backend-manifest")', "fetch('/api/backend-manifest')"]):
+            if any(x in stripped for x in ['fetch("/api/health")', "fetch('/api/health')", 'fetch("/api/status")', "fetch('/api/status')", 'fetch("/api/backend-manifest")', "fetch('/api/backend-manifest')", 'fetch("./status_snapshot.json")', "fetch('./status_snapshot.json')"]):
                 is_allowed_fetch = True
 
         for pattern in JS_ACTIVE_PATTERNS + HTML_ACTIVE_PATTERNS:

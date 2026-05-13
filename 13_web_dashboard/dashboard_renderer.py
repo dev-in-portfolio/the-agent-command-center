@@ -738,6 +738,33 @@ def _build_footer():
     """
 
 
+def _build_status_snapshot_panel(snapshot):
+    body = """
+    <div class="stat-grid">
+      <div class="stat"><span>Snapshot mode</span><strong>static read-only</strong></div>
+      <div class="stat"><span>Source</span><strong>local repository reports</strong></div>
+      <div class="stat"><span>Live external API</span><strong>Disabled</strong></div>
+      <div class="stat"><span>Secrets/tokens</span><strong>Not used</strong></div>
+      <div class="stat"><span>Mutation</span><strong>Disabled</strong></div>
+    </div>
+    <div class="toolbar-group" style="margin-top: 1rem;">
+      <button type="button" class="section-button" id="load-snapshot-button">Load static snapshot</button>
+      <span id="snapshot-fetch-status" class="muted" style="margin-left: 1rem;">Not loaded.</span>
+    </div>
+    <div id="snapshot-response-area" style="margin-top: 1rem; display: none;">
+      <h4>Latest static snapshot</h4>
+      <pre class="code-block" id="snapshot-response-json"></pre>
+    </div>
+    """
+    return _details(
+        "Static Status Snapshot",
+        body,
+        "audit",
+        open_by_default=True,
+        panel_id="status-snapshot-panel"
+    )
+
+
 def _build_backend_status_panel(snapshot):
     body = """
     <div class="stat-grid">
@@ -780,6 +807,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
     sections = [
         _build_safety_banner(),
         _build_landing_screen(snapshot),
+        _build_status_snapshot_panel(snapshot),
         _build_backend_status_panel(snapshot),
         _details("Safety Boundary", _build_safety_boundary(snapshot), "source", open_by_default=False, panel_id="safety-boundary"),
         _build_action_panel(snapshot),
