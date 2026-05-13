@@ -10,6 +10,7 @@
 - Fetch repository status via GitHub API safely.
 - List active branches.
 - Show recent PRs and commit history for review.
+- Guided by [Phase 4C Read-Only Integration Plan](./phase_4c_read_only_integration_plan.md).
 
 ## Phase 4D: Action Request Queue
 - Allow operators to request specific actions via the dashboard.
