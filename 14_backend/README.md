@@ -44,6 +44,23 @@ Phase 4B defines the security architecture and permission model required for fut
 - [Action Queue Concept](./phase_4b_action_queue_concept.md)
 - [Dashboard UI Implications](./phase_4b_dashboard_ui_implications.md)
 
+## Phase 4C: Read-Only Integration Planning
+
+Phase 4C establishes the framework for safe, read-only data synchronization with external services.
+
+### Planning Docs
+- [Read-Only Integration Plan](./phase_4c_read_only_integration_plan.md)
+- [Integration Source Inventory](./phase_4c_integration_source_inventory.md)
+- [GitHub Read-Only Contract](./phase_4c_github_read_only_contract.md)
+- [Netlify Read-Only Contract](./phase_4c_netlify_read_only_contract.md)
+- [Status Snapshot Contract](./phase_4c_status_snapshot_contract.md)
+- [External API Safety Rules](./phase_4c_external_api_safety_rules.md)
+- [Cache & Staleness Plan](./phase_4c_cache_and_staleness_plan.md)
+- [Error Handling Plan](./phase_4c_error_handling_plan.md)
+- [Observability Plan](./phase_4c_observability_plan.md)
+- [Dashboard Status UI Plan](./phase_4c_dashboard_status_ui_plan.md)
+- [Phase 4D Gate Review](./phase_4c_phase_4d_gate_review.md)
+
 ## Future Phases
 - **Phase 4B**: Auth/permissions planning.
 - **Phase 4C**: Read-only GitHub integration.
