@@ -85,6 +85,12 @@ Phase 4D defines the mandatory security milestones required before interactive f
 - [Audit Requirements](./phase_4d_audit_requirements.md)
 - [Safe Next Steps](./phase_4d_safe_next_steps.md)
 
+## Roadmap Re-Anchor
+
+The inserted backend safety track is now complete enough to return to the original project roadmap.
+
+- [Original Roadmap Re-Anchor After Backend Safety Track](./original_roadmap_reanchor_after_backend_safety_track.md)
+
 ## Future Phases
 - **Phase 4B**: Auth/permissions planning.
 - **Phase 4C**: Read-only GitHub integration.
