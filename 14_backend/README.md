@@ -29,6 +29,21 @@ Phase 4A establishes a safe, read-only backend foundation using Netlify Function
 - No outbound API calls.
 - Purely read-only responses.
 
+## Phase 4B: Auth & Permissions Planning
+
+Phase 4B defines the security architecture and permission model required for future interactive capabilities.
+
+### Planning Docs
+- [Auth & Permissions Plan](./phase_4b_auth_permissions_plan.md)
+- [Role Model](./phase_4b_role_model.md)
+- [Endpoint Permission Matrix](./phase_4b_endpoint_permission_matrix.md)
+- [Secret Handling Plan](./phase_4b_secret_handling_plan.md)
+- [Audit Logging Plan](./phase_4b_audit_logging_plan.md)
+- [Rate Limit & Abuse Plan](./phase_4b_rate_limit_and_abuse_plan.md)
+- [Threat Model](./phase_4b_threat_model.md)
+- [Action Queue Concept](./phase_4b_action_queue_concept.md)
+- [Dashboard UI Implications](./phase_4b_dashboard_ui_implications.md)
+
 ## Future Phases
 - **Phase 4B**: Auth/permissions planning.
 - **Phase 4C**: Read-only GitHub integration.
