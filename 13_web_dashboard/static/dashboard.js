@@ -398,15 +398,21 @@
     });
   }
 
-  function wirePhase4dSchemaButton(buttonId, schemaPath, statusId, areaId, outputId) {
+  function wirePhase4dSchemaButton(buttonId, schemaPath, statusId) {
     var button = byId(buttonId);
     if (!button) {
       return;
     }
     button.addEventListener("click", function () {
       var statusText = byId(statusId);
-      var responseArea = byId(areaId);
-      var responseJson = byId(outputId);
+      var responseArea = byId("phase4d-schema-output-panel");
+      var responseJson = byId("phase4d-shared-response-json");
+
+      // Reset all status texts first
+      ["phase4d-identity-status", "phase4d-action-status", "phase4d-audit-status", "phase4d-risk-status"].forEach(function(id) {
+         var el = byId(id);
+         if(el) el.textContent = "Not loaded.";
+      });
 
       if (statusText) {
         statusText.textContent = "Loading schema...";
@@ -414,15 +420,15 @@
 
       var request;
       if (schemaPath === "./phase4d_identity_schema.json") {
-        request = fetch("./phase4d_identity_schema.json"); /* ./status_snapshot.json */
+        request = fetch("./phase4d_identity_schema.json");
       } else if (schemaPath === "./phase4d_action_schema.json") {
-        request = fetch("./phase4d_action_schema.json"); /* ./status_snapshot.json */
+        request = fetch("./phase4d_action_schema.json");
       } else if (schemaPath === "./phase4d_audit_schema.json") {
-        request = fetch("./phase4d_audit_schema.json"); /* ./status_snapshot.json */
+        request = fetch("./phase4d_audit_schema.json");
       } else if (schemaPath === "./phase4d_risk_model.json") {
-        request = fetch("./phase4d_risk_model.json"); /* ./status_snapshot.json */
+        request = fetch("./phase4d_risk_model.json");
       } else if (schemaPath === "./phase4d_approval_schema.json") {
-        request = fetch("./phase4d_approval_schema.json"); /* ./status_snapshot.json */
+        request = fetch("./phase4d_approval_schema.json");
       } else {
         request = Promise.reject(new Error("Unsupported schema path"));
       }
@@ -484,11 +490,11 @@
     wireSortButtons();
     wireBackendButtons();
     wireSnapshotButtons();
-    wirePhase4dSchemaButton("load-phase4d-identity-schema-button", "./phase4d_identity_schema.json", "phase4d-identity-status", "phase4d-identity-response-area", "phase4d-identity-response-json");
-    wirePhase4dSchemaButton("load-phase4d-action-schema-button", "./phase4d_action_schema.json", "phase4d-action-status", "phase4d-action-response-area", "phase4d-action-response-json");
-    wirePhase4dSchemaButton("load-phase4d-audit-schema-button", "./phase4d_audit_schema.json", "phase4d-audit-status", "phase4d-audit-response-area", "phase4d-audit-response-json");
-    wirePhase4dSchemaButton("load-phase4d-risk-schema-button", "./phase4d_risk_model.json", "phase4d-risk-status", "phase4d-risk-response-area", "phase4d-risk-response-json");
-    wirePhase4dSchemaButton("load-phase4d-approval-schema-button", "./phase4d_approval_schema.json", "phase4d-risk-status", "phase4d-risk-response-area", "phase4d-risk-response-json");
+    wirePhase4dSchemaButton("load-phase4d-identity-schema-button", "./phase4d_identity_schema.json", "phase4d-identity-status");
+    wirePhase4dSchemaButton("load-phase4d-action-schema-button", "./phase4d_action_schema.json", "phase4d-action-status");
+    wirePhase4dSchemaButton("load-phase4d-audit-schema-button", "./phase4d_audit_schema.json", "phase4d-audit-status");
+    wirePhase4dSchemaButton("load-phase4d-risk-schema-button", "./phase4d_risk_model.json", "phase4d-risk-status");
+    wirePhase4dSchemaButton("load-phase4d-approval-schema-button", "./phase4d_approval_schema.json", "phase4d-risk-status");
     installKeyboardShortcut();
     applyFilters();
     setStatus("Local UI ready.", "info");
