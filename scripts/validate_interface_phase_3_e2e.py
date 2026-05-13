@@ -57,7 +57,7 @@ def main():
             return _fail(f"missing built artifact: {path.relative_to(ROOT)}")
 
     help_result = _run([sys.executable, str(DASHBOARD), "--help"])
-    if help_result.returncode != 0 or "Interface Phase 3" not in help_result.stdout:
+    if help_result.returncode != 0 or "Read-Only Operations Dashboard" not in help_result.stdout:
         return _fail("help command failed")
     _assert_no_traceback(help_result, "help command")
 
@@ -65,7 +65,7 @@ def main():
     if snapshot_json_result.returncode != 0:
         return _fail("snapshot-json command failed")
     snapshot = json.loads(snapshot_json_result.stdout)
-    if snapshot.get("phase") != "Interface Phase 3":
+    if snapshot.get("phase") != "Read-Only Operations Dashboard":
         return _fail("snapshot phase mismatch")
     boundary = snapshot.get("boundary_status", {})
     if any(boundary.get(name) is not False for name in [
@@ -86,9 +86,9 @@ def main():
     summary_result = _run([sys.executable, str(DASHBOARD), "--snapshot-summary"])
     full_result = _run([sys.executable, str(DASHBOARD), "--snapshot-full"])
     for label, command_result, needle in [
-        ("snapshot-markdown", markdown_result, "# Interface Phase 3 Dashboard Snapshot"),
-        ("snapshot-summary", summary_result, "Interface Phase 3 dashboard snapshot"),
-        ("snapshot-full", full_result, "# Interface Phase 3 Dashboard Snapshot (Full)"),
+        ("snapshot-markdown", markdown_result, "# Read-Only Operations Dashboard Snapshot"),
+        ("snapshot-summary", summary_result, "Read-Only Operations Dashboard snapshot"),
+        ("snapshot-full", full_result, "# Read-Only Operations Dashboard Snapshot (Full)"),
     ]:
         if command_result.returncode != 0 or needle not in command_result.stdout:
             return _fail(f"{label} command failed")
@@ -147,7 +147,7 @@ def main():
         "09_exports/interface_phase_3/test_runs/",
     ], ".gitignore")
     _assert_contains(HYGIENE_REPORT, [
-        "Interface Phase 3 Generated Artifact Hygiene Report",
+        "Read-Only Operations Dashboard Generated Artifact Hygiene Report",
         "PASS_WITH_HIGH_CONFIDENCE",
         "Generated Artifact Hygiene",
     ], "hygiene report")

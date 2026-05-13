@@ -1,4 +1,4 @@
-# Interface Phase 3 - Read-Only Operations Dashboard
+# Read-Only Operations Dashboard - Read-Only Operations Dashboard
 
 Phase 3 is a static, local, browser-friendly dashboard for The Agent Command Center.
 

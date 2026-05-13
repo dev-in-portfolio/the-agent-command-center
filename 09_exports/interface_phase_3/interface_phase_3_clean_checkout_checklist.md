@@ -1,4 +1,4 @@
-# Interface Phase 3 Clean Checkout Checklist
+# Read-Only Operations Dashboard Clean Checkout Checklist
 
 ## Goal
 

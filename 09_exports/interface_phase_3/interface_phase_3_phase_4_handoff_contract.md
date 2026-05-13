@@ -1,4 +1,4 @@
-# Interface Phase 3 Phase 4 Handoff Contract
+# Read-Only Operations Dashboard Phase 4 Handoff Contract
 
 Phase 4 may extend the local review experience without weakening the Phase 1 through Phase 3 boundaries.
 

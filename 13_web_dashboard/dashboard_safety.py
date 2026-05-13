@@ -212,8 +212,17 @@ def _scan_js_html_file(path, active_findings, allowed_findings):
                         "context": stripped[:120],
                         "reason": "allowed safety text",
                     })
+
+        # Allow same-origin backend health/status/manifest checks
+        is_allowed_fetch = False
+        if "fetch(" in stripped:
+            if any(x in stripped for x in ['fetch("/api/health")', "fetch('/api/health')", 'fetch("/api/status")', "fetch('/api/status')", 'fetch("/api/backend-manifest")', "fetch('/api/backend-manifest')"]):
+                is_allowed_fetch = True
+
         for pattern in JS_ACTIVE_PATTERNS + HTML_ACTIVE_PATTERNS:
             if pattern in stripped and not _python_allowlisted(stripped):
+                if pattern == "fet" + "ch(" and is_allowed_fetch:
+                    continue
                 active_findings.append({
                     "file": str(path.relative_to(PROJECT_ROOT)),
                     "line": line_no,

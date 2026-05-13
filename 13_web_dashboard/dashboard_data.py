@@ -878,7 +878,7 @@ def snapshot_json():
 def snapshot_markdown():
     snapshot = build_dashboard_snapshot()
     lines = [
-        "# Interface Phase 3 Dashboard Snapshot",
+        "# Read-Only Operations Dashboard Snapshot",
         "",
         f"- Dashboard ID: {snapshot['dashboard_id']}",
         f"- Created at UTC: {snapshot['created_at_utc']}",
@@ -908,7 +908,7 @@ def snapshot_markdown():
 def snapshot_summary():
     snapshot = build_dashboard_snapshot()
     return "\n".join([
-        "Interface Phase 3 dashboard snapshot",
+        "Read-Only Operations Dashboard snapshot",
         f"Dashboard ID: {snapshot['dashboard_id']}",
         f"Phase 3 verdict: {snapshot['phase_3_status'].get('detected_verdict', 'unknown')}",
         f"Action registry actions: {snapshot['action_registry_summary'].get('total_actions', 0)}",
@@ -920,7 +920,7 @@ def snapshot_summary():
 def snapshot_full():
     snapshot = build_dashboard_snapshot()
     lines = [
-        "# Interface Phase 3 Dashboard Snapshot (Full)",
+        "# Read-Only Operations Dashboard Snapshot (Full)",
         "",
         json.dumps(snapshot, indent=2, sort_keys=False),
     ]

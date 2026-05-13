@@ -339,7 +339,7 @@ def _render_overview_cards(snapshot):
     cards = [
         _card("Phase 1 status", phase1.get("detected_verdict", "unknown"), phase1.get("summary", "Phase 1 backend source of truth is present.")),
         _card("Phase 2 status", phase2.get("detected_verdict", "unknown"), phase2.get("summary", "Phase 2 TUI contracts and docs are present.")),
-        _card("Phase 3 build status", phase3.get("detected_verdict", "unknown"), phase3.get("summary", "Static dashboard build and exports are available.")),
+        _card("Phase 3 build status", phase3.get("detected_verdict", "unknown"), phase3.get("summary", "Read-Only Operations Dashboard build and exports are available.")),
         _card("Safety status", "LOCKED", safety_scan.get("status", "PASS")),
         _card("Merge readiness", merge_ready_status, next_action),
     ]
@@ -357,7 +357,7 @@ def _build_landing_screen(snapshot):
     cards = [
         _card("Phase 1 status", phase1.get("detected_verdict", "unknown"), phase1.get("summary", "Phase 1 backend source of truth is present.")),
         _card("Phase 2 status", phase2.get("detected_verdict", "unknown"), phase2.get("summary", "Phase 2 TUI contracts and docs are present.")),
-        _card("Phase 3 status", phase3.get("detected_verdict", "unknown"), phase3.get("summary", "Static dashboard build and exports are available.")),
+        _card("Phase 3 status", phase3.get("detected_verdict", "unknown"), phase3.get("summary", "Read-Only Operations Dashboard build and exports are available.")),
         _card("Safety status", safety_scan.get("status", "unknown"), "Read-Only Operations Dashboard with deployment, merge, push, secret access, and command packet execution disabled."),
         _card("Merge readiness", merge_ready_status, next_action),
     ]
@@ -389,7 +389,7 @@ def _build_landing_screen(snapshot):
 
 def _build_toolbar(snapshot):
     dashboard_path = "13_web_dashboard/dist/index.html"
-    summary = snapshot.get("phase_3_status", {}).get("summary", "Static local dashboard.")
+    summary = snapshot.get("phase_3_status", {}).get("summary", "Read-Only Operations Dashboard.")
     return f"""
     <section class="toolbar-shell" aria-label="Dashboard tools">
       <div class="toolbar-group">
@@ -738,12 +738,40 @@ def _build_footer():
     """
 
 
+def _build_backend_status_panel(snapshot):
+    body = """
+    <div class="stat-grid">
+      <div class="stat"><span>Backend integration</span><strong>Phase 4A read-only foundation</strong></div>
+      <div class="stat"><span>Backend actions</span><strong>Disabled</strong></div>
+      <div class="stat"><span>Command execution</span><strong>Disabled</strong></div>
+      <div class="stat"><span>GitHub mutation</span><strong>Disabled</strong></div>
+      <div class="stat"><span>Controls</span><strong>Disabled</strong></div>
+    </div>
+    <div class="toolbar-group" style="margin-top: 1rem;">
+      <button type="button" class="section-button" id="check-backend-button">Check backend status</button>
+      <span id="backend-fetch-status" class="muted" style="margin-left: 1rem;">Not checked.</span>
+    </div>
+    <div id="backend-response-area" style="margin-top: 1rem; display: none;">
+      <h4>Latest backend response</h4>
+      <pre class="code-block" id="backend-response-json"></pre>
+    </div>
+    """
+    return _details(
+        "Backend Status",
+        body,
+        "audit",
+        open_by_default=True,
+        panel_id="backend-status-panel"
+    )
+
+
 def render_html(snapshot, compact_view=False, print_mode=False):
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
     header = f"""
     <header class="hero dashboard-shell">
       <div class="hero-copy">
         <h1>The Agent Command Center</h1>
+        <p class="lede">A read-only operations dashboard for reviewing system status, safety boundaries, artifacts, validators, reports, and merge readiness.</p>
       </div>
     </header>
     """
@@ -752,6 +780,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
     sections = [
         _build_safety_banner(),
         _build_landing_screen(snapshot),
+        _build_backend_status_panel(snapshot),
         _details("Safety Boundary", _build_safety_boundary(snapshot), "source", open_by_default=False, panel_id="safety-boundary"),
         _build_action_panel(snapshot),
         _build_artifact_panel(snapshot),
@@ -769,7 +798,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         body_class += " compact-view"
     data_json = json.dumps(snapshot, indent=2, sort_keys=False).replace("</", "<\\/")
     replacements = {
-        "{{TITLE}}": "The Agent Command Center - Interface Phase 3",
+        "{{TITLE}}": "The Agent Command Center - Read-Only Operations Dashboard",
         "{{BODY_CLASS}}": body_class,
         "{{HEADER}}": header,
         "{{TOOLBAR}}": toolbar,
