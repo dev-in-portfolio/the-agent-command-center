@@ -1724,6 +1724,7 @@ def _build_plus1b_operator_console_contract_layer():
 <div class="plus1b-console-consolidation" data-plus1b-operator-console-contract-layer="true">
   <div class="callout" style="border-color: rgba(139,92,246,0.42); background: rgba(139,92,246,0.06);">
     <strong style="color: var(--accent-2);">OPERATOR CONSOLE CONSOLIDATION</strong>
+    <p class="muted" style="margin-top: 0.15rem;">AUTOMATION CONTRACT LAYER</p>
     <p class="muted" style="margin-top: 0.25rem;">CONTRACTS ONLY — COPY/PASTE ONLY — READINESS ONLY — NO LIVE AUTOMATION — NO EXECUTION — NO MUTATION — NO BACKEND WRITES — NO DEPLOY / MERGE / PUSH / PR CONTROLS</p>
   </div>
   <p class="muted" style="margin-top: 0.25rem;">Original +1B — Operator Console Consolidation &amp; Automation Contract Layer. This layer consolidates the Phase 5A-5E workflow and the Original +1 readiness shell into one coherent operator console without enabling live automation.</p>
