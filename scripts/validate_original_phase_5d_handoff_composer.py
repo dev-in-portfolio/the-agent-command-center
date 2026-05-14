@@ -134,6 +134,7 @@ for match in re.finditer(r'(<button[^>]*>)([^<]+)(</button>)', index):
             "copy rollback/no-go notes",
             "copy full handoff markdown",
             "copy merge-readiness summary",
+            "copy queue lifecycle model",
         }:
             continue
         check(False, f"index.html has forbidden enabled button label: {button_label.strip()}")

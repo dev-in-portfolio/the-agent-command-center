@@ -127,6 +127,7 @@ allowed_buttons = {
     "copy safety gate summary",
     "copy next-action recommendation",
     "copy merge-readiness summary",
+    "copy queue lifecycle model",
 }
 for match in re.finditer(r'(<button[^>]*>)([^<]+)(</button>)', index):
     tag, button_label, _ = match.groups()

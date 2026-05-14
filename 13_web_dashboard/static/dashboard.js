@@ -2709,6 +2709,507 @@
 })();
 
 (function () {
+  var plus1dState = {
+    model: null,
+  };
+
+  function p1d(id) {
+    return document.getElementById(id);
+  }
+
+  function readDashboardData() {
+    var node = p1d("dashboard-data");
+    if (!node) {
+      return {};
+    }
+    try {
+      return JSON.parse(node.textContent || "{}");
+    } catch (error) {
+      return {};
+    }
+  }
+
+  function escapeHtml(value) {
+    return String(value == null ? "" : value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function copyRenderedText(text, emptyMessage, successMessage) {
+    var status = p1d("copy-status");
+    if (!text) {
+      if (status) status.textContent = emptyMessage;
+      return;
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () {
+        if (status) status.textContent = successMessage;
+      }).catch(function () {});
+      return;
+    }
+    var field = document.createElement("textarea");
+    field.value = text;
+    field.style.position = "fixed";
+    field.style.left = "-9999px";
+    document.body.appendChild(field);
+    field.select();
+    document.execCommand("copy");
+    document.body.removeChild(field);
+    if (status) status.textContent = successMessage;
+  }
+
+  function bindCopyButton(buttonId, getter, emptyMessage, successMessage) {
+    var button = p1d(buttonId);
+    if (!button) {
+      return;
+    }
+    button.addEventListener("click", function () {
+      var snapshot = renderSnapshot();
+      var text = getter(snapshot);
+      copyRenderedText(text, emptyMessage, successMessage);
+    });
+  }
+
+  function badgeClass(status) {
+    var value = String(status || "").toLowerCase();
+    if (value === "pass" || value === "complete" || value === "yes" || value === "true" || value === "existing read-only endpoint") {
+      return "pass";
+    }
+    if (value === "warning" || value === "blueprint_only" || value === "planning_only" || value === "info") {
+      return "warning";
+    }
+    if (value === "blocked" || value === "fail" || value === "false" || value === "not_implemented" || value === "not implemented") {
+      return "locked";
+    }
+    return "info";
+  }
+
+  function boolValue(value) {
+    return value ? "yes" : "no";
+  }
+
+  function buildRows(items, renderer, emptyText) {
+    if (!items || !items.length) {
+      return emptyText;
+    }
+    return items.map(function (item) {
+      return "<tr>" + renderer(item) + "</tr>";
+    }).join("");
+  }
+
+  function buildOverviewRows(model) {
+    return buildRows(model && model.backend_boundary_overview, function (item) {
+      return [
+        '<th scope="row">' + escapeHtml(item.label) + '</th>',
+        '<td>' + escapeHtml(item.value) + '</td>',
+        '<td><span class="badge ' + badgeClass(item.status) + '">' + escapeHtml(item.status) + '</span></td>',
+      ].join("");
+    }, '<tr><td colspan="3" class="empty">No backend boundary overview loaded yet.</td></tr>');
+  }
+
+  function buildEndpointRows(model) {
+    return buildRows(model && model.endpoint_contract_map, function (item) {
+      return [
+        '<th scope="row"><code>' + escapeHtml(item.method + " " + item.path) + '</code></th>',
+        '<td>' + escapeHtml(item.purpose) + '</td>',
+        '<td>' + escapeHtml(item.current_status) + '</td>',
+        '<td>' + escapeHtml(item.required_auth) + '</td>',
+        '<td>' + escapeHtml(item.required_role) + '</td>',
+        '<td><span class="badge ' + badgeClass(item.writes_data) + '">' + escapeHtml(boolValue(item.writes_data)) + '</span></td>',
+        '<td><span class="badge ' + badgeClass(item.mutates_external_system) + '">' + escapeHtml(boolValue(item.mutates_external_system)) + '</span></td>',
+        '<td><span class="badge ' + badgeClass(item.requires_human_approval) + '">' + escapeHtml(boolValue(item.requires_human_approval)) + '</span></td>',
+        '<td><span class="badge ' + badgeClass(item.requires_audit_event) + '">' + escapeHtml(boolValue(item.requires_audit_event)) + '</span></td>',
+        '<td><span class="badge ' + badgeClass(item.current_implementation_allowed) + '">' + escapeHtml(boolValue(item.current_implementation_allowed)) + '</span></td>',
+      ].join("");
+    }, '<tr><td colspan="11" class="empty">No backend endpoint contract map loaded yet.</td></tr>');
+  }
+
+  function buildRoleRows(model) {
+    return buildRows(model && model.auth_role_permission_architecture, function (item) {
+      return [
+        '<th scope="row">' + escapeHtml(item.role) + '</th>',
+        '<td>' + escapeHtml(item.future_permissions) + '</td>',
+        '<td>' + escapeHtml(item.current_permissions) + '</td>',
+        '<td><span class="badge ' + badgeClass(item.can_execute_now) + '">' + escapeHtml(boolValue(item.can_execute_now)) + '</span></td>',
+        '<td><span class="badge ' + badgeClass(item.can_mutate_now) + '">' + escapeHtml(boolValue(item.can_mutate_now)) + '</span></td>',
+      ].join("");
+    }, '<tr><td colspan="5" class="empty">No auth / permission model loaded yet.</td></tr>');
+  }
+
+  function buildTableRows(items, keyLabels) {
+    return (items || []).map(function (item) {
+      return "<tr>" + keyLabels.map(function (key) {
+        var value = item[key];
+        if (typeof value === "boolean") {
+          return '<td><span class="badge ' + badgeClass(value) + '">' + escapeHtml(boolValue(value)) + '</span></td>';
+        }
+        return "<td>" + escapeHtml(Array.isArray(value) ? value.join(", ") : value) + "</td>";
+      }).join("") + "</tr>";
+    }).join("");
+  }
+
+  function buildSequenceRows(model) {
+    return buildRows(model && model.future_implementation_sequence, function (item) {
+      return [
+        '<th scope="row">' + escapeHtml(item.phase) + '</th>',
+        '<td>' + escapeHtml(item.label) + '</td>',
+        '<td>' + escapeHtml(item.purpose) + '</td>',
+      ].join("");
+    }, '<tr><td colspan="3" class="empty">No implementation sequence loaded yet.</td></tr>');
+  }
+
+  function buildChecklistRows(model) {
+    return buildRows(model && model.real_automation_prerequisite_checklist, function (item) {
+      return [
+        '<th scope="row">' + escapeHtml(item.item) + '</th>',
+        '<td><span class="badge ' + badgeClass(item.required) + '">' + escapeHtml(boolValue(item.required)) + '</span></td>',
+        '<td>' + escapeHtml(item.current_state) + '</td>',
+        '<td><span class="badge ' + badgeClass(item.status) + '">' + escapeHtml(item.status) + '</span></td>',
+      ].join("");
+    }, '<tr><td colspan="4" class="empty">No prerequisite checklist loaded yet.</td></tr>');
+  }
+
+  function buildIntegrationRows(model) {
+    return buildRows(model && model.github_netlify_future_integration_boundary, function (item) {
+      return [
+        '<th scope="row">' + escapeHtml(item.integration) + '</th>',
+        '<td><span class="badge ' + badgeClass(item.allowed_now) + '">' + escapeHtml(boolValue(item.allowed_now)) + '</span></td>',
+        '<td><span class="badge ' + badgeClass(item.required_future_auth) + '">' + escapeHtml(boolValue(item.required_future_auth)) + '</span></td>',
+        '<td><span class="badge ' + badgeClass(item.required_secret_storage) + '">' + escapeHtml(boolValue(item.required_secret_storage)) + '</span></td>',
+        '<td><span class="badge ' + badgeClass(item.required_human_approval) + '">' + escapeHtml(boolValue(item.required_human_approval)) + '</span></td>',
+        '<td><span class="badge ' + badgeClass(item.required_audit_log) + '">' + escapeHtml(boolValue(item.required_audit_log)) + '</span></td>',
+        '<td><span class="badge ' + badgeClass(item.required_rollback_plan) + '">' + escapeHtml(boolValue(item.required_rollback_plan)) + '</span></td>',
+      ].join("");
+    }, '<tr><td colspan="7" class="empty">No integration boundary loaded yet.</td></tr>');
+  }
+
+  function markdownHeader(title, recommendation) {
+    return ["# Original +1D Backend Boundary Blueprint", "", "## " + title, recommendation ? "- Recommendation: " + recommendation : ""].filter(Boolean).join("\n");
+  }
+
+  function markdownList(title, items, formatter) {
+    var lines = ["## " + title];
+    (items || []).forEach(function (item) {
+      lines.push("- " + formatter(item));
+    });
+    return lines.join("\n");
+  }
+
+  function buildBackendBoundaryMarkdown(model) {
+    if (!model) {
+      return "No backend boundary blueprint loaded yet.";
+    }
+    return [
+      "# Original +1D Backend Boundary Blueprint",
+      "",
+      "Status: " + model.overall_status,
+      "Recommendation: " + model.current_recommendation,
+      "Final recommendation: " + model.final_recommendation,
+      "",
+      markdownList("Backend boundary overview", model.backend_boundary_overview, function (item) {
+        return item.label + ": " + item.value + " (" + item.status + ")";
+      }),
+      "",
+      markdownList("Endpoint contract map", model.endpoint_contract_map, function (item) {
+        return item.method + " " + item.path + " | " + item.purpose + " | current: " + item.current_status + " | role: " + item.required_role + " | allowed now: " + boolValue(item.current_implementation_allowed);
+      }),
+      "",
+      markdownList("Auth / role / permission architecture", model.auth_role_permission_architecture, function (item) {
+        return item.role + " | future: " + item.future_permissions + " | current: " + item.current_permissions;
+      }),
+      "",
+      buildStorageMarkdown("Persistent request storage model", model.persistent_request_storage_model),
+      "",
+      buildStorageMarkdown("Audit log storage model", model.audit_log_storage_model),
+      "",
+      buildStorageMarkdown("Approval record model", model.approval_record_model),
+      "",
+      buildQueueMarkdown(model),
+      "",
+      buildDryRunMarkdown(model),
+      "",
+      buildMutationMarkdown(model),
+      "",
+      markdownList("GitHub / Netlify future integration boundary", model.github_netlify_future_integration_boundary, function (item) {
+        return item.integration + " | allowed now: " + boolValue(item.allowed_now) + " | auth: " + boolValue(item.required_future_auth) + " | approval: " + boolValue(item.required_human_approval);
+      }),
+      "",
+      buildSimpleListMarkdown("Secrets management requirements", model.secrets_management_requirements),
+      "",
+      buildSimpleListMarkdown("Rollback / no-go enforcement model", model.rollback_no_go_enforcement_model),
+      "",
+      buildSimpleListMarkdown("Rate limit / abuse control plan", model.rate_limit_abuse_control_plan),
+      "",
+      markdownList("Future implementation sequence", model.future_implementation_sequence, function (item) {
+        return item.phase + " " + item.label + " | " + item.purpose;
+      }),
+      "",
+      markdownList("Real automation prerequisite checklist", model.real_automation_prerequisite_checklist, function (item) {
+        return item.item + " | required: " + boolValue(item.required) + " | state: " + item.current_state + " | status: " + item.status;
+      }),
+    ].filter(Boolean).join("\n");
+  }
+
+  function buildStorageMarkdown(title, modelSection) {
+    if (!modelSection) {
+      return "## " + title + "\n- No data loaded.";
+    }
+    return [
+      "## " + title,
+      "- Status: " + modelSection.status,
+      "- Future dependency: " + modelSection.future_dependency,
+      "- Fields: " + modelSection.fields.join(", "),
+    ].join("\n");
+  }
+
+  function buildQueueMarkdown(model) {
+    var queueModel = model && model.queue_job_lifecycle_model;
+    if (!queueModel) {
+      return "## Queue / Job Lifecycle Model\n- No data loaded.";
+    }
+    return [
+      "## Queue / Job Lifecycle Model",
+      "- Status: " + queueModel.status,
+      "- Future dependency: " + queueModel.future_dependency,
+      "- States: " + queueModel.states.join(" -> "),
+    ].join("\n");
+  }
+
+  function buildDryRunMarkdown(model) {
+    var dryRun = model && model.dry_run_engine_boundary;
+    if (!dryRun) {
+      return "## Dry-Run Engine Boundary\n- No data loaded.";
+    }
+    return [
+      "## Dry-Run Engine Boundary",
+      "- Status: " + dryRun.status,
+      "- Requirements:",
+    ].concat(dryRun.requirements.map(function (item) { return "  - " + item; })).join("\n");
+  }
+
+  function buildMutationMarkdown(model) {
+    var mutation = model && model.mutation_gateway_boundary;
+    if (!mutation) {
+      return "## Mutation Gateway Boundary\n- No data loaded.";
+    }
+    return [
+      "## Mutation Gateway Boundary",
+      "- Status: " + mutation.status,
+      "- Future dependency: " + mutation.future_dependency,
+      "- Requirements:",
+    ].concat(mutation.requirements.map(function (item) { return "  - " + item; })).join("\n");
+  }
+
+  function buildSimpleListMarkdown(title, items) {
+    return ["## " + title].concat((items || []).map(function (item) {
+      return "- " + item;
+    })).join("\n");
+  }
+
+  function buildEndpointMapMarkdown(model) {
+    var items = model && model.endpoint_contract_map ? model.endpoint_contract_map : [];
+    var lines = ["# Original +1D Endpoint Contract Map", ""];
+    items.forEach(function (item) {
+      lines.push("## " + item.method + " " + item.path);
+      lines.push("- Purpose: " + item.purpose);
+      lines.push("- Current status: " + item.current_status);
+      lines.push("- Required auth: " + item.required_auth);
+      lines.push("- Required role: " + item.required_role);
+      lines.push("- Writes data: " + boolValue(item.writes_data));
+      lines.push("- Mutates external system: " + boolValue(item.mutates_external_system));
+      lines.push("- Requires human approval: " + boolValue(item.requires_human_approval));
+      lines.push("- Requires audit event: " + boolValue(item.requires_audit_event));
+      lines.push("- Current implementation allowed: " + boolValue(item.current_implementation_allowed));
+      lines.push("");
+    });
+    return lines.join("\n").trim();
+  }
+
+  function buildAuthPermissionMarkdown(model) {
+    var items = model && model.auth_role_permission_architecture ? model.auth_role_permission_architecture : [];
+    var lines = ["# Original +1D Auth / Role / Permission Architecture", ""];
+    items.forEach(function (item) {
+      lines.push("## " + item.role);
+      lines.push("- Future permissions: " + item.future_permissions);
+      lines.push("- Current permissions: " + item.current_permissions);
+      lines.push("- Can execute now: " + boolValue(item.can_execute_now));
+      lines.push("- Can mutate now: " + boolValue(item.can_mutate_now));
+      lines.push("");
+    });
+    return lines.join("\n").trim();
+  }
+
+  function buildModelMarkdown(title, section, lines) {
+    var out = ["# Original +1D " + title, "", "## Status", section.status, "", "## Future dependency", section.future_dependency, "", "## Fields"];
+    (section.fields || []).forEach(function (field) {
+      out.push("- " + field);
+    });
+    if (lines && lines.length) {
+      out.push("");
+      out = out.concat(lines);
+    }
+    return out.join("\n").trim();
+  }
+
+  function buildStorageModelMarkdown(title, section) {
+    return buildModelMarkdown(title, section, []);
+  }
+
+  function buildSequenceMarkdown(model) {
+    var items = model && model.future_implementation_sequence ? model.future_implementation_sequence : [];
+    var lines = ["# Original +1D Future Implementation Sequence", ""];
+    items.forEach(function (item) {
+      lines.push("- " + item.phase + " " + item.label + ": " + item.purpose);
+    });
+    return lines.join("\n").trim();
+  }
+
+  function buildChecklistMarkdown(model) {
+    var items = model && model.real_automation_prerequisite_checklist ? model.real_automation_prerequisite_checklist : [];
+    var lines = ["# Original +1D Real Automation Prerequisite Checklist", ""];
+    items.forEach(function (item) {
+      lines.push("- " + item.item + ": required " + boolValue(item.required) + ", state " + item.current_state + ", status " + item.status);
+    });
+    return lines.join("\n").trim();
+  }
+
+  function buildIntegrationMarkdown(model) {
+    var items = model && model.github_netlify_future_integration_boundary ? model.github_netlify_future_integration_boundary : [];
+    var lines = ["# Original +1D GitHub / Netlify Future Integration Boundary", ""];
+    items.forEach(function (item) {
+      lines.push("- " + item.integration + ": allowed now " + boolValue(item.allowed_now) + ", future auth " + boolValue(item.required_future_auth) + ", approval " + boolValue(item.required_human_approval));
+    });
+    return lines.join("\n").trim();
+  }
+
+  function buildListMarkdown(title, items) {
+    var lines = ["# Original +1D " + title, ""];
+    (items || []).forEach(function (item) {
+      lines.push("- " + item);
+    });
+    return lines.join("\n").trim();
+  }
+
+  function buildBlueprintPacketMarkdown(model) {
+    if (!model) {
+      return "No backend boundary blueprint loaded yet.";
+    }
+    return [
+      "# Original +1D Backend Boundary Blueprint Packet",
+      "",
+      "Status: " + model.overall_status,
+      "Recommendation: " + model.current_recommendation,
+      "Final recommendation: " + model.final_recommendation,
+      "",
+      buildBackendBoundaryMarkdown(model),
+    ].join("\n");
+  }
+
+  function renderSnapshot() {
+    var dashboardData = readDashboardData();
+    var model = plus1dState.model || dashboardData.original_plus1d_backend_boundary_model || null;
+    plus1dState.model = model;
+    return {
+      model: model,
+      backend_boundary_overview_rows_html: buildOverviewRows(model),
+      endpoint_contract_map_rows_html: buildEndpointRows(model),
+      auth_permission_rows_html: buildRoleRows(model),
+      request_storage_preview_text: model ? JSON.stringify(model.persistent_request_storage_model, null, 2) : "No request storage model loaded yet.",
+      audit_log_preview_text: model ? JSON.stringify(model.audit_log_storage_model, null, 2) : "No audit log model loaded yet.",
+      approval_record_preview_text: model ? JSON.stringify(model.approval_record_model, null, 2) : "No approval record model loaded yet.",
+      queue_job_lifecycle_preview_text: model ? JSON.stringify(model.queue_job_lifecycle_model, null, 2) : "No queue job lifecycle model loaded yet.",
+      dry_run_engine_preview_text: model ? JSON.stringify(model.dry_run_engine_boundary, null, 2) : "No dry-run boundary loaded yet.",
+      mutation_gateway_preview_text: model ? JSON.stringify(model.mutation_gateway_boundary, null, 2) : "No mutation gateway boundary loaded yet.",
+      future_integrations_rows_html: buildIntegrationRows(model),
+      secrets_management_preview_text: model ? buildListMarkdown("Secrets Management Requirements", model.secrets_management_requirements) : "No secrets management requirements loaded yet.",
+      rollback_no_go_preview_text: model ? buildListMarkdown("Rollback / No-Go Enforcement Model", model.rollback_no_go_enforcement_model) : "No rollback / no-go model loaded yet.",
+      rate_limit_plan_preview_text: model ? buildListMarkdown("Rate Limit / Abuse Control Plan", model.rate_limit_abuse_control_plan) : "No rate-limit plan loaded yet.",
+      implementation_sequence_rows_html: buildSequenceRows(model),
+      prerequisite_checklist_rows_html: buildChecklistRows(model),
+      backend_boundary_blueprint_markdown: buildBlueprintPacketMarkdown(model),
+      endpoint_contract_map_markdown: buildEndpointMapMarkdown(model),
+      auth_permission_markdown: buildAuthPermissionMarkdown(model),
+      request_storage_markdown: buildStorageModelMarkdown("Persistent Request Storage Model", model ? model.persistent_request_storage_model : null),
+      audit_log_markdown: buildStorageModelMarkdown("Audit Log Storage Model", model ? model.audit_log_storage_model : null),
+      approval_record_markdown: buildStorageModelMarkdown("Approval Record Model", model ? model.approval_record_model : null),
+      queue_job_lifecycle_markdown: buildQueueMarkdown(model),
+      dry_run_engine_markdown: buildDryRunMarkdown(model),
+      mutation_gateway_markdown: buildMutationMarkdown(model),
+      future_integrations_markdown: buildIntegrationMarkdown(model),
+      secrets_management_markdown: buildListMarkdown("Secrets Management Requirements", model ? model.secrets_management_requirements : []),
+      rollback_no_go_markdown: buildListMarkdown("Rollback / No-Go Enforcement Model", model ? model.rollback_no_go_enforcement_model : []),
+      rate_limit_plan_markdown: buildListMarkdown("Rate Limit / Abuse Control Plan", model ? model.rate_limit_abuse_control_plan : []),
+      implementation_sequence_markdown: buildSequenceMarkdown(model),
+      prerequisite_checklist_markdown: buildChecklistMarkdown(model),
+    };
+  }
+
+  function updatePlus1DUI() {
+    var snapshot = renderSnapshot();
+    var overviewBody = p1d("plus1d-backend-boundary-overview-body");
+    var endpointBody = p1d("plus1d-endpoint-map-body");
+    var authBody = p1d("plus1d-auth-permission-body");
+    var requestPreview = p1d("plus1d-request-storage-preview");
+    var auditPreview = p1d("plus1d-audit-log-preview");
+    var approvalPreview = p1d("plus1d-approval-record-preview");
+    var queuePreview = p1d("plus1d-queue-job-lifecycle-preview");
+    var dryRunPreview = p1d("plus1d-dry-run-engine-preview");
+    var mutationPreview = p1d("plus1d-mutation-gateway-preview");
+    var integrationBody = p1d("plus1d-future-integrations-body");
+    var secretsPreview = p1d("plus1d-secrets-management-preview");
+    var rollbackPreview = p1d("plus1d-rollback-no-go-preview");
+    var rateLimitPreview = p1d("plus1d-rate-limit-plan-preview");
+    var sequenceBody = p1d("plus1d-implementation-sequence-body");
+    var checklistBody = p1d("plus1d-prerequisite-checklist-body");
+    if (overviewBody) overviewBody.innerHTML = snapshot.backend_boundary_overview_rows_html;
+    if (endpointBody) endpointBody.innerHTML = snapshot.endpoint_contract_map_rows_html;
+    if (authBody) authBody.innerHTML = snapshot.auth_permission_rows_html;
+    if (requestPreview) requestPreview.textContent = snapshot.request_storage_preview_text;
+    if (auditPreview) auditPreview.textContent = snapshot.audit_log_preview_text;
+    if (approvalPreview) approvalPreview.textContent = snapshot.approval_record_preview_text;
+    if (queuePreview) queuePreview.textContent = snapshot.queue_job_lifecycle_preview_text;
+    if (dryRunPreview) dryRunPreview.textContent = snapshot.dry_run_engine_preview_text;
+    if (mutationPreview) mutationPreview.textContent = snapshot.mutation_gateway_preview_text;
+    if (integrationBody) integrationBody.innerHTML = snapshot.future_integrations_rows_html;
+    if (secretsPreview) secretsPreview.textContent = snapshot.secrets_management_preview_text;
+    if (rollbackPreview) rollbackPreview.textContent = snapshot.rollback_no_go_preview_text;
+    if (rateLimitPreview) rateLimitPreview.textContent = snapshot.rate_limit_plan_preview_text;
+    if (sequenceBody) sequenceBody.innerHTML = snapshot.implementation_sequence_rows_html;
+    if (checklistBody) checklistBody.innerHTML = snapshot.prerequisite_checklist_rows_html;
+  }
+
+  function initPlus1D() {
+    var shell = document.querySelector("[data-plus1d-backend-boundary-blueprint]");
+    if (!shell) {
+      return;
+    }
+
+    plus1dState.model = readDashboardData().original_plus1d_backend_boundary_model || null;
+
+    bindCopyButton("plus1d-copy-backend-boundary-blueprint", function (snapshot) { return snapshot.backend_boundary_blueprint_markdown; }, "Original +1D: Load backend boundary data first.", "Original +1D: Backend boundary blueprint copied.");
+    bindCopyButton("plus1d-copy-endpoint-contract-map", function (snapshot) { return snapshot.endpoint_contract_map_markdown; }, "Original +1D: Load backend boundary data first.", "Original +1D: Endpoint contract map copied.");
+    bindCopyButton("plus1d-copy-auth-permission-architecture", function (snapshot) { return snapshot.auth_permission_markdown; }, "Original +1D: Load backend boundary data first.", "Original +1D: Auth/permission architecture copied.");
+    bindCopyButton("plus1d-copy-storage-model-summary", function (snapshot) { return snapshot.request_storage_markdown + "\n\n" + snapshot.audit_log_markdown + "\n\n" + snapshot.approval_record_markdown; }, "Original +1D: Load backend boundary data first.", "Original +1D: Storage model summary copied.");
+    bindCopyButton("plus1d-copy-audit-model-summary", function (snapshot) { return snapshot.audit_log_markdown; }, "Original +1D: Load backend boundary data first.", "Original +1D: Audit model summary copied.");
+    bindCopyButton("plus1d-copy-queue-lifecycle-model", function (snapshot) { return snapshot.queue_job_lifecycle_markdown; }, "Original +1D: Load backend boundary data first.", "Original +1D: Queue lifecycle model copied.");
+    bindCopyButton("plus1d-copy-mutation-gateway-requirements", function (snapshot) { return snapshot.mutation_gateway_markdown; }, "Original +1D: Load backend boundary data first.", "Original +1D: Mutation gateway requirements copied.");
+    bindCopyButton("plus1d-copy-future-implementation-sequence", function (snapshot) { return snapshot.implementation_sequence_markdown; }, "Original +1D: Load backend boundary data first.", "Original +1D: Future implementation sequence copied.");
+    bindCopyButton("plus1d-copy-prerequisite-checklist", function (snapshot) { return snapshot.prerequisite_checklist_markdown; }, "Original +1D: Load backend boundary data first.", "Original +1D: Real automation prerequisite checklist copied.");
+
+    updatePlus1DUI();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initPlus1D);
+  } else {
+    initPlus1D();
+  }
+})();
+
+(function () {
   var phase5aState = null;
   var auditEvents = [];
 

@@ -931,6 +931,66 @@ pre.code-block {
   word-break: break-word;
 }
 
+.plus1d-backend-boundary {
+  display: grid;
+  gap: 1.5rem;
+  min-width: 0;
+}
+
+.plus1d-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+.plus1d-backend-boundary-overview,
+.plus1d-endpoint-map,
+.plus1d-auth-permission,
+.plus1d-storage-model,
+.plus1d-audit-model,
+.plus1d-approval-model,
+.plus1d-job-lifecycle,
+.plus1d-dry-run-boundary,
+.plus1d-mutation-gateway,
+.plus1d-future-integrations,
+.plus1d-secrets-management,
+.plus1d-no-go-rollback,
+.plus1d-rate-limit-plan,
+.plus1d-implementation-sequence,
+.plus1d-prerequisite-checklist,
+.plus1d-copy-output-hub {
+  min-width: 0;
+}
+
+.plus1d-endpoint-map .table-wrap,
+.plus1d-auth-permission .table-wrap,
+.plus1d-job-lifecycle .table-wrap,
+.plus1d-future-integrations .table-wrap,
+.plus1d-implementation-sequence .table-wrap,
+.plus1d-prerequisite-checklist .table-wrap {
+  min-width: 0;
+}
+
+.plus1d-storage-model .code-block,
+.plus1d-audit-model .code-block,
+.plus1d-approval-model .code-block,
+.plus1d-job-lifecycle .code-block,
+.plus1d-dry-run-boundary .code-block,
+.plus1d-mutation-gateway .code-block,
+.plus1d-secrets-management .code-block,
+.plus1d-no-go-rollback .code-block,
+.plus1d-rate-limit-plan .code-block {
+  max-height: 260px;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.plus1d-copy-output-hub {
+  border-color: rgba(34, 197, 94, 0.2);
+}
+
 @media (max-width: 1400px) {
   .phase4d-preview-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
