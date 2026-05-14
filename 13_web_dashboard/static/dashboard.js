@@ -1180,3 +1180,441 @@
     initPhase5b();
   }
 })();
+
+(function () {
+  var reviewBoard = [];
+  var ledgerEvents = [];
+  var currentPacket = null;
+
+  function p5c(id) { return document.getElementById(id); }
+
+  function generateId() {
+    if (window.crypto && window.crypto.randomUUID) {
+      return crypto.randomUUID().slice(0, 8);
+    }
+    return Math.random().toString(36).slice(2, 10);
+  }
+
+  function timestamp() { return new Date().toISOString(); }
+
+  function getPacketFromPhase5b() {
+    var status = p5c("copy-status");
+    var packetJson = p5c("phase5b-json-preview");
+    if (!packetJson || !packetJson.textContent || packetJson.textContent === "No packet generated yet.") {
+      if (status) status.textContent = "Phase 5C: Generate a Phase 5B packet first.";
+      return null;
+    }
+    try {
+      return JSON.parse(packetJson.textContent);
+    } catch (e) {
+      if (status) status.textContent = "Phase 5C: Could not parse Phase 5B packet.";
+      return null;
+    }
+  }
+
+  function addPacketToReviewBoard(packet) {
+    if (!packet || !packet.packet_id) {
+      var status = p5c("copy-status");
+      if (status) status.textContent = "Phase 5C: Invalid packet.";
+      return;
+    }
+
+    var exists = false;
+    for (var i = 0; i < reviewBoard.length; i++) {
+      if (reviewBoard[i].packet_id === packet.packet_id) {
+        exists = true;
+        break;
+      }
+    }
+    if (exists) {
+      var status = p5c("copy-status");
+      if (status) status.textContent = "Phase 5C: Packet " + packet.packet_id + " already in review board.";
+      return;
+    }
+
+    reviewBoard.push({
+      packet_id: packet.packet_id || "unknown",
+      request_title: packet.request_title || packet.title || "(untitled)",
+      workflow_type: packet.workflow_type || "unknown",
+      risk_classification: packet.risk_classification || "NOT CLASSIFIED",
+      current_state: packet.current_state || "unknown",
+      review_decision: "pending_review",
+      decision_timestamp: null,
+      notes_count: 0,
+      _source: packet,
+    });
+
+    updateReviewBoardUI();
+    var status = p5c("copy-status");
+    if (status) status.textContent = "Phase 5C: Added " + packet.packet_id + " to review board.";
+  }
+
+  function parsePastedPacket() {
+    var textarea = p5c("phase5c-pasted-json");
+    if (!textarea || !textarea.value.trim()) {
+      var status = p5c("copy-status");
+      if (status) status.textContent = "Phase 5C: Paste packet JSON first.";
+      return;
+    }
+    try {
+      var parsed = JSON.parse(textarea.value.trim());
+      if (!parsed.packet_id) {
+        var status = p5c("copy-status");
+        if (status) status.textContent = "Phase 5C: Pasted JSON has no packet_id.";
+        return;
+      }
+      addPacketToReviewBoard(parsed);
+      textarea.value = "";
+    } catch (e) {
+      var status = p5c("copy-status");
+      if (status) status.textContent = "Phase 5C: Invalid JSON — " + e.message;
+    }
+  }
+
+  function clearReviewBoard() {
+    reviewBoard = [];
+    ledgerEvents = [];
+    updateReviewBoardUI();
+    var status = p5c("copy-status");
+    if (status) status.textContent = "Phase 5C: Review board cleared.";
+  }
+
+  function recordDecision() {
+    var packetSelect = p5c("phase5c-decision-packet-select");
+    var decisionSelect = p5c("phase5c-decision-select");
+    var noteInput = p5c("phase5c-review-note");
+
+    if (!packetSelect || !decisionSelect) return;
+
+    var selectedPacketId = packetSelect.value;
+    if (!selectedPacketId) {
+      var status = p5c("copy-status");
+      if (status) status.textContent = "Phase 5C: Select a packet first.";
+      return;
+    }
+
+    var decision = decisionSelect.value || "pending_review";
+    var note = noteInput ? noteInput.value.trim() : "";
+
+    var found = null;
+    for (var i = 0; i < reviewBoard.length; i++) {
+      if (reviewBoard[i].packet_id === selectedPacketId) {
+        found = reviewBoard[i];
+        break;
+      }
+    }
+    if (!found) {
+      var status = p5c("copy-status");
+      if (status) status.textContent = "Phase 5C: Packet not found in review board.";
+      return;
+    }
+
+    var previousDecision = found.review_decision;
+    found.review_decision = decision;
+    found.decision_timestamp = timestamp();
+    found.notes_count = note ? found.notes_count + 1 : found.notes_count;
+
+    ledgerEvents.push({
+      ledger_event_id: "LEDGER-" + generateId().toUpperCase(),
+      timestamp: timestamp(),
+      packet_id: found.packet_id,
+      previous_decision: previousDecision,
+      next_decision: decision,
+      reviewer_display: "local-operator",
+      note_summary: note || "(no note)",
+      risk_classification: found.risk_classification,
+      execution_allowed: false,
+      mutation_allowed: false,
+      backend_write_performed: false,
+    });
+
+    updateReviewBoardUI();
+
+    var status = p5c("copy-status");
+    if (status) status.textContent = "Phase 5C: Decision recorded for " + selectedPacketId + " -> " + decision;
+  }
+
+  function renderLedgerJSON() {
+    var data = {
+      review_board_version: "1.0.0",
+      generated_at: timestamp(),
+      packet_count: reviewBoard.length,
+      ledger_event_count: ledgerEvents.length,
+      packets: reviewBoard.map(function (p) {
+        return {
+          packet_id: p.packet_id,
+          request_title: p.request_title,
+          workflow_type: p.workflow_type,
+          risk_classification: p.risk_classification,
+          current_state: p.current_state,
+          review_decision: p.review_decision,
+          decision_timestamp: p.decision_timestamp,
+          notes_count: p.notes_count,
+        };
+      }),
+      decisions: ledgerEvents.map(function (e) {
+        return {
+          ledger_event_id: e.ledger_event_id,
+          timestamp: e.timestamp,
+          packet_id: e.packet_id,
+          previous_decision: e.previous_decision,
+          next_decision: e.next_decision,
+          reviewer_display: e.reviewer_display,
+          note_summary: e.note_summary,
+          risk_classification: e.risk_classification,
+          execution_allowed: e.execution_allowed,
+          mutation_allowed: e.mutation_allowed,
+          backend_write_performed: e.backend_write_performed,
+        };
+      }),
+      safety_summary: {
+        execution_allowed: false,
+        mutation_allowed: false,
+        backend_write_performed: false,
+        persistence_used: false,
+        external_api_calls: false,
+      },
+    };
+    return JSON.stringify(data, null, 2);
+  }
+
+  function renderLedgerMarkdown() {
+    var lines = [];
+    lines.push("# Review Board & Decision Ledger");
+    lines.push("");
+    lines.push("**Generated At:** " + timestamp());
+    lines.push("**Packet Count:** " + reviewBoard.length);
+    lines.push("**Ledger Event Count:** " + ledgerEvents.length);
+    lines.push("");
+    lines.push("## Review Board Packet List");
+    lines.push("");
+    if (reviewBoard.length === 0) {
+      lines.push("*No packets in review board.*");
+    } else {
+      for (var i = 0; i < reviewBoard.length; i++) {
+        var p = reviewBoard[i];
+        lines.push("- **" + p.packet_id + "**: " + p.request_title + " (" + p.workflow_type + ") — Risk: " + p.risk_classification + " — Decision: " + p.review_decision);
+      }
+    }
+    lines.push("");
+    lines.push("## Decision History");
+    lines.push("");
+    if (ledgerEvents.length === 0) {
+      lines.push("*No decisions recorded.*");
+    } else {
+      for (var j = 0; j < ledgerEvents.length; j++) {
+        var e = ledgerEvents[j];
+        lines.push("- **" + e.ledger_event_id + "** (" + e.timestamp.replace("T", " ").slice(0, 19) + "): " + e.packet_id + " — " + e.previous_decision + " -> " + e.next_decision + " — Note: " + e.note_summary);
+      }
+    }
+    lines.push("");
+    lines.push("## Safety Boundary");
+    lines.push("- Execution Allowed: false");
+    lines.push("- Mutation Allowed: false");
+    lines.push("- Backend Write Performed: false");
+    lines.push("- Persistence Used: false");
+    lines.push("- External API Calls: false");
+    lines.push("");
+    lines.push("## Future Dependency Warning");
+    lines.push("This review board and decision ledger are temporary, local-only, and in-memory.");
+    lines.push("No persistence, no backend writes, no execution, no mutation, no GitHub/Netlify API calls.");
+    lines.push("Refresh clears all state unless manually copied.");
+    return lines.join("\n");
+  }
+
+  function renderDecisionSummary() {
+    var lines = [];
+    lines.push("PHASE 5C DECISION SUMMARY");
+    lines.push("Generated At: " + timestamp());
+    lines.push("Packets in Review: " + reviewBoard.length);
+    lines.push("Ledger Events: " + ledgerEvents.length);
+    lines.push("");
+    for (var i = 0; i < reviewBoard.length; i++) {
+      var p = reviewBoard[i];
+      lines.push("Packet: " + p.packet_id + " | " + p.request_title + " | Decision: " + p.review_decision + " | Risk: " + p.risk_classification);
+    }
+    lines.push("");
+    lines.push("Safety: Execution=false Mutation=false BackendWrite=false Persistence=false");
+    lines.push("This is a local-only review board. Nothing is saved, sent, or executed.");
+    return lines.join("\n");
+  }
+
+  function updateReviewBoardUI() {
+    var reviewBody = p5c("phase5c-review-body");
+    if (reviewBody) {
+      if (reviewBoard.length === 0) {
+        reviewBody.innerHTML = '<tr><td colspan="7" class="empty">No packets in review board. Add a packet to begin.</td></tr>';
+      } else {
+        reviewBody.innerHTML = reviewBoard.map(function (p) {
+          return "<tr>" +
+            "<td><code>" + p.packet_id + "</code></td>" +
+            "<td>" + p.request_title + "</td>" +
+            "<td>" + p.workflow_type + "</td>" +
+            "<td>" + p.risk_classification + "</td>" +
+            "<td>" + p.current_state + "</td>" +
+            "<td>" + p.review_decision + "</td>" +
+            "<td>" + p.notes_count + "</td>" +
+            "</tr>";
+        }).join("");
+      }
+    }
+
+    var ledgerBody = p5c("phase5c-ledger-body");
+    if (ledgerBody) {
+      if (ledgerEvents.length === 0) {
+        ledgerBody.innerHTML = '<tr><td colspan="6" class="empty">No ledger events yet. Record a decision to populate.</td></tr>';
+      } else {
+        ledgerBody.innerHTML = ledgerEvents.map(function (e) {
+          var ts = e.timestamp ? e.timestamp.replace("T", " ").slice(0, 19) : "unknown";
+          return "<tr>" +
+            "<td><code>" + ts + "</code></td>" +
+            "<td><code>" + e.packet_id + "</code></td>" +
+            "<td>" + (e.previous_decision || "-") + "</td>" +
+            "<td>" + e.next_decision + "</td>" +
+            "<td>" + e.note_summary + "</td>" +
+            "<td>" + e.risk_classification + "</td>" +
+            "</tr>";
+        }).join("");
+      }
+    }
+
+    var packetSelect = p5c("phase5c-decision-packet-select");
+    if (packetSelect) {
+      if (reviewBoard.length === 0) {
+        packetSelect.innerHTML = '<option value="">— No packets available —</option>';
+      } else {
+        var options = reviewBoard.map(function (p) {
+          return '<option value="' + p.packet_id + '">' + p.packet_id + " — " + p.request_title + "</option>";
+        });
+        packetSelect.innerHTML = '<option value="">— Select a packet —</option>' + options.join("");
+      }
+    }
+
+    var jsonPanel = p5c("phase5c-ledger-json-panel");
+    var jsonPreview = p5c("phase5c-ledger-json-preview");
+    if (jsonPanel && jsonPreview) {
+      if (reviewBoard.length > 0 || ledgerEvents.length > 0) {
+        jsonPanel.style.display = "block";
+        jsonPreview.textContent = renderLedgerJSON();
+      } else {
+        jsonPanel.style.display = "none";
+        jsonPreview.textContent = "No ledger generated yet.";
+      }
+    }
+
+    var mdPanel = p5c("phase5c-ledger-markdown-panel");
+    var mdPreview = p5c("phase5c-ledger-markdown-preview");
+    if (mdPanel && mdPreview) {
+      if (reviewBoard.length > 0 || ledgerEvents.length > 0) {
+        mdPanel.style.display = "block";
+        mdPreview.textContent = renderLedgerMarkdown();
+      } else {
+        mdPanel.style.display = "none";
+        mdPreview.textContent = "No ledger generated yet.";
+      }
+    }
+  }
+
+  function initPhase5c() {
+    var shell = document.querySelector("[data-phase5c-review-board]");
+    if (!shell) return;
+
+    var addCurrentBtn = p5c("phase5c-add-current-packet");
+    if (addCurrentBtn) {
+      addCurrentBtn.addEventListener("click", function () {
+        var packet = getPacketFromPhase5b();
+        if (packet) addPacketToReviewBoard(packet);
+      });
+    }
+
+    var parseBtn = p5c("phase5c-parse-pasted-packet");
+    if (parseBtn) {
+      parseBtn.addEventListener("click", parsePastedPacket);
+    }
+
+    var clearBtn = p5c("phase5c-clear-review-board");
+    if (clearBtn) {
+      clearBtn.addEventListener("click", clearReviewBoard);
+    }
+
+    var recordBtn = p5c("phase5c-record-decision");
+    if (recordBtn) {
+      recordBtn.addEventListener("click", recordDecision);
+    }
+
+    var copyJsonBtn = p5c("phase5c-copy-ledger-json");
+    if (copyJsonBtn) {
+      copyJsonBtn.addEventListener("click", function () {
+        var text = renderLedgerJSON();
+        var status = p5c("copy-status");
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(function () {
+            if (status) status.textContent = "Phase 5C: Ledger JSON copied.";
+          }).catch(function () {});
+        } else {
+          var field = document.createElement("textarea");
+          field.value = text;
+          field.style.position = "fixed";
+          field.style.left = "-9999px";
+          document.body.appendChild(field);
+          field.select();
+          document.execCommand("copy");
+          document.body.removeChild(field);
+          if (status) status.textContent = "Phase 5C: Ledger JSON copied.";
+        }
+      });
+    }
+
+    var copyMdBtn = p5c("phase5c-copy-ledger-markdown");
+    if (copyMdBtn) {
+      copyMdBtn.addEventListener("click", function () {
+        var text = renderLedgerMarkdown();
+        var status = p5c("copy-status");
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(function () {
+            if (status) status.textContent = "Phase 5C: Ledger Markdown copied.";
+          }).catch(function () {});
+        } else {
+          var field = document.createElement("textarea");
+          field.value = text;
+          field.style.position = "fixed";
+          field.style.left = "-9999px";
+          document.body.appendChild(field);
+          field.select();
+          document.execCommand("copy");
+          document.body.removeChild(field);
+          if (status) status.textContent = "Phase 5C: Ledger Markdown copied.";
+        }
+      });
+    }
+
+    var copySummaryBtn = p5c("phase5c-copy-decision-summary");
+    if (copySummaryBtn) {
+      copySummaryBtn.addEventListener("click", function () {
+        var text = renderDecisionSummary();
+        var status = p5c("copy-status");
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(function () {
+            if (status) status.textContent = "Phase 5C: Decision summary copied.";
+          }).catch(function () {});
+        } else {
+          var field = document.createElement("textarea");
+          field.value = text;
+          field.style.position = "fixed";
+          field.style.left = "-9999px";
+          document.body.appendChild(field);
+          field.select();
+          document.execCommand("copy");
+          document.body.removeChild(field);
+          if (status) status.textContent = "Phase 5C: Decision summary copied.";
+        }
+      });
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initPhase5c);
+  } else {
+    initPhase5c();
+  }
+})();
