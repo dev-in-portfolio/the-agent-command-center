@@ -410,6 +410,7 @@ def _build_landing_screen(snapshot):
         ("Validator Center", "validator-command-center"),
         ("Status Snapshot", "status-snapshot-panel"),
         ("Backend Status", "backend-status-panel"),
+        ("Phase 5A Workflow Shell", "phase5a-workflow-shell"),
         ("Artifacts", "artifact-packages"),
         ("Source Info", "source-transparency"),
         ("Audit / Session", "session-audit"),
@@ -771,6 +772,141 @@ def _build_compare_panel(snapshot):
     )
 
 
+def _build_phase5a_workflow_shell():
+    workflow_types = [
+        "Status Review",
+        "Report Review",
+        "Validator Review",
+        "Dashboard Polish Request",
+        "Phase Planning Request",
+        "Safety Review Request",
+    ]
+    type_options = "".join(f'<option value="{_e(t)}">{_e(t)}</option>' for t in workflow_types)
+    states = ["draft", "needs_review", "review_ready", "changes_requested", "approved_for_future_phase", "rejected", "cancelled", "archived"]
+    state_options = "".join(f'<option value="{_e(s)}">{_e(s)}</option>' for s in states)
+
+    body = f"""
+<div class="phase5a-workflow-shell" data-phase5a-shell="true">
+  <div class="callout" style="border-color: rgba(245,158,11,0.4); background: rgba(245,158,11,0.05);">
+    <strong style="color: var(--warning);">CLIENT-SIDE WORKFLOW SHELL</strong>
+    <p class="muted" style="margin-top: 0.25rem;">
+      TEMPORARY IN-BROWSER STATE ONLY — NO PERSISTENCE — NO BACKEND WRITES — NO EXECUTION — NO MUTATION — NO DEPLOY / MERGE / PUSH / PR CONTROLS
+    </p>
+  </div>
+
+  <div class="phase5a-form-grid">
+    <article class="card" id="phase5a-drafting-panel">
+      <div class="card-head">
+        <h3 class="card-title">Request Drafting Panel</h3>
+        <span class="badge info">DRAFT</span>
+      </div>
+      <div class="phase5a-form-fields">
+        <label style="display:grid;gap:0.25rem;">
+          <span style="font-size:0.8rem;color:var(--muted);">Workflow Type</span>
+          <select id="phase5a-workflow-type" class="table-filter" style="width:100%;">{type_options}</select>
+        </label>
+        <label style="display:grid;gap:0.25rem;">
+          <span style="font-size:0.8rem;color:var(--muted);">Request Title</span>
+          <input id="phase5a-request-title" class="table-filter" type="text" placeholder="e.g. Review Phase 3 validator output" style="width:100%;">
+        </label>
+        <label style="display:grid;gap:0.25rem;">
+          <span style="font-size:0.8rem;color:var(--muted);">Plain-Language Intent</span>
+          <textarea id="phase5a-intent" class="table-filter" rows="3" placeholder="Describe what you want to review or accomplish..." style="width:100%;resize:vertical;"></textarea>
+        </label>
+        <label style="display:grid;gap:0.25rem;">
+          <span style="font-size:0.8rem;color:var(--muted);">Target Scope</span>
+          <input id="phase5a-target-scope" class="table-filter" type="text" placeholder="e.g. 13_web_dashboard, scripts/" style="width:100%;">
+        </label>
+        <label style="display:grid;gap:0.25rem;">
+          <span style="font-size:0.8rem;color:var(--muted);">Operator Notes</span>
+          <textarea id="phase5a-operator-notes" class="table-filter" rows="2" placeholder="Optional notes..." style="width:100%;resize:vertical;"></textarea>
+        </label>
+      </div>
+      <div class="button-row" style="margin-top:1rem;">
+        <button type="button" class="section-button" id="phase5a-create-draft-button">Create draft</button>
+        <button type="button" class="toggle-button" id="phase5a-reset-button">Reset local workflow</button>
+      </div>
+      <p class="muted" style="margin-top:0.5rem;font-size:0.75rem;">DISABLED — PLANNING ONLY. No persistence. No backend writes.</p>
+    </article>
+
+    <article class="card" id="phase5a-risk-panel">
+      <div class="card-head">
+        <h3 class="card-title">Risk Preview Panel</h3>
+        <span class="badge info" id="phase5a-risk-badge">NOT CLASSIFIED</span>
+      </div>
+      <p class="card-body" id="phase5a-risk-description">Complete the drafting panel and create a draft to see risk classification.</p>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="font-size:0.8rem;">Risk is classified locally using static rules. No external API call. No execution.</p>
+      </div>
+    </article>
+  </div>
+
+  <div class="phase5a-state-machine" id="phase5a-state-machine">
+    <h4>Request State: <span id="phase5a-current-state-display" style="color:var(--accent);">none</span></h4>
+    <div class="stat-grid" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,130px),1fr));">
+      <button type="button" class="toggle-button" id="phase5a-state-draft" disabled>Set Draft</button>
+      <button type="button" class="toggle-button" id="phase5a-state-needs-review" disabled>Needs Review</button>
+      <button type="button" class="toggle-button" id="phase5a-state-review-ready" disabled>Review Ready</button>
+      <button type="button" class="toggle-button" id="phase5a-state-changes-requested" disabled>Request Changes</button>
+      <button type="button" class="toggle-button" id="phase5a-state-approved" disabled>Approve for Future</button>
+      <button type="button" class="toggle-button" id="phase5a-state-rejected" disabled>Reject</button>
+      <button type="button" class="toggle-button" id="phase5a-state-cancelled" disabled>Cancel</button>
+      <button type="button" class="toggle-button" id="phase5a-state-archived" disabled>Archive</button>
+    </div>
+    <p class="muted" style="font-size:0.75rem;margin-top:0.5rem;">Approval display only — does not execute. No execution, no deploy, no merge, no push, no PR.</p>
+  </div>
+
+  <div class="phase5a-summary-card" id="phase5a-summary-card" style="display:none;">
+    <h4>Review Summary</h4>
+    <div class="stat-grid" id="phase5a-summary-grid" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));"></div>
+  </div>
+
+  <div class="phase5a-summary-card" id="phase5a-approval-card" style="display:none;border-color:rgba(245,158,11,0.3);">
+    <h4>Approval Required</h4>
+    <div class="stat-grid" id="phase5a-approval-grid" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));"></div>
+  </div>
+
+  <div class="phase5a-summary-card" id="phase5a-dryrun-card" style="display:none;">
+    <h4>Dry-Run Preview</h4>
+    <div class="callout">
+      <p class="muted">Dry-run preview is future-only. No command execution. No external API calls. No filesystem changes. No deploy/merge/push/PR action.</p>
+      <p class="muted" style="margin-top:0.25rem;font-size:0.8rem;">DISABLED — NO EXECUTION IN PHASE 5. This preview would require execution engine, queue, auth, and storage dependencies before becoming operational.</p>
+    </div>
+  </div>
+
+  <div class="phase5a-audit-trail" id="phase5a-audit-trail" style="display:none;">
+    <h4>Audit Trail Preview</h4>
+    <div class="table-wrap" style="max-height:300px;overflow-y:auto;">
+      <table class="data-table" id="phase5a-audit-table">
+        <caption>Local in-memory audit events — no persistent storage</caption>
+        <thead>
+          <tr>
+            <th scope="col">Timestamp</th>
+            <th scope="col">Event</th>
+            <th scope="col">Previous State</th>
+            <th scope="col">Next State</th>
+            <th scope="col">Reason</th>
+            <th scope="col">Risk</th>
+          </tr>
+        </thead>
+        <tbody id="phase5a-audit-body">
+          <tr><td colspan="6" class="empty">No audit events. Create a draft to begin.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="muted" style="font-size:0.75rem;margin-top:0.25rem;">DISABLED — FUTURE STORAGE REQUIRED. Audit trail is in-memory only and will be lost on page refresh.</p>
+  </div>
+</div>
+"""
+    return _details(
+        "Original Phase 5A — Client-Side Operator Workflow Shell",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="phase5a-workflow-shell"
+    )
+
+
 def _build_footer():
     return """
     <footer class="footer">
@@ -1007,7 +1143,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
     <header class="hero dashboard-shell">
       <div class="hero-copy">
         <h1>The Agent Command Center</h1>
-        <p class="lede">A read-only production dashboard for reviewing system status, safety boundaries, static schemas, and operator workflow readiness.</p>
+        <p class="lede">A read-only production dashboard for reviewing system status, safety boundaries, static schemas, and operator workflow readiness. Includes Original Phase 5A client-side operator workflow shell.</p>
         <p class="muted" style="margin-top: 0.5rem; font-size: 0.85rem;">Production-hosted. Static/inert. No command execution. No deploy, merge, push, or mutation controls.</p>
       </div>
     </header>
@@ -1022,6 +1158,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_phase4d_preview_panel(),
         _build_status_snapshot_panel(snapshot),
         _build_backend_status_panel(snapshot),
+        _build_phase5a_workflow_shell(),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),
