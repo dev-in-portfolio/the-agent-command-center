@@ -569,6 +569,44 @@ pre.code-block {
   background: rgba(239, 68, 68, 0.05);
 }
 
+.phase5b-packet-builder {
+  display: grid;
+  gap: 1.5rem;
+  min-width: 0;
+}
+
+.phase5b-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+.phase5b-packet-panel,
+.phase5b-validation-panel,
+.phase5b-json-preview,
+.phase5b-markdown-preview,
+.phase5b-safety-summary {
+  min-width: 0;
+}
+
+.phase5b-json-preview .code-block,
+.phase5b-markdown-preview .code-block {
+  max-height: 360px;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.phase5b-safety-summary {
+  border-color: rgba(34, 197, 94, 0.2);
+}
+
+.phase5b-safety-summary .stat strong.badge {
+  display: inline-block;
+  margin-left: 0.25rem;
+}
+
 @media (max-width: 1400px) {
   .phase4d-preview-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));

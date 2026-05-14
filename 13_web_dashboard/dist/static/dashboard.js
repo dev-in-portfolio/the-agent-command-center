@@ -779,3 +779,404 @@
     initPhase5a();
   }
 })();
+
+(function () {
+  var packetState = null;
+
+  function p5b(id) { return document.getElementById(id); }
+
+  function generateId() {
+    if (window.crypto && window.crypto.randomUUID) {
+      return crypto.randomUUID().slice(0, 8);
+    }
+    return Math.random().toString(36).slice(2, 10);
+  }
+
+  function timestamp() { return new Date().toISOString(); }
+
+  function readPhase5aState() {
+    var wf = p5b("phase5a-workflow-type");
+    var title = p5b("phase5a-request-title");
+    var intent = p5b("phase5a-intent");
+    var scope = p5b("phase5a-target-scope");
+    var notes = p5b("phase5a-operator-notes");
+    var stateDisplay = p5b("phase5a-current-state-display");
+    var riskBadge = p5b("phase5a-risk-badge");
+    var auditBody = p5b("phase5a-audit-body");
+
+    var hasDraft = (title && title.value.trim()) || (intent && intent.value.trim());
+
+    return {
+      has_draft: !!hasDraft,
+      workflow_type: wf ? wf.value : "Status Review",
+      title: title ? title.value.trim() : "",
+      intent: intent ? intent.value.trim() : "",
+      target_scope: scope ? scope.value.trim() : "",
+      operator_notes: notes ? notes.value.trim() : "",
+      current_state: stateDisplay ? stateDisplay.textContent : "none",
+      risk_label: riskBadge ? riskBadge.textContent : "NOT CLASSIFIED",
+      risk_class: riskBadge ? riskBadge.className : "badge info",
+      audit_event_count: auditBody ? auditBody.querySelectorAll("tr").length : 0,
+    };
+  }
+
+  function classifyDangerousTerms(title, intent) {
+    var combined = ((title || "") + " " + (intent || "")).toLowerCase();
+    var dangerous = [];
+    var keywords = ["deploy", "merge", "push", "pr ", "execute", "command", "mutate", "github write", "netlify write"];
+    for (var i = 0; i < keywords.length; i++) {
+      if (combined.indexOf(keywords[i]) !== -1) {
+        dangerous.push(keywords[i].trim());
+      }
+    }
+    return dangerous;
+  }
+
+  function requiredFutureDependencies(riskLabel) {
+    if (riskLabel.indexOf("RED") !== -1) {
+      return ["Human approval", "Auth system", "Persistent storage", "Queue engine", "Execution engine", "Safety review"];
+    }
+    if (riskLabel.indexOf("ORANGE") !== -1 || riskLabel.indexOf("YELLOW") !== -1) {
+      return ["Human approval", "Auth system", "Persistent storage"];
+    }
+    return ["None required"];
+  }
+
+  function generatePacket() {
+    var p5a = readPhase5aState();
+
+    if (!p5a.has_draft) {
+      var status = p5b("copy-status");
+      if (status) status.textContent = "Phase 5B: Create a Phase 5A draft first.";
+      return;
+    }
+
+    var dangerous = classifyDangerousTerms(p5a.title, p5a.intent);
+    var deps = requiredFutureDependencies(p5a.risk_label);
+    var executionAllowed = p5a.risk_label.indexOf("RED") === -1 ? "false — read-only phase" : "false — forbidden mutation";
+    var mutationAllowed = p5a.risk_label.indexOf("RED") === -1 ? "false — read-only phase" : "false — forbidden mutation";
+
+    var safetyWarnings = [];
+    if (dangerous.length > 0) {
+      safetyWarnings.push("Contains dangerous terms: " + dangerous.join(", "));
+    }
+    if (p5a.risk_label.indexOf("RED") !== -1) {
+      safetyWarnings.push("Forbidden mutation risk — this request cannot proceed past Phase 5");
+    }
+    if (p5a.risk_label.indexOf("ORANGE") !== -1) {
+      safetyWarnings.push("Requires future auth and storage dependencies");
+    }
+    if (p5a.current_state === "none" || p5a.current_state === "draft") {
+      safetyWarnings.push("Request is still in early state — not reviewed");
+    }
+    if (safetyWarnings.length === 0) {
+      safetyWarnings.push("No safety warnings detected for current draft");
+    }
+
+    var disabledReason = "DISABLED — Phase 5 is client-side only. No execution engine, queue, auth, or storage.";
+
+    packetState = {
+      packet_id: "PKT-" + generateId().toUpperCase(),
+      packet_version: "1.0.0",
+      generated_at: timestamp(),
+      source_phase: "Original Phase 5A/5B",
+      workflow_type: p5a.workflow_type,
+      request_title: p5a.title,
+      plain_language_intent: p5a.intent,
+      target_scope: p5a.target_scope,
+      operator_notes: p5a.operator_notes,
+      current_state: p5a.current_state,
+      risk_classification: p5a.risk_label,
+      approval_required: p5a.current_state === "approved_for_future_phase" ? "YES — DISPLAY ONLY" : (p5a.current_state === "needs_review" || p5a.current_state === "review_ready" ? "PENDING REVIEW" : "NOT REQUIRED YET"),
+      execution_allowed: executionAllowed,
+      mutation_allowed: mutationAllowed,
+      backend_write_performed: "false — read-only phase",
+      persistence_used: "false — in-memory only",
+      required_future_dependencies: deps,
+      disabled_reason: disabledReason,
+      safety_warnings: safetyWarnings,
+      audit_event_count: p5a.audit_event_count,
+    };
+
+    updatePacketUI(p5a, dangerous);
+  }
+
+  function updatePacketUI(p5a, dangerous) {
+    var fieldsArea = p5b("phase5b-packet-fields");
+    var packetGrid = p5b("phase5b-packet-grid");
+    if (fieldsArea && packetGrid) {
+      fieldsArea.style.display = "block";
+      packetGrid.innerHTML =
+        "<div class=\"stat\"><span>Packet ID</span><strong>" + packetState.packet_id + "</strong></div>" +
+        "<div class=\"stat\"><span>Version</span><strong>" + packetState.packet_version + "</strong></div>" +
+        "<div class=\"stat\"><span>Generated</span><strong>" + packetState.generated_at.replace("T", " ").slice(0, 19) + "</strong></div>" +
+        "<div class=\"stat\"><span>Source Phase</span><strong>" + packetState.source_phase + "</strong></div>" +
+        "<div class=\"stat\"><span>Workflow Type</span><strong>" + packetState.workflow_type + "</strong></div>" +
+        "<div class=\"stat\"><span>Title</span><strong>" + (packetState.request_title || "(none)") + "</strong></div>" +
+        "<div class=\"stat\"><span>Intent</span><strong>" + (packetState.plain_language_intent || "(none)") + "</strong></div>" +
+        "<div class=\"stat\"><span>Scope</span><strong>" + (packetState.target_scope || "(none)") + "</strong></div>" +
+        "<div class=\"stat\"><span>Current State</span><strong>" + packetState.current_state + "</strong></div>" +
+        "<div class=\"stat\"><span>Risk</span><strong class=\"" + p5a.risk_class + "\">" + p5a.risk_label + "</strong></div>" +
+        "<div class=\"stat\"><span>Execution Allowed</span><strong>false</strong></div>" +
+        "<div class=\"stat\"><span>Mutation Allowed</span><strong>false</strong></div>" +
+        "<div class=\"stat\"><span>Backend Write</span><strong>false</strong></div>" +
+        "<div class=\"stat\"><span>Persistence</span><strong>false</strong></div>" +
+        "<div class=\"stat\"><span>Future Dependencies</span><strong>" + packetState.required_future_dependencies.join(", ") + "</strong></div>" +
+        "<div class=\"stat\"><span>Disabled Reason</span><strong>" + packetState.disabled_reason + "</strong></div>" +
+        "<div class=\"stat\"><span>Safety Warnings</span><strong>" + packetState.safety_warnings.join("; ") + "</strong></div>" +
+        "<div class=\"stat\"><span>Audit Events</span><strong>" + packetState.audit_event_count + "</strong></div>";
+    }
+
+    var validationBadge = p5b("phase5b-validation-badge");
+    var validationDesc = p5b("phase5b-validation-description");
+    var validationDetails = p5b("phase5b-validation-details");
+    var validationGrid = p5b("phase5b-validation-grid");
+
+    if (validationBadge && validationDesc && validationDetails && validationGrid) {
+      var hasDraft = p5a.has_draft;
+      var hasTitleOrIntent = !!(packetState.request_title || packetState.plain_language_intent);
+      var hasRisk = packetState.risk_classification !== "NOT CLASSIFIED";
+      var hasState = packetState.current_state !== "none";
+      var execFalse = packetState.execution_allowed.indexOf("false") !== -1;
+      var mutFalse = packetState.mutation_allowed.indexOf("false") !== -1;
+      var backendFalse = packetState.backend_write_performed.indexOf("false") !== -1;
+      var persistFalse = packetState.persistence_used.indexOf("false") !== -1;
+      var hasDangerous = dangerous.length > 0;
+      var hasDeps = packetState.required_future_dependencies.length > 0 && packetState.required_future_dependencies[0] !== "None required";
+
+      var checksPassed = 0;
+      var checksTotal = 10;
+      var checkResults = [];
+
+      function addCheck(passed, label) {
+        checkResults.push({ passed: passed, label: label });
+        if (passed) checksPassed++;
+      }
+
+      addCheck(hasDraft, "Draft exists");
+      addCheck(hasTitleOrIntent, "Title or intent exists");
+      addCheck(hasRisk, "Risk classification exists");
+      addCheck(hasState, "Current state exists");
+      addCheck(execFalse, "Execution not allowed");
+      addCheck(mutFalse, "Mutation not allowed");
+      addCheck(backendFalse, "No backend write");
+      addCheck(persistFalse, "No persistence");
+      addCheck(!hasDangerous, "No dangerous terms flagged");
+      addCheck(true, "Future dependencies listed");
+
+      var allPass = checksPassed === checksTotal;
+      var hasWarnings = !hasDangerous && checksPassed >= checksTotal - 2;
+
+      var verdict, badgeClass;
+      if (allPass) {
+        verdict = "PACKET_VALID_LOCAL_ONLY";
+        badgeClass = "pass";
+      } else if (hasDangerous || checksPassed < checksTotal - 3) {
+        verdict = "PACKET_BLOCKED_FORBIDDEN_MUTATION";
+        badgeClass = "fail";
+      } else {
+        verdict = "PACKET_WARNING_REVIEW_REQUIRED";
+        badgeClass = "warning";
+      }
+
+      validationBadge.textContent = verdict;
+      validationBadge.className = "badge " + badgeClass;
+      validationDesc.textContent = checksPassed + "/" + checksTotal + " validation checks passed. Verdict: " + verdict;
+      validationDetails.style.display = "block";
+
+      var gridHtml = "";
+      for (var i = 0; i < checkResults.length; i++) {
+        var c = checkResults[i];
+        gridHtml += "<div class=\"stat\" style=\"padding:0.5rem 0.75rem;\">" +
+          "<span>" + c.label + "</span>" +
+          "<strong class=\"badge " + (c.passed ? "pass" : "fail") + "\" style=\"font-size:0.7rem;\">" + (c.passed ? "PASS" : "FAIL") + "</strong></div>";
+      }
+      validationGrid.innerHTML = gridHtml;
+    }
+
+    var jsonPanel = p5b("phase5b-json-panel");
+    var jsonPreview = p5b("phase5b-json-preview");
+    if (jsonPanel && jsonPreview) {
+      jsonPanel.style.display = "block";
+      jsonPreview.textContent = JSON.stringify(packetState, null, 2);
+    }
+
+    var mdPanel = p5b("phase5b-markdown-panel");
+    var mdPreview = p5b("phase5b-markdown-preview");
+    if (mdPanel && mdPreview) {
+      mdPanel.style.display = "block";
+      mdPreview.textContent = [
+        "# Request Packet",
+        "",
+        "**Packet ID:** " + packetState.packet_id,
+        "**Version:** " + packetState.packet_version,
+        "**Generated At:** " + packetState.generated_at,
+        "**Source Phase:** " + packetState.source_phase,
+        "",
+        "## Request",
+        "**Workflow Type:** " + packetState.workflow_type,
+        "**Title:** " + (packetState.request_title || "(none)"),
+        "**Intent:** " + (packetState.plain_language_intent || "(none)"),
+        "**Scope:** " + (packetState.target_scope || "(none)"),
+        "**Notes:** " + (packetState.operator_notes || "(none)"),
+        "",
+        "## State & Risk",
+        "**Current State:** " + packetState.current_state,
+        "**Risk Classification:** " + packetState.risk_classification,
+        "**Approval Required:** " + packetState.approval_required,
+        "",
+        "## Safety Boundary",
+        "**Execution Allowed:** " + packetState.execution_allowed,
+        "**Mutation Allowed:** " + packetState.mutation_allowed,
+        "**Backend Write Performed:** " + packetState.backend_write_performed,
+        "**Persistence Used:** " + packetState.persistence_used,
+        "",
+        "## Required Future Dependencies",
+        packetState.required_future_dependencies.map(function (d) { return "- " + d; }).join("\n"),
+        "",
+        "## Safety Warnings",
+        packetState.safety_warnings.map(function (w) { return "- " + w; }).join("\n"),
+        "",
+        "## Audit Summary",
+        "**Audit Event Count:** " + packetState.audit_event_count,
+        "",
+        "## Disabled Reason",
+        packetState.disabled_reason,
+      ].join("\n");
+    }
+
+    var safetyCard = p5b("phase5b-safety-summary");
+    if (safetyCard) {
+      safetyCard.style.display = "block";
+    }
+
+    var status = p5b("copy-status");
+    if (status) status.textContent = "Phase 5B: Packet generated: " + packetState.packet_id;
+  }
+
+  function clearPacket() {
+    packetState = null;
+
+    var fieldsArea = p5b("phase5b-packet-fields");
+    if (fieldsArea) fieldsArea.style.display = "none";
+
+    var validationBadge = p5b("phase5b-validation-badge");
+    var validationDesc = p5b("phase5b-validation-description");
+    var validationDetails = p5b("phase5b-validation-details");
+    if (validationBadge) { validationBadge.textContent = "NOT VALIDATED"; validationBadge.className = "badge info"; }
+    if (validationDesc) validationDesc.textContent = "Generate a packet to see local validation results.";
+    if (validationDetails) validationDetails.style.display = "none";
+
+    var jsonPanel = p5b("phase5b-json-panel");
+    var jsonPreview = p5b("phase5b-json-preview");
+    if (jsonPanel) jsonPanel.style.display = "none";
+    if (jsonPreview) jsonPreview.textContent = "No packet generated yet.";
+
+    var mdPanel = p5b("phase5b-markdown-panel");
+    var mdPreview = p5b("phase5b-markdown-preview");
+    if (mdPanel) mdPanel.style.display = "none";
+    if (mdPreview) mdPreview.textContent = "No packet generated yet.";
+
+    var safetyCard = p5b("phase5b-safety-summary");
+    if (safetyCard) safetyCard.style.display = "none";
+
+    var status = p5b("copy-status");
+    if (status) status.textContent = "Phase 5B: Packet cleared.";
+  }
+
+  function getPacketCopyText(kind) {
+    if (!packetState) return "";
+    if (kind === "json") return JSON.stringify(packetState, null, 2);
+    if (kind === "markdown") {
+      var md = p5b("phase5b-markdown-preview");
+      return md ? md.textContent : "";
+    }
+    if (kind === "safety") {
+      return [
+        "PHASE 5B SAFETY SUMMARY",
+        "This packet is generated locally.",
+        "It is not saved.",
+        "It is not sent anywhere.",
+        "It is not queued.",
+        "It is not executed.",
+        "It does not write to the backend.",
+        "It does not mutate GitHub or Netlify.",
+        "It disappears on refresh unless the operator copies it manually.",
+        "Packet ID: " + (packetState.packet_id || "N/A"),
+        "Risk: " + (packetState.risk_classification || "N/A"),
+        "State: " + (packetState.current_state || "N/A"),
+      ].join("\n");
+    }
+    return "";
+  }
+
+  function initPhase5b() {
+    var shell = document.querySelector("[data-phase5b-builder]");
+    if (!shell) return;
+
+    var genBtn = p5b("phase5b-generate-packet-button");
+    if (genBtn) genBtn.addEventListener("click", generatePacket);
+
+    var clearBtn = p5b("phase5b-clear-packet-button");
+    if (clearBtn) clearBtn.addEventListener("click", clearPacket);
+
+    var copyJsonBtn = p5b("phase5b-copy-json-button");
+    if (copyJsonBtn) {
+      copyJsonBtn.addEventListener("click", function () {
+        var text = getPacketCopyText("json");
+        if (!text) return;
+        Promise.resolve(
+          navigator.clipboard && navigator.clipboard.writeText
+            ? navigator.clipboard.writeText(text)
+            : function () {
+                var field = document.createElement("textarea");
+                field.value = text;
+                field.style.position = "fixed";
+                field.style.left = "-9999px";
+                document.body.appendChild(field);
+                field.select();
+                document.execCommand("copy");
+                document.body.removeChild(field);
+              }()
+        ).then(function () {
+          var status = p5b("copy-status");
+          if (status) status.textContent = "Phase 5B: Packet JSON copied.";
+        }).catch(function () {});
+      });
+    }
+
+    var copyMdBtn = p5b("phase5b-copy-markdown-button");
+    if (copyMdBtn) {
+      copyMdBtn.addEventListener("click", function () {
+        var text = getPacketCopyText("markdown");
+        if (!text) return;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(function () {
+            var status = p5b("copy-status");
+            if (status) status.textContent = "Phase 5B: Packet Markdown copied.";
+          }).catch(function () {});
+        }
+      });
+    }
+
+    var copySafetyBtn = p5b("phase5b-copy-safety-button");
+    if (copySafetyBtn) {
+      copySafetyBtn.addEventListener("click", function () {
+        var text = getPacketCopyText("safety");
+        if (!text) return;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(function () {
+            var status = p5b("copy-status");
+            if (status) status.textContent = "Phase 5B: Safety summary copied.";
+          }).catch(function () {});
+        }
+      });
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initPhase5b);
+  } else {
+    initPhase5b();
+  }
+})();
