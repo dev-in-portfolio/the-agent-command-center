@@ -732,17 +732,47 @@
   <div class="callout" style="border-color: rgba(245,158,11,0.4); background: rgba(245,158,11,0.05);">
     <strong style="color: var(--warning);">CLIENT-SIDE HANDOFF COMPOSER</strong>
     <p class="muted" style="margin-top: 0.25rem;">
-      HANDOFF PACKAGE PREVIEW — TEMPORARY IN-BROWSER STATE ONLY — NO PERSISTENCE — NO BACKEND WRITES — NO EXECUTION — NO MUTATION — NO DEPLOY / MERGE / PUSH / PR CONTROLS
+      GENERATED LOCALLY — COPY/PASTE HANDOFF ONLY — TEMPORARY IN-BROWSER STATE ONLY — NO PERSISTENCE — NO BACKEND WRITES — NO EXECUTION — NO MUTATION — NO DEPLOY / MERGE / PUSH / PR CONTROLS
     </p>
   </div>
 
   <div class="phase5d-preview-grid">
-    <article class="card phase5d-intake-panel" id="phase5d-intake-panel">
+    <article class="card phase5d-source-panel" id="phase5d-source-panel">
       <div class="card-head">
-        <h3 class="card-title">Handoff Intake Panel</h3>
-        <span class="badge info">INTAKE</span>
+        <h3 class="card-title">Handoff Source Panel</h3>
+        <span class="badge info">SOURCE</span>
       </div>
-      <p class="card-body">Select Phase 5C review board decisions to include in the handoff package, or paste a handoff manifest JSON.</p>
+      <p class="card-body">Select Phase 5C review board decisions to include in the handoff package. The composer also references the current local request packet and the review ledger where available.</p>
+      <div class="phase5d-source-grid" style="margin-top:0.75rem;">
+        <section class="phase5d-source-section">
+          <h4 style="margin:0 0 0.5rem 0;">Current Local Request Packet</h4>
+          <div class="stat-grid" id="phase5d-request-summary" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,180px),1fr));"></div>
+          <pre class="code-block" id="phase5d-request-preview" style="max-height:240px;overflow:auto;white-space:pre-wrap;word-break:break-word;margin-top:0.75rem;">No current request packet drafted yet.</pre>
+        </section>
+
+        <section class="phase5d-source-section">
+          <h4 style="margin:0 0 0.5rem 0;">Review Ledger Snapshot</h4>
+          <div class="stat-grid" id="phase5d-ledger-summary" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,180px),1fr));"></div>
+          <div class="table-wrap" style="max-height:260px;overflow-y:auto;margin-top:0.75rem;">
+            <table class="data-table" id="phase5d-composition-table">
+              <caption>Included packets for the current handoff draft</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Packet ID</th>
+                  <th scope="col">Title</th>
+                  <th scope="col">Workflow</th>
+                  <th scope="col">Risk</th>
+                  <th scope="col">Decision</th>
+                  <th scope="col">Included</th>
+                </tr>
+              </thead>
+              <tbody id="phase5d-composition-body">
+                <tr><td colspan="6" class="empty">No handoff composed yet. Use Phase 5C decisions to compose a handoff.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
       <div style="margin-top: 0.75rem;">
         <label style="display:grid;gap:0.25rem;">
           <span style="font-size:0.8rem;color:var(--muted);">Include decisions by status</span>
@@ -771,60 +801,73 @@
       </div>
     </article>
 
-    <article class="card phase5d-composition-panel" id="phase5d-composition-panel">
+    <article class="card phase5d-notes-panel" id="phase5d-notes-panel">
       <div class="card-head">
-        <h3 class="card-title">Handoff Composition Panel</h3>
-        <span class="badge info">COMPOSITION</span>
+        <h3 class="card-title">Handoff Notes Panel</h3>
+        <span class="badge info">NOTES</span>
       </div>
-      <p class="card-body">DISPLAY-ONLY HANDOFF PACKAGE — NOT A QUEUE</p>
-      <div class="table-wrap" style="max-height:300px;overflow-y:auto;margin-top:0.75rem;">
-        <table class="data-table" id="phase5d-composition-table">
-          <caption>Local in-memory handoff composition — no persistent storage</caption>
-          <thead>
-            <tr>
-              <th scope="col">Packet ID</th>
-              <th scope="col">Title</th>
-              <th scope="col">Workflow</th>
-              <th scope="col">Risk</th>
-              <th scope="col">Decision</th>
-              <th scope="col">Included</th>
-            </tr>
-          </thead>
-          <tbody id="phase5d-composition-body">
-            <tr><td colspan="6" class="empty">No handoff composed yet. Use Phase 5C decisions to compose a handoff.</td></tr>
-          </tbody>
-        </table>
-      </div>
+      <p class="card-body">Notes remain temporary and in-memory only. Use them to capture operator guidance, caveats, or merge-prep reminders that should travel with the final handoff text.</p>
+      <label style="display:grid;gap:0.25rem;margin-top:0.75rem;">
+        <span style="font-size:0.8rem;color:var(--muted);">Local Handoff Notes</span>
+        <textarea id="phase5d-handoff-notes" class="table-filter" rows="8" placeholder="Type local handoff notes here..." style="width:100%;resize:vertical;font-family:var(--mono);font-size:0.85rem;min-height:180px;"></textarea>
+      </label>
+      <pre class="code-block" id="phase5d-handoff-notes-preview" style="max-height:240px;overflow:auto;white-space:pre-wrap;word-break:break-word;margin-top:0.75rem;">No notes captured yet.</pre>
     </article>
-  </div>
 
-  <div class="phase5d-preview-grid">
-    <article class="card phase5d-handoff-json-preview" id="phase5d-handoff-json-panel" style="display:none;">
+    <article class="card phase5d-implementation-prompt-preview" id="phase5d-implementation-prompt-panel">
       <div class="card-head">
-        <h3 class="card-title">Handoff JSON Preview</h3>
-        <span class="badge info">JSON</span>
+        <h3 class="card-title">Implementation Prompt Preview</h3>
+        <span class="badge info">PROMPT</span>
       </div>
       <div class="button-row" style="margin-bottom:0.75rem;">
-        <button type="button" class="copy-button small" id="phase5d-copy-handoff-json">Copy handoff JSON</button>
+        <button type="button" class="copy-button small" id="phase5d-copy-implementation-prompt">Copy implementation prompt</button>
       </div>
-      <pre class="code-block" id="phase5d-handoff-json-preview" style="max-height:360px;overflow:auto;">No handoff generated yet.</pre>
+      <pre class="code-block" id="phase5d-implementation-prompt-preview" style="max-height:360px;overflow:auto;white-space:pre-wrap;word-break:break-word;">No handoff generated yet.</pre>
     </article>
 
-    <article class="card phase5d-handoff-markdown-preview" id="phase5d-handoff-markdown-panel" style="display:none;">
+    <article class="card phase5d-safety-summary-preview" id="phase5d-safety-summary-preview-panel">
       <div class="card-head">
-        <h3 class="card-title">Handoff Markdown Preview</h3>
+        <h3 class="card-title">Safety Summary Preview</h3>
+        <span class="badge pass">SAFE</span>
+      </div>
+      <div class="button-row" style="margin-bottom:0.75rem;">
+        <button type="button" class="copy-button small" id="phase5d-copy-safety-summary">Copy safety summary</button>
+      </div>
+      <pre class="code-block" id="phase5d-safety-summary-preview" style="max-height:360px;overflow:auto;white-space:pre-wrap;word-break:break-word;">No handoff generated yet.</pre>
+    </article>
+
+    <article class="card phase5d-acceptance-checklist-preview" id="phase5d-acceptance-checklist-preview-panel">
+      <div class="card-head">
+        <h3 class="card-title">Acceptance Checklist Preview</h3>
+        <span class="badge info">CHECKLIST</span>
+      </div>
+      <div class="button-row" style="margin-bottom:0.75rem;">
+        <button type="button" class="copy-button small" id="phase5d-copy-acceptance-checklist">Copy acceptance checklist</button>
+      </div>
+      <pre class="code-block" id="phase5d-acceptance-checklist-preview" style="max-height:360px;overflow:auto;white-space:pre-wrap;word-break:break-word;">No handoff generated yet.</pre>
+    </article>
+
+    <article class="card phase5d-rollback-notes-preview" id="phase5d-rollback-notes-preview-panel">
+      <div class="card-head">
+        <h3 class="card-title">Rollback / No-Go Notes Preview</h3>
+        <span class="badge warning">ROLLBACK</span>
+      </div>
+      <div class="button-row" style="margin-bottom:0.75rem;">
+        <button type="button" class="copy-button small" id="phase5d-copy-rollback-notes">Copy rollback/no-go notes</button>
+      </div>
+      <pre class="code-block" id="phase5d-rollback-notes-preview" style="max-height:360px;overflow:auto;white-space:pre-wrap;word-break:break-word;">No handoff generated yet.</pre>
+    </article>
+
+    <article class="card phase5d-full-markdown-preview phase5d-wide-panel" id="phase5d-full-markdown-preview-panel">
+      <div class="card-head">
+        <h3 class="card-title">Full Handoff Markdown Preview</h3>
         <span class="badge info">MARKDOWN</span>
       </div>
       <div class="button-row" style="margin-bottom:0.75rem;">
-        <button type="button" class="copy-button small" id="phase5d-copy-handoff-markdown">Copy handoff Markdown</button>
+        <button type="button" class="copy-button small" id="phase5d-copy-full-handoff-markdown">Copy full handoff Markdown</button>
       </div>
-      <pre class="code-block" id="phase5d-handoff-markdown-preview" style="max-height:360px;overflow:auto;">No handoff generated yet.</pre>
+      <pre class="code-block" id="phase5d-full-markdown-preview" style="max-height:420px;overflow:auto;white-space:pre-wrap;word-break:break-word;">No handoff generated yet.</pre>
     </article>
-  </div>
-
-  <div class="button-row" style="margin-top:0.5rem;">
-    <button type="button" class="copy-button" id="phase5d-copy-handoff-summary">Copy handoff summary</button>
-  </div>
 
   <article class="card phase5d-safety-summary" id="phase5d-safety-summary" style="margin-top:1rem;">
     <div class="card-head">
@@ -843,7 +886,7 @@
       <div class="stat"><span>Netlify mutation</span><strong class="badge fail">No</strong></div>
     </div>
     <div class="callout" style="margin-top:0.75rem;">
-      <p class="muted">Handoff composition is temporary and in-memory only. The handoff package is generated locally and is copy-only. Nothing is saved. Nothing is sent. Nothing is queued. Nothing is executed. Nothing writes to the backend. Nothing mutates GitHub or Netlify. Refresh clears state unless copied manually.</p>
+      <p class="muted">Handoff composition is temporary and in-memory only. The handoff package is generated locally and is copy/paste only. Nothing is saved. Nothing is sent. Nothing is queued. Nothing is executed. Nothing writes to the backend. Nothing mutates GitHub or Netlify. Refresh clears state unless copied manually.</p>
     </div>
   </article>
 </div>
@@ -1069,7 +1112,7 @@
         <div class="stat-grid">
     <div class="stat">
       <span>Generated at</span>
-      <strong>2026-05-14T03:50:05Z</strong>
+      <strong>2026-05-14T14:48:24Z</strong>
       
     </div>
     
@@ -1276,8 +1319,8 @@
     </main>
   </div>
   <script type="application/json" id="dashboard-data">{
-  "dashboard_id": "PH3-20260514-035004",
-  "created_at_utc": "2026-05-14T03:50:04Z",
+  "dashboard_id": "PH3-20260514-144823",
+  "created_at_utc": "2026-05-14T14:48:23Z",
   "phase": "Read-Only Operations Dashboard",
   "repo": "dev-in-portfolio/the-agent-command-center",
   "source_lineage": "dev-in-portfolio/agent-command-center-3",
@@ -2284,7 +2327,7 @@
     "source_exists": true,
     "source_type": "generated_static_snapshot",
     "source_confidence": "generated_static_snapshot",
-    "generated_at_utc": "2026-05-14T03:50:05Z",
+    "generated_at_utc": "2026-05-14T14:48:24Z",
     "freshness_status": "generated_static_snapshot",
     "snapshot_age_seconds": 0,
     "notes": [
@@ -2531,33 +2574,33 @@
         "file": "13_web_dashboard/dashboard_renderer.py",
         "line": 1199,
         "pattern": "NO DEPLOY",
-        "context": "HANDOFF PACKAGE PREVIEW \u2014 TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO EXECUTION \u2014 NO MUTAT",
+        "context": "GENERATED LOCALLY \u2014 COPY/PASTE HANDOFF ONLY \u2014 TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1405,
+        "line": 1448,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1405,
+        "line": 1448,
         "pattern": "NO MERGE",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1405,
+        "line": 1448,
         "pattern": "NO PUSH",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1405,
+        "line": 1448,
         "pattern": "NO SECRET ACCESS",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"

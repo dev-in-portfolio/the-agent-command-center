@@ -657,16 +657,33 @@ pre.code-block {
 
 .phase5d-preview-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
   gap: 1rem;
   align-items: start;
 }
 
-.phase5d-intake-panel,
-.phase5d-composition-panel,
-.phase5d-handoff-json-preview,
-.phase5d-handoff-markdown-preview,
+.phase5d-source-panel,
+.phase5d-notes-panel,
+.phase5d-implementation-prompt-preview,
+.phase5d-safety-summary-preview,
+.phase5d-acceptance-checklist-preview,
+.phase5d-rollback-notes-preview,
+.phase5d-full-markdown-preview,
 .phase5d-safety-summary {
+  min-width: 0;
+}
+
+.phase5d-wide-panel {
+  grid-column: 1 / -1;
+}
+
+.phase5d-source-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: 1rem;
+}
+
+.phase5d-source-section {
   min-width: 0;
 }
 
@@ -690,8 +707,13 @@ pre.code-block {
   accent-color: var(--accent);
 }
 
-.phase5d-handoff-json-preview .code-block,
-.phase5d-handoff-markdown-preview .code-block {
+.phase5d-source-panel .code-block,
+.phase5d-notes-panel .code-block,
+.phase5d-implementation-prompt-preview .code-block,
+.phase5d-safety-summary-preview .code-block,
+.phase5d-acceptance-checklist-preview .code-block,
+.phase5d-rollback-notes-preview .code-block,
+.phase5d-full-markdown-preview .code-block {
   max-height: 360px;
   overflow: auto;
   white-space: pre-wrap;
