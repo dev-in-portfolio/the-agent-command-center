@@ -504,6 +504,620 @@
 })();
 
 (function () {
+  var runbookState = {
+    selectedScenarioId: "safe_status_review",
+  };
+
+  var stepTitles = [
+    "Draft request",
+    "Classify risk",
+    "Generate request packet",
+    "Add to review board",
+    "Record review decision",
+    "Generate decision ledger",
+    "Compose handoff",
+    "Copy final runbook",
+  ];
+
+  var scenarios = [
+    {
+      scenario_id: "safe_status_review",
+      scenario_title: "Safe Status Review",
+      workflow_type: "Read-only status review",
+      sample_request_title: "Review the current dashboard state",
+      sample_intent: "Confirm the dashboard remains static, local, and ready for operator review.",
+      sample_scope: "13_web_dashboard and interface_phase_5 reports",
+      expected_risk: "LOW_READ_ONLY",
+      expected_review_decision: "approve_for_future_phase",
+      expected_handoff_type: "copyable_runbook_summary",
+      safety_note: "No write path is present; the runbook stays local and temporary.",
+      operator_goal: "Validate the dashboard and preserve a clean operator handoff.",
+      request_draft: "Draft a read-only review request for the current dashboard state.",
+      packet_summary: "Packet stays local and captures the read-only review scope.",
+      review_decision_summary: "Review board marks the flow as safe for a local handoff summary.",
+      ledger_summary: "Decision ledger records a read-only approval with no mutation path.",
+      handoff_summary: "Handoff stays copy/paste only and references only local state.",
+      next_action: "Review the transcript, copy the runbook if useful, and continue the local operator workflow.",
+      blocked_actions: [],
+      step_statuses: ["completed", "completed", "completed", "completed", "completed", "completed", "completed", "completed"],
+      step_details: [
+        "Request drafted as a read-only operator review.",
+        "Risk remains low because nothing persists or mutates.",
+        "Packet is generated in memory only.",
+        "Review board snapshot stays local to the dashboard.",
+        "Decision is recorded as a safe local review.",
+        "Decision ledger remains temporary and copy-only.",
+        "Handoff composer references only in-browser state.",
+        "Final runbook is available for copy/paste.",
+      ],
+    },
+    {
+      scenario_id: "validator_review",
+      scenario_title: "Validator Review",
+      workflow_type: "Validator and report audit",
+      sample_request_title: "Review phase validators and reports",
+      sample_intent: "Confirm the validators, reports, and dashboard markers remain consistent after a local change.",
+      sample_scope: "scripts/ and 09_exports/interface_phase_5/",
+      expected_risk: "LOW_REVIEW",
+      expected_review_decision: "approve_with_notes",
+      expected_handoff_type: "validator_runbook_summary",
+      safety_note: "The flow is still copy-only and does not allow backend mutation.",
+      operator_goal: "Audit validator output and package the result as a local runbook.",
+      request_draft: "Draft a validator review request for the current local phase work.",
+      packet_summary: "Packet captures the validator set and the relevant report scope.",
+      review_decision_summary: "Review board records an approve-with-notes decision for local follow-up.",
+      ledger_summary: "Ledger keeps the validator review trail in memory only.",
+      handoff_summary: "Handoff captures the validator review notes and copyable summary.",
+      next_action: "Read the validator notes, copy the runbook summary, and continue with the next local check.",
+      blocked_actions: [],
+      step_statuses: ["completed", "completed", "completed", "completed", "warning", "completed", "completed", "warning"],
+      step_details: [
+        "Request drafted around validator and report review.",
+        "Risk stays low because the path is local-only.",
+        "Request packet is generated in memory.",
+        "Review board receives the packet snapshot.",
+        "Decision is recorded with a small warning for follow-up.",
+        "Decision ledger stays local and temporary.",
+        "Handoff is composed as copy/paste only.",
+        "Runbook copy remains optional and local.",
+      ],
+    },
+    {
+      scenario_id: "dashboard_polish_request",
+      scenario_title: "Dashboard Polish Request",
+      workflow_type: "UI polish request",
+      sample_request_title: "Polish the read-only dashboard layout",
+      sample_intent: "Review compact layout refinements, spacing, and readability without changing behavior.",
+      sample_scope: "13_web_dashboard static surface",
+      expected_risk: "LOW_UI",
+      expected_review_decision: "approve_with_layout_notes",
+      expected_handoff_type: "ui_polish_runbook_summary",
+      safety_note: "This remains a local presentation review with no execution or storage.",
+      operator_goal: "Check the presentation surface and keep the review narrow.",
+      request_draft: "Draft a layout polish request for the dashboard surface.",
+      packet_summary: "Packet describes the compact UI surface and the desired polish scope.",
+      review_decision_summary: "Review board approves the polish request with layout notes.",
+      ledger_summary: "Ledger notes the compact UI follow-up and keeps it local.",
+      handoff_summary: "Handoff is a local summary for the next presentation pass.",
+      next_action: "Review the compact UI notes, then keep the dashboard focused and static.",
+      blocked_actions: [],
+      step_statuses: ["completed", "completed", "completed", "completed", "completed", "completed", "completed", "warning"],
+      step_details: [
+        "Draft describes the surface polish request.",
+        "Risk remains low because the flow is presentation-only.",
+        "Packet is generated locally.",
+        "Review board captures the UI polish request.",
+        "Decision is recorded with layout notes.",
+        "Decision ledger stays temporary.",
+        "Handoff remains copy/paste only.",
+        "Final copy is optional and local.",
+      ],
+    },
+    {
+      scenario_id: "safety_review_request",
+      scenario_title: "Safety Review Request",
+      workflow_type: "Safety review",
+      sample_request_title: "Review safety boundaries and no-go conditions",
+      sample_intent: "Confirm the operator flow remains local, temporary, and free of mutation paths.",
+      sample_scope: "Phase 5A through Phase 5E dashboard flow",
+      expected_risk: "MEDIUM_SAFETY",
+      expected_review_decision: "approve_with_safety_notes",
+      expected_handoff_type: "safety_runbook_summary",
+      safety_note: "Safety boundaries remain explicit and no mutable actions are allowed.",
+      operator_goal: "Check the safety boundary and keep the workflow in read-only mode.",
+      request_draft: "Draft a safety review request for the end-to-end simulator.",
+      packet_summary: "Packet records the safety boundary review and local-only rule set.",
+      review_decision_summary: "Review board approves the safety review with notes to keep the flow temporary.",
+      ledger_summary: "Ledger records the safety review and the no-go conditions.",
+      handoff_summary: "Handoff points to the safety boundary and the local-only rule set.",
+      next_action: "Re-read the safety gate and keep the operator flow copy-only.",
+      blocked_actions: [],
+      step_statuses: ["completed", "completed", "completed", "warning", "completed", "warning", "completed", "warning"],
+      step_details: [
+        "Draft frames the safety review request.",
+        "Risk is elevated only to the safety-check level.",
+        "Packet remains local and temporary.",
+        "Review board highlights the safety boundary.",
+        "Decision focuses on explicit no-go conditions.",
+        "Decision ledger keeps the safety notes local.",
+        "Handoff summarises the safety gate and no-go notes.",
+        "Copy step remains optional and local.",
+      ],
+    },
+    {
+      scenario_id: "forbidden_mutation_attempt",
+      scenario_title: "Forbidden Mutation Attempt",
+      workflow_type: "Mutation attempt blocked",
+      sample_request_title: "Try to mutate the dashboard or backend",
+      sample_intent: "Provoke the safety gate with an explicitly forbidden mutation path.",
+      sample_scope: "Any write, deploy, merge, push, or PR path",
+      expected_risk: "RED_FORBIDDEN_MUTATION",
+      expected_review_decision: "reject_and_rewrite_as_planning_only",
+      expected_handoff_type: "planning_only_no_go_note",
+      safety_note: "The simulator must stop the mutation path and keep the runbook planning-only.",
+      operator_goal: "Surface the no-go boundary and keep the scenario local only.",
+      request_draft: "Draft a forbidden mutation attempt to prove the simulator blocks it.",
+      packet_summary: "Packet remains local, but the mutation path is blocked before any action can proceed.",
+      review_decision_summary: "Review board rejects the mutation path and redirects to planning-only text.",
+      ledger_summary: "Ledger records the rejection and the blocked mutation attempt.",
+      handoff_summary: "Handoff recommendation is no-go unless rewritten as planning-only.",
+      next_action: "Rewrite the request as planning-only and stop before any mutation or execution.",
+      blocked_actions: ["mutation path", "execution path", "write path", "deploy path", "merge path", "push path", "PR path"],
+      step_statuses: ["completed", "warning", "blocked", "blocked", "blocked", "blocked", "blocked", "blocked"],
+      step_details: [
+        "Draft exists only to show the blocked path.",
+        "Risk is classified as RED_FORBIDDEN_MUTATION.",
+        "Request packet generation is blocked immediately.",
+        "Review board intake is blocked for the mutation path.",
+        "Decision cannot proceed on the forbidden path.",
+        "Decision ledger stays blocked and local.",
+        "Handoff recommendation is no-go unless rewritten as planning-only.",
+        "Copy step remains a planning-only reminder.",
+      ],
+    },
+  ];
+
+  function p5e(id) {
+    return document.getElementById(id);
+  }
+
+  function escapeHtml(value) {
+    return String(value == null ? "" : value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function timestamp() {
+    return new Date().toISOString();
+  }
+
+  function textOf(node) {
+    return node ? node.textContent.replace(/\s+/g, " ").trim() : "";
+  }
+
+  function stat(label, value, badgeClass) {
+    var strongClass = badgeClass ? ' class="badge ' + badgeClass + '"' : "";
+    return "<div class=\"stat\"><span>" + escapeHtml(label) + "</span><strong" + strongClass + ">" + escapeHtml(value) + "</strong></div>";
+  }
+
+  function copyRenderedText(text, emptyMessage, successMessage) {
+    var status = p5e("copy-status");
+    if (!text) {
+      if (status) status.textContent = emptyMessage;
+      return;
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () {
+        if (status) status.textContent = successMessage;
+      }).catch(function () {});
+      return;
+    }
+    var field = document.createElement("textarea");
+    field.value = text;
+    field.style.position = "fixed";
+    field.style.left = "-9999px";
+    document.body.appendChild(field);
+    field.select();
+    document.execCommand("copy");
+    document.body.removeChild(field);
+    if (status) status.textContent = successMessage;
+  }
+
+  function bindCopyButton(buttonId, getter, emptyMessage, successMessage) {
+    var button = p5e(buttonId);
+    if (!button) {
+      return;
+    }
+    button.addEventListener("click", function () {
+      var snapshot = renderSnapshot();
+      var text = getter(snapshot);
+      copyRenderedText(text, emptyMessage, successMessage);
+    });
+  }
+
+  function getScenario(id) {
+    for (var i = 0; i < scenarios.length; i++) {
+      if (scenarios[i].scenario_id === id) {
+        return scenarios[i];
+      }
+    }
+    return scenarios[0];
+  }
+
+  function getSelectedScenario() {
+    return getScenario(runbookState.selectedScenarioId);
+  }
+
+  function badgeForStatus(status) {
+    switch (status) {
+      case "completed":
+        return "pass";
+      case "blocked":
+        return "fail";
+      case "warning":
+        return "warning";
+      case "pending":
+      default:
+        return "info";
+    }
+  }
+
+  function renderScenarioRows() {
+    return scenarios.map(function (scenario) {
+      return "<tr>" +
+        "<td><code>" + escapeHtml(scenario.scenario_id) + "</code></td>" +
+        "<td>" + escapeHtml(scenario.scenario_title) + "</td>" +
+        "<td>" + escapeHtml(scenario.workflow_type) + "</td>" +
+        "<td>" + escapeHtml(scenario.sample_request_title) + "</td>" +
+        "<td>" + escapeHtml(scenario.expected_risk) + "</td>" +
+        "<td>" + escapeHtml(scenario.expected_review_decision) + "</td>" +
+        "<td>" + escapeHtml(scenario.expected_handoff_type) + "</td>" +
+        "<td>" + escapeHtml(scenario.safety_note) + "</td>" +
+        "</tr>";
+    }).join("");
+  }
+
+  function renderScenarioOptions(currentId) {
+    return scenarios.map(function (scenario) {
+      var selected = scenario.scenario_id === currentId ? " selected" : "";
+      return '<option value="' + escapeHtml(scenario.scenario_id) + '"' + selected + '>' + escapeHtml(scenario.scenario_title) + "</option>";
+    }).join("");
+  }
+
+  function renderStepRows(scenario) {
+    return stepTitles.map(function (title, index) {
+      var status = scenario.step_statuses[index] || "pending";
+      var detail = scenario.step_details[index] || "";
+      return "<tr>" +
+        "<td>" + escapeHtml(title) + "</td>" +
+        "<td><span class=\"badge " + badgeForStatus(status) + "\">" + escapeHtml(status.toUpperCase()) + "</span></td>" +
+        "<td>" + escapeHtml(detail) + "</td>" +
+        "</tr>";
+    }).join("");
+  }
+
+  function getCurrentStepLabel(scenario) {
+    for (var i = 0; i < scenario.step_statuses.length; i++) {
+      if (scenario.step_statuses[i] !== "completed") {
+        return stepTitles[i];
+      }
+    }
+    return stepTitles[stepTitles.length - 1];
+  }
+
+  function countStatus(statuses, target) {
+    var total = 0;
+    for (var i = 0; i < statuses.length; i++) {
+      if (statuses[i] === target) {
+        total += 1;
+      }
+    }
+    return total;
+  }
+
+  function buildSafetyGate(scenario) {
+    return {
+      execution_allowed: false,
+      mutation_allowed: false,
+      backend_write_performed: false,
+      persistence_used: false,
+      deploy_controls_available: false,
+      merge_controls_available: false,
+      push_controls_available: false,
+      pr_controls_available: false,
+      risk: scenario.expected_risk,
+      blocked_actions: scenario.blocked_actions.slice(),
+    };
+  }
+
+  function renderSafetyGateText(gate) {
+    var lines = [
+      "execution_allowed: false",
+      "mutation_allowed: false",
+      "backend_write_performed: false",
+      "persistence_used: false",
+      "deploy_controls_available: false",
+      "merge_controls_available: false",
+      "push_controls_available: false",
+      "pr_controls_available: false",
+      "risk: " + gate.risk,
+      "blocked_actions: " + (gate.blocked_actions.length ? gate.blocked_actions.join(", ") : "none"),
+    ];
+    return lines.join("\n");
+  }
+
+  function buildTranscript(scenario, stepRows, gate) {
+    var lines = [
+      "Timestamp: " + timestamp(),
+      "Selected Scenario: " + scenario.scenario_title,
+      "Scenario ID: " + scenario.scenario_id,
+      "Workflow Type: " + scenario.workflow_type,
+      "Simulated Draft Summary: " + scenario.request_draft,
+      "Simulated Packet Summary: " + scenario.packet_summary,
+      "Simulated Review Decision: " + scenario.review_decision_summary,
+      "Simulated Handoff Summary: " + scenario.handoff_summary,
+      "Safety Notes: " + scenario.safety_note,
+      "Blocked Actions: " + (gate.blocked_actions.length ? gate.blocked_actions.join(", ") : "none"),
+      "Current Step: " + getCurrentStepLabel(scenario),
+    ];
+    for (var i = 0; i < stepRows.length; i++) {
+      lines.push(stepRows[i].step + ": " + stepRows[i].status.toUpperCase() + " - " + stepRows[i].detail);
+    }
+    return lines.join("\n");
+  }
+
+  function buildRunbookMarkdown(scenario, stepRows, gate) {
+    var lines = [];
+    lines.push("# Original Phase 5E - Client-Side End-to-End Operator Runbook & Scenario Simulator");
+    lines.push("");
+    lines.push("## Scenario Title");
+    lines.push("");
+    lines.push(scenario.scenario_title);
+    lines.push("");
+    lines.push("## Operator Goal");
+    lines.push("");
+    lines.push(scenario.operator_goal);
+    lines.push("");
+    lines.push("## Request Draft");
+    lines.push("");
+    lines.push(scenario.request_draft);
+    lines.push("");
+    lines.push("## Risk Classification");
+    lines.push("");
+    lines.push(scenario.expected_risk);
+    lines.push("");
+    lines.push("## Packet Summary");
+    lines.push("");
+    lines.push(scenario.packet_summary);
+    lines.push("");
+    lines.push("## Review Decision");
+    lines.push("");
+    lines.push(scenario.review_decision_summary);
+    lines.push("");
+    lines.push("## Decision Ledger Summary");
+    lines.push("");
+    lines.push(scenario.ledger_summary);
+    lines.push("");
+    lines.push("## Handoff Recommendation");
+    lines.push("");
+    lines.push(scenario.handoff_summary);
+    lines.push("");
+    lines.push("## Acceptance Checklist");
+    lines.push("");
+    lines.push("- [ ] The scenario is simulated locally.");
+    lines.push("- [ ] The runbook is generated locally.");
+    lines.push("- [ ] Nothing is saved.");
+    lines.push("- [ ] Nothing is sent.");
+    lines.push("- [ ] Nothing is queued.");
+    lines.push("- [ ] Nothing is executed.");
+    lines.push("- [ ] Nothing writes to the backend.");
+    lines.push("- [ ] Nothing mutates GitHub or Netlify.");
+    lines.push("- [ ] The copy buttons remain copy/paste only.");
+    lines.push("");
+    lines.push("## Safety Boundary");
+    lines.push("");
+    lines.push("execution_allowed: false");
+    lines.push("mutation_allowed: false");
+    lines.push("backend_write_performed: false");
+    lines.push("persistence_used: false");
+    lines.push("deploy_controls_available: false");
+    lines.push("merge_controls_available: false");
+    lines.push("push_controls_available: false");
+    lines.push("pr_controls_available: false");
+    lines.push("risk: " + gate.risk);
+    lines.push("");
+    lines.push("## No-Go Conditions");
+    lines.push("");
+    lines.push("- Stop if the flow suggests any execution, mutation, deploy, merge, push, or PR path.");
+    lines.push("- Stop if the scenario would require persistence or backend writes.");
+    lines.push("- Stop if the scenario leaves copy/paste-only mode.");
+    if (scenario.scenario_id === "forbidden_mutation_attempt") {
+      lines.push("- Stop if the scenario is not rewritten as planning-only.");
+    }
+    lines.push("");
+    lines.push("## Next Recommended Operator Action");
+    lines.push("");
+    lines.push(scenario.next_action);
+    return lines.join("\n");
+  }
+
+  function buildSummaryGrid(scenario, stepRows, gate) {
+    return [
+      stat("Scenario ID", scenario.scenario_id),
+      stat("Expected risk", scenario.expected_risk, scenario.scenario_id === "forbidden_mutation_attempt" ? "fail" : "pass"),
+      stat("Review decision", scenario.expected_review_decision),
+      stat("Handoff type", scenario.expected_handoff_type),
+      stat("Current step", getCurrentStepLabel(scenario)),
+      stat("Completed steps", String(countStatus(scenario.step_statuses, "completed"))),
+      stat("Warning steps", String(countStatus(scenario.step_statuses, "warning"))),
+      stat("Blocked steps", String(countStatus(scenario.step_statuses, "blocked"))),
+    ].join("");
+  }
+
+  function buildStepSummaryGrid(scenario) {
+    return [
+      stat("Workflow type", scenario.workflow_type),
+      stat("Operator goal", scenario.operator_goal),
+      stat("Expected handoff", scenario.expected_handoff_type),
+      stat("Safety note", scenario.safety_note),
+    ].join("");
+  }
+
+  function buildSafetyGrid(gate) {
+    return [
+      stat("execution_allowed", String(gate.execution_allowed), gate.execution_allowed ? "pass" : "fail"),
+      stat("mutation_allowed", String(gate.mutation_allowed), gate.mutation_allowed ? "pass" : "fail"),
+      stat("backend_write_performed", String(gate.backend_write_performed), gate.backend_write_performed ? "pass" : "fail"),
+      stat("persistence_used", String(gate.persistence_used), gate.persistence_used ? "pass" : "fail"),
+      stat("deploy_controls_available", String(gate.deploy_controls_available), gate.deploy_controls_available ? "pass" : "fail"),
+      stat("merge_controls_available", String(gate.merge_controls_available), gate.merge_controls_available ? "pass" : "fail"),
+      stat("push_controls_available", String(gate.push_controls_available), gate.push_controls_available ? "pass" : "fail"),
+      stat("pr_controls_available", String(gate.pr_controls_available), gate.pr_controls_available ? "pass" : "fail"),
+    ].join("");
+  }
+
+  function renderSnapshot() {
+    var scenario = getSelectedScenario();
+    var stepRows = stepTitles.map(function (title, index) {
+      return {
+        step: title,
+        status: scenario.step_statuses[index] || "pending",
+        detail: scenario.step_details[index] || "",
+      };
+    });
+    var gate = buildSafetyGate(scenario);
+    return {
+      scenario: scenario,
+      step_rows: stepRows,
+      gate: gate,
+      transcript: buildTranscript(scenario, stepRows, gate),
+      runbook_markdown: buildRunbookMarkdown(scenario, stepRows, gate),
+      next_action: scenario.next_action,
+      scenario_summary_grid: buildSummaryGrid(scenario, stepRows, gate),
+      step_summary_grid: buildStepSummaryGrid(scenario),
+      safety_grid: buildSafetyGrid(gate),
+      safety_gate_text: renderSafetyGateText(gate),
+      safety_summary_text: "Scenario state is simulated locally. Runbook output is generated locally and is copy/paste only. Nothing is saved. Nothing is sent. Nothing is queued. Nothing is executed. Nothing writes to the backend. Nothing mutates GitHub or Netlify. Refresh clears state unless copied manually.",
+      scenario_rows: renderScenarioRows(),
+      step_rows_html: stepRows.map(function (row) {
+        return "<tr>" +
+          "<td>" + escapeHtml(row.step) + "</td>" +
+          "<td><span class=\"badge " + badgeForStatus(row.status) + "\">" + escapeHtml(row.status.toUpperCase()) + "</span></td>" +
+          "<td>" + escapeHtml(row.detail) + "</td>" +
+          "</tr>";
+      }).join(""),
+      scenario_options: renderScenarioOptions(scenario.scenario_id),
+    };
+  }
+
+  function updatePhase5eUI() {
+    var snapshot = renderSnapshot();
+    var selector = p5e("phase5e-scenario-select");
+    var scenarioBody = p5e("phase5e-scenario-body");
+    var scenarioSummary = p5e("phase5e-scenario-summary");
+    var stepSummary = p5e("phase5e-step-summary");
+    var stepBody = p5e("phase5e-step-body");
+    var stepSummaryText = p5e("phase5e-step-summary-text");
+    var transcript = p5e("phase5e-transcript-preview");
+    var safetyGrid = p5e("phase5e-safety-grid");
+    var safetyPreview = p5e("phase5e-safety-gate-preview");
+    var runbookPreview = p5e("phase5e-runbook-markdown-preview");
+    var safetySummaryGrid = p5e("phase5e-summary-grid");
+    var safetySummaryText = p5e("phase5e-safety-summary-text");
+
+    if (selector) {
+      selector.innerHTML = snapshot.scenario_options;
+    }
+    if (scenarioBody) {
+      scenarioBody.innerHTML = snapshot.scenario_rows;
+    }
+    if (scenarioSummary) {
+      scenarioSummary.innerHTML = snapshot.scenario_summary_grid;
+    }
+    if (stepSummary) {
+      stepSummary.innerHTML = snapshot.step_summary_grid;
+    }
+    if (stepBody) {
+      stepBody.innerHTML = snapshot.step_rows_html;
+    }
+    if (stepSummaryText) {
+      stepSummaryText.textContent = snapshot.scenario.scenario_title + " remains local only, with the current flow at " + getCurrentStepLabel(snapshot.scenario) + ".";
+    }
+    if (transcript) {
+      transcript.textContent = snapshot.transcript;
+    }
+    if (safetyGrid) {
+      safetyGrid.innerHTML = snapshot.safety_grid;
+    }
+    if (safetyPreview) {
+      safetyPreview.textContent = snapshot.safety_gate_text;
+    }
+    if (runbookPreview) {
+      runbookPreview.textContent = snapshot.runbook_markdown;
+    }
+    if (safetySummaryGrid) {
+      safetySummaryGrid.innerHTML = [
+        stat("Scenario state", "Simulated locally", "pass"),
+        stat("Runbook state", "Generated locally", "pass"),
+        stat("Saved anywhere", "No", "fail"),
+        stat("Sent anywhere", "No", "fail"),
+        stat("Queued", "No", "fail"),
+        stat("Executed", "No", "fail"),
+        stat("Backend write", "No", "fail"),
+        stat("GitHub mutation", "No", "fail"),
+        stat("Netlify mutation", "No", "fail"),
+        stat("Refresh clears state", "Yes", "warning"),
+      ].join("");
+    }
+    if (safetySummaryText) {
+      safetySummaryText.textContent = snapshot.safety_summary_text;
+    }
+  }
+
+  function initPhase5e() {
+    var shell = document.querySelector("[data-phase5e-runbook-simulator]");
+    if (!shell) {
+      return;
+    }
+
+    var selector = p5e("phase5e-scenario-select");
+    if (selector) {
+      selector.addEventListener("change", function () {
+        runbookState.selectedScenarioId = selector.value;
+        updatePhase5eUI();
+      });
+    }
+
+    bindCopyButton("phase5e-copy-transcript", function (snapshot) {
+      return snapshot ? snapshot.transcript : "";
+    }, "Phase 5E: Select a scenario first.", "Phase 5E: Scenario transcript copied.");
+
+    bindCopyButton("phase5e-copy-safety-gate", function (snapshot) {
+      return snapshot ? snapshot.safety_gate_text : "";
+    }, "Phase 5E: Select a scenario first.", "Phase 5E: Safety gate copied.");
+
+    bindCopyButton("phase5e-copy-runbook-markdown", function (snapshot) {
+      return snapshot ? snapshot.runbook_markdown : "";
+    }, "Phase 5E: Select a scenario first.", "Phase 5E: Runbook Markdown copied.");
+
+    bindCopyButton("phase5e-copy-next-action", function (snapshot) {
+      return snapshot ? snapshot.next_action : "";
+    }, "Phase 5E: Select a scenario first.", "Phase 5E: Next-action recommendation copied.");
+
+    updatePhase5eUI();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initPhase5e);
+  } else {
+    initPhase5e();
+  }
+})();
+
+(function () {
   var phase5aState = null;
   var auditEvents = [];
 

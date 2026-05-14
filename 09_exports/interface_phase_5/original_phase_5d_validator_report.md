@@ -3,6 +3,9 @@
 ## Verdict
 PASS_WITH_HIGH_CONFIDENCE
 
+## Phase 5B Validator Compatibility Note
+The Phase 5B E2E validator was adjusted only for downstream Phase 5 compatibility. The change does not loosen safety boundaries around Netlify Functions, backend files, Phase 1/2/3/4 files, storage APIs, external fetches, execution, mutation, or deploy/merge/push/PR controls.
+
 ## Validators
 - `scripts/validate_original_phase_5d_handoff_composer.py`
 - `scripts/validate_original_phase_5d_handoff_composer_e2e.py`

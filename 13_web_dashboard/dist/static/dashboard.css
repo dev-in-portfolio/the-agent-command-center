@@ -724,6 +724,52 @@ pre.code-block {
   border-color: rgba(34, 197, 94, 0.2);
 }
 
+.phase5e-runbook-simulator {
+  display: grid;
+  gap: 1.5rem;
+  min-width: 0;
+}
+
+.phase5e-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+.phase5e-scenario-selector,
+.phase5e-step-tracker,
+.phase5e-transcript-panel,
+.phase5e-safety-gate,
+.phase5e-runbook-preview,
+.phase5e-safety-summary {
+  min-width: 0;
+}
+
+.phase5e-wide-panel {
+  grid-column: 1 / -1;
+}
+
+.phase5e-scenario-selector .table-wrap,
+.phase5e-step-tracker .table-wrap {
+  min-width: 0;
+}
+
+.phase5e-scenario-selector .code-block,
+.phase5e-step-tracker .code-block,
+.phase5e-transcript-panel .code-block,
+.phase5e-safety-gate .code-block,
+.phase5e-runbook-preview .code-block {
+  max-height: 360px;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.phase5e-safety-summary {
+  border-color: rgba(59, 130, 246, 0.2);
+}
+
 @media (max-width: 1400px) {
   .phase4d-preview-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
