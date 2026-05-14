@@ -411,6 +411,7 @@ def _build_landing_screen(snapshot):
         ("Status Snapshot", "status-snapshot-panel"),
         ("Backend Status", "backend-status-panel"),
         ("Phase 5A Workflow Shell", "phase5a-workflow-shell"),
+        ("Phase 5B Packet Builder", "phase5b-packet-builder"),
         ("Artifacts", "artifact-packages"),
         ("Source Info", "source-transparency"),
         ("Audit / Session", "session-audit"),
@@ -907,6 +908,104 @@ def _build_phase5a_workflow_shell():
     )
 
 
+def _build_phase5b_request_packet_builder():
+    body = """
+<div class="phase5b-packet-builder" data-phase5b-builder="true">
+  <div class="callout" style="border-color: rgba(245,158,11,0.4); background: rgba(245,158,11,0.05);">
+    <strong style="color: var(--warning);">CLIENT-SIDE REQUEST PACKET BUILDER</strong>
+    <p class="muted" style="margin-top: 0.25rem;">
+      GENERATED LOCALLY — COPY ONLY — NO PERSISTENCE — NO BACKEND WRITES — NO EXECUTION — NO MUTATION — NO DEPLOY / MERGE / PUSH / PR CONTROLS
+    </p>
+  </div>
+
+  <div class="phase5b-preview-grid">
+    <article class="card phase5b-packet-panel" id="phase5b-packet-panel">
+      <div class="card-head">
+        <h3 class="card-title">Operator Request Packet Panel</h3>
+        <span class="badge info">PACKET</span>
+      </div>
+      <p class="card-body">Generate a structured request packet from the Phase 5A draft. Packet is local, copy-only, and not persisted.</p>
+      <div class="button-row" style="margin-top:1rem;">
+        <button type="button" class="section-button" id="phase5b-generate-packet-button">Generate request packet</button>
+        <button type="button" class="toggle-button" id="phase5b-clear-packet-button">Clear packet</button>
+      </div>
+      <div id="phase5b-packet-fields" style="display:none;margin-top:1rem;">
+        <div class="stat-grid" id="phase5b-packet-grid" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));"></div>
+      </div>
+    </article>
+
+    <article class="card phase5b-validation-panel" id="phase5b-validation-panel">
+      <div class="card-head">
+        <h3 class="card-title">Packet Validation Panel</h3>
+        <span class="badge info" id="phase5b-validation-badge">NOT VALIDATED</span>
+      </div>
+      <p class="card-body" id="phase5b-validation-description">Generate a packet to see local validation results.</p>
+      <div id="phase5b-validation-details" style="display:none;margin-top:0.75rem;">
+        <div class="stat-grid" id="phase5b-validation-grid" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));"></div>
+        <div class="callout" style="margin-top:0.75rem;">
+          <p class="muted" style="font-size:0.8rem;">Validation is local only. No external API call. No execution.</p>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <div class="phase5b-preview-grid">
+    <article class="card phase5b-json-preview" id="phase5b-json-panel" style="display:none;">
+      <div class="card-head">
+        <h3 class="card-title">Packet JSON Preview</h3>
+        <span class="badge info">JSON</span>
+      </div>
+      <div class="button-row" style="margin-bottom:0.75rem;">
+        <button type="button" class="copy-button small" id="phase5b-copy-json-button" data-phase5b-copy="json">Copy packet JSON</button>
+      </div>
+      <pre class="code-block" id="phase5b-json-preview" style="max-height:360px;overflow:auto;">No packet generated yet.</pre>
+    </article>
+
+    <article class="card phase5b-markdown-preview" id="phase5b-markdown-panel" style="display:none;">
+      <div class="card-head">
+        <h3 class="card-title">Packet Markdown Preview</h3>
+        <span class="badge info">MARKDOWN</span>
+      </div>
+      <div class="button-row" style="margin-bottom:0.75rem;">
+        <button type="button" class="copy-button small" id="phase5b-copy-markdown-button" data-phase5b-copy="markdown">Copy packet Markdown</button>
+      </div>
+      <pre class="code-block" id="phase5b-markdown-preview" style="max-height:360px;overflow:auto;">No packet generated yet.</pre>
+    </article>
+  </div>
+
+  <article class="card phase5b-safety-summary" id="phase5b-safety-summary" style="display:none;">
+    <div class="card-head">
+      <h3 class="card-title">Safety Summary Panel</h3>
+      <span class="badge pass">SAFE</span>
+    </div>
+    <div class="stat-grid" id="phase5b-safety-grid" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));">
+      <div class="stat"><span>Generated</span><strong>Locally</strong></div>
+      <div class="stat"><span>Saved</span><strong class="badge fail">No</strong></div>
+      <div class="stat"><span>Sent anywhere</span><strong class="badge fail">No</strong></div>
+      <div class="stat"><span>Queued</span><strong class="badge fail">No</strong></div>
+      <div class="stat"><span>Executed</span><strong class="badge fail">No</strong></div>
+      <div class="stat"><span>Backend write</span><strong class="badge fail">No</strong></div>
+      <div class="stat"><span>GitHub mutation</span><strong class="badge fail">No</strong></div>
+      <div class="stat"><span>Netlify mutation</span><strong class="badge fail">No</strong></div>
+    </div>
+    <div class="callout" style="margin-top:0.75rem;">
+      <p class="muted">This packet is generated locally. It is not saved. It is not sent anywhere. It is not queued. It is not executed. It does not write to the backend. It does not mutate GitHub or Netlify. It disappears on refresh unless the operator copies it manually.</p>
+    </div>
+    <div class="button-row" style="margin-top:0.75rem;">
+      <button type="button" class="copy-button" id="phase5b-copy-safety-button" data-phase5b-copy="safety">Copy safety summary</button>
+    </div>
+  </article>
+</div>
+"""
+    return _details(
+        "Original Phase 5B — Client-Side Operator Request Packet Builder",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="phase5b-packet-builder"
+    )
+
+
 def _build_footer():
     return """
     <footer class="footer">
@@ -1143,7 +1242,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
     <header class="hero dashboard-shell">
       <div class="hero-copy">
         <h1>The Agent Command Center</h1>
-        <p class="lede">A read-only production dashboard for reviewing system status, safety boundaries, static schemas, and operator workflow readiness. Includes Original Phase 5A client-side operator workflow shell.</p>
+        <p class="lede">A read-only production dashboard for reviewing system status, safety boundaries, static schemas, and operator workflow readiness. Includes Original Phase 5A client-side operator workflow shell and Phase 5B request packet builder.</p>
         <p class="muted" style="margin-top: 0.5rem; font-size: 0.85rem;">Production-hosted. Static/inert. No command execution. No deploy, merge, push, or mutation controls.</p>
       </div>
     </header>
@@ -1159,6 +1258,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_status_snapshot_panel(snapshot),
         _build_backend_status_panel(snapshot),
         _build_phase5a_workflow_shell(),
+        _build_phase5b_request_packet_builder(),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),
