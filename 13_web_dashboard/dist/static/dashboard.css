@@ -770,6 +770,83 @@ pre.code-block {
   border-color: rgba(59, 130, 246, 0.2);
 }
 
+.plus1-readiness-layer {
+  display: grid;
+  gap: 1.5rem;
+  min-width: 0;
+}
+
+.plus1-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+.plus1-overview-panel,
+.plus1-classification-matrix,
+.plus1-role-permission-panel,
+.plus1-approval-gate-panel,
+.plus1-dry-run-plan-panel,
+.plus1-preflight-panel,
+.plus1-execution-boundary-panel,
+.plus1-contract-builder,
+.plus1-safety-summary {
+  min-width: 0;
+}
+
+.plus1-wide-panel {
+  grid-column: 1 / -1;
+}
+
+.plus1-control-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.plus1-control {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.plus1-control span {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.plus1-overview-panel .code-block,
+.plus1-classification-matrix .code-block,
+.plus1-role-permission-panel .code-block,
+.plus1-approval-gate-panel .code-block,
+.plus1-dry-run-plan-panel .code-block,
+.plus1-preflight-panel .code-block,
+.plus1-execution-boundary-panel .code-block,
+.plus1-contract-builder .code-block,
+.plus1-safety-summary .code-block {
+  max-height: 360px;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.plus1-overview-panel .table-wrap,
+.plus1-classification-matrix .table-wrap,
+.plus1-role-permission-panel .table-wrap,
+.plus1-approval-gate-panel .table-wrap,
+.plus1-preflight-panel .table-wrap {
+  min-width: 0;
+}
+
+.plus1-safety-summary {
+  border-color: rgba(14, 165, 233, 0.2);
+}
+
+.plus1-readiness-layer tr.selected td {
+  background: rgba(14, 165, 233, 0.08);
+}
+
 @media (max-width: 1400px) {
   .phase4d-preview-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));

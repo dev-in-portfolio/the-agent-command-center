@@ -415,6 +415,7 @@ def _build_landing_screen(snapshot):
         ("Phase 5C Review Board", "phase5c-review-board"),
         ("Phase 5D Handoff Composer", "phase5d-handoff-composer"),
         ("Phase 5E Runbook Simulator", "phase5e-runbook-simulator"),
+        ("Original +1 Readiness Layer", "plus1-controlled-automation-readiness-layer"),
         ("Artifacts", "artifact-packages"),
         ("Source Info", "source-transparency"),
         ("Audit / Session", "session-audit"),
@@ -1500,6 +1501,223 @@ def _build_phase5e_runbook_simulator():
     )
 
 
+def _build_plus1_controlled_automation_readiness_layer():
+    body = """
+<div class="plus1-readiness-layer" data-plus1-controlled-automation-readiness-layer="true">
+  <div class="callout" style="border-color: rgba(14,165,233,0.4); background: rgba(14,165,233,0.05);">
+    <strong style="color: var(--accent);">CONTROLLED AUTOMATION READINESS</strong>
+    <p class="muted" style="margin-top: 0.25rem;">
+      READINESS ONLY — NO LIVE AUTOMATION — NO EXECUTION — NO MUTATION — NO BACKEND WRITES — NO DEPLOY / MERGE / PUSH / PR CONTROLS — FUTURE AUTH / STORAGE / APPROVAL REQUIRED
+    </p>
+  </div>
+  <p class="muted" style="margin-top: 0.25rem;">
+    Original +1 — Controlled Automation Readiness Layer. This control-room shell defines future automation boundaries, role gates, dry-run evidence, and rollback/no-go contracts without enabling real execution.
+  </p>
+
+  <div class="plus1-preview-grid">
+    <article class="card plus1-overview-panel" id="plus1-overview-panel">
+      <div class="card-head">
+        <h3 class="card-title">Automation Readiness Overview Panel</h3>
+        <span class="badge info">READINESS ONLY</span>
+      </div>
+      <p class="card-body">Select a future-facing action, role, and gate state to preview how the readiness layer classifies automation without turning it on.</p>
+      <div class="button-row" style="margin-bottom:0.75rem;">
+        <button type="button" class="copy-button small" id="plus1-copy-readiness-summary">Copy automation readiness summary</button>
+      </div>
+      <div class="plus1-control-grid">
+        <label class="plus1-control">
+          <span>Action class</span>
+          <select id="plus1-action-select" class="table-filter" style="width:100%;font-family:var(--mono);"></select>
+        </label>
+        <label class="plus1-control">
+          <span>Role preview</span>
+          <select id="plus1-role-select" class="table-filter" style="width:100%;font-family:var(--mono);"></select>
+        </label>
+        <label class="plus1-control">
+          <span>Approval gate</span>
+          <select id="plus1-approval-select" class="table-filter" style="width:100%;font-family:var(--mono);"></select>
+        </label>
+      </div>
+      <div class="stat-grid" id="plus1-overview-summary" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));margin-top:0.75rem;"></div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" id="plus1-overview-note">Original +1 remains readiness-only. Nothing executes, nothing mutates, and no future automation wiring is active yet.</p>
+      </div>
+    </article>
+
+    <article class="card plus1-classification-matrix" id="plus1-classification-matrix-panel">
+      <div class="card-head">
+        <h3 class="card-title">Action Classification Matrix Panel</h3>
+        <span class="badge info">MATRIX</span>
+      </div>
+      <p class="card-body">Map each action family to its current readiness posture, future dependency, gate requirement, and execution risk.</p>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus1-action-table">
+          <caption>Action classification matrix</caption>
+          <thead>
+            <tr>
+              <th scope="col">Action</th>
+              <th scope="col">Allowed now</th>
+              <th scope="col">Future auth</th>
+              <th scope="col">Future storage</th>
+              <th scope="col">Human gate</th>
+              <th scope="col">Dry-run</th>
+              <th scope="col">Mutation risk</th>
+              <th scope="col">Execution risk</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody id="plus1-action-body">
+            <tr><td colspan="9" class="empty">No action matrix yet.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus1-preview-grid">
+    <article class="card plus1-role-permission-panel" id="plus1-role-permission-panel">
+      <div class="card-head">
+        <h3 class="card-title">Role / Permission Readiness Panel</h3>
+        <span class="badge info">ROLES</span>
+      </div>
+      <p class="card-body">The role matrix stays informational only. It shows which future responsibilities would need auth, approval, storage, and dry-run evidence.</p>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus1-role-table">
+          <caption>Role and permission readiness matrix</caption>
+          <thead>
+            <tr>
+              <th scope="col">Role</th>
+              <th scope="col">View status</th>
+              <th scope="col">Draft request</th>
+              <th scope="col">Review packet</th>
+              <th scope="col">Approve future action</th>
+              <th scope="col">Execute now</th>
+              <th scope="col">Mutate now</th>
+              <th scope="col">Future auth</th>
+            </tr>
+          </thead>
+          <tbody id="plus1-role-body">
+            <tr><td colspan="8" class="empty">No role matrix yet.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="card plus1-approval-gate-panel" id="plus1-approval-gate-panel">
+      <div class="card-head">
+        <h3 class="card-title">Human Approval Gate Simulator Panel</h3>
+        <span class="badge warning">GATE</span>
+      </div>
+      <p class="card-body">Approval states are display-only. They explain how future automation would pause for humans without turning on live action.</p>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus1-approval-table">
+          <caption>Human approval gate states</caption>
+          <thead>
+            <tr>
+              <th scope="col">State</th>
+              <th scope="col">Meaning</th>
+              <th scope="col">Live action?</th>
+            </tr>
+          </thead>
+          <tbody id="plus1-approval-body">
+            <tr><td colspan="3" class="empty">No gate state yet.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" id="plus1-approval-note">Approval does not execute, deploy, merge, push, or create PRs. It only documents the readiness boundary.</p>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus1-preview-grid">
+    <article class="card plus1-dry-run-plan-panel" id="plus1-dry-run-plan-panel">
+      <div class="card-head">
+        <h3 class="card-title">Dry-Run Plan Builder Panel</h3>
+        <span class="badge info">DRY-RUN</span>
+      </div>
+      <div class="button-row" style="margin-bottom:0.75rem;">
+        <button type="button" class="copy-button small" id="plus1-copy-dry-run-plan">Copy dry-run plan</button>
+      </div>
+      <div class="stat-grid" id="plus1-dry-run-summary" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));"></div>
+      <pre class="code-block" id="plus1-dry-run-plan-preview" style="max-height:360px;overflow:auto;white-space:pre-wrap;word-break:break-word;margin-top:0.75rem;">No readiness action selected yet.</pre>
+    </article>
+
+    <article class="card plus1-preflight-panel" id="plus1-preflight-panel">
+      <div class="card-head">
+        <h3 class="card-title">Preflight Checklist Panel</h3>
+        <span class="badge warning">CHECKLIST</span>
+      </div>
+      <div class="button-row" style="margin-bottom:0.75rem;">
+        <button type="button" class="copy-button small" id="plus1-copy-preflight-checklist">Copy preflight checklist</button>
+      </div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;">
+        <table class="data-table" id="plus1-preflight-table">
+          <caption>Future automation preflight requirements</caption>
+          <thead>
+            <tr>
+              <th scope="col">Requirement</th>
+              <th scope="col">Status</th>
+              <th scope="col">Why it matters</th>
+            </tr>
+          </thead>
+          <tbody id="plus1-preflight-body">
+            <tr><td colspan="3" class="empty">No preflight checklist yet.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus1-preview-grid">
+    <article class="card plus1-execution-boundary-panel" id="plus1-execution-boundary-panel">
+      <div class="card-head">
+        <h3 class="card-title">Execution Boundary Panel</h3>
+        <span class="badge fail">NO LIVE ACTION</span>
+      </div>
+      <p class="card-body">This boundary exists to show what is still impossible in the current build. It should remain inert until a future implementation phase adds the required backend, auth, and audit systems.</p>
+      <div class="stat-grid" id="plus1-boundary-grid" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));"></div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" id="plus1-boundary-note">The current build cannot execute commands, mutate GitHub or Netlify, deploy, merge, push, create PRs, write backend data, store queues, or persist approvals.</p>
+      </div>
+    </article>
+
+    <article class="card plus1-contract-builder" id="plus1-contract-builder-panel">
+      <div class="card-head">
+        <h3 class="card-title">Automation Handoff Contract Builder Panel</h3>
+        <span class="badge info">CONTRACT</span>
+      </div>
+      <div class="button-row" style="margin-bottom:0.75rem;">
+        <button type="button" class="copy-button small" id="plus1-copy-handoff-contract">Copy automation handoff contract</button>
+      </div>
+      <pre class="code-block" id="plus1-contract-preview" style="max-height:420px;overflow:auto;white-space:pre-wrap;word-break:break-word;">No readiness action selected yet.</pre>
+    </article>
+  </div>
+
+  <article class="card plus1-safety-summary" id="plus1-safety-summary-panel" style="margin-top:1rem;">
+    <div class="card-head">
+      <h3 class="card-title">Original +1 Safety Summary Panel</h3>
+      <span class="badge pass">READINESS ONLY</span>
+    </div>
+    <div class="button-row" style="margin-bottom:0.75rem;">
+      <button type="button" class="copy-button small" id="plus1-copy-safety-summary">Copy Original +1 safety summary</button>
+    </div>
+    <div class="stat-grid" id="plus1-safety-summary-grid" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));"></div>
+    <div class="callout" style="margin-top:0.75rem;">
+      <p class="muted" id="plus1-safety-summary-text">Original +1 is readiness-only. Nothing is automated, nothing is executed, nothing is saved, nothing is sent, nothing writes to the backend, and nothing mutates GitHub or Netlify.</p>
+    </div>
+  </article>
+</div>
+"""
+    return _details(
+        "Original +1 — Controlled Automation Readiness Layer",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="plus1-controlled-automation-readiness-layer"
+    )
+
+
 def _build_footer():
     return """
     <footer class="footer">
@@ -1736,7 +1954,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
     <header class="hero dashboard-shell">
       <div class="hero-copy">
         <h1>The Agent Command Center</h1>
-        <p class="lede">A read-only production dashboard for reviewing system status, safety boundaries, static schemas, and operator workflow readiness. Includes Original Phase 5A client-side operator workflow shell, Phase 5B request packet builder, Phase 5C review board, Phase 5D handoff composer, and Phase 5E runbook simulator.</p>
+        <p class="lede">A read-only production dashboard for reviewing system status, safety boundaries, static schemas, and operator workflow readiness. Includes Original Phase 5A client-side operator workflow shell, Phase 5B request packet builder, Phase 5C review board, Phase 5D handoff composer, Phase 5E runbook simulator, and Original +1 controlled automation readiness layer.</p>
         <p class="muted" style="margin-top: 0.5rem; font-size: 0.85rem;">Production-hosted. Static/inert. No command execution. No deploy, merge, push, or mutation controls.</p>
       </div>
     </header>
@@ -1756,6 +1974,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_phase5c_review_board(),
         _build_phase5d_handoff_composer(),
         _build_phase5e_runbook_simulator(),
+        _build_plus1_controlled_automation_readiness_layer(),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),
