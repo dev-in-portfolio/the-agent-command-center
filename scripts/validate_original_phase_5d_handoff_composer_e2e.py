@@ -65,6 +65,7 @@ def main():
         "09_exports/interface_phase_5/",
         "scripts/validate_original_phase_5d_handoff_composer.py",
         "scripts/validate_original_phase_5d_handoff_composer_e2e.py",
+        "scripts/validate_original_phase_5b_request_packet_builder_e2e.py",
     ]
 
     forbidden_prefixes = [
