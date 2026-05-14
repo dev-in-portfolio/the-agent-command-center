@@ -1118,6 +1118,786 @@
 })();
 
 (function () {
+  var plus1State = {
+    selectedActionId: "planning_handoff",
+    selectedRoleId: "viewer",
+    approvalState: "not_requested",
+  };
+
+  var actionTypes = [
+    {
+      action_id: "read_only_status",
+      action_title: "READ_ONLY_STATUS",
+      action_class: "Read-only status",
+      allowed_now: true,
+      requires_future_auth: false,
+      requires_future_storage: false,
+      requires_human_gate: false,
+      requires_dry_run: false,
+      mutation_risk: "NONE",
+      execution_risk: "NONE",
+      current_status: "READY_NOW",
+      target_scope: "Current dashboard status and reports",
+      expected_read_operations: "Read dashboard panels, reports, and validator output.",
+      expected_write_operations: "none",
+      required_validators: "Phase 5E and downstream read-only validators",
+      required_reports: "Phase 5E final acceptance report",
+      expected_artifacts: "Read-only status brief",
+      rollback_no_go: "Stop only if read-only data is missing or stale.",
+      human_approval_requirement: "No human gate required for read-only review.",
+      future_dependencies: "none",
+    },
+    {
+      action_id: "report_generation",
+      action_title: "REPORT_GENERATION",
+      action_class: "Report generation",
+      allowed_now: true,
+      requires_future_auth: false,
+      requires_future_storage: false,
+      requires_human_gate: false,
+      requires_dry_run: false,
+      mutation_risk: "NONE",
+      execution_risk: "NONE",
+      current_status: "READY_NOW",
+      target_scope: "Local Markdown and dashboard report artifacts",
+      expected_read_operations: "Read current local state and compose reports.",
+      expected_write_operations: "none",
+      required_validators: "Phase 5 validator chain",
+      required_reports: "Original Phase 5 final reports",
+      expected_artifacts: "Copyable report drafts",
+      rollback_no_go: "Stop if report content would imply live automation.",
+      human_approval_requirement: "Human approval not needed for local report drafting.",
+      future_dependencies: "none",
+    },
+    {
+      action_id: "validator_review",
+      action_title: "VALIDATOR_REVIEW",
+      action_class: "Validator review",
+      allowed_now: true,
+      requires_future_auth: false,
+      requires_future_storage: false,
+      requires_human_gate: false,
+      requires_dry_run: false,
+      mutation_risk: "NONE",
+      execution_risk: "NONE",
+      current_status: "READY_NOW",
+      target_scope: "Read-only validator and report audit surface",
+      expected_read_operations: "Inspect validators, diff scope, and report verdicts.",
+      expected_write_operations: "none",
+      required_validators: "Original Phase 5 validator chain",
+      required_reports: "Validator and acceptance reports",
+      expected_artifacts: "Validator review summary",
+      rollback_no_go: "Stop if a validator needs unsafe scope expansion.",
+      human_approval_requirement: "No live approval gate required for review-only work.",
+      future_dependencies: "none",
+    },
+    {
+      action_id: "dashboard_polish",
+      action_title: "DASHBOARD_POLISH",
+      action_class: "Dashboard polish",
+      allowed_now: true,
+      requires_future_auth: false,
+      requires_future_storage: false,
+      requires_human_gate: false,
+      requires_dry_run: false,
+      mutation_risk: "LOW",
+      execution_risk: "NONE",
+      current_status: "READY_NOW",
+      target_scope: "Static dashboard presentation and spacing only",
+      expected_read_operations: "Review card layout, copy, and compactness.",
+      expected_write_operations: "none",
+      required_validators: "Phase 4 and Phase 5 dashboard validators",
+      required_reports: "UI design and safety reports",
+      expected_artifacts: "Dashboard polish notes",
+      rollback_no_go: "Stop if polish drifts into live automation behavior.",
+      human_approval_requirement: "No live approval gate required for presentation polish.",
+      future_dependencies: "none",
+    },
+    {
+      action_id: "planning_handoff",
+      action_title: "PLANNING_HANDOFF",
+      action_class: "Planning handoff",
+      allowed_now: true,
+      requires_future_auth: false,
+      requires_future_storage: false,
+      requires_human_gate: false,
+      requires_dry_run: false,
+      mutation_risk: "NONE",
+      execution_risk: "NONE",
+      current_status: "READY_NOW",
+      target_scope: "Copy-only planning and handoff preparation",
+      expected_read_operations: "Read current phase reports and handoff notes.",
+      expected_write_operations: "none",
+      required_validators: "Phase 5 handoff validators",
+      required_reports: "Phase 5D and Phase 5E reports",
+      expected_artifacts: "Automation readiness handoff draft",
+      rollback_no_go: "Stop if the handoff starts to imply real execution.",
+      human_approval_requirement: "Planning handoff is informational only.",
+      future_dependencies: "none",
+    },
+    {
+      action_id: "dry_run_required",
+      action_title: "DRY_RUN_REQUIRED",
+      action_class: "Dry-run planning",
+      allowed_now: true,
+      requires_future_auth: true,
+      requires_future_storage: true,
+      requires_human_gate: true,
+      requires_dry_run: true,
+      mutation_risk: "LOW_IF_PLANNED",
+      execution_risk: "NONE_NOW",
+      current_status: "FUTURE_GATED",
+      target_scope: "Future action planning and dry-run evidence only",
+      expected_read_operations: "Inspect proposed scope and readiness evidence.",
+      expected_write_operations: "none",
+      required_validators: "Future automation validators and read-only checks",
+      required_reports: "Dry-run plan and evidence bundle",
+      expected_artifacts: "Copyable dry-run evidence",
+      rollback_no_go: "Stop if the plan needs real execution or backend mutation.",
+      human_approval_requirement: "Future human approval required before any live action.",
+      future_dependencies: "Future auth, storage, audit, and approval systems",
+    },
+    {
+      action_id: "human_approval_required",
+      action_title: "HUMAN_APPROVAL_REQUIRED",
+      action_class: "Human approval gate",
+      allowed_now: true,
+      requires_future_auth: true,
+      requires_future_storage: true,
+      requires_human_gate: true,
+      requires_dry_run: true,
+      mutation_risk: "NONE_NOW",
+      execution_risk: "NONE_NOW",
+      current_status: "DISPLAY_ONLY",
+      target_scope: "Approval-state simulation and readiness documentation",
+      expected_read_operations: "Read the gate state and explain its meaning.",
+      expected_write_operations: "none",
+      required_validators: "Future approval and audit validators",
+      required_reports: "Approval gate readiness report",
+      expected_artifacts: "Human gate simulator copy",
+      rollback_no_go: "Stop if approval is treated as live execution.",
+      human_approval_requirement: "Human approval is a future requirement, not a live action.",
+      future_dependencies: "Future auth, storage, and approval persistence",
+    },
+    {
+      action_id: "forbidden_mutation",
+      action_title: "FORBIDDEN_MUTATION",
+      action_class: "Forbidden mutation",
+      allowed_now: false,
+      requires_future_auth: true,
+      requires_future_storage: true,
+      requires_human_gate: true,
+      requires_dry_run: true,
+      mutation_risk: "RED",
+      execution_risk: "RED",
+      current_status: "BLOCKED",
+      target_scope: "Any write, deploy, merge, push, or PR path",
+      expected_read_operations: "Read-only explanation of why the path is blocked.",
+      expected_write_operations: "none",
+      required_validators: "Future safety validators only if rewritten as planning",
+      required_reports: "Safety rejection note",
+      expected_artifacts: "No-go summary",
+      rollback_no_go: "Do not proceed unless rewritten as planning-only.",
+      human_approval_requirement: "Human approval cannot override the no-go boundary.",
+      future_dependencies: "A full future control plane that is not present now",
+    },
+    {
+      action_id: "forbidden_execution",
+      action_title: "FORBIDDEN_EXECUTION",
+      action_class: "Forbidden execution",
+      allowed_now: false,
+      requires_future_auth: true,
+      requires_future_storage: true,
+      requires_human_gate: true,
+      requires_dry_run: true,
+      mutation_risk: "RED",
+      execution_risk: "RED",
+      current_status: "BLOCKED",
+      target_scope: "Command execution or backend action path",
+      expected_read_operations: "Read-only explanation of blocked execution.",
+      expected_write_operations: "none",
+      required_validators: "Future safety validators only if rewritten as planning",
+      required_reports: "Execution no-go note",
+      expected_artifacts: "Blocked execution summary",
+      rollback_no_go: "Do not proceed unless a future execution engine is explicitly built.",
+      human_approval_requirement: "No approval state can make this build execute commands.",
+      future_dependencies: "Command engine, auth, audit, storage, and approval systems",
+    },
+  ];
+
+  var roles = [
+    { role_id: "viewer", role_title: "viewer", can_view_status: true, can_draft_request: false, can_review_packet: false, can_approve_future_action: false, can_execute_now: false, can_mutate_now: false, requires_future_auth: true },
+    { role_id: "operator", role_title: "operator", can_view_status: true, can_draft_request: true, can_review_packet: true, can_approve_future_action: false, can_execute_now: false, can_mutate_now: false, requires_future_auth: true },
+    { role_id: "reviewer", role_title: "reviewer", can_view_status: true, can_draft_request: true, can_review_packet: true, can_approve_future_action: false, can_execute_now: false, can_mutate_now: false, requires_future_auth: true },
+    { role_id: "approver", role_title: "approver", can_view_status: true, can_draft_request: true, can_review_packet: true, can_approve_future_action: true, can_execute_now: false, can_mutate_now: false, requires_future_auth: true },
+    { role_id: "automation_admin", role_title: "automation_admin", can_view_status: true, can_draft_request: true, can_review_packet: true, can_approve_future_action: true, can_execute_now: false, can_mutate_now: false, requires_future_auth: true },
+    { role_id: "break_glass_admin", role_title: "break_glass_admin", can_view_status: true, can_draft_request: true, can_review_packet: true, can_approve_future_action: true, can_execute_now: false, can_mutate_now: false, requires_future_auth: true },
+  ];
+
+  var approvalStates = [
+    { state_id: "not_requested", state_title: "not_requested", meaning: "No approval has been requested yet.", live_action: false },
+    { state_id: "pending_review", state_title: "pending_review", meaning: "A future request is waiting on human review.", live_action: false },
+    { state_id: "approved_for_planning", state_title: "approved_for_planning", meaning: "Planning is allowed, but nothing executes.", live_action: false },
+    { state_id: "approved_for_dry_run_only", state_title: "approved_for_dry_run_only", meaning: "Only dry-run evidence may be prepared.", live_action: false },
+    { state_id: "rejected", state_title: "rejected", meaning: "The request is rejected and must be rewritten.", live_action: false },
+    { state_id: "blocked_by_safety", state_title: "blocked_by_safety", meaning: "Safety policy blocks the request entirely.", live_action: false },
+    { state_id: "expired", state_title: "expired", meaning: "The approval window elapsed before any action.", live_action: false },
+  ];
+
+  var preflightChecklist = [
+    { item: "auth exists", status: "not_ready", note: "Future real automation will need explicit auth." },
+    { item: "user role verified", status: "not_ready", note: "Role checks are currently only simulated." },
+    { item: "permission checked", status: "not_ready", note: "Permission gating is still future work." },
+    { item: "request stored", status: "not_ready", note: "No persistent queue or storage exists." },
+    { item: "audit log active", status: "not_ready", note: "Audit persistence is not implemented." },
+    { item: "dry-run completed", status: "not_ready", note: "Dry-run evidence is copy-only and local." },
+    { item: "diff reviewed", status: "ready_read_only", note: "Read-only diff review is already safe now." },
+    { item: "rollback plan exists", status: "not_ready", note: "Rollback planning must be added before real execution." },
+    { item: "human approval recorded", status: "not_ready", note: "Approval is display-only in this build." },
+    { item: "execution window approved", status: "not_ready", note: "No execution window exists yet." },
+    { item: "rate-limit controls present", status: "not_ready", note: "Rate-limit controls are future backend work." },
+    { item: "secrets unavailable to browser", status: "verified", note: "The browser build does not read secrets." },
+    { item: "backend mutation endpoint explicitly authorized", status: "not_ready", note: "No mutation endpoint is implemented." },
+  ];
+
+  function p1(id) {
+    return document.getElementById(id);
+  }
+
+  function escapeHtml(value) {
+    return String(value == null ? "" : value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/\"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function timestamp() {
+    return new Date().toISOString();
+  }
+
+  function stat(label, value, badgeClass) {
+    var strongClass = badgeClass ? ' class="badge ' + badgeClass + '"' : "";
+    return "<div class=\"stat\"><span>" + escapeHtml(label) + "</span><strong" + strongClass + ">" + escapeHtml(value) + "</strong></div>";
+  }
+
+  function copyRenderedText(text, emptyMessage, successMessage) {
+    var status = p1("copy-status");
+    if (!text) {
+      if (status) status.textContent = emptyMessage;
+      return;
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () {
+        if (status) status.textContent = successMessage;
+      }).catch(function () {});
+      return;
+    }
+    var field = document.createElement("textarea");
+    field.value = text;
+    field.style.position = "fixed";
+    field.style.left = "-9999px";
+    document.body.appendChild(field);
+    field.select();
+    document.execCommand("copy");
+    document.body.removeChild(field);
+    if (status) status.textContent = successMessage;
+  }
+
+  function bindCopyButton(buttonId, getter, emptyMessage, successMessage) {
+    var button = p1(buttonId);
+    if (!button) {
+      return;
+    }
+    button.addEventListener("click", function () {
+      var snapshot = renderSnapshot();
+      var text = getter(snapshot);
+      copyRenderedText(text, emptyMessage, successMessage);
+    });
+  }
+
+  function getAction(id) {
+    for (var i = 0; i < actionTypes.length; i++) {
+      if (actionTypes[i].action_id === id) {
+        return actionTypes[i];
+      }
+    }
+    return actionTypes[0];
+  }
+
+  function getRole(id) {
+    for (var i = 0; i < roles.length; i++) {
+      if (roles[i].role_id === id) {
+        return roles[i];
+      }
+    }
+    return roles[0];
+  }
+
+  function getApprovalState(id) {
+    for (var i = 0; i < approvalStates.length; i++) {
+      if (approvalStates[i].state_id === id) {
+        return approvalStates[i];
+      }
+    }
+    return approvalStates[0];
+  }
+
+  function badgeForTruth(value) {
+    return value ? "pass" : "fail";
+  }
+
+  function badgeForStatus(status) {
+    switch (status) {
+      case "verified":
+      case "ready_now":
+        return "pass";
+      case "not_ready":
+        return "warning";
+      case "ready_read_only":
+        return "info";
+      case "blocked":
+      case "red":
+        return "fail";
+      default:
+        return "info";
+    }
+  }
+
+  function renderActionRows(selectedId) {
+    return actionTypes.map(function (action) {
+      var selected = action.action_id === selectedId ? " class=\"selected\"" : "";
+      return "<tr" + selected + ">" +
+        "<td><code>" + escapeHtml(action.action_title) + "</code></td>" +
+        "<td><span class=\"badge " + badgeForTruth(action.allowed_now) + "\">" + (action.allowed_now ? "YES" : "NO") + "</span></td>" +
+        "<td>" + escapeHtml(String(action.requires_future_auth)) + "</td>" +
+        "<td>" + escapeHtml(String(action.requires_future_storage)) + "</td>" +
+        "<td>" + escapeHtml(String(action.requires_human_gate)) + "</td>" +
+        "<td>" + escapeHtml(String(action.requires_dry_run)) + "</td>" +
+        "<td>" + escapeHtml(action.mutation_risk) + "</td>" +
+        "<td>" + escapeHtml(action.execution_risk) + "</td>" +
+        "<td><span class=\"badge " + badgeForStatus(action.current_status.toLowerCase()) + "\">" + escapeHtml(action.current_status) + "</span></td>" +
+        "</tr>";
+    }).join("");
+  }
+
+  function renderRoleRows() {
+    return roles.map(function (role) {
+      return "<tr>" +
+        "<td><code>" + escapeHtml(role.role_title) + "</code></td>" +
+        "<td><span class=\"badge " + badgeForTruth(role.can_view_status) + "\">" + (role.can_view_status ? "YES" : "NO") + "</span></td>" +
+        "<td><span class=\"badge " + badgeForTruth(role.can_draft_request) + "\">" + (role.can_draft_request ? "YES" : "NO") + "</span></td>" +
+        "<td><span class=\"badge " + badgeForTruth(role.can_review_packet) + "\">" + (role.can_review_packet ? "YES" : "NO") + "</span></td>" +
+        "<td><span class=\"badge " + badgeForTruth(role.can_approve_future_action) + "\">" + (role.can_approve_future_action ? "YES" : "NO") + "</span></td>" +
+        "<td><span class=\"badge fail\">NO</span></td>" +
+        "<td><span class=\"badge fail\">NO</span></td>" +
+        "<td>" + escapeHtml(String(role.requires_future_auth)) + "</td>" +
+        "</tr>";
+    }).join("");
+  }
+
+  function renderApprovalRows(selectedId) {
+    return approvalStates.map(function (state) {
+      var selected = state.state_id === selectedId ? " class=\"selected\"" : "";
+      return "<tr" + selected + ">" +
+        "<td><code>" + escapeHtml(state.state_title) + "</code></td>" +
+        "<td>" + escapeHtml(state.meaning) + "</td>" +
+        "<td><span class=\"badge fail\">" + (state.live_action ? "YES" : "NO") + "</span></td>" +
+        "</tr>";
+    }).join("");
+  }
+
+  function renderPreflightRows() {
+    return preflightChecklist.map(function (item) {
+      return "<tr>" +
+        "<td>" + escapeHtml(item.item) + "</td>" +
+        "<td><span class=\"badge " + badgeForStatus(item.status) + "\">" + escapeHtml(item.status.toUpperCase()) + "</span></td>" +
+        "<td>" + escapeHtml(item.note) + "</td>" +
+        "</tr>";
+    }).join("");
+  }
+
+  function buildReadinessSummary(action, role, approval) {
+    return [
+      stat("Original +1 status", "READINESS_ONLY", "warning"),
+      stat("Selected action", action.action_title, action.allowed_now ? "pass" : "fail"),
+      stat("Role preview", role.role_title, "info"),
+      stat("Approval gate", approval.state_title, approval.live_action ? "pass" : "warning"),
+      stat("Live automation enabled", "false", "fail"),
+      stat("Execution enabled", "false", "fail"),
+      stat("Mutation enabled", "false", "fail"),
+      stat("Backend writes enabled", "false", "fail"),
+      stat("Auth implemented", "false", "fail"),
+      stat("Audit persistence", "false", "fail"),
+    ].join("");
+  }
+
+  function buildDryRunSummary(action, role, approval) {
+    return [
+      stat("Action class", action.action_class),
+      stat("Allowed now", String(action.allowed_now), action.allowed_now ? "pass" : "fail"),
+      stat("Requires dry-run", String(action.requires_dry_run), action.requires_dry_run ? "warning" : "pass"),
+      stat("Requires human gate", String(action.requires_human_gate), action.requires_human_gate ? "warning" : "pass"),
+      stat("Role", role.role_title),
+      stat("Approval state", approval.state_title),
+    ].join("");
+  }
+
+  function buildBoundaryGrid() {
+    return [
+      stat("current build can execute commands", "false", "fail"),
+      stat("current build can mutate GitHub", "false", "fail"),
+      stat("current build can mutate Netlify", "false", "fail"),
+      stat("current build can deploy", "false", "fail"),
+      stat("current build can merge", "false", "fail"),
+      stat("current build can push", "false", "fail"),
+      stat("current build can create PRs", "false", "fail"),
+      stat("current build can write backend data", "false", "fail"),
+      stat("current build can store queues", "false", "fail"),
+      stat("current build can persist approvals", "false", "fail"),
+    ].join("");
+  }
+
+  function buildSafetySummaryGrid(action, role, approval) {
+    return [
+      stat("Scenario state", "Readiness only", "warning"),
+      stat("Saved anywhere", "No", "fail"),
+      stat("Sent anywhere", "No", "fail"),
+      stat("Queued", "No", "fail"),
+      stat("Executed", "No", "fail"),
+      stat("Backend write", "No", "fail"),
+      stat("GitHub mutation", "No", "fail"),
+      stat("Netlify mutation", "No", "fail"),
+      stat("Future auth required", String(action.requires_future_auth || role.requires_future_auth), "warning"),
+      stat("Future storage required", String(action.requires_future_storage), "warning"),
+    ].join("");
+  }
+
+  function buildDryRunMarkdown(action, role, approval) {
+    var lines = [];
+    lines.push("# Original +1 - Controlled Automation Readiness Layer");
+    lines.push("");
+    lines.push("## Selected Action");
+    lines.push("");
+    lines.push(action.action_title);
+    lines.push("");
+    lines.push("## Action Class");
+    lines.push("");
+    lines.push(action.action_class);
+    lines.push("");
+    lines.push("## Role Preview");
+    lines.push("");
+    lines.push(role.role_title);
+    lines.push("");
+    lines.push("## Human Approval Gate");
+    lines.push("");
+    lines.push(approval.state_title);
+    lines.push(" - " + approval.meaning);
+    lines.push("");
+    lines.push("## Dry-Run Plan");
+    lines.push("");
+    lines.push("- Target scope: " + action.target_scope);
+    lines.push("- Expected read operations: " + action.expected_read_operations);
+    lines.push("- Expected write operations: none");
+    lines.push("- Required validators: " + action.required_validators);
+    lines.push("- Required reports: " + action.required_reports);
+    lines.push("- Expected artifacts: " + action.expected_artifacts);
+    lines.push("- Rollback / no-go: " + action.rollback_no_go);
+    lines.push("- Human approval requirement: " + action.human_approval_requirement);
+    lines.push("- Future dependencies: " + action.future_dependencies);
+    lines.push("");
+    lines.push("## Preflight Checklist");
+    lines.push("");
+    for (var i = 0; i < preflightChecklist.length; i++) {
+      lines.push("- [" + (preflightChecklist[i].status === "verified" ? "x" : " ") + "] " + preflightChecklist[i].item + " - " + preflightChecklist[i].note);
+    }
+    lines.push("");
+    lines.push("## Execution Boundary");
+    lines.push("");
+    lines.push("- current build cannot execute commands");
+    lines.push("- current build cannot mutate GitHub");
+    lines.push("- current build cannot mutate Netlify");
+    lines.push("- current build cannot deploy");
+    lines.push("- current build cannot merge");
+    lines.push("- current build cannot push");
+    lines.push("- current build cannot create PRs");
+    lines.push("- current build cannot write backend data");
+    lines.push("- current build cannot store queues");
+    lines.push("- current build cannot persist approvals");
+    return lines.join("\n");
+  }
+
+  function buildHandoffContractMarkdown(action, role, approval) {
+    var lines = [];
+    lines.push("# Original +1 Automation Handoff Contract");
+    lines.push("");
+    lines.push("## Proposed Future Automation Action");
+    lines.push("");
+    lines.push(action.action_title);
+    lines.push("");
+    lines.push("## Classification");
+    lines.push("");
+    lines.push(action.action_class);
+    lines.push("");
+    lines.push("## Required Auth");
+    lines.push("");
+    lines.push(action.requires_future_auth ? "Future auth required." : "No future auth requirement for this action preview.");
+    lines.push("");
+    lines.push("## Required Storage");
+    lines.push("");
+    lines.push(action.requires_future_storage ? "Future storage required." : "No future storage requirement for this action preview.");
+    lines.push("");
+    lines.push("## Required Audit Persistence");
+    lines.push("");
+    lines.push(action.requires_future_storage ? "Audit persistence required before live execution." : "Audit persistence not required for the current preview.");
+    lines.push("");
+    lines.push("## Required Dry-Run Evidence");
+    lines.push("");
+    lines.push(action.expected_read_operations);
+    lines.push("");
+    lines.push("## Required Approval Gate");
+    lines.push("");
+    lines.push(approval.state_title + " - " + approval.meaning);
+    lines.push("");
+    lines.push("## Rollback Plan");
+    lines.push("");
+    lines.push(action.rollback_no_go);
+    lines.push("");
+    lines.push("## Forbidden Conditions");
+    lines.push("");
+    lines.push("- No command execution.");
+    lines.push("- No backend writes.");
+    lines.push("- No GitHub mutation.");
+    lines.push("- No Netlify mutation.");
+    lines.push("- No deploy, merge, push, or PR controls.");
+    lines.push("");
+    lines.push("## Validator Requirements");
+    lines.push("");
+    lines.push(action.required_validators);
+    lines.push("");
+    lines.push("## Human Review Checklist");
+    lines.push("");
+    lines.push("- Confirm the action remains readiness-only.");
+    lines.push("- Confirm dry-run evidence is local and copy-only.");
+    lines.push("- Confirm required future auth and storage are not yet implemented.");
+    lines.push("- Confirm no execution or mutation controls are present.");
+    lines.push("");
+    lines.push("## Final No-Go Conditions");
+    lines.push("");
+    lines.push("- Stop if the action requires real execution.");
+    lines.push("- Stop if the action requires backend writes.");
+    lines.push("- Stop if the action requires live approvals not yet implemented.");
+    lines.push("- Stop if the action requires command, deploy, merge, push, or PR controls.");
+    return lines.join("\n");
+  }
+
+  function buildReadinessSummaryMarkdown(action, role, approval) {
+    var lines = [];
+    lines.push("# Original +1 Readiness Summary");
+    lines.push("");
+    lines.push("Original +1 status: READINESS_ONLY");
+    lines.push("Selected action: " + action.action_title);
+    lines.push("Selected role: " + role.role_title);
+    lines.push("Approval gate: " + approval.state_title);
+    lines.push("");
+    lines.push("This layer is copy-only, local-only, and inert.");
+    lines.push("No live automation is enabled.");
+    lines.push("No execution, mutation, backend write, deploy, merge, push, or PR control is enabled.");
+    return lines.join("\n");
+  }
+
+  function buildPreflightMarkdown() {
+    var lines = [];
+    lines.push("# Original +1 Preflight Checklist");
+    lines.push("");
+    for (var i = 0; i < preflightChecklist.length; i++) {
+      lines.push("- [" + (preflightChecklist[i].status === "verified" ? "x" : " ") + "] " + preflightChecklist[i].item + " - " + preflightChecklist[i].note);
+    }
+    return lines.join("\n");
+  }
+
+  function buildSafetySummaryMarkdown(action, role, approval) {
+    var lines = [];
+    lines.push("# Original +1 Safety Summary");
+    lines.push("");
+    lines.push("- Scenario state: readiness-only");
+    lines.push("- Live automation: false");
+    lines.push("- Execution: false");
+    lines.push("- Mutation: false");
+    lines.push("- Backend writes: false");
+    lines.push("- GitHub mutation: false");
+    lines.push("- Netlify mutation: false");
+    lines.push("- Future auth required: " + String(action.requires_future_auth || role.requires_future_auth));
+    lines.push("- Future storage required: " + String(action.requires_future_storage));
+    lines.push("- Approval gate: " + approval.state_title);
+    return lines.join("\n");
+  }
+
+  function renderSnapshot() {
+    var action = getAction(plus1State.selectedActionId);
+    var role = getRole(plus1State.selectedRoleId);
+    var approval = getApprovalState(plus1State.approvalState);
+    return {
+      action: action,
+      role: role,
+      approval: approval,
+      action_rows_html: renderActionRows(action.action_id),
+      role_rows_html: renderRoleRows(),
+      approval_rows_html: renderApprovalRows(approval.state_id),
+      preflight_rows_html: renderPreflightRows(),
+      readiness_summary_grid: buildReadinessSummary(action, role, approval),
+      dry_run_summary_grid: buildDryRunSummary(action, role, approval),
+      boundary_grid: buildBoundaryGrid(),
+      safety_summary_grid: buildSafetySummaryGrid(action, role, approval),
+      readiness_summary_markdown: buildReadinessSummaryMarkdown(action, role, approval),
+      dry_run_markdown: buildDryRunMarkdown(action, role, approval),
+      preflight_markdown: buildPreflightMarkdown(),
+      handoff_contract_markdown: buildHandoffContractMarkdown(action, role, approval),
+      safety_summary_markdown: buildSafetySummaryMarkdown(action, role, approval),
+      overview_note: "Original +1 remains readiness-only. Nothing executes, nothing mutates, and no future automation wiring is active yet.",
+      approval_note: approval.meaning + " Approval does not execute, deploy, merge, push, or create PRs.",
+    };
+  }
+
+  function updatePlus1UI() {
+    var snapshot = renderSnapshot();
+    var actionSelect = p1("plus1-action-select");
+    var roleSelect = p1("plus1-role-select");
+    var approvalSelect = p1("plus1-approval-select");
+    var actionBody = p1("plus1-action-body");
+    var roleBody = p1("plus1-role-body");
+    var approvalBody = p1("plus1-approval-body");
+    var preflightBody = p1("plus1-preflight-body");
+    var overviewSummary = p1("plus1-overview-summary");
+    var overviewNote = p1("plus1-overview-note");
+    var dryRunSummary = p1("plus1-dry-run-summary");
+    var dryRunPreview = p1("plus1-dry-run-plan-preview");
+    var boundaryGrid = p1("plus1-boundary-grid");
+    var contractPreview = p1("plus1-contract-preview");
+    var safetySummaryGrid = p1("plus1-safety-summary-grid");
+    var safetySummaryText = p1("plus1-safety-summary-text");
+    var approvalNote = p1("plus1-approval-note");
+
+    if (actionSelect) {
+      actionSelect.innerHTML = actionTypes.map(function (action) {
+        var selected = action.action_id === snapshot.action.action_id ? " selected" : "";
+        return '<option value="' + escapeHtml(action.action_id) + '"' + selected + '>' + escapeHtml(action.action_title) + "</option>";
+      }).join("");
+    }
+    if (roleSelect) {
+      roleSelect.innerHTML = roles.map(function (role) {
+        var selected = role.role_id === snapshot.role.role_id ? " selected" : "";
+        return '<option value="' + escapeHtml(role.role_id) + '"' + selected + '>' + escapeHtml(role.role_title) + "</option>";
+      }).join("");
+    }
+    if (approvalSelect) {
+      approvalSelect.innerHTML = approvalStates.map(function (approval) {
+        var selected = approval.state_id === snapshot.approval.state_id ? " selected" : "";
+        return '<option value="' + escapeHtml(approval.state_id) + '"' + selected + '>' + escapeHtml(approval.state_title) + "</option>";
+      }).join("");
+    }
+    if (actionBody) {
+      actionBody.innerHTML = snapshot.action_rows_html;
+    }
+    if (roleBody) {
+      roleBody.innerHTML = snapshot.role_rows_html;
+    }
+    if (approvalBody) {
+      approvalBody.innerHTML = snapshot.approval_rows_html;
+    }
+    if (preflightBody) {
+      preflightBody.innerHTML = snapshot.preflight_rows_html;
+    }
+    if (overviewSummary) {
+      overviewSummary.innerHTML = snapshot.readiness_summary_grid;
+    }
+    if (overviewNote) {
+      overviewNote.textContent = snapshot.overview_note;
+    }
+    if (dryRunSummary) {
+      dryRunSummary.innerHTML = snapshot.dry_run_summary_grid;
+    }
+    if (dryRunPreview) {
+      dryRunPreview.textContent = snapshot.dry_run_markdown;
+    }
+    if (boundaryGrid) {
+      boundaryGrid.innerHTML = snapshot.boundary_grid;
+    }
+    if (contractPreview) {
+      contractPreview.textContent = snapshot.handoff_contract_markdown;
+    }
+    if (safetySummaryGrid) {
+      safetySummaryGrid.innerHTML = snapshot.safety_summary_grid;
+    }
+    if (safetySummaryText) {
+      safetySummaryText.textContent = "Original +1 is readiness-only. Nothing is automated, nothing is executed, nothing is saved, nothing is sent, nothing writes to the backend, and nothing mutates GitHub or Netlify.";
+    }
+    if (approvalNote) {
+      approvalNote.textContent = snapshot.approval_note;
+    }
+  }
+
+  function initPlus1() {
+    var shell = document.querySelector("[data-plus1-controlled-automation-readiness-layer]");
+    if (!shell) {
+      return;
+    }
+
+    var actionSelect = p1("plus1-action-select");
+    var roleSelect = p1("plus1-role-select");
+    var approvalSelect = p1("plus1-approval-select");
+
+    if (actionSelect) {
+      actionSelect.addEventListener("change", function () {
+        plus1State.selectedActionId = actionSelect.value;
+        updatePlus1UI();
+      });
+    }
+    if (roleSelect) {
+      roleSelect.addEventListener("change", function () {
+        plus1State.selectedRoleId = roleSelect.value;
+        updatePlus1UI();
+      });
+    }
+    if (approvalSelect) {
+      approvalSelect.addEventListener("change", function () {
+        plus1State.approvalState = approvalSelect.value;
+        updatePlus1UI();
+      });
+    }
+
+    bindCopyButton("plus1-copy-readiness-summary", function (snapshot) {
+      return snapshot ? snapshot.readiness_summary_markdown : "";
+    }, "Original +1: Select an action first.", "Original +1: Readiness summary copied.");
+
+    bindCopyButton("plus1-copy-dry-run-plan", function (snapshot) {
+      return snapshot ? snapshot.dry_run_markdown : "";
+    }, "Original +1: Select an action first.", "Original +1: Dry-run plan copied.");
+
+    bindCopyButton("plus1-copy-preflight-checklist", function (snapshot) {
+      return snapshot ? snapshot.preflight_markdown : "";
+    }, "Original +1: Select an action first.", "Original +1: Preflight checklist copied.");
+
+    bindCopyButton("plus1-copy-handoff-contract", function (snapshot) {
+      return snapshot ? snapshot.handoff_contract_markdown : "";
+    }, "Original +1: Select an action first.", "Original +1: Automation handoff contract copied.");
+
+    bindCopyButton("plus1-copy-safety-summary", function (snapshot) {
+      return snapshot ? snapshot.safety_summary_markdown : "";
+    }, "Original +1: Select an action first.", "Original +1: Safety summary copied.");
+
+    updatePlus1UI();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initPlus1);
+  } else {
+    initPlus1();
+  }
+})();
+
+(function () {
   var phase5aState = null;
   var auditEvents = [];
 

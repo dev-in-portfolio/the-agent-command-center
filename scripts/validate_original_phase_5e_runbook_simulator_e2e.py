@@ -65,11 +65,14 @@ def main():
     allowed_prefixes = [
         "13_web_dashboard/",
         "09_exports/interface_phase_5/",
+        "09_exports/original_plus1/",
         "scripts/validate_original_phase_5e_runbook_simulator.py",
         "scripts/validate_original_phase_5e_runbook_simulator_e2e.py",
         "scripts/validate_original_phase_5d_handoff_composer.py",
         "scripts/validate_original_phase_5d_handoff_composer_e2e.py",
         "scripts/validate_original_phase_5b_request_packet_builder_e2e.py",
+        "scripts/validate_original_plus1_controlled_automation_readiness.py",
+        "scripts/validate_original_plus1_controlled_automation_readiness_e2e.py",
     ]
 
     forbidden_prefixes = [
