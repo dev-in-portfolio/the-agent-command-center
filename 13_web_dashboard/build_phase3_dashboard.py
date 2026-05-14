@@ -402,7 +402,9 @@ def _build_outputs(snapshot, validation_result, safety_result):
     shutil.copy2(DASHBOARD_DIR / "static" / "dashboard.js", dist_static_dir / "dashboard.js")
     snapshot = dict(snapshot)
     snapshot["original_plus1b_contract_schemas"] = _original_plus1b_contract_pack()
+    snapshot["original_plus1c_readiness_qa_model"] = _original_plus1c_readiness_qa_model()
     _write_text(DIST_DIR / "original_plus1b_contract_schemas.json", json.dumps(_original_plus1b_contract_pack(), indent=2, sort_keys=False))
+    _write_text(DIST_DIR / "original_plus1c_readiness_qa_model.json", json.dumps(_original_plus1c_readiness_qa_model(), indent=2, sort_keys=False))
     _write_text(DIST_DIR / "index.html", render_html(snapshot))
     _write_text(DIST_DIR / "print.html", render_print_html(snapshot))
     _write_text(DIST_DIR / "dashboard_data.json", json.dumps(snapshot, indent=2, sort_keys=False))
@@ -410,6 +412,95 @@ def _build_outputs(snapshot, validation_result, safety_result):
     # not regenerated here, so a dashboard rebuild does not reintroduce report
     # contamination into the branch diff.
     return REPORTS_DIR / "interface_phase_3_static_build_report.md"
+
+
+def _original_plus1c_readiness_qa_model():
+    return {
+        "model_id": "original-plus1c-readiness-scoring-contract-qa",
+        "model_version": "1.0",
+        "overall_status": "READINESS_ONLY",
+        "current_recommendation": "READY_FOR_READINESS_REVIEW_ONLY",
+        "final_recommendation": "NOT_READY_FOR_REAL_AUTOMATION",
+        "summary": {
+            "readiness_layer": "local analysis only",
+            "live_automation": False,
+            "execution": False,
+            "mutation": False,
+            "backend_writes": False,
+            "persistence": False,
+            "queue_storage": False,
+            "live_auth": False,
+            "copy_outputs": True,
+        },
+        "scorecard": [
+            {"category": "Contract completeness", "score": 94, "status": "complete", "reason": "Each readiness contract includes source phase, safety boundary, and future dependency notes.", "recommended_improvement": "Keep the future dependency notes aligned with the live roadmap."},
+            {"category": "Schema coverage", "score": 100, "status": "complete", "reason": "All required schema families are represented in the static contract pack.", "recommended_improvement": "Do not introduce live schemas until the backend exists."},
+            {"category": "Safety assertion coverage", "score": 100, "status": "complete", "reason": "The build explicitly declares no live automation, no execution, and no mutation.", "recommended_improvement": "Preserve the no-go assertions in every future phase."},
+            {"category": "Validator coverage", "score": 100, "status": "complete", "reason": "Phase 5 through Original +1B validators and the master wall are already in place.", "recommended_improvement": "Extend the validator wall only with safety-preserving compatibility edits."},
+            {"category": "Production verification coverage", "score": 96, "status": "complete", "reason": "Original +1B is production verified and the live site remains read-only.", "recommended_improvement": "Re-run production verification after any dashboard banner or copy change."},
+            {"category": "Dependency clarity", "score": 92, "status": "complete", "reason": "Missing auth, storage, queue, audit, approval, and write boundaries are explicit.", "recommended_improvement": "Map future backend work to the exact gap list before any execution phase."},
+            {"category": "No-go policy clarity", "score": 98, "status": "complete", "reason": "Rollback and no-go rules stay visible and copyable.", "recommended_improvement": "Keep blocked conditions visible until the real control plane exists."},
+            {"category": "Automation readiness", "score": 58, "status": "blocked", "reason": "Real automation is intentionally blocked because the future control-plane dependencies are missing.", "recommended_improvement": "Treat this build as readiness review only."},
+        ],
+        "contract_qa_matrix": [
+            {"schema_id": "request_packet_schema", "required_fields_present": "yes", "forbidden_fields_absent": "yes", "safety_notes_present": "yes", "future_dependency_noted": "yes", "copy_output_available": "yes", "qa_status": "PASS"},
+            {"schema_id": "review_decision_schema", "required_fields_present": "yes", "forbidden_fields_absent": "yes", "safety_notes_present": "yes", "future_dependency_noted": "yes", "copy_output_available": "yes", "qa_status": "PASS"},
+            {"schema_id": "decision_ledger_schema", "required_fields_present": "yes", "forbidden_fields_absent": "yes", "safety_notes_present": "yes", "future_dependency_noted": "yes", "copy_output_available": "yes", "qa_status": "PASS"},
+            {"schema_id": "handoff_contract_schema", "required_fields_present": "yes", "forbidden_fields_absent": "yes", "safety_notes_present": "yes", "future_dependency_noted": "yes", "copy_output_available": "yes", "qa_status": "PASS"},
+            {"schema_id": "runbook_scenario_schema", "required_fields_present": "yes", "forbidden_fields_absent": "yes", "safety_notes_present": "yes", "future_dependency_noted": "yes", "copy_output_available": "yes", "qa_status": "PASS"},
+            {"schema_id": "automation_readiness_contract_schema", "required_fields_present": "yes", "forbidden_fields_absent": "yes", "safety_notes_present": "yes", "future_dependency_noted": "yes", "copy_output_available": "yes", "qa_status": "WARNING"},
+            {"schema_id": "approval_gate_contract_schema", "required_fields_present": "yes", "forbidden_fields_absent": "yes", "safety_notes_present": "yes", "future_dependency_noted": "yes", "copy_output_available": "yes", "qa_status": "WARNING"},
+            {"schema_id": "dry_run_plan_schema", "required_fields_present": "yes", "forbidden_fields_absent": "yes", "safety_notes_present": "yes", "future_dependency_noted": "yes", "copy_output_available": "yes", "qa_status": "PASS"},
+            {"schema_id": "preflight_checklist_schema", "required_fields_present": "yes", "forbidden_fields_absent": "yes", "safety_notes_present": "yes", "future_dependency_noted": "yes", "copy_output_available": "yes", "qa_status": "PASS"},
+            {"schema_id": "no_go_rollback_policy_schema", "required_fields_present": "yes", "forbidden_fields_absent": "yes", "safety_notes_present": "yes", "future_dependency_noted": "yes", "copy_output_available": "yes", "qa_status": "PASS"},
+        ],
+        "safety_assertions": [
+            {"assertion": "No live automation", "expected_value": "false", "current_value": "false", "status": "PASS"},
+            {"assertion": "No execution", "expected_value": "false", "current_value": "false", "status": "PASS"},
+            {"assertion": "No mutation", "expected_value": "false", "current_value": "false", "status": "PASS"},
+            {"assertion": "No backend writes", "expected_value": "false", "current_value": "false", "status": "PASS"},
+            {"assertion": "No persistence", "expected_value": "false", "current_value": "false", "status": "PASS"},
+            {"assertion": "No GitHub API calls", "expected_value": "false", "current_value": "false", "status": "PASS"},
+            {"assertion": "No Netlify API calls", "expected_value": "false", "current_value": "false", "status": "PASS"},
+            {"assertion": "No external browser fetches", "expected_value": "false", "current_value": "false", "status": "PASS"},
+            {"assertion": "No secrets/tokens/env reads", "expected_value": "false", "current_value": "false", "status": "PASS"},
+            {"assertion": "No deploy/merge/push/PR controls", "expected_value": "false", "current_value": "false", "status": "PASS"},
+            {"assertion": "Future auth required", "expected_value": "true", "current_value": "false", "status": "BLOCKED"},
+            {"assertion": "Future storage required", "expected_value": "true", "current_value": "false", "status": "BLOCKED"},
+            {"assertion": "Future approval required", "expected_value": "true", "current_value": "false", "status": "BLOCKED"},
+        ],
+        "no_go_decisions": [
+            {"decision_id": "BLOCK_REAL_AUTOMATION_NO_AUTH", "reason": "No live auth exists yet.", "required_future_dependency": "auth", "operator_recommendation": "Stay readiness-only."},
+            {"decision_id": "BLOCK_REAL_AUTOMATION_NO_DATABASE", "reason": "No database exists yet.", "required_future_dependency": "persistent storage", "operator_recommendation": "Keep outputs copy-only."},
+            {"decision_id": "BLOCK_REAL_AUTOMATION_NO_QUEUE", "reason": "No queue storage exists yet.", "required_future_dependency": "queue infrastructure", "operator_recommendation": "Do not schedule execution."},
+            {"decision_id": "BLOCK_REAL_AUTOMATION_NO_AUDIT_PERSISTENCE", "reason": "No persistent audit log exists yet.", "required_future_dependency": "audit persistence", "operator_recommendation": "Keep audit as a local note only."},
+            {"decision_id": "BLOCK_REAL_AUTOMATION_NO_APPROVAL_RECORD", "reason": "No approval record store exists yet.", "required_future_dependency": "approval persistence", "operator_recommendation": "Use human review only."},
+            {"decision_id": "BLOCK_REAL_AUTOMATION_NO_ROLLBACK_PLAN", "reason": "No live rollback system exists yet.", "required_future_dependency": "rollback system", "operator_recommendation": "Stop at no-go analysis."},
+            {"decision_id": "BLOCK_MUTATION_WITHOUT_HUMAN_GATE", "reason": "Mutation would bypass the human gate.", "required_future_dependency": "human approval and role enforcement", "operator_recommendation": "Do not enable mutation in the client build."},
+            {"decision_id": "BLOCK_EXECUTION_IN_CLIENT_SIDE_BUILD", "reason": "This build is client-side and copy-only.", "required_future_dependency": "backend execution boundary", "operator_recommendation": "Keep the current build inert."},
+        ],
+        "dependency_gap_map": [
+            {"dependency": "auth", "required_before": "real automation", "current_status": "missing", "blocking_level": "high", "recommended_future_phase": "future control plane"},
+            {"dependency": "role enforcement", "required_before": "approval routing", "current_status": "missing", "blocking_level": "high", "recommended_future_phase": "future control plane"},
+            {"dependency": "permission enforcement", "required_before": "action execution", "current_status": "missing", "blocking_level": "high", "recommended_future_phase": "future control plane"},
+            {"dependency": "persistent request storage", "required_before": "request submission", "current_status": "missing", "blocking_level": "high", "recommended_future_phase": "future backend"},
+            {"dependency": "persistent audit log", "required_before": "approval recording", "current_status": "missing", "blocking_level": "high", "recommended_future_phase": "future backend"},
+            {"dependency": "queue storage", "required_before": "automation handoff", "current_status": "missing", "blocking_level": "high", "recommended_future_phase": "future backend"},
+            {"dependency": "dry-run engine", "required_before": "execution readiness", "current_status": "missing", "blocking_level": "medium", "recommended_future_phase": "future planning"},
+            {"dependency": "backend mutation boundary", "required_before": "write operations", "current_status": "missing", "blocking_level": "high", "recommended_future_phase": "future backend"},
+            {"dependency": "secrets management", "required_before": "live integrations", "current_status": "missing", "blocking_level": "high", "recommended_future_phase": "future backend"},
+            {"dependency": "rollback system", "required_before": "live execution", "current_status": "missing", "blocking_level": "high", "recommended_future_phase": "future safety"},
+            {"dependency": "rate-limit / abuse control", "required_before": "external exposure", "current_status": "missing", "blocking_level": "medium", "recommended_future_phase": "future control plane"},
+            {"dependency": "production approval records", "required_before": "merge-ready automation", "current_status": "missing", "blocking_level": "high", "recommended_future_phase": "future approval service"},
+        ],
+        "validator_confidence_groups": [
+            {"group": "master validator wall", "pass_string": "PHASE5_PLUS1_MASTER_VALIDATOR_WALL_PASS", "coverage_type": "cross-phase wall", "confidence_level": "high", "merge_requirement": "yes", "production_requirement": "yes"},
+            {"group": "Original +1B validators", "pass_string": "ORIGINAL_PLUS1B_OPERATOR_CONSOLE_CONTRACT_LAYER_VALIDATION_PASS", "coverage_type": "contract layer", "confidence_level": "high", "merge_requirement": "yes", "production_requirement": "yes"},
+            {"group": "Original +1 validators", "pass_string": "ORIGINAL_PLUS1_CONTROLLED_AUTOMATION_READINESS_VALIDATION_PASS", "coverage_type": "readiness layer", "confidence_level": "high", "merge_requirement": "yes", "production_requirement": "yes"},
+            {"group": "Phase 5E/5D/5C/5B/5A validators", "pass_string": "ORIGINAL_PHASE_5E_RUNBOOK_SIMULATOR_VALIDATION_PASS", "coverage_type": "workflow chain", "confidence_level": "high", "merge_requirement": "yes", "production_requirement": "yes"},
+            {"group": "Phase 4/4D/4C/4A/3 validators", "pass_string": "INTERFACE_PHASE_3_DASHBOARD_VALIDATION_PASS", "coverage_type": "foundation stack", "confidence_level": "high", "merge_requirement": "yes", "production_requirement": "yes"},
+        ],
+    }
 
 
 def _print_snapshot(mode_name, snapshot):

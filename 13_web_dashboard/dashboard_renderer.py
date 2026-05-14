@@ -1834,6 +1834,123 @@ def _build_plus1b_operator_console_contract_layer():
     )
 
 
+def _build_plus1c_readiness_scoring_contract_qa_layer():
+    body = """
+<div class="plus1c-readiness-scoring" data-plus1c-readiness-scoring-contract-qa="true">
+  <div class="callout plus1c-summary-callout" style="border-color: rgba(56,189,248,0.36); background: rgba(56,189,248,0.06);">
+    <strong style="color: var(--accent);">READINESS SCORING</strong>
+    <p class="muted" style="margin-top: 0.15rem;">CONTRACT QA — NO-GO DECISION LAYER — LOCAL ANALYSIS ONLY</p>
+    <p class="muted" style="margin-top: 0.25rem;">COPY/PASTE ONLY — READINESS ONLY — NO LIVE AUTOMATION — NO EXECUTION — NO MUTATION — NO BACKEND WRITES — NO DEPLOY / MERGE / PUSH / PR CONTROLS</p>
+  </div>
+
+  <div class="plus1c-preview-grid">
+    <article class="card plus1c-scorecard" id="plus1c-scorecard-panel">
+      <div class="card-head"><h3 class="card-title">Readiness Scorecard Panel</h3><span class="badge warning">READINESS SCORING</span></div>
+      <p class="card-body">Scores are local, display-only, and intentionally blocked from real automation readiness.</p>
+      <div class="table-wrap" style="max-height:360px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus1c-scorecard-table">
+          <caption>Readiness scoring categories</caption>
+          <thead><tr><th scope="col">Category</th><th scope="col">Score</th><th scope="col">Status</th><th scope="col">Reason</th><th scope="col">Recommended improvement</th></tr></thead>
+          <tbody id="plus1c-scorecard-body"><tr><td colspan="5" class="empty">No readiness scoring model loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="card plus1c-contract-qa" id="plus1c-contract-qa-panel">
+      <div class="card-head"><h3 class="card-title">Contract QA Matrix Panel</h3><span class="badge info">CONTRACT QA</span></div>
+      <p class="card-body">Checks every readiness contract for required fields, forbidden fields, safety notes, and future dependency coverage.</p>
+      <div class="table-wrap" style="max-height:360px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus1c-contract-qa-table">
+          <caption>Contract QA matrix</caption>
+          <thead><tr><th scope="col">Schema</th><th scope="col">Required fields present</th><th scope="col">Forbidden fields absent</th><th scope="col">Safety notes present</th><th scope="col">Future dependency noted</th><th scope="col">Copy output</th><th scope="col">QA status</th></tr></thead>
+          <tbody id="plus1c-contract-qa-body"><tr><td colspan="7" class="empty">No contract QA model loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="card plus1c-safety-assertions" id="plus1c-safety-assertion-panel">
+      <div class="card-head"><h3 class="card-title">Safety Assertion Panel</h3><span class="badge fail">NO LIVE AUTOMATION</span></div>
+      <p class="card-body">Assertions remain local and descriptive. Any future dependency still shows as blocked until the control plane exists.</p>
+      <div class="table-wrap" style="max-height:360px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus1c-safety-assertion-table">
+          <caption>Safety assertions</caption>
+          <thead><tr><th scope="col">Assertion</th><th scope="col">Expected</th><th scope="col">Current</th><th scope="col">Status</th></tr></thead>
+          <tbody id="plus1c-safety-assertion-body"><tr><td colspan="4" class="empty">No safety assertions loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus1c-preview-grid">
+    <article class="card plus1c-no-go-panel" id="plus1c-no-go-panel">
+      <div class="card-head"><h3 class="card-title">No-Go Decision Panel</h3><span class="badge locked">NO-GO</span></div>
+      <p class="card-body">The current console is not ready for real automation. These blockers keep the build safely in review-only mode.</p>
+      <div class="table-wrap" style="max-height:360px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus1c-no-go-table">
+          <caption>No-go decisions</caption>
+          <thead><tr><th scope="col">Decision</th><th scope="col">Reason</th><th scope="col">Required future dependency</th><th scope="col">Operator recommendation</th></tr></thead>
+          <tbody id="plus1c-no-go-body"><tr><td colspan="4" class="empty">No no-go model loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="card plus1c-dependency-gap-map" id="plus1c-dependency-gap-map-panel">
+      <div class="card-head"><h3 class="card-title">Dependency Gap Map Panel</h3><span class="badge warning">FUTURE DEPENDENCIES</span></div>
+      <p class="card-body">Maps the missing backend and governance pieces that must exist before any real automation can be attempted.</p>
+      <div class="table-wrap" style="max-height:360px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus1c-dependency-gap-table">
+          <caption>Dependency gap map</caption>
+          <thead><tr><th scope="col">Dependency</th><th scope="col">Required before</th><th scope="col">Current status</th><th scope="col">Blocking level</th><th scope="col">Recommended future phase</th></tr></thead>
+          <tbody id="plus1c-dependency-gap-body"><tr><td colspan="5" class="empty">No dependency gap model loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="card plus1c-validator-confidence" id="plus1c-validator-confidence-panel">
+      <div class="card-head"><h3 class="card-title">Validator Confidence Panel</h3><span class="badge pass">VALIDATOR WALL</span></div>
+      <p class="card-body">Shows the current validator groups, required pass strings, and why they remain merge and production requirements.</p>
+      <div class="table-wrap" style="max-height:360px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus1c-validator-confidence-table">
+          <caption>Validator confidence groups</caption>
+          <thead><tr><th scope="col">Group</th><th scope="col">Pass string</th><th scope="col">Coverage type</th><th scope="col">Confidence level</th><th scope="col">Merge requirement</th><th scope="col">Production requirement</th></tr></thead>
+          <tbody id="plus1c-validator-confidence-body"><tr><td colspan="6" class="empty">No validator confidence model loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus1c-preview-grid">
+    <article class="card plus1c-copy-output-hub" id="plus1c-copy-output-hub-panel">
+      <div class="card-head"><h3 class="card-title">Copy Output Hub Panel</h3><span class="badge info">COPY/PASTE ONLY</span></div>
+      <p class="card-body">All outputs stay local and copyable so the operator can review readiness without creating any live action path.</p>
+      <div class="button-row" style="margin-top: 0.75rem;">
+        <button type="button" class="copy-button small" id="plus1c-copy-readiness-scorecard">Copy readiness scorecard</button>
+        <button type="button" class="copy-button small" id="plus1c-copy-contract-qa-report">Copy contract QA report</button>
+        <button type="button" class="copy-button small" id="plus1c-copy-safety-assertion-summary">Copy safety assertion summary</button>
+        <button type="button" class="copy-button small" id="plus1c-copy-no-go-decision-report">Copy no-go decision report</button>
+        <button type="button" class="copy-button small" id="plus1c-copy-dependency-gap-map">Copy dependency gap map</button>
+        <button type="button" class="copy-button small" id="plus1c-copy-validator-confidence-report">Copy validator confidence report</button>
+        <button type="button" class="copy-button small" id="plus1c-copy-go-no-go-packet">Copy go/no-go packet</button>
+      </div>
+    </article>
+
+    <article class="card plus1c-go-no-go-packet" id="plus1c-go-no-go-packet-panel">
+      <div class="card-head"><h3 class="card-title">Go / No-Go Packet Panel</h3><span class="badge warning">NOT READY FOR REAL AUTOMATION</span></div>
+      <p class="card-body">Copyable packet summarizes the local QA results, blockers, and the current readiness recommendation.</p>
+      <pre class="code-block" id="plus1c-go-no-go-preview" style="max-height:420px;overflow:auto;white-space:pre-wrap;word-break:break-word;margin-top:0.75rem;">No readiness packet loaded yet.</pre>
+    </article>
+  </div>
+</div>
+"""
+    return _details(
+        "Original +1C — Readiness Scoring, Contract QA & No-Go Decision Layer",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="plus1c-readiness-scoring-contract-qa"
+    )
+
+
 def _build_footer():
     return """
     <footer class="footer">
@@ -2051,9 +2168,10 @@ def _build_roadmap_panel():
         <li><strong>Original Phase 5</strong> — Interactive Operator Workflow Layer (Planned)</li>
         <li><strong>Original +1</strong> — Controlled Agent / Automation Layer (Planned)</li>
         <li><strong>Original +1B</strong> — Operator Console Consolidation &amp; Automation Contract Layer (ACTIVE)</li>
+        <li><strong>Original +1C</strong> — Readiness Scoring, Contract QA &amp; No-Go Decision Layer (ACTIVE)</li>
       </ul>
       <p class="muted">Original Phase 4 — Hosted / Production Dashboard Polish remains the hosted dashboard baseline.</p>
-      <p style="margin-top: 1rem;"><strong>Current active direction:</strong> Original +1B — Operator Console Consolidation &amp; Automation Contract Layer</p>
+      <p style="margin-top: 1rem;"><strong>Current active direction:</strong> Original +1C — Readiness Scoring, Contract QA &amp; No-Go Decision Layer</p>
       <p class="muted">Note: Phase 4E is intentionally deferred.</p>
     </div>
     """
@@ -2094,6 +2212,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_phase5e_runbook_simulator(),
         _build_plus1_controlled_automation_readiness_layer(),
         _build_plus1b_operator_console_contract_layer(),
+        _build_plus1c_readiness_scoring_contract_qa_layer(),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),

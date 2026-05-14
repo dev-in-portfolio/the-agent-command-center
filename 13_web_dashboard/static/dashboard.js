@@ -2390,6 +2390,325 @@
 })();
 
 (function () {
+  var plus1cState = {
+    model: null,
+  };
+
+  function p1c(id) {
+    return document.getElementById(id);
+  }
+
+  function readDashboardData() {
+    var node = p1c("dashboard-data");
+    if (!node) {
+      return {};
+    }
+    try {
+      return JSON.parse(node.textContent || "{}");
+    } catch (error) {
+      return {};
+    }
+  }
+
+  function escapeHtml(value) {
+    return String(value == null ? "" : value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function copyRenderedText(text, emptyMessage, successMessage) {
+    var status = p1c("copy-status");
+    if (!text) {
+      if (status) status.textContent = emptyMessage;
+      return;
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () {
+        if (status) status.textContent = successMessage;
+      }).catch(function () {});
+      return;
+    }
+    var field = document.createElement("textarea");
+    field.value = text;
+    field.style.position = "fixed";
+    field.style.left = "-9999px";
+    document.body.appendChild(field);
+    field.select();
+    document.execCommand("copy");
+    document.body.removeChild(field);
+    if (status) status.textContent = successMessage;
+  }
+
+  function bindCopyButton(buttonId, getter, emptyMessage, successMessage) {
+    var button = p1c(buttonId);
+    if (!button) {
+      return;
+    }
+    button.addEventListener("click", function () {
+      var snapshot = renderSnapshot();
+      var text = getter(snapshot);
+      copyRenderedText(text, emptyMessage, successMessage);
+    });
+  }
+
+  function statusBadgeClass(status) {
+    var value = String(status || "").toLowerCase();
+    if (value === "pass" || value === "complete") {
+      return "pass";
+    }
+    if (value === "warning") {
+      return "warning";
+    }
+    if (value === "blocked" || value === "fail") {
+      return "locked";
+    }
+    return "info";
+  }
+
+  function buildRows(items, columns, emptyText) {
+    if (!items || !items.length) {
+      return emptyText;
+    }
+    return items.map(function (item) {
+      return "<tr>" + columns(item) + "</tr>";
+    }).join("");
+  }
+
+  function buildScorecardRows(model) {
+    return buildRows(model && model.scorecard, function (item) {
+      return [
+        '<th scope="row">' + escapeHtml(item.category) + '</th>',
+        '<td><span class="badge ' + statusBadgeClass(item.status) + '">' + escapeHtml(String(item.score)) + '</span></td>',
+        '<td><span class="badge ' + statusBadgeClass(item.status) + '">' + escapeHtml(item.status) + '</span></td>',
+        '<td>' + escapeHtml(item.reason) + '</td>',
+        '<td>' + escapeHtml(item.recommended_improvement) + '</td>',
+      ].join("");
+    }, '<tr><td colspan="5" class="empty">No readiness scoring model loaded yet.</td></tr>');
+  }
+
+  function buildContractQaRows(model) {
+    return buildRows(model && model.contract_qa_matrix, function (item) {
+      return [
+        '<th scope="row">' + escapeHtml(item.schema_id) + '</th>',
+        '<td>' + escapeHtml(item.required_fields_present) + '</td>',
+        '<td>' + escapeHtml(item.forbidden_fields_absent) + '</td>',
+        '<td>' + escapeHtml(item.safety_notes_present) + '</td>',
+        '<td>' + escapeHtml(item.future_dependency_noted) + '</td>',
+        '<td>' + escapeHtml(item.copy_output_available) + '</td>',
+        '<td><span class="badge ' + statusBadgeClass(item.qa_status) + '">' + escapeHtml(item.qa_status) + '</span></td>',
+      ].join("");
+    }, '<tr><td colspan="7" class="empty">No contract QA model loaded yet.</td></tr>');
+  }
+
+  function buildSafetyAssertionRows(model) {
+    return buildRows(model && model.safety_assertions, function (item) {
+      return [
+        '<th scope="row">' + escapeHtml(item.assertion) + '</th>',
+        '<td>' + escapeHtml(item.expected_value) + '</td>',
+        '<td>' + escapeHtml(item.current_value) + '</td>',
+        '<td><span class="badge ' + statusBadgeClass(item.status) + '">' + escapeHtml(item.status) + '</span></td>',
+      ].join("");
+    }, '<tr><td colspan="4" class="empty">No safety assertions loaded yet.</td></tr>');
+  }
+
+  function buildNoGoDecisionRows(model) {
+    return buildRows(model && model.no_go_decisions, function (item) {
+      return [
+        '<th scope="row">' + escapeHtml(item.decision_id) + '</th>',
+        '<td>' + escapeHtml(item.reason) + '</td>',
+        '<td>' + escapeHtml(item.required_future_dependency) + '</td>',
+        '<td>' + escapeHtml(item.operator_recommendation) + '</td>',
+      ].join("");
+    }, '<tr><td colspan="4" class="empty">No no-go model loaded yet.</td></tr>');
+  }
+
+  function buildDependencyGapRows(model) {
+    return buildRows(model && model.dependency_gap_map, function (item) {
+      return [
+        '<th scope="row">' + escapeHtml(item.dependency) + '</th>',
+        '<td>' + escapeHtml(item.required_before) + '</td>',
+        '<td>' + escapeHtml(item.current_status) + '</td>',
+        '<td><span class="badge ' + statusBadgeClass(item.blocking_level) + '">' + escapeHtml(item.blocking_level) + '</span></td>',
+        '<td>' + escapeHtml(item.recommended_future_phase) + '</td>',
+      ].join("");
+    }, '<tr><td colspan="5" class="empty">No dependency gap model loaded yet.</td></tr>');
+  }
+
+  function buildValidatorConfidenceRows(model) {
+    return buildRows(model && model.validator_confidence_groups, function (item) {
+      return [
+        '<th scope="row">' + escapeHtml(item.group) + '</th>',
+        '<td><code>' + escapeHtml(item.pass_string) + '</code></td>',
+        '<td>' + escapeHtml(item.coverage_type) + '</td>',
+        '<td><span class="badge ' + statusBadgeClass(item.confidence_level) + '">' + escapeHtml(item.confidence_level) + '</span></td>',
+        '<td>' + escapeHtml(item.merge_requirement) + '</td>',
+        '<td>' + escapeHtml(item.production_requirement) + '</td>',
+      ].join("");
+    }, '<tr><td colspan="6" class="empty">No validator confidence model loaded yet.</td></tr>');
+  }
+
+  function buildScorecardMarkdown(model) {
+    var items = model && model.scorecard ? model.scorecard : [];
+    var lines = ["# Original +1C Readiness Scorecard", "", "Status: " + (model ? model.overall_status : "READINESS_ONLY"), "Recommendation: " + (model ? model.current_recommendation : "READY_FOR_READINESS_REVIEW_ONLY"), ""];
+    items.forEach(function (item) {
+      lines.push("## " + item.category);
+      lines.push("- Score: " + item.score);
+      lines.push("- Status: " + item.status);
+      lines.push("- Reason: " + item.reason);
+      lines.push("- Recommended improvement: " + item.recommended_improvement);
+      lines.push("");
+    });
+    return lines.join("\n").trim();
+  }
+
+  function buildContractQaMarkdown(model) {
+    var items = model && model.contract_qa_matrix ? model.contract_qa_matrix : [];
+    var lines = ["# Original +1C Contract QA Report", "", "## Summary", "Local contract QA stays read-only and copy-only.", ""];
+    items.forEach(function (item) {
+      lines.push("## " + item.schema_id);
+      lines.push("- Required fields present: " + item.required_fields_present);
+      lines.push("- Forbidden fields absent: " + item.forbidden_fields_absent);
+      lines.push("- Safety notes present: " + item.safety_notes_present);
+      lines.push("- Future dependency noted: " + item.future_dependency_noted);
+      lines.push("- Copy output available: " + item.copy_output_available);
+      lines.push("- QA status: " + item.qa_status);
+      lines.push("");
+    });
+    return lines.join("\n").trim();
+  }
+
+  function buildSafetyAssertionsMarkdown(model) {
+    var items = model && model.safety_assertions ? model.safety_assertions : [];
+    var lines = ["# Original +1C Safety Assertion Summary", "", "## Assertions"];
+    items.forEach(function (item) {
+      lines.push("- " + item.assertion + ": expected " + item.expected_value + ", current " + item.current_value + " (" + item.status + ")");
+    });
+    return lines.join("\n").trim();
+  }
+
+  function buildNoGoDecisionMarkdown(model) {
+    var items = model && model.no_go_decisions ? model.no_go_decisions : [];
+    var lines = ["# Original +1C No-Go Decision Report", "", "## Decisions"];
+    items.forEach(function (item) {
+      lines.push("- " + item.decision_id + ": " + item.reason + " | dependency: " + item.required_future_dependency + " | recommendation: " + item.operator_recommendation);
+    });
+    return lines.join("\n").trim();
+  }
+
+  function buildDependencyGapMarkdown(model) {
+    var items = model && model.dependency_gap_map ? model.dependency_gap_map : [];
+    var lines = ["# Original +1C Dependency Gap Map", "", "## Gaps"];
+    items.forEach(function (item) {
+      lines.push("- " + item.dependency + ": required before " + item.required_before + " | current " + item.current_status + " | blocking " + item.blocking_level + " | future phase " + item.recommended_future_phase);
+    });
+    return lines.join("\n").trim();
+  }
+
+  function buildValidatorConfidenceMarkdown(model) {
+    var items = model && model.validator_confidence_groups ? model.validator_confidence_groups : [];
+    var lines = ["# Original +1C Validator Confidence Report", "", "## Groups"];
+    items.forEach(function (item) {
+      lines.push("- " + item.group + ": " + item.pass_string + " | coverage: " + item.coverage_type + " | confidence: " + item.confidence_level);
+    });
+    return lines.join("\n").trim();
+  }
+
+  function buildGoNoGoPacketMarkdown(model) {
+    if (!model) {
+      return "No readiness QA model loaded yet.";
+    }
+    return [
+      "# Original +1C Go / No-Go Packet",
+      "",
+      "Status: " + model.overall_status,
+      "Recommendation: " + model.current_recommendation,
+      "Final recommendation: " + model.final_recommendation,
+      "",
+      buildScorecardMarkdown(model),
+      "",
+      buildContractQaMarkdown(model),
+      "",
+      buildSafetyAssertionsMarkdown(model),
+      "",
+      buildNoGoDecisionMarkdown(model),
+      "",
+      buildDependencyGapMarkdown(model),
+      "",
+      buildValidatorConfidenceMarkdown(model),
+    ].join("\n");
+  }
+
+  function renderSnapshot() {
+    var dashboardData = readDashboardData();
+    var model = plus1cState.model || dashboardData.original_plus1c_readiness_qa_model || null;
+    plus1cState.model = model;
+    return {
+      model: model,
+      scorecard_rows_html: buildScorecardRows(model),
+      contract_qa_rows_html: buildContractQaRows(model),
+      safety_assertion_rows_html: buildSafetyAssertionRows(model),
+      no_go_rows_html: buildNoGoDecisionRows(model),
+      dependency_gap_rows_html: buildDependencyGapRows(model),
+      validator_confidence_rows_html: buildValidatorConfidenceRows(model),
+      readiness_scorecard_markdown: buildScorecardMarkdown(model),
+      contract_qa_markdown: buildContractQaMarkdown(model),
+      safety_assertion_markdown: buildSafetyAssertionsMarkdown(model),
+      no_go_decision_markdown: buildNoGoDecisionMarkdown(model),
+      dependency_gap_markdown: buildDependencyGapMarkdown(model),
+      validator_confidence_markdown: buildValidatorConfidenceMarkdown(model),
+      go_no_go_packet_markdown: buildGoNoGoPacketMarkdown(model),
+    };
+  }
+
+  function updatePlus1CUI() {
+    var snapshot = renderSnapshot();
+    var scorecardBody = p1c("plus1c-scorecard-body");
+    var contractQaBody = p1c("plus1c-contract-qa-body");
+    var safetyAssertionBody = p1c("plus1c-safety-assertion-body");
+    var noGoBody = p1c("plus1c-no-go-body");
+    var dependencyGapBody = p1c("plus1c-dependency-gap-body");
+    var validatorConfidenceBody = p1c("plus1c-validator-confidence-body");
+    var goNoGoPreview = p1c("plus1c-go-no-go-preview");
+
+    if (scorecardBody) scorecardBody.innerHTML = snapshot.scorecard_rows_html;
+    if (contractQaBody) contractQaBody.innerHTML = snapshot.contract_qa_rows_html;
+    if (safetyAssertionBody) safetyAssertionBody.innerHTML = snapshot.safety_assertion_rows_html;
+    if (noGoBody) noGoBody.innerHTML = snapshot.no_go_rows_html;
+    if (dependencyGapBody) dependencyGapBody.innerHTML = snapshot.dependency_gap_rows_html;
+    if (validatorConfidenceBody) validatorConfidenceBody.innerHTML = snapshot.validator_confidence_rows_html;
+    if (goNoGoPreview) goNoGoPreview.textContent = snapshot.go_no_go_packet_markdown;
+  }
+
+  function initPlus1C() {
+    var shell = document.querySelector("[data-plus1c-readiness-scoring-contract-qa]");
+    if (!shell) {
+      return;
+    }
+
+    plus1cState.model = readDashboardData().original_plus1c_readiness_qa_model || null;
+
+    bindCopyButton("plus1c-copy-readiness-scorecard", function (snapshot) { return snapshot.readiness_scorecard_markdown; }, "Original +1C: Load readiness data first.", "Original +1C: Readiness scorecard copied.");
+    bindCopyButton("plus1c-copy-contract-qa-report", function (snapshot) { return snapshot.contract_qa_markdown; }, "Original +1C: Load readiness data first.", "Original +1C: Contract QA report copied.");
+    bindCopyButton("plus1c-copy-safety-assertion-summary", function (snapshot) { return snapshot.safety_assertion_markdown; }, "Original +1C: Load readiness data first.", "Original +1C: Safety assertion summary copied.");
+    bindCopyButton("plus1c-copy-no-go-decision-report", function (snapshot) { return snapshot.no_go_decision_markdown; }, "Original +1C: Load readiness data first.", "Original +1C: No-go decision report copied.");
+    bindCopyButton("plus1c-copy-dependency-gap-map", function (snapshot) { return snapshot.dependency_gap_markdown; }, "Original +1C: Load readiness data first.", "Original +1C: Dependency gap map copied.");
+    bindCopyButton("plus1c-copy-validator-confidence-report", function (snapshot) { return snapshot.validator_confidence_markdown; }, "Original +1C: Load readiness data first.", "Original +1C: Validator confidence report copied.");
+    bindCopyButton("plus1c-copy-go-no-go-packet", function (snapshot) { return snapshot.go_no_go_packet_markdown; }, "Original +1C: Load readiness data first.", "Original +1C: Go/no-go packet copied.");
+
+    updatePlus1CUI();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initPlus1C);
+  } else {
+    initPlus1C();
+  }
+})();
+
+(function () {
   var phase5aState = null;
   var auditEvents = [];
 
