@@ -413,6 +413,7 @@ def _build_landing_screen(snapshot):
         ("Phase 5A Workflow Shell", "phase5a-workflow-shell"),
         ("Phase 5B Packet Builder", "phase5b-packet-builder"),
         ("Phase 5C Review Board", "phase5c-review-board"),
+        ("Phase 5D Handoff Composer", "phase5d-handoff-composer"),
         ("Artifacts", "artifact-packages"),
         ("Source Info", "source-transparency"),
         ("Audit / Session", "session-audit"),
@@ -1189,6 +1190,180 @@ def _build_phase5c_review_board():
     )
 
 
+def _build_phase5d_handoff_composer():
+    body = """
+<div class="phase5d-handoff-composer" data-phase5d-handoff="true">
+  <div class="callout" style="border-color: rgba(245,158,11,0.4); background: rgba(245,158,11,0.05);">
+    <strong style="color: var(--warning);">CLIENT-SIDE HANDOFF COMPOSER</strong>
+    <p class="muted" style="margin-top: 0.25rem;">
+      GENERATED LOCALLY — COPY/PASTE HANDOFF ONLY — TEMPORARY IN-BROWSER STATE ONLY — NO PERSISTENCE — NO BACKEND WRITES — NO EXECUTION — NO MUTATION — NO DEPLOY / MERGE / PUSH / PR CONTROLS
+    </p>
+  </div>
+
+  <div class="phase5d-preview-grid">
+    <article class="card phase5d-source-panel" id="phase5d-source-panel">
+      <div class="card-head">
+        <h3 class="card-title">Handoff Source Panel</h3>
+        <span class="badge info">SOURCE</span>
+      </div>
+      <p class="card-body">Select Phase 5C review board decisions to include in the handoff package. The composer also references the current local request packet and the review ledger where available.</p>
+      <div class="phase5d-source-grid" style="margin-top:0.75rem;">
+        <section class="phase5d-source-section">
+          <h4 style="margin:0 0 0.5rem 0;">Current Local Request Packet</h4>
+          <div class="stat-grid" id="phase5d-request-summary" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,180px),1fr));"></div>
+          <pre class="code-block" id="phase5d-request-preview" style="max-height:240px;overflow:auto;white-space:pre-wrap;word-break:break-word;margin-top:0.75rem;">No current request packet drafted yet.</pre>
+        </section>
+
+        <section class="phase5d-source-section">
+          <h4 style="margin:0 0 0.5rem 0;">Review Ledger Snapshot</h4>
+          <div class="stat-grid" id="phase5d-ledger-summary" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,180px),1fr));"></div>
+          <div class="table-wrap" style="max-height:260px;overflow-y:auto;margin-top:0.75rem;">
+            <table class="data-table" id="phase5d-composition-table">
+              <caption>Included packets for the current handoff draft</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Packet ID</th>
+                  <th scope="col">Title</th>
+                  <th scope="col">Workflow</th>
+                  <th scope="col">Risk</th>
+                  <th scope="col">Decision</th>
+                  <th scope="col">Included</th>
+                </tr>
+              </thead>
+              <tbody id="phase5d-composition-body">
+                <tr><td colspan="6" class="empty">No handoff composed yet. Use Phase 5C decisions to compose a handoff.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+      <div style="margin-top: 0.75rem;">
+        <label style="display:grid;gap:0.25rem;">
+          <span style="font-size:0.8rem;color:var(--muted);">Include decisions by status</span>
+          <div class="phase5d-filter-grid" id="phase5d-decision-filters">
+            <label class="phase5d-filter-option"><input type="checkbox" value="accepted_for_future_phase" checked> Accepted</label>
+            <label class="phase5d-filter-option"><input type="checkbox" value="needs_changes"> Needs Changes</label>
+            <label class="phase5d-filter-option"><input type="checkbox" value="pending_review"> Pending Review</label>
+            <label class="phase5d-filter-option"><input type="checkbox" value="rejected"> Rejected</label>
+            <label class="phase5d-filter-option"><input type="checkbox" value="archived"> Archived</label>
+          </div>
+        </label>
+        <div class="button-row" style="margin-top: 0.75rem;">
+          <button type="button" class="section-button" id="phase5d-compose-handoff">Compose handoff from 5C decisions</button>
+          <button type="button" class="toggle-button" id="phase5d-clear-handoff">Clear handoff</button>
+        </div>
+      </div>
+      <div style="margin-top: 0.75rem;">
+        <label style="display:grid;gap:0.25rem;">
+          <span style="font-size:0.8rem;color:var(--muted);">Pasted Handoff JSON</span>
+          <textarea id="phase5d-pasted-json" class="table-filter" rows="3" placeholder="Paste handoff JSON here..." style="width:100%;resize:vertical;font-family:var(--mono);font-size:0.8rem;"></textarea>
+        </label>
+        <div class="button-row" style="margin-top:0.5rem;">
+          <button type="button" class="section-button" id="phase5d-parse-pasted-handoff">Parse pasted handoff</button>
+        </div>
+        <p class="muted" style="font-size:0.75rem;margin-top:0.25rem;">Forbidden: file upload, file import, fetch from URL, backend submit, queue packet, save packet.</p>
+      </div>
+    </article>
+
+    <article class="card phase5d-notes-panel" id="phase5d-notes-panel">
+      <div class="card-head">
+        <h3 class="card-title">Handoff Notes Panel</h3>
+        <span class="badge info">NOTES</span>
+      </div>
+      <p class="card-body">Notes remain temporary and in-memory only. Use them to capture operator guidance, caveats, or merge-prep reminders that should travel with the final handoff text.</p>
+      <label style="display:grid;gap:0.25rem;margin-top:0.75rem;">
+        <span style="font-size:0.8rem;color:var(--muted);">Local Handoff Notes</span>
+        <textarea id="phase5d-handoff-notes" class="table-filter" rows="8" placeholder="Type local handoff notes here..." style="width:100%;resize:vertical;font-family:var(--mono);font-size:0.85rem;min-height:180px;"></textarea>
+      </label>
+      <pre class="code-block" id="phase5d-handoff-notes-preview" style="max-height:240px;overflow:auto;white-space:pre-wrap;word-break:break-word;margin-top:0.75rem;">No notes captured yet.</pre>
+    </article>
+
+    <article class="card phase5d-implementation-prompt-preview" id="phase5d-implementation-prompt-panel">
+      <div class="card-head">
+        <h3 class="card-title">Implementation Prompt Preview</h3>
+        <span class="badge info">PROMPT</span>
+      </div>
+      <div class="button-row" style="margin-bottom:0.75rem;">
+        <button type="button" class="copy-button small" id="phase5d-copy-implementation-prompt">Copy implementation prompt</button>
+      </div>
+      <pre class="code-block" id="phase5d-implementation-prompt-preview" style="max-height:360px;overflow:auto;white-space:pre-wrap;word-break:break-word;">No handoff generated yet.</pre>
+    </article>
+
+    <article class="card phase5d-safety-summary-preview" id="phase5d-safety-summary-preview-panel">
+      <div class="card-head">
+        <h3 class="card-title">Safety Summary Preview</h3>
+        <span class="badge pass">SAFE</span>
+      </div>
+      <div class="button-row" style="margin-bottom:0.75rem;">
+        <button type="button" class="copy-button small" id="phase5d-copy-safety-summary">Copy safety summary</button>
+      </div>
+      <pre class="code-block" id="phase5d-safety-summary-preview" style="max-height:360px;overflow:auto;white-space:pre-wrap;word-break:break-word;">No handoff generated yet.</pre>
+    </article>
+
+    <article class="card phase5d-acceptance-checklist-preview" id="phase5d-acceptance-checklist-preview-panel">
+      <div class="card-head">
+        <h3 class="card-title">Acceptance Checklist Preview</h3>
+        <span class="badge info">CHECKLIST</span>
+      </div>
+      <div class="button-row" style="margin-bottom:0.75rem;">
+        <button type="button" class="copy-button small" id="phase5d-copy-acceptance-checklist">Copy acceptance checklist</button>
+      </div>
+      <pre class="code-block" id="phase5d-acceptance-checklist-preview" style="max-height:360px;overflow:auto;white-space:pre-wrap;word-break:break-word;">No handoff generated yet.</pre>
+    </article>
+
+    <article class="card phase5d-rollback-notes-preview" id="phase5d-rollback-notes-preview-panel">
+      <div class="card-head">
+        <h3 class="card-title">Rollback / No-Go Notes Preview</h3>
+        <span class="badge warning">ROLLBACK</span>
+      </div>
+      <div class="button-row" style="margin-bottom:0.75rem;">
+        <button type="button" class="copy-button small" id="phase5d-copy-rollback-notes">Copy rollback/no-go notes</button>
+      </div>
+      <pre class="code-block" id="phase5d-rollback-notes-preview" style="max-height:360px;overflow:auto;white-space:pre-wrap;word-break:break-word;">No handoff generated yet.</pre>
+    </article>
+
+    <article class="card phase5d-full-markdown-preview phase5d-wide-panel" id="phase5d-full-markdown-preview-panel">
+      <div class="card-head">
+        <h3 class="card-title">Full Handoff Markdown Preview</h3>
+        <span class="badge info">MARKDOWN</span>
+      </div>
+      <div class="button-row" style="margin-bottom:0.75rem;">
+        <button type="button" class="copy-button small" id="phase5d-copy-full-handoff-markdown">Copy full handoff Markdown</button>
+      </div>
+      <pre class="code-block" id="phase5d-full-markdown-preview" style="max-height:420px;overflow:auto;white-space:pre-wrap;word-break:break-word;">No handoff generated yet.</pre>
+    </article>
+
+  <article class="card phase5d-safety-summary" id="phase5d-safety-summary" style="margin-top:1rem;">
+    <div class="card-head">
+      <h3 class="card-title">Safety Summary Panel</h3>
+      <span class="badge pass">SAFE</span>
+    </div>
+    <div class="stat-grid" style="grid-template-columns:repeat(auto-fill,minmax(min(100%),200px));">
+      <div class="stat"><span>Handoff state</span><strong>Temporary</strong></div>
+      <div class="stat"><span>Composition</span><strong>Local only</strong></div>
+      <div class="stat"><span>Saved anywhere</span><strong class="badge fail">No</strong></div>
+      <div class="stat"><span>Sent anywhere</span><strong class="badge fail">No</strong></div>
+      <div class="stat"><span>Queued</span><strong class="badge fail">No</strong></div>
+      <div class="stat"><span>Executed</span><strong class="badge fail">No</strong></div>
+      <div class="stat"><span>Backend write</span><strong class="badge fail">No</strong></div>
+      <div class="stat"><span>GitHub mutation</span><strong class="badge fail">No</strong></div>
+      <div class="stat"><span>Netlify mutation</span><strong class="badge fail">No</strong></div>
+    </div>
+    <div class="callout" style="margin-top:0.75rem;">
+      <p class="muted">Handoff composition is temporary and in-memory only. The handoff package is generated locally and is copy/paste only. Nothing is saved. Nothing is sent. Nothing is queued. Nothing is executed. Nothing writes to the backend. Nothing mutates GitHub or Netlify. Refresh clears state unless copied manually.</p>
+    </div>
+  </article>
+</div>
+"""
+    return _details(
+        "Original Phase 5D — Client-Side Operator Handoff Composer",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="phase5d-handoff-composer"
+    )
+
+
 def _build_footer():
     return """
     <footer class="footer">
@@ -1425,7 +1600,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
     <header class="hero dashboard-shell">
       <div class="hero-copy">
         <h1>The Agent Command Center</h1>
-        <p class="lede">A read-only production dashboard for reviewing system status, safety boundaries, static schemas, and operator workflow readiness. Includes Original Phase 5A client-side operator workflow shell, Phase 5B request packet builder, and Phase 5C review board.</p>
+        <p class="lede">A read-only production dashboard for reviewing system status, safety boundaries, static schemas, and operator workflow readiness. Includes Original Phase 5A client-side operator workflow shell, Phase 5B request packet builder, Phase 5C review board, and Phase 5D handoff composer.</p>
         <p class="muted" style="margin-top: 0.5rem; font-size: 0.85rem;">Production-hosted. Static/inert. No command execution. No deploy, merge, push, or mutation controls.</p>
       </div>
     </header>
@@ -1443,6 +1618,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_phase5a_workflow_shell(),
         _build_phase5b_request_packet_builder(),
         _build_phase5c_review_board(),
+        _build_phase5d_handoff_composer(),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),

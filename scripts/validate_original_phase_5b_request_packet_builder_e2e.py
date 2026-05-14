@@ -56,6 +56,8 @@ def check_diff():
         "09_exports/interface_phase_5/",
         "scripts/validate_original_phase_5b",
         "scripts/validate_original_phase_5a",
+        "scripts/validate_original_phase_5d_handoff_composer.py",
+        "scripts/validate_original_phase_5d_handoff_composer_e2e.py",
     ]
 
     for path in changed:

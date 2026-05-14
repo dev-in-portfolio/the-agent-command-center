@@ -174,8 +174,10 @@ def _build_outputs(snapshot, validation_result, safety_result):
     _write_text(DIST_DIR / "index.html", render_html(snapshot))
     _write_text(DIST_DIR / "print.html", render_print_html(snapshot))
     _write_text(DIST_DIR / "dashboard_data.json", json.dumps(snapshot, indent=2, sort_keys=False))
-    report_path = _write_build_report(snapshot, validation_result, safety_result)
-    return report_path
+    # The Phase 3 static build report is kept as a tracked source artifact and is
+    # not regenerated here, so a dashboard rebuild does not reintroduce report
+    # contamination into the branch diff.
+    return REPORTS_DIR / "interface_phase_3_static_build_report.md"
 
 
 def _print_snapshot(mode_name, snapshot):

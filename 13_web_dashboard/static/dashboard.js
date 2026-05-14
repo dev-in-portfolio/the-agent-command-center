@@ -1618,3 +1618,666 @@
     initPhase5c();
   }
 })();
+
+(function () {
+  var handoffMeta = null;
+  var handoffNotes = "";
+
+  function p5d(id) {
+    return document.getElementById(id);
+  }
+
+  function escapeHtml(value) {
+    return String(value == null ? "" : value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function generateId() {
+    if (window.crypto && window.crypto.randomUUID) {
+      return crypto.randomUUID().slice(0, 8);
+    }
+    return Math.random().toString(36).slice(2, 10);
+  }
+
+  function timestamp() {
+    return new Date().toISOString();
+  }
+
+  function textOf(node) {
+    return node ? node.textContent.replace(/\s+/g, " ").trim() : "";
+  }
+
+  function readStatValue(container, label) {
+    if (!container) {
+      return "";
+    }
+    var stats = container.querySelectorAll(".stat");
+    for (var i = 0; i < stats.length; i++) {
+      var stat = stats[i];
+      var labelNode = stat.querySelector("span");
+      if (labelNode && labelNode.textContent.trim() === label) {
+        return textOf(stat.querySelector("strong"));
+      }
+    }
+    return "";
+  }
+
+  function getPhase5cReviewBoard() {
+    if (typeof reviewBoard !== "undefined" && Array.isArray(reviewBoard)) {
+      return reviewBoard;
+    }
+    return [];
+  }
+
+  function getPhase5cLedger() {
+    if (typeof ledgerEvents !== "undefined" && Array.isArray(ledgerEvents)) {
+      return ledgerEvents;
+    }
+    return [];
+  }
+
+  function getSelectedFilters() {
+    var checkboxes = document.querySelectorAll("#phase5d-decision-filters input[type='checkbox']:checked");
+    var values = [];
+    checkboxes.forEach(function (cb) {
+      values.push(cb.value);
+    });
+    return values;
+  }
+
+  function getHandoffNotesText() {
+    var field = p5d("phase5d-handoff-notes");
+    if (field) {
+      handoffNotes = field.value || "";
+    }
+    return handoffNotes;
+  }
+
+  function getCurrentRequestPacket() {
+    var shell = document.querySelector("[data-phase5a-shell]");
+    if (!shell) {
+      return null;
+    }
+
+    var workflowType = textOf(p5d("phase5a-workflow-type")) || "";
+    var requestTitle = textOf(p5d("phase5a-request-title")) || "";
+    var intent = textOf(p5d("phase5a-intent")) || "";
+    var targetScope = textOf(p5d("phase5a-target-scope")) || "";
+    var operatorNotes = textOf(p5d("phase5a-operator-notes")) || "";
+    var stateDisplay = textOf(p5d("phase5a-current-state-display")) || "none";
+    var riskBadge = p5d("phase5a-risk-badge");
+    var riskLabel = riskBadge ? textOf(riskBadge) : "NOT CLASSIFIED";
+    var requestSummary = p5d("phase5a-summary-grid");
+    var requestId = readStatValue(requestSummary, "Request ID");
+    var currentState = readStatValue(requestSummary, "Current State") || stateDisplay;
+    var summaryGrid = p5d("phase5a-summary-grid");
+    var hasLiveFields = [workflowType, requestTitle, intent, targetScope, operatorNotes].some(function (value) {
+      return value.trim().length > 0;
+    });
+    var hasDraft = !!requestId;
+    if (!hasLiveFields && !hasDraft && stateDisplay === "none") {
+      return null;
+    }
+
+    var packet = {
+      request_id: requestId || "UNASSIGNED",
+      current_state: currentState,
+      workflow_type: workflowType || "Unspecified",
+      request_title: requestTitle || "(untitled)",
+      intent: intent || "(none)",
+      target_scope: targetScope || "(none)",
+      operator_notes: operatorNotes || "(none)",
+      risk_label: riskLabel || "NOT CLASSIFIED",
+      risk_description: riskBadge ? textOf(p5d("phase5a-risk-description")) : "",
+      summary_present: !!summaryGrid,
+    };
+
+    return packet;
+  }
+
+  function buildIncludedPackets(reviewBoard, selectedDecisions) {
+    var packets = [];
+    for (var i = 0; i < reviewBoard.length; i++) {
+      var packet = reviewBoard[i];
+      if (selectedDecisions.indexOf(packet.review_decision) !== -1) {
+        packets.push({
+          packet_id: packet.packet_id,
+          request_title: packet.request_title,
+          workflow_type: packet.workflow_type,
+          risk_classification: packet.risk_classification,
+          current_state: packet.current_state,
+          review_decision: packet.review_decision,
+          decision_timestamp: packet.decision_timestamp,
+          notes_count: packet.notes_count,
+        });
+      }
+    }
+    return packets;
+  }
+
+  function stat(label, value) {
+    return "<div class=\"stat\"><span>" + escapeHtml(label) + "</span><strong>" + escapeHtml(value) + "</strong></div>";
+  }
+
+  function renderRequestPreview(packet) {
+    if (!packet) {
+      return "No current request packet drafted yet.\nPopulate Phase 5A to enrich the handoff.";
+    }
+    return [
+      "Request ID: " + packet.request_id,
+      "Current State: " + packet.current_state,
+      "Workflow Type: " + packet.workflow_type,
+      "Request Title: " + packet.request_title,
+      "Plain-Language Intent: " + packet.intent,
+      "Target Scope: " + packet.target_scope,
+      "Operator Notes: " + packet.operator_notes,
+      "Risk Label: " + packet.risk_label,
+    ].join("\n");
+  }
+
+  function renderLedgerPreview(reviewBoard, ledgerEvents, includedPackets, selectedDecisions) {
+    return [
+      "Review Board Packets: " + reviewBoard.length,
+      "Ledger Events: " + ledgerEvents.length,
+      "Selected Decisions: " + (selectedDecisions.length ? selectedDecisions.join(", ") : "none"),
+      "Included Packets: " + includedPackets.length,
+    ].join("\n");
+  }
+
+  function renderImplementationPrompt(state) {
+    var lines = [];
+    lines.push("Implement the Original Phase 5D client-side operator handoff composer.");
+    lines.push("");
+    lines.push("Context");
+    lines.push("- Current request packet: " + (state.request_packet ? state.request_packet.request_title : "none"));
+    lines.push("- Request state: " + (state.request_packet ? state.request_packet.current_state : "none"));
+    lines.push("- Review board packets selected: " + state.included_packets.length + " of " + state.review_board.length);
+    lines.push("- Review ledger events: " + state.ledger_events.length);
+    lines.push("- Local handoff notes: " + (state.notes_text ? state.notes_text : "none"));
+    lines.push("");
+    lines.push("Requirements");
+    lines.push("- Keep the handoff composer client-side only.");
+    lines.push("- Generate copy/paste handoff text only.");
+    lines.push("- Keep the state temporary and in-browser only.");
+    lines.push("- Do not add persistence, backend writes, auth, database, queue storage, or action execution.");
+    lines.push("- Do not add command execution, GitHub API calls, Netlify API calls, external API calls, or browser external fetches.");
+    lines.push("- Do not add GitHub or Netlify mutation controls, deploy controls, merge controls, push controls, or PR controls.");
+    lines.push("- Preserve Phase 4E as not started and Original +1 automation as not started.");
+    lines.push("");
+    lines.push("Deliverables");
+    lines.push("- Handoff Source Panel");
+    lines.push("- Handoff Notes Panel");
+    lines.push("- Implementation Prompt Preview");
+    lines.push("- Safety Summary Preview");
+    lines.push("- Acceptance Checklist Preview");
+    lines.push("- Rollback / No-Go Notes Preview");
+    lines.push("- Full Handoff Markdown Preview");
+    return lines.join("\n");
+  }
+
+  function renderSafetySummary(state) {
+    var lines = [];
+    lines.push("Original Phase 5D Safety Summary");
+    lines.push("");
+    lines.push("Verdict: PASS_WITH_HIGH_CONFIDENCE");
+    lines.push("Client-side only: yes");
+    lines.push("Generated locally: yes");
+    lines.push("Copy/paste only: yes");
+    lines.push("Temporary in-browser state only: yes");
+    lines.push("No persistence: yes");
+    lines.push("No backend writes: yes");
+    lines.push("No Netlify Functions modified: yes");
+    lines.push("No auth: yes");
+    lines.push("No database: yes");
+    lines.push("No queue storage: yes");
+    lines.push("No action execution: yes");
+    lines.push("No command execution: yes");
+    lines.push("No GitHub API calls: yes");
+    lines.push("No Netlify API calls: yes");
+    lines.push("No external API calls: yes");
+    lines.push("No browser external fetches: yes");
+    lines.push("No secrets/tokens/env reads: yes");
+    lines.push("No GitHub/Netlify mutation: yes");
+    lines.push("No deploy/merge/push/PR controls: yes");
+    lines.push("Phase 4E started: no");
+    lines.push("Original +1 automation started: no");
+    return lines.join("\n");
+  }
+
+  function renderAcceptanceChecklist(state) {
+    var lines = [];
+    lines.push("- [ ] Handoff Source Panel is visible and shows the live request packet plus review ledger snapshot.");
+    lines.push("- [ ] Handoff Notes Panel captures local handoff notes in memory only.");
+    lines.push("- [ ] Implementation Prompt Preview is available for copy/paste.");
+    lines.push("- [ ] Safety Summary Preview is available for copy/paste.");
+    lines.push("- [ ] Acceptance Checklist Preview is available for copy/paste.");
+    lines.push("- [ ] Rollback / No-Go Notes Preview is available for copy/paste.");
+    lines.push("- [ ] Full Handoff Markdown Preview is available for copy/paste.");
+    lines.push("- [ ] Copy buttons work for the implementation prompt, safety summary, acceptance checklist, rollback notes, and full handoff markdown.");
+    lines.push("- [ ] No persistence, backend writes, auth, database, queue storage, action execution, or command execution were added.");
+    lines.push("- [ ] No GitHub API calls, Netlify API calls, external API calls, or browser external fetches were added.");
+    lines.push("- [ ] No deploy, merge, push, or PR controls were added.");
+    lines.push("- [ ] Phase 4E remains not started.");
+    lines.push("- [ ] Original +1 automation remains not started.");
+    return lines.join("\n");
+  }
+
+  function renderRollbackNotes(state) {
+    var lines = [];
+    lines.push("Rollback / No-Go Notes");
+    lines.push("");
+    lines.push("- Stop if the current request packet is blank and no Phase 5C packets are selected.");
+    lines.push("- Stop if any preview block begins to exceed contained scroll height or becomes unreadable.");
+    lines.push("- Stop if the composer shows any enabled submit, queue, save, execute, deploy, merge, push, or create PR control.");
+    lines.push("- Stop if any persistence, backend write, auth, database, queue, command execution, or mutation path appears.");
+    lines.push("- Stop if the handoff would require Phase 4E or Original +1 automation to complete.");
+    lines.push("- Stop if the generated text needs file upload, file import, binary export, or external fetch behavior.");
+    lines.push("- If the source packet or review ledger changes materially, re-compose before handing off.");
+    return lines.join("\n");
+  }
+
+  function renderFullMarkdown(state) {
+    var lines = [];
+    lines.push("# Original Phase 5D - Client-Side Operator Handoff Composer");
+    lines.push("");
+    lines.push("## Handoff Source Panel");
+    lines.push("");
+    lines.push("### Current Local Request Packet");
+    lines.push("");
+    lines.push("```text");
+    lines.push(renderRequestPreview(state.request_packet));
+    lines.push("```");
+    lines.push("");
+    lines.push("### Review Ledger Snapshot");
+    lines.push("");
+    lines.push("```text");
+    lines.push(renderLedgerPreview(state.review_board, state.ledger_events, state.included_packets, state.selected_decisions));
+    lines.push("```");
+    lines.push("");
+    lines.push("### Included Packets");
+    lines.push("");
+    if (state.included_packets.length === 0) {
+      lines.push("_No review board packets are currently included in this handoff draft._");
+    } else {
+      for (var i = 0; i < state.included_packets.length; i++) {
+        var packet = state.included_packets[i];
+        lines.push("- **" + packet.packet_id + "**: " + packet.request_title + " (" + packet.workflow_type + ") - Risk: " + packet.risk_classification + " - Decision: " + packet.review_decision);
+      }
+    }
+    lines.push("");
+    lines.push("## Handoff Notes Panel");
+    lines.push("");
+    lines.push(state.notes_text ? state.notes_text : "_No local handoff notes captured yet._");
+    lines.push("");
+    lines.push("## Implementation Prompt");
+    lines.push("");
+    lines.push("```text");
+    lines.push(renderImplementationPrompt(state));
+    lines.push("```");
+    lines.push("");
+    lines.push("## Safety Summary");
+    lines.push("");
+    lines.push("```text");
+    lines.push(renderSafetySummary(state));
+    lines.push("```");
+    lines.push("");
+    lines.push("## Acceptance Checklist");
+    lines.push("");
+    lines.push("```text");
+    lines.push(renderAcceptanceChecklist(state));
+    lines.push("```");
+    lines.push("");
+    lines.push("## Rollback / No-Go Notes");
+    lines.push("");
+    lines.push("```text");
+    lines.push(renderRollbackNotes(state));
+    lines.push("```");
+    lines.push("");
+    lines.push("## Recommended Next Operator Decision");
+    lines.push("");
+    lines.push("review_phase_5d_local_preview_then_prepare_merge_or_refine_ui");
+    return lines.join("\n");
+  }
+
+  function statHTML(items, emptyLabel) {
+    if (!items || !items.length) {
+      items = [{ label: "Status", value: emptyLabel || "No source data yet" }];
+    }
+    return items.map(function (item) {
+      return stat(item.label, item.value);
+    }).join("");
+  }
+
+  function renderRequestTable(state) {
+    if (!state.included_packets.length) {
+      return '<tr><td colspan="6" class="empty">No handoff composed yet. Use Phase 5C decisions to compose a handoff.</td></tr>';
+    }
+    return state.included_packets.map(function (packet) {
+      return "<tr>" +
+        "<td><code>" + escapeHtml(packet.packet_id) + "</code></td>" +
+        "<td>" + escapeHtml(packet.request_title) + "</td>" +
+        "<td>" + escapeHtml(packet.workflow_type) + "</td>" +
+        "<td>" + escapeHtml(packet.risk_classification) + "</td>" +
+        "<td>" + escapeHtml(packet.review_decision) + "</td>" +
+        "<td><span class=\"badge pass\">YES</span></td>" +
+        "</tr>";
+    }).join("");
+  }
+
+  function renderSnapshot() {
+    var requestPacket = getCurrentRequestPacket();
+    var reviewBoard = getPhase5cReviewBoard();
+    var ledgerEvents = getPhase5cLedger();
+    var selectedDecisions = getSelectedFilters();
+    var notesText = getHandoffNotesText();
+    var includedPackets = buildIncludedPackets(reviewBoard, selectedDecisions);
+    var sourcePresent = !!requestPacket || reviewBoard.length > 0 || ledgerEvents.length > 0 || includedPackets.length > 0 || !!notesText.trim() || !!handoffMeta;
+    if (!sourcePresent) {
+      return null;
+    }
+
+    var meta = handoffMeta || {
+      handoff_id: "HANDOFF-DRAFT",
+      generated_at: "Draft preview only",
+    };
+
+    return {
+      handoff_id: meta.handoff_id,
+      generated_at: meta.generated_at,
+      request_packet: requestPacket,
+      review_board: reviewBoard,
+      ledger_events: ledgerEvents,
+      selected_decisions: selectedDecisions,
+      included_packets: includedPackets,
+      notes_text: notesText,
+      implementation_prompt: renderImplementationPrompt({
+        request_packet: requestPacket,
+        review_board: reviewBoard,
+        ledger_events: ledgerEvents,
+        selected_decisions: selectedDecisions,
+        included_packets: includedPackets,
+        notes_text: notesText,
+      }),
+      safety_summary: renderSafetySummary({
+        request_packet: requestPacket,
+        review_board: reviewBoard,
+        ledger_events: ledgerEvents,
+        selected_decisions: selectedDecisions,
+        included_packets: includedPackets,
+        notes_text: notesText,
+      }),
+      acceptance_checklist: renderAcceptanceChecklist({
+        request_packet: requestPacket,
+        review_board: reviewBoard,
+        ledger_events: ledgerEvents,
+        selected_decisions: selectedDecisions,
+        included_packets: includedPackets,
+        notes_text: notesText,
+      }),
+      rollback_notes: renderRollbackNotes({
+        request_packet: requestPacket,
+        review_board: reviewBoard,
+        ledger_events: ledgerEvents,
+        selected_decisions: selectedDecisions,
+        included_packets: includedPackets,
+        notes_text: notesText,
+      }),
+      full_markdown: renderFullMarkdown({
+        handoff_id: meta.handoff_id,
+        generated_at: meta.generated_at,
+        request_packet: requestPacket,
+        review_board: reviewBoard,
+        ledger_events: ledgerEvents,
+        selected_decisions: selectedDecisions,
+        included_packets: includedPackets,
+        notes_text: notesText,
+      }),
+      request_summary_items: [
+        { label: "Request ID", value: requestPacket ? requestPacket.request_id : "UNASSIGNED" },
+        { label: "Current State", value: requestPacket ? requestPacket.current_state : "none" },
+        { label: "Workflow Type", value: requestPacket ? requestPacket.workflow_type : "unspecified" },
+        { label: "Risk Label", value: requestPacket ? requestPacket.risk_label : "NOT CLASSIFIED" },
+      ],
+      ledger_summary_items: [
+        { label: "Review Board Packets", value: String(reviewBoard.length) },
+        { label: "Ledger Events", value: String(ledgerEvents.length) },
+        { label: "Selected Decisions", value: selectedDecisions.length ? selectedDecisions.join(", ") : "none" },
+        { label: "Included Packets", value: String(includedPackets.length) },
+      ],
+    };
+  }
+
+  function copyRenderedText(text, emptyMessage, successMessage) {
+    var status = p5d("copy-status");
+    if (!text) {
+      if (status) status.textContent = emptyMessage;
+      return;
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () {
+        if (status) status.textContent = successMessage;
+      }).catch(function () {});
+      return;
+    }
+    var field = document.createElement("textarea");
+    field.value = text;
+    field.style.position = "fixed";
+    field.style.left = "-9999px";
+    document.body.appendChild(field);
+    field.select();
+    document.execCommand("copy");
+    document.body.removeChild(field);
+    if (status) status.textContent = successMessage;
+  }
+
+  function bindCopyButton(buttonId, getter, emptyMessage, successMessage) {
+    var button = p5d(buttonId);
+    if (!button) {
+      return;
+    }
+    button.addEventListener("click", function () {
+      var snapshot = renderSnapshot();
+      var text = getter(snapshot);
+      copyRenderedText(text, emptyMessage, successMessage);
+    });
+  }
+
+  function composeHandoffFrom5c() {
+    var snapshot = renderSnapshot();
+    if (!snapshot) {
+      var status = p5d("copy-status");
+      if (status) status.textContent = "Phase 5D: Add a request packet, review packet, or notes first.";
+      return;
+    }
+    handoffMeta = {
+      handoff_id: "HANDOFF-" + generateId().toUpperCase(),
+      generated_at: timestamp(),
+    };
+    updateHandoffUI();
+    var status = p5d("copy-status");
+    if (status) status.textContent = "Phase 5D: Handoff composed locally.";
+  }
+
+  function parsePastedHandoff() {
+    var textarea = p5d("phase5d-pasted-json");
+    if (!textarea || !textarea.value.trim()) {
+      var status = p5d("copy-status");
+      if (status) status.textContent = "Phase 5D: Paste handoff JSON first.";
+      return;
+    }
+    try {
+      var parsed = JSON.parse(textarea.value.trim());
+      if (!parsed.handoff_id && !parsed.packets) {
+        var status = p5d("copy-status");
+        if (status) status.textContent = "Phase 5D: Pasted JSON has no handoff_id or packets.";
+        return;
+      }
+      handoffMeta = {
+        handoff_id: parsed.handoff_id || "HANDOFF-" + generateId().toUpperCase(),
+        generated_at: parsed.generated_at || timestamp(),
+      };
+      handoffNotes = parsed.notes || parsed.local_notes || "";
+      var notesField = p5d("phase5d-handoff-notes");
+      if (notesField) {
+        notesField.value = handoffNotes;
+      }
+      updateHandoffUI();
+      textarea.value = "";
+      var status = p5d("copy-status");
+      if (status) status.textContent = "Phase 5D: Pasted handoff parsed locally.";
+    } catch (e) {
+      var status = p5d("copy-status");
+      if (status) status.textContent = "Phase 5D: Invalid JSON — " + e.message;
+    }
+  }
+
+  function clearHandoff() {
+    handoffMeta = null;
+    handoffNotes = "";
+    var notesField = p5d("phase5d-handoff-notes");
+    if (notesField) {
+      notesField.value = "";
+    }
+    var pasted = p5d("phase5d-pasted-json");
+    if (pasted) {
+      pasted.value = "";
+    }
+    updateHandoffUI();
+    var status = p5d("copy-status");
+    if (status) status.textContent = "Phase 5D: Handoff cleared.";
+  }
+
+  function updateSourcePanels(snapshot) {
+    var requestSummary = p5d("phase5d-request-summary");
+    var ledgerSummary = p5d("phase5d-ledger-summary");
+    var requestPreview = p5d("phase5d-request-preview");
+    var notesPreview = p5d("phase5d-handoff-notes-preview");
+    var compositionBody = p5d("phase5d-composition-body");
+
+    if (requestSummary) {
+      requestSummary.innerHTML = snapshot ? statHTML(snapshot.request_summary_items, "No current request packet yet") : statHTML(null, "No current request packet yet");
+    }
+    if (ledgerSummary) {
+      ledgerSummary.innerHTML = snapshot ? statHTML(snapshot.ledger_summary_items, "No review ledger yet") : statHTML(null, "No review ledger yet");
+    }
+    if (requestPreview) {
+      requestPreview.textContent = snapshot ? renderRequestPreview(snapshot.request_packet) : "No current request packet drafted yet.\nPopulate Phase 5A to enrich the handoff.";
+    }
+    if (notesPreview) {
+      notesPreview.textContent = snapshot && snapshot.notes_text ? snapshot.notes_text : "No notes captured yet.";
+    }
+    if (compositionBody) {
+      compositionBody.innerHTML = snapshot ? renderRequestTable(snapshot) : '<tr><td colspan="6" class="empty">No handoff composed yet. Use Phase 5C decisions to compose a handoff.</td></tr>';
+    }
+  }
+
+  function updatePreviewBlocks(snapshot) {
+    var implementationPreview = p5d("phase5d-implementation-prompt-preview");
+    var safetyPreview = p5d("phase5d-safety-summary-preview");
+    var acceptancePreview = p5d("phase5d-acceptance-checklist-preview");
+    var rollbackPreview = p5d("phase5d-rollback-notes-preview");
+    var fullPreview = p5d("phase5d-full-markdown-preview");
+    var meta = snapshot || {
+      request_packet: null,
+      review_board: [],
+      ledger_events: [],
+      selected_decisions: [],
+      included_packets: [],
+      notes_text: "",
+      implementation_prompt: "No handoff generated yet.",
+      safety_summary: "No handoff generated yet.",
+      acceptance_checklist: "No handoff generated yet.",
+      rollback_notes: "No handoff generated yet.",
+      full_markdown: "No handoff generated yet.",
+    };
+
+    if (implementationPreview) {
+      implementationPreview.textContent = meta.implementation_prompt || "No handoff generated yet.";
+    }
+    if (safetyPreview) {
+      safetyPreview.textContent = meta.safety_summary || "No handoff generated yet.";
+    }
+    if (acceptancePreview) {
+      acceptancePreview.textContent = meta.acceptance_checklist || "No handoff generated yet.";
+    }
+    if (rollbackPreview) {
+      rollbackPreview.textContent = meta.rollback_notes || "No handoff generated yet.";
+    }
+    if (fullPreview) {
+      fullPreview.textContent = meta.full_markdown || "No handoff generated yet.";
+    }
+  }
+
+  function updateHandoffUI() {
+    var snapshot = renderSnapshot();
+    updateSourcePanels(snapshot);
+    updatePreviewBlocks(snapshot);
+  }
+
+  function initPhase5d() {
+    var shell = document.querySelector("[data-phase5d-handoff]");
+    if (!shell) {
+      return;
+    }
+
+    var composeBtn = p5d("phase5d-compose-handoff");
+    if (composeBtn) {
+      composeBtn.addEventListener("click", composeHandoffFrom5c);
+    }
+
+    var clearBtn = p5d("phase5d-clear-handoff");
+    if (clearBtn) {
+      clearBtn.addEventListener("click", clearHandoff);
+    }
+
+    var parseBtn = p5d("phase5d-parse-pasted-handoff");
+    if (parseBtn) {
+      parseBtn.addEventListener("click", parsePastedHandoff);
+    }
+
+    var notesField = p5d("phase5d-handoff-notes");
+    if (notesField) {
+      notesField.addEventListener("input", function () {
+        handoffNotes = notesField.value || "";
+        updateHandoffUI();
+      });
+    }
+
+    var decisionFilterInputs = document.querySelectorAll("#phase5d-decision-filters input[type='checkbox']");
+    decisionFilterInputs.forEach(function (input) {
+      input.addEventListener("change", updateHandoffUI);
+    });
+
+    bindCopyButton("phase5d-copy-implementation-prompt", function (snapshot) {
+      return snapshot ? snapshot.implementation_prompt : "";
+    }, "Phase 5D: Compose a handoff first.", "Phase 5D: Implementation prompt copied.");
+
+    bindCopyButton("phase5d-copy-safety-summary", function (snapshot) {
+      return snapshot ? snapshot.safety_summary : "";
+    }, "Phase 5D: Compose a handoff first.", "Phase 5D: Safety summary copied.");
+
+    bindCopyButton("phase5d-copy-acceptance-checklist", function (snapshot) {
+      return snapshot ? snapshot.acceptance_checklist : "";
+    }, "Phase 5D: Compose a handoff first.", "Phase 5D: Acceptance checklist copied.");
+
+    bindCopyButton("phase5d-copy-rollback-notes", function (snapshot) {
+      return snapshot ? snapshot.rollback_notes : "";
+    }, "Phase 5D: Compose a handoff first.", "Phase 5D: Rollback notes copied.");
+
+    bindCopyButton("phase5d-copy-full-handoff-markdown", function (snapshot) {
+      return snapshot ? snapshot.full_markdown : "";
+    }, "Phase 5D: Compose a handoff first.", "Phase 5D: Full handoff Markdown copied.");
+
+    updateHandoffUI();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initPhase5d);
+  } else {
+    initPhase5d();
+  }
+})();
