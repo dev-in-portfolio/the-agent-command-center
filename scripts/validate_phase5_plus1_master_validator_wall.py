@@ -60,6 +60,7 @@ report_requirements = [
     (PLUS1 / "original_plus1_production_verification_report.md", "PRODUCTION_VERIFIED"),
     (PLUS1 / "original_plus1b_production_verification_report.md", "PRODUCTION_VERIFIED"),
     (PLUS1 / "original_plus1c_production_verification_report.md", "PRODUCTION_VERIFIED"),
+    (PLUS1 / "original_plus1d_production_verification_report.md", "PRODUCTION_VERIFIED"),
     (PLUS1 / "original_plus1_acceptance_report.md", "PASS_WITH_HIGH_CONFIDENCE"),
     (PLUS1 / "original_plus1b_acceptance_report.md", "PASS_WITH_HIGH_CONFIDENCE"),
     (PLUS1 / "original_plus1c_acceptance_report.md", "PASS_WITH_HIGH_CONFIDENCE"),
