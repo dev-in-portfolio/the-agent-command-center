@@ -110,9 +110,10 @@
         <li><strong>Original Phase 5</strong> — Interactive Operator Workflow Layer (Planned)</li>
         <li><strong>Original +1</strong> — Controlled Agent / Automation Layer (Planned)</li>
         <li><strong>Original +1B</strong> — Operator Console Consolidation &amp; Automation Contract Layer (ACTIVE)</li>
+        <li><strong>Original +1C</strong> — Readiness Scoring, Contract QA &amp; No-Go Decision Layer (ACTIVE)</li>
       </ul>
       <p class="muted">Original Phase 4 — Hosted / Production Dashboard Polish remains the hosted dashboard baseline.</p>
-      <p style="margin-top: 1rem;"><strong>Current active direction:</strong> Original +1B — Operator Console Consolidation &amp; Automation Contract Layer</p>
+      <p style="margin-top: 1rem;"><strong>Current active direction:</strong> Original +1C — Readiness Scoring, Contract QA &amp; No-Go Decision Layer</p>
       <p class="muted">Note: Phase 4E is intentionally deferred.</p>
     </div>
     
@@ -1323,6 +1324,120 @@
     </details>
     
 
+    <details class="panel" data-section-group="source" open id="plus1c-readiness-scoring-contract-qa">
+      <summary>Original +1C — Readiness Scoring, Contract QA &amp; No-Go Decision Layer</summary>
+      <div class="panel-body">
+        
+<div class="plus1c-readiness-scoring" data-plus1c-readiness-scoring-contract-qa="true">
+  <div class="callout plus1c-summary-callout" style="border-color: rgba(56,189,248,0.36); background: rgba(56,189,248,0.06);">
+    <strong style="color: var(--accent);">READINESS SCORING</strong>
+    <p class="muted" style="margin-top: 0.15rem;">CONTRACT QA — NO-GO DECISION LAYER — LOCAL ANALYSIS ONLY</p>
+    <p class="muted" style="margin-top: 0.25rem;">COPY/PASTE ONLY — READINESS ONLY — NO LIVE AUTOMATION — NO EXECUTION — NO MUTATION — NO BACKEND WRITES — NO DEPLOY / MERGE / PUSH / PR CONTROLS</p>
+  </div>
+
+  <div class="plus1c-preview-grid">
+    <article class="card plus1c-scorecard" id="plus1c-scorecard-panel">
+      <div class="card-head"><h3 class="card-title">Readiness Scorecard Panel</h3><span class="badge warning">READINESS SCORING</span></div>
+      <p class="card-body">Scores are local, display-only, and intentionally blocked from real automation readiness.</p>
+      <div class="table-wrap" style="max-height:360px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus1c-scorecard-table">
+          <caption>Readiness scoring categories</caption>
+          <thead><tr><th scope="col">Category</th><th scope="col">Score</th><th scope="col">Status</th><th scope="col">Reason</th><th scope="col">Recommended improvement</th></tr></thead>
+          <tbody id="plus1c-scorecard-body"><tr><td colspan="5" class="empty">No readiness scoring model loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="card plus1c-contract-qa" id="plus1c-contract-qa-panel">
+      <div class="card-head"><h3 class="card-title">Contract QA Matrix Panel</h3><span class="badge info">CONTRACT QA</span></div>
+      <p class="card-body">Checks every readiness contract for required fields, forbidden fields, safety notes, and future dependency coverage.</p>
+      <div class="table-wrap" style="max-height:360px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus1c-contract-qa-table">
+          <caption>Contract QA matrix</caption>
+          <thead><tr><th scope="col">Schema</th><th scope="col">Required fields present</th><th scope="col">Forbidden fields absent</th><th scope="col">Safety notes present</th><th scope="col">Future dependency noted</th><th scope="col">Copy output</th><th scope="col">QA status</th></tr></thead>
+          <tbody id="plus1c-contract-qa-body"><tr><td colspan="7" class="empty">No contract QA model loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="card plus1c-safety-assertions" id="plus1c-safety-assertion-panel">
+      <div class="card-head"><h3 class="card-title">Safety Assertion Panel</h3><span class="badge fail">NO LIVE AUTOMATION</span></div>
+      <p class="card-body">Assertions remain local and descriptive. Any future dependency still shows as blocked until the control plane exists.</p>
+      <div class="table-wrap" style="max-height:360px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus1c-safety-assertion-table">
+          <caption>Safety assertions</caption>
+          <thead><tr><th scope="col">Assertion</th><th scope="col">Expected</th><th scope="col">Current</th><th scope="col">Status</th></tr></thead>
+          <tbody id="plus1c-safety-assertion-body"><tr><td colspan="4" class="empty">No safety assertions loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus1c-preview-grid">
+    <article class="card plus1c-no-go-panel" id="plus1c-no-go-panel">
+      <div class="card-head"><h3 class="card-title">No-Go Decision Panel</h3><span class="badge locked">NO-GO</span></div>
+      <p class="card-body">The current console is not ready for real automation. These blockers keep the build safely in review-only mode.</p>
+      <div class="table-wrap" style="max-height:360px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus1c-no-go-table">
+          <caption>No-go decisions</caption>
+          <thead><tr><th scope="col">Decision</th><th scope="col">Reason</th><th scope="col">Required future dependency</th><th scope="col">Operator recommendation</th></tr></thead>
+          <tbody id="plus1c-no-go-body"><tr><td colspan="4" class="empty">No no-go model loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="card plus1c-dependency-gap-map" id="plus1c-dependency-gap-map-panel">
+      <div class="card-head"><h3 class="card-title">Dependency Gap Map Panel</h3><span class="badge warning">FUTURE DEPENDENCIES</span></div>
+      <p class="card-body">Maps the missing backend and governance pieces that must exist before any real automation can be attempted.</p>
+      <div class="table-wrap" style="max-height:360px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus1c-dependency-gap-table">
+          <caption>Dependency gap map</caption>
+          <thead><tr><th scope="col">Dependency</th><th scope="col">Required before</th><th scope="col">Current status</th><th scope="col">Blocking level</th><th scope="col">Recommended future phase</th></tr></thead>
+          <tbody id="plus1c-dependency-gap-body"><tr><td colspan="5" class="empty">No dependency gap model loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="card plus1c-validator-confidence" id="plus1c-validator-confidence-panel">
+      <div class="card-head"><h3 class="card-title">Validator Confidence Panel</h3><span class="badge pass">VALIDATOR WALL</span></div>
+      <p class="card-body">Shows the current validator groups, required pass strings, and why they remain merge and production requirements.</p>
+      <div class="table-wrap" style="max-height:360px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus1c-validator-confidence-table">
+          <caption>Validator confidence groups</caption>
+          <thead><tr><th scope="col">Group</th><th scope="col">Pass string</th><th scope="col">Coverage type</th><th scope="col">Confidence level</th><th scope="col">Merge requirement</th><th scope="col">Production requirement</th></tr></thead>
+          <tbody id="plus1c-validator-confidence-body"><tr><td colspan="6" class="empty">No validator confidence model loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus1c-preview-grid">
+    <article class="card plus1c-copy-output-hub" id="plus1c-copy-output-hub-panel">
+      <div class="card-head"><h3 class="card-title">Copy Output Hub Panel</h3><span class="badge info">COPY/PASTE ONLY</span></div>
+      <p class="card-body">All outputs stay local and copyable so the operator can review readiness without creating any live action path.</p>
+      <div class="button-row" style="margin-top: 0.75rem;">
+        <button type="button" class="copy-button small" id="plus1c-copy-readiness-scorecard">Copy readiness scorecard</button>
+        <button type="button" class="copy-button small" id="plus1c-copy-contract-qa-report">Copy contract QA report</button>
+        <button type="button" class="copy-button small" id="plus1c-copy-safety-assertion-summary">Copy safety assertion summary</button>
+        <button type="button" class="copy-button small" id="plus1c-copy-no-go-decision-report">Copy no-go decision report</button>
+        <button type="button" class="copy-button small" id="plus1c-copy-dependency-gap-map">Copy dependency gap map</button>
+        <button type="button" class="copy-button small" id="plus1c-copy-validator-confidence-report">Copy validator confidence report</button>
+        <button type="button" class="copy-button small" id="plus1c-copy-go-no-go-packet">Copy go/no-go packet</button>
+      </div>
+    </article>
+
+    <article class="card plus1c-go-no-go-packet" id="plus1c-go-no-go-packet-panel">
+      <div class="card-head"><h3 class="card-title">Go / No-Go Packet Panel</h3><span class="badge warning">NOT READY FOR REAL AUTOMATION</span></div>
+      <p class="card-body">Copyable packet summarizes the local QA results, blockers, and the current readiness recommendation.</p>
+      <pre class="code-block" id="plus1c-go-no-go-preview" style="max-height:420px;overflow:auto;white-space:pre-wrap;word-break:break-word;margin-top:0.75rem;">No readiness packet loaded yet.</pre>
+    </article>
+  </div>
+</div>
+
+      </div>
+    </details>
+    
+
     <details class="panel" data-section-group="registry" id="action-registry">
       <summary>Action Registry</summary>
       <div class="panel-body">
@@ -1540,7 +1655,7 @@
         <div class="stat-grid">
     <div class="stat">
       <span>Generated at</span>
-      <strong>2026-05-14T21:17:36Z</strong>
+      <strong>2026-05-14T22:00:12Z</strong>
       
     </div>
     
@@ -1720,7 +1835,7 @@
     
     <div class="stat">
       <span>Phase 2 sessions</span>
-      <strong>7896</strong>
+      <strong>8040</strong>
       
     </div>
     
@@ -1747,8 +1862,8 @@
     </main>
   </div>
   <script type="application/json" id="dashboard-data">{
-  "dashboard_id": "PH3-20260514-211734",
-  "created_at_utc": "2026-05-14T21:17:34Z",
+  "dashboard_id": "PH3-20260514-220010",
+  "created_at_utc": "2026-05-14T22:00:10Z",
   "phase": "Read-Only Operations Dashboard",
   "repo": "dev-in-portfolio/the-agent-command-center",
   "source_lineage": "dev-in-portfolio/agent-command-center-3",
@@ -2250,7 +2365,7 @@
     "source_type": "module",
     "source_confidence": "direct_module_read",
     "phase_1_session_count": 0,
-    "phase_2_session_count": 7896,
+    "phase_2_session_count": 8040,
     "phase_1_sessions": [],
     "phase_2_sessions": [
       "09_exports/interface_phase_2/sessions/session_TUI-20260512-003552-941813.json",
@@ -2300,7 +2415,7 @@
     "phase_3_build_report": "09_exports/interface_phase_3/interface_phase_3_static_build_report.md",
     "phase_3_note": "no live session mutation unless build report is written",
     "session_logs_read_only": true,
-    "summary": "0 phase 1 sessions, 7896 phase 2 sessions."
+    "summary": "0 phase 1 sessions, 8040 phase 2 sessions."
   },
   "validator_status": {
     "source_file_path": "09_exports/interface_phase_3/interface_phase_3_acceptance_report.md",
@@ -2755,7 +2870,7 @@
     "source_exists": true,
     "source_type": "generated_static_snapshot",
     "source_confidence": "generated_static_snapshot",
-    "generated_at_utc": "2026-05-14T21:17:36Z",
+    "generated_at_utc": "2026-05-14T22:00:12Z",
     "freshness_status": "generated_static_snapshot",
     "snapshot_age_seconds": 0,
     "notes": [
@@ -3028,28 +3143,35 @@
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1918,
+        "line": 1843,
+        "pattern": "NO DEPLOY",
+        "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">COPY/PASTE ONLY \u2014 READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO ",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_renderer.py",
+        "line": 2035,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1918,
+        "line": 2035,
         "pattern": "NO MERGE",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1918,
+        "line": 2035,
         "pattern": "NO PUSH",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1918,
+        "line": 2035,
         "pattern": "NO SECRET ACCESS",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
@@ -3553,6 +3675,432 @@
           "create_pr"
         ],
         "future_dependencies": "Future auth, storage, approval, audit, and queue services"
+      }
+    ]
+  },
+  "original_plus1c_readiness_qa_model": {
+    "model_id": "original-plus1c-readiness-scoring-contract-qa",
+    "model_version": "1.0",
+    "overall_status": "READINESS_ONLY",
+    "current_recommendation": "READY_FOR_READINESS_REVIEW_ONLY",
+    "final_recommendation": "NOT_READY_FOR_REAL_AUTOMATION",
+    "summary": {
+      "readiness_layer": "local analysis only",
+      "live_automation": false,
+      "execution": false,
+      "mutation": false,
+      "backend_writes": false,
+      "persistence": false,
+      "queue_storage": false,
+      "live_auth": false,
+      "copy_outputs": true
+    },
+    "scorecard": [
+      {
+        "category": "Contract completeness",
+        "score": 94,
+        "status": "complete",
+        "reason": "Each readiness contract includes source phase, safety boundary, and future dependency notes.",
+        "recommended_improvement": "Keep the future dependency notes aligned with the live roadmap."
+      },
+      {
+        "category": "Schema coverage",
+        "score": 100,
+        "status": "complete",
+        "reason": "All required schema families are represented in the static contract pack.",
+        "recommended_improvement": "Do not introduce live schemas until the backend exists."
+      },
+      {
+        "category": "Safety assertion coverage",
+        "score": 100,
+        "status": "complete",
+        "reason": "The build explicitly declares no live automation, no execution, and no mutation.",
+        "recommended_improvement": "Preserve the no-go assertions in every future phase."
+      },
+      {
+        "category": "Validator coverage",
+        "score": 100,
+        "status": "complete",
+        "reason": "Phase 5 through Original +1B validators and the master wall are already in place.",
+        "recommended_improvement": "Extend the validator wall only with safety-preserving compatibility edits."
+      },
+      {
+        "category": "Production verification coverage",
+        "score": 96,
+        "status": "complete",
+        "reason": "Original +1B is production verified and the live site remains read-only.",
+        "recommended_improvement": "Re-run production verification after any dashboard banner or copy change."
+      },
+      {
+        "category": "Dependency clarity",
+        "score": 92,
+        "status": "complete",
+        "reason": "Missing auth, storage, queue, audit, approval, and write boundaries are explicit.",
+        "recommended_improvement": "Map future backend work to the exact gap list before any execution phase."
+      },
+      {
+        "category": "No-go policy clarity",
+        "score": 98,
+        "status": "complete",
+        "reason": "Rollback and no-go rules stay visible and copyable.",
+        "recommended_improvement": "Keep blocked conditions visible until the real control plane exists."
+      },
+      {
+        "category": "Automation readiness",
+        "score": 58,
+        "status": "blocked",
+        "reason": "Real automation is intentionally blocked because the future control-plane dependencies are missing.",
+        "recommended_improvement": "Treat this build as readiness review only."
+      }
+    ],
+    "contract_qa_matrix": [
+      {
+        "schema_id": "request_packet_schema",
+        "required_fields_present": "yes",
+        "forbidden_fields_absent": "yes",
+        "safety_notes_present": "yes",
+        "future_dependency_noted": "yes",
+        "copy_output_available": "yes",
+        "qa_status": "PASS"
+      },
+      {
+        "schema_id": "review_decision_schema",
+        "required_fields_present": "yes",
+        "forbidden_fields_absent": "yes",
+        "safety_notes_present": "yes",
+        "future_dependency_noted": "yes",
+        "copy_output_available": "yes",
+        "qa_status": "PASS"
+      },
+      {
+        "schema_id": "decision_ledger_schema",
+        "required_fields_present": "yes",
+        "forbidden_fields_absent": "yes",
+        "safety_notes_present": "yes",
+        "future_dependency_noted": "yes",
+        "copy_output_available": "yes",
+        "qa_status": "PASS"
+      },
+      {
+        "schema_id": "handoff_contract_schema",
+        "required_fields_present": "yes",
+        "forbidden_fields_absent": "yes",
+        "safety_notes_present": "yes",
+        "future_dependency_noted": "yes",
+        "copy_output_available": "yes",
+        "qa_status": "PASS"
+      },
+      {
+        "schema_id": "runbook_scenario_schema",
+        "required_fields_present": "yes",
+        "forbidden_fields_absent": "yes",
+        "safety_notes_present": "yes",
+        "future_dependency_noted": "yes",
+        "copy_output_available": "yes",
+        "qa_status": "PASS"
+      },
+      {
+        "schema_id": "automation_readiness_contract_schema",
+        "required_fields_present": "yes",
+        "forbidden_fields_absent": "yes",
+        "safety_notes_present": "yes",
+        "future_dependency_noted": "yes",
+        "copy_output_available": "yes",
+        "qa_status": "WARNING"
+      },
+      {
+        "schema_id": "approval_gate_contract_schema",
+        "required_fields_present": "yes",
+        "forbidden_fields_absent": "yes",
+        "safety_notes_present": "yes",
+        "future_dependency_noted": "yes",
+        "copy_output_available": "yes",
+        "qa_status": "WARNING"
+      },
+      {
+        "schema_id": "dry_run_plan_schema",
+        "required_fields_present": "yes",
+        "forbidden_fields_absent": "yes",
+        "safety_notes_present": "yes",
+        "future_dependency_noted": "yes",
+        "copy_output_available": "yes",
+        "qa_status": "PASS"
+      },
+      {
+        "schema_id": "preflight_checklist_schema",
+        "required_fields_present": "yes",
+        "forbidden_fields_absent": "yes",
+        "safety_notes_present": "yes",
+        "future_dependency_noted": "yes",
+        "copy_output_available": "yes",
+        "qa_status": "PASS"
+      },
+      {
+        "schema_id": "no_go_rollback_policy_schema",
+        "required_fields_present": "yes",
+        "forbidden_fields_absent": "yes",
+        "safety_notes_present": "yes",
+        "future_dependency_noted": "yes",
+        "copy_output_available": "yes",
+        "qa_status": "PASS"
+      }
+    ],
+    "safety_assertions": [
+      {
+        "assertion": "No live automation",
+        "expected_value": "false",
+        "current_value": "false",
+        "status": "PASS"
+      },
+      {
+        "assertion": "No execution",
+        "expected_value": "false",
+        "current_value": "false",
+        "status": "PASS"
+      },
+      {
+        "assertion": "No mutation",
+        "expected_value": "false",
+        "current_value": "false",
+        "status": "PASS"
+      },
+      {
+        "assertion": "No backend writes",
+        "expected_value": "false",
+        "current_value": "false",
+        "status": "PASS"
+      },
+      {
+        "assertion": "No persistence",
+        "expected_value": "false",
+        "current_value": "false",
+        "status": "PASS"
+      },
+      {
+        "assertion": "No GitHub API calls",
+        "expected_value": "false",
+        "current_value": "false",
+        "status": "PASS"
+      },
+      {
+        "assertion": "No Netlify API calls",
+        "expected_value": "false",
+        "current_value": "false",
+        "status": "PASS"
+      },
+      {
+        "assertion": "No external browser fetches",
+        "expected_value": "false",
+        "current_value": "false",
+        "status": "PASS"
+      },
+      {
+        "assertion": "No secrets/tokens/env reads",
+        "expected_value": "false",
+        "current_value": "false",
+        "status": "PASS"
+      },
+      {
+        "assertion": "No deploy/merge/push/PR controls",
+        "expected_value": "false",
+        "current_value": "false",
+        "status": "PASS"
+      },
+      {
+        "assertion": "Future auth required",
+        "expected_value": "true",
+        "current_value": "false",
+        "status": "BLOCKED"
+      },
+      {
+        "assertion": "Future storage required",
+        "expected_value": "true",
+        "current_value": "false",
+        "status": "BLOCKED"
+      },
+      {
+        "assertion": "Future approval required",
+        "expected_value": "true",
+        "current_value": "false",
+        "status": "BLOCKED"
+      }
+    ],
+    "no_go_decisions": [
+      {
+        "decision_id": "BLOCK_REAL_AUTOMATION_NO_AUTH",
+        "reason": "No live auth exists yet.",
+        "required_future_dependency": "auth",
+        "operator_recommendation": "Stay readiness-only."
+      },
+      {
+        "decision_id": "BLOCK_REAL_AUTOMATION_NO_DATABASE",
+        "reason": "No database exists yet.",
+        "required_future_dependency": "persistent storage",
+        "operator_recommendation": "Keep outputs copy-only."
+      },
+      {
+        "decision_id": "BLOCK_REAL_AUTOMATION_NO_QUEUE",
+        "reason": "No queue storage exists yet.",
+        "required_future_dependency": "queue infrastructure",
+        "operator_recommendation": "Do not schedule execution."
+      },
+      {
+        "decision_id": "BLOCK_REAL_AUTOMATION_NO_AUDIT_PERSISTENCE",
+        "reason": "No persistent audit log exists yet.",
+        "required_future_dependency": "audit persistence",
+        "operator_recommendation": "Keep audit as a local note only."
+      },
+      {
+        "decision_id": "BLOCK_REAL_AUTOMATION_NO_APPROVAL_RECORD",
+        "reason": "No approval record store exists yet.",
+        "required_future_dependency": "approval persistence",
+        "operator_recommendation": "Use human review only."
+      },
+      {
+        "decision_id": "BLOCK_REAL_AUTOMATION_NO_ROLLBACK_PLAN",
+        "reason": "No live rollback system exists yet.",
+        "required_future_dependency": "rollback system",
+        "operator_recommendation": "Stop at no-go analysis."
+      },
+      {
+        "decision_id": "BLOCK_MUTATION_WITHOUT_HUMAN_GATE",
+        "reason": "Mutation would bypass the human gate.",
+        "required_future_dependency": "human approval and role enforcement",
+        "operator_recommendation": "Do not enable mutation in the client build."
+      },
+      {
+        "decision_id": "BLOCK_EXECUTION_IN_CLIENT_SIDE_BUILD",
+        "reason": "This build is client-side and copy-only.",
+        "required_future_dependency": "backend execution boundary",
+        "operator_recommendation": "Keep the current build inert."
+      }
+    ],
+    "dependency_gap_map": [
+      {
+        "dependency": "auth",
+        "required_before": "real automation",
+        "current_status": "missing",
+        "blocking_level": "high",
+        "recommended_future_phase": "future control plane"
+      },
+      {
+        "dependency": "role enforcement",
+        "required_before": "approval routing",
+        "current_status": "missing",
+        "blocking_level": "high",
+        "recommended_future_phase": "future control plane"
+      },
+      {
+        "dependency": "permission enforcement",
+        "required_before": "action execution",
+        "current_status": "missing",
+        "blocking_level": "high",
+        "recommended_future_phase": "future control plane"
+      },
+      {
+        "dependency": "persistent request storage",
+        "required_before": "request submission",
+        "current_status": "missing",
+        "blocking_level": "high",
+        "recommended_future_phase": "future backend"
+      },
+      {
+        "dependency": "persistent audit log",
+        "required_before": "approval recording",
+        "current_status": "missing",
+        "blocking_level": "high",
+        "recommended_future_phase": "future backend"
+      },
+      {
+        "dependency": "queue storage",
+        "required_before": "automation handoff",
+        "current_status": "missing",
+        "blocking_level": "high",
+        "recommended_future_phase": "future backend"
+      },
+      {
+        "dependency": "dry-run engine",
+        "required_before": "execution readiness",
+        "current_status": "missing",
+        "blocking_level": "medium",
+        "recommended_future_phase": "future planning"
+      },
+      {
+        "dependency": "backend mutation boundary",
+        "required_before": "write operations",
+        "current_status": "missing",
+        "blocking_level": "high",
+        "recommended_future_phase": "future backend"
+      },
+      {
+        "dependency": "secrets management",
+        "required_before": "live integrations",
+        "current_status": "missing",
+        "blocking_level": "high",
+        "recommended_future_phase": "future backend"
+      },
+      {
+        "dependency": "rollback system",
+        "required_before": "live execution",
+        "current_status": "missing",
+        "blocking_level": "high",
+        "recommended_future_phase": "future safety"
+      },
+      {
+        "dependency": "rate-limit / abuse control",
+        "required_before": "external exposure",
+        "current_status": "missing",
+        "blocking_level": "medium",
+        "recommended_future_phase": "future control plane"
+      },
+      {
+        "dependency": "production approval records",
+        "required_before": "merge-ready automation",
+        "current_status": "missing",
+        "blocking_level": "high",
+        "recommended_future_phase": "future approval service"
+      }
+    ],
+    "validator_confidence_groups": [
+      {
+        "group": "master validator wall",
+        "pass_string": "PHASE5_PLUS1_MASTER_VALIDATOR_WALL_PASS",
+        "coverage_type": "cross-phase wall",
+        "confidence_level": "high",
+        "merge_requirement": "yes",
+        "production_requirement": "yes"
+      },
+      {
+        "group": "Original +1B validators",
+        "pass_string": "ORIGINAL_PLUS1B_OPERATOR_CONSOLE_CONTRACT_LAYER_VALIDATION_PASS",
+        "coverage_type": "contract layer",
+        "confidence_level": "high",
+        "merge_requirement": "yes",
+        "production_requirement": "yes"
+      },
+      {
+        "group": "Original +1 validators",
+        "pass_string": "ORIGINAL_PLUS1_CONTROLLED_AUTOMATION_READINESS_VALIDATION_PASS",
+        "coverage_type": "readiness layer",
+        "confidence_level": "high",
+        "merge_requirement": "yes",
+        "production_requirement": "yes"
+      },
+      {
+        "group": "Phase 5E/5D/5C/5B/5A validators",
+        "pass_string": "ORIGINAL_PHASE_5E_RUNBOOK_SIMULATOR_VALIDATION_PASS",
+        "coverage_type": "workflow chain",
+        "confidence_level": "high",
+        "merge_requirement": "yes",
+        "production_requirement": "yes"
+      },
+      {
+        "group": "Phase 4/4D/4C/4A/3 validators",
+        "pass_string": "INTERFACE_PHASE_3_DASHBOARD_VALIDATION_PASS",
+        "coverage_type": "foundation stack",
+        "confidence_level": "high",
+        "merge_requirement": "yes",
+        "production_requirement": "yes"
       }
     ]
   }

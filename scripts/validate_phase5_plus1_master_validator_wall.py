@@ -58,6 +58,7 @@ report_requirements = [
     (PHASE5 / "original_phase_5_final_production_summary.md", "PRODUCTION_VISIBLE"),
     (PHASE5 / "original_phase_5e_production_verification_report.md", "PRODUCTION_VERIFIED"),
     (PLUS1 / "original_plus1_production_verification_report.md", "PRODUCTION_VERIFIED"),
+    (PLUS1 / "original_plus1b_production_verification_report.md", "PRODUCTION_VERIFIED"),
     (PLUS1 / "original_plus1_acceptance_report.md", "PASS_WITH_HIGH_CONFIDENCE"),
     (PLUS1 / "original_plus1b_acceptance_report.md", "PASS_WITH_HIGH_CONFIDENCE"),
     (PLUS1 / "original_plus1b_operator_console_consolidation_report.md", "PASS_WITH_HIGH_CONFIDENCE"),
@@ -66,6 +67,7 @@ report_requirements = [
     (PLUS1 / "original_plus1b_master_validator_wall_report.md", "PASS_WITH_HIGH_CONFIDENCE"),
     (PLUS1 / "original_plus1b_design_report.md", "PASS_WITH_HIGH_CONFIDENCE"),
     (PLUS1 / "original_plus1b_safety_report.md", "PASS_WITH_HIGH_CONFIDENCE"),
+    (PLUS1 / "original_plus1c_acceptance_report.md", "PASS_WITH_HIGH_CONFIDENCE"),
 ]
 for path, marker in report_requirements:
     check(path.exists(), f"missing report: {path.relative_to(ROOT)}")
@@ -81,6 +83,10 @@ for marker in [
     "Original Phase 5E",
     "Original +1",
     "Original +1B",
+    "Original +1C",
+    "READINESS SCORING",
+    "CONTRACT QA",
+    "NO-GO DECISION LAYER",
     "NO LIVE AUTOMATION",
     "NO EXECUTION",
     "NO MUTATION",
@@ -112,6 +118,8 @@ allowed_prefixes = [
     "09_exports/original_plus1/",
     "scripts/validate_original_plus1b_operator_console_contract_layer.py",
     "scripts/validate_original_plus1b_operator_console_contract_layer_e2e.py",
+    "scripts/validate_original_plus1c_readiness_scoring_contract_qa.py",
+    "scripts/validate_original_plus1c_readiness_scoring_contract_qa_e2e.py",
     "scripts/validate_phase5_plus1_master_validator_wall.py",
     "scripts/validate_original_plus1_controlled_automation_readiness.py",
     "scripts/validate_original_plus1_controlled_automation_readiness_e2e.py",

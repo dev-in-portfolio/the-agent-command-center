@@ -74,6 +74,8 @@ def main():
         "scripts/validate_original_plus1_controlled_automation_readiness_e2e.py",
         "scripts/validate_original_plus1b_operator_console_contract_layer.py",
         "scripts/validate_original_plus1b_operator_console_contract_layer_e2e.py",
+        "scripts/validate_original_plus1c_readiness_scoring_contract_qa.py",
+        "scripts/validate_original_plus1c_readiness_scoring_contract_qa_e2e.py",
         "scripts/validate_phase5_plus1_master_validator_wall.py",
     ]
 

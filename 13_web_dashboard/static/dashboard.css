@@ -891,6 +891,46 @@ pre.code-block {
   border-color: rgba(139, 92, 246, 0.2);
 }
 
+.plus1c-readiness-scoring {
+  display: grid;
+  gap: 1.5rem;
+  min-width: 0;
+}
+
+.plus1c-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+.plus1c-scorecard,
+.plus1c-contract-qa,
+.plus1c-safety-assertions,
+.plus1c-no-go-panel,
+.plus1c-dependency-gap-map,
+.plus1c-validator-confidence,
+.plus1c-copy-output-hub,
+.plus1c-go-no-go-packet {
+  min-width: 0;
+}
+
+.plus1c-scorecard .table-wrap,
+.plus1c-contract-qa .table-wrap,
+.plus1c-safety-assertions .table-wrap,
+.plus1c-no-go-panel .table-wrap,
+.plus1c-dependency-gap-map .table-wrap,
+.plus1c-validator-confidence .table-wrap {
+  min-width: 0;
+}
+
+.plus1c-go-no-go-packet .code-block {
+  max-height: 420px;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
 @media (max-width: 1400px) {
   .phase4d-preview-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
