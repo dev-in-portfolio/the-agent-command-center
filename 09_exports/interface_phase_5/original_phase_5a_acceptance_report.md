@@ -36,5 +36,15 @@ PASS_WITH_HIGH_CONFIDENCE
 - Dashboard JS contains no unauthorized fetch targets
 - Dashboard JS contains no WebSocket/EventSource/sendBeacon/eval/Function/import
 
+## Generated Dashboard Data Scope Note
+
+State:
+- 13_web_dashboard/dist/dashboard_data.json is retained only as generated dashboard output required by the Phase 5A dashboard build.
+- It does not add backend writes.
+- It does not add persistence.
+- It does not add external API calls.
+- It does not add execution, mutation, deploy, merge, push, or PR controls.
+- It contains no secrets, tokens, or environment-derived values.
+
 ## Recommended Next Operator Decision
 review_phase_5a_local_preview_then_prepare_merge_or_refine_ui
