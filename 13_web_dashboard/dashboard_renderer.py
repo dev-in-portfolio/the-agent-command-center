@@ -416,6 +416,7 @@ def _build_landing_screen(snapshot):
         ("Phase 5D Handoff Composer", "phase5d-handoff-composer"),
         ("Phase 5E Runbook Simulator", "phase5e-runbook-simulator"),
         ("Original +1 Readiness Layer", "plus1-controlled-automation-readiness-layer"),
+        ("Original +1B Contract Layer", "plus1b-operator-console-contract-layer"),
         ("Artifacts", "artifact-packages"),
         ("Source Info", "source-transparency"),
         ("Audit / Session", "session-audit"),
@@ -1718,6 +1719,120 @@ def _build_plus1_controlled_automation_readiness_layer():
     )
 
 
+def _build_plus1b_operator_console_contract_layer():
+    body = """
+<div class="plus1b-console-consolidation" data-plus1b-operator-console-contract-layer="true">
+  <div class="callout" style="border-color: rgba(139,92,246,0.42); background: rgba(139,92,246,0.06);">
+    <strong style="color: var(--accent-2);">OPERATOR CONSOLE CONSOLIDATION</strong>
+    <p class="muted" style="margin-top: 0.25rem;">CONTRACTS ONLY — COPY/PASTE ONLY — READINESS ONLY — NO LIVE AUTOMATION — NO EXECUTION — NO MUTATION — NO BACKEND WRITES — NO DEPLOY / MERGE / PUSH / PR CONTROLS</p>
+  </div>
+  <p class="muted" style="margin-top: 0.25rem;">Original +1B — Operator Console Consolidation &amp; Automation Contract Layer. This layer consolidates the Phase 5A-5E workflow and the Original +1 readiness shell into one coherent operator console without enabling live automation.</p>
+
+  <div class="plus1b-preview-grid">
+    <article class="card plus1b-flow-rail" id="plus1b-flow-rail-panel">
+      <div class="card-head"><h3 class="card-title">Unified Operator Flow Rail Panel</h3><span class="badge info">FLOW RAIL</span></div>
+      <p class="card-body">Shows the operator sequence from Phase 5A through Original +1B with status, purpose, output type, boundary, and next handoff target.</p>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus1b-flow-table">
+          <caption>Unified operator flow rail</caption>
+          <thead><tr><th scope="col">Stage</th><th scope="col">Status</th><th scope="col">Purpose</th><th scope="col">Output type</th><th scope="col">Safety boundary</th><th scope="col">Next handoff</th></tr></thead>
+          <tbody id="plus1b-flow-body"><tr><td colspan="6" class="empty">No flow rail yet.</td></tr></tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="card plus1b-master-cockpit" id="plus1b-master-cockpit-panel">
+      <div class="card-head"><h3 class="card-title">Master Cockpit Summary Panel</h3><span class="badge warning">COCKPIT</span></div>
+      <p class="card-body">Summarises the readiness posture and the missing dependencies before any future real automation could be built.</p>
+      <div class="stat-grid" id="plus1b-master-cockpit-grid" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));"></div>
+      <div class="callout" style="margin-top:0.75rem;"><p class="muted" id="plus1b-master-cockpit-note">The console remains readiness-only. Nothing executes, nothing mutates, and no backend dependency is live yet.</p></div>
+    </article>
+  </div>
+
+  <div class="plus1b-preview-grid">
+  <article class="card plus1b-contract-schema-panel" id="plus1b-contract-schema-panel">
+      <div class="card-head"><h3 class="card-title">Formal Automation Contract Schema Panel</h3><span class="badge info">SCHEMA PACK</span></div>
+      <p class="card-body">Static contract previews define the request, review, approval, dry-run, audit, and rollback shapes without enabling them.</p>
+      <p class="muted" style="margin-top:-0.25rem;">Schema coverage: Request Packet Schema, Review Decision Schema, Decision Ledger Schema, Handoff Contract Schema, Runbook Scenario Schema, Automation Readiness Contract Schema, Approval Gate Contract Schema, Dry-Run Plan Schema, Preflight Checklist Schema, No-Go / Rollback Policy Schema.</p>
+      <div class="button-row" style="margin-bottom:0.75rem;"><button type="button" class="section-button" id="plus1b-load-schema-pack-button">Load contract schema pack</button></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;">
+        <table class="data-table" id="plus1b-contract-schema-table">
+          <caption>Formal automation contract schemas</caption>
+          <thead><tr><th scope="col">Schema</th><th scope="col">Version</th><th scope="col">Purpose</th><th scope="col">Required fields</th><th scope="col">Forbidden fields</th><th scope="col">Safety notes</th><th scope="col">Future dependency</th></tr></thead>
+          <tbody id="plus1b-contract-schema-body"><tr><td colspan="7" class="empty">No contract schema pack loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+      <pre class="code-block" id="plus1b-contract-schema-preview" style="max-height:320px;overflow:auto;white-space:pre-wrap;word-break:break-word;margin-top:0.75rem;">No contract schema pack loaded yet.</pre>
+    </article>
+
+    <article class="card plus1b-contract-builder" id="plus1b-contract-builder-panel">
+      <div class="card-head"><h3 class="card-title">Automation Contract Builder Panel</h3><span class="badge info">CONTRACT</span></div>
+      <p class="card-body">Generates copyable contract Markdown for the selected schema pack item and mode emphasis.</p>
+      <pre class="code-block" id="plus1b-contract-preview" style="max-height:420px;overflow:auto;white-space:pre-wrap;word-break:break-word;">No contract selected yet.</pre>
+    </article>
+  </div>
+
+  <div class="plus1b-preview-grid">
+    <article class="card plus1b-copy-output-hub" id="plus1b-copy-output-hub-panel">
+      <div class="card-head"><h3 class="card-title">Copy Output Hub Panel</h3><span class="badge pass">COPY/PASTE ONLY</span></div>
+      <p class="card-body">Central copy buttons keep the operator outputs local, temporary, and easy to carry into the next planning step.</p>
+      <div class="button-row" style="margin-bottom:0.5rem;">
+        <button type="button" class="copy-button small" id="plus1b-copy-implementation-prompt">Copy implementation prompt</button>
+        <button type="button" class="copy-button small" id="plus1b-copy-full-runbook">Copy full runbook</button>
+        <button type="button" class="copy-button small" id="plus1b-copy-readiness-contract">Copy automation readiness contract</button>
+        <button type="button" class="copy-button small" id="plus1b-copy-dry-run-plan">Copy dry-run plan</button>
+        <button type="button" class="copy-button small" id="plus1b-copy-preflight-checklist">Copy preflight checklist</button>
+        <button type="button" class="copy-button small" id="plus1b-copy-no-go-report">Copy no-go report</button>
+        <button type="button" class="copy-button small" id="plus1b-copy-validator-checklist">Copy validator checklist</button>
+        <button type="button" class="copy-button small" id="plus1b-copy-merge-readiness-summary" data-variant="schema preview">Copy merge-readiness summary</button>
+      </div>
+      <div class="callout"><p class="muted">Save, submit, queue, execute, deploy, merge, push, and create PR actions are absent by design.</p></div>
+    </article>
+
+    <article class="card plus1b-safety-boundary" id="plus1b-safety-boundary-panel">
+      <div class="card-head"><h3 class="card-title">Master Safety Boundary Panel</h3><span class="badge fail">SAFETY</span></div>
+      <p class="card-body">All outputs are local, temporary, and copy/paste only. Nothing is saved, submitted, queued, executed, or sent to any backend or external service.</p>
+      <div class="stat-grid" id="plus1b-safety-boundary-grid" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));"></div>
+      <div class="callout" style="margin-top:0.75rem;"><p class="muted" id="plus1b-safety-boundary-note">Future real automation requires separate auth, storage, audit, queue, approval, and backend write systems that are not present yet.</p></div>
+    </article>
+  </div>
+
+  <div class="plus1b-preview-grid">
+    <article class="card plus1b-validator-wall" id="plus1b-validator-wall-panel">
+      <div class="card-head"><h3 class="card-title">Master Validator Wall Panel</h3><span class="badge warning">VALIDATORS</span></div>
+      <p class="card-body">Summarises the validator families that must stay green before any merge or production review can be trusted.</p>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus1b-validator-wall-table">
+          <caption>Phase 5 + Original +1 + Original +1B validator wall</caption>
+          <thead><tr><th scope="col">Validator group</th><th scope="col">Pass string</th><th scope="col">Safety category</th><th scope="col">Before merge</th><th scope="col">Before production</th></tr></thead>
+          <tbody id="plus1b-validator-wall-body"><tr><td colspan="5" class="empty">No validator wall yet.</td></tr></tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="card plus1b-mode-emphasis" id="plus1b-mode-emphasis-panel">
+      <div class="card-head"><h3 class="card-title">Mode Emphasis Panel</h3><span class="badge info">MODES</span></div>
+      <p class="card-body">Planning, review, dry-run, handoff, readiness, and no-go modes are display-only. They change emphasis, not permissions.</p>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus1b-mode-table">
+          <caption>Mode emphasis reference</caption>
+          <thead><tr><th scope="col">Mode</th><th scope="col">Emphasizes</th><th scope="col">Does not enable</th><th scope="col">Useful copy outputs</th></tr></thead>
+          <tbody id="plus1b-mode-body"><tr><td colspan="4" class="empty">No mode emphasis yet.</td></tr></tbody>
+        </table>
+      </div>
+    </article>
+  </div>
+</div>
+"""
+    return _details(
+        "Original +1B — Operator Console Consolidation & Automation Contract Layer",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="plus1b-operator-console-contract-layer"
+    )
+
+
 def _build_footer():
     return """
     <footer class="footer">
@@ -1934,8 +2049,10 @@ def _build_roadmap_panel():
         <li><strong>Original Phase 4</strong> — Hosted / Production Dashboard Polish (ACTIVE)</li>
         <li><strong>Original Phase 5</strong> — Interactive Operator Workflow Layer (Planned)</li>
         <li><strong>Original +1</strong> — Controlled Agent / Automation Layer (Planned)</li>
+        <li><strong>Original +1B</strong> — Operator Console Consolidation &amp; Automation Contract Layer (ACTIVE)</li>
       </ul>
-      <p style="margin-top: 1rem;"><strong>Current active direction:</strong> Original Phase 4 — Hosted / Production Dashboard Polish</p>
+      <p class="muted">Original Phase 4 — Hosted / Production Dashboard Polish remains the hosted dashboard baseline.</p>
+      <p style="margin-top: 1rem;"><strong>Current active direction:</strong> Original +1B — Operator Console Consolidation &amp; Automation Contract Layer</p>
       <p class="muted">Note: Phase 4E is intentionally deferred.</p>
     </div>
     """
@@ -1954,7 +2071,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
     <header class="hero dashboard-shell">
       <div class="hero-copy">
         <h1>The Agent Command Center</h1>
-        <p class="lede">A read-only production dashboard for reviewing system status, safety boundaries, static schemas, and operator workflow readiness. Includes Original Phase 5A client-side operator workflow shell, Phase 5B request packet builder, Phase 5C review board, Phase 5D handoff composer, Phase 5E runbook simulator, and Original +1 controlled automation readiness layer.</p>
+        <p class="lede">A read-only production dashboard for reviewing system status, safety boundaries, static schemas, and operator workflow readiness. Includes Original Phase 5A client-side operator workflow shell, Phase 5B request packet builder, Phase 5C review board, Phase 5D handoff composer, Phase 5E runbook simulator, Original +1 controlled automation readiness layer, and Original +1B operator console contract layer.</p>
         <p class="muted" style="margin-top: 0.5rem; font-size: 0.85rem;">Production-hosted. Static/inert. No command execution. No deploy, merge, push, or mutation controls.</p>
       </div>
     </header>
@@ -1975,6 +2092,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_phase5d_handoff_composer(),
         _build_phase5e_runbook_simulator(),
         _build_plus1_controlled_automation_readiness_layer(),
+        _build_plus1b_operator_console_contract_layer(),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),

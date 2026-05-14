@@ -57,12 +57,16 @@ def check_diff():
         "09_exports/original_plus1/",
         "scripts/validate_original_phase_5b",
         "scripts/validate_original_phase_5a",
+        "scripts/validate_original_phase_5c_review_board.py",
         "scripts/validate_original_phase_5d_handoff_composer.py",
         "scripts/validate_original_phase_5d_handoff_composer_e2e.py",
         "scripts/validate_original_phase_5e_runbook_simulator.py",
         "scripts/validate_original_phase_5e_runbook_simulator_e2e.py",
         "scripts/validate_original_plus1_controlled_automation_readiness.py",
         "scripts/validate_original_plus1_controlled_automation_readiness_e2e.py",
+        "scripts/validate_original_plus1b_operator_console_contract_layer.py",
+        "scripts/validate_original_plus1b_operator_console_contract_layer_e2e.py",
+        "scripts/validate_phase5_plus1_master_validator_wall.py",
     ]
 
     for path in changed:

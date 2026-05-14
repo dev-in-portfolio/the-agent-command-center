@@ -1898,6 +1898,498 @@
 })();
 
 (function () {
+  var plus1bState = {
+    pack: null,
+    selectedContractId: "automation_readiness_contract_schema",
+    selectedModeId: "automation_readiness_mode",
+  };
+
+  var flowRail = [
+    { stage: "Phase 5A", status: "complete", purpose: "Client-side operator workflow shell", output_type: "Workflow shell", safety_boundary: "Local-only shell", next_handoff: "Phase 5B" },
+    { stage: "Phase 5B", status: "complete", purpose: "Request packet builder", output_type: "Request packet", safety_boundary: "Copy/paste only", next_handoff: "Phase 5C" },
+    { stage: "Phase 5C", status: "complete", purpose: "Review board and decision ledger", output_type: "Decision ledger", safety_boundary: "Read-only review", next_handoff: "Phase 5D" },
+    { stage: "Phase 5D", status: "complete", purpose: "Handoff composer", output_type: "Handoff document", safety_boundary: "Temporary in-browser state", next_handoff: "Phase 5E" },
+    { stage: "Phase 5E", status: "complete", purpose: "Runbook simulator", output_type: "Scenario transcript", safety_boundary: "Scenario preview only", next_handoff: "Original +1" },
+    { stage: "Original +1", status: "readiness_only", purpose: "Controlled automation readiness", output_type: "Readiness contract", safety_boundary: "Readiness-only", next_handoff: "Original +1B" },
+    { stage: "Original +1B", status: "readiness_only", purpose: "Operator console consolidation and contract layer", output_type: "Contract pack", safety_boundary: "Contracts only", next_handoff: "Future automation phase" },
+  ];
+
+  var modes = [
+    { mode_id: "planning_mode", mode_title: "Planning Mode", emphasizes: "Scope, sequencing, and local review.", not_enabled: "Does not enable execution or mutation.", useful_copy_outputs: "Copy implementation prompt, copy full runbook." },
+    { mode_id: "review_mode", mode_title: "Review Mode", emphasizes: "Validator results and safety notes.", not_enabled: "Does not enable deploy, merge, or push.", useful_copy_outputs: "Copy validator checklist, copy no-go report." },
+    { mode_id: "dry_run_mode", mode_title: "Dry-Run Planning Mode", emphasizes: "Evidence, dry-run plans, and preflight checks.", not_enabled: "Does not enable live action or backend writes.", useful_copy_outputs: "Copy dry-run plan, copy preflight checklist." },
+    { mode_id: "handoff_mode", mode_title: "Handoff Mode", emphasizes: "Copyable runbook and contract handoff text.", not_enabled: "Does not create PRs or queue actions.", useful_copy_outputs: "Copy automation readiness contract, copy merge-readiness summary." },
+    { mode_id: "readiness_mode", mode_title: "Automation Readiness Mode", emphasizes: "Future dependencies and safety gating.", not_enabled: "Does not implement auth or storage.", useful_copy_outputs: "Copy automation readiness contract, copy validator checklist." },
+    { mode_id: "no_go_mode", mode_title: "No-Go Mode", emphasizes: "Blocked operations and rollback boundaries.", not_enabled: "Does not allow execution, mutation, or deployment.", useful_copy_outputs: "Copy no-go report, copy merge-readiness summary." },
+  ];
+
+  var validatorWall = [
+    { group: "Phase 5A validators", pass_string: "ORIGINAL_PHASE_5A_CLIENT_SIDE_WORKFLOW_SHELL_VALIDATION_PASS", safety_category: "read-only", required_before_merge: true, required_before_production: true },
+    { group: "Phase 5B validators", pass_string: "ORIGINAL_PHASE_5B_REQUEST_PACKET_BUILDER_VALIDATION_PASS", safety_category: "read-only", required_before_merge: true, required_before_production: true },
+    { group: "Phase 5C validators", pass_string: "ORIGINAL_PHASE_5C_REVIEW_BOARD_VALIDATION_PASS", safety_category: "read-only", required_before_merge: true, required_before_production: true },
+    { group: "Phase 5D validators", pass_string: "ORIGINAL_PHASE_5D_HANDOFF_COMPOSER_VALIDATION_PASS", safety_category: "read-only", required_before_merge: true, required_before_production: true },
+    { group: "Phase 5E validators", pass_string: "ORIGINAL_PHASE_5E_RUNBOOK_SIMULATOR_VALIDATION_PASS", safety_category: "read-only", required_before_merge: true, required_before_production: true },
+    { group: "Original +1 validators", pass_string: "ORIGINAL_PLUS1_CONTROLLED_AUTOMATION_READINESS_VALIDATION_PASS", safety_category: "readiness-only", required_before_merge: true, required_before_production: true },
+    { group: "Original +1B validators", pass_string: "ORIGINAL_PLUS1B_OPERATOR_CONSOLE_CONTRACT_LAYER_VALIDATION_PASS", safety_category: "readiness-only", required_before_merge: true, required_before_production: true },
+    { group: "Phase 4 / 4D / 4C / 4A validators", pass_string: "BACKEND_PHASE_4A_FOUNDATION_VALIDATION_PASS", safety_category: "foundation", required_before_merge: true, required_before_production: true },
+    { group: "Phase 3 validators", pass_string: "INTERFACE_PHASE_3_DASHBOARD_VALIDATION_PASS", safety_category: "static-dashboard", required_before_merge: true, required_before_production: true },
+  ];
+
+  function p1b(id) {
+    return document.getElementById(id);
+  }
+
+  function escapeHtml(value) {
+    return String(value == null ? "" : value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function copyRenderedText(text, emptyMessage, successMessage) {
+    var status = p1b("copy-status");
+    if (!text) {
+      if (status) status.textContent = emptyMessage;
+      return;
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () {
+        if (status) status.textContent = successMessage;
+      }).catch(function () {});
+      return;
+    }
+    var field = document.createElement("textarea");
+    field.value = text;
+    field.style.position = "fixed";
+    field.style.left = "-9999px";
+    document.body.appendChild(field);
+    field.select();
+    document.execCommand("copy");
+    document.body.removeChild(field);
+    if (status) status.textContent = successMessage;
+  }
+
+  function stat(label, value, badgeClass) {
+    var strongClass = badgeClass ? ' class="badge ' + badgeClass + '"' : "";
+    return "<div class=\"stat\"><span>" + escapeHtml(label) + "</span><strong" + strongClass + ">" + escapeHtml(value) + "</strong></div>";
+  }
+
+  function bindCopyButton(buttonId, getter, emptyMessage, successMessage) {
+    var button = p1b(buttonId);
+    if (!button) {
+      return;
+    }
+    button.addEventListener("click", function () {
+      var snapshot = renderSnapshot();
+      var text = getter(snapshot);
+      copyRenderedText(text, emptyMessage, successMessage);
+    });
+  }
+
+  function getContract(id) {
+    var pack = plus1bState.pack;
+    if (!pack || !pack.schemas) {
+      return null;
+    }
+    for (var i = 0; i < pack.schemas.length; i++) {
+      if (pack.schemas[i].schema_id === id) {
+        return pack.schemas[i];
+      }
+    }
+    return pack.schemas[0] || null;
+  }
+
+  function getMode(id) {
+    for (var i = 0; i < modes.length; i++) {
+      if (modes[i].mode_id === id) {
+        return modes[i];
+      }
+    }
+    return modes[0];
+  }
+
+  function boolBadge(value) {
+    return value ? "pass" : "disabled";
+  }
+
+  function buildFlowRows() {
+    return flowRail.map(function (item) {
+      return "<tr>" +
+        "<th scope=\"row\"><code>" + escapeHtml(item.stage) + "</code></th>" +
+        "<td>" + escapeHtml(item.status) + "</td>" +
+        "<td>" + escapeHtml(item.purpose) + "</td>" +
+        "<td>" + escapeHtml(item.output_type) + "</td>" +
+        "<td>" + escapeHtml(item.safety_boundary) + "</td>" +
+        "<td>" + escapeHtml(item.next_handoff) + "</td>" +
+        "</tr>";
+    }).join("");
+  }
+
+  function buildCockpitGrid(pack) {
+    var schemas = pack && pack.schemas ? pack.schemas : [];
+    return [
+      stat("Current system stage", "ORIGINAL +1B", "warning"),
+      stat("Production phase status", "PRODUCTION_VISIBLE", "pass"),
+      stat("Readiness layer status", "READINESS_ONLY", "pass"),
+      stat("Automation enabled", "false", "disabled"),
+      stat("Execution enabled", "false", "disabled"),
+      stat("Mutation enabled", "false", "disabled"),
+      stat("Backend writes enabled", "false", "disabled"),
+      stat("Persistence enabled", "false", "disabled"),
+      stat("Real queue enabled", "false", "disabled"),
+      stat("Live auth enabled", "false", "disabled"),
+      stat("Safe outputs available", "copy/paste only", "info"),
+      stat("Missing dependencies", "auth, storage, queue, audit, approval, backend write", "warning"),
+      stat("Contract schemas", String(schemas.length || 0), "info"),
+    ].join("");
+  }
+
+  function buildSafetyGrid() {
+    return [
+      stat("Local outputs", "true", "pass"),
+      stat("Copy/paste only", "true", "pass"),
+      stat("Save/submit/queue", "false", "disabled"),
+      stat("Execute/deploy/merge/push", "false", "disabled"),
+      stat("Backend writes", "false", "disabled"),
+      stat("GitHub/Netlify mutation", "false", "disabled"),
+      stat("Future automation", "separate phase", "warning"),
+    ].join("");
+  }
+
+  function buildSchemaRows(pack) {
+    if (!pack || !pack.schemas || !pack.schemas.length) {
+      return '<tr><td colspan="7" class="empty">No contract schema pack loaded yet.</td></tr>';
+    }
+    return pack.schemas.map(function (schema) {
+      return "<tr data-search-text=\"" + escapeHtml([
+        schema.schema_id, schema.schema_version, schema.purpose,
+        (schema.required_fields || []).join(" "),
+        (schema.forbidden_fields || []).join(" "),
+        schema.safety_notes,
+        schema.future_backend_dependency,
+      ].join(" ")) + "\">" +
+        "<th scope=\"row\">" + escapeHtml(schema.schema_id) + "</th>" +
+        "<td>" + escapeHtml(schema.schema_version) + "</td>" +
+        "<td>" + escapeHtml(schema.purpose) + "</td>" +
+        "<td>" + escapeHtml((schema.required_fields || []).join(", ")) + "</td>" +
+        "<td>" + escapeHtml((schema.forbidden_fields || []).join(", ")) + "</td>" +
+        "<td>" + escapeHtml(schema.safety_notes) + "</td>" +
+        "<td>" + escapeHtml(schema.future_backend_dependency) + "</td>" +
+      "</tr>";
+    }).join("");
+  }
+
+  function buildValidatorRows() {
+    return validatorWall.map(function (row) {
+      return "<tr>" +
+        "<th scope=\"row\">" + escapeHtml(row.group) + "</th>" +
+        "<td><code>" + escapeHtml(row.pass_string) + "</code></td>" +
+        "<td>" + escapeHtml(row.safety_category) + "</td>" +
+        "<td>" + (row.required_before_merge ? "Yes" : "No") + "</td>" +
+        "<td>" + (row.required_before_production ? "Yes" : "No") + "</td>" +
+      "</tr>";
+    }).join("");
+  }
+
+  function buildModeRows() {
+    return modes.map(function (mode) {
+      return "<tr>" +
+        "<th scope=\"row\">" + escapeHtml(mode.mode_title) + "</th>" +
+        "<td>" + escapeHtml(mode.emphasizes) + "</td>" +
+        "<td>" + escapeHtml(mode.not_enabled) + "</td>" +
+        "<td>" + escapeHtml(mode.useful_copy_outputs) + "</td>" +
+      "</tr>";
+    }).join("");
+  }
+
+  function buildReadinessContractMarkdown(contract, mode) {
+    if (!contract) {
+      return "No contract selected yet.";
+    }
+    return [
+      "# Original +1B Automation Readiness Contract",
+      "",
+      "## Contract Title",
+      contract.contract_title,
+      "",
+      "## Source Phase",
+      contract.source_phase,
+      "",
+      "## Intended Future Automation Type",
+      contract.intended_future_automation_type,
+      "",
+      "## Action Classification",
+      contract.action_classification,
+      "",
+      "## Required Role",
+      contract.required_role,
+      "",
+      "## Required Approval Gate",
+      contract.required_approval_gate,
+      "",
+      "## Required Dry-Run Evidence",
+      contract.required_dry_run_evidence,
+      "",
+      "## Required Audit Event Model",
+      contract.required_audit_event_model,
+      "",
+      "## Required Rollback / No-Go Policy",
+      contract.required_rollback_policy,
+      "",
+      "## Required Validators",
+      contract.required_validators,
+      "",
+      "## Required Production Verification",
+      contract.required_production_verification,
+      "",
+      "## Forbidden Operations",
+      (contract.forbidden_operations || []).map(function (item) { return "- " + item; }).join("\n"),
+      "",
+      "## Future Dependencies",
+      contract.future_dependencies,
+      "",
+      "## Mode Emphasis",
+      mode.mode_title + " — " + mode.emphasizes,
+    ].join("\n");
+  }
+
+  function buildImplementationPrompt(contract) {
+    if (!contract) {
+      return "No contract selected yet.";
+    }
+    return [
+      "# Implementation Prompt",
+      "",
+      "Build the Original +1B operator console as a readiness-only control layer.",
+      "",
+      "Contract title: " + contract.contract_title,
+      "Source phase: " + contract.source_phase,
+      "Intended future automation: " + contract.intended_future_automation_type,
+      "Action classification: " + contract.action_classification,
+      "Required role: " + contract.required_role,
+      "Required approval gate: " + contract.required_approval_gate,
+      "Required dry-run evidence: " + contract.required_dry_run_evidence,
+      "Required audit event model: " + contract.required_audit_event_model,
+      "Required rollback policy: " + contract.required_rollback_policy,
+      "Required validators: " + contract.required_validators,
+      "Required production verification: " + contract.required_production_verification,
+      "Forbidden operations: " + (contract.forbidden_operations || []).join(", "),
+      "Future dependencies: " + contract.future_dependencies,
+    ].join("\n");
+  }
+
+  function buildFullRunbookMarkdown(contract, mode) {
+    return [
+      "# Original +1B Full Runbook",
+      "",
+      "1. Review the unified operator flow rail.",
+      "2. Confirm the master cockpit remains READINESS_ONLY.",
+      "3. Load the formal contract schema pack.",
+      "4. Review the automation contract builder output.",
+      "5. Copy the local runbook outputs into your operator notes.",
+      "6. Verify the validator wall remains green.",
+      "7. Keep the mode emphasis display-only and inert.",
+      "",
+      "Selected contract: " + (contract ? contract.contract_title : "none"),
+      "Selected mode: " + mode.mode_title,
+      "",
+      "Safety boundary: nothing executes, mutates, deploys, merges, pushes, or creates PRs.",
+    ].join("\n");
+  }
+
+  function buildDryRunPlanMarkdown(contract) {
+    if (!contract) {
+      return "No contract selected yet.";
+    }
+    return [
+      "# Original +1B Dry-Run Plan",
+      "",
+      "Action label: " + contract.schema_id,
+      "Action class: " + contract.action_classification,
+      "Target scope: " + contract.source_phase,
+      "Expected read operations: " + contract.required_dry_run_evidence,
+      "Expected write operations: none",
+      "Required validators: " + contract.required_validators,
+      "Required reports: Original +1B acceptance and production verification reports",
+      "Expected artifacts: Copyable contract bundle and merged readiness notes",
+      "Rollback / no-go conditions: " + contract.required_rollback_policy,
+      "Human approval requirement: " + contract.required_approval_gate,
+      "Future dependencies: " + contract.future_dependencies,
+    ].join("\n");
+  }
+
+  function buildPreflightChecklistMarkdown(contract) {
+    return [
+      "# Original +1B Preflight Checklist",
+      "",
+      "- [ ] auth exists",
+      "- [ ] user role verified",
+      "- [ ] permission checked",
+      "- [ ] request stored",
+      "- [ ] audit log active",
+      "- [ ] dry-run completed",
+      "- [ ] diff reviewed",
+      "- [ ] rollback plan exists",
+      "- [ ] human approval recorded",
+      "- [ ] execution window approved",
+      "- [ ] rate-limit controls present",
+      "- [ ] secrets unavailable to browser",
+      "- [ ] backend mutation endpoint explicitly authorized",
+      "",
+      "Current contract: " + (contract ? contract.contract_title : "none"),
+    ].join("\n");
+  }
+
+  function buildNoGoReportMarkdown(contract) {
+    return [
+      "# Original +1B No-Go Report",
+      "",
+      "The console is readiness-only.",
+      "No live automation is enabled.",
+      "No execution is enabled.",
+      "No mutation is enabled.",
+      "No backend writes are enabled.",
+      "No deploy, merge, push, or PR controls are enabled.",
+      "",
+      "Current contract: " + (contract ? contract.contract_title : "none"),
+      "Forbidden operations: " + (contract ? (contract.forbidden_operations || []).join(", ") : "none"),
+      "Future dependencies: " + (contract ? contract.future_dependencies : "none"),
+    ].join("\n");
+  }
+
+  function buildValidatorChecklistMarkdown() {
+    return [
+      "# Original +1B Validator Checklist",
+      "",
+      "- Phase 5A validators",
+      "- Phase 5B validators",
+      "- Phase 5C validators",
+      "- Phase 5D validators",
+      "- Phase 5E validators",
+      "- Original +1 validators",
+      "- Original +1B validators",
+      "- Phase 4 / 4D / 4C / 4A validators",
+      "- Phase 3 validators",
+    ].join("\n");
+  }
+
+  function buildMergeReadinessSummaryMarkdown(contract, mode) {
+    return [
+      "# Original +1B Merge Readiness Summary",
+      "",
+      "Status: READINESS_ONLY",
+      "Mode: " + mode.mode_title,
+      "Contract: " + (contract ? contract.contract_title : "none"),
+      "",
+      "This layer is copy/paste only and remains inert.",
+      "Nothing is saved, submitted, queued, executed, deployed, merged, pushed, or PR-created.",
+    ].join("\n");
+  }
+
+  function renderSnapshot() {
+    var pack = plus1bState.pack;
+    var contract = getContract(plus1bState.selectedContractId);
+    var mode = getMode(plus1bState.selectedModeId);
+    return {
+      pack: pack,
+      contract: contract,
+      mode: mode,
+      flow_rows_html: buildFlowRows(),
+      cockpit_grid_html: buildCockpitGrid(pack || {}),
+      schema_rows_html: buildSchemaRows(pack),
+      schema_preview_text: pack ? JSON.stringify(pack, null, 2) : "No contract schema pack loaded yet.",
+      contract_preview_text: buildReadinessContractMarkdown(contract, mode),
+      safety_grid_html: buildSafetyGrid(),
+      validator_rows_html: buildValidatorRows(),
+      mode_rows_html: buildModeRows(),
+      implementation_prompt_markdown: buildImplementationPrompt(contract),
+      full_runbook_markdown: buildFullRunbookMarkdown(contract, mode),
+      readiness_contract_markdown: buildReadinessContractMarkdown(contract, mode),
+      dry_run_markdown: buildDryRunPlanMarkdown(contract),
+      preflight_markdown: buildPreflightChecklistMarkdown(contract),
+      no_go_markdown: buildNoGoReportMarkdown(contract),
+      validator_checklist_markdown: buildValidatorChecklistMarkdown(),
+      merge_readiness_markdown: buildMergeReadinessSummaryMarkdown(contract, mode),
+    };
+  }
+
+  function updatePlus1BUI() {
+    var snapshot = renderSnapshot();
+    var flowBody = p1b("plus1b-flow-body");
+    var cockpitGrid = p1b("plus1b-master-cockpit-grid");
+    var cockpitNote = p1b("plus1b-master-cockpit-note");
+    var schemaBody = p1b("plus1b-contract-schema-body");
+    var schemaPreview = p1b("plus1b-contract-schema-preview");
+    var contractPreview = p1b("plus1b-contract-preview");
+    var safetyGrid = p1b("plus1b-safety-boundary-grid");
+    var safetyNote = p1b("plus1b-safety-boundary-note");
+    var validatorBody = p1b("plus1b-validator-wall-body");
+    var modeBody = p1b("plus1b-mode-body");
+
+    if (flowBody) flowBody.innerHTML = snapshot.flow_rows_html;
+    if (cockpitGrid) cockpitGrid.innerHTML = snapshot.cockpit_grid_html;
+    if (cockpitNote) cockpitNote.textContent = "The console remains readiness-only. Nothing executes, nothing mutates, and no backend dependency is live yet.";
+    if (schemaBody) schemaBody.innerHTML = snapshot.schema_rows_html;
+    if (schemaPreview) schemaPreview.textContent = snapshot.schema_preview_text;
+    if (contractPreview) contractPreview.textContent = snapshot.contract_preview_text;
+    if (safetyGrid) safetyGrid.innerHTML = snapshot.safety_grid_html;
+    if (safetyNote) safetyNote.textContent = "Future real automation requires separate auth, storage, audit, queue, approval, and backend write systems that are not present yet.";
+    if (validatorBody) validatorBody.innerHTML = snapshot.validator_rows_html;
+    if (modeBody) modeBody.innerHTML = snapshot.mode_rows_html;
+  }
+
+  function loadSchemaPack() {
+    var schemaPreview = p1b("plus1b-contract-schema-preview");
+    var dashboardData = getDashboardData();
+    var embeddedPack = dashboardData.original_plus1b_contract_schemas || null;
+    if (schemaPreview) {
+      schemaPreview.textContent = embeddedPack ? "Loading contract schema pack from dashboard data..." : "No contract schema pack loaded yet.";
+    }
+    plus1bState.pack = embeddedPack;
+    updatePlus1BUI();
+    if (schemaPreview) {
+      schemaPreview.textContent = embeddedPack ? JSON.stringify(embeddedPack, null, 2) : "No contract schema pack loaded yet.";
+    }
+    var status = p1b("copy-status");
+    if (status && embeddedPack) {
+      status.textContent = "Original +1B contract schema pack loaded from dashboard data.";
+    }
+  }
+
+  function initPlus1B() {
+    var shell = document.querySelector("[data-plus1b-operator-console-contract-layer]");
+    if (!shell) {
+      return;
+    }
+
+    bindCopyButton("plus1b-copy-implementation-prompt", function (snapshot) { return snapshot.implementation_prompt_markdown; }, "Original +1B: Load a contract schema first.", "Original +1B: Implementation prompt copied.");
+    bindCopyButton("plus1b-copy-full-runbook", function (snapshot) { return snapshot.full_runbook_markdown; }, "Original +1B: Load a contract schema first.", "Original +1B: Full runbook copied.");
+    bindCopyButton("plus1b-copy-readiness-contract", function (snapshot) { return snapshot.readiness_contract_markdown; }, "Original +1B: Load a contract schema first.", "Original +1B: Readiness contract copied.");
+    bindCopyButton("plus1b-copy-dry-run-plan", function (snapshot) { return snapshot.dry_run_markdown; }, "Original +1B: Load a contract schema first.", "Original +1B: Dry-run plan copied.");
+    bindCopyButton("plus1b-copy-preflight-checklist", function (snapshot) { return snapshot.preflight_markdown; }, "Original +1B: Load a contract schema first.", "Original +1B: Preflight checklist copied.");
+    bindCopyButton("plus1b-copy-no-go-report", function (snapshot) { return snapshot.no_go_markdown; }, "Original +1B: Load a contract schema first.", "Original +1B: No-go report copied.");
+    bindCopyButton("plus1b-copy-validator-checklist", function (snapshot) { return snapshot.validator_checklist_markdown; }, "Original +1B: Load a contract schema first.", "Original +1B: Validator checklist copied.");
+    bindCopyButton("plus1b-copy-merge-readiness-summary", function (snapshot) { return snapshot.merge_readiness_markdown; }, "Original +1B: Load a contract schema first.", "Original +1B: Merge-readiness summary copied.");
+
+    var loadButton = p1b("plus1b-load-schema-pack-button");
+    if (loadButton) {
+      loadButton.addEventListener("click", loadSchemaPack);
+    }
+
+    updatePlus1BUI();
+    loadSchemaPack();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initPlus1B);
+  } else {
+    initPlus1B();
+  }
+})();
+
+(function () {
   var phase5aState = null;
   var auditEvents = [];
 

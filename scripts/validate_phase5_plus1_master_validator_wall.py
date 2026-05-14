@@ -1,0 +1,149 @@
+#!/usr/bin/env python3
+"""Phase 5 + Original +1 + Original +1B master validator wall."""
+
+from pathlib import Path
+import json
+import re
+import subprocess
+import sys
+
+ROOT = Path(__file__).resolve().parent.parent
+DIST = ROOT / "13_web_dashboard" / "dist"
+STATIC = ROOT / "13_web_dashboard" / "static"
+PHASE5 = ROOT / "09_exports" / "interface_phase_5"
+PLUS1 = ROOT / "09_exports" / "original_plus1"
+
+errors = []
+
+
+def check(condition, message):
+    if not condition:
+        errors.append(message)
+
+
+def file_contains(path, text):
+    return path.exists() and text in path.read_text(encoding="utf-8", errors="replace")
+
+
+def js_safety_check(path):
+    if not path.exists():
+        errors.append(f"Missing JS file: {path.relative_to(ROOT)}")
+        return
+    text = path.read_text(encoding="utf-8", errors="replace")
+    for token in [
+        "localStorage", "sessionStorage", "document.cookie", "indexedDB", "IndexedDB", "caches.", "serviceWorker",
+        "WebSocket", "EventSource", "sendBeacon", "eval(", "Function(", "import(", "Blob", "URL.createObjectURL", "FileReader",
+    ]:
+        check(token not in text, f"dashboard.js contains forbidden token: {token}")
+    for method in ['method: "POST"', "method:'POST'", 'method: "PUT"', "method:'PUT'", 'method: "PATCH"', "method:'PATCH'", 'method: "DELETE"', "method:'DELETE'"]:
+        check(method not in text, f"dashboard.js contains forbidden HTTP method: {method}")
+    allowed_fetches = {
+        "/api/health",
+        "/api/status",
+        "/api/backend-manifest",
+        "./status_snapshot.json",
+        "./phase4d_identity_schema.json",
+        "./phase4d_action_schema.json",
+        "./phase4d_audit_schema.json",
+        "./phase4d_approval_schema.json",
+        "./phase4d_risk_model.json",
+        "./original_plus1b_contract_schemas.json",
+    }
+    for target in re.findall(r'fetch\(["\']([^"\']+)["\']', text):
+        check(target in allowed_fetches, f"dashboard.js unauthorized fetch: {target}")
+
+
+report_requirements = [
+    (PHASE5 / "original_phase_5_final_acceptance_report.md", "PHASE_5_COMPLETE"),
+    (PHASE5 / "original_phase_5_final_production_summary.md", "PRODUCTION_VISIBLE"),
+    (PHASE5 / "original_phase_5e_production_verification_report.md", "PRODUCTION_VERIFIED"),
+    (PLUS1 / "original_plus1_production_verification_report.md", "PRODUCTION_VERIFIED"),
+    (PLUS1 / "original_plus1_acceptance_report.md", "PASS_WITH_HIGH_CONFIDENCE"),
+    (PLUS1 / "original_plus1b_acceptance_report.md", "PASS_WITH_HIGH_CONFIDENCE"),
+    (PLUS1 / "original_plus1b_operator_console_consolidation_report.md", "PASS_WITH_HIGH_CONFIDENCE"),
+    (PLUS1 / "original_plus1b_automation_contract_layer_report.md", "PASS_WITH_HIGH_CONFIDENCE"),
+    (PLUS1 / "original_plus1b_contract_schema_report.md", "PASS_WITH_HIGH_CONFIDENCE"),
+    (PLUS1 / "original_plus1b_master_validator_wall_report.md", "PASS_WITH_HIGH_CONFIDENCE"),
+    (PLUS1 / "original_plus1b_design_report.md", "PASS_WITH_HIGH_CONFIDENCE"),
+    (PLUS1 / "original_plus1b_safety_report.md", "PASS_WITH_HIGH_CONFIDENCE"),
+]
+for path, marker in report_requirements:
+    check(path.exists(), f"missing report: {path.relative_to(ROOT)}")
+    if path.exists():
+        check(marker in path.read_text(encoding="utf-8", errors="replace"), f"report missing marker: {path.name}")
+
+index = (DIST / "index.html").read_text(encoding="utf-8", errors="replace")
+for marker in [
+    "Original Phase 5A",
+    "Original Phase 5B",
+    "Original Phase 5C",
+    "Original Phase 5D",
+    "Original Phase 5E",
+    "Original +1",
+    "Original +1B",
+    "NO LIVE AUTOMATION",
+    "NO EXECUTION",
+    "NO MUTATION",
+    "NO BACKEND WRITES",
+]:
+    check(marker in index, f"index.html missing required marker: {marker}")
+
+for match in re.finditer(r'(<button[^>]*>)([^<]+)(</button>)', index):
+    tag, button_label, _ = match.groups()
+    clean = button_label.strip().lower()
+    if clean.startswith("copy ") or clean.startswith("load ") or clean.startswith("phase ") or clean.startswith("original +"):
+        continue
+    if any(word in clean for word in ["deploy", "merge", "push", "execute", "submit", "save", "queue", "create pr"]):
+        check(False, f"index.html has forbidden enabled button label: {button_label.strip()}")
+
+js_safety_check(STATIC / "dashboard.js")
+js_safety_check(DIST / "static" / "dashboard.js")
+
+changed = subprocess.run(
+    ["git", "diff", "--name-only", "origin/master..HEAD"],
+    capture_output=True,
+    text=True,
+    cwd=ROOT,
+).stdout.strip().splitlines()
+
+allowed_prefixes = [
+    "13_web_dashboard/",
+    "09_exports/interface_phase_5/",
+    "09_exports/original_plus1/",
+    "scripts/validate_original_plus1b_operator_console_contract_layer.py",
+    "scripts/validate_original_plus1b_operator_console_contract_layer_e2e.py",
+    "scripts/validate_phase5_plus1_master_validator_wall.py",
+    "scripts/validate_original_plus1_controlled_automation_readiness.py",
+    "scripts/validate_original_plus1_controlled_automation_readiness_e2e.py",
+    "scripts/validate_original_phase_5b_request_packet_builder_e2e.py",
+    "scripts/validate_original_phase_5c_review_board.py",
+    "scripts/validate_original_phase_5d_handoff_composer.py",
+    "scripts/validate_original_phase_5d_handoff_composer_e2e.py",
+    "scripts/validate_original_phase_5e_runbook_simulator.py",
+    "scripts/validate_original_phase_5e_runbook_simulator_e2e.py",
+]
+
+forbidden_prefixes = [
+    "netlify/functions/",
+    "09_exports/interface_phase_1/",
+    "09_exports/interface_phase_2/",
+    "09_exports/interface_phase_3/",
+    "09_exports/interface_phase_4/",
+    "11_interface/",
+    "12_tui/",
+    "10_runtime/",
+    "14_backend/",
+]
+
+for path in changed:
+    for prefix in forbidden_prefixes:
+        check(not path.startswith(prefix), f"Forbidden changed path: {path}")
+    check(any(path.startswith(prefix) for prefix in allowed_prefixes), f"Unexpected changed path: {path}")
+
+if errors:
+    print("VALIDATION_FAIL")
+    for error in errors:
+        print(f"  - {error}")
+    sys.exit(1)
+
+print("PHASE5_PLUS1_MASTER_VALIDATOR_WALL_PASS")
