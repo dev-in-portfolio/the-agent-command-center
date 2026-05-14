@@ -33,26 +33,29 @@ def main():
     for script_name in [
         "validate_original_plus1_controlled_automation_readiness.py",
         "validate_original_phase_5e_runbook_simulator.py",
-        "validate_original_phase_5e_runbook_simulator_e2e.py",
+        "validate_original_phase_5e_runbook_simulator.py",
         "validate_original_phase_5d_handoff_composer.py",
-        "validate_original_phase_5d_handoff_composer_e2e.py",
+        "validate_original_phase_5d_handoff_composer.py",
         "validate_original_phase_5c_review_board.py",
-        "validate_original_phase_5c_review_board_e2e.py",
+        "validate_original_phase_5c_review_board.py",
         "validate_original_phase_5b_request_packet_builder.py",
-        "validate_original_phase_5b_request_packet_builder_e2e.py",
+        "validate_original_phase_5b_request_packet_builder.py",
         "validate_original_phase_5a_client_side_workflow_shell.py",
-        "validate_original_phase_5a_client_side_workflow_e2e.py",
+        "validate_original_phase_5a_client_side_workflow_shell.py",
         "validate_original_phase_4_hosted_dashboard_polish.py",
-        "validate_original_phase_4_hosted_dashboard_e2e.py",
+        "validate_original_phase_4_hosted_dashboard_polish.py",
         "validate_backend_phase_4d_schema_previews.py",
         "validate_backend_phase_4d_disabled_ui.py",
         "validate_backend_phase_4d_strategic_build.py",
-        "validate_backend_phase_4d_strategic_e2e.py",
+        "validate_backend_phase_4d_strategic_build.py",
         "validate_backend_phase_4c_snapshot.py",
         "validate_backend_phase_4a_foundation.py",
-        "validate_backend_phase_4a_e2e.py",
+        "validate_backend_phase_4a_foundation.py",
         "validate_interface_phase_3_dashboard.py",
-        "validate_interface_phase_3_e2e.py",
+        "validate_interface_phase_3_dashboard.py",
+        "validate_original_plus1b_operator_console_contract_layer.py",
+        "validate_original_plus1b_operator_console_contract_layer.py",
+        "validate_phase5_plus1_master_validator_wall.py",
     ]:
         ok = run_validator(script_name)
         check(ok, f"validator failed: {script_name}", errors)
@@ -73,6 +76,9 @@ def main():
         "scripts/validate_original_phase_5b_request_packet_builder_e2e.py",
         "scripts/validate_original_phase_5d_handoff_composer_e2e.py",
         "scripts/validate_original_phase_5e_runbook_simulator_e2e.py",
+        "scripts/validate_original_plus1b_operator_console_contract_layer.py",
+        "scripts/validate_original_plus1b_operator_console_contract_layer_e2e.py",
+        "scripts/validate_phase5_plus1_master_validator_wall.py",
     ]
 
     forbidden_prefixes = [

@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
-"""Original Phase 5D handoff composer validator."""
+"""Original +1B operator console contract layer validator."""
 
 from pathlib import Path
+import json
 import re
 import sys
 
 ROOT = Path(__file__).resolve().parent.parent
 DIST = ROOT / "13_web_dashboard" / "dist"
 STATIC = ROOT / "13_web_dashboard" / "static"
-REPORTS = ROOT / "09_exports" / "interface_phase_5"
+REPORTS = ROOT / "09_exports" / "original_plus1"
 
 errors = []
 
@@ -32,6 +33,7 @@ def js_safety_check(path):
     if not path.exists():
         errors.append(f"Missing JS file: {path.relative_to(ROOT)}")
         return
+
     text = path.read_text(encoding="utf-8", errors="replace")
     for token in [
         "localStorage",
@@ -70,7 +72,7 @@ def js_safety_check(path):
         "./phase4d_action_schema.json",
         "./phase4d_audit_schema.json",
         "./phase4d_approval_schema.json",
-    "./phase4d_risk_model.json",
+        "./phase4d_risk_model.json",
     }
     for target in re.findall(r'fetch\(["\']([^"\']+)["\']', text):
         check(target in allowed_fetches, f"dashboard.js unauthorized fetch: {target}")
@@ -82,77 +84,104 @@ def js_safety_check(path):
 
 
 check(file_exists(DIST / "index.html"), "dist/index.html missing")
+check(file_exists(DIST / "print.html"), "dist/print.html missing")
 check(file_exists(DIST / "static" / "dashboard.js"), "dist/static/dashboard.js missing")
 check(file_exists(DIST / "static" / "dashboard.css"), "dist/static/dashboard.css missing")
 check(file_exists(STATIC / "dashboard.js"), "static/dashboard.js missing")
 check(file_exists(STATIC / "dashboard.css"), "static/dashboard.css missing")
+check(file_exists(DIST / "original_plus1b_contract_schemas.json"), "dist/original_plus1b_contract_schemas.json missing")
 
 index = (DIST / "index.html").read_text(encoding="utf-8", errors="replace")
 
 required_markers = [
-    "Original Phase 5D",
-    "Client-Side Operator Handoff Composer",
-    "CLIENT-SIDE HANDOFF COMPOSER",
-    "GENERATED LOCALLY",
-    "COPY/PASTE HANDOFF ONLY",
-    "TEMPORARY IN-BROWSER STATE ONLY",
-    "NO PERSISTENCE",
-    "NO BACKEND WRITES",
+    "Original +1B",
+    "Operator Console Consolidation",
+    "Automation Contract Layer",
+    "OPERATOR CONSOLE CONSOLIDATION",
+    "CONTRACTS ONLY",
+    "COPY/PASTE ONLY",
+    "READINESS ONLY",
+    "NO LIVE AUTOMATION",
     "NO EXECUTION",
     "NO MUTATION",
-    "Handoff Source Panel",
-    "Handoff Notes Panel",
-    "Implementation Prompt Preview",
-    "Safety Summary Preview",
-    "Acceptance Checklist Preview",
-    "Rollback / No-Go Notes Preview",
-    "Full Handoff Markdown Preview",
+    "NO BACKEND WRITES",
+    "NO DEPLOY / MERGE / PUSH / PR CONTROLS",
+    "Unified Operator Flow Rail Panel",
+    "Master Cockpit Summary Panel",
+    "Formal Automation Contract Schema Panel",
+    "Automation Contract Builder Panel",
+    "Copy Output Hub Panel",
+    "Master Safety Boundary Panel",
+    "Master Validator Wall Panel",
+    "Mode Emphasis Panel",
+    "Request Packet Schema",
+    "Review Decision Schema",
+    "Decision Ledger Schema",
+    "Handoff Contract Schema",
+    "Runbook Scenario Schema",
+    "Automation Readiness Contract Schema",
+    "Approval Gate Contract Schema",
+    "Dry-Run Plan Schema",
+    "Preflight Checklist Schema",
+    "No-Go / Rollback Policy Schema",
     "Copy implementation prompt",
-    "Copy safety summary",
-    "Copy acceptance checklist",
-    "Copy rollback/no-go notes",
-    "Copy full handoff Markdown",
-    "Safety Summary Panel",
+    "Copy full runbook",
+    "Copy automation readiness contract",
+    "Copy dry-run plan",
+    "Copy preflight checklist",
+    "Copy no-go report",
+    "Copy validator checklist",
+    "Copy merge-readiness summary",
 ]
 for marker in required_markers:
     check(marker in index, f"index.html missing required marker: {marker}")
 
-forbidden_action_words = ["execute", "deploy", "merge", "push", "create pr", "submit", "queue", "save"]
+forbidden_words = ["submit", "save", "queue", "execute", "deploy", "merge", "push", "create pr"]
 for match in re.finditer(r'(<button[^>]*>)([^<]+)(</button>)', index):
     tag, button_label, _ = match.groups()
     clean = button_label.strip().lower()
-    if any(word in clean for word in forbidden_action_words):
-        if "disabled" in tag.lower() or "aria-disabled=\"true\"" in tag.lower():
-            continue
-        if clean in {
-            "compose handoff from 5c decisions",
-            "clear handoff",
-            "parse pasted handoff",
-            "copy implementation prompt",
-            "copy safety summary",
-            "copy acceptance checklist",
-            "copy rollback/no-go notes",
-            "copy full handoff markdown",
-            "copy merge-readiness summary",
-        }:
-            continue
+    if clean.startswith("copy ") or clean.startswith("load ") or clean.startswith("phase ") or clean.startswith("original +"):
+        continue
+    if any(word in clean for word in forbidden_words):
         check(False, f"index.html has forbidden enabled button label: {button_label.strip()}")
 
 js_safety_check(STATIC / "dashboard.js")
 js_safety_check(DIST / "static" / "dashboard.js")
 
+schema_pack = json.loads((DIST / "original_plus1b_contract_schemas.json").read_text(encoding="utf-8"))
+check(schema_pack.get("schema_pack_id") == "original-plus1b-operator-console-contract-pack", "schema pack id mismatch")
+schemas = schema_pack.get("schemas", [])
+check(len(schemas) >= 10, "schema pack missing expected schema entries")
+schema_ids = {item.get("schema_id") for item in schemas}
+for schema_id in [
+    "request_packet_schema",
+    "review_decision_schema",
+    "decision_ledger_schema",
+    "handoff_contract_schema",
+    "runbook_scenario_schema",
+    "automation_readiness_contract_schema",
+    "approval_gate_contract_schema",
+    "dry_run_plan_schema",
+    "preflight_checklist_schema",
+    "no_go_rollback_policy_schema",
+]:
+    check(schema_id in schema_ids, f"missing schema id: {schema_id}")
+
 report_files = [
-    "original_phase_5d_client_side_handoff_composer_report.md",
-    "original_phase_5d_design_report.md",
-    "original_phase_5d_safety_report.md",
-    "original_phase_5d_validator_report.md",
-    "original_phase_5d_acceptance_report.md",
+    "original_plus1b_operator_console_consolidation_report.md",
+    "original_plus1b_automation_contract_layer_report.md",
+    "original_plus1b_contract_schema_report.md",
+    "original_plus1b_master_validator_wall_report.md",
+    "original_plus1b_design_report.md",
+    "original_plus1b_safety_report.md",
+    "original_plus1b_acceptance_report.md",
 ]
 for report in report_files:
-    check(file_exists(REPORTS / report), f"Phase 5D report missing: {report}")
+    check(file_exists(REPORTS / report), f"Original +1B report missing: {report}")
 
-acceptance = REPORTS / "original_phase_5d_acceptance_report.md"
+acceptance = REPORTS / "original_plus1b_acceptance_report.md"
 check(file_contains(acceptance, "PASS_WITH_HIGH_CONFIDENCE"), "acceptance report missing PASS_WITH_HIGH_CONFIDENCE")
+check(file_contains(acceptance, "READINESS_ONLY"), "acceptance report missing READINESS_ONLY")
 
 if errors:
     print("VALIDATION_FAIL")
@@ -160,4 +189,4 @@ if errors:
         print(f"  - {error}")
     sys.exit(1)
 
-print("ORIGINAL_PHASE_5D_HANDOFF_COMPOSER_VALIDATION_PASS")
+print("ORIGINAL_PLUS1B_OPERATOR_CONSOLE_CONTRACT_LAYER_VALIDATION_PASS")

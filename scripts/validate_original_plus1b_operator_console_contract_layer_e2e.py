@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Original Phase 5D handoff composer e2e validator."""
+"""Original +1B operator console contract layer e2e validator."""
 
 import subprocess
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-REPORTS = ROOT / "09_exports" / "interface_phase_5"
+REPORTS = ROOT / "09_exports" / "original_plus1"
 
 
 def run_validator(script_name):
@@ -28,9 +28,16 @@ def check(condition, message, errors):
 
 def main():
     errors = []
-    print("Running Original Phase 5D Handoff Composer E2E Validator...\n")
+    print("Running Original +1B Operator Console Contract Layer E2E Validator...\n")
 
     for script_name in [
+        "validate_original_plus1b_operator_console_contract_layer.py",
+        "validate_phase5_plus1_master_validator_wall.py",
+        "validate_original_plus1_controlled_automation_readiness.py",
+        "validate_original_plus1_controlled_automation_readiness.py",
+        "validate_original_phase_5e_runbook_simulator.py",
+        "validate_original_phase_5e_runbook_simulator.py",
+        "validate_original_phase_5d_handoff_composer.py",
         "validate_original_phase_5d_handoff_composer.py",
         "validate_original_phase_5c_review_board.py",
         "validate_original_phase_5c_review_board.py",
@@ -62,18 +69,15 @@ def main():
 
     allowed_prefixes = [
         "13_web_dashboard/",
-        "09_exports/interface_phase_5/",
         "09_exports/original_plus1/",
-        "scripts/validate_original_phase_5d_handoff_composer.py",
-        "scripts/validate_original_phase_5d_handoff_composer_e2e.py",
-        "scripts/validate_original_phase_5b_request_packet_builder_e2e.py",
-        "scripts/validate_original_phase_5e_runbook_simulator.py",
-        "scripts/validate_original_phase_5e_runbook_simulator_e2e.py",
-        "scripts/validate_original_plus1_controlled_automation_readiness.py",
-        "scripts/validate_original_plus1_controlled_automation_readiness_e2e.py",
         "scripts/validate_original_plus1b_operator_console_contract_layer.py",
         "scripts/validate_original_plus1b_operator_console_contract_layer_e2e.py",
         "scripts/validate_phase5_plus1_master_validator_wall.py",
+        "scripts/validate_original_plus1_controlled_automation_readiness.py",
+        "scripts/validate_original_plus1_controlled_automation_readiness_e2e.py",
+        "scripts/validate_original_phase_5b_request_packet_builder_e2e.py",
+        "scripts/validate_original_phase_5d_handoff_composer_e2e.py",
+        "scripts/validate_original_phase_5e_runbook_simulator_e2e.py",
     ]
 
     forbidden_prefixes = [
@@ -96,11 +100,13 @@ def main():
             errors.append(f"Unexpected changed path: {path}")
 
     for report_name in [
-        "original_phase_5d_client_side_handoff_composer_report.md",
-        "original_phase_5d_design_report.md",
-        "original_phase_5d_safety_report.md",
-        "original_phase_5d_validator_report.md",
-        "original_phase_5d_acceptance_report.md",
+        "original_plus1b_operator_console_consolidation_report.md",
+        "original_plus1b_automation_contract_layer_report.md",
+        "original_plus1b_contract_schema_report.md",
+        "original_plus1b_master_validator_wall_report.md",
+        "original_plus1b_design_report.md",
+        "original_plus1b_safety_report.md",
+        "original_plus1b_acceptance_report.md",
     ]:
         path = REPORTS / report_name
         check(path.exists(), f"missing report: {report_name}", errors)
@@ -113,7 +119,7 @@ def main():
             print(f"  - {error}")
         sys.exit(1)
 
-    print("ORIGINAL_PHASE_5D_HANDOFF_COMPOSER_E2E_VALIDATION_PASS")
+    print("ORIGINAL_PLUS1B_OPERATOR_CONSOLE_CONTRACT_LAYER_E2E_VALIDATION_PASS")
 
 
 if __name__ == "__main__":

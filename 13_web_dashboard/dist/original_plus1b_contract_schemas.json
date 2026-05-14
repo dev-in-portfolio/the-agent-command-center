@@ -1,0 +1,391 @@
+{
+  "schema_pack_id": "original-plus1b-operator-console-contract-pack",
+  "schema_pack_version": "1.0",
+  "schemas": [
+    {
+      "schema_id": "request_packet_schema",
+      "schema_version": "1.0",
+      "contract_title": "Request Packet Schema",
+      "source_phase": "Phase 5B",
+      "intended_future_automation_type": "Request packet normalization",
+      "action_classification": "READ_ONLY_STATUS",
+      "required_role": "operator",
+      "required_approval_gate": "planning-only approval",
+      "required_dry_run_evidence": "Local request packet preview and validator notes",
+      "required_audit_event_model": "Copy-only request audit trail",
+      "required_rollback_policy": "Stop if the packet needs execution or backend mutation.",
+      "required_validators": "Phase 5B, Phase 5C, Phase 5E, Original +1, Original +1B",
+      "required_production_verification": "Copy-only production-visible dashboard review",
+      "purpose": "Normalize operator request packets without enabling execution.",
+      "required_fields": [
+        "request_id",
+        "intent",
+        "scope",
+        "phase",
+        "safety_boundary"
+      ],
+      "forbidden_fields": [
+        "command",
+        "mutation",
+        "secret",
+        "deploy_control",
+        "push_control"
+      ],
+      "safety_notes": "Copy/paste only. No storage, no queue, no live action.",
+      "future_backend_dependency": "Future request store and approval service",
+      "forbidden_operations": [
+        "execute",
+        "deploy",
+        "merge",
+        "push",
+        "create_pr"
+      ],
+      "future_dependencies": "Future auth, storage, approval, and audit persistence"
+    },
+    {
+      "schema_id": "review_decision_schema",
+      "schema_version": "1.0",
+      "contract_title": "Review Decision Schema",
+      "source_phase": "Phase 5C",
+      "intended_future_automation_type": "Review decision capture",
+      "action_classification": "VALIDATOR_REVIEW",
+      "required_role": "reviewer",
+      "required_approval_gate": "human review gate",
+      "required_dry_run_evidence": "Reviewer notes and local decision summary",
+      "required_audit_event_model": "Read-only decision event",
+      "required_rollback_policy": "Stop if the decision becomes a live approval.",
+      "required_validators": "Phase 5C and downstream read-only validators",
+      "required_production_verification": "Production-visible copy-only decision summary",
+      "purpose": "Capture review-board decisions without mutation.",
+      "required_fields": [
+        "decision_id",
+        "request_id",
+        "decision",
+        "notes",
+        "reviewer"
+      ],
+      "forbidden_fields": [
+        "execute",
+        "mutation",
+        "deploy",
+        "merge",
+        "push"
+      ],
+      "safety_notes": "Decision is informational only until future systems exist.",
+      "future_backend_dependency": "Future review ledger and approval storage",
+      "forbidden_operations": [
+        "execute",
+        "deploy",
+        "merge",
+        "push",
+        "create_pr"
+      ],
+      "future_dependencies": "Future auth, audit storage, and approval persistence"
+    },
+    {
+      "schema_id": "decision_ledger_schema",
+      "schema_version": "1.0",
+      "contract_title": "Decision Ledger Schema",
+      "source_phase": "Phase 5C",
+      "intended_future_automation_type": "Decision ledger persistence",
+      "action_classification": "REPORT_GENERATION",
+      "required_role": "approver",
+      "required_approval_gate": "human approval gate",
+      "required_dry_run_evidence": "Local ledger preview and validator output",
+      "required_audit_event_model": "Ledger entry snapshot",
+      "required_rollback_policy": "Stop if the ledger path requires live storage.",
+      "required_validators": "Phase 5C, Phase 5D, Phase 5E",
+      "required_production_verification": "Copy-only ledger preview in production",
+      "purpose": "Describe how a future decision ledger would be structured.",
+      "required_fields": [
+        "ledger_id",
+        "decision_id",
+        "timestamp_utc",
+        "state",
+        "notes"
+      ],
+      "forbidden_fields": [
+        "command",
+        "mutation",
+        "secret",
+        "deploy_control"
+      ],
+      "safety_notes": "No live ledger exists in the current build.",
+      "future_backend_dependency": "Future ledger store and audit persistence",
+      "forbidden_operations": [
+        "execute",
+        "deploy",
+        "merge",
+        "push",
+        "create_pr"
+      ],
+      "future_dependencies": "Future auth, storage, approval, and audit services"
+    },
+    {
+      "schema_id": "handoff_contract_schema",
+      "schema_version": "1.0",
+      "contract_title": "Handoff Contract Schema",
+      "source_phase": "Phase 5D",
+      "intended_future_automation_type": "Operator handoff composition",
+      "action_classification": "PLANNING_HANDOFF",
+      "required_role": "operator",
+      "required_approval_gate": "handoff review gate",
+      "required_dry_run_evidence": "Local handoff preview and safety summary",
+      "required_audit_event_model": "Handoff composition event",
+      "required_rollback_policy": "Stop if the handoff becomes executable.",
+      "required_validators": "Phase 5D, Phase 5E, Original +1, Original +1B",
+      "required_production_verification": "Production-visible copy-only handoff summary",
+      "purpose": "Define the contract for a future handoff composer.",
+      "required_fields": [
+        "handoff_id",
+        "source_packets",
+        "safety_summary",
+        "notes"
+      ],
+      "forbidden_fields": [
+        "command",
+        "mutation",
+        "secret",
+        "deploy_control"
+      ],
+      "safety_notes": "The current implementation is copy/paste only.",
+      "future_backend_dependency": "Future handoff storage and review persistence",
+      "forbidden_operations": [
+        "execute",
+        "deploy",
+        "merge",
+        "push",
+        "create_pr"
+      ],
+      "future_dependencies": "Future auth, storage, approval, and audit services"
+    },
+    {
+      "schema_id": "runbook_scenario_schema",
+      "schema_version": "1.0",
+      "contract_title": "Runbook Scenario Schema",
+      "source_phase": "Phase 5E",
+      "intended_future_automation_type": "Scenario simulation",
+      "action_classification": "DRY_RUN_REQUIRED",
+      "required_role": "operator",
+      "required_approval_gate": "dry-run only gate",
+      "required_dry_run_evidence": "Scenario transcript and safety note",
+      "required_audit_event_model": "Scenario simulation event",
+      "required_rollback_policy": "Stop if the scenario becomes a live action path.",
+      "required_validators": "Phase 5E and downstream read-only validators",
+      "required_production_verification": "Production-visible scenario preview only",
+      "purpose": "Describe the structure of a future operator scenario.",
+      "required_fields": [
+        "scenario_id",
+        "scenario_title",
+        "workflow_type",
+        "safety_note"
+      ],
+      "forbidden_fields": [
+        "command",
+        "mutation",
+        "secret",
+        "deploy_control"
+      ],
+      "safety_notes": "The runbook simulator remains local and temporary.",
+      "future_backend_dependency": "Future scenario store and audit records",
+      "forbidden_operations": [
+        "execute",
+        "deploy",
+        "merge",
+        "push",
+        "create_pr"
+      ],
+      "future_dependencies": "Future auth, storage, approval, and audit services"
+    },
+    {
+      "schema_id": "automation_readiness_contract_schema",
+      "schema_version": "1.0",
+      "contract_title": "Automation Readiness Contract Schema",
+      "source_phase": "Original +1",
+      "intended_future_automation_type": "Controlled automation readiness",
+      "action_classification": "HUMAN_APPROVAL_REQUIRED",
+      "required_role": "automation_admin",
+      "required_approval_gate": "human approval gate",
+      "required_dry_run_evidence": "Readiness summary and no-go notes",
+      "required_audit_event_model": "Readiness event trail",
+      "required_rollback_policy": "Stop if the action path requires live execution.",
+      "required_validators": "Original +1 validators and master validator wall",
+      "required_production_verification": "Readiness-only production verification",
+      "purpose": "Define the contract for a future automation readiness layer.",
+      "required_fields": [
+        "contract_id",
+        "action_class",
+        "approval_gate",
+        "dry_run_evidence"
+      ],
+      "forbidden_fields": [
+        "execute",
+        "mutation",
+        "secret",
+        "deploy_control"
+      ],
+      "safety_notes": "No live automation is enabled.",
+      "future_backend_dependency": "Future auth, storage, queue, and audit services",
+      "forbidden_operations": [
+        "execute",
+        "deploy",
+        "merge",
+        "push",
+        "create_pr"
+      ],
+      "future_dependencies": "Future auth, storage, approval, audit, and queue services"
+    },
+    {
+      "schema_id": "approval_gate_contract_schema",
+      "schema_version": "1.0",
+      "contract_title": "Approval Gate Contract Schema",
+      "source_phase": "Original +1",
+      "intended_future_automation_type": "Human approval gate",
+      "action_classification": "HUMAN_APPROVAL_REQUIRED",
+      "required_role": "approver",
+      "required_approval_gate": "human approval gate",
+      "required_dry_run_evidence": "Approval state and safety review",
+      "required_audit_event_model": "Approval event trail",
+      "required_rollback_policy": "Stop if approval would unlock live action without future systems.",
+      "required_validators": "Original +1 validators, Original +1B validator wall",
+      "required_production_verification": "Production-visible approval simulation only",
+      "purpose": "Model the approval gate contract for a future automation system.",
+      "required_fields": [
+        "approval_state",
+        "approved_by",
+        "approved_at_utc",
+        "notes"
+      ],
+      "forbidden_fields": [
+        "execute",
+        "mutation",
+        "secret",
+        "deploy_control"
+      ],
+      "safety_notes": "Approval in this build is display-only.",
+      "future_backend_dependency": "Future approval storage and audit persistence",
+      "forbidden_operations": [
+        "execute",
+        "deploy",
+        "merge",
+        "push",
+        "create_pr"
+      ],
+      "future_dependencies": "Future auth, storage, approval, and audit services"
+    },
+    {
+      "schema_id": "dry_run_plan_schema",
+      "schema_version": "1.0",
+      "contract_title": "Dry-Run Plan Schema",
+      "source_phase": "Original +1",
+      "intended_future_automation_type": "Dry-run planning",
+      "action_classification": "DRY_RUN_REQUIRED",
+      "required_role": "operator",
+      "required_approval_gate": "dry-run only gate",
+      "required_dry_run_evidence": "Dry-run plan and evidence bundle",
+      "required_audit_event_model": "Dry-run planning event",
+      "required_rollback_policy": "Stop if the plan implies live execution.",
+      "required_validators": "Original +1 and Original +1B validators",
+      "required_production_verification": "Production-visible dry-run preview only",
+      "purpose": "Describe a future dry-run plan without enabling it.",
+      "required_fields": [
+        "action_label",
+        "target_scope",
+        "expected_read_operations",
+        "expected_write_operations"
+      ],
+      "forbidden_fields": [
+        "command",
+        "mutation",
+        "secret",
+        "deploy_control"
+      ],
+      "safety_notes": "Dry-run evidence is copy-only.",
+      "future_backend_dependency": "Future audit and queue services",
+      "forbidden_operations": [
+        "execute",
+        "deploy",
+        "merge",
+        "push",
+        "create_pr"
+      ],
+      "future_dependencies": "Future auth, storage, approval, audit, and queue services"
+    },
+    {
+      "schema_id": "preflight_checklist_schema",
+      "schema_version": "1.0",
+      "contract_title": "Preflight Checklist Schema",
+      "source_phase": "Original +1",
+      "intended_future_automation_type": "Preflight gating",
+      "action_classification": "VALIDATOR_REVIEW",
+      "required_role": "reviewer",
+      "required_approval_gate": "preflight checklist gate",
+      "required_dry_run_evidence": "Checklist state and validator notes",
+      "required_audit_event_model": "Preflight event trail",
+      "required_rollback_policy": "Stop if preflight would enable live action too early.",
+      "required_validators": "Original +1 and Original +1B validators",
+      "required_production_verification": "Production-visible checklist preview only",
+      "purpose": "Define the preflight checklist for future automation.",
+      "required_fields": [
+        "checklist_id",
+        "checklist_state",
+        "validator_notes",
+        "reviewer"
+      ],
+      "forbidden_fields": [
+        "command",
+        "mutation",
+        "secret",
+        "deploy_control"
+      ],
+      "safety_notes": "Checklist state stays local and temporary.",
+      "future_backend_dependency": "Future audit storage and approval persistence",
+      "forbidden_operations": [
+        "execute",
+        "deploy",
+        "merge",
+        "push",
+        "create_pr"
+      ],
+      "future_dependencies": "Future auth, storage, approval, and audit services"
+    },
+    {
+      "schema_id": "no_go_rollback_policy_schema",
+      "schema_version": "1.0",
+      "contract_title": "No-Go / Rollback Policy Schema",
+      "source_phase": "Original +1B",
+      "intended_future_automation_type": "Safety policy routing",
+      "action_classification": "FORBIDDEN_MUTATION",
+      "required_role": "break_glass_admin",
+      "required_approval_gate": "blocked by safety",
+      "required_dry_run_evidence": "No-go report and validator wall",
+      "required_audit_event_model": "No-go event trail",
+      "required_rollback_policy": "Stop and rewrite as planning-only.",
+      "required_validators": "Phase 5A through Original +1B validators",
+      "required_production_verification": "Production-visible no-go preview only",
+      "purpose": "Model the rollback and no-go policy for a future control plane.",
+      "required_fields": [
+        "policy_id",
+        "blocked_conditions",
+        "rollback_notes",
+        "reviewer"
+      ],
+      "forbidden_fields": [
+        "command",
+        "mutation",
+        "secret",
+        "deploy_control"
+      ],
+      "safety_notes": "This build does not contain a live rollback engine.",
+      "future_backend_dependency": "Future safety, audit, and approval storage",
+      "forbidden_operations": [
+        "execute",
+        "deploy",
+        "merge",
+        "push",
+        "create_pr"
+      ],
+      "future_dependencies": "Future auth, storage, approval, audit, and queue services"
+    }
+  ]
+}
