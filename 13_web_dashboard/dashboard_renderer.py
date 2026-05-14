@@ -414,6 +414,7 @@ def _build_landing_screen(snapshot):
         ("Phase 5B Packet Builder", "phase5b-packet-builder"),
         ("Phase 5C Review Board", "phase5c-review-board"),
         ("Phase 5D Handoff Composer", "phase5d-handoff-composer"),
+        ("Phase 5E Runbook Simulator", "phase5e-runbook-simulator"),
         ("Artifacts", "artifact-packages"),
         ("Source Info", "source-transparency"),
         ("Audit / Session", "session-audit"),
@@ -1364,6 +1365,141 @@ def _build_phase5d_handoff_composer():
     )
 
 
+def _build_phase5e_runbook_simulator():
+    body = """
+<div class="phase5e-runbook-simulator" data-phase5e-runbook-simulator="true">
+  <div class="callout" style="border-color: rgba(59,130,246,0.4); background: rgba(59,130,246,0.05);">
+    <strong style="color: var(--accent);">CLIENT-SIDE RUNBOOK SIMULATOR</strong>
+    <p class="muted" style="margin-top: 0.25rem;">
+      END-TO-END OPERATOR FLOW — SCENARIO PREVIEW ONLY — GENERATED LOCALLY — TEMPORARY IN-BROWSER STATE ONLY — NO PERSISTENCE — NO BACKEND WRITES — NO EXECUTION — NO MUTATION — NO DEPLOY / MERGE / PUSH / PR CONTROLS
+    </p>
+  </div>
+  <p class="muted" style="margin-top: 0.25rem;">
+    Client-Side End-to-End Operator Runbook & Scenario Simulator: Safe Status Review, Validator Review, Dashboard Polish Request, Safety Review Request, Forbidden Mutation Attempt.
+  </p>
+
+  <div class="phase5e-preview-grid">
+    <article class="card phase5e-scenario-selector" id="phase5e-scenario-selector-panel">
+      <div class="card-head">
+        <h3 class="card-title">Scenario Selector Panel</h3>
+        <span class="badge info">SCENARIOS</span>
+      </div>
+      <p class="card-body">Choose a safe local scenario preset to simulate the end-to-end operator flow across Phase 5A, 5B, 5C, and 5D.</p>
+      <label style="display:grid;gap:0.25rem;margin-top:0.75rem;">
+        <span style="font-size:0.8rem;color:var(--muted);">Scenario preset</span>
+        <select id="phase5e-scenario-select" class="table-filter" style="width:100%;font-family:var(--mono);"></select>
+      </label>
+      <div class="stat-grid" id="phase5e-scenario-summary" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));margin-top:0.75rem;"></div>
+      <div class="table-wrap" style="max-height:320px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="phase5e-scenario-table">
+          <caption>Local in-memory scenario presets</caption>
+          <thead>
+            <tr>
+              <th scope="col">Scenario ID</th>
+              <th scope="col">Title</th>
+              <th scope="col">Workflow</th>
+              <th scope="col">Request</th>
+              <th scope="col">Risk</th>
+              <th scope="col">Decision</th>
+              <th scope="col">Handoff</th>
+              <th scope="col">Safety Note</th>
+            </tr>
+          </thead>
+          <tbody id="phase5e-scenario-body">
+            <tr><td colspan="8" class="empty">No scenario selected yet.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="card phase5e-step-tracker" id="phase5e-step-tracker-panel">
+      <div class="card-head">
+        <h3 class="card-title">Runbook Step Tracker Panel</h3>
+        <span class="badge info">FLOW</span>
+      </div>
+      <p class="card-body">The flow tracker shows each operator step, the simulated status, and whether the path is completed, pending, blocked, or warning-only.</p>
+      <div class="stat-grid" id="phase5e-step-summary" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));margin-top:0.75rem;"></div>
+      <div class="table-wrap" style="max-height:320px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="phase5e-step-table">
+          <caption>Simulated operator flow</caption>
+          <thead>
+            <tr>
+              <th scope="col">Step</th>
+              <th scope="col">Status</th>
+              <th scope="col">Detail</th>
+            </tr>
+          </thead>
+          <tbody id="phase5e-step-body">
+            <tr><td colspan="3" class="empty">No simulated flow yet.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" id="phase5e-step-summary-text">Select a scenario to generate the local operator flow.</p>
+      </div>
+    </article>
+  </div>
+
+  <div class="phase5e-preview-grid">
+    <article class="card phase5e-transcript-panel" id="phase5e-transcript-panel">
+      <div class="card-head">
+        <h3 class="card-title">Scenario Transcript Panel</h3>
+        <span class="badge info">TRANSCRIPT</span>
+      </div>
+      <div class="button-row" style="margin-bottom:0.75rem;">
+        <button type="button" class="copy-button small" id="phase5e-copy-transcript">Copy scenario transcript</button>
+      </div>
+      <pre class="code-block" id="phase5e-transcript-preview" style="max-height:360px;overflow:auto;white-space:pre-wrap;word-break:break-word;">No scenario selected yet.</pre>
+    </article>
+
+    <article class="card phase5e-safety-gate" id="phase5e-safety-gate-panel">
+      <div class="card-head">
+        <h3 class="card-title">Safety Gate Panel</h3>
+        <span class="badge pass">SAFE</span>
+      </div>
+      <div class="button-row" style="margin-bottom:0.75rem;">
+        <button type="button" class="copy-button small" id="phase5e-copy-safety-gate">Copy safety gate summary</button>
+      </div>
+      <div class="stat-grid" id="phase5e-safety-grid" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));"></div>
+      <pre class="code-block" id="phase5e-safety-gate-preview" style="max-height:360px;overflow:auto;white-space:pre-wrap;word-break:break-word;margin-top:0.75rem;">No scenario selected yet.</pre>
+    </article>
+  </div>
+
+  <article class="card phase5e-runbook-preview phase5e-wide-panel" id="phase5e-runbook-preview-panel">
+    <div class="card-head">
+      <h3 class="card-title">Full Runbook Markdown Preview</h3>
+      <span class="badge info">MARKDOWN</span>
+    </div>
+    <div class="button-row" style="margin-bottom:0.75rem;">
+      <button type="button" class="copy-button small" id="phase5e-copy-runbook-markdown">Copy full runbook Markdown</button>
+    </div>
+    <pre class="code-block" id="phase5e-runbook-markdown-preview" style="max-height:420px;overflow:auto;white-space:pre-wrap;word-break:break-word;">No scenario selected yet.</pre>
+  </article>
+
+  <article class="card phase5e-safety-summary" id="phase5e-safety-summary" style="margin-top:1rem;">
+    <div class="card-head">
+      <h3 class="card-title">Safety Summary Panel</h3>
+      <span class="badge pass">SAFE</span>
+    </div>
+    <div class="button-row" style="margin-bottom:0.75rem;">
+      <button type="button" class="copy-button small" id="phase5e-copy-next-action">Copy next-action recommendation</button>
+    </div>
+    <div class="stat-grid" id="phase5e-summary-grid" style="grid-template-columns:repeat(auto-fill,minmax(min(100%),200px),1fr);"></div>
+    <div class="callout" style="margin-top:0.75rem;">
+      <p class="muted" id="phase5e-safety-summary-text">Scenario state is simulated locally. Runbook output is generated locally and is copy/paste only. Nothing is saved. Nothing is sent. Nothing is queued. Nothing is executed. Nothing writes to the backend. Nothing mutates GitHub or Netlify. Refresh clears state unless copied manually.</p>
+    </div>
+  </article>
+</div>
+"""
+    return _details(
+        "Original Phase 5E — Client-Side End-to-End Operator Runbook & Scenario Simulator",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="phase5e-runbook-simulator"
+    )
+
+
 def _build_footer():
     return """
     <footer class="footer">
@@ -1600,7 +1736,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
     <header class="hero dashboard-shell">
       <div class="hero-copy">
         <h1>The Agent Command Center</h1>
-        <p class="lede">A read-only production dashboard for reviewing system status, safety boundaries, static schemas, and operator workflow readiness. Includes Original Phase 5A client-side operator workflow shell, Phase 5B request packet builder, Phase 5C review board, and Phase 5D handoff composer.</p>
+        <p class="lede">A read-only production dashboard for reviewing system status, safety boundaries, static schemas, and operator workflow readiness. Includes Original Phase 5A client-side operator workflow shell, Phase 5B request packet builder, Phase 5C review board, Phase 5D handoff composer, and Phase 5E runbook simulator.</p>
         <p class="muted" style="margin-top: 0.5rem; font-size: 0.85rem;">Production-hosted. Static/inert. No command execution. No deploy, merge, push, or mutation controls.</p>
       </div>
     </header>
@@ -1619,6 +1755,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_phase5b_request_packet_builder(),
         _build_phase5c_review_board(),
         _build_phase5d_handoff_composer(),
+        _build_phase5e_runbook_simulator(),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),
