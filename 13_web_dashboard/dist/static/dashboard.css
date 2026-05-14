@@ -505,6 +505,70 @@ pre.code-block {
   word-break: break-word;
 }
 
+.phase5a-workflow-shell {
+  display: grid;
+  gap: 1.5rem;
+  min-width: 0;
+}
+
+.phase5a-form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+.phase5a-form-fields {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.phase5a-state-machine {
+  padding: 1rem;
+  border: 1px solid var(--stroke);
+  border-radius: var(--radius-sm);
+  background: var(--card);
+}
+
+.phase5a-state-machine h4 {
+  margin: 0 0 0.75rem;
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.phase5a-summary-card {
+  padding: 1rem;
+  border: 1px solid var(--stroke);
+  border-radius: var(--radius-sm);
+  background: var(--card);
+}
+
+.phase5a-summary-card h4 {
+  margin: 0 0 0.75rem;
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.phase5a-audit-trail {
+  border: 1px solid var(--stroke);
+  border-radius: var(--radius-sm);
+  background: var(--card);
+  padding: 1rem;
+}
+
+.phase5a-audit-trail h4 {
+  margin: 0 0 0.75rem;
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.phase5a-disabled-boundary {
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem;
+  background: rgba(239, 68, 68, 0.05);
+}
+
 @media (max-width: 1400px) {
   .phase4d-preview-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));

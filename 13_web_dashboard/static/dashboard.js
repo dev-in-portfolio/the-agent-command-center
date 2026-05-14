@@ -502,3 +502,280 @@
 
   init();
 })();
+
+(function () {
+  var phase5aState = null;
+  var auditEvents = [];
+
+  var ALLOWED_STATES = ["draft", "needs_review", "review_ready", "changes_requested", "approved_for_future_phase", "rejected", "cancelled", "archived"];
+
+  var FORBIDDEN_STATES = ["executing", "deployed", "merged", "pushed", "pr_created", "mutation_completed"];
+
+  var ALLOWED_TRANSITIONS = {
+    "draft": ["needs_review", "cancelled"],
+    "needs_review": ["review_ready", "changes_requested", "rejected", "cancelled"],
+    "review_ready": ["approved_for_future_phase", "changes_requested", "rejected", "cancelled"],
+    "changes_requested": ["draft", "cancelled"],
+    "approved_for_future_phase": ["archived"],
+    "rejected": ["archived"],
+    "cancelled": ["archived"],
+    "archived": [],
+  };
+
+  function p5( id ) { return document.getElementById(id); }
+
+  function generateId() {
+    if (window.crypto && window.crypto.randomUUID) {
+      return crypto.randomUUID().slice(0, 8);
+    }
+    return Math.random().toString(36).slice(2, 10);
+  }
+
+  function timestamp() { return new Date().toISOString(); }
+
+  function classifyRisk(title, intent, workflowType) {
+    var combined = ((title || "") + " " + (intent || "")).toLowerCase();
+    var dangerWords = ["deploy", "merge", "push", "pr ", "execute", "command", "mutate", "github write", "netlify write"];
+    for (var i = 0; i < dangerWords.length; i++) {
+      if (combined.indexOf(dangerWords[i]) !== -1) {
+        return { level: "RED_FORBIDDEN_MUTATION", badge: "fail", label: "RED — FORBIDDEN MUTATION" };
+      }
+    }
+    if (workflowType === "Validator Review" || workflowType === "Report Review") {
+      return { level: "YELLOW_REVIEW_ONLY", badge: "warning", label: "YELLOW — REVIEW ONLY" };
+    }
+    if (workflowType === "Dashboard Polish Request" || workflowType === "Phase Planning Request") {
+      return { level: "GREEN_READ_ONLY", badge: "pass", label: "GREEN — READ ONLY" };
+    }
+    return { level: "ORANGE_REQUIRES_FUTURE_AUTH_STORAGE", badge: "warning", label: "ORANGE — FUTURE AUTH/STORAGE" };
+  }
+
+  function updatePhase5aUI() {
+    var shell = document.querySelector("[data-phase5a-shell]");
+    if (!shell) return;
+
+    var stateDisplay = p5("phase5a-current-state-display");
+    if (stateDisplay) {
+      stateDisplay.textContent = phase5aState ? phase5aState.current_state : "none";
+    }
+
+    ALLOWED_STATES.forEach(function (s) {
+      var btn = p5("phase5a-state-" + s);
+      if (!btn) return;
+      if (!phase5aState) {
+        btn.disabled = true;
+        return;
+      }
+      var allowed = ALLOWED_TRANSITIONS[phase5aState.current_state] || [];
+      btn.disabled = allowed.indexOf(s) === -1;
+    });
+
+    var riskBadge = p5("phase5a-risk-badge");
+    var riskDesc = p5("phase5a-risk-description");
+    if (riskBadge && riskDesc) {
+      if (phase5aState && phase5aState.risk) {
+        riskBadge.textContent = phase5aState.risk.label;
+        riskBadge.className = "badge " + phase5aState.risk.badge;
+        riskDesc.textContent = "Risk classified as " + phase5aState.risk.level + ". Classification based on workflow type and intent content.";
+      } else {
+        riskBadge.textContent = "NOT CLASSIFIED";
+        riskBadge.className = "badge info";
+        riskDesc.textContent = "Complete the drafting panel and create a draft to see risk classification.";
+      }
+    }
+
+    var summaryCard = p5("phase5a-summary-card");
+    var summaryGrid = p5("phase5a-summary-grid");
+    if (summaryCard && summaryGrid) {
+      if (phase5aState) {
+        summaryCard.style.display = "block";
+        summaryGrid.innerHTML =
+          "<div class=\"stat\"><span>Request ID</span><strong>" + phase5aState.request_id + "</strong></div>" +
+          "<div class=\"stat\"><span>Current State</span><strong>" + phase5aState.current_state + "</strong></div>" +
+          "<div class=\"stat\"><span>Workflow Type</span><strong>" + phase5aState.workflow_type + "</strong></div>" +
+          "<div class=\"stat\"><span>Risk Level</span><strong>" + (phase5aState.risk ? phase5aState.risk.level : "none") + "</strong></div>" +
+          "<div class=\"stat\"><span>Intent</span><strong>" + (phase5aState.intent || "(none)") + "</strong></div>" +
+          "<div class=\"stat\"><span>Disabled Reason</span><strong>DISABLED — PLANNING ONLY</strong></div>" +
+          "<div class=\"stat\"><span>Execution Allowed</span><strong class=\"badge fail\">false</strong></div>" +
+          "<div class=\"stat\"><span>Mutation Allowed</span><strong class=\"badge fail\">false</strong></div>" +
+          "<div class=\"stat\"><span>Backend Write Performed</span><strong class=\"badge fail\">false</strong></div>" +
+          "<div class=\"stat\"><span>Required Future</span><strong>Auth, Storage, Queue</strong></div>";
+      } else {
+        summaryCard.style.display = "none";
+      }
+    }
+
+    var approvalCard = p5("phase5a-approval-card");
+    var approvalGrid = p5("phase5a-approval-grid");
+    if (approvalCard && approvalGrid) {
+      if (phase5aState && phase5aState.current_state === "approved_for_future_phase") {
+        approvalCard.style.display = "block";
+        approvalGrid.innerHTML =
+          "<div class=\"stat\"><span>Approval Required</span><strong class=\"badge warning\">YES — DISPLAY ONLY</strong></div>" +
+          "<div class=\"stat\"><span>Approval State</span><strong>approved_for_future_phase</strong></div>" +
+          "<div class=\"stat\"><span>Why Required</span><strong>Future phases will require human approval before any execution or mutation</strong></div>" +
+          "<div class=\"stat\"><span>Why No Execution</span><strong>Approval does not execute anything — no auth, no storage, no queue implemented</strong></div>";
+      } else if (phase5aState && (phase5aState.current_state === "review_ready" || phase5aState.current_state === "needs_review")) {
+        approvalCard.style.display = "block";
+        approvalGrid.innerHTML =
+          "<div class=\"stat\"><span>Approval Required</span><strong class=\"badge warning\">PENDING REVIEW</strong></div>" +
+          "<div class=\"stat\"><span>Approval State</span><strong>pending_human_review</strong></div>" +
+          "<div class=\"stat\"><span>Note</span><strong>Approval display only — does not execute. No auth implemented.</strong></div>";
+      } else {
+        approvalCard.style.display = "none";
+      }
+    }
+
+    var auditSection = p5("phase5a-audit-trail");
+    var auditBody = p5("phase5a-audit-body");
+    if (auditSection && auditBody) {
+      if (auditEvents.length > 0) {
+        auditSection.style.display = "block";
+        auditBody.innerHTML = auditEvents.map(function (e) {
+          var ts = e.timestamp ? e.timestamp.replace("T", " ").slice(0, 19) : "unknown";
+          return "<tr><td><code>" + ts + "</code></td>" +
+            "<td>" + e.event_type + "</td>" +
+            "<td>" + (e.previous_state || "-") + "</td>" +
+            "<td>" + (e.next_state || "-") + "</td>" +
+            "<td>" + (e.reason || "-") + "</td>" +
+            "<td><span class=\"badge " + (e.risk_badge || "info") + "\">" + (e.risk_label || "-") + "</span></td></tr>";
+        }).join("");
+      } else {
+        auditSection.style.display = "none";
+      }
+    }
+
+    var dryRunCard = p5("phase5a-dryrun-card");
+    if (dryRunCard) {
+      dryRunCard.style.display = phase5aState ? "block" : "none";
+    }
+  }
+
+  function addAuditEvent(eventType, previousState, nextState, reason) {
+    auditEvents.push({
+      timestamp: timestamp(),
+      event_type: eventType,
+      previous_state: previousState,
+      next_state: nextState,
+      reason: reason,
+      risk_label: phase5aState && phase5aState.risk ? phase5aState.risk.label : "NONE",
+      risk_badge: phase5aState && phase5aState.risk ? phase5aState.risk.badge : "info",
+    });
+  }
+
+  function createDraft() {
+    var titleInput = p5("phase5a-request-title");
+    var intentInput = p5("phase5a-intent");
+    var scopeInput = p5("phase5a-target-scope");
+    var notesInput = p5("phase5a-operator-notes");
+    var workflowSelect = p5("phase5a-workflow-type");
+
+    var title = titleInput ? titleInput.value.trim() : "";
+    var intent = intentInput ? intentInput.value.trim() : "";
+    var scope = scopeInput ? scopeInput.value.trim() : "";
+    var notes = notesInput ? notesInput.value.trim() : "";
+    var workflowType = workflowSelect ? workflowSelect.value : "Status Review";
+
+    if (!title && !intent) {
+      var status = p5("copy-status");
+      if (status) status.textContent = "Please enter at least a title or intent.";
+      return;
+    }
+
+    var risk = classifyRisk(title, intent, workflowType);
+
+    phase5aState = {
+      request_id: "REQ-" + generateId().toUpperCase(),
+      created_at: timestamp(),
+      workflow_type: workflowType,
+      title: title,
+      intent: intent,
+      target_scope: scope,
+      operator_notes: notes,
+      risk: risk,
+      current_state: "draft",
+    };
+
+    auditEvents = [];
+    addAuditEvent("draft_created", "none", "draft", "Request draft created");
+    updatePhase5aUI();
+
+    var status = p5("copy-status");
+    if (status) status.textContent = "Draft created: " + phase5aState.request_id;
+  }
+
+  function transitionState(nextState) {
+    if (!phase5aState) {
+      var status = p5("copy-status");
+      if (status) status.textContent = "Create a draft first.";
+      return;
+    }
+    var allowed = ALLOWED_TRANSITIONS[phase5aState.current_state] || [];
+    if (allowed.indexOf(nextState) === -1) {
+      var status = p5("copy-status");
+      if (status) status.textContent = "Transition not allowed from " + phase5aState.current_state + " to " + nextState + ".";
+      return;
+    }
+    var prev = phase5aState.current_state;
+    phase5aState.current_state = nextState;
+    addAuditEvent("state_transition", prev, nextState, "Transitioned to " + nextState);
+    updatePhase5aUI();
+
+    var status = p5("copy-status");
+    if (status) status.textContent = "State changed: " + prev + " -> " + nextState;
+  }
+
+  function resetWorkflow() {
+    phase5aState = null;
+    auditEvents = [];
+    var inputs = ["phase5a-request-title", "phase5a-intent", "phase5a-target-scope", "phase5a-operator-notes"];
+    inputs.forEach(function (id) {
+      var el = p5(id);
+      if (el) el.value = "";
+    });
+    var wf = p5("phase5a-workflow-type");
+    if (wf) wf.selectedIndex = 0;
+    updatePhase5aUI();
+    var status = p5("copy-status");
+    if (status) status.textContent = "Workflow reset. Local state cleared.";
+  }
+
+  function initPhase5a() {
+    var shell = document.querySelector("[data-phase5a-shell]");
+    if (!shell) return;
+
+    var createBtn = p5("phase5a-create-draft-button");
+    if (createBtn) createBtn.addEventListener("click", createDraft);
+
+    var resetBtn = p5("phase5a-reset-button");
+    if (resetBtn) resetBtn.addEventListener("click", resetWorkflow);
+
+    var stateMap = {
+      "phase5a-state-draft": "draft",
+      "phase5a-state-needs-review": "needs_review",
+      "phase5a-state-review-ready": "review_ready",
+      "phase5a-state-changes-requested": "changes_requested",
+      "phase5a-state-approved": "approved_for_future_phase",
+      "phase5a-state-rejected": "rejected",
+      "phase5a-state-cancelled": "cancelled",
+      "phase5a-state-archived": "archived",
+    };
+
+    Object.keys(stateMap).forEach(function (btnId) {
+      var btn = p5(btnId);
+      if (btn) {
+        btn.addEventListener("click", (function (state) {
+          return function () { transitionState(state); };
+        })(stateMap[btnId]));
+      }
+    });
+
+    updatePhase5aUI();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initPhase5a);
+  } else {
+    initPhase5a();
+  }
+})();

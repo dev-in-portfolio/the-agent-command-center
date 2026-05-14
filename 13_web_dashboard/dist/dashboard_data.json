@@ -1,6 +1,6 @@
 {
-  "dashboard_id": "PH3-20260512-230007",
-  "created_at_utc": "2026-05-12T23:00:07Z",
+  "dashboard_id": "PH3-20260514-003149",
+  "created_at_utc": "2026-05-14T00:31:49Z",
   "phase": "Read-Only Operations Dashboard",
   "repo": "dev-in-portfolio/the-agent-command-center",
   "source_lineage": "dev-in-portfolio/agent-command-center-3",
@@ -359,26 +359,28 @@
       {
         "package_id": "interface_sessions",
         "package_name": "Interface Phase 1 Sessions",
-        "exists": true,
+        "exists": false,
         "final_verdict": "not detected",
         "missing_expected_files_count": 0,
         "missing_expected_files": [],
         "zero_byte_count": 0,
         "zero_byte_files": [],
-        "warnings_count": 0,
-        "warnings": [],
-        "status": "PASS",
+        "warnings_count": 1,
+        "warnings": [
+          "Package directory not found"
+        ],
+        "status": "MISSING",
         "report_path": "09_exports/interface_phase_1/sessions",
         "recommended_next_action": "not detected",
         "source_file_path": "09_exports/interface_phase_1/sessions",
-        "source_exists": true,
-        "source_type": "report_derived",
-        "source_confidence": "report_derived"
+        "source_exists": false,
+        "source_type": "file_existence_check",
+        "source_confidence": "file_existence_check"
       }
     ],
     "exists": false,
     "verdict": "PASS_WITH_HIGH_CONFIDENCE",
-    "warnings_count": 2,
+    "warnings_count": 3,
     "missing_count": 1,
     "zero_byte_count": 1,
     "summary": "5 packages inspected."
@@ -500,7 +502,7 @@
     "source_type": "module",
     "source_confidence": "direct_module_read",
     "phase_1_session_count": 0,
-    "phase_2_session_count": 1680,
+    "phase_2_session_count": 4344,
     "phase_1_sessions": [],
     "phase_2_sessions": [
       "09_exports/interface_phase_2/sessions/session_TUI-20260512-003552-941813.json",
@@ -550,7 +552,7 @@
     "phase_3_build_report": "09_exports/interface_phase_3/interface_phase_3_static_build_report.md",
     "phase_3_note": "no live session mutation unless build report is written",
     "session_logs_read_only": true,
-    "summary": "0 phase 1 sessions, 1680 phase 2 sessions."
+    "summary": "0 phase 1 sessions, 4344 phase 2 sessions."
   },
   "validator_status": {
     "source_file_path": "09_exports/interface_phase_3/interface_phase_3_acceptance_report.md",
@@ -950,7 +952,7 @@
         "detected_verdict": "unknown",
         "source_confidence": "report_derived",
         "recommended_review_order": 15,
-        "preview": "# Read-Only Operations Dashboard Static Build Report | - Dashboard ID: PH3-20260512-225840 | - Created at UTC: 2026-05-12T22:58:40Z",
+        "preview": "# Read-Only Operations Dashboard Static Build Report | - Dashboard ID: PH3-20260512-230007 | - Created at UTC: 2026-05-12T23:00:07Z",
         "source_file_path": "09_exports/interface_phase_3/interface_phase_3_static_build_report.md",
         "source_exists": true,
         "source_type": "report"
@@ -1005,7 +1007,7 @@
     "source_exists": true,
     "source_type": "generated_static_snapshot",
     "source_confidence": "generated_static_snapshot",
-    "generated_at_utc": "2026-05-12T23:00:08Z",
+    "generated_at_utc": "2026-05-14T00:31:52Z",
     "freshness_status": "generated_static_snapshot",
     "snapshot_age_seconds": 0,
     "notes": [
@@ -1208,23 +1210,58 @@
     "allowed_label_findings": [
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 434,
+        "line": 476,
         "pattern": "NO DEPLOY",
         "context": "<span>NO DEPLOY CONTROLS</span>",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 435,
+        "line": 477,
         "pattern": "NO MERGE",
         "context": "<span>NO MERGE CONTROLS</span>",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 436,
+        "line": 478,
         "pattern": "NO SECRET ACCESS",
         "context": "<span>NO SECRET ACCESS</span>",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_renderer.py",
+        "line": 793,
+        "pattern": "NO DEPLOY",
+        "context": "TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO DEPLOY / MERGE / ",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_renderer.py",
+        "line": 991,
+        "pattern": "NO DEPLOY",
+        "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_renderer.py",
+        "line": 991,
+        "pattern": "NO MERGE",
+        "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_renderer.py",
+        "line": 991,
+        "pattern": "NO PUSH",
+        "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_renderer.py",
+        "line": 991,
+        "pattern": "NO SECRET ACCESS",
+        "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
