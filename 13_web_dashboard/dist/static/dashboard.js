@@ -1618,3 +1618,372 @@
     initPhase5c();
   }
 })();
+
+(function () {
+  var handoffPackets = [];
+  var handoffData = null;
+
+  function p5d(id) { return document.getElementById(id); }
+
+  function generateId() {
+    if (window.crypto && window.crypto.randomUUID) {
+      return crypto.randomUUID().slice(0, 8);
+    }
+    return Math.random().toString(36).slice(2, 10);
+  }
+
+  function timestamp() { return new Date().toISOString(); }
+
+  function getPhase5cReviewBoard() {
+    if (typeof reviewBoard !== "undefined" && Array.isArray(reviewBoard)) {
+      return reviewBoard;
+    }
+    return [];
+  }
+
+  function getPhase5cLedger() {
+    if (typeof ledgerEvents !== "undefined" && Array.isArray(ledgerEvents)) {
+      return ledgerEvents;
+    }
+    return [];
+  }
+
+  function getSelectedFilters() {
+    var checkboxes = document.querySelectorAll("#phase5d-decision-filters input[type='checkbox']:checked");
+    var values = [];
+    checkboxes.forEach(function (cb) { values.push(cb.value); });
+    return values;
+  }
+
+  function composeHandoffFrom5c() {
+    var reviewBoard = getPhase5cReviewBoard();
+    var ledger = getPhase5cLedger();
+
+    if (reviewBoard.length === 0) {
+      var status = p5d("copy-status");
+      if (status) status.textContent = "Phase 5D: No Phase 5C packets in review board.";
+      return;
+    }
+
+    var selectedDecisions = getSelectedFilters();
+    if (selectedDecisions.length === 0) {
+      var status = p5d("copy-status");
+      if (status) status.textContent = "Phase 5D: Select at least one decision filter.";
+      return;
+    }
+
+    handoffPackets = [];
+    for (var i = 0; i < reviewBoard.length; i++) {
+      var p = reviewBoard[i];
+      if (selectedDecisions.indexOf(p.review_decision) !== -1) {
+        handoffPackets.push({
+          packet_id: p.packet_id,
+          request_title: p.request_title,
+          workflow_type: p.workflow_type,
+          risk_classification: p.risk_classification,
+          current_state: p.current_state,
+          review_decision: p.review_decision,
+          decision_timestamp: p.decision_timestamp,
+          notes_count: p.notes_count,
+        });
+      }
+    }
+
+    handoffData = {
+      handoff_id: "HANDOFF-" + generateId().toUpperCase(),
+      handoff_version: "1.0.0",
+      generated_at: timestamp(),
+      source: "Phase 5C decisions",
+      packet_count: handoffPackets.length,
+      total_review_board_packets: reviewBoard.length,
+      ledger_event_count: ledger.length,
+      packets: handoffPackets.map(function (p) {
+        return {
+          packet_id: p.packet_id,
+          request_title: p.request_title,
+          workflow_type: p.workflow_type,
+          risk_classification: p.risk_classification,
+          review_decision: p.review_decision,
+          decision_timestamp: p.decision_timestamp,
+        };
+      }),
+      safety_summary: {
+        composed_locally: true,
+        persistence_used: false,
+        backend_write_performed: false,
+        execution_allowed: false,
+        mutation_allowed: false,
+        external_api_calls: false,
+        gitHub_mutation: false,
+        netlify_mutation: false,
+      },
+      future_dependency_note: "Handoff is temporary and local-only. Future phases would require persistence, queue, auth, and execution dependencies.",
+    };
+
+    updateHandoffUI();
+    var status = p5d("copy-status");
+    if (status) status.textContent = "Phase 5D: Handoff composed with " + handoffPackets.length + " packets.";
+  }
+
+  function parsePastedHandoff() {
+    var textarea = p5d("phase5d-pasted-json");
+    if (!textarea || !textarea.value.trim()) {
+      var status = p5d("copy-status");
+      if (status) status.textContent = "Phase 5D: Paste handoff JSON first.";
+      return;
+    }
+    try {
+      var parsed = JSON.parse(textarea.value.trim());
+      if (!parsed.handoff_id && !parsed.packets) {
+        var status = p5d("copy-status");
+        if (status) status.textContent = "Phase 5D: Pasted JSON has no handoff_id or packets.";
+        return;
+      }
+      handoffData = parsed;
+      handoffPackets = (parsed.packets || []).map(function (p) {
+        return {
+          packet_id: p.packet_id || "unknown",
+          request_title: p.request_title || p.title || "(untitled)",
+          workflow_type: p.workflow_type || "unknown",
+          risk_classification: p.risk_classification || "NOT CLASSIFIED",
+          current_state: p.current_state || "unknown",
+          review_decision: p.review_decision || "pending_review",
+          decision_timestamp: p.decision_timestamp || null,
+          notes_count: p.notes_count || 0,
+        };
+      });
+      updateHandoffUI();
+      textarea.value = "";
+      var status = p5d("copy-status");
+      if (status) status.textContent = "Phase 5D: Pasted handoff parsed (" + handoffPackets.length + " packets).";
+    } catch (e) {
+      var status = p5d("copy-status");
+      if (status) status.textContent = "Phase 5D: Invalid JSON — " + e.message;
+    }
+  }
+
+  function clearHandoff() {
+    handoffPackets = [];
+    handoffData = null;
+    updateHandoffUI();
+    var status = p5d("copy-status");
+    if (status) status.textContent = "Phase 5D: Handoff cleared.";
+  }
+
+  function renderHandoffJSON() {
+    if (!handoffData) {
+      return null;
+    }
+    return JSON.stringify(handoffData, null, 2);
+  }
+
+  function renderHandoffMarkdown() {
+    if (!handoffData) {
+      return null;
+    }
+    var lines = [];
+    lines.push("# Operator Handoff Package");
+    lines.push("");
+    lines.push("**Handoff ID:** " + handoffData.handoff_id);
+    lines.push("**Generated At:** " + handoffData.generated_at);
+    lines.push("**Source:** " + handoffData.source);
+    lines.push("**Packet Count:** " + handoffData.packet_count);
+    lines.push("");
+    lines.push("## Included Packets");
+    lines.push("");
+    if (handoffPackets.length === 0) {
+      lines.push("*No packets in handoff.*");
+    } else {
+      for (var i = 0; i < handoffPackets.length; i++) {
+        var p = handoffPackets[i];
+        lines.push("- **" + p.packet_id + "**: " + p.request_title + " (" + p.workflow_type + ") — Risk: " + p.risk_classification + " — Decision: " + p.review_decision);
+      }
+    }
+    lines.push("");
+    lines.push("## Safety Boundary");
+    lines.push("- Composed Locally: true");
+    lines.push("- Persistence Used: false");
+    lines.push("- Backend Write Performed: false");
+    lines.push("- Execution Allowed: false");
+    lines.push("- Mutation Allowed: false");
+    lines.push("- External API Calls: false");
+    lines.push("- GitHub Mutation: false");
+    lines.push("- Netlify Mutation: false");
+    lines.push("");
+    lines.push("## Future Dependency Warning");
+    lines.push("This handoff package is temporary, local-only, and in-memory.");
+    lines.push("Future implementation would require persistence, queue, auth, and execution dependencies.");
+    return lines.join("\n");
+  }
+
+  function renderHandoffSummary() {
+    if (!handoffData) {
+      return "No handoff composed.";
+    }
+    var lines = [];
+    lines.push("PHASE 5D HANDOFF SUMMARY");
+    lines.push("Handoff ID: " + handoffData.handoff_id);
+    lines.push("Generated At: " + handoffData.generated_at);
+    lines.push("Packets in Handoff: " + handoffPackets.length);
+    lines.push("");
+    for (var i = 0; i < handoffPackets.length; i++) {
+      var p = handoffPackets[i];
+      lines.push("  " + p.packet_id + " | " + p.request_title + " | Decision: " + p.review_decision + " | Risk: " + p.risk_classification);
+    }
+    lines.push("");
+    lines.push("Safety: ComposedLocally=true Execution=false Mutation=false BackendWrite=false Persistence=false");
+    lines.push("This handoff is local-only. Nothing is saved, sent, or executed.");
+    return lines.join("\n");
+  }
+
+  function updateHandoffUI() {
+    var compBody = p5d("phase5d-composition-body");
+    if (compBody) {
+      if (handoffPackets.length === 0) {
+        compBody.innerHTML = '<tr><td colspan="6" class="empty">No handoff composed yet. Use Phase 5C decisions to compose a handoff.</td></tr>';
+      } else {
+        compBody.innerHTML = handoffPackets.map(function (p) {
+          return "<tr>" +
+            "<td><code>" + p.packet_id + "</code></td>" +
+            "<td>" + p.request_title + "</td>" +
+            "<td>" + p.workflow_type + "</td>" +
+            "<td>" + p.risk_classification + "</td>" +
+            "<td>" + p.review_decision + "</td>" +
+            "<td><span class=\"badge pass\">YES</span></td>" +
+            "</tr>";
+        }).join("");
+      }
+    }
+
+    var jsonPanel = p5d("phase5d-handoff-json-panel");
+    var jsonPreview = p5d("phase5d-handoff-json-preview");
+    if (jsonPanel && jsonPreview) {
+      var jsonText = renderHandoffJSON();
+      if (jsonText) {
+        jsonPanel.style.display = "block";
+        jsonPreview.textContent = jsonText;
+      } else {
+        jsonPanel.style.display = "none";
+        jsonPreview.textContent = "No handoff generated yet.";
+      }
+    }
+
+    var mdPanel = p5d("phase5d-handoff-markdown-panel");
+    var mdPreview = p5d("phase5d-handoff-markdown-preview");
+    if (mdPanel && mdPreview) {
+      var mdText = renderHandoffMarkdown();
+      if (mdText) {
+        mdPanel.style.display = "block";
+        mdPreview.textContent = mdText;
+      } else {
+        mdPanel.style.display = "none";
+        mdPreview.textContent = "No handoff generated yet.";
+      }
+    }
+  }
+
+  function initPhase5d() {
+    var shell = document.querySelector("[data-phase5d-handoff]");
+    if (!shell) return;
+
+    var composeBtn = p5d("phase5d-compose-handoff");
+    if (composeBtn) {
+      composeBtn.addEventListener("click", composeHandoffFrom5c);
+    }
+
+    var clearBtn = p5d("phase5d-clear-handoff");
+    if (clearBtn) {
+      clearBtn.addEventListener("click", clearHandoff);
+    }
+
+    var parseBtn = p5d("phase5d-parse-pasted-handoff");
+    if (parseBtn) {
+      parseBtn.addEventListener("click", parsePastedHandoff);
+    }
+
+    var copyJsonBtn = p5d("phase5d-copy-handoff-json");
+    if (copyJsonBtn) {
+      copyJsonBtn.addEventListener("click", function () {
+        var text = renderHandoffJSON();
+        if (!text) {
+          var status = p5d("copy-status");
+          if (status) status.textContent = "Phase 5D: Compose a handoff first.";
+          return;
+        }
+        var status = p5d("copy-status");
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(function () {
+            if (status) status.textContent = "Phase 5D: Handoff JSON copied.";
+          }).catch(function () {});
+        } else {
+          var field = document.createElement("textarea");
+          field.value = text;
+          field.style.position = "fixed";
+          field.style.left = "-9999px";
+          document.body.appendChild(field);
+          field.select();
+          document.execCommand("copy");
+          document.body.removeChild(field);
+          if (status) status.textContent = "Phase 5D: Handoff JSON copied.";
+        }
+      });
+    }
+
+    var copyMdBtn = p5d("phase5d-copy-handoff-markdown");
+    if (copyMdBtn) {
+      copyMdBtn.addEventListener("click", function () {
+        var text = renderHandoffMarkdown();
+        if (!text) {
+          var status = p5d("copy-status");
+          if (status) status.textContent = "Phase 5D: Compose a handoff first.";
+          return;
+        }
+        var status = p5d("copy-status");
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(function () {
+            if (status) status.textContent = "Phase 5D: Handoff Markdown copied.";
+          }).catch(function () {});
+        } else {
+          var field = document.createElement("textarea");
+          field.value = text;
+          field.style.position = "fixed";
+          field.style.left = "-9999px";
+          document.body.appendChild(field);
+          field.select();
+          document.execCommand("copy");
+          document.body.removeChild(field);
+          if (status) status.textContent = "Phase 5D: Handoff Markdown copied.";
+        }
+      });
+    }
+
+    var copySummaryBtn = p5d("phase5d-copy-handoff-summary");
+    if (copySummaryBtn) {
+      copySummaryBtn.addEventListener("click", function () {
+        var text = renderHandoffSummary();
+        var status = p5d("copy-status");
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(function () {
+            if (status) status.textContent = "Phase 5D: Handoff summary copied.";
+          }).catch(function () {});
+        } else {
+          var field = document.createElement("textarea");
+          field.value = text;
+          field.style.position = "fixed";
+          field.style.left = "-9999px";
+          document.body.appendChild(field);
+          field.select();
+          document.execCommand("copy");
+          document.body.removeChild(field);
+          if (status) status.textContent = "Phase 5D: Handoff summary copied.";
+        }
+      });
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initPhase5d);
+  } else {
+    initPhase5d();
+  }
+})();

@@ -649,6 +649,59 @@ pre.code-block {
   border-color: rgba(34, 197, 94, 0.2);
 }
 
+.phase5d-handoff-composer {
+  display: grid;
+  gap: 1.5rem;
+  min-width: 0;
+}
+
+.phase5d-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+.phase5d-intake-panel,
+.phase5d-composition-panel,
+.phase5d-handoff-json-preview,
+.phase5d-handoff-markdown-preview,
+.phase5d-safety-summary {
+  min-width: 0;
+}
+
+.phase5d-filter-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.phase5d-filter-option {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.phase5d-filter-option input[type="checkbox"] {
+  accent-color: var(--accent);
+}
+
+.phase5d-handoff-json-preview .code-block,
+.phase5d-handoff-markdown-preview .code-block {
+  max-height: 360px;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.phase5d-safety-summary {
+  border-color: rgba(34, 197, 94, 0.2);
+}
+
 @media (max-width: 1400px) {
   .phase4d-preview-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
