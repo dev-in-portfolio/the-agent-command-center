@@ -607,6 +607,48 @@ pre.code-block {
   margin-left: 0.25rem;
 }
 
+.phase5c-review-board {
+  display: grid;
+  gap: 1.5rem;
+  min-width: 0;
+}
+
+.phase5c-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+.phase5c-intake-panel,
+.phase5c-review-list,
+.phase5c-decision-panel,
+.phase5c-ledger-panel,
+.phase5c-json-preview,
+.phase5c-markdown-preview,
+.phase5c-safety-summary {
+  min-width: 0;
+}
+
+.phase5c-intake-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.phase5c-json-preview .code-block,
+.phase5c-markdown-preview .code-block {
+  max-height: 360px;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.phase5c-safety-summary {
+  border-color: rgba(34, 197, 94, 0.2);
+}
+
 @media (max-width: 1400px) {
   .phase4d-preview-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));

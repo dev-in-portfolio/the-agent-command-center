@@ -412,6 +412,7 @@ def _build_landing_screen(snapshot):
         ("Backend Status", "backend-status-panel"),
         ("Phase 5A Workflow Shell", "phase5a-workflow-shell"),
         ("Phase 5B Packet Builder", "phase5b-packet-builder"),
+        ("Phase 5C Review Board", "phase5c-review-board"),
         ("Artifacts", "artifact-packages"),
         ("Source Info", "source-transparency"),
         ("Audit / Session", "session-audit"),
@@ -1006,6 +1007,188 @@ def _build_phase5b_request_packet_builder():
     )
 
 
+def _build_phase5c_review_board():
+    body = """
+<div class="phase5c-review-board" data-phase5c-review-board="true">
+  <div class="callout" style="border-color: rgba(245,158,11,0.4); background: rgba(245,158,11,0.05);">
+    <strong style="color: var(--warning);">CLIENT-SIDE REVIEW BOARD</strong>
+    <p class="muted" style="margin-top: 0.25rem;">
+      DECISION LEDGER PREVIEW — TEMPORARY IN-BROWSER STATE ONLY — NO PERSISTENCE — NO BACKEND WRITES — NO EXECUTION — NO MUTATION — NO DEPLOY / MERGE / PUSH / PR CONTROLS
+    </p>
+  </div>
+
+  <div class="phase5c-preview-grid">
+    <article class="card phase5c-intake-panel" id="phase5c-intake-panel">
+      <div class="card-head">
+        <h3 class="card-title">Review Board Intake Panel</h3>
+        <span class="badge info">INTAKE</span>
+      </div>
+      <p class="card-body">Add a generated Phase 5B packet to the review board, or paste packet JSON into the textarea below.</p>
+      <div class="phase5c-intake-actions">
+        <button type="button" class="section-button" id="phase5c-add-current-packet">Add current packet</button>
+        <button type="button" class="toggle-button" id="phase5c-clear-review-board">Clear review board</button>
+      </div>
+      <div style="margin-top: 0.75rem;">
+        <label style="display:grid;gap:0.25rem;">
+          <span style="font-size:0.8rem;color:var(--muted);">Pasted Packet JSON</span>
+          <textarea id="phase5c-pasted-json" class="table-filter" rows="4" placeholder="Paste packet JSON here..." style="width:100%;resize:vertical;font-family:var(--mono);font-size:0.8rem;"></textarea>
+        </label>
+        <div class="button-row" style="margin-top:0.5rem;">
+          <button type="button" class="section-button" id="phase5c-parse-pasted-packet">Parse pasted packet</button>
+        </div>
+        <p class="muted" style="font-size:0.75rem;margin-top:0.25rem;">Forbidden: file upload, file import, fetch from URL, backend submit, queue packet, save packet.</p>
+      </div>
+    </article>
+
+    <article class="card phase5c-review-list" id="phase5c-review-list-panel">
+      <div class="card-head">
+        <h3 class="card-title">Review Board List Panel</h3>
+        <span class="badge info">LIST</span>
+      </div>
+      <p class="card-body">DISPLAY-ONLY REVIEW LIST — NOT A QUEUE</p>
+      <div class="table-wrap" style="max-height:300px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="phase5c-review-table">
+          <caption>Local in-memory review board — no persistent storage</caption>
+          <thead>
+            <tr>
+              <th scope="col">Packet ID</th>
+              <th scope="col">Title</th>
+              <th scope="col">Workflow</th>
+              <th scope="col">Risk</th>
+              <th scope="col">State</th>
+              <th scope="col">Decision</th>
+              <th scope="col">Notes</th>
+            </tr>
+          </thead>
+          <tbody id="phase5c-review-body">
+            <tr><td colspan="7" class="empty">No packets in review board. Add a packet to begin.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </div>
+
+  <div class="phase5c-preview-grid">
+    <article class="card phase5c-decision-panel" id="phase5c-decision-panel">
+      <div class="card-head">
+        <h3 class="card-title">Decision Panel</h3>
+        <span class="badge info">DECISION</span>
+      </div>
+      <p class="card-body">Select a packet from the list above, then choose a decision. Local only — not saved, not submitted.</p>
+      <div style="margin-top:0.75rem;">
+        <label style="display:grid;gap:0.25rem;">
+          <span style="font-size:0.8rem;color:var(--muted);">Packet ID</span>
+          <select id="phase5c-decision-packet-select" class="table-filter" style="width:100%;">
+            <option value="">— No packets available —</option>
+          </select>
+        </label>
+        <label style="display:grid;gap:0.25rem;margin-top:0.5rem;">
+          <span style="font-size:0.8rem;color:var(--muted);">Decision</span>
+          <select id="phase5c-decision-select" class="table-filter" style="width:100%;">
+            <option value="pending_review">Pending Review</option>
+            <option value="needs_changes">Needs Changes</option>
+            <option value="accepted_for_future_phase">Accepted for Future Phase</option>
+            <option value="rejected">Rejected</option>
+            <option value="archived">Archived</option>
+          </select>
+        </label>
+        <label style="display:grid;gap:0.25rem;margin-top:0.5rem;">
+          <span style="font-size:0.8rem;color:var(--muted);">Review Note</span>
+          <textarea id="phase5c-review-note" class="table-filter" rows="2" placeholder="Free-text human review note..." style="width:100%;resize:vertical;"></textarea>
+        </label>
+        <div class="button-row" style="margin-top:0.5rem;">
+          <button type="button" class="section-button" id="phase5c-record-decision">Record decision</button>
+        </div>
+        <p class="muted" style="font-size:0.75rem;margin-top:0.25rem;">Every decision updates local in-memory state only. Not saved. Not submitted. Not executed.</p>
+      </div>
+    </article>
+
+    <article class="card phase5c-ledger-panel" id="phase5c-ledger-panel">
+      <div class="card-head">
+        <h3 class="card-title">Decision Ledger Panel</h3>
+        <span class="badge info">LEDGER</span>
+      </div>
+      <p class="card-body">Local in-memory ledger of all decision events.</p>
+      <div class="table-wrap" style="max-height:300px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="phase5c-ledger-table">
+          <caption>Local in-memory decision ledger — no persistent storage</caption>
+          <thead>
+            <tr>
+              <th scope="col">Timestamp</th>
+              <th scope="col">Packet ID</th>
+              <th scope="col">Previous</th>
+              <th scope="col">Decision</th>
+              <th scope="col">Review Note</th>
+              <th scope="col">Risk</th>
+            </tr>
+          </thead>
+          <tbody id="phase5c-ledger-body">
+            <tr><td colspan="6" class="empty">No ledger events yet. Record a decision to populate.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </div>
+
+  <div class="phase5c-preview-grid">
+    <article class="card phase5c-json-preview" id="phase5c-ledger-json-panel" style="display:none;">
+      <div class="card-head">
+        <h3 class="card-title">Ledger JSON Preview</h3>
+        <span class="badge info">JSON</span>
+      </div>
+      <div class="button-row" style="margin-bottom:0.75rem;">
+        <button type="button" class="copy-button small" id="phase5c-copy-ledger-json">Copy review ledger JSON</button>
+      </div>
+      <pre class="code-block" id="phase5c-ledger-json-preview" style="max-height:360px;overflow:auto;">No ledger generated yet.</pre>
+    </article>
+
+    <article class="card phase5c-markdown-preview" id="phase5c-ledger-markdown-panel" style="display:none;">
+      <div class="card-head">
+        <h3 class="card-title">Ledger Markdown Preview</h3>
+        <span class="badge info">MARKDOWN</span>
+      </div>
+      <div class="button-row" style="margin-bottom:0.75rem;">
+        <button type="button" class="copy-button small" id="phase5c-copy-ledger-markdown">Copy review ledger Markdown</button>
+      </div>
+      <pre class="code-block" id="phase5c-ledger-markdown-preview" style="max-height:360px;overflow:auto;">No ledger generated yet.</pre>
+    </article>
+  </div>
+
+  <div class="button-row" style="margin-top:0.5rem;">
+    <button type="button" class="copy-button" id="phase5c-copy-decision-summary">Copy decision summary</button>
+  </div>
+
+  <article class="card phase5c-safety-summary" id="phase5c-safety-summary" style="margin-top:1rem;">
+    <div class="card-head">
+      <h3 class="card-title">Safety Summary Panel</h3>
+      <span class="badge pass">SAFE</span>
+    </div>
+    <div class="stat-grid" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));">
+      <div class="stat"><span>Review board</span><strong>Temporary</strong></div>
+      <div class="stat"><span>Ledger</span><strong>Local only</strong></div>
+      <div class="stat"><span>Saved anywhere</span><strong class="badge fail">No</strong></div>
+      <div class="stat"><span>Sent anywhere</span><strong class="badge fail">No</strong></div>
+      <div class="stat"><span>Queued</span><strong class="badge fail">No</strong></div>
+      <div class="stat"><span>Executed</span><strong class="badge fail">No</strong></div>
+      <div class="stat"><span>Backend write</span><strong class="badge fail">No</strong></div>
+      <div class="stat"><span>GitHub mutation</span><strong class="badge fail">No</strong></div>
+      <div class="stat"><span>Netlify mutation</span><strong class="badge fail">No</strong></div>
+    </div>
+    <div class="callout" style="margin-top:0.75rem;">
+      <p class="muted">Review board state is temporary and in-memory only. The ledger is generated locally and is copy-only. Nothing is saved. Nothing is sent. Nothing is queued. Nothing is executed. Nothing writes to the backend. Nothing mutates GitHub or Netlify. Refresh clears state unless copied manually.</p>
+    </div>
+  </article>
+</div>
+"""
+    return _details(
+        "Original Phase 5C — Client-Side Operator Review Board & Decision Ledger",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="phase5c-review-board"
+    )
+
+
 def _build_footer():
     return """
     <footer class="footer">
@@ -1242,7 +1425,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
     <header class="hero dashboard-shell">
       <div class="hero-copy">
         <h1>The Agent Command Center</h1>
-        <p class="lede">A read-only production dashboard for reviewing system status, safety boundaries, static schemas, and operator workflow readiness. Includes Original Phase 5A client-side operator workflow shell and Phase 5B request packet builder.</p>
+        <p class="lede">A read-only production dashboard for reviewing system status, safety boundaries, static schemas, and operator workflow readiness. Includes Original Phase 5A client-side operator workflow shell, Phase 5B request packet builder, and Phase 5C review board.</p>
         <p class="muted" style="margin-top: 0.5rem; font-size: 0.85rem;">Production-hosted. Static/inert. No command execution. No deploy, merge, push, or mutation controls.</p>
       </div>
     </header>
@@ -1259,6 +1442,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_backend_status_panel(snapshot),
         _build_phase5a_workflow_shell(),
         _build_phase5b_request_packet_builder(),
+        _build_phase5c_review_board(),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),
