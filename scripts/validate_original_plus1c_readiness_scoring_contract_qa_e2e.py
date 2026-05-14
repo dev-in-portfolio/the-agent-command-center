@@ -75,6 +75,8 @@ def main():
         "09_exports/interface_phase_5/",
         "scripts/validate_original_plus1c_readiness_scoring_contract_qa.py",
         "scripts/validate_original_plus1c_readiness_scoring_contract_qa_e2e.py",
+        "scripts/validate_original_plus1d_backend_boundary_blueprint.py",
+        "scripts/validate_original_plus1d_backend_boundary_blueprint_e2e.py",
         "scripts/validate_phase5_plus1_master_validator_wall.py",
         "scripts/validate_original_plus1b_operator_console_contract_layer.py",
         "scripts/validate_original_plus1b_operator_console_contract_layer_e2e.py",

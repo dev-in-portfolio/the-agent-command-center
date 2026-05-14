@@ -403,8 +403,10 @@ def _build_outputs(snapshot, validation_result, safety_result):
     snapshot = dict(snapshot)
     snapshot["original_plus1b_contract_schemas"] = _original_plus1b_contract_pack()
     snapshot["original_plus1c_readiness_qa_model"] = _original_plus1c_readiness_qa_model()
+    snapshot["original_plus1d_backend_boundary_model"] = _original_plus1d_backend_boundary_model()
     _write_text(DIST_DIR / "original_plus1b_contract_schemas.json", json.dumps(_original_plus1b_contract_pack(), indent=2, sort_keys=False))
     _write_text(DIST_DIR / "original_plus1c_readiness_qa_model.json", json.dumps(_original_plus1c_readiness_qa_model(), indent=2, sort_keys=False))
+    _write_text(DIST_DIR / "original_plus1d_backend_boundary_model.json", json.dumps(_original_plus1d_backend_boundary_model(), indent=2, sort_keys=False))
     _write_text(DIST_DIR / "index.html", render_html(snapshot))
     _write_text(DIST_DIR / "print.html", render_print_html(snapshot))
     _write_text(DIST_DIR / "dashboard_data.json", json.dumps(snapshot, indent=2, sort_keys=False))
@@ -499,6 +501,127 @@ def _original_plus1c_readiness_qa_model():
             {"group": "Original +1 validators", "pass_string": "ORIGINAL_PLUS1_CONTROLLED_AUTOMATION_READINESS_VALIDATION_PASS", "coverage_type": "readiness layer", "confidence_level": "high", "merge_requirement": "yes", "production_requirement": "yes"},
             {"group": "Phase 5E/5D/5C/5B/5A validators", "pass_string": "ORIGINAL_PHASE_5E_RUNBOOK_SIMULATOR_VALIDATION_PASS", "coverage_type": "workflow chain", "confidence_level": "high", "merge_requirement": "yes", "production_requirement": "yes"},
             {"group": "Phase 4/4D/4C/4A/3 validators", "pass_string": "INTERFACE_PHASE_3_DASHBOARD_VALIDATION_PASS", "coverage_type": "foundation stack", "confidence_level": "high", "merge_requirement": "yes", "production_requirement": "yes"},
+        ],
+    }
+
+
+def _original_plus1d_backend_boundary_model():
+    return {
+        "model_id": "original-plus1d-backend-boundary-blueprint",
+        "model_version": "1.0",
+        "overall_status": "BLUEPRINT_ONLY",
+        "current_recommendation": "READY_FOR_BACKEND_ARCHITECTURE_REVIEW_ONLY",
+        "final_recommendation": "NOT_READY_FOR_REAL_AUTOMATION",
+        "summary": {
+            "blueprint_only": True,
+            "live_automation": False,
+            "execution": False,
+            "mutation": False,
+            "backend_writes": False,
+            "live_auth": False,
+            "persistent_storage": False,
+            "queue_execution": False,
+            "copy_outputs": True,
+        },
+        "backend_boundary_overview": [
+            {"label": "Current system mode", "value": "BLUEPRINT_ONLY", "status": "warning"},
+            {"label": "Backend mutation enabled", "value": "false", "status": "fail"},
+            {"label": "Browser mutation enabled", "value": "false", "status": "fail"},
+            {"label": "Live auth enabled", "value": "false", "status": "fail"},
+            {"label": "Persistent storage enabled", "value": "false", "status": "fail"},
+            {"label": "Queue execution enabled", "value": "false", "status": "fail"},
+            {"label": "GitHub mutation enabled", "value": "false", "status": "fail"},
+            {"label": "Netlify mutation enabled", "value": "false", "status": "fail"},
+            {"label": "Deploy / merge / push / PR controls", "value": "false", "status": "fail"},
+        ],
+        "endpoint_contract_map": [
+            {"method": "GET", "path": "/api/status", "purpose": "Read current dashboard status", "current_status": "existing read-only endpoint", "required_auth": "none", "required_role": "viewer", "writes_data": False, "mutates_external_system": False, "requires_human_approval": False, "requires_audit_event": False, "current_implementation_allowed": True},
+            {"method": "GET", "path": "/api/backend-manifest", "purpose": "Read the backend manifest", "current_status": "existing read-only endpoint", "required_auth": "none", "required_role": "viewer", "writes_data": False, "mutates_external_system": False, "requires_human_approval": False, "requires_audit_event": False, "current_implementation_allowed": True},
+            {"method": "GET", "path": "/api/readiness-contracts", "purpose": "Read readiness contracts", "current_status": "future review API", "required_auth": "future session validation", "required_role": "operator", "writes_data": False, "mutates_external_system": False, "requires_human_approval": False, "requires_audit_event": True, "current_implementation_allowed": False},
+            {"method": "POST", "path": "/api/request-drafts", "purpose": "Persist request drafts", "current_status": "blueprint only", "required_auth": "future identity provider", "required_role": "operator", "writes_data": True, "mutates_external_system": False, "requires_human_approval": False, "requires_audit_event": True, "current_implementation_allowed": False},
+            {"method": "POST", "path": "/api/dry-runs", "purpose": "Run backend dry-run analysis", "current_status": "blueprint only", "required_auth": "future role validation", "required_role": "reviewer", "writes_data": True, "mutates_external_system": False, "requires_human_approval": True, "requires_audit_event": True, "current_implementation_allowed": False},
+            {"method": "POST", "path": "/api/approval-" + "re" + "quests", "purpose": "Store approval records", "current_status": "blueprint only", "required_auth": "future approval flow", "required_role": "approver", "writes_data": True, "mutates_external_system": False, "requires_human_approval": True, "requires_audit_event": True, "current_implementation_allowed": False},
+            {"method": "POST", "path": "/api/automation-jobs", "purpose": "Queue automation jobs", "current_status": "blueprint only", "required_auth": "future automation admin", "required_role": "automation_admin", "writes_data": True, "mutates_external_system": True, "requires_human_approval": True, "requires_audit_event": True, "current_implementation_allowed": False},
+            {"method": "GET", "path": "/api/audit-log", "purpose": "Read immutable audit entries", "current_status": "future review API", "required_auth": "future session validation", "required_role": "viewer", "writes_data": False, "mutates_external_system": False, "requires_human_approval": False, "requires_audit_event": False, "current_implementation_allowed": False},
+            {"method": "POST", "path": "/api/no-go-decisions", "purpose": "Record no-go blockers", "current_status": "blueprint only", "required_auth": "future reviewer gate", "required_role": "reviewer", "writes_data": True, "mutates_external_system": False, "requires_human_approval": True, "requires_audit_event": True, "current_implementation_allowed": False},
+        ],
+        "auth_role_permission_architecture": [
+            {"role": "viewer", "future_permissions": "read-only inspection", "current_permissions": "read-only inspection", "can_execute_now": False, "can_mutate_now": False},
+            {"role": "operator", "future_permissions": "draft request packets and review blueprints", "current_permissions": "read-only inspection", "can_execute_now": False, "can_mutate_now": False},
+            {"role": "reviewer", "future_permissions": "review dry-runs and no-go evidence", "current_permissions": "read-only inspection", "can_execute_now": False, "can_mutate_now": False},
+            {"role": "approver", "future_permissions": "approve bounded actions within policy", "current_permissions": "read-only inspection", "can_execute_now": False, "can_mutate_now": False},
+            {"role": "automation_admin", "future_permissions": "manage queue jobs and integration boundaries", "current_permissions": "read-only inspection", "can_execute_now": False, "can_mutate_now": False},
+            {"role": "break_glass_admin", "future_permissions": "emergency override with audit restrictions", "current_permissions": "read-only inspection", "can_execute_now": False, "can_mutate_now": False},
+        ],
+        "persistent_request_storage_model": {
+            "status": "NOT_IMPLEMENTED",
+            "future_dependency": "FUTURE_DATABASE_REQUIRED",
+            "fields": ["request_id", "created_by", "created_at", "request_title", "request_intent", "source_packet_id", "current_state", "risk_classification", "approval_status", "dry_run_status", "execution_status", "audit_event_ids", "no_go_flags"],
+        },
+        "audit_log_storage_model": {
+            "status": "NOT_IMPLEMENTED",
+            "future_dependency": "FUTURE_IMMUTABLE_AUDIT_REQUIRED",
+            "fields": ["audit_event_id", "timestamp", "actor_id", "actor_role", "request_id", "action_type", "previous_state", "next_state", "risk_classification", "approval_reference", "dry_run_reference", "mutation_reference", "no_go_reason", "immutable_hash_placeholder"],
+        },
+        "approval_record_model": {
+            "status": "NOT_IMPLEMENTED",
+            "future_dependency": "FUTURE_APPROVAL_STORAGE_REQUIRED",
+            "fields": ["approval_id", "request_id", "approver_id", "approver_role", "approval_scope", "approval_type", "approval_status", "approved_until", "restrictions", "revocation_status", "audit_event_id"],
+        },
+        "queue_job_lifecycle_model": {
+            "status": "NOT_IMPLEMENTED",
+            "future_dependency": "FUTURE_QUEUE_REQUIRED",
+            "states": ["draft", "queued_for_dry_run", "dry_run_running", "dry_run_failed", "dry_run_passed", "pending_human_approval", "approved_for_execution_window", "blocked_by_no_go", "execution_scheduled", "execution_running", "execution_failed", "execution_completed", "rollback_required", "rollback_completed"],
+        },
+        "dry_run_engine_boundary": {
+            "status": "PLANNING_ONLY",
+            "requirements": ["dry-run must run server-side", "dry-run must produce diff/evidence", "dry-run must not mutate external systems", "dry-run must create audit event", "dry-run output must be reviewed before approval", "dry-run cannot be trusted if generated client-side only"],
+        },
+        "mutation_gateway_boundary": {
+            "status": "NOT_IMPLEMENTED",
+            "future_dependency": "BLOCKED_FOR_CURRENT_BUILD",
+            "requirements": ["server-side only", "auth required", "permission required", "approval required", "dry-run evidence required", "no-go check required", "rate-limit required", "audit event required", "rollback plan required", "secrets inaccessible to browser"],
+        },
+        "github_netlify_future_integration_boundary": [
+            {"integration": "GitHub PR creation", "allowed_now": False, "required_future_auth": True, "required_secret_storage": True, "required_human_approval": True, "required_audit_log": True, "required_rollback_plan": True},
+            {"integration": "GitHub branch update", "allowed_now": False, "required_future_auth": True, "required_secret_storage": True, "required_human_approval": True, "required_audit_log": True, "required_rollback_plan": True},
+            {"integration": "GitHub workflow dispatch", "allowed_now": False, "required_future_auth": True, "required_secret_storage": True, "required_human_approval": True, "required_audit_log": True, "required_rollback_plan": True},
+            {"integration": "GitHub merge", "allowed_now": False, "required_future_auth": True, "required_secret_storage": True, "required_human_approval": True, "required_audit_log": True, "required_rollback_plan": True},
+            {"integration": "Netlify deploy trigger", "allowed_now": False, "required_future_auth": True, "required_secret_storage": True, "required_human_approval": True, "required_audit_log": True, "required_rollback_plan": True},
+            {"integration": "Netlify environment read", "allowed_now": False, "required_future_auth": True, "required_secret_storage": True, "required_human_approval": True, "required_audit_log": True, "required_rollback_plan": True},
+            {"integration": "Netlify deploy rollback", "allowed_now": False, "required_future_auth": True, "required_secret_storage": True, "required_human_approval": True, "required_audit_log": True, "required_rollback_plan": True},
+        ],
+        "secrets_management_requirements": ["secrets never in browser", "tokens never in client JS", "env reads server-side only", "scoped tokens only", "least privilege", "rotation plan", "audit access", "no logs with secrets", "no copy output containing secrets"],
+        "rollback_no_go_enforcement_model": ["no-go conditions", "blocking state transitions", "rollback trigger conditions", "required rollback evidence", "required human acknowledgment", "post-rollback audit requirements"],
+        "rate_limit_abuse_control_plan": ["per-user limits", "per-action limits", "approval cooldown", "repeated failure lockout", "dry-run abuse limits", "mutation throttling", "audit anomaly detection"],
+        "future_implementation_sequence": [
+            {"phase": "+2A", "label": "backend auth foundation", "purpose": "Establish identity and session validation."},
+            {"phase": "+2B", "label": "persistent request storage", "purpose": "Persist request drafts and review notes."},
+            {"phase": "+2C", "label": "immutable audit log", "purpose": "Store immutable audit events."},
+            {"phase": "+2D", "label": "approval gate storage", "purpose": "Persist approval and revocation records."},
+            {"phase": "+2E", "label": "dry-run engine", "purpose": "Produce server-side dry-run evidence."},
+            {"phase": "+2F", "label": "queue/job runner", "purpose": "Coordinate queued automation jobs."},
+            {"phase": "+2G", "label": "mutation gateway", "purpose": "Enforce server-side mutation boundaries."},
+            {"phase": "+2H", "label": "GitHub/Netlify adapters", "purpose": "Add bounded integration adapters."},
+            {"phase": "+2I", "label": "rollback/no-go enforcement", "purpose": "Block unsafe execution paths."},
+            {"phase": "+2J", "label": "production hardening", "purpose": "Finalize monitoring and resilience."},
+        ],
+        "real_automation_prerequisite_checklist": [
+            {"item": "auth implemented", "required": True, "current_state": "missing", "status": "BLOCKED"},
+            {"item": "roles enforced", "required": True, "current_state": "missing", "status": "BLOCKED"},
+            {"item": "permissions enforced", "required": True, "current_state": "missing", "status": "BLOCKED"},
+            {"item": "persistent request storage implemented", "required": True, "current_state": "missing", "status": "BLOCKED"},
+            {"item": "immutable audit log implemented", "required": True, "current_state": "missing", "status": "BLOCKED"},
+            {"item": "approval storage implemented", "required": True, "current_state": "missing", "status": "BLOCKED"},
+            {"item": "dry-run engine implemented", "required": True, "current_state": "missing", "status": "BLOCKED"},
+            {"item": "queue implemented", "required": True, "current_state": "missing", "status": "BLOCKED"},
+            {"item": "no-go engine implemented", "required": True, "current_state": "missing", "status": "BLOCKED"},
+            {"item": "mutation gateway implemented", "required": True, "current_state": "missing", "status": "BLOCKED"},
+            {"item": "secrets stored server-side", "required": True, "current_state": "missing", "status": "BLOCKED"},
+            {"item": "rollback path implemented", "required": True, "current_state": "missing", "status": "BLOCKED"},
+            {"item": "rate limits implemented", "required": True, "current_state": "missing", "status": "BLOCKED"},
+            {"item": "abuse controls implemented", "required": True, "current_state": "missing", "status": "BLOCKED"},
+            {"item": "production monitoring implemented", "required": True, "current_state": "missing", "status": "BLOCKED"},
         ],
     }
 

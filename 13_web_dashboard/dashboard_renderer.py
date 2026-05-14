@@ -392,7 +392,7 @@ def _build_landing_screen(snapshot):
     phase3 = snapshot.get("phase_3_status", {})
     safety_scan = snapshot.get("phase_3_safety_scan", {})
     next_action = snapshot.get("recommended_next_action", "unknown")
-    next_action = "Ready for production polish review. Backend integration remains a later phase."
+    next_action = "Ready for backend architecture blueprint review. Future backend integration remains a later phase."
     merge_ready_status = "PASS" if "ready_for_merge_review" in next_action else "INFO"
     cards = [
         _card("Phase 1 status", phase1.get("detected_verdict", "unknown"), phase1.get("summary", "Phase 1 backend source of truth is present.")),
@@ -417,6 +417,8 @@ def _build_landing_screen(snapshot):
         ("Phase 5E Runbook Simulator", "phase5e-runbook-simulator"),
         ("Original +1 Readiness Layer", "plus1-controlled-automation-readiness-layer"),
         ("Original +1B Contract Layer", "plus1b-operator-console-contract-layer"),
+        ("Original +1C Readiness QA Layer", "plus1c-readiness-scoring-contract-qa"),
+        ("Original +1D Blueprint Layer", "plus1d-backend-boundary-blueprint"),
         ("Artifacts", "artifact-packages"),
         ("Source Info", "source-transparency"),
         ("Audit / Session", "session-audit"),
@@ -426,7 +428,7 @@ def _build_landing_screen(snapshot):
         '<div class="landing-head">'
         '<p class="eyebrow">Command Center Overview</p>'
         '<h2>Production Presentation & Safety Review</h2>'
-        '<p class="lede">Review the core project roadmap, safety boundaries, and static schema previews. Technical audits and raw session data are available in the sections below.</p>'
+        '<p class="lede">Review the core project roadmap, safety boundaries, static schema previews, readiness QA, and backend boundary blueprints. Technical audits and raw session data are available in the sections below.</p>'
         '</div>'
         '<div class="landing-cards">' + "".join(cards) + "</div>"
         '<div class="landing-actions"><h3>Jump to section</h3><div class="section-grid">' +
@@ -1951,6 +1953,187 @@ def _build_plus1c_readiness_scoring_contract_qa_layer():
     )
 
 
+def _build_plus1d_backend_boundary_blueprint_layer():
+    body = """
+<div class="plus1d-backend-boundary" data-plus1d-backend-boundary-blueprint="true">
+  <div class="callout plus1d-summary-callout" style="border-color: rgba(34,197,94,0.28); background: rgba(34,197,94,0.06);">
+    <strong style="color: var(--success);">BACKEND BOUNDARY BLUEPRINT</strong>
+    <p class="muted" style="margin-top: 0.15rem;">REAL AUTOMATION DEPENDENCY MAP — BLUEPRINT ONLY — FUTURE IMPLEMENTATION ONLY</p>
+    <p class="muted" style="margin-top: 0.25rem;">READINESS ONLY — NO LIVE AUTOMATION — NO EXECUTION — NO MUTATION — NO BACKEND WRITES — NO DEPLOY / MERGE / PUSH / PR CONTROLS</p>
+    <p class="muted" style="margin-top: 0.25rem;">READY_FOR_BACKEND_ARCHITECTURE_REVIEW_ONLY — NOT_READY_FOR_REAL_AUTOMATION</p>
+  </div>
+
+  <div class="plus1d-preview-grid">
+    <article class="card plus1d-backend-boundary-overview" id="plus1d-backend-boundary-overview-panel">
+      <div class="card-head"><h3 class="card-title">Backend Boundary Overview Panel</h3><span class="badge warning">BLUEPRINT ONLY</span></div>
+      <p class="card-body">Summarises the current inert system posture and the future boundary constraints required for real automation.</p>
+      <div class="table-wrap" style="max-height:320px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus1d-backend-boundary-overview-table">
+          <caption>Backend boundary overview</caption>
+          <thead><tr><th scope="col">Boundary</th><th scope="col">Value</th><th scope="col">Status</th></tr></thead>
+          <tbody id="plus1d-backend-boundary-overview-body"><tr><td colspan="3" class="empty">No backend boundary overview loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="card plus1d-endpoint-map" id="plus1d-endpoint-map-panel">
+      <div class="card-head"><h3 class="card-title">Future Backend Endpoint Contract Map Panel</h3><span class="badge info">ENDPOINT MAP</span></div>
+      <p class="card-body">Blueprints the future backend endpoints and marks which ones remain not implemented in this build.</p>
+      <div class="table-wrap" style="max-height:360px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus1d-endpoint-map-table">
+          <caption>Future backend endpoint contracts</caption>
+          <thead><tr><th scope="col">Method</th><th scope="col">Endpoint</th><th scope="col">Purpose</th><th scope="col">Current status</th><th scope="col">Auth</th><th scope="col">Role</th><th scope="col">Writes data</th><th scope="col">Mutates external system</th><th scope="col">Human approval</th><th scope="col">Audit event</th><th scope="col">Implementation allowed</th></tr></thead>
+          <tbody id="plus1d-endpoint-map-body"><tr><td colspan="11" class="empty">No backend endpoint contract map loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus1d-preview-grid">
+    <article class="card plus1d-auth-permission" id="plus1d-auth-permission-panel">
+      <div class="card-head"><h3 class="card-title">Auth / Role / Permission Architecture Panel</h3><span class="badge warning">AUTH PLAN</span></div>
+      <p class="card-body">Defines the future identity, session, and permission architecture. Current permissions remain read-only.</p>
+      <div class="table-wrap" style="max-height:320px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus1d-auth-permission-table">
+          <caption>Auth and permission architecture</caption>
+          <thead><tr><th scope="col">Role</th><th scope="col">Future permissions</th><th scope="col">Current permissions</th><th scope="col">Can execute now</th><th scope="col">Can mutate now</th></tr></thead>
+          <tbody id="plus1d-auth-permission-body"><tr><td colspan="5" class="empty">No auth / permission model loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="card plus1d-storage-model" id="plus1d-request-storage-panel">
+      <div class="card-head"><h3 class="card-title">Persistent Request Storage Model Panel</h3><span class="badge fail">NOT IMPLEMENTED</span></div>
+      <p class="card-body">Blueprints the request record that a future backend would need before real automation can be trusted.</p>
+      <div class="callout" style="margin-top:0.75rem;"><p class="muted">Current status: NOT_IMPLEMENTED - FUTURE_DATABASE_REQUIRED</p></div>
+      <pre class="code-block" id="plus1d-request-storage-preview" style="max-height:260px;overflow:auto;white-space:pre-wrap;word-break:break-word;margin-top:0.75rem;">No request storage model loaded yet.</pre>
+    </article>
+  </div>
+
+  <div class="plus1d-preview-grid">
+    <article class="card plus1d-audit-model" id="plus1d-audit-log-panel">
+      <div class="card-head"><h3 class="card-title">Audit Log Storage Model Panel</h3><span class="badge fail">FUTURE AUDIT</span></div>
+      <p class="card-body">Describes an immutable audit log shape for future backend execution, approvals, and rollback evidence.</p>
+      <div class="callout" style="margin-top:0.75rem;"><p class="muted">Current status: NOT_IMPLEMENTED - FUTURE_IMMUTABLE_AUDIT_REQUIRED</p></div>
+      <pre class="code-block" id="plus1d-audit-log-preview" style="max-height:260px;overflow:auto;white-space:pre-wrap;word-break:break-word;margin-top:0.75rem;">No audit log model loaded yet.</pre>
+    </article>
+
+    <article class="card plus1d-approval-model" id="plus1d-approval-record-panel">
+      <div class="card-head"><h3 class="card-title">Approval Record Model Panel</h3><span class="badge fail">APPROVAL STORE</span></div>
+      <p class="card-body">Blueprints a future approval record shape with revocation and audit binding.</p>
+      <div class="callout" style="margin-top:0.75rem;"><p class="muted">Current status: NOT_IMPLEMENTED - FUTURE_APPROVAL_STORAGE_REQUIRED</p></div>
+      <pre class="code-block" id="plus1d-approval-record-preview" style="max-height:260px;overflow:auto;white-space:pre-wrap;word-break:break-word;margin-top:0.75rem;">No approval record model loaded yet.</pre>
+    </article>
+  </div>
+
+  <div class="plus1d-preview-grid">
+    <article class="card plus1d-job-lifecycle" id="plus1d-queue-job-lifecycle-panel">
+      <div class="card-head"><h3 class="card-title">Queue / Job Lifecycle Model Panel</h3><span class="badge warning">QUEUE MODEL</span></div>
+      <p class="card-body">Maps the future queue lifecycle from draft to rollback, without creating a live queue in this build.</p>
+      <pre class="code-block" id="plus1d-queue-job-lifecycle-preview" style="max-height:320px;overflow:auto;white-space:pre-wrap;word-break:break-word;margin-top:0.75rem;">No queue job lifecycle model loaded yet.</pre>
+    </article>
+
+    <article class="card plus1d-dry-run-boundary" id="plus1d-dry-run-engine-panel">
+      <div class="card-head"><h3 class="card-title">Dry-Run Engine Boundary Panel</h3><span class="badge info">PLANNING ONLY</span></div>
+      <p class="card-body">Explains why a future dry-run engine must live server-side and produce evidence before any approval.</p>
+      <pre class="code-block" id="plus1d-dry-run-engine-preview" style="max-height:320px;overflow:auto;white-space:pre-wrap;word-break:break-word;margin-top:0.75rem;">No dry-run boundary loaded yet.</pre>
+    </article>
+  </div>
+
+  <div class="plus1d-preview-grid">
+    <article class="card plus1d-mutation-gateway" id="plus1d-mutation-gateway-panel">
+      <div class="card-head"><h3 class="card-title">Mutation Gateway Boundary Panel</h3><span class="badge locked">BLOCKED</span></div>
+      <p class="card-body">Captures the server-side requirements that must exist before mutation can ever be enabled.</p>
+      <pre class="code-block" id="plus1d-mutation-gateway-preview" style="max-height:320px;overflow:auto;white-space:pre-wrap;word-break:break-word;margin-top:0.75rem;">No mutation gateway boundary loaded yet.</pre>
+    </article>
+
+    <article class="card plus1d-future-integrations" id="plus1d-future-integrations-panel">
+      <div class="card-head"><h3 class="card-title">GitHub / Netlify Future Integration Boundary Panel</h3><span class="badge warning">INTEGRATIONS</span></div>
+      <p class="card-body">Future GitHub and Netlify integrations remain disabled until their backend, auth, and approval boundaries exist.</p>
+      <div class="table-wrap" style="max-height:320px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus1d-future-integrations-table">
+          <caption>Future integration boundary</caption>
+          <thead><tr><th scope="col">Integration</th><th scope="col">Allowed now</th><th scope="col">Future auth</th><th scope="col">Secret storage</th><th scope="col">Human approval</th><th scope="col">Audit log</th><th scope="col">Rollback plan</th></tr></thead>
+          <tbody id="plus1d-future-integrations-body"><tr><td colspan="7" class="empty">No integration boundary loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus1d-preview-grid">
+    <article class="card plus1d-secrets-management" id="plus1d-secrets-management-panel">
+      <div class="card-head"><h3 class="card-title">Secrets Management Requirements Panel</h3><span class="badge fail">NO SECRETS IN BROWSER</span></div>
+      <p class="card-body">Secrecy boundaries stay server-side, least-privilege, and never flow into the browser or copy outputs.</p>
+      <pre class="code-block" id="plus1d-secrets-management-preview" style="max-height:260px;overflow:auto;white-space:pre-wrap;word-break:break-word;margin-top:0.75rem;">No secrets management requirements loaded yet.</pre>
+    </article>
+
+    <article class="card plus1d-no-go-rollback" id="plus1d-rollback-no-go-panel">
+      <div class="card-head"><h3 class="card-title">Rollback / No-Go Enforcement Model Panel</h3><span class="badge locked">NO-GO ENFORCEMENT</span></div>
+      <p class="card-body">Defines the blocking states, evidence requirements, and rollback triggers that protect future automation.</p>
+      <pre class="code-block" id="plus1d-rollback-no-go-preview" style="max-height:260px;overflow:auto;white-space:pre-wrap;word-break:break-word;margin-top:0.75rem;">No rollback / no-go model loaded yet.</pre>
+    </article>
+  </div>
+
+  <div class="plus1d-preview-grid">
+    <article class="card plus1d-rate-limit-plan" id="plus1d-rate-limit-plan-panel">
+      <div class="card-head"><h3 class="card-title">Rate Limit / Abuse Control Plan Panel</h3><span class="badge warning">RATE LIMITS</span></div>
+      <p class="card-body">Blueprints the future controls that keep draft request packets, approvals, and mutations bounded and auditable.</p>
+      <pre class="code-block" id="plus1d-rate-limit-plan-preview" style="max-height:260px;overflow:auto;white-space:pre-wrap;word-break:break-word;margin-top:0.75rem;">No rate-limit plan loaded yet.</pre>
+    </article>
+
+    <article class="card plus1d-implementation-sequence" id="plus1d-implementation-sequence-panel">
+      <div class="card-head"><h3 class="card-title">Future Implementation Sequence Panel</h3><span class="badge info">SEQUENCE</span></div>
+      <p class="card-body">The future control plane should arrive in a sequenced backend-first order after the blueprint review.</p>
+      <div class="table-wrap" style="max-height:320px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus1d-implementation-sequence-table">
+          <caption>Future implementation sequence</caption>
+          <thead><tr><th scope="col">Phase</th><th scope="col">Label</th><th scope="col">Purpose</th></tr></thead>
+          <tbody id="plus1d-implementation-sequence-body"><tr><td colspan="3" class="empty">No implementation sequence loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus1d-preview-grid">
+    <article class="card plus1d-prerequisite-checklist" id="plus1d-prerequisite-checklist-panel">
+      <div class="card-head"><h3 class="card-title">Real Automation Prerequisite Checklist Panel</h3><span class="badge fail">NOT READY FOR REAL AUTOMATION</span></div>
+      <p class="card-body">The future automation checklist stays blocked until each prerequisite is genuinely implemented and verified.</p>
+      <div class="table-wrap" style="max-height:360px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus1d-prerequisite-checklist-table">
+          <caption>Real automation prerequisite checklist</caption>
+          <thead><tr><th scope="col">Checklist item</th><th scope="col">Required</th><th scope="col">Current state</th><th scope="col">Status</th></tr></thead>
+          <tbody id="plus1d-prerequisite-checklist-body"><tr><td colspan="4" class="empty">No prerequisite checklist loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="card plus1d-copy-output-hub" id="plus1d-copy-output-hub-panel">
+      <div class="card-head"><h3 class="card-title">Copy Output Hub Panel</h3><span class="badge pass">COPY/PASTE ONLY</span></div>
+      <p class="card-body">All blueprint outputs remain local, copyable, and inert so the next architecture review can happen without live actions.</p>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="plus1d-copy-backend-boundary-blueprint">Copy backend boundary blueprint</button>
+        <button type="button" class="copy-button small" id="plus1d-copy-endpoint-contract-map">Copy endpoint contract map</button>
+        <button type="button" class="copy-button small" id="plus1d-copy-auth-permission-architecture">Copy auth/permission architecture</button>
+        <button type="button" class="copy-button small" id="plus1d-copy-storage-model-summary">Copy storage model summary</button>
+        <button type="button" class="copy-button small" id="plus1d-copy-audit-model-summary">Copy audit model summary</button>
+        <button type="button" class="copy-button small" id="plus1d-copy-queue-lifecycle-model">Copy queue lifecycle model</button>
+        <button type="button" class="copy-button small" id="plus1d-copy-mutation-gateway-requirements">Copy mutation gateway requirements</button>
+        <button type="button" class="copy-button small" id="plus1d-copy-future-implementation-sequence">Copy future implementation sequence</button>
+        <button type="button" class="copy-button small" id="plus1d-copy-prerequisite-checklist">Copy real automation prerequisite checklist</button>
+      </div>
+    </article>
+  </div>
+</div>
+"""
+    return _details(
+        "Original +1D — Backend Boundary Blueprint & Real Automation Dependency Map",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="plus1d-backend-boundary-blueprint"
+    )
+
+
 def _build_footer():
     return """
     <footer class="footer">
@@ -2213,6 +2396,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_plus1_controlled_automation_readiness_layer(),
         _build_plus1b_operator_console_contract_layer(),
         _build_plus1c_readiness_scoring_contract_qa_layer(),
+        _build_plus1d_backend_boundary_blueprint_layer(),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),
