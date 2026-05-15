@@ -1,0 +1,45 @@
+{
+  "request_draft_schema": {
+    "type": "object",
+    "required": ["request_id", "title", "intent", "scope", "requested_action_type"],
+    "properties": {
+      "request_id": { "type": "string", "pattern": "^REQ-DEMO-\\d{8}-\\d{6}$" },
+      "created_by": { "type": "string" },
+      "created_at": { "type": "string", "format": "date-time" },
+      "updated_at": { "type": "string", "format": "date-time" },
+      "title": { "type": "string", "minLength": 5 },
+      "intent": { "type": "string", "minLength": 10 },
+      "scope": { "type": "array", "items": { "type": "string" } },
+      "source_phase": { "type": "string", "default": "plus2b" },
+      "risk_classification": { "enum": ["low", "medium", "high", "critical"] },
+      "requested_action_type": { "type": "string" },
+      "current_state": { "type": "string", "default": "draft" },
+      "approval_required": { "type": "boolean", "default": true },
+      "dry_run_required": { "type": "boolean", "default": true },
+      "no_go_flags": { "type": "array", "items": { "type": "string" } },
+      "notes": { "type": "string" }
+    }
+  },
+  "request_record_schema": {
+    "type": "object",
+    "required": ["request_id", "current_state", "storage_status"],
+    "properties": {
+      "request_id": { "type": "string" },
+      "created_by": { "type": "string" },
+      "created_at": { "type": "string" },
+      "updated_at": { "type": "string" },
+      "current_state": { "enum": ["draft", "packet_generated", "under_review", "review_approved_for_planning", "handoff_composed", "runbook_generated", "blocked_by_no_go", "storage_not_configured", "archived"] },
+      "packet_reference": { "type": "string" },
+      "review_reference": { "type": "string" },
+      "handoff_reference": { "type": "string" },
+      "runbook_reference": { "type": "string" },
+      "auth_context": { "type": "object" },
+      "audit_event_ids": { "type": "array", "items": { "type": "string" } },
+      "storage_status": { "type": "string" }
+    }
+  },
+  "lifecycle_model": {
+    "allowed_states": ["draft", "packet_generated", "under_review", "review_approved_for_planning", "handoff_composed", "runbook_generated", "blocked_by_no_go", "storage_not_configured", "archived"],
+    "forbidden_states": ["queued_for_execution", "executing", "executed", "mutating_external_system", "deployed", "merged", "pushed", "pr_created"]
+  }
+}

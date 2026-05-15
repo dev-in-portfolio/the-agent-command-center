@@ -5619,3 +5619,218 @@
     initPlus2A();
   }
 })();
+
+(function () {
+  var plus2bState = {
+    model: null,
+  };
+
+  function p2b(id) {
+    return document.getElementById(id);
+  }
+
+  function readDashboardData() {
+    var node = p2b("dashboard-data");
+    if (!node) return {};
+    try {
+      return JSON.parse(node.textContent || "{}");
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function getModel() {
+    var dashboardData = readDashboardData();
+    var model = plus2bState.model || dashboardData.original_plus2b_request_storage_model || null;
+    plus2bState.model = model;
+    return model;
+  }
+
+  function escapeHtml(value) {
+    return String(value == null ? "" : value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function badgeClass(status) {
+    var value = String(status || "").toLowerCase();
+    if (value === "true" || value === "yes" || value === "ready_for_foundation_review_only" || value === "storage_foundation_only" || value === "storage_contract_ready") {
+      return "pass";
+    }
+    if (value === "false" || value === "no" || value === "missing" || value === "durable_storage_not_configured" || value === "not_ready_for_request_persistence" || value === "not_ready_for_real_automation" || value === "storage_not_configured") {
+      return "locked";
+    }
+    return "info";
+  }
+
+  function buildRows(items, renderer, emptyText) {
+    if (!items || !items.length) return emptyText;
+    return items.map(function (item) {
+      return "<tr>" + renderer(item) + "</tr>";
+    }).join("");
+  }
+
+  function boolValue(value) {
+    return value ? "true" : "false";
+  }
+
+  function buildStatusRows(model) {
+    if (!model || !model.storage_readiness_model) return '<tr><td colspan="2" class="empty">No status loaded yet.</td></tr>';
+    var status = model.storage_readiness_model;
+    var rows = [
+      ["Storage Foundation Status", status.storage_foundation_status],
+      ["Durable Storage Configured", boolValue(status.durable_storage_configured)],
+      ["Write Endpoint Enabled", boolValue(status.write_endpoint_enabled)],
+      ["Persistence Verified", boolValue(status.persistence_verified)],
+      ["Env Required", boolValue(status.env_required)],
+      ["Secrets Required", boolValue(status.secrets_required)],
+      ["Current Mode", status.current_mode],
+    ];
+    return rows.map(function(row) {
+       return "<tr><th scope=\"row\">" + escapeHtml(row[0]) + "</th><td><span class=\"badge " + badgeClass(row[1]) + "\">" + escapeHtml(row[1]) + "</span></td></tr>";
+    }).join("");
+  }
+
+  function buildLifecycleRows(model) {
+    if (!model || !model.request_lifecycle_state_model) return '<tr><td colspan="2" class="empty">No lifecycle model loaded yet.</td></tr>';
+    var lcm = model.request_lifecycle_state_model;
+    var rows = [
+      ["Allowed States", (lcm.allowed_states || []).join(", ")],
+      ["Forbidden Current States", (lcm.forbidden_states || []).join(", ")]
+    ];
+    return rows.map(function(row) {
+       var cls = row[0].indexOf("Forbidden") !== -1 ? "locked" : "pass";
+       return "<tr><th scope=\"row\">" + escapeHtml(row[0]) + "</th><td><span class=\"badge " + cls + "\">" + escapeHtml(row[1]) + "</span></td></tr>";
+    }).join("");
+  }
+
+  function buildAdapterMethods(model) {
+    var methods = model && model.storage_adapter_contract ? model.storage_adapter_contract.methods : [];
+    if (!methods || !methods.length) return '<li>No methods loaded yet.</li>';
+    return methods.map(function(m) {
+      return '<li><code>' + escapeHtml(m) + '</code></li>';
+    }).join("");
+  }
+
+  function buildDependencyRows(model) {
+    return buildRows(model && model.future_storage_dependencies, function(item) {
+      return [
+        '<th scope="row">' + escapeHtml(item.item) + '</th>',
+        '<td><span class="badge ' + badgeClass(item.status) + '">' + escapeHtml(item.status) + '</span></td>',
+      ].join("");
+    }, '<tr><td colspan="2" class="empty">No dependencies loaded yet.</td></tr>');
+  }
+
+  function validateRequestLocal(model, title, intent) {
+     if (!title || title.length < 5) return { valid: false, error: "Title too short (min 5 chars)." };
+     if (!intent || intent.length < 10) return { valid: false, error: "Intent too short (min 10 chars)." };
+     
+     var lowerIntent = intent.toLowerCase();
+     var forbidden = ["execute", "mutate", "deploy", "merge", "push", "delete"];
+     for (var i = 0; i < forbidden.length; i++) {
+        if (lowerIntent.indexOf(forbidden[i]) !== -1) {
+           return { valid: false, error: "Forbidden intent keyword: " + forbidden[i] };
+        }
+     }
+     return { valid: True };
+  }
+
+  function updateValidationPreview(model) {
+    var resultDiv = p2b("plus2b-validation-result");
+    var titleInput = p2b("plus2b-test-title");
+    var intentInput = p2b("plus2b-test-intent");
+    if (!resultDiv || !titleInput || !intentInput) return;
+    
+    var title = titleInput.value;
+    var intent = intentInput.value;
+    
+    if (!title && !intent) {
+       resultDiv.innerHTML = '<p class="muted">Enter a request title and intent to validate.</p>';
+       return;
+    }
+    
+    var res = validateRequestLocal(model, title, intent);
+    var badge = res.valid ? '<span class="badge pass">VALID</span>' : '<span class="badge locked">INVALID</span>';
+    var error = res.error ? '<p class="muted" style="margin-top:0.5rem;"><strong>Error:</strong> ' + escapeHtml(res.error) + '</p>' : '';
+    
+    resultDiv.innerHTML = '<p><strong>Result:</strong> ' + badge + '</p>' + error;
+  }
+
+  function updatePlus2BUI() {
+    var model = getModel();
+    var statusBody = p2b("plus2b-status-body");
+    var schemaPreview = p2b("plus2b-schema-preview");
+    var lifecycleBody = p2b("plus2b-lifecycle-body");
+    var adapterMethods = p2b("plus2b-adapter-methods");
+    var dependenciesBody = p2b("plus2b-dependencies-body");
+    
+    if (statusBody) statusBody.innerHTML = buildStatusRows(model);
+    if (schemaPreview && model) schemaPreview.textContent = JSON.stringify(model.request_draft_schema, null, 2);
+    if (lifecycleBody) lifecycleBody.innerHTML = buildLifecycleRows(model);
+    if (adapterMethods) adapterMethods.innerHTML = buildAdapterMethods(model);
+    if (dependenciesBody) dependenciesBody.innerHTML = buildDependencyRows(model);
+    
+    updateValidationPreview(model);
+  }
+
+  function copyRenderedText(text, emptyMessage, successMessage) {
+    var status = p2b("copy-status");
+    if (!text) {
+      if (status) status.textContent = emptyMessage;
+      return;
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () {
+        if (status) status.textContent = successMessage;
+      }).catch(function () {});
+      return;
+    }
+    var field = document.createElement("textarea");
+    field.value = text;
+    field.style.position = "fixed";
+    field.style.left = "-9999px";
+    document.body.appendChild(field);
+    field.select();
+    document.execCommand("copy");
+    document.body.removeChild(field);
+    if (status) status.textContent = successMessage;
+  }
+
+  function bindCopyButton(buttonId, getter, emptyMessage, successMessage) {
+    var button = p2b(buttonId);
+    if (!button) return;
+    button.addEventListener("click", function () {
+      var model = getModel();
+      var text = getter(model);
+      copyRenderedText(text, emptyMessage, successMessage);
+    });
+  }
+
+  function initPlus2B() {
+    var shell = document.querySelector("[data-plus2b-request-storage]");
+    if (!shell) return;
+
+    bindCopyButton("plus2b-copy-schema", function(m) { return JSON.stringify(m && m.request_draft_schema, null, 2); }, "No schema loaded.", "Schema copied.");
+    bindCopyButton("plus2b-copy-lifecycle", function(m) { return JSON.stringify(m && m.request_lifecycle_state_model, null, 2); }, "No model loaded.", "Lifecycle model copied.");
+    bindCopyButton("plus2b-copy-adapter", function(m) { return JSON.stringify(m && m.storage_adapter_contract, null, 2); }, "No contract loaded.", "Contract copied.");
+    bindCopyButton("plus2b-copy-disabled", function(m) { return "DURABLE_STORAGE_NOT_CONFIGURED"; }, "Error", "Boundary report copied.");
+    bindCopyButton("plus2b-copy-dependencies", function(m) { return JSON.stringify(m && m.future_storage_dependencies, null, 2); }, "No dependencies loaded.", "Dependencies copied.");
+    bindCopyButton("plus2b-copy-validation", function(m) { return "Requires: validate_original_plus2b_persistent_request_storage.py\nRequires: validate_original_plus2b_persistent_request_storage_e2e.py"; }, "Error", "Validation checklist copied.");
+
+    var titleInput = p2b("plus2b-test-title");
+    var intentInput = p2b("plus2b-test-intent");
+    if (titleInput) titleInput.addEventListener("input", function() { updateValidationPreview(getModel()); });
+    if (intentInput) intentInput.addEventListener("input", function() { updateValidationPreview(getModel()); });
+
+    updatePlus2BUI();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initPlus2B);
+  } else {
+    initPlus2B();
+  }
+})();

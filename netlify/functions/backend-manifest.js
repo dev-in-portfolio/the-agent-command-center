@@ -41,6 +41,13 @@ exports.handler = async function(event, context) {
           "purpose": "Provide static role and permission definitions",
           "read_only": true,
           "dangerous_capabilities_enabled": false
+        },
+        {
+          "path": "/api/request-storage-status",
+          "method": "GET",
+          "purpose": "Check the status of the persistent request storage foundation",
+          "read_only": true,
+          "dangerous_capabilities_enabled": false
         }
       ],
       "future_phases": [
