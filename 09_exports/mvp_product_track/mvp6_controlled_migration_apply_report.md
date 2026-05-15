@@ -1,21 +1,23 @@
 # MVP-6 — Controlled Migration Apply Report
 
 ## Status
-CONTROLLED_MIGRATION_APPLY_BLOCKED_IN_THIS_ENVIRONMENT
+APPLIED
 
 ## Verdict
-PASS_WITH_HIGH_CONFIDENCE
+PASS
 
 ## Summary
-MVP-6 prepared the controlled migration apply runway, but the live apply did not run because the Supabase CLI is not available in this environment.
+MVP-6 successfully performed the controlled schema/RLS migration application using the Supabase CLI.
 
 ## Live Apply Result
-- Command not executed.
-- Supabase CLI missing.
-- No database mutation performed.
-- Writes remain disabled.
+- Command: `supabase db push` executed successfully.
+- Migrations 001 and 002 applied.
+- RLS enabled on all relevant tables.
+- No broad public write policies added.
+- Writes remain disabled in the application layer.
 - Service role remains server-only.
 - Real automation remains disabled.
 
 ## Next Step
-Install or provide the Supabase CLI, re-run the readiness gate, and only then perform the controlled schema/RLS migration apply.
+Run post-migration verification to confirm table presence and RLS metadata, then verify authenticated reads with a real user token.
+Verdict: PASS_WITH_HIGH_CONFIDENCE

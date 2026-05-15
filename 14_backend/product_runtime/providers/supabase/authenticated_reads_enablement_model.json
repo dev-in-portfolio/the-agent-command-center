@@ -7,10 +7,13 @@
   "bearer_token_required": true,
   "service_role_used_for_reads": false,
   "anon_key_plus_user_token": true,
-  "current_status": "pending_env_activation",
+  "current_status": "flags_set",
   "current_recommendation": [
+    "MIGRATION_APPLIED",
+    "AUTHENTICATED_READS_ENABLED",
     "CONTROLLED_MIGRATION_APPLY_READY",
     "AUTHENTICATED_READS_ENABLEMENT_READY",
+    "REQUEST_API_READS_ENABLED",
     "REQUEST_API_READS_ENABLED_TARGET",
     "WRITES_DISABLED_UNTIL_SEPARATE_REVIEW",
     "NOT_READY_FOR_REAL_AUTOMATION"

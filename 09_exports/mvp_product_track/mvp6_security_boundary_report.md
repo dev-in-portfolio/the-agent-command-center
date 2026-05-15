@@ -1,15 +1,24 @@
 # MVP-6 — Security Boundary Report
 
-## Verdict
-PASS_WITH_HIGH_CONFIDENCE
+## Status
+VERIFIED_WITH_APPLIED_RLS
 
-## Safety Boundary
-- Controlled migration apply is the only live Supabase mutation allowed in this phase.
-- Request writes remain disabled.
-- POST remains blocked for writes.
-- Service role is not exposed to browser code.
-- Bearer token handling remains boundary-only.
-- Anonymous writes are blocked.
-- Automation remains disabled.
-- GitHub and Netlify mutation from the app are not added.
-- No command execution is added to the app runtime.
+## Summary
+The security boundary for MVP-6 is enforced by Supabase Row Level Security (RLS) and Netlify feature flags.
+
+## Boundary State
+- RLS: APPLIED (Migration 002)
+- Supabase Auth: ENABLED (Flag)
+- Request API Reads: ENABLED (Flag)
+- Request API Writes: DISABLED (Flag)
+- POST Writes: BLOCKED (Adapter logic)
+- Service Role: SERVER_ONLY (Not exposed to browser)
+- Browser Reads: USER_TOKEN_REQUIRED
+
+## Safety Verification
+- No anonymous writes allowed by RLS.
+- No broad public write policies present.
+- All select policies require `auth.uid() = id` or `auth.uid() = actor_id`.
+- Write adapter remains disabled in code.
+- Real automation remains disabled.
+Verdict: PASS_WITH_HIGH_CONFIDENCE

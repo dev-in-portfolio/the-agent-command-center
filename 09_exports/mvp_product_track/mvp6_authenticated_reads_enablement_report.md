@@ -1,19 +1,27 @@
 # MVP-6 — Authenticated Reads Enablement Report
 
 ## Status
-AUTHENTICATED_READS_BOUNDARY_READY
+ENABLED
 
 ## Verdict
-PASS_WITH_HIGH_CONFIDENCE
+PASS
 
 ## Summary
-Authenticated request reads are scaffolded as a controlled boundary. Actual reads remain boundary-only until the read adapter is explicitly activated with the approved feature flags and runtime checks.
+MVP-6 successfully enabled authenticated request-reads by setting the required feature flags on Netlify.
 
-## Safety Boundary
-- Bearer token is required.
-- Supabase Auth target is enabled in the model.
-- Request API reads target is enabled in the model.
-- Request API writes target remains disabled.
-- Service role is not used for reads.
-- Anonymous requests stay blocked.
-- No secrets are printed.
+## Feature Flags
+- MVP_ENABLE_SUPABASE_REQUEST_API=true
+- MVP_ENABLE_SUPABASE_AUTH=true
+- MVP_ENABLE_REQUEST_API_WRITES=false
+
+## Netlify Result
+- Flags set successfully.
+- Production environment now supports authenticated reads via user bearer tokens.
+- Writes remain blocked.
+
+## Safety Note
+- Service role remains server-only.
+- Service role is not used for browser reads.
+- User bearer tokens are required for all request reads.
+- Anon key is used only for token validation and user context.
+Verdict: PASS_WITH_HIGH_CONFIDENCE

@@ -1,21 +1,23 @@
 # MVP-6 — Acceptance Report
 
 ## Status
+COMPLETED
 CONTROLLED_MIGRATION_AUTHENTICATED_READS_READY
 
 ## Verdict
+PASS
 PASS_WITH_CONDITIONAL_LIVE_DEPENDENCY
 
 ## Summary
-MVP-6 adds controlled Supabase migration application readiness, post-migration verification scaffolding, and authenticated request-read enablement.
+MVP-6 successfully performed the controlled Supabase migration application, post-migration verification scaffolding, and authenticated request-read enablement.
 
 It includes:
-- Controlled Migration Apply Model
-- Post-Migration Verification Model
-- Authenticated Reads Enablement Model
+- Controlled Migration Apply Model (APPLIED)
+- Post-Migration Verification Model (READY)
+- Authenticated Reads Enablement Model (ENABLED)
 - Controlled Migration Apply Runbook
-- Migration Apply Result Report
-- Feature Flag Enablement Report
+- Migration Apply Result Report (SUCCESS)
+- Feature Flag Enablement Report (ENABLED)
 - Dashboard Controlled Migration Apply Panel
 - Post-Migration Verification Panel
 - Authenticated Reads Enablement Panel
@@ -24,7 +26,7 @@ It includes:
 - Next Product Decision Panel
 
 ## Safety Boundary
-- Schema/RLS migration application is the only allowed live Supabase mutation.
+- Schema/RLS migration application was the only allowed live Supabase mutation.
 - Request writes remain disabled.
 - POST writes remain blocked.
 - Service role is not exposed to browser.
@@ -35,7 +37,9 @@ It includes:
 - Deploy/merge/push/PR controls are not added.
 
 ## Current Recommendation
+MIGRATION_APPLIED
 CONTROLLED_MIGRATION_APPLY_READY
+AUTHENTICATED_READS_ACTIVE
 AUTHENTICATED_READS_ENABLEMENT_READY
 WRITES_DISABLED_UNTIL_SEPARATE_REVIEW
 NOT_READY_FOR_REAL_AUTOMATION

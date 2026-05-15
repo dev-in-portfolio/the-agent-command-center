@@ -4090,6 +4090,7 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-5 valid
   &quot;model_version&quot;: &quot;1.0&quot;,
   &quot;project_ref&quot;: &quot;mobvzrkcsfbumgbwvkcp&quot;,
   &quot;project_url&quot;: &quot;https://mobvzrkcsfbumgbwvkcp.supabase.co&quot;,
+  &quot;status&quot;: &quot;applied&quot;,
   &quot;required_migrations&quot;: [
     &quot;001_supabase_request_runtime.sql&quot;,
     &quot;002_supabase_auth_rls_policies.sql&quot;
@@ -4112,9 +4113,12 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-5 valid
     &quot;automation&quot;
   ],
   &quot;current_recommendation&quot;: [
+    &quot;MIGRATION_APPLIED&quot;,
     &quot;CONTROLLED_MIGRATION_APPLY_READY&quot;,
     &quot;APPLY_SCHEMA_AND_RLS_ONLY&quot;,
     &quot;ENABLE_AUTHENTICATED_READS_ONLY&quot;,
+    &quot;POST_MIGRATION_VERIFICATION_READY&quot;,
+    &quot;AUTHENTICATED_READS_ENABLED&quot;,
     &quot;WRITES_DISABLED_UNTIL_SEPARATE_REVIEW&quot;,
     &quot;NOT_READY_FOR_REAL_AUTOMATION&quot;
   ]
@@ -4198,10 +4202,13 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-5 valid
   &quot;bearer_token_required&quot;: true,
   &quot;service_role_used_for_reads&quot;: false,
   &quot;anon_key_plus_user_token&quot;: true,
-  &quot;current_status&quot;: &quot;pending_env_activation&quot;,
+  &quot;current_status&quot;: &quot;flags_set&quot;,
   &quot;current_recommendation&quot;: [
+    &quot;MIGRATION_APPLIED&quot;,
+    &quot;AUTHENTICATED_READS_ENABLED&quot;,
     &quot;CONTROLLED_MIGRATION_APPLY_READY&quot;,
     &quot;AUTHENTICATED_READS_ENABLEMENT_READY&quot;,
+    &quot;REQUEST_API_READS_ENABLED&quot;,
     &quot;REQUEST_API_READS_ENABLED_TARGET&quot;,
     &quot;WRITES_DISABLED_UNTIL_SEPARATE_REVIEW&quot;,
     &quot;NOT_READY_FOR_REAL_AUTOMATION&quot;
@@ -4514,7 +4521,7 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-6 valid
         <div class="stat-grid">
     <div class="stat">
       <span>Generated at</span>
-      <strong>2026-05-15T22:12:35Z</strong>
+      <strong>2026-05-15T22:46:01Z</strong>
       
     </div>
     
@@ -4721,8 +4728,8 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-6 valid
     </main>
   </div>
   <script type="application/json" id="dashboard-data">{
-  "dashboard_id": "PH3-20260515-221232",
-  "created_at_utc": "2026-05-15T22:12:32Z",
+  "dashboard_id": "PH3-20260515-224558",
+  "created_at_utc": "2026-05-15T22:45:58Z",
   "phase": "Read-Only Operations Dashboard",
   "repo": "dev-in-portfolio/the-agent-command-center",
   "source_lineage": "dev-in-portfolio/agent-command-center-3",
@@ -5729,7 +5736,7 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-6 valid
     "source_exists": true,
     "source_type": "generated_static_snapshot",
     "source_confidence": "generated_static_snapshot",
-    "generated_at_utc": "2026-05-15T22:12:35Z",
+    "generated_at_utc": "2026-05-15T22:46:01Z",
     "freshness_status": "generated_static_snapshot",
     "snapshot_age_seconds": 0,
     "notes": [
@@ -11627,6 +11634,7 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-6 valid
       "model_version": "1.0",
       "project_ref": "mobvzrkcsfbumgbwvkcp",
       "project_url": "https://mobvzrkcsfbumgbwvkcp.supabase.co",
+      "status": "applied",
       "required_migrations": [
         "001_supabase_request_runtime.sql",
         "002_supabase_auth_rls_policies.sql"
@@ -11649,9 +11657,12 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-6 valid
         "automation"
       ],
       "current_recommendation": [
+        "MIGRATION_APPLIED",
         "CONTROLLED_MIGRATION_APPLY_READY",
         "APPLY_SCHEMA_AND_RLS_ONLY",
         "ENABLE_AUTHENTICATED_READS_ONLY",
+        "POST_MIGRATION_VERIFICATION_READY",
+        "AUTHENTICATED_READS_ENABLED",
         "WRITES_DISABLED_UNTIL_SEPARATE_REVIEW",
         "NOT_READY_FOR_REAL_AUTOMATION"
       ]
@@ -11699,10 +11710,13 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-6 valid
       "bearer_token_required": true,
       "service_role_used_for_reads": false,
       "anon_key_plus_user_token": true,
-      "current_status": "pending_env_activation",
+      "current_status": "flags_set",
       "current_recommendation": [
+        "MIGRATION_APPLIED",
+        "AUTHENTICATED_READS_ENABLED",
         "CONTROLLED_MIGRATION_APPLY_READY",
         "AUTHENTICATED_READS_ENABLEMENT_READY",
+        "REQUEST_API_READS_ENABLED",
         "REQUEST_API_READS_ENABLED_TARGET",
         "WRITES_DISABLED_UNTIL_SEPARATE_REVIEW",
         "NOT_READY_FOR_REAL_AUTOMATION"

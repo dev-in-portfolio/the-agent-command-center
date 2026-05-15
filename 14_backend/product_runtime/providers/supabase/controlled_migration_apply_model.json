@@ -3,6 +3,7 @@
   "model_version": "1.0",
   "project_ref": "mobvzrkcsfbumgbwvkcp",
   "project_url": "https://mobvzrkcsfbumgbwvkcp.supabase.co",
+  "status": "applied",
   "required_migrations": [
     "001_supabase_request_runtime.sql",
     "002_supabase_auth_rls_policies.sql"
@@ -25,9 +26,12 @@
     "automation"
   ],
   "current_recommendation": [
+    "MIGRATION_APPLIED",
     "CONTROLLED_MIGRATION_APPLY_READY",
     "APPLY_SCHEMA_AND_RLS_ONLY",
     "ENABLE_AUTHENTICATED_READS_ONLY",
+    "POST_MIGRATION_VERIFICATION_READY",
+    "AUTHENTICATED_READS_ENABLED",
     "WRITES_DISABLED_UNTIL_SEPARATE_REVIEW",
     "NOT_READY_FOR_REAL_AUTOMATION"
   ]

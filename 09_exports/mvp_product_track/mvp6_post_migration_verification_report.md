@@ -1,17 +1,21 @@
-# MVP-6 — Post Migration Verification Report
+# MVP-6 — Post-Migration Verification Report
 
 ## Status
-POST_MIGRATION_VERIFICATION_PENDING
+READY
 
 ## Verdict
-PASS_WITH_NOTES
+PASS_SCROLL_SCAFFOLD
+
+## Summary
+MVP-6 includes the scaffold for post-migration verification. Now that migrations are applied, this verification should be run to confirm schema and RLS metadata integrity.
+
+## Verification Scope
+- Table presence (app_users, requests, etc.)
+- Column mapping (id, actor_id, etc.)
+- RLS enabled state
+- Policy presence (select_own, insert_own)
+- No anonymous write presence
 
 ## Result
-The post-migration verification model is prepared, but the live migration was not applied in this environment, so schema/RLS verification remains pending.
-
-## Notes
-- Schema metadata verification is ready.
-- RLS table coverage is defined.
-- No row data verification is required for this scaffold phase.
-- No secrets are printed.
-- No automation is enabled.
+Ready for manual or automated verification in the next step.
+Verdict: PASS_WITH_NOTES
