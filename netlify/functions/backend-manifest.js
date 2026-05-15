@@ -62,6 +62,13 @@ exports.handler = async function(event, context) {
           "purpose": "Check the status of the approval gate storage foundation",
           "read_only": true,
           "dangerous_capabilities_enabled": false
+        },
+        {
+          "path": "/api/dry-run-status",
+          "method": "GET",
+          "purpose": "Check the status of the server-side dry-run engine foundation",
+          "read_only": true,
+          "dangerous_capabilities_enabled": false
         }
       ],
       "future_phases": [

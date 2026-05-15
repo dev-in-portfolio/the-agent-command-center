@@ -6369,3 +6369,219 @@
     initPlus2D();
   }
 })();
+
+(function () {
+  var plus2eState = {
+    model: null,
+  };
+
+  function p2e(id) {
+    return document.getElementById(id);
+  }
+
+  function readDashboardData() {
+    var node = p2e("dashboard-data");
+    if (!node) return {};
+    try {
+      return JSON.parse(node.textContent || "{}");
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function getModel() {
+    var dashboardData = readDashboardData();
+    var model = plus2eState.model || dashboardData.original_plus2e_dry_run_engine_model || null;
+    plus2eState.model = model;
+    return model;
+  }
+
+  function escapeHtml(value) {
+    return String(value == null ? "" : value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function badgeClass(status) {
+    var value = String(status || "").toLowerCase();
+    if (value === "true" || value === "yes" || value === "ready_for_foundation_review_only" || value === "dry_run_foundation_only" || value === "dry_run_contract_ready") {
+      return "pass";
+    }
+    if (value === "false" || value === "no" || value === "missing" || value === "dry_run_execution_not_configured" || value === "durable_dry_run_storage_not_configured" || value === "not_ready_for_dry_run_execution" || value === "not_ready_for_real_automation" || value === "blocked") {
+      return "locked";
+    }
+    return "info";
+  }
+
+  function buildRows(items, renderer, emptyText) {
+    if (!items || !items.length) return emptyText;
+    return items.map(function (item) {
+      return "<tr>" + renderer(item) + "</tr>";
+    }).join("");
+  }
+
+  function boolValue(value) {
+    return value ? "true" : "false";
+  }
+
+  function buildStatusRows(model) {
+    if (!model || !model.dry_run_readiness_model) return '<tr><td colspan="2" class="empty">No status loaded yet.</td></tr>';
+    var status = model.dry_run_readiness_model;
+    var rows = [
+      ["Dry-Run Execution Enabled", boolValue(status.dry_run_execution_enabled)],
+      ["Durable Storage Configured", boolValue(status.durable_dry_run_storage_configured)],
+      ["Command Execution Enabled", boolValue(status.command_execution_enabled)],
+      ["External API Simulation Enabled", boolValue(status.external_api_simulation_enabled)],
+      ["Evidence Persistence Verified", boolValue(status.evidence_persistence_verified)],
+      ["Foundation Status", status.dry_run_foundation_status],
+      ["Current Mode", status.current_mode],
+    ];
+    return rows.map(function(row) {
+       return "<tr><th scope=\"row\">" + escapeHtml(row[0]) + "</th><td><span class=\"badge " + badgeClass(row[1]) + "\">" + escapeHtml(row[1]) + "</span></td></tr>";
+    }).join("");
+  }
+
+  function buildImpactRows(model) {
+    if (!model || !model.dry_run_impact_model) return '<tr><td colspan="2" class="empty">No impact model loaded yet.</td></tr>';
+    var m = model.dry_run_impact_model;
+    var rows = [
+      ["Allowed Impact", (m.allowed || []).join(", ")],
+      ["Simulated Impact", (m.simulated || []).join(", ")],
+      ["Blocked Impact", (m.blocked || []).join(", ")],
+      ["Forbidden Real Impact", (m.forbidden || []).join(", ")]
+    ];
+    return rows.map(function(row) {
+       var cls = (row[0].indexOf("Forbidden") !== -1 || row[0].indexOf("Blocked") !== -1) ? "locked" : "pass";
+       return "<tr><th scope=\"row\">" + escapeHtml(row[0]) + "</th><td><span class=\"badge " + cls + "\">" + escapeHtml(row[1]) + "</span></td></tr>";
+    }).join("");
+  }
+
+  function buildAdapterMethods(model) {
+    var methods = model && model.dry_run_adapter_contract ? model.dry_run_adapter_contract.methods : [];
+    if (!methods || !methods.length) return '<li>No methods loaded yet.</li>';
+    return methods.map(function(m) {
+      return '<li><code>' + escapeHtml(m) + '</code></li>';
+    }).join("");
+  }
+
+  function buildEvidenceRows(model) {
+    if (!model || !model.dry_run_evidence_package_contract) return '<tr><td colspan="2" class="empty">No contract loaded yet.</td></tr>';
+    var c = model.dry_run_evidence_package_contract;
+    var rows = [
+      ["Required Fields", (c.fields || []).join(", ")],
+      ["Storage Status", c.storage_status]
+    ];
+    return rows.map(function(row) {
+       return "<tr><th scope=\"row\">" + escapeHtml(row[0]) + "</th><td>" + escapeHtml(row[1]) + "</td></tr>";
+    }).join("");
+  }
+
+  function buildDependencyRows(model) {
+    return buildRows(model && model.future_dry_run_dependencies, function(item) {
+      return [
+        '<th scope="row">' + escapeHtml(item.item) + '</th>',
+        '<td><span class="badge ' + badgeClass(item.status) + '">' + escapeHtml(item.status) + '</span></td>',
+      ].join("");
+    }, '<tr><td colspan="2" class="empty">No dependencies loaded yet.</td></tr>');
+  }
+
+  function validateActionLocal(model, action) {
+     if (!action) return { valid: false, error: "No action selected." };
+     var forbidden = ["execute_command", "mutate_backend", "deploy_site"];
+     if (forbidden.indexOf(action) !== -1) {
+        return { valid: false, error: "Forbidden action type for current phase: " + action };
+     }
+     return { valid: true };
+  }
+
+  function updateValidationPreview(model) {
+    var resultDiv = p2e("plus2e-validation-result");
+    var actionSelect = p2e("plus2e-test-action");
+    if (!resultDiv || !actionSelect || !model) return;
+    
+    var action = actionSelect.value;
+    
+    if (!action) {
+       resultDiv.innerHTML = '<p class="muted">Select an action type to validate.</p>';
+       return;
+    }
+    
+    var res = validateActionLocal(model, action);
+    var badge = res.valid ? '<span class="badge pass">VALID</span>' : '<span class="badge locked">INVALID</span>';
+    var error = res.error ? '<p class="muted" style="margin-top:0.5rem;"><strong>Error:</strong> ' + escapeHtml(res.error) + '</p>' : '';
+    
+    resultDiv.innerHTML = '<p><strong>Result:</strong> ' + badge + '</p>' + error;
+  }
+
+  function updatePlus2EUI() {
+    var model = getModel();
+    var statusBody = p2e("plus2e-status-body");
+    var reqSchema = p2e("plus2e-request-schema-preview");
+    var planSchema = p2e("plus2e-plan-schema-preview");
+    var resSchema = p2e("plus2e-result-schema-preview");
+    var impactBody = p2e("plus2e-impact-body");
+    var adapterMethods = p2e("plus2e-adapter-methods");
+    var evidenceBody = p2e("plus2e-evidence-body");
+    var dependenciesBody = p2e("plus2e-dependencies-body");
+    
+    if (statusBody) statusBody.innerHTML = buildStatusRows(model);
+    if (reqSchema && model) reqSchema.textContent = JSON.stringify(model.dry_run_request_schema, null, 2);
+    if (planSchema && model) planSchema.textContent = JSON.stringify(model.dry_run_plan_schema, null, 2);
+    if (resSchema && model) resSchema.textContent = JSON.stringify(model.dry_run_result_schema, null, 2);
+    if (impactBody) impactBody.innerHTML = buildImpactRows(model);
+    if (adapterMethods) adapterMethods.innerHTML = buildAdapterMethods(model);
+    if (evidenceBody) evidenceBody.innerHTML = buildEvidenceRows(model);
+    if (dependenciesBody) dependenciesBody.innerHTML = buildDependencyRows(model);
+    
+    updateValidationPreview(model);
+  }
+
+  function copyRenderedText(text, successMessage) {
+    if (!text) return;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () {
+        var status = p2e("copy-status");
+        if (status) status.textContent = successMessage;
+      }).catch(function () {});
+    }
+  }
+
+  function bindCopyButton(buttonId, getter, successMessage) {
+    var button = p2e(buttonId);
+    if (!button) return;
+    button.addEventListener("click", function () {
+      var model = getModel();
+      var text = getter(model);
+      copyRenderedText(text, successMessage);
+    });
+  }
+
+  function initPlus2E() {
+    var shell = document.querySelector("[data-plus2e-dry-run-engine]");
+    if (!shell) return;
+
+    bindCopyButton("plus2e-copy-request-schema", function(m) { return JSON.stringify(m && m.dry_run_request_schema, null, 2); }, "Request schema copied.");
+    bindCopyButton("plus2e-copy-plan-schema", function(m) { return JSON.stringify(m && m.dry_run_plan_schema, null, 2); }, "Plan schema copied.");
+    bindCopyButton("plus2e-copy-result-schema", function(m) { return JSON.stringify(m && m.dry_run_result_schema, null, 2); }, "Result schema copied.");
+    bindCopyButton("plus2e-copy-impact", function(m) { return JSON.stringify(m && m.dry_run_impact_model, null, 2); }, "Impact boundary copied.");
+    bindCopyButton("plus2e-copy-adapter", function(m) { return JSON.stringify(m && m.dry_run_adapter_contract, null, 2); }, "Adapter copied.");
+    bindCopyButton("plus2e-copy-disabled", function(m) { return "DRY_RUN_EXECUTION_NOT_CONFIGURED"; }, "Boundary report copied.");
+    bindCopyButton("plus2e-copy-evidence", function(m) { return JSON.stringify(m && m.dry_run_evidence_package_contract, null, 2); }, "Evidence contract copied.");
+    bindCopyButton("plus2e-copy-dependencies", function(m) { return JSON.stringify(m && m.future_dry_run_dependencies, null, 2); }, "Dependencies copied.");
+    bindCopyButton("plus2e-copy-validation", function(m) { return "Requires: validate_original_plus2e_server_side_dry_run_engine.py\nRequires: validate_original_plus2e_server_side_dry_run_engine_e2e.py"; }, "Validation checklist copied.");
+
+    var actionSelect = p2e("plus2e-test-action");
+    if (actionSelect) actionSelect.addEventListener("change", function() { updateValidationPreview(getModel()); });
+
+    updatePlus2EUI();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initPlus2E);
+  } else {
+    initPlus2E();
+  }
+})();

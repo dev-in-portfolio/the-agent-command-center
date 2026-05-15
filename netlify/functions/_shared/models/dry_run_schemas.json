@@ -1,0 +1,92 @@
+{
+  "dry_run_request_schema": {
+    "type": "object",
+    "required": ["dry_run_request_id", "request_id", "requested_by", "requested_at", "requested_action_type"],
+    "properties": {
+      "dry_run_request_id": { "type": "string" },
+      "request_id": { "type": "string" },
+      "requested_by": { "type": "string" },
+      "requested_by_role": { "type": "string" },
+      "requested_at": { "type": "string", "format": "date-time" },
+      "source_phase": { "type": "string" },
+      "requested_action_type": { "type": "string" },
+      "planning_scope": { "type": "array", "items": { "type": "string" } },
+      "target_system": { "type": "string" },
+      "expected_inputs": { "type": "object" },
+      "risk_classification": { "enum": ["low", "medium", "high", "critical"] },
+      "approval_reference": { "type": "string" },
+      "audit_reference": { "type": "string" },
+      "no_go_flags": { "type": "array", "items": { "type": "string" } },
+      "current_state": { "type": "string" },
+      "reason_summary": { "type": "string" }
+    }
+  },
+  "dry_run_plan_schema": {
+    "type": "object",
+    "required": ["dry_run_plan_id", "dry_run_request_id", "generated_at", "target_system"],
+    "properties": {
+      "dry_run_plan_id": { "type": "string" },
+      "dry_run_request_id": { "type": "string" },
+      "request_id": { "type": "string" },
+      "generated_at": { "type": "string", "format": "date-time" },
+      "plan_type": { "type": "string" },
+      "target_system": { "type": "string" },
+      "planned_steps": { "type": "array", "items": { "type": "object" } },
+      "expected_noop_behavior": { "type": "string" },
+      "expected_outputs": { "type": "array", "items": { "type": "string" } },
+      "safety_checks": { "type": "array", "items": { "type": "string" } },
+      "blocked_operations": { "type": "array", "items": { "type": "string" } },
+      "required_evidence": { "type": "array", "items": { "type": "string" } },
+      "required_human_review": { "type": "boolean" },
+      "storage_status": { "type": "string" }
+    }
+  },
+  "dry_run_result_schema": {
+    "type": "object",
+    "required": ["dry_run_result_id", "dry_run_plan_id", "generated_at", "result_status"],
+    "properties": {
+      "dry_run_result_id": { "type": "string" },
+      "dry_run_plan_id": { "type": "string" },
+      "request_id": { "type": "string" },
+      "generated_at": { "type": "string", "format": "date-time" },
+      "result_status": { "enum": ["success", "failed", "partially_simulated", "blocked"] },
+      "simulated_steps": { "type": "array", "items": { "type": "object" } },
+      "blocked_steps": { "type": "array", "items": { "type": "string" } },
+      "evidence_summary": { "type": "string" },
+      "diff_summary": { "type": "string" },
+      "risk_findings": { "type": "array", "items": { "type": "string" } },
+      "no_go_findings": { "type": "array", "items": { "type": "string" } },
+      "approval_requirements": { "type": "array", "items": { "type": "string" } },
+      "audit_event_reference": { "type": "string" },
+      "storage_status": { "type": "string" }
+    }
+  },
+  "impact_model": {
+    "allowed": [
+      "no_external_impact",
+      "planning_only_impact"
+    ],
+    "simulated": [
+      "simulated_file_change",
+      "simulated_backend_change",
+      "simulated_github_change",
+      "simulated_netlify_change"
+    ],
+    "blocked": [
+      "blocked_execution_attempt",
+      "blocked_mutation_attempt"
+    ],
+    "forbidden": [
+      "real_file_change",
+      "real_backend_change",
+      "real_github_change",
+      "real_netlify_change",
+      "command_execution",
+      "deployment_trigger",
+      "branch_merge",
+      "branch_push",
+      "pr_creation",
+      "queue_execution"
+    ]
+  }
+}
