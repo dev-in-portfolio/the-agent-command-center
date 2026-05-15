@@ -1,0 +1,19 @@
+{
+  "request_id": "mvp1-demo-request-001",
+  "title": "Prepare safe deployment review packet",
+  "intent": "Create a planning-only deployment review package for dashboard changes.",
+  "requested_action": "planning_review_only",
+  "requested_action_type": "planning_review_only",
+  "expected_result": "blocked_before_execution",
+  "actor_id": "demo_operator",
+  "actor_role": "operator",
+  "scope": "dashboard-planning",
+  "target_system": "the-agent-command-center-dashboard",
+  "no_real_deploy": true,
+  "no_external_mutation": true,
+  "notes": [
+    "No real deploy.",
+    "No external mutation.",
+    "This fixture is for runtime scaffold review only."
+  ]
+}

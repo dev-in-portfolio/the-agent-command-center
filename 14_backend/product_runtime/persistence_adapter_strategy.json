@@ -1,0 +1,126 @@
+{
+  "strategy_id": "mvp1-persistence-adapter-strategy",
+  "strategy_version": "1.0",
+  "current_status": "NOT_CONFIGURED",
+  "no_env_reads_in_this_phase": true,
+  "no_secrets": true,
+  "no_tokens": true,
+  "no_live_database_connection": true,
+  "current_recommendation": [
+    "MVP_RUNTIME_SCAFFOLD_READY",
+    "PERSISTENCE_PROVIDER_DECISION_REQUIRED",
+    "REAL_AUTH_PROVIDER_DECISION_REQUIRED",
+    "NOT_READY_FOR_REAL_AUTOMATION",
+    "NEXT_STEP_SELECT_STORAGE_PROVIDER_AND_AUTH_PROVIDER"
+  ],
+  "adapter_choices": [
+    {
+      "adapter": "neon_postgres",
+      "required_env_vars": [
+        "NEON_API_KEY",
+        "NEON_CONNECTION_STRING"
+      ],
+      "production_suitability": "future_candidate",
+      "risk_notes": [
+        "Managed database path requires a firm auth decision and migration discipline.",
+        "Do not connect during this scaffold phase."
+      ],
+      "migration_requirements": [
+        "schema migration runner",
+        "request lifecycle tables",
+        "audit append durability",
+        "approval record durability"
+      ],
+      "local_dev_notes": [
+        "Do not read env vars in this phase.",
+        "Keep the adapter as a design document only."
+      ],
+      "current_status": "NOT_CONFIGURED"
+    },
+    {
+      "adapter": "supabase_postgres",
+      "required_env_vars": [
+        "SUPABASE_CONNECTION_STRING",
+        "SUPABASE_URL",
+        "SUPABASE_ANON_KEY"
+      ],
+      "production_suitability": "future_candidate",
+      "risk_notes": [
+        "Strong product fit for hosted persistence, but it must stay disconnected until provider decisions are made.",
+        "Do not wire browser-side credentials here."
+      ],
+      "migration_requirements": [
+        "schema migration runner",
+        "request lifecycle tables",
+        "audit append durability",
+        "approval record durability"
+      ],
+      "local_dev_notes": [
+        "No env reads in this phase.",
+        "Keep the strategy read-only and declarative."
+      ],
+      "current_status": "NOT_CONFIGURED"
+    },
+    {
+      "adapter": "sqlite_local_dev_only",
+      "required_env_vars": [],
+      "production_suitability": "local_dev_only",
+      "risk_notes": [
+        "Useful for local iteration only.",
+        "Must not be treated as durable production persistence."
+      ],
+      "migration_requirements": [
+        "local schema bootstrap",
+        "file-backed dev database"
+      ],
+      "local_dev_notes": [
+        "Suitable for developer preview runs.",
+        "Keep it out of deployment flows."
+      ],
+      "current_status": "NOT_CONFIGURED"
+    },
+    {
+      "adapter": "netlify_blobs",
+      "required_env_vars": [
+        "NETLIFY_AUTH_TOKEN",
+        "NETLIFY_SITE_ID"
+      ],
+      "production_suitability": "future_candidate",
+      "risk_notes": [
+        "May work for lightweight artifact persistence, but it is not configured in this phase.",
+        "Do not treat blob storage as a database replacement without a deliberate design review."
+      ],
+      "migration_requirements": [
+        "blob layout contract",
+        "request lifecycle index contract",
+        "audit snapshot contract"
+      ],
+      "local_dev_notes": [
+        "Keep the provider unconnected while the runtime scaffold is being validated."
+      ],
+      "current_status": "NOT_CONFIGURED"
+    },
+    {
+      "adapter": "external_managed_postgres",
+      "required_env_vars": [
+        "MANAGED_POSTGRES_CONNECTION_STRING"
+      ],
+      "production_suitability": "future_candidate",
+      "risk_notes": [
+        "Use only after auth and lifecycle durability decisions are locked in.",
+        "Do not connect any external managed database in this scaffold phase."
+      ],
+      "migration_requirements": [
+        "schema migration runner",
+        "request lifecycle tables",
+        "audit append durability",
+        "approval record durability",
+        "dry-run result durability"
+      ],
+      "local_dev_notes": [
+        "Keep this as a strategic option until the provider decision is made."
+      ],
+      "current_status": "NOT_CONFIGURED"
+    }
+  ]
+}

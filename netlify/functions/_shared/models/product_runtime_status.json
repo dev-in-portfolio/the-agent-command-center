@@ -1,0 +1,27 @@
+{
+  "product_track_active": true,
+  "runtime_scaffold_ready": true,
+  "real_auth_configured": false,
+  "durable_persistence_configured": false,
+  "dry_run_execution_enabled": false,
+  "external_mutation_enabled": false,
+  "real_automation_enabled": false,
+  "current_status": "MVP_RUNTIME_SCAFFOLD_READY",
+  "current_recommendation": [
+    "MVP_RUNTIME_SCAFFOLD_READY",
+    "PERSISTENCE_PROVIDER_DECISION_REQUIRED",
+    "REAL_AUTH_PROVIDER_DECISION_REQUIRED",
+    "NOT_READY_FOR_REAL_AUTOMATION",
+    "NEXT_STEP_SELECT_STORAGE_PROVIDER_AND_AUTH_PROVIDER"
+  ],
+  "lifecycle_flow": [
+    "request_received",
+    "request_validated",
+    "storage_not_configured",
+    "dry_run_plan_generated",
+    "approval_required",
+    "audit_event_prepared",
+    "blocked_before_execution",
+    "ready_for_human_review"
+  ]
+}

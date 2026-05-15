@@ -69,6 +69,13 @@ exports.handler = async function(event, context) {
           "purpose": "Check the status of the server-side dry-run engine foundation",
           "read_only": true,
           "dangerous_capabilities_enabled": false
+        },
+        {
+          "path": "/api/product-runtime-status",
+          "method": "GET",
+          "purpose": "Check the MVP-1 request lifecycle runtime scaffold status",
+          "read_only": true,
+          "dangerous_capabilities_enabled": false
         }
       ],
       "future_phases": [
