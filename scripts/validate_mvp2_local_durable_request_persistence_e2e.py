@@ -38,8 +38,12 @@ def main():
         "13_web_dashboard/",
         "14_backend/product_runtime/",
         "09_exports/mvp_product_track/",
+        ".env.example",
+        ".supabase.env.local.example",
+        "AGENTS.md",
         "scripts/validate_mvp2_local_durable_request_persistence.py",
         "scripts/validate_mvp2_local_durable_request_persistence_e2e.py",
+        "scripts/validate_mvp1_request_lifecycle_runtime.py",
         ".gitignore",
     ]
     forbidden_prefixes = [
@@ -65,4 +69,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
