@@ -425,6 +425,7 @@ def _build_landing_screen(snapshot):
         ("Original +2C Audit Log", "plus2c-immutable-audit-log"),
         ("Original +2D Approval Gate", "plus2d-approval-gate-storage"),
         ("Original +2E Dry-Run Engine", "plus2e-server-side-dry-run-engine"),
+        ("MVP-1 Request Lifecycle Runtime", "mvp1-request-lifecycle-runtime"),
         ("Artifacts", "artifact-packages"),
         ("Source Info", "source-transparency"),
         ("Audit / Session", "session-audit"),
@@ -3269,6 +3270,242 @@ def _build_plus2e_server_side_dry_run_engine_layer():
         panel_id="plus2e-server-side-dry-run-engine"
     )
 
+
+def _build_mvp1_product_runtime_layer(snapshot):
+    model = snapshot.get("mvp1_product_runtime_model", {})
+    lifecycle_states = model.get("lifecycle_states", [])
+    forbidden_states = model.get("forbidden_lifecycle_states", [])
+    runtime_result_schema = model.get("runtime_result_schema", {})
+    persistence_strategy = model.get("persistence_adapter_strategy", {})
+    demo_fixture = model.get("demo_fixture_summary", {})
+    migration_scaffold = model.get("migration_scaffold_summary", {})
+    product_gap = model.get("product_gap", [])
+    next_decision = model.get("next_product_decision", [])
+    recommendations = model.get("current_recommendation", [])
+
+    status_rows_html = "".join(
+        f"<tr><th scope=\"row\">{_e(label)}</th><td>{_e(value)}</td></tr>"
+        for label, value in [
+            ("product track active", str(bool(model.get("product_track_active", True))).lower()),
+            ("runtime scaffold ready", str(bool(model.get("runtime_scaffold_ready", True))).lower()),
+            ("real auth configured", str(bool(model.get("real_auth_configured", False))).lower()),
+            ("durable persistence configured", str(bool(model.get("durable_persistence_configured", False))).lower()),
+            ("dry-run execution enabled", str(bool(model.get("dry_run_execution_enabled", False))).lower()),
+            ("external mutation enabled", str(bool(model.get("external_mutation_enabled", False))).lower()),
+            ("real automation enabled", str(bool(model.get("real_automation_enabled", False))).lower()),
+            ("current status", model.get("current_status", "MVP_RUNTIME_SCAFFOLD_READY")),
+        ]
+    )
+    status_grid = _stat_grid([
+        _stat("product track active", str(bool(model.get("product_track_active", True))).lower(), _status_badge("PASS")),
+        _stat("runtime scaffold ready", str(bool(model.get("runtime_scaffold_ready", True))).lower(), _status_badge("PASS")),
+        _stat("real auth configured", str(bool(model.get("real_auth_configured", False))).lower(), _status_badge("DISABLED")),
+        _stat("durable persistence configured", str(bool(model.get("durable_persistence_configured", False))).lower(), _status_badge("DISABLED")),
+        _stat("real automation enabled", str(bool(model.get("real_automation_enabled", False))).lower(), _status_badge("DISABLED")),
+    ])
+
+    lifecycle_text = " → ".join(lifecycle_states) if lifecycle_states else "No lifecycle states loaded yet."
+    lifecycle_copy_text = json.dumps({
+        "lifecycle_states": lifecycle_states,
+        "forbidden_lifecycle_states": forbidden_states,
+    }, indent=2, sort_keys=False)
+    runtime_summary_copy = json.dumps({
+        "product_track_active": bool(model.get("product_track_active", True)),
+        "runtime_scaffold_ready": bool(model.get("runtime_scaffold_ready", True)),
+        "real_auth_configured": bool(model.get("real_auth_configured", False)),
+        "durable_persistence_configured": bool(model.get("durable_persistence_configured", False)),
+        "dry_run_execution_enabled": bool(model.get("dry_run_execution_enabled", False)),
+        "external_mutation_enabled": bool(model.get("external_mutation_enabled", False)),
+        "real_automation_enabled": bool(model.get("real_automation_enabled", False)),
+        "current_recommendation": recommendations,
+    }, indent=2, sort_keys=False)
+    runtime_result_schema_copy = json.dumps(runtime_result_schema, indent=2, sort_keys=False)
+    persistence_copy_text = json.dumps(persistence_strategy, indent=2, sort_keys=False)
+    migration_copy_text = json.dumps(migration_scaffold, indent=2, sort_keys=False)
+    demo_copy_text = json.dumps(demo_fixture, indent=2, sort_keys=False)
+    gap_copy_text = "\n".join(product_gap)
+    next_decision_copy_text = "\n".join(next_decision)
+    validation_copy_text = "\n".join([
+        "python3 scripts/validate_mvp1_request_lifecycle_runtime.py",
+        "python3 scripts/validate_mvp1_request_lifecycle_runtime_e2e.py",
+        "python3 scripts/validate_original_plus2e_server_side_dry_run_engine.py",
+        "python3 scripts/validate_original_plus2d_approval_gate_storage.py",
+        "python3 scripts/validate_original_plus2c_immutable_audit_log.py",
+        "python3 scripts/validate_original_plus2b_persistent_request_storage.py",
+        "python3 scripts/validate_original_plus2a_backend_auth_foundation.py",
+        "python3 scripts/validate_phase5_plus1_master_validator_wall.py",
+    ])
+
+    adapter_rows_html = "".join(
+        "<tr>"
+        f"<th scope=\"row\">{_e(choice.get('adapter', 'unknown'))}</th>"
+        f"<td>{_e(', '.join(choice.get('required_env_vars', [])) or 'None')}</td>"
+        f"<td>{_e(choice.get('production_suitability', 'unknown'))}</td>"
+        f"<td>{_e('; '.join(choice.get('risk_notes', [])) or 'None')}</td>"
+        f"<td>{_e('; '.join(choice.get('migration_requirements', [])) or 'None')}</td>"
+        f"<td>{_e('; '.join(choice.get('local_dev_notes', [])) or 'None')}</td>"
+        f"<td>{_status_badge(choice.get('current_status', 'unknown'))}</td>"
+        "</tr>"
+        for choice in persistence_strategy.get("adapter_choices", [])
+    )
+
+    runtime_schema_rows_html = "".join(
+        f"<tr><th scope=\"row\"><code>{_e(field)}</code></th><td>{_e('required' if field in runtime_result_schema.get('required_fields', []) else 'optional')}</td></tr>"
+        for field in runtime_result_schema.get("fields", [])
+    )
+
+    migration_rows_html = "".join(
+        f"<tr><th scope=\"row\"><code>{_e(table_name)}</code></th><td>{_status_badge('PASS')}</td></tr>"
+        for table_name in migration_scaffold.get("tables", [])
+    )
+
+    body = f"""
+<div class="mvp1-product-runtime" data-mvp1-product-runtime="true">
+  <div class="callout plus2e-summary-callout" style="border-color: rgba(245,158,11,0.28); background: rgba(245,158,11,0.06);">
+    <strong style="color: var(--warning);">MVP PRODUCT TRACK</strong>
+    <p class="muted" style="margin-top: 0.15rem;">REQUEST LIFECYCLE RUNTIME — PERSISTENCE ADAPTER SCAFFOLD — DATABASE MIGRATION SCAFFOLD — REAL PRODUCT PATH</p>
+    <p class="muted" style="margin-top: 0.25rem;">STORAGE PROVIDER DECISION REQUIRED — AUTH PROVIDER DECISION REQUIRED</p>
+    <p class="muted" style="margin-top: 0.25rem;">RUNTIME EXECUTION DISABLED — EXTERNAL MUTATION DISABLED — NOT_READY_FOR_REAL_AUTOMATION</p>
+    <p class="muted" style="margin-top: 0.25rem;">NEXT_STEP_SELECT_STORAGE_PROVIDER_AND_AUTH_PROVIDER</p>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp1-product-runtime-status" id="mvp1-product-runtime-status-panel">
+      <div class="card-head"><h3 class="card-title">Product Runtime Status Panel</h3><span class="badge warning">STATUS</span></div>
+      {status_grid}
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp1-status-table">
+          <caption>MVP runtime status</caption>
+          <thead><tr><th scope="col">Setting</th><th scope="col">Value</th></tr></thead>
+          <tbody>{status_rows_html}</tbody>
+        </table>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp1-copy-summary" data-copy-text="{_e(runtime_summary_copy)}">Copy MVP runtime summary</button>
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Current recommendation</p>
+        {_list(recommendations)}
+      </div>
+    </article>
+
+    <article class="card mvp1-request-lifecycle-runtime" id="mvp1-request-lifecycle-runtime-panel">
+      <div class="card-head"><h3 class="card-title">Request Lifecycle Runtime Panel</h3><span class="badge info">FLOW</span></div>
+      <p class="card-body">{_e(lifecycle_text)}</p>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Lifecycle states</p>
+        {_list(lifecycle_states)}
+        <p class="muted" style="margin:0.75rem 0 0;">Forbidden states</p>
+        {_list(forbidden_states)}
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp1-copy-lifecycle" data-copy-text="{_e(lifecycle_copy_text)}">Copy lifecycle model</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp1-runtime-result-schema" id="mvp1-runtime-result-schema-panel">
+      <div class="card-head"><h3 class="card-title">Runtime Result Schema Panel</h3><span class="badge info">SCHEMA</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp1-runtime-result-table">
+          <caption>Runtime result schema</caption>
+          <thead><tr><th scope="col">Field</th><th scope="col">Requirement</th></tr></thead>
+          <tbody>{runtime_schema_rows_html}</tbody>
+        </table>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp1-copy-runtime-schema" data-copy-text="{_e(runtime_result_schema_copy)}">Copy runtime result schema</button>
+      </div>
+    </article>
+
+    <article class="card mvp1-persistence-adapter-strategy" id="mvp1-persistence-adapter-strategy-panel">
+      <div class="card-head"><h3 class="card-title">Persistence Adapter Strategy Panel</h3><span class="badge warning">STRATEGY</span></div>
+      <p class="card-body">Future provider choices are documented only. None are configured in this phase.</p>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp1-adapter-table">
+          <caption>Persistence adapter choices</caption>
+          <thead><tr><th scope="col">Adapter</th><th scope="col">Required env vars</th><th scope="col">Production suitability</th><th scope="col">Risk notes</th><th scope="col">Migration requirements</th><th scope="col">Local dev notes</th><th scope="col">Status</th></tr></thead>
+          <tbody>{adapter_rows_html}</tbody>
+        </table>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp1-copy-persistence" data-copy-text="{_e(persistence_copy_text)}">Copy persistence adapter strategy</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp1-database-migration-scaffold" id="mvp1-database-migration-scaffold-panel">
+      <div class="card-head"><h3 class="card-title">Database Migration Scaffold Panel</h3><span class="badge info">MIGRATION</span></div>
+      <p class="card-body">Migration scaffold only. Do not execute this SQL in the MVP-1 scaffold phase.</p>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp1-migration-table">
+          <caption>Migration scaffold tables</caption>
+          <thead><tr><th scope="col">Table</th><th scope="col">Scaffold state</th></tr></thead>
+          <tbody>{migration_rows_html}</tbody>
+        </table>
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;"><code>{_e(migration_scaffold.get('file_path', '14_backend/product_runtime/migrations/001_mvp_request_lifecycle.sql'))}</code></p>
+        <p class="muted" style="margin-top:0.5rem;">{_e(migration_scaffold.get('status', 'SCAFFOLD_ONLY'))}</p>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp1-copy-migration" data-copy-text="{_e(migration_copy_text)}">Copy database migration scaffold summary</button>
+      </div>
+    </article>
+
+    <article class="card mvp1-demo-runtime-scenario" id="mvp1-demo-runtime-scenario-panel">
+      <div class="card-head"><h3 class="card-title">Demo Runtime Scenario Panel</h3><span class="badge info">DEMO</span></div>
+      <div class="stat-grid" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));margin-top:0.75rem;">
+        {_stat('Title', demo_fixture.get('title', 'Prepare safe deployment review packet'))}
+        {_stat('Requested action', demo_fixture.get('requested_action', 'planning_review_only'))}
+        {_stat('Expected result', demo_fixture.get('expected_result', 'blocked_before_execution'))}
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">{_e(demo_fixture.get('intent', 'Create a planning-only deployment review package for dashboard changes.'))}</p>
+        <p class="muted" style="margin-top:0.5rem;">No real deploy. No external mutation.</p>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp1-copy-demo" data-copy-text="{_e(demo_copy_text)}">Copy demo runtime scenario</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp1-product-gap" id="mvp1-product-gap-panel">
+      <div class="card-head"><h3 class="card-title">Product Gap Panel</h3><span class="badge warning">GAPS</span></div>
+      <p class="card-body">Missing product requirements remain intentionally unresolved in this scaffold phase.</p>
+      {_list(product_gap)}
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp1-copy-gap" data-copy-text="{_e(gap_copy_text)}">Copy product gap checklist</button>
+      </div>
+    </article>
+
+    <article class="card mvp1-next-product-decision" id="mvp1-next-product-decision-panel">
+      <div class="card-head"><h3 class="card-title">Next Product Decision Panel</h3><span class="badge info">NEXT</span></div>
+      <p class="card-body">Select the storage provider and auth provider before wiring real request persistence.</p>
+      {_list(next_decision)}
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Current recommendation</p>
+        {_list(recommendations)}
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp1-copy-next-decision" data-copy-text="{_e(next_decision_copy_text)}">Copy next provider decision checklist</button>
+        <button type="button" class="copy-button small" id="mvp1-copy-validation" data-copy-text="{_e(validation_copy_text)}">Copy MVP-1 validation checklist</button>
+      </div>
+    </article>
+  </div>
+</div>
+"""
+    return _details(
+        "MVP-1 — Request Lifecycle Runtime + Persistence Scaffold",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp1-request-lifecycle-runtime"
+    )
+
 def render_html(snapshot, compact_view=False, print_mode=False):
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
     header = f"""
@@ -3305,6 +3542,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_plus2c_immutable_audit_log_layer(),
         _build_plus2d_approval_gate_storage_layer(),
         _build_plus2e_server_side_dry_run_engine_layer(),
+        _build_mvp1_product_runtime_layer(snapshot),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),

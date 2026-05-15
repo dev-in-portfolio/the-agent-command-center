@@ -1,0 +1,43 @@
+{
+  "schema_id": "mvp1-request-lifecycle-runtime-result-schema",
+  "schema_version": "1.0",
+  "fields": [
+    "runtime_result_id",
+    "request_id",
+    "actor_id",
+    "actor_role",
+    "received_at",
+    "lifecycle_state",
+    "validation_result",
+    "storage_result",
+    "dry_run_result",
+    "approval_requirement",
+    "audit_summary",
+    "no_go_flags",
+    "blocked_operations",
+    "recommended_next_action",
+    "real_execution_enabled",
+    "external_mutation_enabled",
+    "persistence_enabled"
+  ],
+  "required_fields": [
+    "runtime_result_id",
+    "request_id",
+    "actor_id",
+    "actor_role",
+    "received_at",
+    "lifecycle_state",
+    "validation_result",
+    "storage_result",
+    "dry_run_result",
+    "approval_requirement",
+    "audit_summary",
+    "no_go_flags",
+    "blocked_operations",
+    "recommended_next_action",
+    "real_execution_enabled",
+    "external_mutation_enabled",
+    "persistence_enabled"
+  ],
+  "current_status": "MVP_RUNTIME_SCAFFOLD_READY"
+}

@@ -1,0 +1,247 @@
+{
+  "model_id": "mvp1-request-lifecycle-runtime-scaffold",
+  "model_version": "1.0",
+  "product_track_active": true,
+  "runtime_scaffold_ready": true,
+  "real_auth_configured": false,
+  "durable_persistence_configured": false,
+  "dry_run_execution_enabled": false,
+  "external_mutation_enabled": false,
+  "real_automation_enabled": false,
+  "current_status": "MVP_RUNTIME_SCAFFOLD_READY",
+  "current_recommendation": [
+    "MVP_RUNTIME_SCAFFOLD_READY",
+    "PERSISTENCE_PROVIDER_DECISION_REQUIRED",
+    "REAL_AUTH_PROVIDER_DECISION_REQUIRED",
+    "NOT_READY_FOR_REAL_AUTOMATION",
+    "NEXT_STEP_SELECT_STORAGE_PROVIDER_AND_AUTH_PROVIDER"
+  ],
+  "lifecycle_states": [
+    "request_received",
+    "request_validated",
+    "storage_not_configured",
+    "dry_run_plan_generated",
+    "approval_required",
+    "audit_event_prepared",
+    "blocked_before_execution",
+    "ready_for_human_review"
+  ],
+  "forbidden_lifecycle_states": [
+    "executing",
+    "executed",
+    "deployed",
+    "merged",
+    "pushed",
+    "pr_created",
+    "external_system_mutated",
+    "automation_started"
+  ],
+  "runtime_result_schema": {
+    "schema_id": "mvp1-request-lifecycle-runtime-result-schema",
+    "schema_version": "1.0",
+    "fields": [
+      "runtime_result_id",
+      "request_id",
+      "actor_id",
+      "actor_role",
+      "received_at",
+      "lifecycle_state",
+      "validation_result",
+      "storage_result",
+      "dry_run_result",
+      "approval_requirement",
+      "audit_summary",
+      "no_go_flags",
+      "blocked_operations",
+      "recommended_next_action",
+      "real_execution_enabled",
+      "external_mutation_enabled",
+      "persistence_enabled"
+    ],
+    "required_fields": [
+      "runtime_result_id",
+      "request_id",
+      "actor_id",
+      "actor_role",
+      "received_at",
+      "lifecycle_state",
+      "validation_result",
+      "storage_result",
+      "dry_run_result",
+      "approval_requirement",
+      "audit_summary",
+      "no_go_flags",
+      "blocked_operations",
+      "recommended_next_action",
+      "real_execution_enabled",
+      "external_mutation_enabled",
+      "persistence_enabled"
+    ],
+    "current_status": "MVP_RUNTIME_SCAFFOLD_READY"
+  },
+  "persistence_adapter_strategy": {
+    "strategy_id": "mvp1-persistence-adapter-strategy",
+    "strategy_version": "1.0",
+    "current_status": "NOT_CONFIGURED",
+    "no_env_reads_in_this_phase": true,
+    "no_secrets": true,
+    "no_tokens": true,
+    "no_live_database_connection": true,
+    "current_recommendation": [
+      "MVP_RUNTIME_SCAFFOLD_READY",
+      "PERSISTENCE_PROVIDER_DECISION_REQUIRED",
+      "REAL_AUTH_PROVIDER_DECISION_REQUIRED",
+      "NOT_READY_FOR_REAL_AUTOMATION",
+      "NEXT_STEP_SELECT_STORAGE_PROVIDER_AND_AUTH_PROVIDER"
+    ],
+    "adapter_choices": [
+      {
+        "adapter": "neon_postgres",
+        "required_env_vars": [
+          "NEON_API_KEY",
+          "DATABASE_URL"
+        ],
+        "production_suitability": "future_candidate",
+        "risk_notes": [
+          "Managed database path requires a firm auth decision and migration discipline.",
+          "Do not connect during this scaffold phase."
+        ],
+        "migration_requirements": [
+          "schema migration runner",
+          "request lifecycle tables",
+          "audit append durability",
+          "approval record durability"
+        ],
+        "local_dev_notes": [
+          "Do not read env vars in this phase.",
+          "Keep the adapter as a design document only."
+        ],
+        "current_status": "NOT_CONFIGURED"
+      },
+      {
+        "adapter": "supabase_postgres",
+        "required_env_vars": [
+          "DATABASE_URL",
+          "SUPABASE_URL",
+          "SUPABASE_ANON_KEY"
+        ],
+        "production_suitability": "future_candidate",
+        "risk_notes": [
+          "Strong product fit for hosted persistence, but it must stay disconnected until provider decisions are made.",
+          "Do not wire browser-side credentials here."
+        ],
+        "migration_requirements": [
+          "schema migration runner",
+          "request lifecycle tables",
+          "audit append durability",
+          "approval record durability"
+        ],
+        "local_dev_notes": [
+          "No env reads in this phase.",
+          "Keep the strategy read-only and declarative."
+        ],
+        "current_status": "NOT_CONFIGURED"
+      },
+      {
+        "adapter": "sqlite_local_dev_only",
+        "required_env_vars": [],
+        "production_suitability": "local_dev_only",
+        "risk_notes": [
+          "Useful for local iteration only.",
+          "Must not be treated as durable production persistence."
+        ],
+        "migration_requirements": [
+          "local schema bootstrap",
+          "file-backed dev database"
+        ],
+        "local_dev_notes": [
+          "Suitable for developer preview runs.",
+          "Keep it out of deployment flows."
+        ],
+        "current_status": "NOT_CONFIGURED"
+      },
+      {
+        "adapter": "netlify_blobs",
+        "required_env_vars": [
+          "NETLIFY_AUTH_TOKEN",
+          "NETLIFY_SITE_ID"
+        ],
+        "production_suitability": "future_candidate",
+        "risk_notes": [
+          "May work for lightweight artifact persistence, but it is not configured in this phase.",
+          "Do not treat blob storage as a database replacement without a deliberate design review."
+        ],
+        "migration_requirements": [
+          "blob layout contract",
+          "request lifecycle index contract",
+          "audit snapshot contract"
+        ],
+        "local_dev_notes": [
+          "Keep the provider unconnected while the runtime scaffold is being validated."
+        ],
+        "current_status": "NOT_CONFIGURED"
+      },
+      {
+        "adapter": "external_managed_postgres",
+        "required_env_vars": [
+          "DATABASE_URL"
+        ],
+        "production_suitability": "future_candidate",
+        "risk_notes": [
+          "Use only after auth and lifecycle durability decisions are locked in.",
+          "Do not connect any external managed database in this scaffold phase."
+        ],
+        "migration_requirements": [
+          "schema migration runner",
+          "request lifecycle tables",
+          "audit append durability",
+          "approval record durability",
+          "dry-run result durability"
+        ],
+        "local_dev_notes": [
+          "Keep this as a strategic option until the provider decision is made."
+        ],
+        "current_status": "NOT_CONFIGURED"
+      }
+    ]
+  },
+  "demo_fixture_summary": {
+    "title": "Prepare safe deployment review packet",
+    "requested_action": "planning_review_only",
+    "expected_result": "blocked_before_execution",
+    "scope": "dashboard-planning",
+    "no_real_deploy": true,
+    "no_external_mutation": true
+  },
+  "migration_scaffold_summary": {
+    "file_path": "14_backend/product_runtime/migrations/001_mvp_request_lifecycle.sql",
+    "tables": [
+      "users",
+      "roles",
+      "requests",
+      "request_lifecycle_events",
+      "approvals",
+      "audit_events",
+      "dry_run_results",
+      "no_go_flags"
+    ],
+    "status": "SCAFFOLD_ONLY",
+    "do_not_execute": true
+  },
+  "product_gap": [
+    "real auth provider",
+    "durable database",
+    "migrations applied",
+    "server-side request create/list/read endpoints",
+    "real audit append",
+    "real approval record persistence",
+    "real dry-run evidence persistence",
+    "first safe GitHub action after persistence/auth"
+  ],
+  "next_product_decision": [
+    "choose_storage_provider",
+    "choose_auth_provider",
+    "wire_real_request_persistence",
+    "then_build_first_safe_github_issue_or_draft_pr_action"
+  ]
+}
