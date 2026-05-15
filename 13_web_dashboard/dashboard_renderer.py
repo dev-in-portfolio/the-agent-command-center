@@ -419,6 +419,7 @@ def _build_landing_screen(snapshot):
         ("Original +1B Contract Layer", "plus1b-operator-console-contract-layer"),
         ("Original +1C Readiness QA Layer", "plus1c-readiness-scoring-contract-qa"),
         ("Original +1D Blueprint Layer", "plus1d-backend-boundary-blueprint"),
+        ("Original +1E Implementation Gate", "plus1e-backend-implementation-gate"),
         ("Artifacts", "artifact-packages"),
         ("Source Info", "source-transparency"),
         ("Audit / Session", "session-audit"),
@@ -2134,6 +2135,170 @@ def _build_plus1d_backend_boundary_blueprint_layer():
     )
 
 
+def _build_plus1e_backend_implementation_gate_layer():
+    body = """
+<div class="plus1e-implementation-gate" data-plus1e-backend-implementation-gate="true">
+  <div class="callout plus1e-summary-callout" style="border-color: rgba(59,130,246,0.28); background: rgba(59,130,246,0.06);">
+    <strong style="color: var(--info);">BACKEND IMPLEMENTATION GATE</strong>
+    <p class="muted" style="margin-top: 0.15rem;">BUILD TICKET GENERATOR — IMPLEMENTATION PLANNING ONLY — COPYABLE CODEX PROMPTS</p>
+    <p class="muted" style="margin-top: 0.25rem;">READINESS ONLY — NO LIVE AUTOMATION — NO EXECUTION — NO MUTATION — NO BACKEND WRITES — NO DEPLOY / MERGE / PUSH / PR CONTROLS</p>
+    <p class="muted" style="margin-top: 0.25rem;">READY_FOR_BACKEND_IMPLEMENTATION_PLANNING_ONLY — NOT_READY_FOR_REAL_AUTOMATION — PLAN_PLUS2A_NEXT — DO_NOT_ENABLE_REAL_AUTOMATION</p>
+  </div>
+
+  <div class="plus1e-preview-grid">
+    <article class="card plus1e-gate-overview" id="plus1e-gate-overview-panel">
+      <div class="card-head"><h3 class="card-title">Backend Implementation Gate Overview Panel</h3><span class="badge warning">PLANNING ONLY</span></div>
+      <p class="card-body">Summarises the current inert system posture and the future backend build gate required before any implementation work is allowed.</p>
+      <div class="table-wrap" style="max-height:320px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus1e-gate-overview-table">
+          <caption>Backend implementation gate overview</caption>
+          <thead><tr><th scope="col">Gate</th><th scope="col">Value</th><th scope="col">Status</th></tr></thead>
+          <tbody id="plus1e-gate-overview-body"><tr><td colspan="3" class="empty">No implementation gate overview loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="card plus1e-ticket-map" id="plus1e-ticket-map-panel">
+      <div class="card-head"><h3 class="card-title">Future Phase Ticket Map Panel</h3><span class="badge info">TICKETS</span></div>
+      <p class="card-body">Defines the future +2A through +2J backend tickets and keeps each one blocked until its prerequisites exist.</p>
+      <div class="table-wrap" style="max-height:360px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus1e-ticket-map-table">
+          <caption>Future backend build tickets</caption>
+          <thead><tr><th scope="col">Ticket</th><th scope="col">Title</th><th scope="col">Purpose</th><th scope="col">Dependencies</th><th scope="col">Status</th><th scope="col">Blocked now</th></tr></thead>
+          <tbody id="plus1e-ticket-map-body"><tr><td colspan="6" class="empty">No build ticket map loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus1e-preview-grid">
+    <article class="card plus1e-dependency-prerequisites" id="plus1e-dependency-prerequisites-panel">
+      <div class="card-head"><h3 class="card-title">Dependency Prerequisite Panel</h3><span class="badge warning">DEPENDENCIES</span></div>
+      <p class="card-body">Maps the prerequisite chain that keeps implementation work in the future and prevents premature backend mutation.</p>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus1e-dependency-table">
+          <caption>Dependency prerequisite map</caption>
+          <thead><tr><th scope="col">Ticket</th><th scope="col">Required before</th><th scope="col">Current status</th><th scope="col">Blocking level</th><th scope="col">Recommended future phase</th></tr></thead>
+          <tbody id="plus1e-dependency-body"><tr><td colspan="5" class="empty">No dependency map loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="card plus1e-ticket-detail" id="plus1e-ticket-detail-panel">
+      <div class="card-head"><h3 class="card-title">Build Ticket Detail Panel</h3><span class="badge pass">DETAIL</span></div>
+      <p class="card-body">Choose a future backend ticket to review its scope, safety boundary, validators, reports, and final response requirements.</p>
+      <label class="control-group" style="display:block;margin-top:0.75rem;">
+        <span class="muted" style="display:block;margin-bottom:0.35rem;">Selected build ticket</span>
+        <select id="plus1e-ticket-select" class="table-filter" style="width:100%;font-family:var(--mono);">
+          <option value="">Loading build tickets...</option>
+        </select>
+      </label>
+      <div class="table-wrap" style="max-height:320px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus1e-ticket-detail-table">
+          <caption>Selected build ticket details</caption>
+          <thead><tr><th scope="col">Field</th><th scope="col">Value</th></tr></thead>
+          <tbody id="plus1e-ticket-detail-body"><tr><td colspan="2" class="empty">No build ticket selected yet.</td></tr></tbody>
+        </table>
+      </div>
+      <pre class="code-block" id="plus1e-ticket-detail-preview" style="max-height:360px;overflow:auto;white-space:pre-wrap;word-break:break-word;margin-top:0.75rem;">No build ticket selected yet.</pre>
+    </article>
+  </div>
+
+  <div class="plus1e-preview-grid">
+    <article class="card plus1e-prompt-generator" id="plus1e-codex-prompt-generator-panel">
+      <div class="card-head"><h3 class="card-title">Codex Prompt Generator Panel</h3><span class="badge info">COPYABLE CODEX PROMPTS</span></div>
+      <div class="button-row" style="margin-bottom:0.75rem;">
+        <button type="button" class="copy-button small" id="plus1e-copy-selected-build-ticket">Copy selected build ticket</button>
+        <button type="button" class="copy-button small" id="plus1e-copy-selected-codex-prompt">Copy selected Codex prompt</button>
+      </div>
+      <pre class="code-block" id="plus1e-codex-prompt-preview" style="max-height:420px;overflow:auto;white-space:pre-wrap;word-break:break-word;">No build ticket selected yet.</pre>
+    </article>
+
+    <article class="card plus1e-gate-status" id="plus1e-gate-status-panel">
+      <div class="card-head"><h3 class="card-title">Implementation Gate Status Panel</h3><span class="badge warning">GATES</span></div>
+      <p class="card-body">Shows the gates that must remain blocked until each future backend ticket has actually been built and verified.</p>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus1e-gate-status-table">
+          <caption>Implementation gate statuses</caption>
+          <thead><tr><th scope="col">Gate</th><th scope="col">Status</th><th scope="col">Blocking reason</th><th scope="col">Required future ticket</th><th scope="col">Can proceed now</th></tr></thead>
+          <tbody id="plus1e-gate-status-body"><tr><td colspan="5" class="empty">No gate statuses loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus1e-preview-grid">
+    <article class="card plus1e-validator-requirements" id="plus1e-validator-requirements-panel">
+      <div class="card-head"><h3 class="card-title">Ticket Validator Requirements Panel</h3><span class="badge info">VALIDATORS</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus1e-validator-table">
+          <caption>Ticket validator requirements</caption>
+          <thead><tr><th scope="col">Ticket</th><th scope="col">Unit validator</th><th scope="col">Integration / E2E validator</th><th scope="col">Safety</th><th scope="col">Diff scope</th><th scope="col">Report</th><th scope="col">Production verification</th></tr></thead>
+          <tbody id="plus1e-validator-body"><tr><td colspan="7" class="empty">No validator requirements loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="plus1e-copy-validator-requirements">Copy validator requirements matrix</button>
+      </div>
+    </article>
+
+    <article class="card plus1e-report-requirements" id="plus1e-report-requirements-panel">
+      <div class="card-head"><h3 class="card-title">Ticket Report Requirements Panel</h3><span class="badge info">REPORTS</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus1e-report-table">
+          <caption>Ticket report requirements</caption>
+          <thead><tr><th scope="col">Ticket</th><th scope="col">Implementation</th><th scope="col">Design</th><th scope="col">Safety</th><th scope="col">Dependency</th><th scope="col">Validator</th><th scope="col">Acceptance</th><th scope="col">Production verification</th></tr></thead>
+          <tbody id="plus1e-report-body"><tr><td colspan="8" class="empty">No report requirements loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="plus1e-copy-report-requirements">Copy report requirements matrix</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus1e-preview-grid">
+    <article class="card plus1e-rollback-policy" id="plus1e-rollback-policy-panel">
+      <div class="card-head"><h3 class="card-title">Rollback / No-Go Ticket Policy Panel</h3><span class="badge locked">NO-GO POLICY</span></div>
+      <p class="card-body">This policy keeps each future backend ticket copy-only until all prerequisites are genuinely present.</p>
+      <pre class="code-block" id="plus1e-rollback-policy-preview" style="max-height:280px;overflow:auto;white-space:pre-wrap;word-break:break-word;margin-top:0.75rem;">No rollback policy loaded yet.</pre>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="plus1e-copy-rollback-policy">Copy rollback/no-go ticket policy</button>
+      </div>
+    </article>
+
+    <article class="card plus1e-readiness-summary" id="plus1e-readiness-summary-panel">
+      <div class="card-head"><h3 class="card-title">Backend Build Readiness Summary Panel</h3><span class="badge warning">READINESS ONLY</span></div>
+      <div class="stat-grid" id="plus1e-readiness-summary-grid" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));margin-top:0.75rem;"></div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted">Current recommendation: READY_FOR_BACKEND_IMPLEMENTATION_PLANNING_ONLY. Final recommendation: NOT_READY_FOR_REAL_AUTOMATION. Planning only stays in force until future backend dependencies exist.</p>
+      </div>
+      <pre class="code-block" id="plus1e-readiness-summary-preview" style="max-height:280px;overflow:auto;white-space:pre-wrap;word-break:break-word;margin-top:0.75rem;">No backend build readiness summary loaded yet.</pre>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="plus1e-copy-readiness-summary">Copy backend build readiness summary</button>
+      </div>
+    </article>
+  </div>
+
+  <article class="card plus1e-roadmap-panel" id="plus1e-roadmap-panel" style="margin-top:1rem;">
+    <div class="card-head"><h3 class="card-title">Full Backend Implementation Roadmap Panel</h3><span class="badge info">ROADMAP</span></div>
+    <div class="button-row" style="margin-bottom:0.75rem;">
+      <button type="button" class="copy-button small" id="plus1e-copy-full-roadmap">Copy full backend implementation roadmap</button>
+      <button type="button" class="copy-button small" id="plus1e-copy-dependency-map">Copy dependency prerequisite map</button>
+    </div>
+    <pre class="code-block" id="plus1e-roadmap-preview" style="max-height:420px;overflow:auto;white-space:pre-wrap;word-break:break-word;">No backend build roadmap loaded yet.</pre>
+  </article>
+</div>
+"""
+    return _details(
+        "Original +1E — Backend Implementation Gate & Build Ticket Generator",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="plus1e-backend-implementation-gate"
+    )
+
+
 def _build_footer():
     return """
     <footer class="footer">
@@ -2397,6 +2562,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_plus1b_operator_console_contract_layer(),
         _build_plus1c_readiness_scoring_contract_qa_layer(),
         _build_plus1d_backend_boundary_blueprint_layer(),
+        _build_plus1e_backend_implementation_gate_layer(),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),
