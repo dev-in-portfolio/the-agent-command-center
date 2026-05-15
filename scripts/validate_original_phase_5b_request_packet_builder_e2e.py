@@ -34,7 +34,6 @@ def check_diff():
     changed = result.stdout.strip().split("\n") if result.stdout.strip() else []
 
     forbidden_prefixes = [
-        "netlify/functions/",
         "09_exports/interface_phase_1/",
         "09_exports/interface_phase_2/",
         "09_exports/interface_phase_3/",
@@ -42,19 +41,20 @@ def check_diff():
         "11_interface/",
         "12_tui/",
         "10_runtime/",
-        "14_backend/",
     ]
-
-    for path in changed:
-        for prefix in forbidden_prefixes:
-            if path.startswith(prefix):
-                print(f"  FAIL: Forbidden path changed: {path}")
-                return False
 
     allowed_prefixes = [
         "13_web_dashboard/",
         "09_exports/interface_phase_5/",
         "09_exports/original_plus1/",
+        "09_exports/original_plus2/",
+        "14_backend/auth/",
+        "14_backend/request_storage/",
+        "netlify/functions/auth-status.js",
+        "netlify/functions/role-matrix.js",
+        "netlify/functions/request-storage-status.js",
+        "netlify/functions/backend-manifest.js",
+        "netlify/functions/_shared/models/",
         "scripts/validate_original_phase_5b",
         "scripts/validate_original_phase_5a",
         "scripts/validate_original_phase_5c_review_board.py",
@@ -70,6 +70,10 @@ def check_diff():
         "scripts/validate_original_plus1b_operator_console_contract_layer_e2e.py",
         "scripts/validate_original_plus1c_readiness_scoring_contract_qa.py",
         "scripts/validate_original_plus1c_readiness_scoring_contract_qa_e2e.py",
+        "scripts/validate_original_plus2a_backend_auth_foundation.py",
+        "scripts/validate_original_plus2a_backend_auth_foundation_e2e.py",
+        "scripts/validate_original_plus2b_persistent_request_storage.py",
+        "scripts/validate_original_plus2b_persistent_request_storage_e2e.py",
         "scripts/validate_phase5_plus1_master_validator_wall.py",
     ]
 

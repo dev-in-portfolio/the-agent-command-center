@@ -51,7 +51,50 @@ def _assert_contains(path, needles, label=None):
             raise RuntimeError(f"{label or path.name} missing {needle}")
 
 
+def check_forbidden_paths():
+    print("Checking forbidden diff paths...")
+    result = subprocess.run(["git", "diff", "--name-only", "origin/master..HEAD"], cwd=ROOT, capture_output=True, text=True)
+    if result.returncode != 0:
+        print("WARNING: Could not check git diff, assuming detached head or CI.")
+        return
+        
+    changed_files = result.stdout.splitlines()
+    forbidden_prefixes = [
+        "09_exports/interface_phase_1/",
+        "09_exports/interface_phase_2/",
+        "11_interface/",
+        "12_tui/",
+        "10_runtime/"
+    ]
+    
+    allowed_prefixes = [
+        "13_web_dashboard/",
+        "09_exports/interface_phase_3/",
+        "09_exports/interface_phase_4/",
+        "09_exports/interface_phase_5/",
+        "09_exports/original_plus1/",
+        "09_exports/original_plus2/",
+        "14_backend/auth/",
+        "14_backend/request_storage/",
+        "netlify/functions/auth-status.js",
+        "netlify/functions/role-matrix.js",
+        "netlify/functions/request-storage-status.js",
+        "netlify/functions/backend-manifest.js",
+        "netlify/functions/_shared/models/",
+        "scripts/validate_",
+    ]
+    
+    for f in changed_files:
+        if any(f.startswith(p) for p in allowed_prefixes):
+            continue
+        for prefix in forbidden_prefixes:
+            if f.startswith(prefix):
+                print(f"FAIL: Forbidden path modified: {f}")
+                sys.exit(1)
+
+
 def main():
+    check_forbidden_paths()
     result = _run([sys.executable, str(DASHBOARD), "--validate-only"])
     if result.returncode != 0 or "VALIDATION_PASS" not in result.stdout:
         return _fail("validate-only command failed")
@@ -230,7 +273,26 @@ def main():
     if 'data-open-panel="reports-library"' not in html:
         return _fail("HTML missing open section buttons")
 
-    allowed_fetches = ['fetch("/api/health")', "fetch('/api/health')", 'fetch("/api/status")', "fetch('/api/status')", 'fetch("/api/backend-manifest")', "fetch('/api/backend-manifest')", 'fetch("./status_snapshot.json")', "fetch('./status_snapshot.json')", 'fetch("./phase4d_identity_schema.json")', "fetch('./phase4d_identity_schema.json')", 'fetch("./phase4d_action_schema.json")', "fetch('./phase4d_action_schema.json')", 'fetch("./phase4d_audit_schema.json")', "fetch('./phase4d_audit_schema.json')", 'fetch("./phase4d_risk_model.json")', "fetch('./phase4d_risk_model.json')", 'fetch("./phase4d_approval_schema.json")', "fetch('./phase4d_approval_schema.json')"]
+    allowed_fetches = [
+        'fetch("/api/health")', "fetch('/api/health')",
+        'fetch("/api/status")', "fetch('/api/status')",
+        'fetch("/api/backend-manifest")', "fetch('/api/backend-manifest')",
+        'fetch("/api/auth-status")', "fetch('/api/auth-status')",
+        'fetch("/api/role-matrix")', "fetch('/api/role-matrix')",
+        'fetch("/api/request-storage-status")', "fetch('/api/request-storage-status')",
+        'fetch("./status_snapshot.json")', "fetch('./status_snapshot.json')",
+        'fetch("./phase4d_identity_schema.json")', "fetch('./phase4d_identity_schema.json')",
+        'fetch("./phase4d_action_schema.json")', "fetch('./phase4d_action_schema.json')",
+        'fetch("./phase4d_audit_schema.json")', "fetch('./phase4d_audit_schema.json')",
+        'fetch("./phase4d_risk_model.json")', "fetch('./phase4d_risk_model.json')",
+        'fetch("./phase4d_approval_schema.json")', "fetch('./phase4d_approval_schema.json')",
+        'fetch("./original_plus1b_contract_schemas.json")', "fetch('./original_plus1b_contract_schemas.json')",
+        'fetch("./original_plus1c_readiness_qa_model.json")', "fetch('./original_plus1c_readiness_qa_model.json')",
+        'fetch("./original_plus1d_backend_boundary_model.json")', "fetch('./original_plus1d_backend_boundary_model.json')",
+        'fetch("./original_plus1e_backend_build_tickets.json")', "fetch('./original_plus1e_backend_build_tickets.json')",
+        'fetch("./original_plus2a_auth_foundation_model.json")', "fetch('./original_plus2a_auth_foundation_model.json')",
+        'fetch("./original_plus2b_request_storage_model.json")', "fetch('./original_plus2b_request_storage_model.json')"
+    ]
     js = DIST_JS.read_text(encoding="utf-8")
     for line in js.splitlines():
         if "fetch(" in line and not any(f in line for f in allowed_fetches):

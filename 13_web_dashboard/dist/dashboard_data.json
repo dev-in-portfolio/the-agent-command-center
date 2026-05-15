@@ -1,6 +1,6 @@
 {
-  "dashboard_id": "PH3-20260515-004715",
-  "created_at_utc": "2026-05-15T00:47:15Z",
+  "dashboard_id": "PH3-20260515-015408",
+  "created_at_utc": "2026-05-15T01:54:08Z",
   "phase": "Read-Only Operations Dashboard",
   "repo": "dev-in-portfolio/the-agent-command-center",
   "source_lineage": "dev-in-portfolio/agent-command-center-3",
@@ -1007,7 +1007,7 @@
     "source_exists": true,
     "source_type": "generated_static_snapshot",
     "source_confidence": "generated_static_snapshot",
-    "generated_at_utc": "2026-05-15T00:47:18Z",
+    "generated_at_utc": "2026-05-15T01:54:10Z",
     "freshness_status": "generated_static_snapshot",
     "snapshot_age_seconds": 0,
     "notes": [
@@ -1210,119 +1210,119 @@
     "allowed_label_findings": [
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 486,
+        "line": 487,
         "pattern": "NO DEPLOY",
         "context": "<span>NO DEPLOY CONTROLS</span>",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 487,
+        "line": 488,
         "pattern": "NO MERGE",
         "context": "<span>NO MERGE CONTROLS</span>",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 488,
+        "line": 489,
         "pattern": "NO SECRET ACCESS",
         "context": "<span>NO SECRET ACCESS</span>",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 803,
+        "line": 804,
         "pattern": "NO DEPLOY",
         "context": "TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO DEPLOY / MERGE / ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 926,
+        "line": 927,
         "pattern": "NO DEPLOY",
         "context": "GENERATED LOCALLY \u2014 COPY ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO DEPLOY / MERGE / PU",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1024,
+        "line": 1025,
         "pattern": "NO DEPLOY",
         "context": "DECISION LEDGER PREVIEW \u2014 TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO EXECUTION \u2014 NO MUTAT",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1206,
+        "line": 1207,
         "pattern": "NO DEPLOY",
         "context": "GENERATED LOCALLY \u2014 COPY/PASTE HANDOFF ONLY \u2014 TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1380,
+        "line": 1381,
         "pattern": "NO DEPLOY",
         "context": "END-TO-END OPERATOR FLOW \u2014 SCENARIO PREVIEW ONLY \u2014 GENERATED LOCALLY \u2014 TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1515,
+        "line": 1516,
         "pattern": "NO DEPLOY",
         "context": "READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO BACKEND WRITES \u2014 NO DEPLOY / MERGE / PUSH / PR CON",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1732,
+        "line": 1733,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">CONTRACTS ONLY \u2014 COPY/PASTE ONLY \u2014 READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 N",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1847,
+        "line": 1848,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">COPY/PASTE ONLY \u2014 READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1964,
+        "line": 1965,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO BACK",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2145,
+        "line": 2146,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO BACK",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2384,
+        "line": 2385,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2384,
+        "line": 2385,
         "pattern": "NO MERGE",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2384,
+        "line": 2385,
         "pattern": "NO PUSH",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2384,
+        "line": 2385,
         "pattern": "NO SECRET ACCESS",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
@@ -2255,7 +2255,7 @@
       }
     ]
   },
-  "original_plus1d_backend_boundary_model": {
+  "original_plus1d_backend_boundary_blueprint": {
     "model_id": "original-plus1d-backend-boundary-blueprint",
     "model_version": "1.0",
     "overall_status": "BLUEPRINT_ONLY",
@@ -5028,6 +5028,225 @@
       },
       {
         "item": "production auth hardening",
+        "status": "missing"
+      }
+    ]
+  },
+  "original_plus2b_request_storage_model": {
+    "storage_readiness_model": {
+      "storage_foundation_status": "READY_FOR_FOUNDATION_REVIEW_ONLY",
+      "durable_storage_configured": false,
+      "write_endpoint_enabled": false,
+      "persistence_verified": false,
+      "env_required": true,
+      "secrets_required": true,
+      "current_mode": "STORAGE_FOUNDATION_ONLY",
+      "current_recommendation": [
+        "STORAGE_CONTRACT_READY",
+        "DURABLE_STORAGE_NOT_CONFIGURED",
+        "NOT_READY_FOR_REQUEST_PERSISTENCE",
+        "NOT_READY_FOR_REAL_AUTOMATION"
+      ]
+    },
+    "request_draft_schema": {
+      "type": "object",
+      "required": [
+        "request_id",
+        "title",
+        "intent",
+        "scope",
+        "requested_action_type"
+      ],
+      "properties": {
+        "request_id": {
+          "type": "string",
+          "pattern": "^REQ-DEMO-\\d{8}-\\d{6}$"
+        },
+        "created_by": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 5
+        },
+        "intent": {
+          "type": "string",
+          "minLength": 10
+        },
+        "scope": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "source_phase": {
+          "type": "string",
+          "default": "plus2b"
+        },
+        "risk_classification": {
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ]
+        },
+        "requested_action_type": {
+          "type": "string"
+        },
+        "current_state": {
+          "type": "string",
+          "default": "draft"
+        },
+        "approval_required": {
+          "type": "boolean",
+          "default": true
+        },
+        "dry_run_required": {
+          "type": "boolean",
+          "default": true
+        },
+        "no_go_flags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "request_record_schema": {
+      "type": "object",
+      "required": [
+        "request_id",
+        "current_state",
+        "storage_status"
+      ],
+      "properties": {
+        "request_id": {
+          "type": "string"
+        },
+        "created_by": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        },
+        "current_state": {
+          "enum": [
+            "draft",
+            "packet_generated",
+            "under_review",
+            "review_approved_for_planning",
+            "handoff_composed",
+            "runbook_generated",
+            "blocked_by_no_go",
+            "storage_not_configured",
+            "archived"
+          ]
+        },
+        "packet_reference": {
+          "type": "string"
+        },
+        "review_reference": {
+          "type": "string"
+        },
+        "handoff_reference": {
+          "type": "string"
+        },
+        "runbook_reference": {
+          "type": "string"
+        },
+        "auth_context": {
+          "type": "object"
+        },
+        "audit_event_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "storage_status": {
+          "type": "string"
+        }
+      }
+    },
+    "request_lifecycle_state_model": {
+      "allowed_states": [
+        "draft",
+        "packet_generated",
+        "under_review",
+        "review_approved_for_planning",
+        "handoff_composed",
+        "runbook_generated",
+        "blocked_by_no_go",
+        "storage_not_configured",
+        "archived"
+      ],
+      "forbidden_states": [
+        "queued_for_execution",
+        "executing",
+        "executed",
+        "mutating_external_system",
+        "deployed",
+        "merged",
+        "pushed",
+        "pr_created"
+      ]
+    },
+    "storage_adapter_contract": {
+      "methods": [
+        "get_storage_status()",
+        "validate_request_draft(payload)",
+        "create_request_draft(payload)",
+        "get_request_draft(request_id)",
+        "list_request_drafts()",
+        "update_request_draft(request_id, payload)",
+        "archive_request_draft(request_id)"
+      ],
+      "current_behavior": "STORAGE_NOT_CONFIGURED"
+    },
+    "request_id_strategy": "REQ-DEMO-YYYYMMDD-HHMMSS",
+    "future_storage_dependencies": [
+      {
+        "item": "approved durable storage provider",
+        "status": "missing"
+      },
+      {
+        "item": "server-side auth binding",
+        "status": "missing"
+      },
+      {
+        "item": "audit log dependency",
+        "status": "missing"
+      },
+      {
+        "item": "approval record dependency",
+        "status": "missing"
+      },
+      {
+        "item": "migration plan",
+        "status": "missing"
+      },
+      {
+        "item": "backup/restore plan",
+        "status": "missing"
+      },
+      {
+        "item": "retention policy",
         "status": "missing"
       }
     ]

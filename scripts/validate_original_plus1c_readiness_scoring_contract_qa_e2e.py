@@ -117,12 +117,42 @@ def main():
         "14_backend/",
     ]
 
+    authorized_functions = [
+        "netlify/functions/auth-status.js",
+        "netlify/functions/role-matrix.js",
+        "netlify/functions/request-storage-status.js",
+        "netlify/functions/backend-manifest.js",
+        "netlify/functions/_shared/models/"
+    ]
+    authorized_backend = [
+        "14_backend/auth/",
+        "14_backend/request_storage/"
+    ]
+
     for path in changed:
+        if not path: continue
+        
+        # Check forbidden
         for prefix in forbidden_prefixes:
             if path.startswith(prefix):
+                # Exception for authorized paths
+                if prefix == "netlify/functions/" and any(path == f or path.startswith("netlify/functions/_shared/models/") for f in authorized_functions):
+                    continue
+                if prefix == "14_backend/" and any(path.startswith(p) for p in authorized_backend):
+                    continue
                 errors.append(f"Forbidden changed path: {path}")
+        
+        # Check allowed
         if not any(path.startswith(prefix) for prefix in allowed_prefixes):
-            errors.append(f"Unexpected changed path: {path}")
+            # Check authorized exceptions
+            is_authorized = False
+            if path.startswith("netlify/functions/") and any(path == f or path.startswith("netlify/functions/_shared/models/") for f in authorized_functions):
+                is_authorized = True
+            if path.startswith("14_backend/") and any(path.startswith(p) for p in authorized_backend):
+                is_authorized = True
+                
+            if not is_authorized:
+                errors.append(f"Unexpected changed path: {path}")
 
     for report_name in [
         "original_plus1c_readiness_scoring_report.md",

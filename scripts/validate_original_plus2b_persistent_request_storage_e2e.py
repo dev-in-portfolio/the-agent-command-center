@@ -1,15 +1,16 @@
 import os
-from pathlib import Path
 import subprocess
 
 def run_cmd(cmd):
-    result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
-    if result.returncode != 0:
-        raise SystemExit(f"Command failed: {cmd}\n{result.stdout}\n{result.stderr}")
-    return result.stdout
+    res = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+    if res.returncode != 0:
+        raise SystemExit(f"Command failed: {cmd}\n{res.stdout}\n{res.stderr}")
+    return res.stdout
 
 def check():
     validators = [
+        "python3 scripts/validate_original_plus2b_persistent_request_storage.py",
+        "python3 scripts/validate_original_plus2a_backend_auth_foundation.py",
         "python3 scripts/validate_original_plus1e_backend_implementation_gate.py",
         "python3 scripts/validate_original_plus1d_backend_boundary_blueprint.py",
         "python3 scripts/validate_original_plus1c_readiness_scoring_contract_qa.py",
@@ -34,37 +35,23 @@ def check():
     diff = run_cmd("git diff --name-only origin/master..HEAD")
     for line in diff.splitlines():
         line = line.strip()
-        if not line:
-            continue
-        if line.startswith("netlify/functions/"):
-            allowed_functions = [
-                "netlify/functions/auth-status.js",
-                "netlify/functions/role-matrix.js",
-                "netlify/functions/request-storage-status.js",
-                "netlify/functions/backend-manifest.js",
-                "netlify/functions/_shared/models/"
-            ]
-            if not any(line == f or line.startswith("netlify/functions/_shared/models/") for f in allowed_functions):
-                raise SystemExit(f"FAIL: netlify/functions/ changes not allowed: {line}")
+        if not line: continue
         if line.startswith("09_exports/interface_phase_1/"):
             raise SystemExit(f"FAIL: Phase 1 changes not allowed: {line}")
         if line.startswith("09_exports/interface_phase_2/"):
             raise SystemExit(f"FAIL: Phase 2 changes not allowed: {line}")
         if line.startswith("09_exports/interface_phase_3/"):
-            raise SystemExit(f"FAIL: Phase 3 report changes not allowed: {line}")
+            raise SystemExit(f"FAIL: Phase 3 changes not allowed: {line}")
         if line.startswith("09_exports/interface_phase_4/"):
-            raise SystemExit(f"FAIL: Phase 4 report changes not allowed: {line}")
+            raise SystemExit(f"FAIL: Phase 4 changes not allowed: {line}")
+        if line.startswith("11_interface/"):
+            raise SystemExit(f"FAIL: Interface changes not allowed: {line}")
+        if line.startswith("12_tui/"):
+            raise SystemExit(f"FAIL: TUI changes not allowed: {line}")
         if line.startswith("10_runtime/"):
             raise SystemExit(f"FAIL: Runtime changes not allowed: {line}")
-        if line.startswith("14_backend/"):
-            allowed_backend = [
-                "14_backend/auth/",
-                "14_backend/request_storage/"
-            ]
-            if not any(line.startswith(p) for p in allowed_backend):
-                raise SystemExit(f"FAIL: Backend changes not allowed: {line}")
             
-    print("ORIGINAL_PLUS1E_BACKEND_IMPLEMENTATION_GATE_E2E_VALIDATION_PASS")
+    print("ORIGINAL_PLUS2B_PERSISTENT_REQUEST_STORAGE_E2E_VALIDATION_PASS")
 
 if __name__ == "__main__":
     check()

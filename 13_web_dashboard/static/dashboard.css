@@ -1126,3 +1126,36 @@ pre.code-block {
   white-space: pre-wrap;
   word-break: break-word;
 }
+.plus2b-request-storage {
+  display: grid;
+  gap: 1.5rem;
+  min-width: 0;
+}
+
+.plus2b-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+.plus2b-storage-status,
+.plus2b-draft-schema,
+.plus2b-lifecycle-model,
+.plus2b-adapter-boundary,
+.plus2b-validation-preview,
+.plus2b-disabled-write-boundary {
+  min-width: 0;
+}
+
+#plus2b-schema-preview {
+  max-height: 280px;
+  overflow: auto;
+}
+
+#plus2b-validation-result {
+  max-height: 200px;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}

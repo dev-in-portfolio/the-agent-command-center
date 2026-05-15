@@ -421,6 +421,7 @@ def _build_landing_screen(snapshot):
         ("Original +1D Blueprint Layer", "plus1d-backend-boundary-blueprint"),
         ("Original +1E Implementation Gate", "plus1e-backend-implementation-gate"),
         ("Original +2A Auth Foundation", "plus2a-backend-auth-foundation"),
+        ("Original +2B Request Storage", "plus2b-persistent-request-storage"),
         ("Artifacts", "artifact-packages"),
         ("Source Info", "source-transparency"),
         ("Audit / Session", "session-audit"),
@@ -2665,6 +2666,130 @@ def _build_plus2a_backend_auth_foundation_layer():
         panel_id="plus2a-backend-auth-foundation"
     )
 
+def _build_plus2b_persistent_request_storage_layer():
+    body = """
+<div class="plus2b-request-storage" data-plus2b-request-storage="true">
+  <div class="callout plus2b-summary-callout" style="border-color: rgba(59,130,246,0.28); background: rgba(59,130,246,0.06);">
+    <strong style="color: var(--info);">PERSISTENT REQUEST STORAGE FOUNDATION</strong>
+    <p class="muted" style="margin-top: 0.15rem;">REQUEST STORAGE CONTRACT — STORAGE STATUS — REQUEST DRAFT SCHEMA — REQUEST LIFECYCLE MODEL</p>
+    <p class="muted" style="margin-top: 0.25rem;">STORAGE NOT CONFIGURED — NO EXECUTION — NO MUTATION — NO EXTERNAL SYSTEM WRITES</p>
+    <p class="muted" style="margin-top: 0.25rem;">NOT_READY_FOR_REQUEST_PERSISTENCE — NOT_READY_FOR_REAL_AUTOMATION</p>
+  </div>
+
+  <div class="plus2b-preview-grid">
+    <article class="card plus2b-storage-status" id="plus2b-storage-status-panel">
+      <div class="card-head"><h3 class="card-title">Request Storage Status Panel</h3><span class="badge warning">STATUS</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus2b-status-table">
+          <caption>Request storage status</caption>
+          <thead><tr><th scope="col">Setting</th><th scope="col">Value</th></tr></thead>
+          <tbody id="plus2b-status-body"><tr><td colspan="2" class="empty">No status loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="card plus2b-draft-schema" id="plus2b-draft-schema-panel">
+      <div class="card-head"><h3 class="card-title">Request Draft Schema Panel</h3><span class="badge info">SCHEMA</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <pre class="code-block" id="plus2b-schema-preview" style="font-size:0.8rem;"></pre>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="plus2b-copy-schema">Copy request draft schema</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2b-preview-grid">
+    <article class="card plus2b-lifecycle-model" id="plus2b-lifecycle-model-panel">
+      <div class="card-head"><h3 class="card-title">Request Lifecycle Model Panel</h3><span class="badge info">LIFECYCLE</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus2b-lifecycle-table">
+          <caption>Lifecycle states</caption>
+          <thead><tr><th scope="col">State Category</th><th scope="col">States</th></tr></thead>
+          <tbody id="plus2b-lifecycle-body"><tr><td colspan="2" class="empty">No lifecycle model loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="plus2b-copy-lifecycle">Copy request lifecycle model</button>
+      </div>
+    </article>
+
+    <article class="card plus2b-adapter-boundary" id="plus2b-adapter-boundary-panel">
+      <div class="card-head"><h3 class="card-title">Storage Adapter Boundary Panel</h3><span class="badge locked">BOUNDARY</span></div>
+      <p class="card-body">The storage adapter contract defines the required methods for backend request management.</p>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <ul id="plus2b-adapter-methods" style="margin:0;padding-left:1.5rem;font-family:var(--mono);">
+          <li>No methods loaded yet.</li>
+        </ul>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="plus2b-copy-adapter">Copy storage adapter boundary</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2b-preview-grid">
+    <article class="card plus2b-validation-preview" id="plus2b-validation-preview-panel">
+      <div class="card-head"><h3 class="card-title">Request Validation Preview Panel</h3><span class="badge warning">PREVIEW</span></div>
+      <p class="card-body">Simulated server-side validation of a request draft payload.</p>
+      <div id="plus2b-validation-result" style="margin-top:1rem;padding:0.75rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg);">
+        <p class="muted">Enter a request title and intent to validate.</p>
+      </div>
+      <div style="margin-top:1rem;">
+        <label class="control-group">
+          <span class="muted" style="display:block;margin-bottom:0.35rem;">Request Title</span>
+          <input type="text" id="plus2b-test-title" class="table-filter" style="width:100%;" placeholder="e.g. Add dashboard feature">
+        </label>
+        <label class="control-group" style="margin-top:0.75rem;">
+          <span class="muted" style="display:block;margin-bottom:0.35rem;">Request Intent</span>
+          <textarea id="plus2b-test-intent" class="table-filter" style="width:100%;height:60px;" placeholder="e.g. Implement the new storage foundation..."></textarea>
+        </label>
+      </div>
+    </article>
+
+    <article class="card plus2b-disabled-write-boundary" id="plus2b-disabled-write-boundary-panel">
+      <div class="card-head"><h3 class="card-title">Disabled Write Boundary Panel</h3><span class="badge fail">LOCKED</span></div>
+      <p class="card-body">All write operations are currently disabled at the boundary layer.</p>
+      <table class="data-table" style="margin-top:0.75rem;">
+        <caption>Disabled write methods</caption>
+        <thead><tr><th scope="col">Operation</th><th scope="col">Result</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">create_request_draft</th><td><span class="badge locked">STORAGE_NOT_CONFIGURED</span></td></tr>
+          <tr><th scope="row">update_request_draft</th><td><span class="badge locked">STORAGE_NOT_CONFIGURED</span></td></tr>
+          <tr><th scope="row">archive_request_draft</th><td><span class="badge locked">STORAGE_NOT_CONFIGURED</span></td></tr>
+        </tbody>
+      </table>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="plus2b-copy-disabled">Copy disabled write boundary report</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="card plus2b-future-storage-dependencies" id="plus2b-future-storage-dependencies-panel">
+    <div class="card-head"><h3 class="card-title">Future Storage Dependency Panel</h3><span class="badge warning">MISSING</span></div>
+    <p class="card-body">Real persistence cannot be enabled until the following prerequisites are met.</p>
+    <div class="table-wrap" style="margin-top:0.75rem;">
+      <table class="data-table" id="plus2b-dependencies-table">
+        <caption>Missing storage dependencies</caption>
+        <thead><tr><th scope="col">Dependency</th><th scope="col">Status</th></tr></thead>
+        <tbody id="plus2b-dependencies-body"><tr><td colspan="2" class="empty">No dependencies loaded yet.</td></tr></tbody>
+      </table>
+    </div>
+    <div class="button-row" style="margin-top:0.75rem;">
+      <button type="button" class="copy-button small" id="plus2b-copy-dependencies">Copy future storage dependency checklist</button>
+      <button type="button" class="copy-button small" id="plus2b-copy-validation">Copy +2B validation checklist</button>
+    </div>
+  </div>
+</div>
+"""
+    return _details(
+        "Original +2B — Persistent Request Storage Foundation",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="plus2b-persistent-request-storage"
+    )
+
 def render_html(snapshot, compact_view=False, print_mode=False):
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
     header = f"""
@@ -2697,6 +2822,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_plus1d_backend_boundary_blueprint_layer(),
         _build_plus1e_backend_implementation_gate_layer(),
         _build_plus2a_backend_auth_foundation_layer(),
+        _build_plus2b_persistent_request_storage_layer(),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),

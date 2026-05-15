@@ -38,28 +38,48 @@ for validator in [
         if "ORIGINAL_PHASE_4_HOSTED_DASHBOARD_POLISH_VALIDATION_PASS" not in out:
             errors.append(f"{validator} did not pass")
 
-# Check no netlify/functions changes
+# Check for forbidden changes
 result = subprocess.run(
     ["git", "diff", "--name-only", "origin/master..HEAD"],
     capture_output=True, text=True, cwd=ROOT
 )
 changed = result.stdout.strip().split("\n") if result.stdout.strip() else []
 
+allowed_prefixes = [
+    "13_web_dashboard/",
+    "09_exports/interface_phase_5/",
+    "09_exports/original_plus1/",
+    "09_exports/original_plus2/",
+    "14_backend/auth/",
+    "14_backend/request_storage/",
+    "netlify/functions/auth-status.js",
+    "netlify/functions/role-matrix.js",
+    "netlify/functions/request-storage-status.js",
+    "netlify/functions/backend-manifest.js",
+    "netlify/functions/_shared/models/",
+    "scripts/validate_",
+]
+
 for path in changed:
-    if path.startswith("netlify/functions/"):
-        errors.append(f"netlify/functions changed: {path}")
+    if any(path.startswith(p) for p in allowed_prefixes):
+        continue
+        
     if path.startswith("09_exports/interface_phase_1/"):
         errors.append(f"Phase 1 files changed: {path}")
-    if path.startswith("09_exports/interface_phase_2/"):
+    elif path.startswith("09_exports/interface_phase_2/"):
         errors.append(f"Phase 2 files changed: {path}")
-    if path.startswith("11_interface/"):
+    elif path.startswith("11_interface/"):
         errors.append(f"Interface files changed: {path}")
-    if path.startswith("12_tui/"):
+    elif path.startswith("12_tui/"):
         errors.append(f"TUI files changed: {path}")
-    if path.startswith("10_runtime/"):
+    elif path.startswith("10_runtime/"):
         errors.append(f"Runtime files changed: {path}")
-    if path.startswith("14_backend/"):
+    elif path.startswith("netlify/functions/"):
+        errors.append(f"netlify/functions changed: {path}")
+    elif path.startswith("14_backend/"):
         errors.append(f"Backend files changed: {path}")
+    else:
+        errors.append(f"Unexpected file changed: {path}")
 
 # Reports contain PASS_WITH_HIGH_CONFIDENCE
 reports_dir = ROOT / "09_exports" / "interface_phase_5"

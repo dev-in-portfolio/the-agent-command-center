@@ -1,0 +1,15 @@
+{
+  "storage_foundation_status": "READY_FOR_FOUNDATION_REVIEW_ONLY",
+  "durable_storage_configured": false,
+  "write_endpoint_enabled": false,
+  "persistence_verified": false,
+  "env_required": true,
+  "secrets_required": true,
+  "current_mode": "STORAGE_FOUNDATION_ONLY",
+  "current_recommendation": [
+    "STORAGE_CONTRACT_READY",
+    "DURABLE_STORAGE_NOT_CONFIGURED",
+    "NOT_READY_FOR_REQUEST_PERSISTENCE",
+    "NOT_READY_FOR_REAL_AUTOMATION"
+  ]
+}
