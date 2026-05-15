@@ -5834,3 +5834,269 @@
     initPlus2B();
   }
 })();
+
+(function () {
+  var plus2cState = {
+    model: null,
+  };
+
+  function p2c(id) {
+    return document.getElementById(id);
+  }
+
+  function readDashboardData() {
+    var node = p2c("dashboard-data");
+    if (!node) return {};
+    try {
+      return JSON.parse(node.textContent || "{}");
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function getModel() {
+    var dashboardData = readDashboardData();
+    var model = plus2cState.model || dashboardData.original_plus2c_audit_log_model || null;
+    plus2cState.model = model;
+    return model;
+  }
+
+  function escapeHtml(value) {
+    return String(value == null ? "" : value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function badgeClass(status) {
+    var value = String(status || "").toLowerCase();
+    if (value === "true" || value === "yes" || value === "ready_for_foundation_review_only" || value === "audit_foundation_only" || value === "audit_contract_ready") {
+      return "pass";
+    }
+    if (value === "false" || value === "no" || value === "missing" || value === "durable_audit_storage_not_configured" || value === "not_ready_for_audit_persistence" || value === "not_ready_for_real_automation" || value === "audit_storage_not_configured" || value === "no_durable_chain_configured") {
+      return "locked";
+    }
+    return "info";
+  }
+
+  function buildRows(items, renderer, emptyText) {
+    if (!items || !items.length) return emptyText;
+    return items.map(function (item) {
+      return "<tr>" + renderer(item) + "</tr>";
+    }).join("");
+  }
+
+  function boolValue(value) {
+    return value ? "true" : "false";
+  }
+
+  function buildStatusRows(model) {
+    if (!model || !model.audit_readiness_model) return '<tr><td colspan="2" class="empty">No status loaded yet.</td></tr>';
+    var status = model.audit_readiness_model;
+    var rows = [
+      ["Audit Foundation Status", status.audit_foundation_status],
+      ["Durable Audit Storage Configured", boolValue(status.durable_audit_storage_configured)],
+      ["Append Endpoint Enabled", boolValue(status.append_endpoint_enabled)],
+      ["Immutable Chain Verified", boolValue(status.immutable_chain_verified)],
+      ["Persistence Verified", boolValue(status.persistence_verified)],
+      ["Hash Algorithm", status.hash_algorithm],
+      ["Current Mode", status.current_mode],
+    ];
+    return rows.map(function(row) {
+       return "<tr><th scope=\"row\">" + escapeHtml(row[0]) + "</th><td><span class=\"badge " + badgeClass(row[1]) + "\">" + escapeHtml(row[1]) + "</span></td></tr>";
+    }).join("");
+  }
+
+  function buildCategoryRows(model) {
+    if (!model || !model.audit_event_categories) return '<tr><td colspan="2" class="empty">No categories loaded yet.</td></tr>';
+    var cats = model.audit_event_categories;
+    var rows = [
+      ["Allowed Categories", (cats.allowed || []).join(", ")],
+      ["Forbidden Categories", (cats.forbidden || []).join(", ")]
+    ];
+    return rows.map(function(row) {
+       var cls = row[0].indexOf("Forbidden") !== -1 ? "locked" : "pass";
+       return "<tr><th scope=\"row\">" + escapeHtml(row[0]) + "</th><td><span class=\"badge " + cls + "\">" + escapeHtml(row[1]) + "</span></td></tr>";
+    }).join("");
+  }
+
+  function buildChainRows(model) {
+    if (!model || !model.immutable_hash_chain_contract) return '<tr><td colspan="2" class="empty">No contract loaded yet.</td></tr>';
+    var contract = model.immutable_hash_chain_contract;
+    var rows = [
+      ["Hash Algorithm", contract.hash_algorithm],
+      ["Canonical Serialization", contract.canonical_serialization],
+      ["Integrity Fields", (contract.integrity_fields || []).join(", ")],
+      ["Tamper Detection", contract.tamper_detection],
+    ];
+    return rows.map(function(row) {
+       return "<tr><th scope=\"row\">" + escapeHtml(row[0]) + "</th><td>" + escapeHtml(row[1]) + "</td></tr>";
+    }).join("");
+  }
+
+  function buildAdapterMethods(model) {
+    var methods = model && model.audit_adapter_contract ? model.audit_adapter_contract.methods : [];
+    if (!methods || !methods.length) return '<li>No methods loaded yet.</li>';
+    return methods.map(function(m) {
+      return '<li><code>' + escapeHtml(m) + '</code></li>';
+    }).join("");
+  }
+
+  function buildPolicyRows(model) {
+    if (!model || !model.retention_redaction_policy) return '<tr><td colspan="2" class="empty">No policy loaded yet.</td></tr>';
+    var policy = model.retention_redaction_policy;
+    var rows = [
+      ["Retention Class", policy.retention_class],
+      ["Redaction Allowed", boolValue(policy.redaction_allowed_for_payload_summary)],
+      ["Immutable Core Fields", boolValue(policy.immutable_core_fields)],
+      ["PII Policy", policy.pii_policy],
+      ["Secret Redaction Required", boolValue(policy.secret_redaction_required)],
+      ["Token Redaction Required", boolValue(policy.token_redaction_required)],
+      ["No Secret Storage", boolValue(policy.no_secret_storage)],
+    ];
+    return rows.map(function(row) {
+       return "<tr><th scope=\"row\">" + escapeHtml(row[0]) + "</th><td><span class=\"badge " + badgeClass(row[1]) + "\">" + escapeHtml(row[1]) + "</span></td></tr>";
+    }).join("");
+  }
+
+  function buildDependencyRows(model) {
+    return buildRows(model && model.future_audit_dependencies, function(item) {
+      return [
+        '<th scope="row">' + escapeHtml(item.item) + '</th>',
+        '<td><span class="badge ' + badgeClass(item.status) + '">' + escapeHtml(item.status) + '</span></td>',
+      ].join("");
+    }, '<tr><td colspan="2" class="empty">No dependencies loaded yet.</td></tr>');
+  }
+
+  function validateCategoryLocal(model, category) {
+     if (!category) return { valid: false, error: "No category selected." };
+     var cats = model.audit_event_categories || {};
+     var allowed = cats.allowed || [];
+     var forbidden = cats.forbidden || [];
+     
+     if (forbidden.indexOf(category) !== -1) {
+        return { valid: false, error: "Forbidden category for current phase: " + category };
+     }
+     if (allowed.indexOf(category) !== -1) {
+        return { valid: true };
+     }
+     return { valid: false, error: "Unknown category: " + category };
+  }
+
+  function updateValidationPreview(model) {
+    var resultDiv = p2c("plus2c-validation-result");
+    var categorySelect = p2c("plus2c-test-category");
+    if (!resultDiv || !categorySelect || !model) return;
+    
+    var category = categorySelect.value;
+    
+    if (!category) {
+       resultDiv.innerHTML = '<p class="muted">Select an event category to validate.</p>';
+       return;
+    }
+    
+    var res = validateCategoryLocal(model, category);
+    var badge = res.valid ? '<span class="badge pass">VALID</span>' : '<span class="badge locked">INVALID</span>';
+    var error = res.error ? '<p class="muted" style="margin-top:0.5rem;"><strong>Error:</strong> ' + escapeHtml(res.error) + '</p>' : '';
+    
+    resultDiv.innerHTML = '<p><strong>Result:</strong> ' + badge + '</p>' + error;
+  }
+
+  function updateCategorySelect(model) {
+    var select = p2c("plus2c-test-category");
+    if (!select || !model) return;
+    var cats = model.audit_event_categories || {};
+    var all = (cats.allowed || []).concat(cats.forbidden || []);
+    if (!all.length) {
+      select.innerHTML = '<option value="">No categories loaded yet.</option>';
+      return;
+    }
+    var current = select.value;
+    select.innerHTML = '<option value="">Select category...</option>' + all.map(function(item) {
+       var label = item + (cats.forbidden.indexOf(item) !== -1 ? " (forbidden)" : "");
+       return '<option value="' + escapeHtml(item) + '">' + escapeHtml(label) + '</option>';
+    }).join("");
+    select.value = current;
+  }
+
+  function updatePlus2CUI() {
+    var model = getModel();
+    var statusBody = p2c("plus2c-status-body");
+    var schemaPreview = p2c("plus2c-schema-preview");
+    var categoryBody = p2c("plus2c-category-body");
+    var chainBody = p2c("plus2c-chain-body");
+    var adapterMethods = p2c("plus2c-adapter-methods");
+    var policyBody = p2c("plus2c-policy-body");
+    var dependenciesBody = p2c("plus2c-dependencies-body");
+    
+    if (statusBody) statusBody.innerHTML = buildStatusRows(model);
+    if (schemaPreview && model) schemaPreview.textContent = JSON.stringify(model.audit_event_schema, null, 2);
+    if (categoryBody) categoryBody.innerHTML = buildCategoryRows(model);
+    if (chainBody) chainBody.innerHTML = buildChainRows(model);
+    if (adapterMethods) adapterMethods.innerHTML = buildAdapterMethods(model);
+    if (policyBody) policyBody.innerHTML = buildPolicyRows(model);
+    if (dependenciesBody) dependenciesBody.innerHTML = buildDependencyRows(model);
+    
+    updateCategorySelect(model);
+    updateValidationPreview(model);
+  }
+
+  function copyRenderedText(text, emptyMessage, successMessage) {
+    var status = p2c("copy-status");
+    if (!text) {
+      if (status) status.textContent = emptyMessage;
+      return;
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () {
+        if (status) status.textContent = successMessage;
+      }).catch(function () {});
+      return;
+    }
+    var field = document.createElement("textarea");
+    field.value = text;
+    field.style.position = "fixed";
+    field.style.left = "-9999px";
+    document.body.appendChild(field);
+    field.select();
+    document.execCommand("copy");
+    document.body.removeChild(field);
+    if (status) status.textContent = successMessage;
+  }
+
+  function bindCopyButton(buttonId, getter, emptyMessage, successMessage) {
+    var button = p2c(buttonId);
+    if (!button) return;
+    button.addEventListener("click", function () {
+      var model = getModel();
+      var text = getter(model);
+      copyRenderedText(text, emptyMessage, successMessage);
+    });
+  }
+
+  function initPlus2C() {
+    var shell = document.querySelector("[data-plus2c-audit-log]");
+    if (!shell) return;
+
+    bindCopyButton("plus2c-copy-schema", function(m) { return JSON.stringify(m && m.audit_event_schema, null, 2); }, "No schema loaded.", "Schema copied.");
+    bindCopyButton("plus2c-copy-chain", function(m) { return JSON.stringify(m && m.immutable_hash_chain_contract, null, 2); }, "No contract loaded.", "Contract copied.");
+    bindCopyButton("plus2c-copy-adapter", function(m) { return JSON.stringify(m && m.audit_adapter_contract, null, 2); }, "No adapter loaded.", "Adapter copied.");
+    bindCopyButton("plus2c-copy-disabled", function(m) { return "AUDIT_STORAGE_NOT_CONFIGURED"; }, "Error", "Boundary report copied.");
+    bindCopyButton("plus2c-copy-policy", function(m) { return JSON.stringify(m && m.retention_redaction_policy, null, 2); }, "No policy loaded.", "Policy copied.");
+    bindCopyButton("plus2c-copy-dependencies", function(m) { return JSON.stringify(m && m.future_audit_dependencies, null, 2); }, "No dependencies loaded.", "Dependencies copied.");
+    bindCopyButton("plus2c-copy-validation", function(m) { return "Requires: validate_original_plus2c_immutable_audit_log.py\nRequires: validate_original_plus2c_immutable_audit_log_e2e.py"; }, "Error", "Validation checklist copied.");
+
+    var categorySelect = p2c("plus2c-test-category");
+    if (categorySelect) categorySelect.addEventListener("change", function() { updateValidationPreview(getModel()); });
+
+    updatePlus2CUI();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initPlus2C);
+  } else {
+    initPlus2C();
+  }
+})();

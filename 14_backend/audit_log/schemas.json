@@ -1,0 +1,62 @@
+{
+  "audit_event_schema": {
+    "type": "object",
+    "required": ["audit_event_id", "timestamp", "actor_id", "event_type", "event_category", "event_hash"],
+    "properties": {
+      "audit_event_id": { "type": "string" },
+      "timestamp": { "type": "string", "format": "date-time" },
+      "actor_id": { "type": "string" },
+      "actor_role": { "type": "string" },
+      "source_phase": { "type": "string" },
+      "request_id": { "type": "string" },
+      "event_type": { "type": "string" },
+      "event_category": { "type": "string" },
+      "previous_state": { "type": "string" },
+      "next_state": { "type": "string" },
+      "risk_classification": { "enum": ["low", "medium", "high", "critical"] },
+      "approval_reference": { "type": "string" },
+      "dry_run_reference": { "type": "string" },
+      "storage_reference": { "type": "string" },
+      "no_go_reason": { "type": "string" },
+      "safety_boundary": { "type": "string" },
+      "event_payload_summary": { "type": "string" },
+      "previous_hash": { "type": "string" },
+      "event_hash": { "type": "string" },
+      "integrity_status": { "type": "string" }
+    }
+  },
+  "audit_event_categories": {
+    "allowed": [
+      "status_viewed",
+      "request_draft_validated",
+      "request_storage_status_checked",
+      "auth_status_checked",
+      "role_matrix_viewed",
+      "planning_packet_generated",
+      "review_decision_previewed",
+      "handoff_previewed",
+      "runbook_previewed",
+      "no_go_generated",
+      "safety_boundary_checked",
+      "production_verification_recorded"
+    ],
+    "forbidden": [
+      "command_executed",
+      "backend_mutated",
+      "github_mutated",
+      "netlify_mutated",
+      "deployment_triggered",
+      "branch_merged",
+      "branch_pushed",
+      "pr_created",
+      "queue_job_executed",
+      "automation_started"
+    ]
+  },
+  "hash_chain_contract": {
+    "hash_algorithm": "SHA256",
+    "canonical_serialization": "JSON_SORT_KEYS",
+    "integrity_fields": ["previous_hash", "event_hash"],
+    "tamper_detection": "active_chain_validation"
+  }
+}

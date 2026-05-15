@@ -48,6 +48,13 @@ exports.handler = async function(event, context) {
           "purpose": "Check the status of the persistent request storage foundation",
           "read_only": true,
           "dangerous_capabilities_enabled": false
+        },
+        {
+          "path": "/api/audit-log-status",
+          "method": "GET",
+          "purpose": "Check the status of the immutable audit log foundation",
+          "read_only": true,
+          "dangerous_capabilities_enabled": false
         }
       ],
       "future_phases": [
