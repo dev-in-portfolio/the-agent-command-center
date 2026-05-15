@@ -1,0 +1,148 @@
+{
+  "model_id": "mvp4-supabase-auth-rls-authenticated-request-api",
+  "model_version": "1.0",
+  "auth_policy_model": {
+    "model_id": "supabase-auth-policy-model",
+    "model_version": "1.0",
+    "provider": "supabase_auth",
+    "auth_mode": "bearer_jwt",
+    "user_identity_source": "Authorization header",
+    "required_header": "Authorization: Bearer <token>",
+    "identity_binding_required": true,
+    "auth_uid_binding_required": true,
+    "anonymous_requests_allowed": false,
+    "service_role_browser_exposure_allowed": false,
+    "current_recommendation": [
+      "SUPABASE_AUTH_POLICY_READY",
+      "RLS_POLICY_REQUIRED",
+      "REQUEST_API_REQUIRES_BEARER_TOKEN",
+      "WRITES_DISABLED_UNTIL_REVIEWED",
+      "NOT_READY_FOR_REAL_AUTOMATION"
+    ]
+  },
+  "rls_policy_model": {
+    "model_id": "supabase-rls-policy-model",
+    "model_version": "1.0",
+    "rls_required": true,
+    "tables_requiring_rls": [
+      "app_users",
+      "app_roles",
+      "requests",
+      "request_lifecycle_events",
+      "approvals",
+      "audit_events",
+      "dry_run_results",
+      "no_go_flags"
+    ],
+    "default_policy": "deny_by_default",
+    "request_owner_policy": "auth.uid() owns request",
+    "role_policy": "app_roles controls elevated access",
+    "service_role_usage": "server_admin_only",
+    "browser_service_role_exposure_allowed": false,
+    "current_status": "scaffold_only"
+  },
+  "auth_migration_scaffold": {
+    "file_path": "14_backend/product_runtime/providers/supabase/migrations/002_supabase_auth_rls_policies.sql",
+    "tables": [
+      "app_users",
+      "app_roles",
+      "requests",
+      "request_lifecycle_events",
+      "approvals",
+      "audit_events",
+      "dry_run_results",
+      "no_go_flags"
+    ],
+    "manual_apply_only": true,
+    "rls_required_before_writes": true,
+    "auth_uid_binding_required": true,
+    "service_role_browser_exposure_allowed": false
+  },
+  "endpoint_list": [
+    {
+      "path": "/api/provider-status",
+      "method": "GET",
+      "purpose": "Read-only Supabase provider status",
+      "gated": true
+    },
+    {
+      "path": "/api/auth-status",
+      "method": "GET",
+      "purpose": "Read-only Supabase auth status",
+      "gated": true
+    },
+    {
+      "path": "/api/requests",
+      "method": "GET",
+      "purpose": "Authenticated request API boundary scaffold",
+      "gated": true
+    },
+    {
+      "path": "/api/requests",
+      "method": "POST",
+      "purpose": "Authenticated request write boundary scaffold",
+      "gated": true
+    }
+  ],
+  "request_api_gate_model": {
+    "provider_configured_required": true,
+    "request_api_enabled_required": true,
+    "auth_enabled_required": true,
+    "bearer_token_required": true,
+    "writes_enabled_required_for_post": true,
+    "rls_review_required": true,
+    "anonymous_access_blocked": true,
+    "service_role_never_exposed_to_browser": true,
+    "current_recommendation": [
+      "SUPABASE_AUTH_RLS_SCAFFOLD_READY",
+      "REQUEST_API_REQUIRES_AUTH",
+      "WRITES_DISABLED_UNTIL_RLS_REVIEW",
+      "NOT_READY_FOR_REAL_AUTOMATION",
+      "NEXT_STEP_APPLY_RLS_MIGRATION_AND_ENABLE_READS"
+    ]
+  },
+  "provider_status_model": {
+    "provider": "supabase",
+    "project_ref": "mobvzrkcsfbumgbwvkcp",
+    "project_url": "https://mobvzrkcsfbumgbwvkcp.supabase.co",
+    "production_database_target": "postgres",
+    "production_auth_target": "supabase_auth",
+    "provider_configured": false,
+    "request_api_enabled": false,
+    "request_api_writes_enabled": false,
+    "service_role_required_for_admin_ops": true,
+    "browser_service_role_exposure_allowed": false,
+    "rls_required_before_production_writes": true,
+    "auth_uid_binding_required": true,
+    "current_recommendation": [
+      "SUPABASE_PROVIDER_SELECTED",
+      "ENV_CONFIGURATION_REQUIRED",
+      "REQUEST_API_DISABLED_UNTIL_CONFIGURED",
+      "REAL_AUTH_BINDING_REQUIRED",
+      "NOT_READY_FOR_REAL_AUTOMATION",
+      "NEXT_STEP_CONFIGURE_SUPABASE_PROJECT_AND_AUTH"
+    ],
+    "missing_env_vars": [
+      "SUPABASE_ANON_KEY",
+      "SUPABASE_SERVICE_ROLE_KEY",
+      "SUPABASE_DB_PASSWORD",
+      "DATABASE_URL"
+    ],
+    "configured_env_vars": {
+      "SUPABASE_ANON_KEY": false,
+      "SUPABASE_SERVICE_ROLE_KEY": false,
+      "SUPABASE_DB_PASSWORD": false,
+      "DATABASE_URL": false,
+      "MVP_ENABLE_SUPABASE_REQUEST_API": false,
+      "MVP_ENABLE_REQUEST_API_WRITES": false,
+      "MVP_ENABLE_SUPABASE_AUTH": false
+    }
+  },
+  "current_recommendation": [
+    "SUPABASE_AUTH_RLS_SCAFFOLD_READY",
+    "REQUEST_API_REQUIRES_AUTH",
+    "WRITES_DISABLED_UNTIL_RLS_REVIEW",
+    "NOT_READY_FOR_REAL_AUTOMATION",
+    "NEXT_STEP_APPLY_RLS_MIGRATION_AND_ENABLE_READS"
+  ]
+}

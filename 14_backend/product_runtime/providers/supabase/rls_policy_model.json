@@ -1,0 +1,21 @@
+{
+  "model_id": "supabase-rls-policy-model",
+  "model_version": "1.0",
+  "rls_required": true,
+  "tables_requiring_rls": [
+    "app_users",
+    "app_roles",
+    "requests",
+    "request_lifecycle_events",
+    "approvals",
+    "audit_events",
+    "dry_run_results",
+    "no_go_flags"
+  ],
+  "default_policy": "deny_by_default",
+  "request_owner_policy": "auth.uid() owns request",
+  "role_policy": "app_roles controls elevated access",
+  "service_role_usage": "server_admin_only",
+  "browser_service_role_exposure_allowed": false,
+  "current_status": "scaffold_only"
+}

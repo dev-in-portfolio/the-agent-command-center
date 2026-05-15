@@ -1,1 +1,1 @@
-"""Supabase provider scaffolding for MVP-3."""
+"""Supabase provider scaffold package."""

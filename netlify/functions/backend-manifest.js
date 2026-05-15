@@ -85,6 +85,13 @@ exports.handler = async function(event, context) {
           "dangerous_capabilities_enabled": false
         },
         {
+          "path": "/api/auth-status",
+          "method": "GET",
+          "purpose": "Check the Supabase auth policy status",
+          "read_only": true,
+          "dangerous_capabilities_enabled": false
+        },
+        {
           "path": "/api/requests",
           "method": "GET",
           "purpose": "Read the Supabase request API boundary scaffold",

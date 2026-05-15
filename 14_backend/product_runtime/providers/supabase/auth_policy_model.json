@@ -1,0 +1,19 @@
+{
+  "model_id": "supabase-auth-policy-model",
+  "model_version": "1.0",
+  "provider": "supabase_auth",
+  "auth_mode": "bearer_jwt",
+  "user_identity_source": "Authorization header",
+  "required_header": "Authorization: Bearer <token>",
+  "identity_binding_required": true,
+  "auth_uid_binding_required": true,
+  "anonymous_requests_allowed": false,
+  "service_role_browser_exposure_allowed": false,
+  "current_recommendation": [
+    "SUPABASE_AUTH_POLICY_READY",
+    "RLS_POLICY_REQUIRED",
+    "REQUEST_API_REQUIRES_BEARER_TOKEN",
+    "WRITES_DISABLED_UNTIL_REVIEWED",
+    "NOT_READY_FOR_REAL_AUTOMATION"
+  ]
+}
