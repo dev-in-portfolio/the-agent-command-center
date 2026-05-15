@@ -3224,7 +3224,7 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-2 valid
         <table class="data-table" id="mvp3-env-table">
           <caption>Supabase environment contract</caption>
           <thead><tr><th scope="col">Env name</th><th scope="col">Purpose</th><th scope="col">Browser safe</th><th scope="col">Current required</th></tr></thead>
-          <tbody><tr><th scope="row"><code>SUPABASE_PROJECT_REF</code></th><td>Project metadata and project identity.</td><td><span class="badge pass">PASS</span></td><td>no</td></tr><tr><th scope="row"><code>SUPABASE_URL</code></th><td>Project URL for the Supabase project.</td><td><span class="badge pass">PASS</span></td><td>no</td></tr><tr><th scope="row"><code>SUPABASE_ANON_KEY</code></th><td>Browser-safe public key for future Supabase read/auth flows.</td><td><span class="badge fail">FAIL</span></td><td>no</td></tr><tr><th scope="row"><code>SUPABASE_SERVICE_ROLE_KEY</code></th><td>Server-only secret for future admin and write operations.</td><td><span class="badge pass">PASS</span></td><td>no</td></tr><tr><th scope="row"><code>SUPABASE_DB_PASSWORD</code></th><td>Database password used for CLI link/setup and optional direct DB access.</td><td><span class="badge pass">PASS</span></td><td>no</td></tr><tr><th scope="row"><code>DATABASE_URL</code></th><td>Direct Postgres connection string for future server-side database access.</td><td><span class="badge pass">PASS</span></td><td>no</td></tr><tr><th scope="row"><code>MVP_ENABLE_SUPABASE_REQUEST_API</code></th><td>Feature gate for the request API boundary scaffold.</td><td><span class="badge pass">PASS</span></td><td>no</td></tr><tr><th scope="row"><code>MVP_ENABLE_REQUEST_API_WRITES</code></th><td>Feature gate for request API write paths.</td><td><span class="badge pass">PASS</span></td><td>no</td></tr><tr><th scope="row"><code>MVP_ENABLE_SUPABASE_AUTH</code></th><td>Feature gate for future Supabase Auth binding.</td><td><span class="badge pass">PASS</span></td><td>no</td></tr></tbody>
+          <tbody><tr><th scope="row"><code>SUPABASE_PROJECT_REF</code></th><td>Project metadata and project identity.</td><td><span class="badge pass">PASS</span></td><td>no</td></tr><tr><th scope="row"><code>SUPABASE_URL</code></th><td>Project URL for the Supabase project.</td><td><span class="badge pass">PASS</span></td><td>no</td></tr><tr><th scope="row"><code>SUPABASE_ANON_KEY</code></th><td>Browser-safe public key for future authenticated reads.</td><td><span class="badge fail">FAIL</span></td><td>no</td></tr><tr><th scope="row"><code>SUPABASE_SERVICE_ROLE_KEY</code></th><td>Server-only secret for admin and future write operations.</td><td><span class="badge pass">PASS</span></td><td>no</td></tr><tr><th scope="row"><code>SUPABASE_DB_PASSWORD</code></th><td>Database password used for CLI link/setup and direct access.</td><td><span class="badge pass">PASS</span></td><td>no</td></tr><tr><th scope="row"><code>DATABASE_URL</code></th><td>Direct Postgres connection string for future server-side database access.</td><td><span class="badge pass">PASS</span></td><td>no</td></tr><tr><th scope="row"><code>MVP_ENABLE_SUPABASE_REQUEST_API</code></th><td>Feature gate for the request API boundary scaffold.</td><td><span class="badge pass">PASS</span></td><td>no</td></tr><tr><th scope="row"><code>MVP_ENABLE_REQUEST_API_WRITES</code></th><td>Feature gate for request API write paths.</td><td><span class="badge pass">PASS</span></td><td>no</td></tr><tr><th scope="row"><code>MVP_ENABLE_SUPABASE_AUTH</code></th><td>Feature gate for future Supabase Auth binding.</td><td><span class="badge pass">PASS</span></td><td>no</td></tr></tbody>
         </table>
       </div>
       <div class="button-row" style="margin-top:0.75rem;">
@@ -3255,7 +3255,7 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-2 valid
     },
     {
       &quot;name&quot;: &quot;SUPABASE_ANON_KEY&quot;,
-      &quot;purpose&quot;: &quot;Browser-safe public key for future Supabase read/auth flows.&quot;,
+      &quot;purpose&quot;: &quot;Browser-safe public key for future authenticated reads.&quot;,
       &quot;required_for_status_only&quot;: false,
       &quot;required_for_read_api&quot;: true,
       &quot;required_for_write_api&quot;: false,
@@ -3265,7 +3265,7 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-2 valid
     },
     {
       &quot;name&quot;: &quot;SUPABASE_SERVICE_ROLE_KEY&quot;,
-      &quot;purpose&quot;: &quot;Server-only secret for future admin and write operations.&quot;,
+      &quot;purpose&quot;: &quot;Server-only secret for admin and future write operations.&quot;,
       &quot;required_for_status_only&quot;: false,
       &quot;required_for_read_api&quot;: false,
       &quot;required_for_write_api&quot;: true,
@@ -3275,7 +3275,7 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-2 valid
     },
     {
       &quot;name&quot;: &quot;SUPABASE_DB_PASSWORD&quot;,
-      &quot;purpose&quot;: &quot;Database password used for CLI link/setup and optional direct DB access.&quot;,
+      &quot;purpose&quot;: &quot;Database password used for CLI link/setup and direct access.&quot;,
       &quot;required_for_status_only&quot;: false,
       &quot;required_for_read_api&quot;: false,
       &quot;required_for_write_api&quot;: true,
@@ -3418,8 +3418,6 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-2 valid
       <div class="callout" style="margin-top:0.75rem;">
         <p class="muted" style="margin:0;">Netlify environment status model</p>
         <pre class="code-block" style="white-space:pre-wrap;">{
-  &quot;model_id&quot;: &quot;supabase-provider-status-model&quot;,
-  &quot;model_version&quot;: &quot;1.0&quot;,
   &quot;provider&quot;: &quot;supabase&quot;,
   &quot;project_ref&quot;: &quot;mobvzrkcsfbumgbwvkcp&quot;,
   &quot;project_url&quot;: &quot;https://mobvzrkcsfbumgbwvkcp.supabase.co&quot;,
@@ -3432,31 +3430,6 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-2 valid
   &quot;browser_service_role_exposure_allowed&quot;: false,
   &quot;rls_required_before_production_writes&quot;: true,
   &quot;auth_uid_binding_required&quot;: true,
-  &quot;allowed_env_names&quot;: [
-    &quot;SUPABASE_PROJECT_REF&quot;,
-    &quot;SUPABASE_URL&quot;,
-    &quot;SUPABASE_ANON_KEY&quot;,
-    &quot;SUPABASE_SERVICE_ROLE_KEY&quot;,
-    &quot;SUPABASE_DB_PASSWORD&quot;,
-    &quot;DATABASE_URL&quot;,
-    &quot;MVP_ENABLE_SUPABASE_REQUEST_API&quot;,
-    &quot;MVP_ENABLE_REQUEST_API_WRITES&quot;,
-    &quot;MVP_ENABLE_SUPABASE_AUTH&quot;
-  ],
-  &quot;missing_env_vars&quot;: [
-    &quot;SUPABASE_ANON_KEY&quot;,
-    &quot;SUPABASE_SERVICE_ROLE_KEY&quot;,
-    &quot;SUPABASE_DB_PASSWORD&quot;,
-    &quot;DATABASE_URL&quot;
-  ],
-  &quot;safety_boundary&quot;: [
-    &quot;Request API writes are disabled by default.&quot;,
-    &quot;Supabase Auth is disabled by default.&quot;,
-    &quot;RLS is required before production writes.&quot;,
-    &quot;Service role key must never be exposed to browser code.&quot;,
-    &quot;Production migrations are not auto-applied.&quot;,
-    &quot;Real automation remains disabled.&quot;
-  ],
   &quot;current_recommendation&quot;: [
     &quot;SUPABASE_PROVIDER_SELECTED&quot;,
     &quot;ENV_CONFIGURATION_REQUIRED&quot;,
@@ -3464,7 +3437,22 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-2 valid
     &quot;REAL_AUTH_BINDING_REQUIRED&quot;,
     &quot;NOT_READY_FOR_REAL_AUTOMATION&quot;,
     &quot;NEXT_STEP_CONFIGURE_SUPABASE_PROJECT_AND_AUTH&quot;
-  ]
+  ],
+  &quot;missing_env_vars&quot;: [
+    &quot;SUPABASE_ANON_KEY&quot;,
+    &quot;SUPABASE_SERVICE_ROLE_KEY&quot;,
+    &quot;SUPABASE_DB_PASSWORD&quot;,
+    &quot;DATABASE_URL&quot;
+  ],
+  &quot;configured_env_vars&quot;: {
+    &quot;SUPABASE_ANON_KEY&quot;: false,
+    &quot;SUPABASE_SERVICE_ROLE_KEY&quot;: false,
+    &quot;SUPABASE_DB_PASSWORD&quot;: false,
+    &quot;DATABASE_URL&quot;: false,
+    &quot;MVP_ENABLE_SUPABASE_REQUEST_API&quot;: false,
+    &quot;MVP_ENABLE_REQUEST_API_WRITES&quot;: false,
+    &quot;MVP_ENABLE_SUPABASE_AUTH&quot;: false
+  }
 }</pre>
       </div>
       <div class="button-row" style="margin-top:0.75rem;">
@@ -3504,6 +3492,284 @@ enable writes only after RLS/auth review">Copy next Supabase setup checklist</bu
 configure_rls_policy
 then_build_mvp4_authenticated_request_api">Copy MVP-3 validation checklist</button>
     </div>
+  </div>
+</div>
+
+      </div>
+    </details>
+    
+
+    <details class="panel" data-section-group="source" open id="mvp4-supabase-auth-rls-authenticated-request-api">
+      <summary>MVP-4 — Supabase Auth + RLS + Authenticated Request API</summary>
+      <div class="panel-body">
+        
+<div class="mvp4-supabase-auth-rls" data-mvp4-supabase-auth-rls="true">
+  <div class="callout plus2e-summary-callout" style="border-color: rgba(14,165,233,0.28); background: rgba(14,165,233,0.06);">
+    <strong style="color: var(--info);">MVP-4</strong>
+    <p class="muted" style="margin-top: 0.15rem;">SUPABASE AUTH POLICY — RLS POLICY SCAFFOLD — AUTHENTICATED REQUEST API</p>
+    <p class="muted" style="margin-top: 0.25rem;">BEARER TOKEN REQUIRED — ANONYMOUS REQUESTS BLOCKED — SERVICE ROLE NEVER EXPOSED TO BROWSER</p>
+    <p class="muted" style="margin-top: 0.25rem;">RLS REQUIRED BEFORE WRITES — REQUEST API REQUIRES AUTH — WRITES DISABLED UNTIL RLS REVIEW</p>
+    <p class="muted" style="margin-top: 0.25rem;">NOT_READY_FOR_REAL_AUTOMATION — NEXT_STEP_APPLY_RLS_MIGRATION_AND_ENABLE_READS</p>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp4-auth-policy" id="mvp4-auth-policy-panel">
+      <div class="card-head"><h3 class="card-title">Auth Policy Panel</h3><span class="badge info">AUTH</span></div>
+      <div class="stat-grid">
+    <div class="stat">
+      <span>auth policy</span>
+      <strong>bearer_jwt</strong>
+      <span class="mini-status"><span class="badge pass">PASS</span></span>
+    </div>
+    
+    <div class="stat">
+      <span>RLS policy</span>
+      <strong>scaffold_only</strong>
+      <span class="mini-status"><span class="badge warning">WARNING</span></span>
+    </div>
+    
+    <div class="stat">
+      <span>bearer required</span>
+      <strong>true</strong>
+      <span class="mini-status"><span class="badge pass">PASS</span></span>
+    </div>
+    
+    <div class="stat">
+      <span>writes disabled</span>
+      <strong>false</strong>
+      <span class="mini-status"><span class="badge pass">PASS</span></span>
+    </div>
+    </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Bearer JWT and Authorization header required</p>
+        <p class="muted" style="margin-top:0.5rem;">auth.uid() binding required. ANONYMOUS REQUESTS BLOCKED</p>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp4-copy-auth-policy" data-copy-text="{
+  &quot;model_id&quot;: &quot;supabase-auth-policy-model&quot;,
+  &quot;model_version&quot;: &quot;1.0&quot;,
+  &quot;provider&quot;: &quot;supabase_auth&quot;,
+  &quot;auth_mode&quot;: &quot;bearer_jwt&quot;,
+  &quot;user_identity_source&quot;: &quot;Authorization header&quot;,
+  &quot;required_header&quot;: &quot;Authorization: Bearer &lt;token&gt;&quot;,
+  &quot;identity_binding_required&quot;: true,
+  &quot;auth_uid_binding_required&quot;: true,
+  &quot;anonymous_requests_allowed&quot;: false,
+  &quot;service_role_browser_exposure_allowed&quot;: false,
+  &quot;current_recommendation&quot;: [
+    &quot;SUPABASE_AUTH_POLICY_READY&quot;,
+    &quot;RLS_POLICY_REQUIRED&quot;,
+    &quot;REQUEST_API_REQUIRES_BEARER_TOKEN&quot;,
+    &quot;WRITES_DISABLED_UNTIL_REVIEWED&quot;,
+    &quot;NOT_READY_FOR_REAL_AUTOMATION&quot;
+  ]
+}">Copy auth policy summary</button>
+      </div>
+    </article>
+
+    <article class="card mvp4-rls-policy" id="mvp4-rls-policy-panel">
+      <div class="card-head"><h3 class="card-title">RLS Policy Panel</h3><span class="badge warning">RLS</span></div>
+      <p class="card-body">Deny-by-default RLS scaffold for request runtime tables. No public write policy is added.</p>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp4-rls-table">
+          <caption>RLS policy model</caption>
+          <thead><tr><th scope="col">Property</th><th scope="col">Value</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">default policy</th><td>deny_by_default</td></tr>
+            <tr><th scope="row">request owner policy</th><td>auth.uid() owns request</td></tr>
+            <tr><th scope="row">role policy</th><td>app_roles controls elevated access</td></tr>
+            <tr><th scope="row">service role usage</th><td>server_admin_only</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp4-copy-rls-policy" data-copy-text="{
+  &quot;model_id&quot;: &quot;supabase-rls-policy-model&quot;,
+  &quot;model_version&quot;: &quot;1.0&quot;,
+  &quot;rls_required&quot;: true,
+  &quot;tables_requiring_rls&quot;: [
+    &quot;app_users&quot;,
+    &quot;app_roles&quot;,
+    &quot;requests&quot;,
+    &quot;request_lifecycle_events&quot;,
+    &quot;approvals&quot;,
+    &quot;audit_events&quot;,
+    &quot;dry_run_results&quot;,
+    &quot;no_go_flags&quot;
+  ],
+  &quot;default_policy&quot;: &quot;deny_by_default&quot;,
+  &quot;request_owner_policy&quot;: &quot;auth.uid() owns request&quot;,
+  &quot;role_policy&quot;: &quot;app_roles controls elevated access&quot;,
+  &quot;service_role_usage&quot;: &quot;server_admin_only&quot;,
+  &quot;browser_service_role_exposure_allowed&quot;: false,
+  &quot;current_status&quot;: &quot;scaffold_only&quot;
+}">Copy RLS policy summary</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp4-request-api-gate" id="mvp4-request-api-gate-panel">
+      <div class="card-head"><h3 class="card-title">Request API Gate Panel</h3><span class="badge info">GATE</span></div>
+      <p class="card-body">Authenticated request behavior stays scaffold-only until every gate is explicitly reviewed.</p>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp4-gate-table">
+          <caption>Request API gates</caption>
+          <thead><tr><th scope="col">Gate</th><th scope="col">Required</th></tr></thead>
+          <tbody><tr><th scope="row">provider configured</th><td>true</td></tr><tr><th scope="row">request API enabled</th><td>true</td></tr><tr><th scope="row">auth enabled</th><td>true</td></tr><tr><th scope="row">bearer token required</th><td>true</td></tr><tr><th scope="row">writes enabled for POST</th><td>true</td></tr><tr><th scope="row">RLS review required</th><td>true</td></tr><tr><th scope="row">anonymous access blocked</th><td>true</td></tr></tbody>
+        </table>
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">No anonymous access. No writes by default. No service role exposure.</p>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp4-copy-gate" data-copy-text="{
+  &quot;provider_configured_required&quot;: true,
+  &quot;request_api_enabled_required&quot;: true,
+  &quot;auth_enabled_required&quot;: true,
+  &quot;bearer_token_required&quot;: true,
+  &quot;writes_enabled_required_for_post&quot;: true,
+  &quot;rls_review_required&quot;: true,
+  &quot;anonymous_access_blocked&quot;: true,
+  &quot;service_role_never_exposed_to_browser&quot;: true,
+  &quot;current_recommendation&quot;: [
+    &quot;SUPABASE_AUTH_RLS_SCAFFOLD_READY&quot;,
+    &quot;REQUEST_API_REQUIRES_AUTH&quot;,
+    &quot;WRITES_DISABLED_UNTIL_RLS_REVIEW&quot;,
+    &quot;NOT_READY_FOR_REAL_AUTOMATION&quot;,
+    &quot;NEXT_STEP_APPLY_RLS_MIGRATION_AND_ENABLE_READS&quot;
+  ]
+}">Copy request API gate checklist</button>
+      </div>
+    </article>
+
+    <article class="card mvp4-endpoint-panel" id="mvp4-endpoint-panel">
+      <div class="card-head"><h3 class="card-title">Endpoint Panel</h3><span class="badge info">API</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp4-endpoint-table">
+          <caption>Authenticated request API endpoints</caption>
+          <thead><tr><th scope="col">Endpoint</th><th scope="col">Purpose</th><th scope="col">State</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>GET /api/provider-status</code></th><td>Read-only Supabase provider status</td><td><span class="badge pass">PASS</span></td></tr><tr><th scope="row"><code>GET /api/auth-status</code></th><td>Read-only Supabase auth status</td><td><span class="badge pass">PASS</span></td></tr><tr><th scope="row"><code>GET /api/requests</code></th><td>Authenticated request API boundary scaffold</td><td><span class="badge pass">PASS</span></td></tr><tr><th scope="row"><code>POST /api/requests</code></th><td>Authenticated request write boundary scaffold</td><td><span class="badge pass">PASS</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp4-copy-endpoints" data-copy-text="[
+  {
+    &quot;path&quot;: &quot;/api/provider-status&quot;,
+    &quot;method&quot;: &quot;GET&quot;,
+    &quot;purpose&quot;: &quot;Read-only Supabase provider status&quot;,
+    &quot;gated&quot;: true
+  },
+  {
+    &quot;path&quot;: &quot;/api/auth-status&quot;,
+    &quot;method&quot;: &quot;GET&quot;,
+    &quot;purpose&quot;: &quot;Read-only Supabase auth status&quot;,
+    &quot;gated&quot;: true
+  },
+  {
+    &quot;path&quot;: &quot;/api/requests&quot;,
+    &quot;method&quot;: &quot;GET&quot;,
+    &quot;purpose&quot;: &quot;Authenticated request API boundary scaffold&quot;,
+    &quot;gated&quot;: true
+  },
+  {
+    &quot;path&quot;: &quot;/api/requests&quot;,
+    &quot;method&quot;: &quot;POST&quot;,
+    &quot;purpose&quot;: &quot;Authenticated request write boundary scaffold&quot;,
+    &quot;gated&quot;: true
+  }
+]">Copy endpoint checklist</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp4-security-boundary" id="mvp4-security-boundary-panel">
+      <div class="card-head"><h3 class="card-title">Security Boundary Panel</h3><span class="badge warning">SECURITY</span></div>
+      <ul class="compact-list"><li>no service role in browser</li><li>no token logging</li><li>no anonymous writes</li><li>no broad public policies</li><li>writes disabled by default</li></ul>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Provider status</p>
+        <pre class="code-block" style="white-space:pre-wrap;">{
+  &quot;provider&quot;: &quot;supabase&quot;,
+  &quot;project_ref&quot;: &quot;mobvzrkcsfbumgbwvkcp&quot;,
+  &quot;project_url&quot;: &quot;https://mobvzrkcsfbumgbwvkcp.supabase.co&quot;,
+  &quot;production_database_target&quot;: &quot;postgres&quot;,
+  &quot;production_auth_target&quot;: &quot;supabase_auth&quot;,
+  &quot;provider_configured&quot;: false,
+  &quot;request_api_enabled&quot;: false,
+  &quot;request_api_writes_enabled&quot;: false,
+  &quot;service_role_required_for_admin_ops&quot;: true,
+  &quot;browser_service_role_exposure_allowed&quot;: false,
+  &quot;rls_required_before_production_writes&quot;: true,
+  &quot;auth_uid_binding_required&quot;: true,
+  &quot;current_recommendation&quot;: [
+    &quot;SUPABASE_PROVIDER_SELECTED&quot;,
+    &quot;ENV_CONFIGURATION_REQUIRED&quot;,
+    &quot;REQUEST_API_DISABLED_UNTIL_CONFIGURED&quot;,
+    &quot;REAL_AUTH_BINDING_REQUIRED&quot;,
+    &quot;NOT_READY_FOR_REAL_AUTOMATION&quot;,
+    &quot;NEXT_STEP_CONFIGURE_SUPABASE_PROJECT_AND_AUTH&quot;
+  ],
+  &quot;missing_env_vars&quot;: [
+    &quot;SUPABASE_ANON_KEY&quot;,
+    &quot;SUPABASE_SERVICE_ROLE_KEY&quot;,
+    &quot;SUPABASE_DB_PASSWORD&quot;,
+    &quot;DATABASE_URL&quot;
+  ],
+  &quot;configured_env_vars&quot;: {
+    &quot;SUPABASE_ANON_KEY&quot;: false,
+    &quot;SUPABASE_SERVICE_ROLE_KEY&quot;: false,
+    &quot;SUPABASE_DB_PASSWORD&quot;: false,
+    &quot;DATABASE_URL&quot;: false,
+    &quot;MVP_ENABLE_SUPABASE_REQUEST_API&quot;: false,
+    &quot;MVP_ENABLE_REQUEST_API_WRITES&quot;: false,
+    &quot;MVP_ENABLE_SUPABASE_AUTH&quot;: false
+  }
+}</pre>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp4-copy-security" data-copy-text="no service role in browser
+no token logging
+no anonymous writes
+no broad public policies
+writes disabled by default">Copy security boundary checklist</button>
+      </div>
+    </article>
+
+    <article class="card mvp4-next-product-decision" id="mvp4-next-product-decision-panel">
+      <div class="card-head"><h3 class="card-title">Next Product Decision Panel</h3><span class="badge info">NEXT</span></div>
+      <p class="card-body">Apply Supabase migrations manually after review, then enable request API reads before any write work.</p>
+      <ul class="compact-list"><li>apply Supabase migrations manually after review</li><li>enable request API reads</li><li>test auth status</li><li>then enable writes only after RLS review</li></ul>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Current recommendation</p>
+        <ul class="compact-list"><li>SUPABASE_AUTH_RLS_SCAFFOLD_READY</li><li>REQUEST_API_REQUIRES_AUTH</li><li>WRITES_DISABLED_UNTIL_RLS_REVIEW</li><li>NOT_READY_FOR_REAL_AUTOMATION</li><li>NEXT_STEP_APPLY_RLS_MIGRATION_AND_ENABLE_READS</li></ul>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp4-copy-next-decision" data-copy-text="apply Supabase migrations manually after review
+enable request API reads
+test auth status
+then enable writes only after RLS review">Copy MVP-4 validation checklist</button>
+        <button type="button" class="copy-button small" id="mvp4-copy-migration-review" data-copy-text="{
+  &quot;file_path&quot;: &quot;14_backend/product_runtime/providers/supabase/migrations/002_supabase_auth_rls_policies.sql&quot;,
+  &quot;tables&quot;: [
+    &quot;app_users&quot;,
+    &quot;app_roles&quot;,
+    &quot;requests&quot;,
+    &quot;request_lifecycle_events&quot;,
+    &quot;approvals&quot;,
+    &quot;audit_events&quot;,
+    &quot;dry_run_results&quot;,
+    &quot;no_go_flags&quot;
+  ],
+  &quot;manual_apply_only&quot;: true,
+  &quot;rls_required_before_writes&quot;: true,
+  &quot;auth_uid_binding_required&quot;: true,
+  &quot;service_role_browser_exposure_allowed&quot;: false
+}">Copy migration review checklist</button>
+      </div>
+    </article>
   </div>
 </div>
 
@@ -3728,7 +3994,7 @@ then_build_mvp4_authenticated_request_api">Copy MVP-3 validation checklist</butt
         <div class="stat-grid">
     <div class="stat">
       <span>Generated at</span>
-      <strong>2026-05-15T20:57:31Z</strong>
+      <strong>2026-05-15T21:17:59Z</strong>
       
     </div>
     
@@ -3935,8 +4201,8 @@ then_build_mvp4_authenticated_request_api">Copy MVP-3 validation checklist</butt
     </main>
   </div>
   <script type="application/json" id="dashboard-data">{
-  "dashboard_id": "PH3-20260515-205729",
-  "created_at_utc": "2026-05-15T20:57:29Z",
+  "dashboard_id": "PH3-20260515-211756",
+  "created_at_utc": "2026-05-15T21:17:56Z",
   "phase": "Read-Only Operations Dashboard",
   "repo": "dev-in-portfolio/the-agent-command-center",
   "source_lineage": "dev-in-portfolio/agent-command-center-3",
@@ -4943,7 +5209,7 @@ then_build_mvp4_authenticated_request_api">Copy MVP-3 validation checklist</butt
     "source_exists": true,
     "source_type": "generated_static_snapshot",
     "source_confidence": "generated_static_snapshot",
-    "generated_at_utc": "2026-05-15T20:57:31Z",
+    "generated_at_utc": "2026-05-15T21:17:59Z",
     "freshness_status": "generated_static_snapshot",
     "snapshot_age_seconds": 0,
     "notes": [
@@ -10305,8 +10571,6 @@ then_build_mvp4_authenticated_request_api">Copy MVP-3 validation checklist</butt
     "model_id": "mvp3-supabase-provider-request-api-scaffold",
     "model_version": "1.0",
     "provider_status_model": {
-      "model_id": "supabase-provider-status-model",
-      "model_version": "1.0",
       "provider": "supabase",
       "project_ref": "mobvzrkcsfbumgbwvkcp",
       "project_url": "https://mobvzrkcsfbumgbwvkcp.supabase.co",
@@ -10319,31 +10583,6 @@ then_build_mvp4_authenticated_request_api">Copy MVP-3 validation checklist</butt
       "browser_service_role_exposure_allowed": false,
       "rls_required_before_production_writes": true,
       "auth_uid_binding_required": true,
-      "allowed_env_names": [
-        "SUPABASE_PROJECT_REF",
-        "SUPABASE_URL",
-        "SUPABASE_ANON_KEY",
-        "SUPABASE_SERVICE_ROLE_KEY",
-        "SUPABASE_DB_PASSWORD",
-        "DATABASE_URL",
-        "MVP_ENABLE_SUPABASE_REQUEST_API",
-        "MVP_ENABLE_REQUEST_API_WRITES",
-        "MVP_ENABLE_SUPABASE_AUTH"
-      ],
-      "missing_env_vars": [
-        "SUPABASE_ANON_KEY",
-        "SUPABASE_SERVICE_ROLE_KEY",
-        "SUPABASE_DB_PASSWORD",
-        "DATABASE_URL"
-      ],
-      "safety_boundary": [
-        "Request API writes are disabled by default.",
-        "Supabase Auth is disabled by default.",
-        "RLS is required before production writes.",
-        "Service role key must never be exposed to browser code.",
-        "Production migrations are not auto-applied.",
-        "Real automation remains disabled."
-      ],
       "current_recommendation": [
         "SUPABASE_PROVIDER_SELECTED",
         "ENV_CONFIGURATION_REQUIRED",
@@ -10351,7 +10590,22 @@ then_build_mvp4_authenticated_request_api">Copy MVP-3 validation checklist</butt
         "REAL_AUTH_BINDING_REQUIRED",
         "NOT_READY_FOR_REAL_AUTOMATION",
         "NEXT_STEP_CONFIGURE_SUPABASE_PROJECT_AND_AUTH"
-      ]
+      ],
+      "missing_env_vars": [
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_DB_PASSWORD",
+        "DATABASE_URL"
+      ],
+      "configured_env_vars": {
+        "SUPABASE_ANON_KEY": false,
+        "SUPABASE_SERVICE_ROLE_KEY": false,
+        "SUPABASE_DB_PASSWORD": false,
+        "DATABASE_URL": false,
+        "MVP_ENABLE_SUPABASE_REQUEST_API": false,
+        "MVP_ENABLE_REQUEST_API_WRITES": false,
+        "MVP_ENABLE_SUPABASE_AUTH": false
+      }
     },
     "env_contract": {
       "provider": "supabase",
@@ -10380,7 +10634,7 @@ then_build_mvp4_authenticated_request_api">Copy MVP-3 validation checklist</butt
         },
         {
           "name": "SUPABASE_ANON_KEY",
-          "purpose": "Browser-safe public key for future Supabase read/auth flows.",
+          "purpose": "Browser-safe public key for future authenticated reads.",
           "required_for_status_only": false,
           "required_for_read_api": true,
           "required_for_write_api": false,
@@ -10390,7 +10644,7 @@ then_build_mvp4_authenticated_request_api">Copy MVP-3 validation checklist</butt
         },
         {
           "name": "SUPABASE_SERVICE_ROLE_KEY",
-          "purpose": "Server-only secret for future admin and write operations.",
+          "purpose": "Server-only secret for admin and future write operations.",
           "required_for_status_only": false,
           "required_for_read_api": false,
           "required_for_write_api": true,
@@ -10400,7 +10654,7 @@ then_build_mvp4_authenticated_request_api">Copy MVP-3 validation checklist</butt
         },
         {
           "name": "SUPABASE_DB_PASSWORD",
-          "purpose": "Database password used for CLI link/setup and optional direct DB access.",
+          "purpose": "Database password used for CLI link/setup and direct access.",
           "required_for_status_only": false,
           "required_for_read_api": false,
           "required_for_write_api": true,
@@ -10575,6 +10829,154 @@ then_build_mvp4_authenticated_request_api">Copy MVP-3 validation checklist</butt
       "REQUEST_API_DISABLED_UNTIL_CONFIGURED",
       "REAL_AUTH_BINDING_REQUIRED",
       "NEXT_STEP_CONFIGURE_SUPABASE_PROJECT_AND_AUTH"
+    ]
+  },
+  "mvp4_auth_rls_request_api_model": {
+    "model_id": "mvp4-supabase-auth-rls-authenticated-request-api",
+    "model_version": "1.0",
+    "auth_policy_model": {
+      "model_id": "supabase-auth-policy-model",
+      "model_version": "1.0",
+      "provider": "supabase_auth",
+      "auth_mode": "bearer_jwt",
+      "user_identity_source": "Authorization header",
+      "required_header": "Authorization: Bearer <token>",
+      "identity_binding_required": true,
+      "auth_uid_binding_required": true,
+      "anonymous_requests_allowed": false,
+      "service_role_browser_exposure_allowed": false,
+      "current_recommendation": [
+        "SUPABASE_AUTH_POLICY_READY",
+        "RLS_POLICY_REQUIRED",
+        "REQUEST_API_REQUIRES_BEARER_TOKEN",
+        "WRITES_DISABLED_UNTIL_REVIEWED",
+        "NOT_READY_FOR_REAL_AUTOMATION"
+      ]
+    },
+    "rls_policy_model": {
+      "model_id": "supabase-rls-policy-model",
+      "model_version": "1.0",
+      "rls_required": true,
+      "tables_requiring_rls": [
+        "app_users",
+        "app_roles",
+        "requests",
+        "request_lifecycle_events",
+        "approvals",
+        "audit_events",
+        "dry_run_results",
+        "no_go_flags"
+      ],
+      "default_policy": "deny_by_default",
+      "request_owner_policy": "auth.uid() owns request",
+      "role_policy": "app_roles controls elevated access",
+      "service_role_usage": "server_admin_only",
+      "browser_service_role_exposure_allowed": false,
+      "current_status": "scaffold_only"
+    },
+    "auth_migration_scaffold": {
+      "file_path": "14_backend/product_runtime/providers/supabase/migrations/002_supabase_auth_rls_policies.sql",
+      "tables": [
+        "app_users",
+        "app_roles",
+        "requests",
+        "request_lifecycle_events",
+        "approvals",
+        "audit_events",
+        "dry_run_results",
+        "no_go_flags"
+      ],
+      "manual_apply_only": true,
+      "rls_required_before_writes": true,
+      "auth_uid_binding_required": true,
+      "service_role_browser_exposure_allowed": false
+    },
+    "endpoint_list": [
+      {
+        "path": "/api/provider-status",
+        "method": "GET",
+        "purpose": "Read-only Supabase provider status",
+        "gated": true
+      },
+      {
+        "path": "/api/auth-status",
+        "method": "GET",
+        "purpose": "Read-only Supabase auth status",
+        "gated": true
+      },
+      {
+        "path": "/api/requests",
+        "method": "GET",
+        "purpose": "Authenticated request API boundary scaffold",
+        "gated": true
+      },
+      {
+        "path": "/api/requests",
+        "method": "POST",
+        "purpose": "Authenticated request write boundary scaffold",
+        "gated": true
+      }
+    ],
+    "request_api_gate_model": {
+      "provider_configured_required": true,
+      "request_api_enabled_required": true,
+      "auth_enabled_required": true,
+      "bearer_token_required": true,
+      "writes_enabled_required_for_post": true,
+      "rls_review_required": true,
+      "anonymous_access_blocked": true,
+      "service_role_never_exposed_to_browser": true,
+      "current_recommendation": [
+        "SUPABASE_AUTH_RLS_SCAFFOLD_READY",
+        "REQUEST_API_REQUIRES_AUTH",
+        "WRITES_DISABLED_UNTIL_RLS_REVIEW",
+        "NOT_READY_FOR_REAL_AUTOMATION",
+        "NEXT_STEP_APPLY_RLS_MIGRATION_AND_ENABLE_READS"
+      ]
+    },
+    "provider_status_model": {
+      "provider": "supabase",
+      "project_ref": "mobvzrkcsfbumgbwvkcp",
+      "project_url": "https://mobvzrkcsfbumgbwvkcp.supabase.co",
+      "production_database_target": "postgres",
+      "production_auth_target": "supabase_auth",
+      "provider_configured": false,
+      "request_api_enabled": false,
+      "request_api_writes_enabled": false,
+      "service_role_required_for_admin_ops": true,
+      "browser_service_role_exposure_allowed": false,
+      "rls_required_before_production_writes": true,
+      "auth_uid_binding_required": true,
+      "current_recommendation": [
+        "SUPABASE_PROVIDER_SELECTED",
+        "ENV_CONFIGURATION_REQUIRED",
+        "REQUEST_API_DISABLED_UNTIL_CONFIGURED",
+        "REAL_AUTH_BINDING_REQUIRED",
+        "NOT_READY_FOR_REAL_AUTOMATION",
+        "NEXT_STEP_CONFIGURE_SUPABASE_PROJECT_AND_AUTH"
+      ],
+      "missing_env_vars": [
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_DB_PASSWORD",
+        "DATABASE_URL"
+      ],
+      "configured_env_vars": {
+        "SUPABASE_ANON_KEY": false,
+        "SUPABASE_SERVICE_ROLE_KEY": false,
+        "SUPABASE_DB_PASSWORD": false,
+        "DATABASE_URL": false,
+        "MVP_ENABLE_SUPABASE_REQUEST_API": false,
+        "MVP_ENABLE_REQUEST_API_WRITES": false,
+        "MVP_ENABLE_SUPABASE_AUTH": false
+      }
+    },
+    "current_recommendation": [
+      "SUPABASE_AUTH_RLS_SCAFFOLD_READY",
+      "REQUEST_API_REQUIRES_AUTH",
+      "WRITES_DISABLED_UNTIL_RLS_REVIEW",
+      "NOT_READY_FOR_REAL_AUTOMATION",
+      "NEXT_STEP_APPLY_RLS_MIGRATION_AND_ENABLE_READS"
     ]
   }
 }</script>

@@ -1,10 +1,14 @@
 const { jsonResponse, errorResponse } = require("./_shared/response");
-const { buildRequestApiBoundary } = require("./_shared/provider_config");
+const { buildSupabaseProviderStatus } = require("./_shared/provider_config");
+const { buildAuthContext } = require("./_shared/auth_context");
 
 const REQUEST_BOUNDARY_MARKERS = {
   SUPABASE_PROVIDER_NOT_CONFIGURED: "SUPABASE_PROVIDER_NOT_CONFIGURED",
   REQUEST_API_DISABLED: "REQUEST_API_DISABLED",
+  AUTH_DISABLED_BY_DEFAULT: "AUTH_DISABLED_BY_DEFAULT",
+  AUTHORIZATION_REQUIRED: "AUTHORIZATION_REQUIRED",
   REQUEST_API_WRITES_DISABLED: "REQUEST_API_WRITES_DISABLED",
+  RLS_POLICY_REQUIRED: "RLS_POLICY_REQUIRED",
 };
 
 exports.handler = async function(event) {
@@ -13,9 +17,92 @@ exports.handler = async function(event) {
     return errorResponse("Method Not Allowed", 405);
   }
 
-  const boundary = buildRequestApiBoundary(method);
-  if (!boundary.body.error_code && REQUEST_BOUNDARY_MARKERS.SUPABASE_PROVIDER_NOT_CONFIGURED) {
-    boundary.body.request_api_markers = REQUEST_BOUNDARY_MARKERS;
+  const providerStatus = buildSupabaseProviderStatus();
+  const authContext = buildAuthContext({
+    authorizationHeader: event.headers && (event.headers.authorization || event.headers.Authorization),
+    providerStatus,
+  });
+  const boundaryMarkers = {
+    ...REQUEST_BOUNDARY_MARKERS,
+    provider_configured: Boolean(providerStatus.provider_configured),
+    request_api_enabled: Boolean(providerStatus.request_api_enabled),
+    request_api_writes_enabled: Boolean(providerStatus.request_api_writes_enabled),
+  };
+
+  if (!providerStatus.provider_configured) {
+    return jsonResponse({
+      ok: false,
+      error_code: REQUEST_BOUNDARY_MARKERS.SUPABASE_PROVIDER_NOT_CONFIGURED,
+      request_api_state: "provider_not_configured",
+      provider_status: providerStatus,
+      auth_context: authContext,
+      request_api_markers: boundaryMarkers,
+    }, 409);
   }
-  return jsonResponse(boundary.body, boundary.statusCode);
+
+  if (!providerStatus.request_api_enabled) {
+    return jsonResponse({
+      ok: false,
+      error_code: REQUEST_BOUNDARY_MARKERS.REQUEST_API_DISABLED,
+      request_api_state: "disabled_by_default",
+      provider_status: providerStatus,
+      auth_context: authContext,
+      request_api_markers: boundaryMarkers,
+    }, 409);
+  }
+
+  if (!authContext.auth_enabled) {
+    return jsonResponse({
+      ok: false,
+      error_code: REQUEST_BOUNDARY_MARKERS.AUTH_DISABLED_BY_DEFAULT,
+      request_api_state: "auth_disabled_by_default",
+      provider_status: providerStatus,
+      auth_context: authContext,
+      request_api_markers: boundaryMarkers,
+    }, 409);
+  }
+
+  if (!authContext.bearer_token_present) {
+    return jsonResponse({
+      ok: false,
+      error_code: REQUEST_BOUNDARY_MARKERS.AUTHORIZATION_REQUIRED,
+      request_api_state: "authorization_required",
+      provider_status: providerStatus,
+      auth_context: authContext,
+      request_api_markers: boundaryMarkers,
+    }, 401);
+  }
+
+  if (method === "POST" && !providerStatus.request_api_writes_enabled) {
+    return jsonResponse({
+      ok: false,
+      error_code: REQUEST_BOUNDARY_MARKERS.REQUEST_API_WRITES_DISABLED,
+      request_api_state: "writes_disabled_by_default",
+      provider_status: providerStatus,
+      auth_context: authContext,
+      request_api_markers: boundaryMarkers,
+    }, 409);
+  }
+
+  if (method === "POST") {
+    return jsonResponse({
+      ok: false,
+      error_code: REQUEST_BOUNDARY_MARKERS.RLS_POLICY_REQUIRED,
+      request_api_state: "rls_review_required",
+      provider_status: providerStatus,
+      auth_context: authContext,
+      request_api_markers: boundaryMarkers,
+      note: "MVP-4 keeps production writes disabled until RLS review is explicitly completed.",
+    }, 409);
+  }
+
+  return jsonResponse({
+    ok: true,
+    error_code: null,
+    request_api_state: "AUTHENTICATED_REQUEST_API_BOUNDARY_ONLY",
+    provider_status: providerStatus,
+    auth_context: authContext,
+    request_api_markers: boundaryMarkers,
+    note: "MVP-4 keeps request reads boundary-only and does not execute Supabase network calls.",
+  });
 };

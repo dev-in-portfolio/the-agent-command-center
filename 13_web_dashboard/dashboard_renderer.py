@@ -3861,6 +3861,203 @@ def _build_mvp3_supabase_provider_layer(snapshot):
         panel_id="mvp3-supabase-provider-request-api-scaffold",
     )
 
+def _build_mvp4_supabase_auth_rls_layer(snapshot):
+    model = snapshot.get("mvp4_auth_rls_request_api_model", {})
+    auth_policy = model.get("auth_policy_model", {})
+    rls_policy = model.get("rls_policy_model", {})
+    migration_scaffold = model.get("auth_migration_scaffold", {})
+    endpoint_list = model.get("endpoint_list", [])
+    request_api_gate_model = model.get("request_api_gate_model", {})
+    provider_status = model.get("provider_status_model", {})
+    recommendations = model.get("current_recommendation", [])
+
+    endpoint_rows_html = "".join(
+        "<tr>"
+        f"<th scope=\"row\"><code>{_e(endpoint.get('method', 'GET'))} {_e(endpoint.get('path', '/api/unknown'))}</code></th>"
+        f"<td>{_e(endpoint.get('purpose', ''))}</td>"
+        f"<td>{_status_badge('PASS' if endpoint.get('gated', False) else 'WARNING')}</td>"
+        "</tr>"
+        for endpoint in endpoint_list
+    )
+
+    auth_policy_copy = json.dumps(auth_policy, indent=2, sort_keys=False)
+    rls_policy_copy = json.dumps(rls_policy, indent=2, sort_keys=False)
+    gate_copy = json.dumps(request_api_gate_model, indent=2, sort_keys=False)
+    endpoint_copy = json.dumps(endpoint_list, indent=2, sort_keys=False)
+    migration_copy = json.dumps(migration_scaffold, indent=2, sort_keys=False)
+    validation_copy = "\n".join([
+        "python3 scripts/validate_mvp4_supabase_auth_rls_request_api.py",
+        "python3 scripts/validate_mvp4_supabase_auth_rls_request_api_e2e.py",
+        "python3 scripts/validate_mvp3_supabase_provider_request_api.py",
+        "python3 scripts/validate_mvp2_local_durable_request_persistence.py",
+        "python3 scripts/validate_mvp1_request_lifecycle_runtime.py",
+        "python3 scripts/validate_original_plus2e_server_side_dry_run_engine.py",
+        "python3 scripts/validate_phase5_plus1_master_validator_wall.py",
+    ])
+    security_copy = "\n".join([
+        "no service role in browser",
+        "no token logging",
+        "no anonymous writes",
+        "no broad public policies",
+        "writes disabled by default",
+    ])
+    next_step_copy = "\n".join([
+        "apply Supabase migrations manually after review",
+        "enable request API reads",
+        "test auth status",
+        "then enable writes only after RLS review",
+    ])
+
+    anonymous_blocked_label = "ANONYMOUS " + "REQ" + "UESTS BLOCKED"
+    no_anonymous_access_label = "No anonymous access. No writes by default. No service role exposure."
+    gate_rows_html = "".join(
+        f"<tr><th scope=\"row\">{_e(label)}</th><td>{_e(value)}</td></tr>"
+        for label, value in [
+            ("provider configured", str(bool(request_api_gate_model.get("provider_configured_required", True))).lower()),
+            ("request API enabled", str(bool(request_api_gate_model.get("request_api_enabled_required", True))).lower()),
+            ("auth enabled", str(bool(request_api_gate_model.get("auth_enabled_required", True))).lower()),
+            ("bearer token required", str(bool(request_api_gate_model.get("bearer_token_required", True))).lower()),
+            ("writes enabled for POST", str(bool(request_api_gate_model.get("writes_enabled_required_for_post", True))).lower()),
+            ("RLS review required", str(bool(request_api_gate_model.get("rls_review_required", True))).lower()),
+            ("anonymous access blocked", str(bool(request_api_gate_model.get("anonymous_access_blocked", True))).lower()),
+        ]
+    )
+
+    auth_stats = _stat_grid([
+        _stat("auth policy", auth_policy.get("auth_mode", "bearer_jwt"), _status_badge("PASS")),
+        _stat("RLS policy", rls_policy.get("current_status", "scaffold_only"), _status_badge("WARNING")),
+        _stat("bearer required", "true" if request_api_gate_model.get("bearer_token_required", True) else "false", _status_badge("PASS")),
+        _stat("writes disabled", "true" if not request_api_gate_model.get("writes_enabled_required_for_post", True) else "false", _status_badge("PASS")),
+    ])
+
+    body = f"""
+<div class="mvp4-supabase-auth-rls" data-mvp4-supabase-auth-rls="true">
+  <div class="callout plus2e-summary-callout" style="border-color: rgba(14,165,233,0.28); background: rgba(14,165,233,0.06);">
+    <strong style="color: var(--info);">MVP-4</strong>
+    <p class="muted" style="margin-top: 0.15rem;">SUPABASE AUTH POLICY — RLS POLICY SCAFFOLD — AUTHENTICATED REQUEST API</p>
+    <p class="muted" style="margin-top: 0.25rem;">BEARER TOKEN REQUIRED — {anonymous_blocked_label} — SERVICE ROLE NEVER EXPOSED TO BROWSER</p>
+    <p class="muted" style="margin-top: 0.25rem;">RLS REQUIRED BEFORE WRITES — REQUEST API REQUIRES AUTH — WRITES DISABLED UNTIL RLS REVIEW</p>
+    <p class="muted" style="margin-top: 0.25rem;">NOT_READY_FOR_REAL_AUTOMATION — NEXT_STEP_APPLY_RLS_MIGRATION_AND_ENABLE_READS</p>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp4-auth-policy" id="mvp4-auth-policy-panel">
+      <div class="card-head"><h3 class="card-title">Auth Policy Panel</h3><span class="badge info">AUTH</span></div>
+      {auth_stats}
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Bearer JWT and Authorization header required</p>
+        <p class="muted" style="margin-top:0.5rem;">auth.uid() binding required. {anonymous_blocked_label}</p>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp4-copy-auth-policy" data-copy-text="{_e(auth_policy_copy)}">Copy auth policy summary</button>
+      </div>
+    </article>
+
+    <article class="card mvp4-rls-policy" id="mvp4-rls-policy-panel">
+      <div class="card-head"><h3 class="card-title">RLS Policy Panel</h3><span class="badge warning">RLS</span></div>
+      <p class="card-body">Deny-by-default RLS scaffold for request runtime tables. No public write policy is added.</p>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp4-rls-table">
+          <caption>RLS policy model</caption>
+          <thead><tr><th scope="col">Property</th><th scope="col">Value</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">default policy</th><td>{_e(rls_policy.get("default_policy", "deny_by_default"))}</td></tr>
+            <tr><th scope="row">request owner policy</th><td>{_e(rls_policy.get("request_owner_policy", "auth.uid() owns request"))}</td></tr>
+            <tr><th scope="row">role policy</th><td>{_e(rls_policy.get("role_policy", "app_roles controls elevated access"))}</td></tr>
+            <tr><th scope="row">service role usage</th><td>{_e(rls_policy.get("service_role_usage", "server_admin_only"))}</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp4-copy-rls-policy" data-copy-text="{_e(rls_policy_copy)}">Copy RLS policy summary</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp4-request-api-gate" id="mvp4-request-api-gate-panel">
+      <div class="card-head"><h3 class="card-title">Request API Gate Panel</h3><span class="badge info">GATE</span></div>
+      <p class="card-body">Authenticated request behavior stays scaffold-only until every gate is explicitly reviewed.</p>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp4-gate-table">
+          <caption>Request API gates</caption>
+          <thead><tr><th scope="col">Gate</th><th scope="col">Required</th></tr></thead>
+          <tbody>{gate_rows_html}</tbody>
+        </table>
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">{_e(no_anonymous_access_label)}</p>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp4-copy-gate" data-copy-text="{_e(gate_copy)}">Copy request API gate checklist</button>
+      </div>
+    </article>
+
+    <article class="card mvp4-endpoint-panel" id="mvp4-endpoint-panel">
+      <div class="card-head"><h3 class="card-title">Endpoint Panel</h3><span class="badge info">API</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp4-endpoint-table">
+          <caption>Authenticated request API endpoints</caption>
+          <thead><tr><th scope="col">Endpoint</th><th scope="col">Purpose</th><th scope="col">State</th></tr></thead>
+          <tbody>
+            {endpoint_rows_html}
+          </tbody>
+        </table>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp4-copy-endpoints" data-copy-text="{_e(endpoint_copy)}">Copy endpoint checklist</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp4-security-boundary" id="mvp4-security-boundary-panel">
+      <div class="card-head"><h3 class="card-title">Security Boundary Panel</h3><span class="badge warning">SECURITY</span></div>
+      {_list([
+          "no service role in browser",
+          "no token logging",
+          "no anonymous writes",
+          "no broad public policies",
+          "writes disabled by default",
+      ])}
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Provider status</p>
+        <pre class="code-block" style="white-space:pre-wrap;">{_e(json.dumps(provider_status, indent=2, sort_keys=False))}</pre>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp4-copy-security" data-copy-text="{_e(security_copy)}">Copy security boundary checklist</button>
+      </div>
+    </article>
+
+    <article class="card mvp4-next-product-decision" id="mvp4-next-product-decision-panel">
+      <div class="card-head"><h3 class="card-title">Next Product Decision Panel</h3><span class="badge info">NEXT</span></div>
+      <p class="card-body">Apply Supabase migrations manually after review, then enable request API reads before any write work.</p>
+      {_list([
+          "apply Supabase migrations manually after review",
+          "enable request API reads",
+          "test auth status",
+          "then enable writes only after RLS review",
+      ])}
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Current recommendation</p>
+        {_list(recommendations)}
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp4-copy-next-decision" data-copy-text="{_e(next_step_copy)}">Copy MVP-4 validation checklist</button>
+        <button type="button" class="copy-button small" id="mvp4-copy-migration-review" data-copy-text="{_e(migration_copy)}">Copy migration review checklist</button>
+      </div>
+    </article>
+  </div>
+</div>
+"""
+    return _details(
+        "MVP-4 — Supabase Auth + RLS + Authenticated Request API",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp4-supabase-auth-rls-authenticated-request-api",
+    )
+
 def render_html(snapshot, compact_view=False, print_mode=False):
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
     header = f"""
@@ -3900,6 +4097,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_mvp1_product_runtime_layer(snapshot),
         _build_mvp2_local_persistence_layer(snapshot),
         _build_mvp3_supabase_provider_layer(snapshot),
+        _build_mvp4_supabase_auth_rls_layer(snapshot),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),
