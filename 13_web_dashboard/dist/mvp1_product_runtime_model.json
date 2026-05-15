@@ -99,7 +99,7 @@
         "adapter": "neon_postgres",
         "required_env_vars": [
           "NEON_API_KEY",
-          "DATABASE_URL"
+          "NEON_CONNECTION_STRING"
         ],
         "production_suitability": "future_candidate",
         "risk_notes": [
@@ -121,7 +121,7 @@
       {
         "adapter": "supabase_postgres",
         "required_env_vars": [
-          "DATABASE_URL",
+          "SUPABASE_CONNECTION_STRING",
           "SUPABASE_URL",
           "SUPABASE_ANON_KEY"
         ],
@@ -184,7 +184,7 @@
       {
         "adapter": "external_managed_postgres",
         "required_env_vars": [
-          "DATABASE_URL"
+          "MANAGED_POSTGRES_CONNECTION_STRING"
         ],
         "production_suitability": "future_candidate",
         "risk_notes": [

@@ -52,7 +52,6 @@ class RequestLifecycleOrchestrator:
             "create_pr",
             "mutate",
             "shell",
-            "subprocess",
         ]
         combined = " ".join(
             str(payload.get(field, ""))
@@ -191,6 +190,7 @@ class RequestLifecycleOrchestrator:
             "push_branch",
             "create_pr",
             "trigger_workflow",
+            "local_process_execution",
         ]
         no_go_flags = [
             "real_auth_provider_missing",

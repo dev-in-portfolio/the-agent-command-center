@@ -2677,7 +2677,7 @@
         <table class="data-table" id="mvp1-adapter-table">
           <caption>Persistence adapter choices</caption>
           <thead><tr><th scope="col">Adapter</th><th scope="col">Required env vars</th><th scope="col">Production suitability</th><th scope="col">Risk notes</th><th scope="col">Migration requirements</th><th scope="col">Local dev notes</th><th scope="col">Status</th></tr></thead>
-          <tbody><tr><th scope="row">neon_postgres</th><td>NEON_API_KEY, DATABASE_URL</td><td>future_candidate</td><td>Managed database path requires a firm auth decision and migration discipline.; Do not connect during this scaffold phase.</td><td>schema migration runner; request lifecycle tables; audit append durability; approval record durability</td><td>Do not read env vars in this phase.; Keep the adapter as a design document only.</td><td><span class="badge unknown">NOT_CONFIGURED</span></td></tr><tr><th scope="row">supabase_postgres</th><td>DATABASE_URL, SUPABASE_URL, SUPABASE_ANON_KEY</td><td>future_candidate</td><td>Strong product fit for hosted persistence, but it must stay disconnected until provider decisions are made.; Do not wire browser-side credentials here.</td><td>schema migration runner; request lifecycle tables; audit append durability; approval record durability</td><td>No env reads in this phase.; Keep the strategy read-only and declarative.</td><td><span class="badge unknown">NOT_CONFIGURED</span></td></tr><tr><th scope="row">sqlite_local_dev_only</th><td>None</td><td>local_dev_only</td><td>Useful for local iteration only.; Must not be treated as durable production persistence.</td><td>local schema bootstrap; file-backed dev database</td><td>Suitable for developer preview runs.; Keep it out of deployment flows.</td><td><span class="badge unknown">NOT_CONFIGURED</span></td></tr><tr><th scope="row">netlify_blobs</th><td>NETLIFY_AUTH_TOKEN, NETLIFY_SITE_ID</td><td>future_candidate</td><td>May work for lightweight artifact persistence, but it is not configured in this phase.; Do not treat blob storage as a database replacement without a deliberate design review.</td><td>blob layout contract; request lifecycle index contract; audit snapshot contract</td><td>Keep the provider unconnected while the runtime scaffold is being validated.</td><td><span class="badge unknown">NOT_CONFIGURED</span></td></tr><tr><th scope="row">external_managed_postgres</th><td>DATABASE_URL</td><td>future_candidate</td><td>Use only after auth and lifecycle durability decisions are locked in.; Do not connect any external managed database in this scaffold phase.</td><td>schema migration runner; request lifecycle tables; audit append durability; approval record durability; dry-run result durability</td><td>Keep this as a strategic option until the provider decision is made.</td><td><span class="badge unknown">NOT_CONFIGURED</span></td></tr></tbody>
+          <tbody><tr><th scope="row">neon_postgres</th><td>NEON_API_KEY, NEON_CONNECTION_STRING</td><td>future_candidate</td><td>Managed database path requires a firm auth decision and migration discipline.; Do not connect during this scaffold phase.</td><td>schema migration runner; request lifecycle tables; audit append durability; approval record durability</td><td>Do not read env vars in this phase.; Keep the adapter as a design document only.</td><td><span class="badge unknown">NOT_CONFIGURED</span></td></tr><tr><th scope="row">supabase_postgres</th><td>SUPABASE_CONNECTION_STRING, SUPABASE_URL, SUPABASE_ANON_KEY</td><td>future_candidate</td><td>Strong product fit for hosted persistence, but it must stay disconnected until provider decisions are made.; Do not wire browser-side credentials here.</td><td>schema migration runner; request lifecycle tables; audit append durability; approval record durability</td><td>No env reads in this phase.; Keep the strategy read-only and declarative.</td><td><span class="badge unknown">NOT_CONFIGURED</span></td></tr><tr><th scope="row">sqlite_local_dev_only</th><td>None</td><td>local_dev_only</td><td>Useful for local iteration only.; Must not be treated as durable production persistence.</td><td>local schema bootstrap; file-backed dev database</td><td>Suitable for developer preview runs.; Keep it out of deployment flows.</td><td><span class="badge unknown">NOT_CONFIGURED</span></td></tr><tr><th scope="row">netlify_blobs</th><td>NETLIFY_AUTH_TOKEN, NETLIFY_SITE_ID</td><td>future_candidate</td><td>May work for lightweight artifact persistence, but it is not configured in this phase.; Do not treat blob storage as a database replacement without a deliberate design review.</td><td>blob layout contract; request lifecycle index contract; audit snapshot contract</td><td>Keep the provider unconnected while the runtime scaffold is being validated.</td><td><span class="badge unknown">NOT_CONFIGURED</span></td></tr><tr><th scope="row">external_managed_postgres</th><td>MANAGED_POSTGRES_CONNECTION_STRING</td><td>future_candidate</td><td>Use only after auth and lifecycle durability decisions are locked in.; Do not connect any external managed database in this scaffold phase.</td><td>schema migration runner; request lifecycle tables; audit append durability; approval record durability; dry-run result durability</td><td>Keep this as a strategic option until the provider decision is made.</td><td><span class="badge unknown">NOT_CONFIGURED</span></td></tr></tbody>
         </table>
       </div>
       <div class="button-row" style="margin-top:0.75rem;">
@@ -2701,7 +2701,7 @@
       &quot;adapter&quot;: &quot;neon_postgres&quot;,
       &quot;required_env_vars&quot;: [
         &quot;NEON_API_KEY&quot;,
-        &quot;DATABASE_URL&quot;
+        &quot;NEON_CONNECTION_STRING&quot;
       ],
       &quot;production_suitability&quot;: &quot;future_candidate&quot;,
       &quot;risk_notes&quot;: [
@@ -2723,7 +2723,7 @@
     {
       &quot;adapter&quot;: &quot;supabase_postgres&quot;,
       &quot;required_env_vars&quot;: [
-        &quot;DATABASE_URL&quot;,
+        &quot;SUPABASE_CONNECTION_STRING&quot;,
         &quot;SUPABASE_URL&quot;,
         &quot;SUPABASE_ANON_KEY&quot;
       ],
@@ -2786,7 +2786,7 @@
     {
       &quot;adapter&quot;: &quot;external_managed_postgres&quot;,
       &quot;required_env_vars&quot;: [
-        &quot;DATABASE_URL&quot;
+        &quot;MANAGED_POSTGRES_CONNECTION_STRING&quot;
       ],
       &quot;production_suitability&quot;: &quot;future_candidate&quot;,
       &quot;risk_notes&quot;: [
@@ -3151,7 +3151,7 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-1 valid
         <div class="stat-grid">
     <div class="stat">
       <span>Generated at</span>
-      <strong>2026-05-15T19:07:52Z</strong>
+      <strong>2026-05-15T19:26:36Z</strong>
       
     </div>
     
@@ -3358,8 +3358,8 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-1 valid
     </main>
   </div>
   <script type="application/json" id="dashboard-data">{
-  "dashboard_id": "PH3-20260515-190749",
-  "created_at_utc": "2026-05-15T19:07:49Z",
+  "dashboard_id": "PH3-20260515-192632",
+  "created_at_utc": "2026-05-15T19:26:32Z",
   "phase": "Read-Only Operations Dashboard",
   "repo": "dev-in-portfolio/the-agent-command-center",
   "source_lineage": "dev-in-portfolio/agent-command-center-3",
@@ -4366,7 +4366,7 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-1 valid
     "source_exists": true,
     "source_type": "generated_static_snapshot",
     "source_confidence": "generated_static_snapshot",
-    "generated_at_utc": "2026-05-15T19:07:52Z",
+    "generated_at_utc": "2026-05-15T19:26:36Z",
     "freshness_status": "generated_static_snapshot",
     "snapshot_age_seconds": 0,
     "notes": [
@@ -9489,7 +9489,7 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-1 valid
           "adapter": "neon_postgres",
           "required_env_vars": [
             "NEON_API_KEY",
-            "DATABASE_URL"
+            "NEON_CONNECTION_STRING"
           ],
           "production_suitability": "future_candidate",
           "risk_notes": [
@@ -9511,7 +9511,7 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-1 valid
         {
           "adapter": "supabase_postgres",
           "required_env_vars": [
-            "DATABASE_URL",
+            "SUPABASE_CONNECTION_STRING",
             "SUPABASE_URL",
             "SUPABASE_ANON_KEY"
           ],
@@ -9574,7 +9574,7 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-1 valid
         {
           "adapter": "external_managed_postgres",
           "required_env_vars": [
-            "DATABASE_URL"
+            "MANAGED_POSTGRES_CONNECTION_STRING"
           ],
           "production_suitability": "future_candidate",
           "risk_notes": [
