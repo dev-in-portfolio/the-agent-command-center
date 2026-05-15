@@ -3667,6 +3667,200 @@ def _build_mvp2_local_persistence_layer(snapshot):
         panel_id="mvp2-local-durable-request-persistence"
     )
 
+
+def _build_mvp3_supabase_provider_layer(snapshot):
+    model = snapshot.get("mvp3_supabase_provider_model", {})
+    provider_status = model.get("provider_status_model", {})
+    env_contract = model.get("env_contract", {})
+    provider_decision = model.get("provider_decision", {})
+    request_api_boundary = model.get("request_api_boundary", {})
+    migration_scaffold = model.get("supabase_migration_scaffold_summary", {})
+    security_boundary = model.get("security_boundary", [])
+    product_gap = model.get("product_gap", [])
+    next_step = model.get("next_product_step", [])
+    recommendations = model.get("current_recommendation", [])
+
+    env_rows_html = "".join(
+        "<tr>"
+        f"<th scope=\"row\"><code>{_e(item.get('name', 'unknown'))}</code></th>"
+        f"<td>{_e(item.get('purpose', ''))}</td>"
+        f"<td>{_status_badge('PASS' if not item.get('browser_exposure_allowed', False) else 'FAIL')}</td>"
+        f"<td>{_e('yes' if item.get('current_required', False) else 'no')}</td>"
+        "</tr>"
+        for item in env_contract.get("environment_variables", [])
+    )
+    boundary_rows_html = "".join(
+        "<tr>"
+        f"<th scope=\"row\"><code>{_e(endpoint.get('method', 'GET'))} {_e(endpoint.get('path', '/api/unknown'))}</code></th>"
+        f"<td>{_e(endpoint.get('purpose', ''))}</td>"
+        f"<td>{_e(endpoint.get('boundary_state', 'read_only'))}</td>"
+        "</tr>"
+        for endpoint in request_api_boundary.get("endpoints", [])
+    )
+    migration_rows_html = "".join(
+        f"<tr><th scope=\"row\"><code>{_e(table)}</code></th><td>{_status_badge('PASS')}</td></tr>"
+        for table in migration_scaffold.get("tables", [])
+    )
+
+    provider_summary_copy = json.dumps(provider_decision, indent=2, sort_keys=False)
+    env_contract_copy = json.dumps(env_contract, indent=2, sort_keys=False)
+    boundary_copy = json.dumps(request_api_boundary, indent=2, sort_keys=False)
+    migration_copy = json.dumps(migration_scaffold, indent=2, sort_keys=False)
+    security_copy = "\n".join(security_boundary)
+    gap_copy = "\n".join(product_gap)
+    next_step_copy = "\n".join(next_step)
+    validation_copy = "\n".join([
+        "python3 scripts/validate_mvp3_supabase_provider_request_api.py",
+        "python3 scripts/validate_mvp3_supabase_provider_request_api_e2e.py",
+        "python3 scripts/validate_mvp2_local_durable_request_persistence.py",
+        "python3 scripts/validate_mvp1_request_lifecycle_runtime.py",
+        "python3 scripts/validate_original_plus2e_server_side_dry_run_engine.py",
+        "python3 scripts/validate_phase5_plus1_master_validator_wall.py",
+    ])
+
+    provider_stats = _stat_grid([
+        _stat("database provider", provider_decision.get("selected_database_provider", "Supabase Postgres"), _status_badge("PASS")),
+        _stat("auth direction", provider_decision.get("selected_auth_provider", "Supabase Auth"), _status_badge("PASS")),
+        _stat("project ref", provider_decision.get("project_ref", "mobvzrkcsfbumgbwvkcp"), _status_badge("INFO")),
+        _stat("configured status", provider_decision.get("configured_status", "not_configured"), _status_badge("DISABLED")),
+    ])
+
+    body = f"""
+<div class="mvp3-supabase-provider" data-mvp3-supabase-provider="true">
+  <div class="callout plus2e-summary-callout" style="border-color: rgba(16,185,129,0.28); background: rgba(16,185,129,0.06);">
+    <strong style="color: var(--success);">MVP-3</strong>
+    <p class="muted" style="margin-top: 0.15rem;">SUPABASE PROVIDER SELECTED — PRODUCTION POSTGRES TARGET — SUPABASE AUTH TARGET</p>
+    <p class="muted" style="margin-top: 0.25rem;">ENV CONFIGURATION REQUIRED — REQUEST API DISABLED UNTIL CONFIGURED — REQUEST API WRITES DISABLED</p>
+    <p class="muted" style="margin-top: 0.25rem;">SERVICE ROLE NEVER EXPOSED TO BROWSER — RLS REQUIRED BEFORE PRODUCTION WRITES — REAL AUTH BINDING REQUIRED</p>
+    <p class="muted" style="margin-top: 0.25rem;">NOT_READY_FOR_REAL_AUTOMATION — NEXT_STEP_CONFIGURE_SUPABASE_PROJECT_AND_AUTH</p>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp3-provider-decision" id="mvp3-provider-decision-panel">
+      <div class="card-head"><h3 class="card-title">Provider Decision Panel</h3><span class="badge info">DECISION</span></div>
+      {provider_stats}
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp3-provider-table">
+          <caption>Supabase provider decision</caption>
+          <thead><tr><th scope="col">Property</th><th scope="col">Value</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">selected database provider</th><td>{_e(provider_decision.get("selected_database_provider", "Supabase Postgres"))}</td></tr>
+            <tr><th scope="row">selected auth direction</th><td>{_e(provider_decision.get("selected_auth_provider", "Supabase Auth"))}</td></tr>
+            <tr><th scope="row">project ref</th><td><code>{_e(provider_decision.get("project_ref", "mobvzrkcsfbumgbwvkcp"))}</code></td></tr>
+            <tr><th scope="row">project url</th><td><code>{_e(provider_decision.get("project_url", "https://mobvzrkcsfbumgbwvkcp.supabase.co"))}</code></td></tr>
+            <tr><th scope="row">configured status</th><td>{_e(provider_decision.get("configured_status", "not_configured"))}</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp3-copy-provider-summary" data-copy-text="{_e(provider_summary_copy)}">Copy Supabase provider summary</button>
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Current recommendation</p>
+        {_list(recommendations)}
+      </div>
+    </article>
+
+    <article class="card mvp3-env-contract" id="mvp3-env-contract-panel">
+      <div class="card-head"><h3 class="card-title">Env Contract Panel</h3><span class="badge warning">ENV</span></div>
+      <p class="card-body">Environment variable names are documented only. No values are shown.</p>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp3-env-table">
+          <caption>Supabase environment contract</caption>
+          <thead><tr><th scope="col">Env name</th><th scope="col">Purpose</th><th scope="col">Browser safe</th><th scope="col">Current required</th></tr></thead>
+          <tbody>{env_rows_html}</tbody>
+        </table>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp3-copy-env-contract" data-copy-text="{_e(env_contract_copy)}">Copy env contract</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp3-request-api-boundary" id="mvp3-request-api-boundary-panel">
+      <div class="card-head"><h3 class="card-title">Request API Boundary Panel</h3><span class="badge info">API</span></div>
+      <p class="card-body">The provider-status endpoint and request API boundary stay disabled until configuration is present.</p>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp3-request-boundary-table">
+          <caption>Request API boundary</caption>
+          <thead><tr><th scope="col">Endpoint</th><th scope="col">Purpose</th><th scope="col">Boundary state</th></tr></thead>
+          <tbody>{boundary_rows_html}</tbody>
+        </table>
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Disabled unless configured</p>
+        {_list(["request API reads stay disabled by default", "request API writes stay disabled by default", "no Supabase network calls are executed in MVP-3"])}
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp3-copy-boundary" data-copy-text="{_e(boundary_copy)}">Copy request API boundary</button>
+      </div>
+    </article>
+
+    <article class="card mvp3-supabase-migration-scaffold" id="mvp3-supabase-migration-scaffold-panel">
+      <div class="card-head"><h3 class="card-title">Supabase Migration Scaffold Panel</h3><span class="badge warning">MIGRATION</span></div>
+      <p class="card-body">Postgres schema scaffold only. Apply manually after provider and auth review.</p>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp3-migration-table">
+          <caption>Supabase migration scaffold tables</caption>
+          <thead><tr><th scope="col">Table</th><th scope="col">State</th></tr></thead>
+          <tbody>{migration_rows_html}</tbody>
+        </table>
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;"><code>{_e(migration_scaffold.get("file_path", "14_backend/product_runtime/providers/supabase/migrations/001_supabase_request_runtime.sql"))}</code></p>
+        <p class="muted" style="margin-top:0.5rem;">RLS required before production writes. auth.uid() binding required.</p>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp3-copy-migration" data-copy-text="{_e(migration_copy)}">Copy migration scaffold summary</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp3-security-boundary" id="mvp3-security-boundary-panel">
+      <div class="card-head"><h3 class="card-title">Security Boundary Panel</h3><span class="badge warning">SECURITY</span></div>
+      {_list(security_boundary)}
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Netlify environment status model</p>
+        <pre class="code-block" style="white-space:pre-wrap;">{_e(json.dumps(provider_status, indent=2, sort_keys=False))}</pre>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp3-copy-security" data-copy-text="{_e(security_copy)}">Copy security checklist</button>
+      </div>
+    </article>
+
+    <article class="card mvp3-product-gap" id="mvp3-product-gap-panel">
+      <div class="card-head"><h3 class="card-title">Product Gap Panel</h3><span class="badge warning">GAPS</span></div>
+      {_list(product_gap)}
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp3-copy-gap" data-copy-text="{_e(gap_copy)}">Copy next Supabase setup checklist</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="card mvp3-next-product-decision" id="mvp3-next-product-decision-panel">
+    <div class="card-head"><h3 class="card-title">Next Product Decision Panel</h3><span class="badge info">NEXT</span></div>
+    <p class="card-body">Configure Supabase Auth policy and RLS before building the authenticated request API.</p>
+    {_list(next_step)}
+    <div class="callout" style="margin-top:0.75rem;">
+      <p class="muted" style="margin:0;">Current recommendation</p>
+      {_list(recommendations)}
+    </div>
+    <div class="button-row" style="margin-top:0.75rem;">
+      <button type="button" class="copy-button small" id="mvp3-copy-next-step" data-copy-text="{_e(next_step_copy)}">Copy MVP-3 validation checklist</button>
+    </div>
+  </div>
+</div>
+"""
+    return _details(
+        "MVP-3 — Supabase Provider + Request API Scaffold",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp3-supabase-provider-request-api-scaffold",
+    )
+
 def render_html(snapshot, compact_view=False, print_mode=False):
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
     header = f"""
@@ -3705,6 +3899,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_plus2e_server_side_dry_run_engine_layer(),
         _build_mvp1_product_runtime_layer(snapshot),
         _build_mvp2_local_persistence_layer(snapshot),
+        _build_mvp3_supabase_provider_layer(snapshot),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),
