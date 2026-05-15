@@ -1,0 +1,35 @@
+{
+  "model_id": "supabase-controlled-request-create-model",
+  "model_version": "1.0",
+  "project_ref": "mobvzrkcsfbumgbwvkcp",
+  "supabase_url": "https://mobvzrkcsfbumgbwvkcp.supabase.co",
+  "write_mode": "controlled_authenticated_create_only",
+  "endpoint": "/api/requests?action=create",
+  "method": "POST",
+  "uses_anon_key": true,
+  "uses_user_bearer_token": true,
+  "uses_service_role": false,
+  "requires_rls": true,
+  "requires_valid_user_token": true,
+  "requires_write_flag": true,
+  "write_flag": "MVP_ENABLE_REQUEST_API_WRITES",
+  "allowed_write": [
+    "create_request"
+  ],
+  "blocked_writes": [
+    "update_request",
+    "delete_request",
+    "approve_request",
+    "execute_request",
+    "create_lifecycle_event_directly",
+    "create_audit_event_directly"
+  ],
+  "automation_enabled": false,
+  "current_recommendation": [
+    "CONTROLLED_REQUEST_CREATE_WRITE_IMPLEMENTED",
+    "VERIFY_WITH_REAL_USER_TOKEN",
+    "WRITES_LIMITED_TO_CREATE_ONLY",
+    "UPDATE_DELETE_EXECUTE_BLOCKED",
+    "NOT_READY_FOR_REAL_AUTOMATION"
+  ]
+}
