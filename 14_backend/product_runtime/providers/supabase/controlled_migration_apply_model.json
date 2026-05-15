@@ -1,0 +1,38 @@
+{
+  "model_id": "supabase-controlled-migration-apply-model",
+  "model_version": "1.0",
+  "project_ref": "mobvzrkcsfbumgbwvkcp",
+  "project_url": "https://mobvzrkcsfbumgbwvkcp.supabase.co",
+  "status": "applied",
+  "required_migrations": [
+    "001_supabase_request_runtime.sql",
+    "002_supabase_auth_rls_policies.sql"
+  ],
+  "apply_mode": "controlled_cli_apply",
+  "migration_apply_allowed_in_this_phase": true,
+  "required_preflight": [
+    "supabase_cli_available",
+    "linked_project_ref_matches",
+    "readiness_checker_passes",
+    "no_secret_leaks",
+    "no_broad_public_writes",
+    "writes_flag_remains_false"
+  ],
+  "forbidden": [
+    "print_secrets",
+    "commit_secrets",
+    "expose_service_role_to_browser",
+    "enable_writes",
+    "automation"
+  ],
+  "current_recommendation": [
+    "MIGRATION_APPLIED",
+    "CONTROLLED_MIGRATION_APPLY_READY",
+    "APPLY_SCHEMA_AND_RLS_ONLY",
+    "ENABLE_AUTHENTICATED_READS_ONLY",
+    "POST_MIGRATION_VERIFICATION_READY",
+    "AUTHENTICATED_READS_ENABLED",
+    "WRITES_DISABLED_UNTIL_SEPARATE_REVIEW",
+    "NOT_READY_FOR_REAL_AUTOMATION"
+  ]
+}

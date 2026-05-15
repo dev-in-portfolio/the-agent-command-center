@@ -24,6 +24,7 @@ from build_mvp2_local_persistence import build_mvp2_local_persistence_model
 from build_mvp3_supabase_provider import build_mvp3_supabase_provider_model
 from build_mvp4_supabase_auth_rls import build_mvp4_supabase_auth_rls_request_api_model
 from build_mvp5_supabase_migration_readiness import build_mvp5_supabase_migration_readiness_reads_model
+from build_mvp6_controlled_migration_authenticated_reads import build_mvp6_controlled_migration_authenticated_reads_model
 
 
 def _emit_error(message):
@@ -460,6 +461,7 @@ def _build_outputs(snapshot, validation_result, safety_result):
     snapshot["mvp3_supabase_provider_model"] = build_mvp3_supabase_provider_model()
     snapshot["mvp4_auth_rls_request_api_model"] = build_mvp4_supabase_auth_rls_request_api_model()
     snapshot["mvp5_migration_readiness_reads_model"] = build_mvp5_supabase_migration_readiness_reads_model()
+    snapshot["mvp6_controlled_migration_reads_model"] = build_mvp6_controlled_migration_authenticated_reads_model()
     _write_text(DIST_DIR / "original_plus1b_contract_schemas.json", json.dumps(_original_plus1b_contract_pack(), indent=2, sort_keys=False))
     _write_text(DIST_DIR / "original_plus1c_readiness_qa_model.json", json.dumps(_original_plus1c_readiness_qa_model(), indent=2, sort_keys=False))
     _write_text(DIST_DIR / "original_plus1d_backend_boundary_model.json", json.dumps(_original_plus1d_backend_boundary_model(), indent=2, sort_keys=False))
@@ -474,6 +476,7 @@ def _build_outputs(snapshot, validation_result, safety_result):
     _write_text(DIST_DIR / "mvp3_supabase_provider_model.json", json.dumps(snapshot["mvp3_supabase_provider_model"], indent=2, sort_keys=False))
     _write_text(DIST_DIR / "mvp4_auth_rls_request_api_model.json", json.dumps(snapshot["mvp4_auth_rls_request_api_model"], indent=2, sort_keys=False))
     _write_text(DIST_DIR / "mvp5_migration_readiness_reads_model.json", json.dumps(snapshot["mvp5_migration_readiness_reads_model"], indent=2, sort_keys=False))
+    _write_text(DIST_DIR / "mvp6_controlled_migration_reads_model.json", json.dumps(snapshot["mvp6_controlled_migration_reads_model"], indent=2, sort_keys=False))
     _write_text(DIST_DIR / "index.html", render_html(snapshot))
     _write_text(DIST_DIR / "print.html", render_print_html(snapshot))
     _write_text(DIST_DIR / "dashboard_data.json", json.dumps(snapshot, indent=2, sort_keys=False))

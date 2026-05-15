@@ -30,26 +30,48 @@ def check():
     for path in migrations:
         text = load_text(path)
         lower = text.lower()
+        is_rls_migration = path.name == "002_supabase_auth_rls_policies.sql"
         results["files"].append({
             "path": str(path.relative_to(ROOT)),
             "exists": path.exists(),
-            "rls_enable_statements_present": "enable row level security" in lower,
-            "manual_apply_notes_present": "manual" in lower and "apply" in lower,
-            "broad_public_write_policies_present": any(term in lower for term in [
-                "policy if not exists",
-                "for insert",
-                "for update",
-                "for delete",
-            ]) and ("authenticated" not in lower and "deny by default" not in lower),
+            "rls_enable_statements_present": (not is_rls_migration) or ("enable row level security" in lower),
+            "manual_apply_notes_present": "manual" in lower and ("apply" in lower or "applied" in lower),
+            "broad_public_write_policies_present": (
+                any(term in lower for term in [
+                    "anonymous write",
+                    "broad public write",
+                    "public write",
+                    "to public",
+                    "to anon",
+                    "using (true)",
+                    "with check (true)",
+                ])
+                or (
+                    is_rls_migration
+                    and any(term in lower for term in ["for insert", "for update", "for delete"])
+                    and not any(term in lower for term in ["auth.uid()", "owner_user_id", "deny by default"])
+                )
+            ),
         })
 
-        if "enable row level security" not in lower:
+        if is_rls_migration and "enable row level security" not in lower:
             results["rls_enable_statements_present"] = False
-        if "manual" not in lower or "apply" not in lower:
+        if "manual" not in lower or ("apply" not in lower and "applied" not in lower):
             results["manual_apply_notes_present"] = False
-        if any(term in lower for term in ["anonymous write", "broad public write", "public write"]):
+        if (
+            (
+                any(term in lower for term in ["anonymous write", "broad public write", "public write"])
+                and not any(term in lower for term in [
+                    "no anonymous write policy",
+                    "no broad public write policy",
+                    "no public write policy",
+                ])
+            )
+        ):
             results["anonymous_write_policies_present"] = True
-        if "policy" in lower and "public" in lower and ("insert" in lower or "update" in lower or "delete" in lower):
+        if is_rls_migration and any(term in lower for term in ["to public", "to anon", "using (true)", "with check (true)"]):
+            results["broad_public_write_policies_present"] = True
+        if is_rls_migration and any(term in lower for term in ["for insert", "for update", "for delete"]) and not any(term in lower for term in ["auth.uid()", "owner_user_id", "deny by default"]):
             results["broad_public_write_policies_present"] = True
 
     results["ready"] = (

@@ -8,8 +8,10 @@ const REQUEST_BOUNDARY_MARKERS = {
   AUTH_DISABLED_BY_DEFAULT: "AUTH_DISABLED_BY_DEFAULT",
   AUTHORIZATION_REQUIRED: "AUTHORIZATION_REQUIRED",
   AUTHENTICATED_READ_BOUNDARY_READY: "AUTHENTICATED_READ_BOUNDARY_READY",
+  AUTHENTICATED_READS_ENABLED_BOUNDARY: "AUTHENTICATED_READS_ENABLED_BOUNDARY",
   REQUEST_API_WRITES_DISABLED: "REQUEST_API_WRITES_DISABLED",
   RLS_POLICY_REQUIRED: "RLS_POLICY_REQUIRED",
+  RLS_WRITE_REVIEW_REQUIRED: "RLS_WRITE_REVIEW_REQUIRED",
 };
 
 exports.handler = async function(event) {
@@ -75,14 +77,24 @@ exports.handler = async function(event) {
   }
 
   if (method === "GET") {
+    const readsBoundaryReady =
+      providerStatus.provider_configured &&
+      providerStatus.request_api_enabled &&
+      authContext.auth_enabled &&
+      authContext.bearer_token_present;
+
     return jsonResponse({
       ok: true,
       error_code: null,
-      request_api_state: REQUEST_BOUNDARY_MARKERS.AUTHENTICATED_READ_BOUNDARY_READY,
+      request_api_state: readsBoundaryReady
+        ? REQUEST_BOUNDARY_MARKERS.AUTHENTICATED_READS_ENABLED_BOUNDARY
+        : REQUEST_BOUNDARY_MARKERS.AUTHENTICATED_READ_BOUNDARY_READY,
       provider_status: providerStatus,
       auth_context: authContext,
       request_api_markers: boundaryMarkers,
-      note: "MVP-5 keeps GET boundary-only and does not execute Supabase network calls yet.",
+      note: readsBoundaryReady
+        ? "MVP-6 keeps GET boundary-only until an explicit read adapter is approved; no Supabase network calls are executed yet."
+        : "MVP-5 keeps GET boundary-only and does not execute Supabase network calls yet.",
     });
   }
 
@@ -99,11 +111,11 @@ exports.handler = async function(event) {
 
   return jsonResponse({
     ok: false,
-    error_code: REQUEST_BOUNDARY_MARKERS.RLS_POLICY_REQUIRED,
-    request_api_state: "rls_review_required",
+    error_code: REQUEST_BOUNDARY_MARKERS.RLS_WRITE_REVIEW_REQUIRED,
+    request_api_state: "rls_write_review_required",
     provider_status: providerStatus,
     auth_context: authContext,
     request_api_markers: boundaryMarkers,
-    note: "MVP-5 keeps production writes disabled and requires RLS review before any write path is opened.",
+    note: "MVP-6 keeps production writes disabled and requires RLS write review before any write path is opened.",
   }, 409);
 };

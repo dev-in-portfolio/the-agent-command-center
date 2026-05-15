@@ -101,7 +101,7 @@ exports.handler = async function(event, context) {
         {
           "path": "/api/request-readiness-status",
           "method": "GET",
-          "purpose": "Read the Supabase migration readiness and authenticated read boundary status",
+          "purpose": "Read the controlled migration apply and authenticated reads enablement status",
           "read_only": true,
           "dangerous_capabilities_enabled": false
         },
@@ -118,6 +118,7 @@ exports.handler = async function(event, context) {
         "Phase 4C: read-only integrations",
         "Phase 4D: controlled action request queue",
         "Phase 4E: migration readiness and authenticated read boundary",
+        "Phase 4F: controlled migration apply and authenticated read enablement",
         "Phase 5+: reviewed mutation layer only if explicitly approved"
       ]
     }

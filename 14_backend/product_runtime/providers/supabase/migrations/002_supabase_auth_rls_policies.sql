@@ -13,37 +13,42 @@ alter table if exists audit_events enable row level security;
 alter table if exists dry_run_results enable row level security;
 alter table if exists no_go_flags enable row level security;
 
-create policy if not exists "app_users_select_own" on app_users
+drop policy if exists "app_users_select_own" on app_users;
+create policy "app_users_select_own" on app_users
   for select
-  using (auth.uid() = user_id);
+  using (auth.uid() = id);
 
-create policy if not exists "requests_select_own" on requests
+drop policy if exists "requests_select_own" on requests;
+create policy "requests_select_own" on requests
   for select
-  using (auth.uid() = owner_user_id);
+  using (auth.uid() = actor_id);
 
-create policy if not exists "requests_insert_own" on requests
+drop policy if exists "requests_insert_own" on requests;
+create policy "requests_insert_own" on requests
   for insert
-  with check (auth.uid() = owner_user_id);
+  with check (auth.uid() = actor_id);
 
-create policy if not exists "request_lifecycle_events_select_own" on request_lifecycle_events
+drop policy if exists "request_lifecycle_events_select_own" on request_lifecycle_events;
+create policy "request_lifecycle_events_select_own" on request_lifecycle_events
   for select
   using (
     exists (
       select 1
       from requests
       where requests.id = request_lifecycle_events.request_id
-        and requests.owner_user_id = auth.uid()
+        and requests.actor_id = auth.uid()
     )
   );
 
-create policy if not exists "dry_run_results_select_own" on dry_run_results
+drop policy if exists "dry_run_results_select_own" on dry_run_results;
+create policy "dry_run_results_select_own" on dry_run_results
   for select
   using (
     exists (
       select 1
       from requests
       where requests.id = dry_run_results.request_id
-        and requests.owner_user_id = auth.uid()
+        and requests.actor_id = auth.uid()
     )
   );
 

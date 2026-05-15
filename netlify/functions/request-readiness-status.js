@@ -28,6 +28,94 @@ function loadMigrationReadinessModel() {
   };
 }
 
+function loadControlledMigrationApplyModel() {
+  return {
+    model_id: "supabase-controlled-migration-apply-model",
+    model_version: "1.0",
+    project_ref: "mobvzrkcsfbumgbwvkcp",
+    project_url: "https://mobvzrkcsfbumgbwvkcp.supabase.co",
+    required_migrations: [
+      "001_supabase_request_runtime.sql",
+      "002_supabase_auth_rls_policies.sql",
+    ],
+    apply_mode: "controlled_cli_apply",
+    migration_apply_allowed_in_this_phase: true,
+    required_preflight: [
+      "supabase_cli_available",
+      "linked_project_ref_matches",
+      "readiness_checker_passes",
+      "no_secret_leaks",
+      "no_broad_public_writes",
+      "writes_flag_remains_false",
+    ],
+    forbidden: [
+      "print_secrets",
+      "commit_secrets",
+      "expose_service_role_to_browser",
+      "enable_writes",
+      "automation",
+    ],
+    current_recommendation: [
+      "CONTROLLED_MIGRATION_APPLY_READY",
+      "APPLY_SCHEMA_AND_RLS_ONLY",
+      "ENABLE_AUTHENTICATED_READS_ONLY",
+      "WRITES_DISABLED_UNTIL_SEPARATE_REVIEW",
+      "NOT_READY_FOR_REAL_AUTOMATION",
+    ],
+  };
+}
+
+function loadPostMigrationVerificationModel() {
+  return {
+    model_id: "supabase-post-migration-verification-model",
+    model_version: "1.0",
+    required_tables: [
+      "app_users",
+      "app_roles",
+      "requests",
+      "request_lifecycle_events",
+      "approvals",
+      "audit_events",
+      "dry_run_results",
+      "no_go_flags",
+    ],
+    required_rls_tables: [
+      "app_users",
+      "app_roles",
+      "requests",
+      "request_lifecycle_events",
+      "approvals",
+      "audit_events",
+      "dry_run_results",
+      "no_go_flags",
+    ],
+    verification_mode: "schema_metadata_only",
+    no_row_data_required: true,
+    no_secret_output: true,
+  };
+}
+
+function loadAuthenticatedReadsEnablementModel() {
+  return {
+    model_id: "supabase-authenticated-reads-enablement-model",
+    model_version: "1.0",
+    request_api_reads_target: "enabled",
+    request_api_writes_target: "disabled",
+    supabase_auth_target: "enabled",
+    bearer_token_required: true,
+    service_role_used_for_reads: false,
+    anon_key_plus_user_token: true,
+    current_status: "pending_env_activation",
+    current_recommendation: [
+      "CONTROLLED_MIGRATION_APPLY_READY",
+      "AUTHENTICATED_READS_ENABLEMENT_READY",
+      "REQUEST_API_READS_ENABLED_TARGET",
+      "WRITES_DISABLED_UNTIL_SEPARATE_REVIEW",
+      "NOT_READY_FOR_REAL_AUTOMATION",
+    ],
+  };
+}
+
 function loadRequestReadModel() {
   return {
     model_id: "supabase-request-read-model",
@@ -73,6 +161,19 @@ exports.handler = async function(event) {
     request_api_enabled: Boolean(providerStatus.request_api_enabled),
     auth_enabled: Boolean(authContext.auth_enabled),
     bearer_token_present: Boolean(authContext.bearer_token_present),
+    controlled_migration_apply_ready: false,
+    post_migration_verification_required: true,
+    authenticated_reads_enablement_ready: Boolean(
+      providerStatus.provider_configured &&
+      providerStatus.request_api_enabled &&
+      authContext.auth_enabled &&
+      authContext.bearer_token_present
+    ),
+    writes_remain_disabled: true,
+    real_automation_enabled: false,
+    controlled_migration_apply_model: loadControlledMigrationApplyModel(),
+    post_migration_verification_model: loadPostMigrationVerificationModel(),
+    authenticated_reads_enablement_model: loadAuthenticatedReadsEnablementModel(),
     env_presence: {
       SUPABASE_URL: Boolean(providerStatus.project_url),
       SUPABASE_ANON_KEY: Boolean(providerStatus.configured_env_vars.SUPABASE_ANON_KEY),
@@ -84,11 +185,12 @@ exports.handler = async function(event) {
       MVP_ENABLE_SUPABASE_AUTH: Boolean(providerStatus.configured_env_vars.MVP_ENABLE_SUPABASE_AUTH),
     },
     current_recommendation: [
-      "MIGRATION_READINESS_CHECK_READY",
-      "MANUAL_MIGRATION_REVIEW_REQUIRED",
-      "AUTHENTICATED_READS_BOUNDARY_READY",
-      "WRITES_DISABLED_UNTIL_RLS_REVIEW",
-      "NEXT_STEP_MANUALLY_APPLY_MIGRATIONS_AND_ENABLE_AUTH_READS",
+      "CONTROLLED_MIGRATION_APPLY_READY",
+      "APPLY_SCHEMA_AND_RLS_ONLY",
+      "AUTHENTICATED_READS_ENABLEMENT_READY",
+      "REQUEST_API_READS_ENABLED_TARGET",
+      "WRITES_DISABLED_UNTIL_SEPARATE_REVIEW",
+      "NOT_READY_FOR_REAL_AUTOMATION",
     ],
   });
 };
