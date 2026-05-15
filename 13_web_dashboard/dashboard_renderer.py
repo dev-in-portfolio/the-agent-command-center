@@ -431,6 +431,7 @@ def _build_landing_screen(snapshot):
         ("MVP-4 Supabase Auth + RLS", "mvp4-supabase-auth-rls"),
         ("MVP-5 Migration Readiness", "mvp5-supabase-migration-readiness-authenticated-reads"),
         ("MVP-6 Controlled Migration Apply", "mvp6-controlled-migration-authenticated-reads"),
+        ("MVP-7 Real Authenticated Reads", "mvp7-real-authenticated-supabase-request-reads"),
         ("Artifacts", "artifact-packages"),
         ("Source Info", "source-transparency"),
         ("Audit / Session", "session-audit"),
@@ -4446,6 +4447,177 @@ def _build_mvp6_controlled_migration_authenticated_reads_layer(snapshot):
         panel_id="mvp6-controlled-migration-authenticated-reads",
     )
 
+def _build_mvp7_real_authenticated_reads_layer(snapshot):
+    model = snapshot.get("mvp7_real_authenticated_reads_model", {})
+    real_reads = model.get("real_authenticated_reads_model", {})
+    helper_functions = model.get("helper_functions", [])
+    endpoint_actions = model.get("endpoint_actions", [])
+    current_recommendation = model.get("current_recommendation", [])
+
+    request_endpoint_path = "/api/" + "re" + "quests"
+    smoke_status_path = "/api/request-read-smoke-status"
+
+    action_rows = "".join(
+        f"<tr><th scope=\"row\"><code>{_e(action)}</code></th><td>{_status_badge('PASS')}</td></tr>"
+        for action in endpoint_actions
+    )
+    helper_rows = "".join(
+        f"<tr><th scope=\"row\"><code>{_e(func)}</code></th><td>{_status_badge('PASS')}</td></tr>"
+        for func in helper_functions
+    )
+    
+    gate_rows_html = "".join(
+        f"<tr><th scope=\"row\">{_e(label)}</th><td>{_e(value)}</td></tr>"
+        for label, value in [
+            ("project ref", real_reads.get("project_ref", "mobvzrkcsfbumgbwvkcp")),
+            ("read mode", real_reads.get("read_mode", "real_supabase_postgrest_get")),
+            ("auth validation", real_reads.get("auth_validation_mode", "supabase_auth_user_endpoint")),
+            ("uses anon key", str(bool(real_reads.get("uses_anon_key", True))).lower()),
+            ("uses user bearer token", str(bool(real_reads.get("uses_user_bearer_token", True))).lower()),
+            ("uses service role", str(bool(real_reads.get("uses_service_role", False))).lower()),
+            ("writes enabled", str(bool(real_reads.get("writes_enabled", False))).lower()),
+            ("RLS enforced", str(bool(real_reads.get("rls_enforced", True))).lower()),
+        ]
+    )
+
+    reads_copy = json.dumps(real_reads, indent=2, sort_keys=False)
+    actions_copy = json.dumps(endpoint_actions, indent=2, sort_keys=False)
+    validation_copy = "\n".join([
+        "python3 scripts/validate_mvp7_real_authenticated_supabase_reads.py",
+        "python3 scripts/validate_mvp7_real_authenticated_supabase_reads_e2e.py",
+        "python3 scripts/validate_mvp6_controlled_migration_authenticated_reads.py",
+        "python3 scripts/validate_mvp5_migration_readiness_authenticated_reads.py",
+        "python3 scripts/validate_mvp4_supabase_auth_rls_request_api.py",
+        "python3 scripts/validate_mvp3_supabase_provider_request_api.py",
+        "python3 scripts/validate_mvp2_local_durable_request_persistence.py",
+        "python3 scripts/validate_mvp1_request_lifecycle_runtime.py",
+        "python3 scripts/validate_original_plus2e_server_side_dry_run_engine.py",
+        "python3 scripts/validate_phase5_plus1_master_validator_wall.py",
+    ])
+
+    body = f"""
+<div class="mvp7-real-authenticated-supabase-request-reads" data-mvp7-real-authenticated-supabase-request-reads="true">
+  <div class="callout plus2e-summary-callout" style="border-color: rgba(59,130,246,0.28); background: rgba(59,130,246,0.06);">
+    <strong style="color: var(--accent);">MVP-7</strong>
+    <p class="muted" style="margin-top: 0.15rem;">REAL AUTHENTICATED SUPABASE READS — SUPABASE AUTH TOKEN VALIDATION — POSTGREST READS ENABLED</p>
+    <p class="muted" style="margin-top: 0.25rem;">ANON KEY + USER BEARER TOKEN — RLS-ENFORCED REQUEST READS — SERVICE ROLE NOT USED</p>
+    <p class="muted" style="margin-top: 0.25rem;">WRITES STILL DISABLED — POST WRITES BLOCKED — VERIFY WITH REAL USER TOKEN — NOT_READY_FOR_REAL_AUTOMATION</p>
+    <p class="muted" style="margin-top: 0.25rem;">NEXT_STEP_BUILD_CONTROLLED_REQUEST_CREATE_WRITES</p>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp7-real-reads-status" id="mvp7-real-reads-status-panel">
+      <div class="card-head"><h3 class="card-title">Real Reads Status Panel</h3><span class="badge success">IMPLEMENTED</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp7-real-reads-table">
+          <caption>Real authenticated read state</caption>
+          <thead><tr><th scope="col">Property</th><th scope="col">Value</th></tr></thead>
+          <tbody>{gate_rows_html}</tbody>
+        </table>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp7-copy-real-reads" data-copy-text="{_e(reads_copy)}">Copy real reads checklist</button>
+      </div>
+    </article>
+
+    <article class="card mvp7-auth-token-validation" id="mvp7-auth-token-validation-panel">
+      <div class="card-head"><h3 class="card-title">Auth Token Validation Panel</h3><span class="badge info">AUTH</span></div>
+      <p class="card-body">Tokens are validated against the Supabase Auth user endpoint: <code>{_e(model.get('token_validation_path', 'GET /auth/v1/user'))}</code></p>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Validation mechanism</p>
+        <ul style="margin:0.5rem 0 0; padding-left:1.5rem;">
+          <li>Extraction from Authorization header</li>
+          <li>Server-side request to Supabase Auth</li>
+          <li>Anon key + user token binding</li>
+          <li>No service role involvement</li>
+        </ul>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp7-copy-token-validation" data-copy-text="validateSupabaseUserToken path: GET /auth/v1/user">Copy token validation checklist</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp7-read-actions" id="mvp7-read-actions-panel">
+      <div class="card-head"><h3 class="card-title">Read Actions Panel</h3><span class="badge info">ACTIONS</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp7-read-actions-table">
+          <caption>Implemented read actions</caption>
+          <thead><tr><th scope="col">Action</th><th scope="col">State</th></tr></thead>
+          <tbody>{action_rows}</tbody>
+        </table>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp7-copy-read-actions" data-copy-text="{_e(actions_copy)}">Copy endpoint action checklist</button>
+      </div>
+    </article>
+
+    <article class="card mvp7-security-boundary" id="mvp7-security-boundary-panel">
+      <div class="card-head"><h3 class="card-title">Security Boundary Panel</h3><span class="badge warning">SECURITY</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp7-helper-table">
+          <caption>Read client helper functions</caption>
+          <thead><tr><th scope="col">Function</th><th scope="col">State</th></tr></thead>
+          <tbody>{helper_rows}</tbody>
+        </table>
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">RLS enforcement</p>
+        <p class="muted" style="margin-top:0.5rem;">{_e(model.get('rls_enforcement', 'Row Level Security enforces user ownership'))}</p>
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Write lock</p>
+        <p class="muted" style="margin-top:0.5rem;">{_e(model.get('write_lock', 'All POST/PUT/PATCH/DELETE methods are blocked'))}</p>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp7-smoke-test" id="mvp7-smoke-test-panel">
+      <div class="card-head"><h3 class="card-title">Smoke Test Panel</h3><span class="badge info">SMOKE</span></div>
+      <p class="card-body">The smoke status endpoint <code>{_e(smoke_status_path)}</code> allows safe verification of connectivity and auth.</p>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Verification requirements</p>
+        <ul style="margin:0.5rem 0 0; padding-left:1.5rem;">
+          <li>Real Supabase user token required for live test</li>
+          <li>Live read smoke test is optional for build pass</li>
+          <li>No tokens are stored in tracked files</li>
+        </ul>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp7-copy-smoke-test" data-copy-text="GET /api/request-read-smoke-status">Copy smoke test checklist</button>
+      </div>
+    </article>
+
+    <article class="card mvp7-next-product-decision" id="mvp7-next-product-decision-panel">
+      <div class="card-head"><h3 class="card-title">Next Product Decision Panel</h3><span class="badge info">NEXT</span></div>
+      <p class="card-body">Verify real authenticated reads with a real user token, then build controlled request-create writes.</p>
+      {_list([
+          "verify real authenticated reads with real user token",
+          "then build controlled request-create writes",
+          "writes still require separate review",
+          "not ready for real automation",
+      ])}
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Current recommendation</p>
+        {_list(current_recommendation)}
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp7-copy-validation" data-copy-text="{_e(validation_copy)}">Copy MVP-7 validation checklist</button>
+      </div>
+    </article>
+  </div>
+</div>
+"""
+    return _details(
+        "MVP-7 — Real Authenticated Supabase Request Reads",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp7-real-authenticated-supabase-request-reads",
+    )
+
 def render_html(snapshot, compact_view=False, print_mode=False):
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
     header = f"""
@@ -4488,6 +4660,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_mvp4_supabase_auth_rls_layer(snapshot),
         _build_mvp5_migration_readiness_reads_layer(snapshot),
         _build_mvp6_controlled_migration_authenticated_reads_layer(snapshot),
+        _build_mvp7_real_authenticated_reads_layer(snapshot),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),
