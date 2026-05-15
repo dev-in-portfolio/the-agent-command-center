@@ -1,19 +1,19 @@
-const { respondJson, respondError } = require('./_shared/response');
+const { jsonResponse, errorResponse } = require('./_shared/response');
 const fs = require('fs');
 const path = require('path');
 
 exports.handler = async (event, context) => {
     if (event.httpMethod !== 'GET') {
-        return respondError(405, 'Method Not Allowed');
+        return errorResponse('Method Not Allowed', 405);
     }
 
     try {
-        const modelPath = path.resolve(__dirname, '../../14_backend/auth/status_model.json');
+        const modelPath = path.resolve(__dirname, './_shared/models/status_model.json');
         const data = fs.readFileSync(modelPath, 'utf-8');
         const model = JSON.parse(data);
-        return respondJson(model);
+        return jsonResponse(model);
     } catch (error) {
         console.error("Error reading auth status model:", error);
-        return respondError(500, 'Failed to load auth status');
+        return errorResponse('Failed to load auth status', 500);
     }
 };
