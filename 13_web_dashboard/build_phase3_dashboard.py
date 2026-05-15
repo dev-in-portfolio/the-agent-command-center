@@ -394,6 +394,14 @@ def _validate_source_snapshot():
     return snapshot, validation_result, safety_result
 
 
+def _original_plus2a_auth_foundation_model():
+    import json
+    from pathlib import Path
+    try:
+        return json.loads(Path("13_web_dashboard/dist/original_plus2a_auth_foundation_model.json").read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+
 def _build_outputs(snapshot, validation_result, safety_result):
     DIST_DIR.mkdir(parents=True, exist_ok=True)
     dist_static_dir = DIST_DIR / "static"
@@ -405,10 +413,12 @@ def _build_outputs(snapshot, validation_result, safety_result):
     snapshot["original_plus1c_readiness_qa_model"] = _original_plus1c_readiness_qa_model()
     snapshot["original_plus1d_backend_boundary_model"] = _original_plus1d_backend_boundary_model()
     snapshot["original_plus1e_backend_build_tickets"] = _original_plus1e_backend_build_tickets()
+    snapshot["original_plus2a_auth_foundation_model"] = _original_plus2a_auth_foundation_model()
     _write_text(DIST_DIR / "original_plus1b_contract_schemas.json", json.dumps(_original_plus1b_contract_pack(), indent=2, sort_keys=False))
     _write_text(DIST_DIR / "original_plus1c_readiness_qa_model.json", json.dumps(_original_plus1c_readiness_qa_model(), indent=2, sort_keys=False))
     _write_text(DIST_DIR / "original_plus1d_backend_boundary_model.json", json.dumps(_original_plus1d_backend_boundary_model(), indent=2, sort_keys=False))
     _write_text(DIST_DIR / "original_plus1e_backend_build_tickets.json", json.dumps(_original_plus1e_backend_build_tickets(), indent=2, sort_keys=False))
+    _write_text(DIST_DIR / "original_plus2a_auth_foundation_model.json", json.dumps(_original_plus2a_auth_foundation_model(), indent=2, sort_keys=False))
     _write_text(DIST_DIR / "index.html", render_html(snapshot))
     _write_text(DIST_DIR / "print.html", render_print_html(snapshot))
     _write_text(DIST_DIR / "dashboard_data.json", json.dumps(snapshot, indent=2, sort_keys=False))

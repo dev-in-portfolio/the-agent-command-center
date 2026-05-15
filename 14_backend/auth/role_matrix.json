@@ -1,0 +1,107 @@
+{
+  "demo_identities": [
+    {
+      "user_id": "demo_viewer",
+      "display_name": "Demo Viewer",
+      "role": "viewer",
+      "auth_mode": "DEMO_DETERMINISTIC",
+      "real_auth_provider": "none",
+      "can_execute_now": false,
+      "can_mutate_now": false
+    },
+    {
+      "user_id": "demo_operator",
+      "display_name": "Demo Operator",
+      "role": "operator",
+      "auth_mode": "DEMO_DETERMINISTIC",
+      "real_auth_provider": "none",
+      "can_execute_now": false,
+      "can_mutate_now": false
+    },
+    {
+      "user_id": "demo_reviewer",
+      "display_name": "Demo Reviewer",
+      "role": "reviewer",
+      "auth_mode": "DEMO_DETERMINISTIC",
+      "real_auth_provider": "none",
+      "can_execute_now": false,
+      "can_mutate_now": false
+    },
+    {
+      "user_id": "demo_approver",
+      "display_name": "Demo Approver",
+      "role": "approver",
+      "auth_mode": "DEMO_DETERMINISTIC",
+      "real_auth_provider": "none",
+      "can_execute_now": false,
+      "can_mutate_now": false
+    },
+    {
+      "user_id": "demo_admin",
+      "display_name": "Demo Admin",
+      "role": "automation_admin",
+      "auth_mode": "DEMO_DETERMINISTIC",
+      "real_auth_provider": "none",
+      "can_execute_now": false,
+      "can_mutate_now": false
+    }
+  ],
+  "roles": {
+    "viewer": {
+      "description": "Read-only access to status and non-sensitive dashboards.",
+      "permissions": ["view_status", "view_dashboard", "view_readiness", "view_auth_status", "view_role_matrix"],
+      "can_execute_now": false,
+      "can_mutate_now": false,
+      "future_auth_required": true
+    },
+    "operator": {
+      "description": "Can draft and build operational requests, but not execute them.",
+      "permissions": ["view_status", "view_dashboard", "view_readiness", "view_auth_status", "view_role_matrix", "draft_request", "build_packet"],
+      "can_execute_now": false,
+      "can_mutate_now": false,
+      "future_auth_required": true
+    },
+    "reviewer": {
+      "description": "Can review packets and compose handoffs.",
+      "permissions": ["view_status", "view_dashboard", "view_readiness", "view_auth_status", "view_role_matrix", "review_packet", "compose_handoff"],
+      "can_execute_now": false,
+      "can_mutate_now": false,
+      "future_auth_required": true
+    },
+    "approver": {
+      "description": "Can simulate runbooks and approve planning.",
+      "permissions": ["view_status", "view_dashboard", "view_readiness", "view_auth_status", "view_role_matrix", "generate_runbook", "approve_planning_only"],
+      "can_execute_now": false,
+      "can_mutate_now": false,
+      "future_auth_required": true
+    },
+    "automation_admin": {
+      "description": "Full access to automation lifecycle features.",
+      "permissions": ["view_status", "view_dashboard", "view_readiness", "view_auth_status", "view_role_matrix", "draft_request", "build_packet", "review_packet", "compose_handoff", "generate_runbook", "approve_planning_only"],
+      "can_execute_now": false,
+      "can_mutate_now": false,
+      "future_auth_required": true
+    },
+    "break_glass_admin": {
+      "description": "Emergency access overriding standard automation limits.",
+      "permissions": ["view_status", "view_dashboard", "view_readiness", "view_auth_status", "view_role_matrix", "draft_request", "build_packet", "review_packet", "compose_handoff", "generate_runbook", "approve_planning_only"],
+      "can_execute_now": false,
+      "can_mutate_now": false,
+      "future_auth_required": true
+    }
+  },
+  "forbidden_permissions": [
+    "execute_command",
+    "mutate_backend",
+    "mutate_github",
+    "mutate_netlify",
+    "deploy_site",
+    "merge_branch",
+    "push_branch",
+    "create_pr",
+    "trigger_workflow",
+    "store_request",
+    "store_approval",
+    "queue_job"
+  ]
+}

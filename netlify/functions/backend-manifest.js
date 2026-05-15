@@ -27,6 +27,20 @@ exports.handler = async function(event, context) {
           "purpose": "List available backend endpoints and capabilities",
           "read_only": true,
           "dangerous_capabilities_enabled": false
+        },
+        {
+          "path": "/api/auth-status",
+          "method": "GET",
+          "purpose": "Provide read-only auth foundation status",
+          "read_only": true,
+          "dangerous_capabilities_enabled": false
+        },
+        {
+          "path": "/api/role-matrix",
+          "method": "GET",
+          "purpose": "Provide static role and permission definitions",
+          "read_only": true,
+          "dangerous_capabilities_enabled": false
         }
       ],
       "future_phases": [

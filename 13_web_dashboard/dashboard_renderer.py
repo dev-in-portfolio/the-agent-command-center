@@ -420,6 +420,7 @@ def _build_landing_screen(snapshot):
         ("Original +1C Readiness QA Layer", "plus1c-readiness-scoring-contract-qa"),
         ("Original +1D Blueprint Layer", "plus1d-backend-boundary-blueprint"),
         ("Original +1E Implementation Gate", "plus1e-backend-implementation-gate"),
+        ("Original +2A Auth Foundation", "plus2a-backend-auth-foundation"),
         ("Artifacts", "artifact-packages"),
         ("Source Info", "source-transparency"),
         ("Audit / Session", "session-audit"),
@@ -2532,6 +2533,138 @@ def _build_roadmap_panel():
     )
 
 
+def _build_plus2a_backend_auth_foundation_layer():
+    body = """
+<div class="plus2a-auth-foundation" data-plus2a-auth-foundation="true">
+  <div class="callout plus2a-summary-callout" style="border-color: rgba(16,185,129,0.28); background: rgba(16,185,129,0.06);">
+    <strong style="color: var(--pass);">BACKEND AUTH FOUNDATION</strong>
+    <p class="muted" style="margin-top: 0.15rem;">READ-ONLY AUTH STATUS — ROLE / PERMISSION MATRIX — DEMO IDENTITY MODEL</p>
+    <p class="muted" style="margin-top: 0.25rem;">AUTH FOUNDATION ONLY — NO LIVE AUTH PROVIDER — NO SESSION COOKIES — NO TOKENS — NO SECRETS</p>
+    <p class="muted" style="margin-top: 0.25rem;">NO EXECUTION — NO MUTATION — NO BACKEND WRITES</p>
+    <p class="muted" style="margin-top: 0.25rem;">NOT_READY_FOR_REAL_AUTOMATION — READY_FOR_AUTH_FOUNDATION_REVIEW_ONLY</p>
+  </div>
+
+  <div class="plus2a-preview-grid">
+    <article class="card plus2a-auth-status" id="plus2a-auth-status-panel">
+      <div class="card-head"><h3 class="card-title">Auth Foundation Status Panel</h3><span class="badge warning">STATUS</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus2a-status-table">
+          <caption>Auth foundation status</caption>
+          <thead><tr><th scope="col">Setting</th><th scope="col">Value</th></tr></thead>
+          <tbody id="plus2a-status-body"><tr><td colspan="2" class="empty">No status loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="plus2a-copy-status">Copy auth foundation summary</button>
+      </div>
+    </article>
+
+    <article class="card plus2a-demo-identities" id="plus2a-demo-identities-panel">
+      <div class="card-head"><h3 class="card-title">Demo Identity Panel</h3><span class="badge info">IDENTITIES</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus2a-identities-table">
+          <caption>Demo identities</caption>
+          <thead><tr><th scope="col">User ID</th><th scope="col">Display Name</th><th scope="col">Role</th><th scope="col">Auth Mode</th></tr></thead>
+          <tbody id="plus2a-identities-body"><tr><td colspan="4" class="empty">No demo identities loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2a-preview-grid">
+    <article class="card plus2a-role-matrix" id="plus2a-role-matrix-panel">
+      <div class="card-head"><h3 class="card-title">Role / Permission Matrix Panel</h3><span class="badge info">MATRIX</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus2a-role-table">
+          <caption>Role permission matrix</caption>
+          <thead><tr><th scope="col">Role</th><th scope="col">Permissions</th><th scope="col">Future Auth Required</th></tr></thead>
+          <tbody id="plus2a-role-body"><tr><td colspan="3" class="empty">No roles loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="plus2a-copy-roles">Copy role matrix</button>
+      </div>
+    </article>
+
+    <article class="card plus2a-permission-check" id="plus2a-permission-check-panel">
+      <div class="card-head"><h3 class="card-title">Permission Check Preview Panel</h3><span class="badge warning">PREVIEW</span></div>
+      <p class="card-body">Select a demo identity and a permission to preview the server-side evaluation result.</p>
+      
+      <div style="display:flex;gap:1rem;margin-top:0.75rem;flex-wrap:wrap;">
+        <label class="control-group" style="flex:1;">
+          <span class="muted" style="display:block;margin-bottom:0.35rem;">Demo identity</span>
+          <select id="plus2a-identity-select" class="table-filter" style="width:100%;font-family:var(--mono);">
+            <option value="">Select identity...</option>
+          </select>
+        </label>
+        <label class="control-group" style="flex:1;">
+          <span class="muted" style="display:block;margin-bottom:0.35rem;">Permission</span>
+          <select id="plus2a-permission-select" class="table-filter" style="width:100%;font-family:var(--mono);">
+            <option value="view_status">view_status</option>
+            <option value="view_dashboard">view_dashboard</option>
+            <option value="view_readiness">view_readiness</option>
+            <option value="draft_request">draft_request</option>
+            <option value="build_packet">build_packet</option>
+            <option value="review_packet">review_packet</option>
+            <option value="compose_handoff">compose_handoff</option>
+            <option value="generate_runbook">generate_runbook</option>
+            <option value="approve_planning_only">approve_planning_only</option>
+            <option value="view_auth_status">view_auth_status</option>
+            <option value="view_role_matrix">view_role_matrix</option>
+            <option value="execute_command">execute_command (forbidden)</option>
+            <option value="mutate_backend">mutate_backend (forbidden)</option>
+            <option value="deploy_site">deploy_site (forbidden)</option>
+            <option value="create_pr">create_pr (forbidden)</option>
+          </select>
+        </label>
+      </div>
+      
+      <div id="plus2a-check-result" style="margin-top:1rem;padding:0.75rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg);">
+        <p class="muted">Select an identity and permission to preview.</p>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2a-preview-grid">
+    <article class="card plus2a-forbidden-boundary" id="plus2a-forbidden-boundary-panel">
+      <div class="card-head"><h3 class="card-title">Forbidden Permission Boundary Panel</h3><span class="badge locked">FORBIDDEN</span></div>
+      <p class="card-body">The following permissions are globally forbidden and will always evaluate to false during this phase.</p>
+      <div class="table-wrap" style="max-height:280px;overflow-y:auto;margin-top:0.75rem;">
+        <ul id="plus2a-forbidden-list" style="margin:0;padding-left:1.5rem;font-family:var(--mono);color:var(--locked);">
+          <li>No boundaries loaded yet.</li>
+        </ul>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="plus2a-copy-boundary">Copy permission boundary report</button>
+      </div>
+    </article>
+
+    <article class="card plus2a-future-auth-dependencies" id="plus2a-future-auth-dependencies-panel">
+      <div class="card-head"><h3 class="card-title">Future Auth Dependency Panel</h3><span class="badge warning">MISSING</span></div>
+      <p class="card-body">Real automation cannot proceed until the following missing dependencies are implemented.</p>
+      <div class="table-wrap" style="max-height:280px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus2a-dependencies-table">
+          <caption>Missing auth dependencies</caption>
+          <thead><tr><th scope="col">Dependency</th><th scope="col">Status</th></tr></thead>
+          <tbody id="plus2a-dependencies-body"><tr><td colspan="2" class="empty">No dependencies loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="plus2a-copy-dependencies">Copy future auth dependency checklist</button>
+        <button type="button" class="copy-button small" id="plus2a-copy-validation">Copy +2A validation checklist</button>
+      </div>
+    </article>
+  </div>
+</div>
+"""
+    return _details(
+        "Original +2A — Backend Auth Foundation",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="plus2a-backend-auth-foundation"
+    )
+
 def render_html(snapshot, compact_view=False, print_mode=False):
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
     header = f"""
@@ -2563,6 +2696,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_plus1c_readiness_scoring_contract_qa_layer(),
         _build_plus1d_backend_boundary_blueprint_layer(),
         _build_plus1e_backend_implementation_gate_layer(),
+        _build_plus2a_backend_auth_foundation_layer(),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),
