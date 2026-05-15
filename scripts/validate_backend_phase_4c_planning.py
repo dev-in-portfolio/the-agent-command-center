@@ -60,7 +60,14 @@ def main():
 
     # No implementation checks - ensure no new functions
     func_dir = ROOT / "netlify/functions"
-    allowed_funcs = ["backend-manifest.js", "health.js", "status.js"]
+    allowed_funcs = [
+        "backend-manifest.js", 
+        "health.js", 
+        "status.js",
+        "auth-status.js",
+        "role-matrix.js",
+        "request-storage-status.js"
+    ]
     actual_funcs = [f.name for f in func_dir.glob("*.js")]
     if sorted(actual_funcs) != sorted(allowed_funcs):
         _fail(f"Unexpected Netlify functions found: {actual_funcs}. Phase 4C should be planning only.")

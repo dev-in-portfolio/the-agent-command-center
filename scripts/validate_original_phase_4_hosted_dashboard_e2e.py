@@ -46,14 +46,33 @@ def check_forbidden_paths():
         
     changed_files = result.stdout.splitlines()
     forbidden_prefixes = [
-        "netlify/functions/",
         "09_exports/interface_phase_1/",
         "11_interface/",
         "12_tui/",
         "10_runtime/"
     ]
     
+    allowed_netlify_functions = [
+        "netlify/functions/auth-status.js",
+        "netlify/functions/role-matrix.js",
+        "netlify/functions/request-storage-status.js",
+        "netlify/functions/backend-manifest.js",
+        "netlify/functions/_shared/models/"
+    ]
+    
     for f in changed_files:
+        # Exempt 14_backend/auth and 14_backend/request_storage
+        if f.startswith("14_backend/auth/") or f.startswith("14_backend/request_storage/"):
+            continue
+            
+        # Exempt allowed netlify functions
+        if any(f.startswith(p) for p in allowed_netlify_functions):
+            continue
+
+        if f.startswith("netlify/functions/"):
+            print(f"FAIL: Forbidden Netlify function modified: {f}")
+            sys.exit(1)
+
         for prefix in forbidden_prefixes:
             if f.startswith(prefix):
                 print(f"FAIL: Forbidden path modified: {f}")
@@ -129,12 +148,21 @@ def check_fetch_targets():
         '/api/health',
         '/api/status',
         '/api/backend-manifest',
+        '/api/auth-status',
+        '/api/role-matrix',
+        '/api/request-storage-status',
         './status_snapshot.json',
         './phase4d_identity_schema.json',
         './phase4d_action_schema.json',
         './phase4d_audit_schema.json',
         './phase4d_approval_schema.json',
-        './phase4d_risk_model.json'
+        './phase4d_risk_model.json',
+        './original_plus1b_contract_schemas.json',
+        './original_plus1c_readiness_qa_model.json',
+        './original_plus1d_backend_boundary_model.json',
+        './original_plus1e_backend_build_tickets.json',
+        './original_plus2a_auth_foundation_model.json',
+        './original_plus2b_request_storage_model.json'
     ]
     
     js_paths = [

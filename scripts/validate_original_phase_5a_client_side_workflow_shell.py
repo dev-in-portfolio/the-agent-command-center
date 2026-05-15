@@ -100,10 +100,17 @@ file_not_contains(js_path, "IndexedDB")
 # Dashboard JS fetch targets remain only on approved allowlist
 approved_fetches = [
     "/api/health", "/api/status", "/api/backend-manifest",
+    "/api/auth-status", "/api/role-matrix", "/api/request-storage-status",
     "./status_snapshot.json",
     "./phase4d_identity_schema.json", "./phase4d_action_schema.json",
     "./phase4d_audit_schema.json", "./phase4d_approval_schema.json",
     "./phase4d_risk_model.json",
+    "./original_plus1b_contract_schemas.json",
+    "./original_plus1c_readiness_qa_model.json",
+    "./original_plus1d_backend_boundary_model.json",
+    "./original_plus1e_backend_build_tickets.json",
+    "./original_plus2a_auth_foundation_model.json",
+    "./original_plus2b_request_storage_model.json",
 ]
 js_content = js_path.read_text(encoding="utf-8", errors="replace")
 fetches = re.findall(r'fetch\(["\']([^"\']+)["\']\)', js_content)

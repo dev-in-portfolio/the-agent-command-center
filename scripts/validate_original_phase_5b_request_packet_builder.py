@@ -91,8 +91,22 @@ def js_safety_check(path):
             check(False, f"{path.name} contains forbidden: {item}")
 
     fetch_calls = re.findall(r'fetch\(["\']([^"\']+)["\']', text)
+    allowed_targets = [
+        '/api/health', '/api/status', '/api/backend-manifest',
+        '/api/auth-status', '/api/role-matrix', '/api/request-storage-status',
+        './status_snapshot.json',
+        './phase4d_identity_schema.json', './phase4d_action_schema.json',
+        './phase4d_audit_schema.json', './phase4d_approval_schema.json',
+        './phase4d_risk_model.json',
+        './original_plus1b_contract_schemas.json',
+        './original_plus1c_readiness_qa_model.json',
+        './original_plus1d_backend_boundary_model.json',
+        './original_plus1e_backend_build_tickets.json',
+        './original_plus2a_auth_foundation_model.json',
+        './original_plus2b_request_storage_model.json',
+    ]
     for target in fetch_calls:
-        check(target.startswith("./") or target.startswith("/api/"), f"{path.name} unauthorized fetch: {target}")
+        check(target in allowed_targets, f"{path.name} unauthorized fetch: {target}")
 
     forbidden_fetch = [
         "method: \"POST\"",

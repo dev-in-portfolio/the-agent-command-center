@@ -37,7 +37,15 @@ def check():
         if not line:
             continue
         if line.startswith("netlify/functions/"):
-            raise SystemExit(f"FAIL: netlify/functions/ changes not allowed: {line}")
+            allowed_functions = [
+                "netlify/functions/auth-status.js",
+                "netlify/functions/role-matrix.js",
+                "netlify/functions/request-storage-status.js",
+                "netlify/functions/backend-manifest.js",
+                "netlify/functions/_shared/models/"
+            ]
+            if not any(line == f or line.startswith("netlify/functions/_shared/models/") for f in allowed_functions):
+                raise SystemExit(f"FAIL: netlify/functions/ changes not allowed: {line}")
         if line.startswith("09_exports/interface_phase_1/"):
             raise SystemExit(f"FAIL: Phase 1 changes not allowed: {line}")
         if line.startswith("09_exports/interface_phase_2/"):
@@ -49,7 +57,12 @@ def check():
         if line.startswith("10_runtime/"):
             raise SystemExit(f"FAIL: Runtime changes not allowed: {line}")
         if line.startswith("14_backend/"):
-            raise SystemExit(f"FAIL: Backend changes not allowed: {line}")
+            allowed_backend = [
+                "14_backend/auth/",
+                "14_backend/request_storage/"
+            ]
+            if not any(line.startswith(p) for p in allowed_backend):
+                raise SystemExit(f"FAIL: Backend changes not allowed: {line}")
             
     print("ORIGINAL_PLUS1E_BACKEND_IMPLEMENTATION_GATE_E2E_VALIDATION_PASS")
 

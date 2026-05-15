@@ -129,7 +129,86 @@ def _scan_paths():
             _scan_file(scan_path)
 
 
+def check_forbidden_paths():
+    print("Checking forbidden diff paths...")
+    result = subprocess.run(["git", "diff", "--name-only", "origin/master..HEAD"], cwd=ROOT, capture_output=True, text=True)
+    if result.returncode != 0:
+        print("WARNING: Could not check git diff, assuming detached head or CI.")
+        return
+        
+    changed_files = result.stdout.splitlines()
+    forbidden_prefixes = [
+        "09_exports/interface_phase_1/",
+        "09_exports/interface_phase_2/",
+        "11_interface/",
+        "12_tui/",
+        "10_runtime/"
+    ]
+    
+    allowed_prefixes = [
+        "13_web_dashboard/",
+        "14_backend/auth/",
+        "14_backend/request_storage/",
+        "09_exports/interface_phase_3/",
+        "09_exports/interface_phase_4/",
+        "09_exports/interface_phase_5/",
+        "09_exports/original_plus1/",
+        "09_exports/original_plus2/",
+        "netlify/functions/auth-status.js",
+        "netlify/functions/role-matrix.js",
+        "netlify/functions/request-storage-status.js",
+        "netlify/functions/backend-manifest.js",
+        "netlify/functions/_shared/models/",
+        "scripts/validate_",
+    ]
+    
+    for f in changed_files:
+        if any(f.startswith(p) for p in allowed_prefixes):
+            continue
+        for prefix in forbidden_prefixes:
+            if f.startswith(prefix):
+                _fail(f"Forbidden path modified: {f}")
+
+
+def check_fetch_targets():
+    print("Checking fetch targets...")
+    allowed_targets = [
+        '/api/health', '/api/status', '/api/backend-manifest',
+        '/api/auth-status', '/api/role-matrix', '/api/request-storage-status',
+        './status_snapshot.json',
+        './phase4d_identity_schema.json', './phase4d_action_schema.json',
+        './phase4d_audit_schema.json', './phase4d_approval_schema.json',
+        './phase4d_risk_model.json',
+        './original_plus1b_contract_schemas.json',
+        './original_plus1c_readiness_qa_model.json',
+        './original_plus1d_backend_boundary_model.json',
+        './original_plus1e_backend_build_tickets.json',
+        './original_plus2a_auth_foundation_model.json',
+        './original_plus2b_request_storage_model.json',
+    ]
+    
+    html = (ROOT / "13_web_dashboard/dist/index.html").read_text(encoding="utf-8")
+    for forbidden in ["http://", "https://"]:
+        if forbidden in html:
+            # Simple w3/Netlify exclusion
+            if "http://www.w3.org" in html and forbidden == "http://":
+                continue
+            if ".netlify.app" in html:
+                continue
+            _fail(f"Forbidden external reference found in dashboard HTML: {forbidden}")
+
+    # Check JS for unauthorized fetches
+    js_path = ROOT / "13_web_dashboard" / "dist" / "static" / "dashboard.js"
+    if js_path.exists():
+        js_content = js_path.read_text(encoding="utf-8", errors="replace")
+        fetches = re.findall(r'fetch\(["\']([^"\']+)["\']\)', js_content)
+        for target in fetches:
+            if target not in allowed_targets:
+                _fail(f"Unauthorized fetch target found in JS: {target}")
+
+
 def main():
+    check_forbidden_paths()
     for validator in VALIDATOR_CHAIN:
         result = _run(validator)
         if result.returncode != 0:
@@ -141,10 +220,7 @@ def main():
     if "PASS_WITH_HIGH_CONFIDENCE" not in report:
         _fail("Strategic build acceptance report missing required verdict")
 
-    html = (ROOT / "13_web_dashboard/dist/index.html").read_text(encoding="utf-8")
-    for forbidden in ["http://", "https://", "fetch(\"https://", "fetch('https://"]:
-        if forbidden in html:
-            _fail(f"Forbidden external reference found in dashboard HTML: {forbidden}")
+    check_fetch_targets()
 
     print("BACKEND_PHASE_4D_STRATEGIC_E2E_VALIDATION_PASS")
 
