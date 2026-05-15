@@ -1,0 +1,17 @@
+{
+  "approval_foundation_status": "READY_FOR_FOUNDATION_REVIEW_ONLY",
+  "durable_approval_storage_configured": false,
+  "approval_write_endpoint_enabled": false,
+  "approval_record_persistence_verified": false,
+  "approval_identity_binding_ready": false,
+  "audit_dependency_ready": true,
+  "request_storage_dependency_ready": true,
+  "current_mode": "APPROVAL_FOUNDATION_ONLY",
+  "current_recommendation": [
+    "APPROVAL_CONTRACT_READY",
+    "DURABLE_APPROVAL_STORAGE_NOT_CONFIGURED",
+    "NOT_READY_FOR_APPROVAL_PERSISTENCE",
+    "NOT_READY_FOR_REAL_AUTOMATION",
+    "PLAN_PLUS2E_AFTER_APPROVAL_STORAGE_DECISION"
+  ]
+}

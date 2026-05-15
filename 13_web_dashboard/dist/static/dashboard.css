@@ -1195,3 +1195,41 @@ pre.code-block {
   white-space: pre-wrap;
   word-break: break-word;
 }
+.plus2d-approval-gate {
+  display: grid;
+  gap: 1.5rem;
+  min-width: 0;
+}
+
+.plus2d-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+.plus2d-approval-status,
+.plus2d-approval-request-schema,
+.plus2d-approval-record-schema,
+.plus2d-scope-boundary,
+.plus2d-lifecycle-model,
+.plus2d-adapter-boundary,
+.plus2d-validation-preview,
+.plus2d-disabled-write-boundary,
+.plus2d-expiration-policy,
+.plus2d-future-approval-dependencies {
+  min-width: 0;
+}
+
+#plus2d-request-schema-preview,
+#plus2d-record-schema-preview {
+  max-height: 280px;
+  overflow: auto;
+}
+
+#plus2d-validation-result {
+  max-height: 200px;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}

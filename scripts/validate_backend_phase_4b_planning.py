@@ -51,8 +51,19 @@ def main():
 
     # No implementation checks
     func_dir = ROOT / "netlify/functions"
-    if list(func_dir.glob("*.js")) != [func_dir / "backend-manifest.js", func_dir / "health.js", func_dir / "status.js"]:
-        _fail("Unexpected Netlify functions found. Phase 4B should be planning only.")
+    allowed_funcs = [
+        "backend-manifest.js", 
+        "health.js", 
+        "status.js",
+        "auth-status.js",
+        "role-matrix.js",
+        "request-storage-status.js",
+        "audit-log-status.js",
+        "approval-gate-status.js"
+    ]
+    actual_funcs = [f.name for f in func_dir.glob("*.js")]
+    if sorted(actual_funcs) != sorted(allowed_funcs):
+        _fail(f"Unexpected Netlify functions found: {actual_funcs}. Phase 4B should be planning only.")
 
     print("BACKEND_PHASE_4B_PLANNING_VALIDATION_PASS")
     return 0

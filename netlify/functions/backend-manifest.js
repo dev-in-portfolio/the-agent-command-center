@@ -55,6 +55,13 @@ exports.handler = async function(event, context) {
           "purpose": "Check the status of the immutable audit log foundation",
           "read_only": true,
           "dangerous_capabilities_enabled": false
+        },
+        {
+          "path": "/api/approval-gate-status",
+          "method": "GET",
+          "purpose": "Check the status of the approval gate storage foundation",
+          "read_only": true,
+          "dangerous_capabilities_enabled": false
         }
       ],
       "future_phases": [
