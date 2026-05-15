@@ -76,6 +76,27 @@ exports.handler = async function(event, context) {
           "purpose": "Check the MVP-1 request lifecycle runtime scaffold status",
           "read_only": true,
           "dangerous_capabilities_enabled": false
+        },
+        {
+          "path": "/api/provider-status",
+          "method": "GET",
+          "purpose": "Check the Supabase provider configuration status",
+          "read_only": true,
+          "dangerous_capabilities_enabled": false
+        },
+        {
+          "path": "/api/requests",
+          "method": "GET",
+          "purpose": "Read the Supabase request API boundary scaffold",
+          "read_only": true,
+          "dangerous_capabilities_enabled": false
+        },
+        {
+          "path": "/api/requests",
+          "method": "POST",
+          "purpose": "Request boundary scaffold for future writes",
+          "read_only": false,
+          "dangerous_capabilities_enabled": false
         }
       ],
       "future_phases": [

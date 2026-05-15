@@ -1,0 +1,276 @@
+{
+  "model_id": "mvp3-supabase-provider-request-api-scaffold",
+  "model_version": "1.0",
+  "provider_status_model": {
+    "model_id": "supabase-provider-status-model",
+    "model_version": "1.0",
+    "provider": "supabase",
+    "project_ref": "mobvzrkcsfbumgbwvkcp",
+    "project_url": "https://mobvzrkcsfbumgbwvkcp.supabase.co",
+    "production_database_target": "postgres",
+    "production_auth_target": "supabase_auth",
+    "provider_configured": false,
+    "request_api_enabled": false,
+    "request_api_writes_enabled": false,
+    "service_role_required_for_admin_ops": true,
+    "browser_service_role_exposure_allowed": false,
+    "rls_required_before_production_writes": true,
+    "auth_uid_binding_required": true,
+    "allowed_env_names": [
+      "SUPABASE_PROJECT_REF",
+      "SUPABASE_URL",
+      "SUPABASE_ANON_KEY",
+      "SUPABASE_SERVICE_ROLE_KEY",
+      "SUPABASE_DB_PASSWORD",
+      "DATABASE_URL",
+      "MVP_ENABLE_SUPABASE_REQUEST_API",
+      "MVP_ENABLE_REQUEST_API_WRITES",
+      "MVP_ENABLE_SUPABASE_AUTH"
+    ],
+    "missing_env_vars": [
+      "SUPABASE_ANON_KEY",
+      "SUPABASE_SERVICE_ROLE_KEY",
+      "SUPABASE_DB_PASSWORD",
+      "DATABASE_URL"
+    ],
+    "safety_boundary": [
+      "Request API writes are disabled by default.",
+      "Supabase Auth is disabled by default.",
+      "RLS is required before production writes.",
+      "Service role key must never be exposed to browser code.",
+      "Production migrations are not auto-applied.",
+      "Real automation remains disabled."
+    ],
+    "current_recommendation": [
+      "SUPABASE_PROVIDER_SELECTED",
+      "ENV_CONFIGURATION_REQUIRED",
+      "REQUEST_API_DISABLED_UNTIL_CONFIGURED",
+      "REAL_AUTH_BINDING_REQUIRED",
+      "NOT_READY_FOR_REAL_AUTOMATION",
+      "NEXT_STEP_CONFIGURE_SUPABASE_PROJECT_AND_AUTH"
+    ]
+  },
+  "env_contract": {
+    "provider": "supabase",
+    "project_ref": "mobvzrkcsfbumgbwvkcp",
+    "project_url": "https://mobvzrkcsfbumgbwvkcp.supabase.co",
+    "environment_variables": [
+      {
+        "name": "SUPABASE_PROJECT_REF",
+        "purpose": "Project metadata and project identity.",
+        "required_for_status_only": true,
+        "required_for_read_api": true,
+        "required_for_write_api": true,
+        "secret_level": "public_metadata",
+        "browser_exposure_allowed": false,
+        "current_required": false
+      },
+      {
+        "name": "SUPABASE_URL",
+        "purpose": "Project URL for the Supabase project.",
+        "required_for_status_only": true,
+        "required_for_read_api": true,
+        "required_for_write_api": true,
+        "secret_level": "public_metadata",
+        "browser_exposure_allowed": false,
+        "current_required": false
+      },
+      {
+        "name": "SUPABASE_ANON_KEY",
+        "purpose": "Browser-safe public key for future Supabase read/auth flows.",
+        "required_for_status_only": false,
+        "required_for_read_api": true,
+        "required_for_write_api": false,
+        "secret_level": "public_client_key",
+        "browser_exposure_allowed": true,
+        "current_required": false
+      },
+      {
+        "name": "SUPABASE_SERVICE_ROLE_KEY",
+        "purpose": "Server-only secret for future admin and write operations.",
+        "required_for_status_only": false,
+        "required_for_read_api": false,
+        "required_for_write_api": true,
+        "secret_level": "server_secret",
+        "browser_exposure_allowed": false,
+        "current_required": false
+      },
+      {
+        "name": "SUPABASE_DB_PASSWORD",
+        "purpose": "Database password used for CLI link/setup and optional direct DB access.",
+        "required_for_status_only": false,
+        "required_for_read_api": false,
+        "required_for_write_api": true,
+        "secret_level": "server_secret",
+        "browser_exposure_allowed": false,
+        "current_required": false
+      },
+      {
+        "name": "DATABASE_URL",
+        "purpose": "Direct Postgres connection string for future server-side database access.",
+        "required_for_status_only": false,
+        "required_for_read_api": false,
+        "required_for_write_api": true,
+        "secret_level": "server_secret",
+        "browser_exposure_allowed": false,
+        "current_required": false
+      },
+      {
+        "name": "MVP_ENABLE_SUPABASE_REQUEST_API",
+        "purpose": "Feature gate for the request API boundary scaffold.",
+        "required_for_status_only": true,
+        "required_for_read_api": true,
+        "required_for_write_api": true,
+        "secret_level": "none",
+        "browser_exposure_allowed": false,
+        "current_required": false
+      },
+      {
+        "name": "MVP_ENABLE_REQUEST_API_WRITES",
+        "purpose": "Feature gate for request API write paths.",
+        "required_for_status_only": false,
+        "required_for_read_api": false,
+        "required_for_write_api": true,
+        "secret_level": "none",
+        "browser_exposure_allowed": false,
+        "current_required": false
+      },
+      {
+        "name": "MVP_ENABLE_SUPABASE_AUTH",
+        "purpose": "Feature gate for future Supabase Auth binding.",
+        "required_for_status_only": true,
+        "required_for_read_api": true,
+        "required_for_write_api": true,
+        "secret_level": "none",
+        "browser_exposure_allowed": false,
+        "current_required": false
+      }
+    ]
+  },
+  "provider_decision": {
+    "selected_database_provider": "Supabase Postgres",
+    "selected_auth_provider": "Supabase Auth",
+    "project_ref": "mobvzrkcsfbumgbwvkcp",
+    "project_url": "https://mobvzrkcsfbumgbwvkcp.supabase.co",
+    "configured_status": "not_configured"
+  },
+  "env_contract_summary": {
+    "environment_variables": [
+      "SUPABASE_PROJECT_REF",
+      "SUPABASE_URL",
+      "SUPABASE_ANON_KEY",
+      "SUPABASE_SERVICE_ROLE_KEY",
+      "SUPABASE_DB_PASSWORD",
+      "DATABASE_URL",
+      "MVP_ENABLE_SUPABASE_REQUEST_API",
+      "MVP_ENABLE_REQUEST_API_WRITES",
+      "MVP_ENABLE_SUPABASE_AUTH"
+    ],
+    "feature_flags_default": {
+      "MVP_ENABLE_SUPABASE_REQUEST_API": false,
+      "MVP_ENABLE_REQUEST_API_WRITES": false,
+      "MVP_ENABLE_SUPABASE_AUTH": false
+    },
+    "browser_safe_variables": [
+      "SUPABASE_PROJECT_REF",
+      "SUPABASE_URL"
+    ],
+    "server_secret_variables": [
+      "SUPABASE_SERVICE_ROLE_KEY",
+      "SUPABASE_DB_PASSWORD",
+      "DATABASE_URL"
+    ],
+    "current_required": false
+  },
+  "request_api_boundary": {
+    "endpoints": [
+      {
+        "path": "/api/provider-status",
+        "method": "GET",
+        "purpose": "Read-only Supabase provider status",
+        "boundary_state": "read_only"
+      },
+      {
+        "path": "/api/requests",
+        "method": "GET",
+        "purpose": "Read-only request API boundary scaffold",
+        "boundary_state": "disabled_by_default"
+      },
+      {
+        "path": "/api/requests",
+        "method": "POST",
+        "purpose": "Write boundary scaffold with writes disabled by default",
+        "boundary_state": "writes_disabled_by_default"
+      }
+    ],
+    "disabled_unless_configured": true,
+    "writes_disabled_by_default": true,
+    "no_supabase_network_calls": true,
+    "no_command_execution": true,
+    "no_external_mutation": true
+  },
+  "supabase_migration_scaffold_summary": {
+    "file_path": "14_backend/product_runtime/providers/supabase/migrations/001_supabase_request_runtime.sql",
+    "tables": [
+      "app_users",
+      "app_roles",
+      "requests",
+      "request_lifecycle_events",
+      "approvals",
+      "audit_events",
+      "dry_run_results",
+      "no_go_flags"
+    ],
+    "rls_required_before_production_writes": true,
+    "auth_uid_binding_required": true,
+    "service_role_never_exposed_to_browser": true,
+    "migrations_not_auto_applied": true
+  },
+  "auth_binding_gap": [
+    "real auth provider binding is still required",
+    "auth.uid() binding is not applied yet",
+    "service role key remains server-side only",
+    "browser exposure is forbidden"
+  ],
+  "rls_requirement": [
+    "enable row-level security before production writes",
+    "review all policies manually",
+    "do not auto-apply production migrations"
+  ],
+  "netlify_env_status_model": {
+    "provider": "supabase",
+    "provider_configured": false,
+    "request_api_enabled": false,
+    "request_api_writes_enabled": false,
+    "project_ref": "mobvzrkcsfbumgbwvkcp",
+    "project_url": "https://mobvzrkcsfbumgbwvkcp.supabase.co"
+  },
+  "security_boundary": [
+    "no service role in browser",
+    "no hardcoded secrets",
+    "no env values printed",
+    "RLS required before production writes",
+    "auth.uid() binding required",
+    "no production writes yet"
+  ],
+  "product_gap": [
+    "confirm Netlify env values",
+    "apply migration manually after review",
+    "configure Supabase Auth",
+    "wire real auth binding",
+    "enable request API reads first",
+    "enable writes only after RLS/auth review"
+  ],
+  "next_product_step": [
+    "configure_supabase_auth_policy",
+    "configure_rls_policy",
+    "then_build_mvp4_authenticated_request_api"
+  ],
+  "current_recommendation": [
+    "SUPABASE_PROVIDER_SELECTED",
+    "ENV_CONFIGURATION_REQUIRED",
+    "REQUEST_API_DISABLED_UNTIL_CONFIGURED",
+    "REAL_AUTH_BINDING_REQUIRED",
+    "NEXT_STEP_CONFIGURE_SUPABASE_PROJECT_AND_AUTH"
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "provider": "supabase",
+  "project_ref": "mobvzrkcsfbumgbwvkcp",
+  "project_url": "https://mobvzrkcsfbumgbwvkcp.supabase.co",
+  "environment_variables": [
+    {
+      "name": "SUPABASE_PROJECT_REF",
+      "purpose": "Project metadata and project identity.",
+      "required_for_status_only": true,
+      "required_for_read_api": true,
+      "required_for_write_api": true,
+      "secret_level": "public_metadata",
+      "browser_exposure_allowed": false,
+      "current_required": false
+    },
+    {
+      "name": "SUPABASE_URL",
+      "purpose": "Project URL for the Supabase project.",
+      "required_for_status_only": true,
+      "required_for_read_api": true,
+      "required_for_write_api": true,
+      "secret_level": "public_metadata",
+      "browser_exposure_allowed": false,
+      "current_required": false
+    },
+    {
+      "name": "SUPABASE_ANON_KEY",
+      "purpose": "Browser-safe public key for future Supabase read/auth flows.",
+      "required_for_status_only": false,
+      "required_for_read_api": true,
+      "required_for_write_api": false,
+      "secret_level": "public_client_key",
+      "browser_exposure_allowed": true,
+      "current_required": false
+    },
+    {
+      "name": "SUPABASE_SERVICE_ROLE_KEY",
+      "purpose": "Server-only secret for future admin and write operations.",
+      "required_for_status_only": false,
+      "required_for_read_api": false,
+      "required_for_write_api": true,
+      "secret_level": "server_secret",
+      "browser_exposure_allowed": false,
+      "current_required": false
+    },
+    {
+      "name": "SUPABASE_DB_PASSWORD",
+      "purpose": "Database password used for CLI link/setup and optional direct DB access.",
+      "required_for_status_only": false,
+      "required_for_read_api": false,
+      "required_for_write_api": true,
+      "secret_level": "server_secret",
+      "browser_exposure_allowed": false,
+      "current_required": false
+    },
+    {
+      "name": "DATABASE_URL",
+      "purpose": "Direct Postgres connection string for future server-side database access.",
+      "required_for_status_only": false,
+      "required_for_read_api": false,
+      "required_for_write_api": true,
+      "secret_level": "server_secret",
+      "browser_exposure_allowed": false,
+      "current_required": false
+    },
+    {
+      "name": "MVP_ENABLE_SUPABASE_REQUEST_API",
+      "purpose": "Feature gate for the request API boundary scaffold.",
+      "required_for_status_only": true,
+      "required_for_read_api": true,
+      "required_for_write_api": true,
+      "secret_level": "none",
+      "browser_exposure_allowed": false,
+      "current_required": false
+    },
+    {
+      "name": "MVP_ENABLE_REQUEST_API_WRITES",
+      "purpose": "Feature gate for request API write paths.",
+      "required_for_status_only": false,
+      "required_for_read_api": false,
+      "required_for_write_api": true,
+      "secret_level": "none",
+      "browser_exposure_allowed": false,
+      "current_required": false
+    },
+    {
+      "name": "MVP_ENABLE_SUPABASE_AUTH",
+      "purpose": "Feature gate for future Supabase Auth binding.",
+      "required_for_status_only": true,
+      "required_for_read_api": true,
+      "required_for_write_api": true,
+      "secret_level": "none",
+      "browser_exposure_allowed": false,
+      "current_required": false
+    }
+  ]
+}

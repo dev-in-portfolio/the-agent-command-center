@@ -3180,6 +3180,369 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-2 valid
     </details>
     
 
+    <details class="panel" data-section-group="source" open id="mvp3-supabase-provider-request-api-scaffold">
+      <summary>MVP-3 — Supabase Provider + Request API Scaffold</summary>
+      <div class="panel-body">
+        
+<div class="mvp3-supabase-provider" data-mvp3-supabase-provider="true">
+  <div class="callout plus2e-summary-callout" style="border-color: rgba(16,185,129,0.28); background: rgba(16,185,129,0.06);">
+    <strong style="color: var(--success);">MVP-3</strong>
+    <p class="muted" style="margin-top: 0.15rem;">SUPABASE PROVIDER SELECTED — PRODUCTION POSTGRES TARGET — SUPABASE AUTH TARGET</p>
+    <p class="muted" style="margin-top: 0.25rem;">ENV CONFIGURATION REQUIRED — REQUEST API DISABLED UNTIL CONFIGURED — REQUEST API WRITES DISABLED</p>
+    <p class="muted" style="margin-top: 0.25rem;">SERVICE ROLE NEVER EXPOSED TO BROWSER — RLS REQUIRED BEFORE PRODUCTION WRITES — REAL AUTH BINDING REQUIRED</p>
+    <p class="muted" style="margin-top: 0.25rem;">NOT_READY_FOR_REAL_AUTOMATION — NEXT_STEP_CONFIGURE_SUPABASE_PROJECT_AND_AUTH</p>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp3-provider-decision" id="mvp3-provider-decision-panel">
+      <div class="card-head"><h3 class="card-title">Provider Decision Panel</h3><span class="badge info">DECISION</span></div>
+      <div class="stat-grid">
+    <div class="stat">
+      <span>database provider</span>
+      <strong>Supabase Postgres</strong>
+      <span class="mini-status"><span class="badge pass">PASS</span></span>
+    </div>
+    
+    <div class="stat">
+      <span>auth direction</span>
+      <strong>Supabase Auth</strong>
+      <span class="mini-status"><span class="badge pass">PASS</span></span>
+    </div>
+    
+    <div class="stat">
+      <span>project ref</span>
+      <strong>mobvzrkcsfbumgbwvkcp</strong>
+      <span class="mini-status"><span class="badge info">INFO</span></span>
+    </div>
+    
+    <div class="stat">
+      <span>configured status</span>
+      <strong>not_configured</strong>
+      <span class="mini-status"><span class="badge disabled">DISABLED</span></span>
+    </div>
+    </div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp3-provider-table">
+          <caption>Supabase provider decision</caption>
+          <thead><tr><th scope="col">Property</th><th scope="col">Value</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">selected database provider</th><td>Supabase Postgres</td></tr>
+            <tr><th scope="row">selected auth direction</th><td>Supabase Auth</td></tr>
+            <tr><th scope="row">project ref</th><td><code>mobvzrkcsfbumgbwvkcp</code></td></tr>
+            <tr><th scope="row">project url</th><td><code>https://mobvzrkcsfbumgbwvkcp.supabase.co</code></td></tr>
+            <tr><th scope="row">configured status</th><td>not_configured</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp3-copy-provider-summary" data-copy-text="{
+  &quot;selected_database_provider&quot;: &quot;Supabase Postgres&quot;,
+  &quot;selected_auth_provider&quot;: &quot;Supabase Auth&quot;,
+  &quot;project_ref&quot;: &quot;mobvzrkcsfbumgbwvkcp&quot;,
+  &quot;project_url&quot;: &quot;https://mobvzrkcsfbumgbwvkcp.supabase.co&quot;,
+  &quot;configured_status&quot;: &quot;not_configured&quot;
+}">Copy Supabase provider summary</button>
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Current recommendation</p>
+        <ul class="compact-list"><li>SUPABASE_PROVIDER_SELECTED</li><li>ENV_CONFIGURATION_REQUIRED</li><li>REQUEST_API_DISABLED_UNTIL_CONFIGURED</li><li>REAL_AUTH_BINDING_REQUIRED</li><li>NEXT_STEP_CONFIGURE_SUPABASE_PROJECT_AND_AUTH</li></ul>
+      </div>
+    </article>
+
+    <article class="card mvp3-env-contract" id="mvp3-env-contract-panel">
+      <div class="card-head"><h3 class="card-title">Env Contract Panel</h3><span class="badge warning">ENV</span></div>
+      <p class="card-body">Environment variable names are documented only. No values are shown.</p>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp3-env-table">
+          <caption>Supabase environment contract</caption>
+          <thead><tr><th scope="col">Env name</th><th scope="col">Purpose</th><th scope="col">Browser safe</th><th scope="col">Current required</th></tr></thead>
+          <tbody><tr><th scope="row"><code>SUPABASE_PROJECT_REF</code></th><td>Project metadata and project identity.</td><td><span class="badge pass">PASS</span></td><td>no</td></tr><tr><th scope="row"><code>SUPABASE_URL</code></th><td>Project URL for the Supabase project.</td><td><span class="badge pass">PASS</span></td><td>no</td></tr><tr><th scope="row"><code>SUPABASE_ANON_KEY</code></th><td>Browser-safe public key for future Supabase read/auth flows.</td><td><span class="badge fail">FAIL</span></td><td>no</td></tr><tr><th scope="row"><code>SUPABASE_SERVICE_ROLE_KEY</code></th><td>Server-only secret for future admin and write operations.</td><td><span class="badge pass">PASS</span></td><td>no</td></tr><tr><th scope="row"><code>SUPABASE_DB_PASSWORD</code></th><td>Database password used for CLI link/setup and optional direct DB access.</td><td><span class="badge pass">PASS</span></td><td>no</td></tr><tr><th scope="row"><code>DATABASE_URL</code></th><td>Direct Postgres connection string for future server-side database access.</td><td><span class="badge pass">PASS</span></td><td>no</td></tr><tr><th scope="row"><code>MVP_ENABLE_SUPABASE_REQUEST_API</code></th><td>Feature gate for the request API boundary scaffold.</td><td><span class="badge pass">PASS</span></td><td>no</td></tr><tr><th scope="row"><code>MVP_ENABLE_REQUEST_API_WRITES</code></th><td>Feature gate for request API write paths.</td><td><span class="badge pass">PASS</span></td><td>no</td></tr><tr><th scope="row"><code>MVP_ENABLE_SUPABASE_AUTH</code></th><td>Feature gate for future Supabase Auth binding.</td><td><span class="badge pass">PASS</span></td><td>no</td></tr></tbody>
+        </table>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp3-copy-env-contract" data-copy-text="{
+  &quot;provider&quot;: &quot;supabase&quot;,
+  &quot;project_ref&quot;: &quot;mobvzrkcsfbumgbwvkcp&quot;,
+  &quot;project_url&quot;: &quot;https://mobvzrkcsfbumgbwvkcp.supabase.co&quot;,
+  &quot;environment_variables&quot;: [
+    {
+      &quot;name&quot;: &quot;SUPABASE_PROJECT_REF&quot;,
+      &quot;purpose&quot;: &quot;Project metadata and project identity.&quot;,
+      &quot;required_for_status_only&quot;: true,
+      &quot;required_for_read_api&quot;: true,
+      &quot;required_for_write_api&quot;: true,
+      &quot;secret_level&quot;: &quot;public_metadata&quot;,
+      &quot;browser_exposure_allowed&quot;: false,
+      &quot;current_required&quot;: false
+    },
+    {
+      &quot;name&quot;: &quot;SUPABASE_URL&quot;,
+      &quot;purpose&quot;: &quot;Project URL for the Supabase project.&quot;,
+      &quot;required_for_status_only&quot;: true,
+      &quot;required_for_read_api&quot;: true,
+      &quot;required_for_write_api&quot;: true,
+      &quot;secret_level&quot;: &quot;public_metadata&quot;,
+      &quot;browser_exposure_allowed&quot;: false,
+      &quot;current_required&quot;: false
+    },
+    {
+      &quot;name&quot;: &quot;SUPABASE_ANON_KEY&quot;,
+      &quot;purpose&quot;: &quot;Browser-safe public key for future Supabase read/auth flows.&quot;,
+      &quot;required_for_status_only&quot;: false,
+      &quot;required_for_read_api&quot;: true,
+      &quot;required_for_write_api&quot;: false,
+      &quot;secret_level&quot;: &quot;public_client_key&quot;,
+      &quot;browser_exposure_allowed&quot;: true,
+      &quot;current_required&quot;: false
+    },
+    {
+      &quot;name&quot;: &quot;SUPABASE_SERVICE_ROLE_KEY&quot;,
+      &quot;purpose&quot;: &quot;Server-only secret for future admin and write operations.&quot;,
+      &quot;required_for_status_only&quot;: false,
+      &quot;required_for_read_api&quot;: false,
+      &quot;required_for_write_api&quot;: true,
+      &quot;secret_level&quot;: &quot;server_secret&quot;,
+      &quot;browser_exposure_allowed&quot;: false,
+      &quot;current_required&quot;: false
+    },
+    {
+      &quot;name&quot;: &quot;SUPABASE_DB_PASSWORD&quot;,
+      &quot;purpose&quot;: &quot;Database password used for CLI link/setup and optional direct DB access.&quot;,
+      &quot;required_for_status_only&quot;: false,
+      &quot;required_for_read_api&quot;: false,
+      &quot;required_for_write_api&quot;: true,
+      &quot;secret_level&quot;: &quot;server_secret&quot;,
+      &quot;browser_exposure_allowed&quot;: false,
+      &quot;current_required&quot;: false
+    },
+    {
+      &quot;name&quot;: &quot;DATABASE_URL&quot;,
+      &quot;purpose&quot;: &quot;Direct Postgres connection string for future server-side database access.&quot;,
+      &quot;required_for_status_only&quot;: false,
+      &quot;required_for_read_api&quot;: false,
+      &quot;required_for_write_api&quot;: true,
+      &quot;secret_level&quot;: &quot;server_secret&quot;,
+      &quot;browser_exposure_allowed&quot;: false,
+      &quot;current_required&quot;: false
+    },
+    {
+      &quot;name&quot;: &quot;MVP_ENABLE_SUPABASE_REQUEST_API&quot;,
+      &quot;purpose&quot;: &quot;Feature gate for the request API boundary scaffold.&quot;,
+      &quot;required_for_status_only&quot;: true,
+      &quot;required_for_read_api&quot;: true,
+      &quot;required_for_write_api&quot;: true,
+      &quot;secret_level&quot;: &quot;none&quot;,
+      &quot;browser_exposure_allowed&quot;: false,
+      &quot;current_required&quot;: false
+    },
+    {
+      &quot;name&quot;: &quot;MVP_ENABLE_REQUEST_API_WRITES&quot;,
+      &quot;purpose&quot;: &quot;Feature gate for request API write paths.&quot;,
+      &quot;required_for_status_only&quot;: false,
+      &quot;required_for_read_api&quot;: false,
+      &quot;required_for_write_api&quot;: true,
+      &quot;secret_level&quot;: &quot;none&quot;,
+      &quot;browser_exposure_allowed&quot;: false,
+      &quot;current_required&quot;: false
+    },
+    {
+      &quot;name&quot;: &quot;MVP_ENABLE_SUPABASE_AUTH&quot;,
+      &quot;purpose&quot;: &quot;Feature gate for future Supabase Auth binding.&quot;,
+      &quot;required_for_status_only&quot;: true,
+      &quot;required_for_read_api&quot;: true,
+      &quot;required_for_write_api&quot;: true,
+      &quot;secret_level&quot;: &quot;none&quot;,
+      &quot;browser_exposure_allowed&quot;: false,
+      &quot;current_required&quot;: false
+    }
+  ]
+}">Copy env contract</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp3-request-api-boundary" id="mvp3-request-api-boundary-panel">
+      <div class="card-head"><h3 class="card-title">Request API Boundary Panel</h3><span class="badge info">API</span></div>
+      <p class="card-body">The provider-status endpoint and request API boundary stay disabled until configuration is present.</p>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp3-request-boundary-table">
+          <caption>Request API boundary</caption>
+          <thead><tr><th scope="col">Endpoint</th><th scope="col">Purpose</th><th scope="col">Boundary state</th></tr></thead>
+          <tbody><tr><th scope="row"><code>GET /api/provider-status</code></th><td>Read-only Supabase provider status</td><td>read_only</td></tr><tr><th scope="row"><code>GET /api/requests</code></th><td>Read-only request API boundary scaffold</td><td>disabled_by_default</td></tr><tr><th scope="row"><code>POST /api/requests</code></th><td>Write boundary scaffold with writes disabled by default</td><td>writes_disabled_by_default</td></tr></tbody>
+        </table>
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Disabled unless configured</p>
+        <ul class="compact-list"><li>request API reads stay disabled by default</li><li>request API writes stay disabled by default</li><li>no Supabase network calls are executed in MVP-3</li></ul>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp3-copy-boundary" data-copy-text="{
+  &quot;endpoints&quot;: [
+    {
+      &quot;path&quot;: &quot;/api/provider-status&quot;,
+      &quot;method&quot;: &quot;GET&quot;,
+      &quot;purpose&quot;: &quot;Read-only Supabase provider status&quot;,
+      &quot;boundary_state&quot;: &quot;read_only&quot;
+    },
+    {
+      &quot;path&quot;: &quot;/api/requests&quot;,
+      &quot;method&quot;: &quot;GET&quot;,
+      &quot;purpose&quot;: &quot;Read-only request API boundary scaffold&quot;,
+      &quot;boundary_state&quot;: &quot;disabled_by_default&quot;
+    },
+    {
+      &quot;path&quot;: &quot;/api/requests&quot;,
+      &quot;method&quot;: &quot;POST&quot;,
+      &quot;purpose&quot;: &quot;Write boundary scaffold with writes disabled by default&quot;,
+      &quot;boundary_state&quot;: &quot;writes_disabled_by_default&quot;
+    }
+  ],
+  &quot;disabled_unless_configured&quot;: true,
+  &quot;writes_disabled_by_default&quot;: true,
+  &quot;no_supabase_network_calls&quot;: true,
+  &quot;no_command_execution&quot;: true,
+  &quot;no_external_mutation&quot;: true
+}">Copy request API boundary</button>
+      </div>
+    </article>
+
+    <article class="card mvp3-supabase-migration-scaffold" id="mvp3-supabase-migration-scaffold-panel">
+      <div class="card-head"><h3 class="card-title">Supabase Migration Scaffold Panel</h3><span class="badge warning">MIGRATION</span></div>
+      <p class="card-body">Postgres schema scaffold only. Apply manually after provider and auth review.</p>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp3-migration-table">
+          <caption>Supabase migration scaffold tables</caption>
+          <thead><tr><th scope="col">Table</th><th scope="col">State</th></tr></thead>
+          <tbody><tr><th scope="row"><code>app_users</code></th><td><span class="badge pass">PASS</span></td></tr><tr><th scope="row"><code>app_roles</code></th><td><span class="badge pass">PASS</span></td></tr><tr><th scope="row"><code>requests</code></th><td><span class="badge pass">PASS</span></td></tr><tr><th scope="row"><code>request_lifecycle_events</code></th><td><span class="badge pass">PASS</span></td></tr><tr><th scope="row"><code>approvals</code></th><td><span class="badge pass">PASS</span></td></tr><tr><th scope="row"><code>audit_events</code></th><td><span class="badge pass">PASS</span></td></tr><tr><th scope="row"><code>dry_run_results</code></th><td><span class="badge pass">PASS</span></td></tr><tr><th scope="row"><code>no_go_flags</code></th><td><span class="badge pass">PASS</span></td></tr></tbody>
+        </table>
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;"><code>14_backend/product_runtime/providers/supabase/migrations/001_supabase_request_runtime.sql</code></p>
+        <p class="muted" style="margin-top:0.5rem;">RLS required before production writes. auth.uid() binding required.</p>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp3-copy-migration" data-copy-text="{
+  &quot;file_path&quot;: &quot;14_backend/product_runtime/providers/supabase/migrations/001_supabase_request_runtime.sql&quot;,
+  &quot;tables&quot;: [
+    &quot;app_users&quot;,
+    &quot;app_roles&quot;,
+    &quot;requests&quot;,
+    &quot;request_lifecycle_events&quot;,
+    &quot;approvals&quot;,
+    &quot;audit_events&quot;,
+    &quot;dry_run_results&quot;,
+    &quot;no_go_flags&quot;
+  ],
+  &quot;rls_required_before_production_writes&quot;: true,
+  &quot;auth_uid_binding_required&quot;: true,
+  &quot;service_role_never_exposed_to_browser&quot;: true,
+  &quot;migrations_not_auto_applied&quot;: true
+}">Copy migration scaffold summary</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp3-security-boundary" id="mvp3-security-boundary-panel">
+      <div class="card-head"><h3 class="card-title">Security Boundary Panel</h3><span class="badge warning">SECURITY</span></div>
+      <ul class="compact-list"><li>no service role in browser</li><li>no hardcoded secrets</li><li>no env values printed</li><li>RLS required before production writes</li><li>auth.uid() binding required</li><li>no production writes yet</li></ul>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Netlify environment status model</p>
+        <pre class="code-block" style="white-space:pre-wrap;">{
+  &quot;model_id&quot;: &quot;supabase-provider-status-model&quot;,
+  &quot;model_version&quot;: &quot;1.0&quot;,
+  &quot;provider&quot;: &quot;supabase&quot;,
+  &quot;project_ref&quot;: &quot;mobvzrkcsfbumgbwvkcp&quot;,
+  &quot;project_url&quot;: &quot;https://mobvzrkcsfbumgbwvkcp.supabase.co&quot;,
+  &quot;production_database_target&quot;: &quot;postgres&quot;,
+  &quot;production_auth_target&quot;: &quot;supabase_auth&quot;,
+  &quot;provider_configured&quot;: false,
+  &quot;request_api_enabled&quot;: false,
+  &quot;request_api_writes_enabled&quot;: false,
+  &quot;service_role_required_for_admin_ops&quot;: true,
+  &quot;browser_service_role_exposure_allowed&quot;: false,
+  &quot;rls_required_before_production_writes&quot;: true,
+  &quot;auth_uid_binding_required&quot;: true,
+  &quot;allowed_env_names&quot;: [
+    &quot;SUPABASE_PROJECT_REF&quot;,
+    &quot;SUPABASE_URL&quot;,
+    &quot;SUPABASE_ANON_KEY&quot;,
+    &quot;SUPABASE_SERVICE_ROLE_KEY&quot;,
+    &quot;SUPABASE_DB_PASSWORD&quot;,
+    &quot;DATABASE_URL&quot;,
+    &quot;MVP_ENABLE_SUPABASE_REQUEST_API&quot;,
+    &quot;MVP_ENABLE_REQUEST_API_WRITES&quot;,
+    &quot;MVP_ENABLE_SUPABASE_AUTH&quot;
+  ],
+  &quot;missing_env_vars&quot;: [
+    &quot;SUPABASE_ANON_KEY&quot;,
+    &quot;SUPABASE_SERVICE_ROLE_KEY&quot;,
+    &quot;SUPABASE_DB_PASSWORD&quot;,
+    &quot;DATABASE_URL&quot;
+  ],
+  &quot;safety_boundary&quot;: [
+    &quot;Request API writes are disabled by default.&quot;,
+    &quot;Supabase Auth is disabled by default.&quot;,
+    &quot;RLS is required before production writes.&quot;,
+    &quot;Service role key must never be exposed to browser code.&quot;,
+    &quot;Production migrations are not auto-applied.&quot;,
+    &quot;Real automation remains disabled.&quot;
+  ],
+  &quot;current_recommendation&quot;: [
+    &quot;SUPABASE_PROVIDER_SELECTED&quot;,
+    &quot;ENV_CONFIGURATION_REQUIRED&quot;,
+    &quot;REQUEST_API_DISABLED_UNTIL_CONFIGURED&quot;,
+    &quot;REAL_AUTH_BINDING_REQUIRED&quot;,
+    &quot;NOT_READY_FOR_REAL_AUTOMATION&quot;,
+    &quot;NEXT_STEP_CONFIGURE_SUPABASE_PROJECT_AND_AUTH&quot;
+  ]
+}</pre>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp3-copy-security" data-copy-text="no service role in browser
+no hardcoded secrets
+no env values printed
+RLS required before production writes
+auth.uid() binding required
+no production writes yet">Copy security checklist</button>
+      </div>
+    </article>
+
+    <article class="card mvp3-product-gap" id="mvp3-product-gap-panel">
+      <div class="card-head"><h3 class="card-title">Product Gap Panel</h3><span class="badge warning">GAPS</span></div>
+      <ul class="compact-list"><li>confirm Netlify env values</li><li>apply migration manually after review</li><li>configure Supabase Auth</li><li>wire real auth binding</li><li>enable request API reads first</li><li>enable writes only after RLS/auth review</li></ul>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp3-copy-gap" data-copy-text="confirm Netlify env values
+apply migration manually after review
+configure Supabase Auth
+wire real auth binding
+enable request API reads first
+enable writes only after RLS/auth review">Copy next Supabase setup checklist</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="card mvp3-next-product-decision" id="mvp3-next-product-decision-panel">
+    <div class="card-head"><h3 class="card-title">Next Product Decision Panel</h3><span class="badge info">NEXT</span></div>
+    <p class="card-body">Configure Supabase Auth policy and RLS before building the authenticated request API.</p>
+    <ul class="compact-list"><li>configure_supabase_auth_policy</li><li>configure_rls_policy</li><li>then_build_mvp4_authenticated_request_api</li></ul>
+    <div class="callout" style="margin-top:0.75rem;">
+      <p class="muted" style="margin:0;">Current recommendation</p>
+      <ul class="compact-list"><li>SUPABASE_PROVIDER_SELECTED</li><li>ENV_CONFIGURATION_REQUIRED</li><li>REQUEST_API_DISABLED_UNTIL_CONFIGURED</li><li>REAL_AUTH_BINDING_REQUIRED</li><li>NEXT_STEP_CONFIGURE_SUPABASE_PROJECT_AND_AUTH</li></ul>
+    </div>
+    <div class="button-row" style="margin-top:0.75rem;">
+      <button type="button" class="copy-button small" id="mvp3-copy-next-step" data-copy-text="configure_supabase_auth_policy
+configure_rls_policy
+then_build_mvp4_authenticated_request_api">Copy MVP-3 validation checklist</button>
+    </div>
+  </div>
+</div>
+
+      </div>
+    </details>
+    
+
     <details class="panel" data-section-group="registry" id="action-registry">
       <summary>Action Registry</summary>
       <div class="panel-body">
@@ -3397,7 +3760,7 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-2 valid
         <div class="stat-grid">
     <div class="stat">
       <span>Generated at</span>
-      <strong>2026-05-15T19:34:12Z</strong>
+      <strong>2026-05-15T20:57:31Z</strong>
       
     </div>
     
@@ -3604,8 +3967,8 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-2 valid
     </main>
   </div>
   <script type="application/json" id="dashboard-data">{
-  "dashboard_id": "PH3-20260515-193400",
-  "created_at_utc": "2026-05-15T19:34:00Z",
+  "dashboard_id": "PH3-20260515-205729",
+  "created_at_utc": "2026-05-15T20:57:29Z",
   "phase": "Read-Only Operations Dashboard",
   "repo": "dev-in-portfolio/the-agent-command-center",
   "source_lineage": "dev-in-portfolio/agent-command-center-3",
@@ -4612,7 +4975,7 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-2 valid
     "source_exists": true,
     "source_type": "generated_static_snapshot",
     "source_confidence": "generated_static_snapshot",
-    "generated_at_utc": "2026-05-15T19:34:12Z",
+    "generated_at_utc": "2026-05-15T20:57:31Z",
     "freshness_status": "generated_static_snapshot",
     "snapshot_age_seconds": 0,
     "notes": [
@@ -9968,6 +10331,282 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-2 valid
       "REAL_AUTH_PROVIDER_REQUIRED",
       "NOT_READY_FOR_REAL_AUTOMATION",
       "NEXT_STEP_CHOOSE_PRODUCTION_POSTGRES_AND_AUTH_PROVIDER"
+    ]
+  },
+  "mvp3_supabase_provider_model": {
+    "model_id": "mvp3-supabase-provider-request-api-scaffold",
+    "model_version": "1.0",
+    "provider_status_model": {
+      "model_id": "supabase-provider-status-model",
+      "model_version": "1.0",
+      "provider": "supabase",
+      "project_ref": "mobvzrkcsfbumgbwvkcp",
+      "project_url": "https://mobvzrkcsfbumgbwvkcp.supabase.co",
+      "production_database_target": "postgres",
+      "production_auth_target": "supabase_auth",
+      "provider_configured": false,
+      "request_api_enabled": false,
+      "request_api_writes_enabled": false,
+      "service_role_required_for_admin_ops": true,
+      "browser_service_role_exposure_allowed": false,
+      "rls_required_before_production_writes": true,
+      "auth_uid_binding_required": true,
+      "allowed_env_names": [
+        "SUPABASE_PROJECT_REF",
+        "SUPABASE_URL",
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_DB_PASSWORD",
+        "DATABASE_URL",
+        "MVP_ENABLE_SUPABASE_REQUEST_API",
+        "MVP_ENABLE_REQUEST_API_WRITES",
+        "MVP_ENABLE_SUPABASE_AUTH"
+      ],
+      "missing_env_vars": [
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_DB_PASSWORD",
+        "DATABASE_URL"
+      ],
+      "safety_boundary": [
+        "Request API writes are disabled by default.",
+        "Supabase Auth is disabled by default.",
+        "RLS is required before production writes.",
+        "Service role key must never be exposed to browser code.",
+        "Production migrations are not auto-applied.",
+        "Real automation remains disabled."
+      ],
+      "current_recommendation": [
+        "SUPABASE_PROVIDER_SELECTED",
+        "ENV_CONFIGURATION_REQUIRED",
+        "REQUEST_API_DISABLED_UNTIL_CONFIGURED",
+        "REAL_AUTH_BINDING_REQUIRED",
+        "NOT_READY_FOR_REAL_AUTOMATION",
+        "NEXT_STEP_CONFIGURE_SUPABASE_PROJECT_AND_AUTH"
+      ]
+    },
+    "env_contract": {
+      "provider": "supabase",
+      "project_ref": "mobvzrkcsfbumgbwvkcp",
+      "project_url": "https://mobvzrkcsfbumgbwvkcp.supabase.co",
+      "environment_variables": [
+        {
+          "name": "SUPABASE_PROJECT_REF",
+          "purpose": "Project metadata and project identity.",
+          "required_for_status_only": true,
+          "required_for_read_api": true,
+          "required_for_write_api": true,
+          "secret_level": "public_metadata",
+          "browser_exposure_allowed": false,
+          "current_required": false
+        },
+        {
+          "name": "SUPABASE_URL",
+          "purpose": "Project URL for the Supabase project.",
+          "required_for_status_only": true,
+          "required_for_read_api": true,
+          "required_for_write_api": true,
+          "secret_level": "public_metadata",
+          "browser_exposure_allowed": false,
+          "current_required": false
+        },
+        {
+          "name": "SUPABASE_ANON_KEY",
+          "purpose": "Browser-safe public key for future Supabase read/auth flows.",
+          "required_for_status_only": false,
+          "required_for_read_api": true,
+          "required_for_write_api": false,
+          "secret_level": "public_client_key",
+          "browser_exposure_allowed": true,
+          "current_required": false
+        },
+        {
+          "name": "SUPABASE_SERVICE_ROLE_KEY",
+          "purpose": "Server-only secret for future admin and write operations.",
+          "required_for_status_only": false,
+          "required_for_read_api": false,
+          "required_for_write_api": true,
+          "secret_level": "server_secret",
+          "browser_exposure_allowed": false,
+          "current_required": false
+        },
+        {
+          "name": "SUPABASE_DB_PASSWORD",
+          "purpose": "Database password used for CLI link/setup and optional direct DB access.",
+          "required_for_status_only": false,
+          "required_for_read_api": false,
+          "required_for_write_api": true,
+          "secret_level": "server_secret",
+          "browser_exposure_allowed": false,
+          "current_required": false
+        },
+        {
+          "name": "DATABASE_URL",
+          "purpose": "Direct Postgres connection string for future server-side database access.",
+          "required_for_status_only": false,
+          "required_for_read_api": false,
+          "required_for_write_api": true,
+          "secret_level": "server_secret",
+          "browser_exposure_allowed": false,
+          "current_required": false
+        },
+        {
+          "name": "MVP_ENABLE_SUPABASE_REQUEST_API",
+          "purpose": "Feature gate for the request API boundary scaffold.",
+          "required_for_status_only": true,
+          "required_for_read_api": true,
+          "required_for_write_api": true,
+          "secret_level": "none",
+          "browser_exposure_allowed": false,
+          "current_required": false
+        },
+        {
+          "name": "MVP_ENABLE_REQUEST_API_WRITES",
+          "purpose": "Feature gate for request API write paths.",
+          "required_for_status_only": false,
+          "required_for_read_api": false,
+          "required_for_write_api": true,
+          "secret_level": "none",
+          "browser_exposure_allowed": false,
+          "current_required": false
+        },
+        {
+          "name": "MVP_ENABLE_SUPABASE_AUTH",
+          "purpose": "Feature gate for future Supabase Auth binding.",
+          "required_for_status_only": true,
+          "required_for_read_api": true,
+          "required_for_write_api": true,
+          "secret_level": "none",
+          "browser_exposure_allowed": false,
+          "current_required": false
+        }
+      ]
+    },
+    "provider_decision": {
+      "selected_database_provider": "Supabase Postgres",
+      "selected_auth_provider": "Supabase Auth",
+      "project_ref": "mobvzrkcsfbumgbwvkcp",
+      "project_url": "https://mobvzrkcsfbumgbwvkcp.supabase.co",
+      "configured_status": "not_configured"
+    },
+    "env_contract_summary": {
+      "environment_variables": [
+        "SUPABASE_PROJECT_REF",
+        "SUPABASE_URL",
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_DB_PASSWORD",
+        "DATABASE_URL",
+        "MVP_ENABLE_SUPABASE_REQUEST_API",
+        "MVP_ENABLE_REQUEST_API_WRITES",
+        "MVP_ENABLE_SUPABASE_AUTH"
+      ],
+      "feature_flags_default": {
+        "MVP_ENABLE_SUPABASE_REQUEST_API": false,
+        "MVP_ENABLE_REQUEST_API_WRITES": false,
+        "MVP_ENABLE_SUPABASE_AUTH": false
+      },
+      "browser_safe_variables": [
+        "SUPABASE_PROJECT_REF",
+        "SUPABASE_URL"
+      ],
+      "server_secret_variables": [
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_DB_PASSWORD",
+        "DATABASE_URL"
+      ],
+      "current_required": false
+    },
+    "request_api_boundary": {
+      "endpoints": [
+        {
+          "path": "/api/provider-status",
+          "method": "GET",
+          "purpose": "Read-only Supabase provider status",
+          "boundary_state": "read_only"
+        },
+        {
+          "path": "/api/requests",
+          "method": "GET",
+          "purpose": "Read-only request API boundary scaffold",
+          "boundary_state": "disabled_by_default"
+        },
+        {
+          "path": "/api/requests",
+          "method": "POST",
+          "purpose": "Write boundary scaffold with writes disabled by default",
+          "boundary_state": "writes_disabled_by_default"
+        }
+      ],
+      "disabled_unless_configured": true,
+      "writes_disabled_by_default": true,
+      "no_supabase_network_calls": true,
+      "no_command_execution": true,
+      "no_external_mutation": true
+    },
+    "supabase_migration_scaffold_summary": {
+      "file_path": "14_backend/product_runtime/providers/supabase/migrations/001_supabase_request_runtime.sql",
+      "tables": [
+        "app_users",
+        "app_roles",
+        "requests",
+        "request_lifecycle_events",
+        "approvals",
+        "audit_events",
+        "dry_run_results",
+        "no_go_flags"
+      ],
+      "rls_required_before_production_writes": true,
+      "auth_uid_binding_required": true,
+      "service_role_never_exposed_to_browser": true,
+      "migrations_not_auto_applied": true
+    },
+    "auth_binding_gap": [
+      "real auth provider binding is still required",
+      "auth.uid() binding is not applied yet",
+      "service role key remains server-side only",
+      "browser exposure is forbidden"
+    ],
+    "rls_requirement": [
+      "enable row-level security before production writes",
+      "review all policies manually",
+      "do not auto-apply production migrations"
+    ],
+    "netlify_env_status_model": {
+      "provider": "supabase",
+      "provider_configured": false,
+      "request_api_enabled": false,
+      "request_api_writes_enabled": false,
+      "project_ref": "mobvzrkcsfbumgbwvkcp",
+      "project_url": "https://mobvzrkcsfbumgbwvkcp.supabase.co"
+    },
+    "security_boundary": [
+      "no service role in browser",
+      "no hardcoded secrets",
+      "no env values printed",
+      "RLS required before production writes",
+      "auth.uid() binding required",
+      "no production writes yet"
+    ],
+    "product_gap": [
+      "confirm Netlify env values",
+      "apply migration manually after review",
+      "configure Supabase Auth",
+      "wire real auth binding",
+      "enable request API reads first",
+      "enable writes only after RLS/auth review"
+    ],
+    "next_product_step": [
+      "configure_supabase_auth_policy",
+      "configure_rls_policy",
+      "then_build_mvp4_authenticated_request_api"
+    ],
+    "current_recommendation": [
+      "SUPABASE_PROVIDER_SELECTED",
+      "ENV_CONFIGURATION_REQUIRED",
+      "REQUEST_API_DISABLED_UNTIL_CONFIGURED",
+      "REAL_AUTH_BINDING_REQUIRED",
+      "NEXT_STEP_CONFIGURE_SUPABASE_PROJECT_AND_AUTH"
     ]
   }
 }</script>
