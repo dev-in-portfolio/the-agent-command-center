@@ -7,6 +7,7 @@ const REQUEST_BOUNDARY_MARKERS = {
   REQUEST_API_DISABLED: "REQUEST_API_DISABLED",
   AUTH_DISABLED_BY_DEFAULT: "AUTH_DISABLED_BY_DEFAULT",
   AUTHORIZATION_REQUIRED: "AUTHORIZATION_REQUIRED",
+  AUTHENTICATED_READ_BOUNDARY_READY: "AUTHENTICATED_READ_BOUNDARY_READY",
   REQUEST_API_WRITES_DISABLED: "REQUEST_API_WRITES_DISABLED",
   RLS_POLICY_REQUIRED: "RLS_POLICY_REQUIRED",
 };
@@ -73,6 +74,18 @@ exports.handler = async function(event) {
     }, 401);
   }
 
+  if (method === "GET") {
+    return jsonResponse({
+      ok: true,
+      error_code: null,
+      request_api_state: REQUEST_BOUNDARY_MARKERS.AUTHENTICATED_READ_BOUNDARY_READY,
+      provider_status: providerStatus,
+      auth_context: authContext,
+      request_api_markers: boundaryMarkers,
+      note: "MVP-5 keeps GET boundary-only and does not execute Supabase network calls yet.",
+    });
+  }
+
   if (method === "POST" && !providerStatus.request_api_writes_enabled) {
     return jsonResponse({
       ok: false,
@@ -84,25 +97,13 @@ exports.handler = async function(event) {
     }, 409);
   }
 
-  if (method === "POST") {
-    return jsonResponse({
-      ok: false,
-      error_code: REQUEST_BOUNDARY_MARKERS.RLS_POLICY_REQUIRED,
-      request_api_state: "rls_review_required",
-      provider_status: providerStatus,
-      auth_context: authContext,
-      request_api_markers: boundaryMarkers,
-      note: "MVP-4 keeps production writes disabled until RLS review is explicitly completed.",
-    }, 409);
-  }
-
   return jsonResponse({
-    ok: true,
-    error_code: null,
-    request_api_state: "AUTHENTICATED_REQUEST_API_BOUNDARY_ONLY",
+    ok: false,
+    error_code: REQUEST_BOUNDARY_MARKERS.RLS_POLICY_REQUIRED,
+    request_api_state: "rls_review_required",
     provider_status: providerStatus,
     auth_context: authContext,
     request_api_markers: boundaryMarkers,
-    note: "MVP-4 keeps request reads boundary-only and does not execute Supabase network calls.",
-  });
+    note: "MVP-5 keeps production writes disabled and requires RLS review before any write path is opened.",
+  }, 409);
 };

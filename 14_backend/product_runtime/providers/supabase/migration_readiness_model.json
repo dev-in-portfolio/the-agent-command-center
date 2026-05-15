@@ -1,0 +1,37 @@
+{
+  "model_id": "supabase-migration-readiness-model",
+  "model_version": "1.0",
+  "project_ref": "mobvzrkcsfbumgbwvkcp",
+  "project_url": "https://mobvzrkcsfbumgbwvkcp.supabase.co",
+  "required_migrations": [
+    "001_supabase_request_runtime.sql",
+    "002_supabase_auth_rls_policies.sql"
+  ],
+  "migration_apply_mode": "manual_only",
+  "production_apply_automatic": false,
+  "supabase_cli_required": true,
+  "rls_review_required": true,
+  "writes_enabled_after_migration": false,
+  "reads_allowed_after_auth_review": "boundary_only",
+  "migration_check_script": "14_backend/product_runtime/providers/supabase/migration_readiness_check.py",
+  "manual_migration_runbook": [
+    "confirm the required migration files are present locally",
+    "review RLS enable statements and policy scope",
+    "confirm no broad anonymous write policies are present",
+    "apply migrations manually outside Codex after approval",
+    "verify the request read boundary remains read-only"
+  ],
+  "auth_token_validation_plan": [
+    "accept bearer tokens only when Supabase auth is explicitly enabled",
+    "validate tokens against the Supabase user endpoint using anon key plus bearer token only",
+    "never validate browser tokens with service role credentials",
+    "keep read results boundary-only until the read adapter is explicitly approved"
+  ],
+  "current_recommendation": [
+    "MIGRATION_READINESS_CHECK_READY",
+    "MANUAL_MIGRATION_REVIEW_REQUIRED",
+    "AUTHENTICATED_READS_BOUNDARY_READY",
+    "WRITES_DISABLED_UNTIL_RLS_REVIEW",
+    "NOT_READY_FOR_REAL_AUTOMATION"
+  ]
+}

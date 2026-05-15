@@ -1,6 +1,6 @@
 {
-  "dashboard_id": "PH3-20260515-211756",
-  "created_at_utc": "2026-05-15T21:17:56Z",
+  "dashboard_id": "PH3-20260515-214335",
+  "created_at_utc": "2026-05-15T21:43:35Z",
   "phase": "Read-Only Operations Dashboard",
   "repo": "dev-in-portfolio/the-agent-command-center",
   "source_lineage": "dev-in-portfolio/agent-command-center-3",
@@ -1007,7 +1007,7 @@
     "source_exists": true,
     "source_type": "generated_static_snapshot",
     "source_confidence": "generated_static_snapshot",
-    "generated_at_utc": "2026-05-15T21:17:59Z",
+    "generated_at_utc": "2026-05-15T21:43:39Z",
     "freshness_status": "generated_static_snapshot",
     "snapshot_age_seconds": 0,
     "notes": [
@@ -6775,6 +6775,126 @@
       "WRITES_DISABLED_UNTIL_RLS_REVIEW",
       "NOT_READY_FOR_REAL_AUTOMATION",
       "NEXT_STEP_APPLY_RLS_MIGRATION_AND_ENABLE_READS"
+    ]
+  },
+  "mvp5_migration_readiness_reads_model": {
+    "model_id": "mvp5-supabase-migration-readiness-authenticated-reads",
+    "model_version": "1.0",
+    "migration_readiness_model": {
+      "model_id": "supabase-migration-readiness-model",
+      "model_version": "1.0",
+      "project_ref": "mobvzrkcsfbumgbwvkcp",
+      "project_url": "https://mobvzrkcsfbumgbwvkcp.supabase.co",
+      "required_migrations": [
+        "001_supabase_request_runtime.sql",
+        "002_supabase_auth_rls_policies.sql"
+      ],
+      "migration_apply_mode": "manual_only",
+      "production_apply_automatic": false,
+      "supabase_cli_required": true,
+      "rls_review_required": true,
+      "writes_enabled_after_migration": false,
+      "reads_allowed_after_auth_review": "boundary_only",
+      "migration_check_script": "14_backend/product_runtime/providers/supabase/migration_readiness_check.py",
+      "manual_migration_runbook": [
+        "confirm the required migration files are present locally",
+        "review RLS enable statements and policy scope",
+        "confirm no broad anonymous write policies are present",
+        "apply migrations manually outside Codex after approval",
+        "verify the request read boundary remains read-only"
+      ],
+      "auth_token_validation_plan": [
+        "accept bearer tokens only when Supabase auth is explicitly enabled",
+        "validate tokens against the Supabase user endpoint using anon key plus bearer token only",
+        "never validate browser tokens with service role credentials",
+        "keep read results boundary-only until the read adapter is explicitly approved"
+      ],
+      "current_recommendation": [
+        "MIGRATION_READINESS_CHECK_READY",
+        "MANUAL_MIGRATION_REVIEW_REQUIRED",
+        "AUTHENTICATED_READS_BOUNDARY_READY",
+        "WRITES_DISABLED_UNTIL_RLS_REVIEW",
+        "NOT_READY_FOR_REAL_AUTOMATION"
+      ]
+    },
+    "request_read_model": {
+      "model_id": "supabase-request-read-model",
+      "model_version": "1.0",
+      "endpoint": "/api/requests",
+      "method": "GET",
+      "requires_provider_configured": true,
+      "requires_request_api_enabled": true,
+      "requires_supabase_auth_enabled": true,
+      "requires_bearer_token": true,
+      "uses_service_role": false,
+      "uses_anon_key_with_user_bearer": true,
+      "returns_only_user_owned_requests": true,
+      "writes_enabled": false,
+      "auth_token_validation_plan": [
+        "require a bearer token before any read boundary is considered active",
+        "validate tokens only with Supabase auth and anon-key-backed user context when the auth flag is explicitly enabled",
+        "never expose the service role to browser code",
+        "keep the read adapter boundary-only until the read path is explicitly approved"
+      ],
+      "current_status": "scaffold_only_boundary",
+      "current_recommendation": [
+        "MIGRATION_READINESS_CHECK_READY",
+        "MANUAL_MIGRATION_REVIEW_REQUIRED",
+        "AUTHENTICATED_READS_BOUNDARY_READY",
+        "WRITES_DISABLED_UNTIL_RLS_REVIEW",
+        "NEXT_STEP_MANUALLY_APPLY_MIGRATIONS_AND_ENABLE_AUTH_READS"
+      ]
+    },
+    "request_read_adapter_contract": {
+      "contract_id": "supabase-request-read-adapter-contract",
+      "contract_version": "1.0",
+      "read_methods": [
+        "list_my_requests",
+        "get_my_request",
+        "list_my_request_lifecycle_events",
+        "list_my_dry_run_results"
+      ],
+      "read_boundary_behavior": [
+        "GET remains boundary-only until the provider and auth gates are explicitly enabled",
+        "authenticated reads must use anon key plus bearer token only",
+        "service role credentials are forbidden in browser code",
+        "write methods stay blocked"
+      ],
+      "blocked_methods": [
+        "create_request",
+        "update_request",
+        "delete_request",
+        "approve_request",
+        "execute_request"
+      ],
+      "security": {
+        "bearer_token_required": true,
+        "auth_uid_binding_required": true,
+        "rls_required": true,
+        "service_role_forbidden_in_browser": true,
+        "no_writes": true
+      },
+      "current_status": "scaffold_only_boundary"
+    },
+    "manual_migration_checklist": [
+      "review required migrations",
+      "verify RLS enable statements",
+      "confirm no broad anonymous write policies",
+      "apply migrations outside Codex after confirmation"
+    ],
+    "authenticated_reads_checklist": [
+      "confirm provider configured",
+      "confirm request API enabled",
+      "confirm auth enabled",
+      "confirm bearer token is present",
+      "confirm reads stay boundary-only until the read adapter is explicitly activated"
+    ],
+    "current_recommendation": [
+      "MIGRATION_READINESS_CHECK_READY",
+      "MANUAL_MIGRATION_REVIEW_REQUIRED",
+      "AUTHENTICATED_READS_BOUNDARY_READY",
+      "WRITES_DISABLED_UNTIL_RLS_REVIEW",
+      "NEXT_STEP_MANUALLY_APPLY_MIGRATIONS_AND_ENABLE_AUTH_READS"
     ]
   }
 }

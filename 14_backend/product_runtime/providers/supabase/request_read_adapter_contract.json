@@ -1,0 +1,31 @@
+{
+  "contract_id": "supabase-request-read-adapter-contract",
+  "contract_version": "1.0",
+  "read_methods": [
+    "list_my_requests",
+    "get_my_request",
+    "list_my_request_lifecycle_events",
+    "list_my_dry_run_results"
+  ],
+  "read_boundary_behavior": [
+    "GET remains boundary-only until the provider and auth gates are explicitly enabled",
+    "authenticated reads must use anon key plus bearer token only",
+    "service role credentials are forbidden in browser code",
+    "write methods stay blocked"
+  ],
+  "blocked_methods": [
+    "create_request",
+    "update_request",
+    "delete_request",
+    "approve_request",
+    "execute_request"
+  ],
+  "security": {
+    "bearer_token_required": true,
+    "auth_uid_binding_required": true,
+    "rls_required": true,
+    "service_role_forbidden_in_browser": true,
+    "no_writes": true
+  },
+  "current_status": "scaffold_only_boundary"
+}
