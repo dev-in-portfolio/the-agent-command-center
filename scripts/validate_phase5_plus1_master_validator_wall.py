@@ -152,6 +152,8 @@ allowed_prefixes = [
     "scripts/validate_original_plus1c_readiness_scoring_contract_qa_e2e.py",
     "scripts/validate_original_plus1d_backend_boundary_blueprint.py",
     "scripts/validate_original_plus1d_backend_boundary_blueprint_e2e.py",
+    "scripts/validate_original_plus1e_backend_implementation_gate.py",
+    "scripts/validate_original_plus1e_backend_implementation_gate_e2e.py",
     "scripts/validate_phase5_plus1_master_validator_wall.py",
     "scripts/validate_original_plus1_controlled_automation_readiness.py",
     "scripts/validate_original_plus1_controlled_automation_readiness_e2e.py",

@@ -3210,6 +3210,379 @@
 })();
 
 (function () {
+  var plus1eState = {
+    model: null,
+    selectedTicketId: null,
+  };
+
+  function p1e(id) {
+    return document.getElementById(id);
+  }
+
+  function readDashboardData() {
+    var node = p1e("dashboard-data");
+    if (!node) {
+      return {};
+    }
+    try {
+      return JSON.parse(node.textContent || "{}");
+    } catch (error) {
+      return {};
+    }
+  }
+
+  function escapeHtml(value) {
+    return String(value == null ? "" : value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function copyRenderedText(text, emptyMessage, successMessage) {
+    var status = p1e("copy-status");
+    if (!text) {
+      if (status) status.textContent = emptyMessage;
+      return;
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () {
+        if (status) status.textContent = successMessage;
+      }).catch(function () {});
+      return;
+    }
+    var field = document.createElement("textarea");
+    field.value = text;
+    field.style.position = "fixed";
+    field.style.left = "-9999px";
+    document.body.appendChild(field);
+    field.select();
+    document.execCommand("copy");
+    document.body.removeChild(field);
+    if (status) status.textContent = successMessage;
+  }
+
+  function bindCopyButton(buttonId, getter, emptyMessage, successMessage) {
+    var button = p1e(buttonId);
+    if (!button) {
+      return;
+    }
+    button.addEventListener("click", function () {
+      var snapshot = renderSnapshot();
+      var text = getter(snapshot);
+      copyRenderedText(text, emptyMessage, successMessage);
+    });
+  }
+
+  function badgeClass(status) {
+    var value = String(status || "").toLowerCase();
+    if (value === "pass" || value === "complete" || value === "yes" || value === "true" || value === "ready_for_planning_only" || value === "ready_for_backend_implementation_planning_only" || value === "not_started") {
+      return "pass";
+    }
+    if (value === "warning" || value === "planning_only" || value === "info") {
+      return "warning";
+    }
+    if (value === "blocked" || value === "fail" || value === "false" || value === "not_ready_for_real_automation" || value === "not implemented") {
+      return "locked";
+    }
+    return "info";
+  }
+
+  function boolValue(value) {
+    return value ? "yes" : "no";
+  }
+
+  function buildRows(items, renderer, emptyText) {
+    if (!items || !items.length) {
+      return emptyText;
+    }
+    return items.map(function (item) {
+      return "<tr>" + renderer(item) + "</tr>";
+    }).join("");
+  }
+
+  function getModel() {
+    var dashboardData = readDashboardData();
+    var model = plus1eState.model || dashboardData.original_plus1e_backend_build_tickets || null;
+    plus1eState.model = model;
+    return model;
+  }
+
+  function selectedTicket(model) {
+    if (!model) {
+      return null;
+    }
+    var lookup = model.ticket_lookup || {};
+    var ticket = lookup[plus1eState.selectedTicketId];
+    if (ticket) {
+      return ticket;
+    }
+    var tickets = model.future_phase_ticket_map || [];
+    if (!tickets.length) {
+      return null;
+    }
+    plus1eState.selectedTicketId = tickets[0].ticket_id;
+    return tickets[0];
+  }
+
+  function buildGateRows(model) {
+    return buildRows(model && model.backend_implementation_gate_overview, function (item) {
+      return [
+        '<th scope="row">' + escapeHtml(item.label) + '</th>',
+        '<td>' + escapeHtml(item.value) + '</td>',
+        '<td><span class="badge ' + badgeClass(item.status) + '">' + escapeHtml(item.status) + '</span></td>',
+      ].join("");
+    }, '<tr><td colspan="3" class="empty">No implementation gate overview loaded yet.</td></tr>');
+  }
+
+  function buildTicketRows(model) {
+    return buildRows(model && model.future_phase_ticket_map, function (item) {
+      return [
+        '<th scope="row"><code>' + escapeHtml(item.ticket_id) + '</code></th>',
+        '<td>' + escapeHtml(item.title) + '</td>',
+        '<td>' + escapeHtml(item.purpose) + '</td>',
+        '<td>' + escapeHtml(item.dependencies) + '</td>',
+        '<td><span class="badge ' + badgeClass(item.current_status) + '">' + escapeHtml(item.current_status) + '</span></td>',
+        '<td><span class="badge ' + badgeClass(item.blocked_for_now) + '">' + escapeHtml(boolValue(item.blocked_for_now)) + '</span></td>',
+      ].join("");
+    }, '<tr><td colspan="6" class="empty">No build ticket map loaded yet.</td></tr>');
+  }
+
+  function buildDependencyRows(model) {
+    return buildRows(model && model.dependency_prerequisite_map, function (item) {
+      return [
+        '<th scope="row"><code>' + escapeHtml(item.ticket_id) + '</code></th>',
+        '<td>' + escapeHtml(item.required_before) + '</td>',
+        '<td><span class="badge ' + badgeClass(item.current_status) + '">' + escapeHtml(item.current_status) + '</span></td>',
+        '<td><span class="badge ' + badgeClass(item.blocking_level) + '">' + escapeHtml(item.blocking_level) + '</span></td>',
+        '<td>' + escapeHtml(item.recommended_future_phase) + '</td>',
+      ].join("");
+    }, '<tr><td colspan="5" class="empty">No dependency map loaded yet.</td></tr>');
+  }
+
+  function buildGateStatusRows(model) {
+    return buildRows(model && model.implementation_gate_statuses, function (item) {
+      return [
+        '<th scope="row">' + escapeHtml(item.gate) + '</th>',
+        '<td><span class="badge ' + badgeClass(item.current_status) + '">' + escapeHtml(item.current_status) + '</span></td>',
+        '<td>' + escapeHtml(item.blocking_reason) + '</td>',
+        '<td>' + escapeHtml(item.required_future_ticket) + '</td>',
+        '<td><span class="badge ' + badgeClass(item.can_proceed_now) + '">' + escapeHtml(boolValue(item.can_proceed_now)) + '</span></td>',
+      ].join("");
+    }, '<tr><td colspan="5" class="empty">No gate statuses loaded yet.</td></tr>');
+  }
+
+  function buildValidatorRows(model) {
+    return buildRows(model && model.ticket_validator_requirements, function (item) {
+      return [
+        '<th scope="row"><code>' + escapeHtml(item.ticket_id) + '</code></th>',
+        '<td>' + escapeHtml(item.unit_validator) + '</td>',
+        '<td>' + escapeHtml(item.integration_validator) + '</td>',
+        '<td>' + escapeHtml(item.safety_validator) + '</td>',
+        '<td>' + escapeHtml(item.diff_scope_validator) + '</td>',
+        '<td>' + escapeHtml(item.report_validator) + '</td>',
+        '<td>' + escapeHtml(item.production_verification_validator) + '</td>',
+      ].join("");
+    }, '<tr><td colspan="7" class="empty">No validator requirements loaded yet.</td></tr>');
+  }
+
+  function buildReportRows(model) {
+    return buildRows(model && model.ticket_report_requirements, function (item) {
+      return [
+        '<th scope="row"><code>' + escapeHtml(item.ticket_id) + '</code></th>',
+        '<td>' + escapeHtml(item.implementation_report) + '</td>',
+        '<td>' + escapeHtml(item.design_report) + '</td>',
+        '<td>' + escapeHtml(item.safety_report) + '</td>',
+        '<td>' + escapeHtml(item.dependency_report) + '</td>',
+        '<td>' + escapeHtml(item.validator_report) + '</td>',
+        '<td>' + escapeHtml(item.acceptance_report) + '</td>',
+        '<td>' + escapeHtml(item.production_verification_report) + '</td>',
+      ].join("");
+    }, '<tr><td colspan="8" class="empty">No report requirements loaded yet.</td></tr>');
+  }
+
+  function buildReadinessRows(model) {
+    return buildRows(model && model.backend_build_readiness_summary, function (item) {
+      return [
+        '<th scope="row">' + escapeHtml(item.label) + '</th>',
+        '<td>' + escapeHtml(item.value) + '</td>',
+        '<td><span class="badge ' + badgeClass(item.status) + '">' + escapeHtml(item.status) + '</span></td>',
+      ].join("");
+    }, '<tr><td colspan="3" class="empty">No backend build readiness summary loaded yet.</td></tr>');
+  }
+
+  function buildTicketDetailRows(ticket) {
+    if (!ticket) {
+      return '<tr><td colspan="2" class="empty">No build ticket selected yet.</td></tr>';
+    }
+    var rows = [
+      ["Ticket ID", ticket.ticket_id],
+      ["Title", ticket.title],
+      ["Branch", ticket.branch],
+      ["Purpose", ticket.purpose],
+      ["Dependencies", ticket.dependencies],
+      ["Allowed Files", (ticket.allowed_files || []).join(", ")],
+      ["Forbidden Files", (ticket.forbidden_files || []).join(", ")],
+      ["Implementation Boundary", ticket.implementation_boundary],
+      ["Required Inputs", (ticket.required_inputs || []).join(", ")],
+      ["Required Outputs", (ticket.required_outputs || []).join(", ")],
+      ["Required Tests", (ticket.required_tests || []).join(", ")],
+      ["Required Validators", (ticket.required_validators || []).join(", ")],
+      ["Required Reports", (ticket.required_reports || []).join(", ")],
+      ["No-Go Conditions", (ticket.no_go_conditions || []).join(", ")],
+      ["Rollback Requirements", (ticket.rollback_requirements || []).join(", ")],
+      ["Acceptance Criteria", (ticket.acceptance_criteria || []).join(", ")],
+      ["Final Response Requirements", (ticket.final_response_requirements || []).join(", ")],
+      ["Current Status", ticket.current_status],
+      ["Blocked Now", boolValue(ticket.blocked_for_now)],
+    ];
+    return rows.map(function (row) {
+      return "<tr><th scope=\"row\">" + escapeHtml(row[0]) + "</th><td>" + escapeHtml(row[1]) + "</td></tr>";
+    }).join("");
+  }
+
+  function buildTicketSelectOptions(model) {
+    var tickets = model && model.future_phase_ticket_map ? model.future_phase_ticket_map : [];
+    if (!tickets.length) {
+      return '<option value="">No build tickets loaded yet.</option>';
+    }
+    return tickets.map(function (ticket) {
+      return '<option value="' + escapeHtml(ticket.ticket_id) + '">' + escapeHtml(ticket.ticket_id + " - " + ticket.title) + '</option>';
+    }).join("");
+  }
+
+  function buildModelMarkdown(model, key) {
+    return model && model[key] ? model[key] : "No data loaded yet.";
+  }
+
+  function updateTicketSelect(model) {
+    var select = p1e("plus1e-ticket-select");
+    if (!select) {
+      return;
+    }
+    var tickets = model && model.future_phase_ticket_map ? model.future_phase_ticket_map : [];
+    select.innerHTML = buildTicketSelectOptions(model);
+    if (tickets.length) {
+      if (!plus1eState.selectedTicketId || !model.ticket_lookup || !model.ticket_lookup[plus1eState.selectedTicketId]) {
+        plus1eState.selectedTicketId = tickets[0].ticket_id;
+      }
+      select.value = plus1eState.selectedTicketId;
+    }
+  }
+
+  function renderSnapshot() {
+    var model = getModel();
+    var ticket = selectedTicket(model);
+    return {
+      model: model,
+      selected_ticket: ticket,
+      gate_overview_rows_html: buildGateRows(model),
+      ticket_map_rows_html: buildTicketRows(model),
+      dependency_rows_html: buildDependencyRows(model),
+      gate_status_rows_html: buildGateStatusRows(model),
+      validator_rows_html: buildValidatorRows(model),
+      report_rows_html: buildReportRows(model),
+      readiness_rows_html: buildReadinessRows(model),
+      ticket_detail_rows_html: buildTicketDetailRows(ticket),
+      ticket_detail_markdown: ticket ? ticket.ticket_markdown : "No build ticket selected yet.",
+      codex_prompt_markdown: ticket ? ticket.codex_prompt : "No build ticket selected yet.",
+      roadmap_markdown: buildModelMarkdown(model, "roadmap_markdown"),
+      dependency_prerequisite_markdown: buildModelMarkdown(model, "dependency_prerequisite_markdown"),
+      implementation_gate_status_markdown: buildModelMarkdown(model, "implementation_gate_status_markdown"),
+      ticket_validator_requirements_markdown: buildModelMarkdown(model, "ticket_validator_requirements_markdown"),
+      ticket_report_requirements_markdown: buildModelMarkdown(model, "ticket_report_requirements_markdown"),
+      rollback_no_go_ticket_policy_markdown: buildModelMarkdown(model, "rollback_no_go_ticket_policy_markdown"),
+      backend_build_readiness_summary_markdown: buildModelMarkdown(model, "backend_build_readiness_summary_markdown"),
+    };
+  }
+
+  function updatePlus1EUI() {
+    var snapshot = renderSnapshot();
+    var gateOverviewBody = p1e("plus1e-gate-overview-body");
+    var ticketMapBody = p1e("plus1e-ticket-map-body");
+    var dependencyBody = p1e("plus1e-dependency-body");
+    var ticketDetailBody = p1e("plus1e-ticket-detail-body");
+    var gateStatusBody = p1e("plus1e-gate-status-body");
+    var validatorBody = p1e("plus1e-validator-body");
+    var reportBody = p1e("plus1e-report-body");
+    var readinessGrid = p1e("plus1e-readiness-summary-grid");
+    var roadmapPreview = p1e("plus1e-roadmap-preview");
+    var ticketDetailPreview = p1e("plus1e-ticket-detail-preview");
+    var promptPreview = p1e("plus1e-codex-prompt-preview");
+    var policyPreview = p1e("plus1e-rollback-policy-preview");
+    var readinessPreview = p1e("plus1e-readiness-summary-preview");
+    if (gateOverviewBody) gateOverviewBody.innerHTML = snapshot.gate_overview_rows_html;
+    if (ticketMapBody) ticketMapBody.innerHTML = snapshot.ticket_map_rows_html;
+    if (dependencyBody) dependencyBody.innerHTML = snapshot.dependency_rows_html;
+    if (ticketDetailBody) ticketDetailBody.innerHTML = snapshot.ticket_detail_rows_html;
+    if (gateStatusBody) gateStatusBody.innerHTML = snapshot.gate_status_rows_html;
+    if (validatorBody) validatorBody.innerHTML = snapshot.validator_rows_html;
+    if (reportBody) reportBody.innerHTML = snapshot.report_rows_html;
+    if (readinessGrid) readinessGrid.innerHTML = snapshot.readiness_rows_html;
+    if (roadmapPreview) roadmapPreview.textContent = snapshot.roadmap_markdown;
+    if (ticketDetailPreview) ticketDetailPreview.textContent = snapshot.ticket_detail_markdown;
+    if (promptPreview) promptPreview.textContent = snapshot.codex_prompt_markdown;
+    if (policyPreview) policyPreview.textContent = snapshot.rollback_no_go_ticket_policy_markdown;
+    if (readinessPreview) readinessPreview.textContent = snapshot.backend_build_readiness_summary_markdown;
+    updateTicketSelect(snapshot.model);
+  }
+
+  function initPlus1E() {
+    var shell = document.querySelector("[data-plus1e-backend-implementation-gate]");
+    if (!shell) {
+      return;
+    }
+
+    plus1eState.model = readDashboardData().original_plus1e_backend_build_tickets || null;
+    if (plus1eState.model && plus1eState.model.future_phase_ticket_map && plus1eState.model.future_phase_ticket_map.length) {
+      plus1eState.selectedTicketId = plus1eState.model.future_phase_ticket_map[0].ticket_id;
+    }
+
+    bindCopyButton("plus1e-copy-selected-build-ticket", function (snapshot) {
+      return snapshot.ticket_detail_markdown;
+    }, "Original +1E: Load backend build tickets first.", "Original +1E: Build ticket copied.");
+    bindCopyButton("plus1e-copy-selected-codex-prompt", function (snapshot) {
+      return snapshot.codex_prompt_markdown;
+    }, "Original +1E: Load backend build tickets first.", "Original +1E: Codex prompt copied.");
+    bindCopyButton("plus1e-copy-full-roadmap", function (snapshot) {
+      return snapshot.roadmap_markdown;
+    }, "Original +1E: Load backend build tickets first.", "Original +1E: Full backend implementation roadmap copied.");
+    bindCopyButton("plus1e-copy-dependency-map", function (snapshot) {
+      return snapshot.dependency_prerequisite_markdown;
+    }, "Original +1E: Load backend build tickets first.", "Original +1E: Dependency prerequisite map copied.");
+    bindCopyButton("plus1e-copy-validator-requirements", function (snapshot) {
+      return snapshot.ticket_validator_requirements_markdown;
+    }, "Original +1E: Load backend build tickets first.", "Original +1E: Validator requirements matrix copied.");
+    bindCopyButton("plus1e-copy-report-requirements", function (snapshot) {
+      return snapshot.ticket_report_requirements_markdown;
+    }, "Original +1E: Load backend build tickets first.", "Original +1E: Report requirements matrix copied.");
+    bindCopyButton("plus1e-copy-rollback-policy", function (snapshot) {
+      return snapshot.rollback_no_go_ticket_policy_markdown;
+    }, "Original +1E: Load backend build tickets first.", "Original +1E: Rollback policy copied.");
+    bindCopyButton("plus1e-copy-readiness-summary", function (snapshot) {
+      return snapshot.backend_build_readiness_summary_markdown;
+    }, "Original +1E: Load backend build tickets first.", "Original +1E: Backend build readiness summary copied.");
+
+    var select = p1e("plus1e-ticket-select");
+    if (select) {
+      select.addEventListener("change", function () {
+        plus1eState.selectedTicketId = select.value;
+        updatePlus1EUI();
+      });
+    }
+
+    updatePlus1EUI();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initPlus1E);
+  } else {
+    initPlus1E();
+  }
+})();
+
+(function () {
   var phase5aState = null;
   var auditEvents = [];
 

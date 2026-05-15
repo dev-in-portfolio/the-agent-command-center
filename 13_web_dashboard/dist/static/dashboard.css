@@ -991,6 +991,57 @@ pre.code-block {
   border-color: rgba(34, 197, 94, 0.2);
 }
 
+.plus1e-implementation-gate {
+  display: grid;
+  gap: 1.5rem;
+  min-width: 0;
+}
+
+.plus1e-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+.plus1e-gate-overview,
+.plus1e-ticket-map,
+.plus1e-dependency-prerequisites,
+.plus1e-ticket-detail,
+.plus1e-prompt-generator,
+.plus1e-gate-status,
+.plus1e-validator-requirements,
+.plus1e-report-requirements,
+.plus1e-rollback-policy,
+.plus1e-readiness-summary,
+.plus1e-roadmap-panel {
+  min-width: 0;
+}
+
+.plus1e-ticket-map .table-wrap,
+.plus1e-dependency-prerequisites .table-wrap,
+.plus1e-ticket-detail .table-wrap,
+.plus1e-gate-status .table-wrap,
+.plus1e-validator-requirements .table-wrap,
+.plus1e-report-requirements .table-wrap {
+  min-width: 0;
+}
+
+.plus1e-ticket-detail .code-block,
+.plus1e-prompt-generator .code-block,
+.plus1e-rollback-policy .code-block,
+.plus1e-readiness-summary .code-block,
+.plus1e-roadmap-panel .code-block {
+  max-height: 280px;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.plus1e-roadmap-panel {
+  border-color: rgba(59, 130, 246, 0.2);
+}
+
 @media (max-width: 1400px) {
   .phase4d-preview-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));

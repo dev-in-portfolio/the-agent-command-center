@@ -1,6 +1,6 @@
 {
-  "dashboard_id": "PH3-20260514-222857",
-  "created_at_utc": "2026-05-14T22:28:57Z",
+  "dashboard_id": "PH3-20260515-000050",
+  "created_at_utc": "2026-05-15T00:00:50Z",
   "phase": "Read-Only Operations Dashboard",
   "repo": "dev-in-portfolio/the-agent-command-center",
   "source_lineage": "dev-in-portfolio/agent-command-center-3",
@@ -502,7 +502,7 @@
     "source_type": "module",
     "source_confidence": "direct_module_read",
     "phase_1_session_count": 0,
-    "phase_2_session_count": 8280,
+    "phase_2_session_count": 8736,
     "phase_1_sessions": [],
     "phase_2_sessions": [
       "09_exports/interface_phase_2/sessions/session_TUI-20260512-003552-941813.json",
@@ -552,7 +552,7 @@
     "phase_3_build_report": "09_exports/interface_phase_3/interface_phase_3_static_build_report.md",
     "phase_3_note": "no live session mutation unless build report is written",
     "session_logs_read_only": true,
-    "summary": "0 phase 1 sessions, 8280 phase 2 sessions."
+    "summary": "0 phase 1 sessions, 8736 phase 2 sessions."
   },
   "validator_status": {
     "source_file_path": "09_exports/interface_phase_3/interface_phase_3_acceptance_report.md",
@@ -1007,7 +1007,7 @@
     "source_exists": true,
     "source_type": "generated_static_snapshot",
     "source_confidence": "generated_static_snapshot",
-    "generated_at_utc": "2026-05-14T22:28:59Z",
+    "generated_at_utc": "2026-05-15T00:00:53Z",
     "freshness_status": "generated_static_snapshot",
     "snapshot_age_seconds": 0,
     "notes": [
@@ -1210,112 +1210,119 @@
     "allowed_label_findings": [
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 484,
+        "line": 485,
         "pattern": "NO DEPLOY",
         "context": "<span>NO DEPLOY CONTROLS</span>",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 485,
+        "line": 486,
         "pattern": "NO MERGE",
         "context": "<span>NO MERGE CONTROLS</span>",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 486,
+        "line": 487,
         "pattern": "NO SECRET ACCESS",
         "context": "<span>NO SECRET ACCESS</span>",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 801,
+        "line": 802,
         "pattern": "NO DEPLOY",
         "context": "TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO DEPLOY / MERGE / ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 924,
+        "line": 925,
         "pattern": "NO DEPLOY",
         "context": "GENERATED LOCALLY \u2014 COPY ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO DEPLOY / MERGE / PU",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1022,
+        "line": 1023,
         "pattern": "NO DEPLOY",
         "context": "DECISION LEDGER PREVIEW \u2014 TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO EXECUTION \u2014 NO MUTAT",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1204,
+        "line": 1205,
         "pattern": "NO DEPLOY",
         "context": "GENERATED LOCALLY \u2014 COPY/PASTE HANDOFF ONLY \u2014 TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1378,
+        "line": 1379,
         "pattern": "NO DEPLOY",
         "context": "END-TO-END OPERATOR FLOW \u2014 SCENARIO PREVIEW ONLY \u2014 GENERATED LOCALLY \u2014 TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1513,
+        "line": 1514,
         "pattern": "NO DEPLOY",
         "context": "READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO BACKEND WRITES \u2014 NO DEPLOY / MERGE / PUSH / PR CON",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1730,
+        "line": 1731,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">CONTRACTS ONLY \u2014 COPY/PASTE ONLY \u2014 READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 N",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1845,
+        "line": 1846,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">COPY/PASTE ONLY \u2014 READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1962,
+        "line": 1963,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO BACK",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2218,
+        "line": 2144,
+        "pattern": "NO DEPLOY",
+        "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO BACK",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_renderer.py",
+        "line": 2383,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2218,
+        "line": 2383,
         "pattern": "NO MERGE",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2218,
+        "line": 2383,
         "pattern": "NO PUSH",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2218,
+        "line": 2383,
         "pattern": "NO SECRET ACCESS",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
@@ -2815,5 +2822,1906 @@
         "status": "BLOCKED"
       }
     ]
+  },
+  "original_plus1e_backend_build_tickets": {
+    "model_id": "original-plus1e-backend-implementation-gate",
+    "model_version": "1.0",
+    "overall_status": "IMPLEMENTATION_PLANNING_ONLY",
+    "current_recommendation": "READY_FOR_BACKEND_IMPLEMENTATION_PLANNING_ONLY",
+    "final_recommendation": "NOT_READY_FOR_REAL_AUTOMATION",
+    "summary": {
+      "implementation_gate_only": true,
+      "live_automation": false,
+      "execution": false,
+      "mutation": false,
+      "backend_writes": false,
+      "live_auth": false,
+      "persistent_storage": false,
+      "queue_execution": false,
+      "copy_outputs": true
+    },
+    "backend_implementation_gate_overview": [
+      {
+        "label": "Current system mode",
+        "value": "IMPLEMENTATION_PLANNING_ONLY",
+        "status": "warning"
+      },
+      {
+        "label": "Real backend implementation started",
+        "value": "false",
+        "status": "fail"
+      },
+      {
+        "label": "Live auth implemented",
+        "value": "false",
+        "status": "fail"
+      },
+      {
+        "label": "Database implemented",
+        "value": "false",
+        "status": "fail"
+      },
+      {
+        "label": "Queue implemented",
+        "value": "false",
+        "status": "fail"
+      },
+      {
+        "label": "Mutation gateway implemented",
+        "value": "false",
+        "status": "fail"
+      },
+      {
+        "label": "GitHub / Netlify adapters implemented",
+        "value": "false",
+        "status": "fail"
+      },
+      {
+        "label": "Real automation enabled",
+        "value": "false",
+        "status": "fail"
+      },
+      {
+        "label": "Current recommendation",
+        "value": "READY_FOR_BACKEND_IMPLEMENTATION_PLANNING_ONLY",
+        "status": "warning"
+      },
+      {
+        "label": "Final recommendation",
+        "value": "NOT_READY_FOR_REAL_AUTOMATION",
+        "status": "locked"
+      }
+    ],
+    "future_phase_ticket_map": [
+      {
+        "ticket_id": "+2A",
+        "title": "Backend Auth Foundation",
+        "purpose": "Establish identity and session validation before any write-capable backend work.",
+        "dependencies": "none",
+        "required_inputs": "identity provider choice, session validation rules, role matrix",
+        "required_outputs": "auth architecture, session validator contract, role policy, auth gate notes",
+        "required_tests": "unit validation for auth rules, e2e boundary validation, safety scan, diff scope check",
+        "required_validators": "scripts/validate_original_plus2a_backend_auth_foundation.py, scripts/validate_original_plus2a_backend_auth_foundation_e2e.py",
+        "required_reports": "09_exports/original_plus2/original_plus2a_backend_auth_foundation_report.md, 09_exports/original_plus2/original_plus2a_backend_auth_foundation_design_report.md, 09_exports/original_plus2/original_plus2a_backend_auth_foundation_safety_report.md, 09_exports/original_plus2/original_plus2a_backend_auth_foundation_dependency_report.md, 09_exports/original_plus2/original_plus2a_backend_auth_foundation_validator_report.md, 09_exports/original_plus2/original_plus2a_backend_auth_foundation_acceptance_report.md",
+        "no_go_conditions": "browser-side auth, token storage in JS, session cookies in the browser, live execution, live mutation",
+        "rollback_requirements": "stop at planning-only, remove any browser-held credential path, revert any live auth wiring",
+        "current_status": "NOT_STARTED",
+        "blocked_for_now": true,
+        "ticket_markdown": "# +2A - Backend Auth Foundation\n\n## Purpose\nEstablish identity and session validation before any write-capable backend work.\n\n## Dependencies\n- none\n\n## Allowed Files\n- 14_backend/auth/**\n- scripts/validate_original_plus2a_backend_auth_foundation.py\n- scripts/validate_original_plus2a_backend_auth_foundation_e2e.py\n- 09_exports/original_plus2/\n\n## Forbidden Files\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\n## Required Inputs\n- identity provider choice\n- session validation rules\n- role matrix\n\n## Required Outputs\n- auth architecture\n- session validator contract\n- role policy\n- auth gate notes\n\n## Required Tests\n- unit validation for auth rules\n- e2e boundary validation\n- safety scan\n- diff scope check\n\n## Required Validators\n- scripts/validate_original_plus2a_backend_auth_foundation.py\n- scripts/validate_original_plus2a_backend_auth_foundation_e2e.py\n\n## Required Reports\n- 09_exports/original_plus2/original_plus2a_backend_auth_foundation_report.md\n- 09_exports/original_plus2/original_plus2a_backend_auth_foundation_design_report.md\n- 09_exports/original_plus2/original_plus2a_backend_auth_foundation_safety_report.md\n- 09_exports/original_plus2/original_plus2a_backend_auth_foundation_dependency_report.md\n- 09_exports/original_plus2/original_plus2a_backend_auth_foundation_validator_report.md\n- 09_exports/original_plus2/original_plus2a_backend_auth_foundation_acceptance_report.md\n\n## Implementation Boundary\nBackend-only auth foundation. No dashboard changes, no live auth, no persistence, no queue, no mutation.\n\n## No-Go Conditions\n- browser-side auth\n- token storage in JS\n- session cookies in the browser\n- live execution\n- live mutation\n\n## Rollback Requirements\n- stop at planning-only\n- remove any browser-held credential path\n- revert any live auth wiring\n\n## Acceptance Criteria\n- auth architecture is copyable\n- session validation is explicit\n- role mapping is documented\n- no live automation is enabled\n\n## Final Response Requirements\n- report only\n- mention blocked status\n- do not enable real automation",
+        "codex_prompt": "STRICT EXECUTION MODE.\nMAX-PROMPT MODE.\nCODEX-CAPABLE WORK UNIT.\n\nTASK:\nImplement +2A - Backend Auth Foundation in one large meaningful work unit.\n\nPROJECT:\nThe Agent Command Center\n\nSOURCE BRANCH:\ninterface/original-plus1e-backend-implementation-gate\n\nTARGET FUTURE BRANCH:\ninterface/original-plus2a-backend-auth-foundation\n\nPURPOSE:\nEstablish identity and session validation before any write-capable backend work.\n\nAUTHORIZED FILES:\n- 14_backend/auth/**\n- scripts/validate_original_plus2a_backend_auth_foundation.py\n- scripts/validate_original_plus2a_backend_auth_foundation_e2e.py\n- 09_exports/original_plus2/\n\nFORBIDDEN FILES:\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\nTEST REQUIREMENTS:\n- unit validation for auth rules\n- e2e boundary validation\n- safety scan\n- diff scope check\n\nVALIDATOR REQUIREMENTS:\n- scripts/validate_original_plus2a_backend_auth_foundation.py\n- scripts/validate_original_plus2a_backend_auth_foundation_e2e.py\n\nREPORT REQUIREMENTS:\n- 09_exports/original_plus2/original_plus2a_backend_auth_foundation_report.md\n- 09_exports/original_plus2/original_plus2a_backend_auth_foundation_design_report.md\n- 09_exports/original_plus2/original_plus2a_backend_auth_foundation_safety_report.md\n- 09_exports/original_plus2/original_plus2a_backend_auth_foundation_dependency_report.md\n- 09_exports/original_plus2/original_plus2a_backend_auth_foundation_validator_report.md\n- 09_exports/original_plus2/original_plus2a_backend_auth_foundation_acceptance_report.md\n\nSAFETY BOUNDARY:\nNo live automation. No execution. No mutation. No backend writes. No deploy / merge / push / PR controls.\n\nNO-GO CONDITIONS:\n- browser-side auth\n- token storage in JS\n- session cookies in the browser\n- live execution\n- live mutation\n\nROLLBACK REQUIREMENTS:\n- stop at planning-only\n- remove any browser-held credential path\n- revert any live auth wiring\n\nACCEPTANCE CRITERIA:\n- auth architecture is copyable\n- session validation is explicit\n- role mapping is documented\n- no live automation is enabled\n\nFINAL RESPONSE:\nReport only.\nDo not enable real automation.\nDo not perform any action outside the files listed above.",
+        "allowed_files": [
+          "14_backend/auth/**",
+          "scripts/validate_original_plus2a_backend_auth_foundation.py",
+          "scripts/validate_original_plus2a_backend_auth_foundation_e2e.py",
+          "09_exports/original_plus2/"
+        ],
+        "forbidden_files": [
+          "13_web_dashboard/**",
+          "netlify/functions/**",
+          "11_interface/**",
+          "12_tui/**",
+          "10_runtime/**",
+          "09_exports/interface_phase_1/**",
+          "09_exports/interface_phase_2/**",
+          "09_exports/interface_phase_3/**",
+          "09_exports/interface_phase_4/**",
+          "09_exports/original_plus1/**"
+        ],
+        "implementation_boundary": "Backend-only auth foundation. No dashboard changes, no live auth, no persistence, no queue, no mutation.",
+        "acceptance_criteria": [
+          "auth architecture is copyable",
+          "session validation is explicit",
+          "role mapping is documented",
+          "no live automation is enabled"
+        ],
+        "final_response_requirements": [
+          "report only",
+          "mention blocked status",
+          "do not enable real automation"
+        ],
+        "branch": "interface/original-plus2a-backend-auth-foundation"
+      },
+      {
+        "ticket_id": "+2B",
+        "title": "Persistent Request Storage",
+        "purpose": "Persist build tickets and review notes after auth exists.",
+        "dependencies": "+2A",
+        "required_inputs": "auth foundation, ticket schema, storage retention rules",
+        "required_outputs": "request store contract, draft persistence flow, ticket lifecycle notes",
+        "required_tests": "storage boundary validation, e2e contract validation, safety scan, diff scope check",
+        "required_validators": "scripts/validate_original_plus2b_persistent_request_storage.py, scripts/validate_original_plus2b_persistent_request_storage_e2e.py",
+        "required_reports": "09_exports/original_plus2/original_plus2b_persistent_request_storage_report.md, 09_exports/original_plus2/original_plus2b_persistent_request_storage_design_report.md, 09_exports/original_plus2/original_plus2b_persistent_request_storage_safety_report.md, 09_exports/original_plus2/original_plus2b_persistent_request_storage_dependency_report.md, 09_exports/original_plus2/original_plus2b_persistent_request_storage_validator_report.md, 09_exports/original_plus2/original_plus2b_persistent_request_storage_acceptance_report.md",
+        "no_go_conditions": "no auth, browser persistence, live execution, mutation gateway bypass, queue without storage",
+        "rollback_requirements": "stay copy-only, remove any client-side persistence, revert storage hooks that bypass auth",
+        "current_status": "NOT_STARTED",
+        "blocked_for_now": true,
+        "ticket_markdown": "# +2B - Persistent Request Storage\n\n## Purpose\nPersist build tickets and review notes after auth exists.\n\n## Dependencies\n- +2A\n\n## Allowed Files\n- 14_backend/storage/**\n- scripts/validate_original_plus2b_persistent_request_storage.py\n- scripts/validate_original_plus2b_persistent_request_storage_e2e.py\n- 09_exports/original_plus2/\n\n## Forbidden Files\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\n## Required Inputs\n- auth foundation\n- ticket schema\n- storage retention rules\n\n## Required Outputs\n- request store contract\n- draft persistence flow\n- ticket lifecycle notes\n\n## Required Tests\n- storage boundary validation\n- e2e contract validation\n- safety scan\n- diff scope check\n\n## Required Validators\n- scripts/validate_original_plus2b_persistent_request_storage.py\n- scripts/validate_original_plus2b_persistent_request_storage_e2e.py\n\n## Required Reports\n- 09_exports/original_plus2/original_plus2b_persistent_request_storage_report.md\n- 09_exports/original_plus2/original_plus2b_persistent_request_storage_design_report.md\n- 09_exports/original_plus2/original_plus2b_persistent_request_storage_safety_report.md\n- 09_exports/original_plus2/original_plus2b_persistent_request_storage_dependency_report.md\n- 09_exports/original_plus2/original_plus2b_persistent_request_storage_validator_report.md\n- 09_exports/original_plus2/original_plus2b_persistent_request_storage_acceptance_report.md\n\n## Implementation Boundary\nBackend storage only. No dashboard persistence, no live queue, no execution, no mutation.\n\n## No-Go Conditions\n- no auth\n- browser persistence\n- live execution\n- mutation gateway bypass\n- queue without storage\n\n## Rollback Requirements\n- stay copy-only\n- remove any client-side persistence\n- revert storage hooks that bypass auth\n\n## Acceptance Criteria\n- ticket drafts are persistable server-side\n- lifecycle is explicit\n- no browser storage is introduced\n\n## Final Response Requirements\n- report only\n- mention blocked status\n- do not enable real automation",
+        "codex_prompt": "STRICT EXECUTION MODE.\nMAX-PROMPT MODE.\nCODEX-CAPABLE WORK UNIT.\n\nTASK:\nImplement +2B - Persistent Request Storage in one large meaningful work unit.\n\nPROJECT:\nThe Agent Command Center\n\nSOURCE BRANCH:\ninterface/original-plus1e-backend-implementation-gate\n\nTARGET FUTURE BRANCH:\ninterface/original-plus2b-persistent-request-storage\n\nPURPOSE:\nPersist build tickets and review notes after auth exists.\n\nAUTHORIZED FILES:\n- 14_backend/storage/**\n- scripts/validate_original_plus2b_persistent_request_storage.py\n- scripts/validate_original_plus2b_persistent_request_storage_e2e.py\n- 09_exports/original_plus2/\n\nFORBIDDEN FILES:\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\nTEST REQUIREMENTS:\n- storage boundary validation\n- e2e contract validation\n- safety scan\n- diff scope check\n\nVALIDATOR REQUIREMENTS:\n- scripts/validate_original_plus2b_persistent_request_storage.py\n- scripts/validate_original_plus2b_persistent_request_storage_e2e.py\n\nREPORT REQUIREMENTS:\n- 09_exports/original_plus2/original_plus2b_persistent_request_storage_report.md\n- 09_exports/original_plus2/original_plus2b_persistent_request_storage_design_report.md\n- 09_exports/original_plus2/original_plus2b_persistent_request_storage_safety_report.md\n- 09_exports/original_plus2/original_plus2b_persistent_request_storage_dependency_report.md\n- 09_exports/original_plus2/original_plus2b_persistent_request_storage_validator_report.md\n- 09_exports/original_plus2/original_plus2b_persistent_request_storage_acceptance_report.md\n\nSAFETY BOUNDARY:\nNo live automation. No execution. No mutation. No backend writes. No deploy / merge / push / PR controls.\n\nNO-GO CONDITIONS:\n- no auth\n- browser persistence\n- live execution\n- mutation gateway bypass\n- queue without storage\n\nROLLBACK REQUIREMENTS:\n- stay copy-only\n- remove any client-side persistence\n- revert storage hooks that bypass auth\n\nACCEPTANCE CRITERIA:\n- ticket drafts are persistable server-side\n- lifecycle is explicit\n- no browser storage is introduced\n\nFINAL RESPONSE:\nReport only.\nDo not enable real automation.\nDo not perform any action outside the files listed above.",
+        "allowed_files": [
+          "14_backend/storage/**",
+          "scripts/validate_original_plus2b_persistent_request_storage.py",
+          "scripts/validate_original_plus2b_persistent_request_storage_e2e.py",
+          "09_exports/original_plus2/"
+        ],
+        "forbidden_files": [
+          "13_web_dashboard/**",
+          "netlify/functions/**",
+          "11_interface/**",
+          "12_tui/**",
+          "10_runtime/**",
+          "09_exports/interface_phase_1/**",
+          "09_exports/interface_phase_2/**",
+          "09_exports/interface_phase_3/**",
+          "09_exports/interface_phase_4/**",
+          "09_exports/original_plus1/**"
+        ],
+        "implementation_boundary": "Backend storage only. No dashboard persistence, no live queue, no execution, no mutation.",
+        "acceptance_criteria": [
+          "ticket drafts are persistable server-side",
+          "lifecycle is explicit",
+          "no browser storage is introduced"
+        ],
+        "final_response_requirements": [
+          "report only",
+          "mention blocked status",
+          "do not enable real automation"
+        ],
+        "branch": "interface/original-plus2b-persistent-request-storage"
+      },
+      {
+        "ticket_id": "+2C",
+        "title": "Immutable Audit Log",
+        "purpose": "Store immutable audit events after auth and request storage exist.",
+        "dependencies": "+2A, +2B",
+        "required_inputs": "auth foundation, request storage schema, audit retention rules",
+        "required_outputs": "audit contract, immutable event model, audit hash notes",
+        "required_tests": "audit boundary validation, e2e contract validation, safety scan, diff scope check",
+        "required_validators": "scripts/validate_original_plus2c_immutable_audit_log.py, scripts/validate_original_plus2c_immutable_audit_log_e2e.py",
+        "required_reports": "09_exports/original_plus2/original_plus2c_immutable_audit_log_report.md, 09_exports/original_plus2/original_plus2c_immutable_audit_log_design_report.md, 09_exports/original_plus2/original_plus2c_immutable_audit_log_safety_report.md, 09_exports/original_plus2/original_plus2c_immutable_audit_log_dependency_report.md, 09_exports/original_plus2/original_plus2c_immutable_audit_log_validator_report.md, 09_exports/original_plus2/original_plus2c_immutable_audit_log_acceptance_report.md",
+        "no_go_conditions": "mutable audit history, browser-side audit storage, live execution, mutation without audit",
+        "rollback_requirements": "keep audit immutable, do not expose write APIs without hash binding, revert mutable audit paths",
+        "current_status": "NOT_STARTED",
+        "blocked_for_now": true,
+        "ticket_markdown": "# +2C - Immutable Audit Log\n\n## Purpose\nStore immutable audit events after auth and request storage exist.\n\n## Dependencies\n- +2A\n- +2B\n\n## Allowed Files\n- 14_backend/audit/**\n- scripts/validate_original_plus2c_immutable_audit_log.py\n- scripts/validate_original_plus2c_immutable_audit_log_e2e.py\n- 09_exports/original_plus2/\n\n## Forbidden Files\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\n## Required Inputs\n- auth foundation\n- request storage schema\n- audit retention rules\n\n## Required Outputs\n- audit contract\n- immutable event model\n- audit hash notes\n\n## Required Tests\n- audit boundary validation\n- e2e contract validation\n- safety scan\n- diff scope check\n\n## Required Validators\n- scripts/validate_original_plus2c_immutable_audit_log.py\n- scripts/validate_original_plus2c_immutable_audit_log_e2e.py\n\n## Required Reports\n- 09_exports/original_plus2/original_plus2c_immutable_audit_log_report.md\n- 09_exports/original_plus2/original_plus2c_immutable_audit_log_design_report.md\n- 09_exports/original_plus2/original_plus2c_immutable_audit_log_safety_report.md\n- 09_exports/original_plus2/original_plus2c_immutable_audit_log_dependency_report.md\n- 09_exports/original_plus2/original_plus2c_immutable_audit_log_validator_report.md\n- 09_exports/original_plus2/original_plus2c_immutable_audit_log_acceptance_report.md\n\n## Implementation Boundary\nBackend audit only. No dashboard persistence, no live execution, no mutation, no queue bypass.\n\n## No-Go Conditions\n- mutable audit history\n- browser-side audit storage\n- live execution\n- mutation without audit\n\n## Rollback Requirements\n- keep audit immutable\n- do not expose write APIs without hash binding\n- revert mutable audit paths\n\n## Acceptance Criteria\n- audit events are immutable\n- audit entries bind to auth and ticket state\n- no browser storage is used\n\n## Final Response Requirements\n- report only\n- mention blocked status\n- do not enable real automation",
+        "codex_prompt": "STRICT EXECUTION MODE.\nMAX-PROMPT MODE.\nCODEX-CAPABLE WORK UNIT.\n\nTASK:\nImplement +2C - Immutable Audit Log in one large meaningful work unit.\n\nPROJECT:\nThe Agent Command Center\n\nSOURCE BRANCH:\ninterface/original-plus1e-backend-implementation-gate\n\nTARGET FUTURE BRANCH:\ninterface/original-plus2c-immutable-audit-log\n\nPURPOSE:\nStore immutable audit events after auth and request storage exist.\n\nAUTHORIZED FILES:\n- 14_backend/audit/**\n- scripts/validate_original_plus2c_immutable_audit_log.py\n- scripts/validate_original_plus2c_immutable_audit_log_e2e.py\n- 09_exports/original_plus2/\n\nFORBIDDEN FILES:\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\nTEST REQUIREMENTS:\n- audit boundary validation\n- e2e contract validation\n- safety scan\n- diff scope check\n\nVALIDATOR REQUIREMENTS:\n- scripts/validate_original_plus2c_immutable_audit_log.py\n- scripts/validate_original_plus2c_immutable_audit_log_e2e.py\n\nREPORT REQUIREMENTS:\n- 09_exports/original_plus2/original_plus2c_immutable_audit_log_report.md\n- 09_exports/original_plus2/original_plus2c_immutable_audit_log_design_report.md\n- 09_exports/original_plus2/original_plus2c_immutable_audit_log_safety_report.md\n- 09_exports/original_plus2/original_plus2c_immutable_audit_log_dependency_report.md\n- 09_exports/original_plus2/original_plus2c_immutable_audit_log_validator_report.md\n- 09_exports/original_plus2/original_plus2c_immutable_audit_log_acceptance_report.md\n\nSAFETY BOUNDARY:\nNo live automation. No execution. No mutation. No backend writes. No deploy / merge / push / PR controls.\n\nNO-GO CONDITIONS:\n- mutable audit history\n- browser-side audit storage\n- live execution\n- mutation without audit\n\nROLLBACK REQUIREMENTS:\n- keep audit immutable\n- do not expose write APIs without hash binding\n- revert mutable audit paths\n\nACCEPTANCE CRITERIA:\n- audit events are immutable\n- audit entries bind to auth and ticket state\n- no browser storage is used\n\nFINAL RESPONSE:\nReport only.\nDo not enable real automation.\nDo not perform any action outside the files listed above.",
+        "allowed_files": [
+          "14_backend/audit/**",
+          "scripts/validate_original_plus2c_immutable_audit_log.py",
+          "scripts/validate_original_plus2c_immutable_audit_log_e2e.py",
+          "09_exports/original_plus2/"
+        ],
+        "forbidden_files": [
+          "13_web_dashboard/**",
+          "netlify/functions/**",
+          "11_interface/**",
+          "12_tui/**",
+          "10_runtime/**",
+          "09_exports/interface_phase_1/**",
+          "09_exports/interface_phase_2/**",
+          "09_exports/interface_phase_3/**",
+          "09_exports/interface_phase_4/**",
+          "09_exports/original_plus1/**"
+        ],
+        "implementation_boundary": "Backend audit only. No dashboard persistence, no live execution, no mutation, no queue bypass.",
+        "acceptance_criteria": [
+          "audit events are immutable",
+          "audit entries bind to auth and ticket state",
+          "no browser storage is used"
+        ],
+        "final_response_requirements": [
+          "report only",
+          "mention blocked status",
+          "do not enable real automation"
+        ],
+        "branch": "interface/original-plus2c-immutable-audit-log"
+      },
+      {
+        "ticket_id": "+2D",
+        "title": "Approval Gate Storage",
+        "purpose": "Persist approval and revocation records after the audit trail exists.",
+        "dependencies": "+2A, +2B, +2C",
+        "required_inputs": "auth foundation, request storage schema, audit contract, approval policy",
+        "required_outputs": "approval store contract, revocation model, approval audit binding",
+        "required_tests": "approval storage validation, e2e contract validation, safety scan, diff scope check",
+        "required_validators": "scripts/validate_original_plus2d_approval_gate_storage.py, scripts/validate_original_plus2d_approval_gate_storage_e2e.py",
+        "required_reports": "09_exports/original_plus2/original_plus2d_approval_gate_storage_report.md, 09_exports/original_plus2/original_plus2d_approval_gate_storage_design_report.md, 09_exports/original_plus2/original_plus2d_approval_gate_storage_safety_report.md, 09_exports/original_plus2/original_plus2d_approval_gate_storage_dependency_report.md, 09_exports/original_plus2/original_plus2d_approval_gate_storage_validator_report.md, 09_exports/original_plus2/original_plus2d_approval_gate_storage_acceptance_report.md",
+        "no_go_conditions": "approval without audit binding, browser-side approvals, live execution, approval records without revocation",
+        "rollback_requirements": "stop if approval storage is not immutable, remove any live approval writes, revert bypass paths",
+        "current_status": "NOT_STARTED",
+        "blocked_for_now": true,
+        "ticket_markdown": "# +2D - Approval Gate Storage\n\n## Purpose\nPersist approval and revocation records after the audit trail exists.\n\n## Dependencies\n- +2A\n- +2B\n- +2C\n\n## Allowed Files\n- 14_backend/approval/**\n- scripts/validate_original_plus2d_approval_gate_storage.py\n- scripts/validate_original_plus2d_approval_gate_storage_e2e.py\n- 09_exports/original_plus2/\n\n## Forbidden Files\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\n## Required Inputs\n- auth foundation\n- request storage schema\n- audit contract\n- approval policy\n\n## Required Outputs\n- approval store contract\n- revocation model\n- approval audit binding\n\n## Required Tests\n- approval storage validation\n- e2e contract validation\n- safety scan\n- diff scope check\n\n## Required Validators\n- scripts/validate_original_plus2d_approval_gate_storage.py\n- scripts/validate_original_plus2d_approval_gate_storage_e2e.py\n\n## Required Reports\n- 09_exports/original_plus2/original_plus2d_approval_gate_storage_report.md\n- 09_exports/original_plus2/original_plus2d_approval_gate_storage_design_report.md\n- 09_exports/original_plus2/original_plus2d_approval_gate_storage_safety_report.md\n- 09_exports/original_plus2/original_plus2d_approval_gate_storage_dependency_report.md\n- 09_exports/original_plus2/original_plus2d_approval_gate_storage_validator_report.md\n- 09_exports/original_plus2/original_plus2d_approval_gate_storage_acceptance_report.md\n\n## Implementation Boundary\nApproval storage only. No execution, no queue, no mutation, no dashboard persistence.\n\n## No-Go Conditions\n- approval without audit binding\n- browser-side approvals\n- live execution\n- approval records without revocation\n\n## Rollback Requirements\n- stop if approval storage is not immutable\n- remove any live approval writes\n- revert bypass paths\n\n## Acceptance Criteria\n- approval records are persisted server-side\n- revocations are modeled\n- audit binding is explicit\n\n## Final Response Requirements\n- report only\n- mention blocked status\n- do not enable real automation",
+        "codex_prompt": "STRICT EXECUTION MODE.\nMAX-PROMPT MODE.\nCODEX-CAPABLE WORK UNIT.\n\nTASK:\nImplement +2D - Approval Gate Storage in one large meaningful work unit.\n\nPROJECT:\nThe Agent Command Center\n\nSOURCE BRANCH:\ninterface/original-plus1e-backend-implementation-gate\n\nTARGET FUTURE BRANCH:\ninterface/original-plus2d-approval-gate-storage\n\nPURPOSE:\nPersist approval and revocation records after the audit trail exists.\n\nAUTHORIZED FILES:\n- 14_backend/approval/**\n- scripts/validate_original_plus2d_approval_gate_storage.py\n- scripts/validate_original_plus2d_approval_gate_storage_e2e.py\n- 09_exports/original_plus2/\n\nFORBIDDEN FILES:\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\nTEST REQUIREMENTS:\n- approval storage validation\n- e2e contract validation\n- safety scan\n- diff scope check\n\nVALIDATOR REQUIREMENTS:\n- scripts/validate_original_plus2d_approval_gate_storage.py\n- scripts/validate_original_plus2d_approval_gate_storage_e2e.py\n\nREPORT REQUIREMENTS:\n- 09_exports/original_plus2/original_plus2d_approval_gate_storage_report.md\n- 09_exports/original_plus2/original_plus2d_approval_gate_storage_design_report.md\n- 09_exports/original_plus2/original_plus2d_approval_gate_storage_safety_report.md\n- 09_exports/original_plus2/original_plus2d_approval_gate_storage_dependency_report.md\n- 09_exports/original_plus2/original_plus2d_approval_gate_storage_validator_report.md\n- 09_exports/original_plus2/original_plus2d_approval_gate_storage_acceptance_report.md\n\nSAFETY BOUNDARY:\nNo live automation. No execution. No mutation. No backend writes. No deploy / merge / push / PR controls.\n\nNO-GO CONDITIONS:\n- approval without audit binding\n- browser-side approvals\n- live execution\n- approval records without revocation\n\nROLLBACK REQUIREMENTS:\n- stop if approval storage is not immutable\n- remove any live approval writes\n- revert bypass paths\n\nACCEPTANCE CRITERIA:\n- approval records are persisted server-side\n- revocations are modeled\n- audit binding is explicit\n\nFINAL RESPONSE:\nReport only.\nDo not enable real automation.\nDo not perform any action outside the files listed above.",
+        "allowed_files": [
+          "14_backend/approval/**",
+          "scripts/validate_original_plus2d_approval_gate_storage.py",
+          "scripts/validate_original_plus2d_approval_gate_storage_e2e.py",
+          "09_exports/original_plus2/"
+        ],
+        "forbidden_files": [
+          "13_web_dashboard/**",
+          "netlify/functions/**",
+          "11_interface/**",
+          "12_tui/**",
+          "10_runtime/**",
+          "09_exports/interface_phase_1/**",
+          "09_exports/interface_phase_2/**",
+          "09_exports/interface_phase_3/**",
+          "09_exports/interface_phase_4/**",
+          "09_exports/original_plus1/**"
+        ],
+        "implementation_boundary": "Approval storage only. No execution, no queue, no mutation, no dashboard persistence.",
+        "acceptance_criteria": [
+          "approval records are persisted server-side",
+          "revocations are modeled",
+          "audit binding is explicit"
+        ],
+        "final_response_requirements": [
+          "report only",
+          "mention blocked status",
+          "do not enable real automation"
+        ],
+        "branch": "interface/original-plus2d-approval-gate-storage"
+      },
+      {
+        "ticket_id": "+2E",
+        "title": "Server-Side Dry-Run Engine",
+        "purpose": "Produce backend dry-run evidence before approval can advance.",
+        "dependencies": "+2A, +2B, +2C",
+        "required_inputs": "auth foundation, request storage schema, audit contract, dry-run policy",
+        "required_outputs": "dry-run engine contract, evidence bundle shape, dry-run audit notes",
+        "required_tests": "dry-run validation, e2e contract validation, safety scan, diff scope check",
+        "required_validators": "scripts/validate_original_plus2e_server_side_dry_run_engine.py, scripts/validate_original_plus2e_server_side_dry_run_engine_e2e.py",
+        "required_reports": "09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_report.md, 09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_design_report.md, 09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_safety_report.md, 09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_dependency_report.md, 09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_validator_report.md, 09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_acceptance_report.md",
+        "no_go_conditions": "client-side dry-run only, dry-run that mutates state, dry-run without audit evidence, live execution",
+        "rollback_requirements": "keep dry-run server-side, revert any execution side effects, preserve evidence output only",
+        "current_status": "NOT_STARTED",
+        "blocked_for_now": true,
+        "ticket_markdown": "# +2E - Server-Side Dry-Run Engine\n\n## Purpose\nProduce backend dry-run evidence before approval can advance.\n\n## Dependencies\n- +2A\n- +2B\n- +2C\n\n## Allowed Files\n- 14_backend/dry_run/**\n- scripts/validate_original_plus2e_server_side_dry_run_engine.py\n- scripts/validate_original_plus2e_server_side_dry_run_engine_e2e.py\n- 09_exports/original_plus2/\n\n## Forbidden Files\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\n## Required Inputs\n- auth foundation\n- request storage schema\n- audit contract\n- dry-run policy\n\n## Required Outputs\n- dry-run engine contract\n- evidence bundle shape\n- dry-run audit notes\n\n## Required Tests\n- dry-run validation\n- e2e contract validation\n- safety scan\n- diff scope check\n\n## Required Validators\n- scripts/validate_original_plus2e_server_side_dry_run_engine.py\n- scripts/validate_original_plus2e_server_side_dry_run_engine_e2e.py\n\n## Required Reports\n- 09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_report.md\n- 09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_design_report.md\n- 09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_safety_report.md\n- 09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_dependency_report.md\n- 09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_validator_report.md\n- 09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_acceptance_report.md\n\n## Implementation Boundary\nDry-run evidence only. No live execution, no mutation, no dashboard-side simulation as source of truth.\n\n## No-Go Conditions\n- client-side dry-run only\n- dry-run that mutates state\n- dry-run without audit evidence\n- live execution\n\n## Rollback Requirements\n- keep dry-run server-side\n- revert any execution side effects\n- preserve evidence output only\n\n## Acceptance Criteria\n- dry-run evidence is generated server-side\n- approval depends on dry-run output\n- no live system is mutated\n\n## Final Response Requirements\n- report only\n- mention blocked status\n- do not enable real automation",
+        "codex_prompt": "STRICT EXECUTION MODE.\nMAX-PROMPT MODE.\nCODEX-CAPABLE WORK UNIT.\n\nTASK:\nImplement +2E - Server-Side Dry-Run Engine in one large meaningful work unit.\n\nPROJECT:\nThe Agent Command Center\n\nSOURCE BRANCH:\ninterface/original-plus1e-backend-implementation-gate\n\nTARGET FUTURE BRANCH:\ninterface/original-plus2e-server-side-dry-run-engine\n\nPURPOSE:\nProduce backend dry-run evidence before approval can advance.\n\nAUTHORIZED FILES:\n- 14_backend/dry_run/**\n- scripts/validate_original_plus2e_server_side_dry_run_engine.py\n- scripts/validate_original_plus2e_server_side_dry_run_engine_e2e.py\n- 09_exports/original_plus2/\n\nFORBIDDEN FILES:\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\nTEST REQUIREMENTS:\n- dry-run validation\n- e2e contract validation\n- safety scan\n- diff scope check\n\nVALIDATOR REQUIREMENTS:\n- scripts/validate_original_plus2e_server_side_dry_run_engine.py\n- scripts/validate_original_plus2e_server_side_dry_run_engine_e2e.py\n\nREPORT REQUIREMENTS:\n- 09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_report.md\n- 09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_design_report.md\n- 09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_safety_report.md\n- 09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_dependency_report.md\n- 09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_validator_report.md\n- 09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_acceptance_report.md\n\nSAFETY BOUNDARY:\nNo live automation. No execution. No mutation. No backend writes. No deploy / merge / push / PR controls.\n\nNO-GO CONDITIONS:\n- client-side dry-run only\n- dry-run that mutates state\n- dry-run without audit evidence\n- live execution\n\nROLLBACK REQUIREMENTS:\n- keep dry-run server-side\n- revert any execution side effects\n- preserve evidence output only\n\nACCEPTANCE CRITERIA:\n- dry-run evidence is generated server-side\n- approval depends on dry-run output\n- no live system is mutated\n\nFINAL RESPONSE:\nReport only.\nDo not enable real automation.\nDo not perform any action outside the files listed above.",
+        "allowed_files": [
+          "14_backend/dry_run/**",
+          "scripts/validate_original_plus2e_server_side_dry_run_engine.py",
+          "scripts/validate_original_plus2e_server_side_dry_run_engine_e2e.py",
+          "09_exports/original_plus2/"
+        ],
+        "forbidden_files": [
+          "13_web_dashboard/**",
+          "netlify/functions/**",
+          "11_interface/**",
+          "12_tui/**",
+          "10_runtime/**",
+          "09_exports/interface_phase_1/**",
+          "09_exports/interface_phase_2/**",
+          "09_exports/interface_phase_3/**",
+          "09_exports/interface_phase_4/**",
+          "09_exports/original_plus1/**"
+        ],
+        "implementation_boundary": "Dry-run evidence only. No live execution, no mutation, no dashboard-side simulation as source of truth.",
+        "acceptance_criteria": [
+          "dry-run evidence is generated server-side",
+          "approval depends on dry-run output",
+          "no live system is mutated"
+        ],
+        "final_response_requirements": [
+          "report only",
+          "mention blocked status",
+          "do not enable real automation"
+        ],
+        "branch": "interface/original-plus2e-server-side-dry-run-engine"
+      },
+      {
+        "ticket_id": "+2F",
+        "title": "Queue / Job Runner",
+        "purpose": "Coordinate queued automation jobs after dry-run and approval exist.",
+        "dependencies": "+2A, +2B, +2C, +2D, +2E",
+        "required_inputs": "auth foundation, request storage schema, audit contract, approval store, dry-run engine",
+        "required_outputs": "queue runner contract, job lifecycle model, queue evidence notes",
+        "required_tests": "queue validation, e2e contract validation, safety scan, diff scope check",
+        "required_validators": "scripts/validate_original_plus2f_queue_job_runner.py, scripts/validate_original_plus2f_queue_job_runner_e2e.py",
+        "required_reports": "09_exports/original_plus2/original_plus2f_queue_job_runner_report.md, 09_exports/original_plus2/original_plus2f_queue_job_runner_design_report.md, 09_exports/original_plus2/original_plus2f_queue_job_runner_safety_report.md, 09_exports/original_plus2/original_plus2f_queue_job_runner_dependency_report.md, 09_exports/original_plus2/original_plus2f_queue_job_runner_validator_report.md, 09_exports/original_plus2/original_plus2f_queue_job_runner_acceptance_report.md",
+        "no_go_conditions": "queue without approval, queue without dry-run evidence, job runner without audit, live execution",
+        "rollback_requirements": "stop if the queue can bypass approval, revert any scheduling path, keep job state copy-only until future phases",
+        "current_status": "NOT_STARTED",
+        "blocked_for_now": true,
+        "ticket_markdown": "# +2F - Queue / Job Runner\n\n## Purpose\nCoordinate queued automation jobs after dry-run and approval exist.\n\n## Dependencies\n- +2A\n- +2B\n- +2C\n- +2D\n- +2E\n\n## Allowed Files\n- 14_backend/queue/**\n- scripts/validate_original_plus2f_queue_job_runner.py\n- scripts/validate_original_plus2f_queue_job_runner_e2e.py\n- 09_exports/original_plus2/\n\n## Forbidden Files\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\n## Required Inputs\n- auth foundation\n- request storage schema\n- audit contract\n- approval store\n- dry-run engine\n\n## Required Outputs\n- queue runner contract\n- job lifecycle model\n- queue evidence notes\n\n## Required Tests\n- queue validation\n- e2e contract validation\n- safety scan\n- diff scope check\n\n## Required Validators\n- scripts/validate_original_plus2f_queue_job_runner.py\n- scripts/validate_original_plus2f_queue_job_runner_e2e.py\n\n## Required Reports\n- 09_exports/original_plus2/original_plus2f_queue_job_runner_report.md\n- 09_exports/original_plus2/original_plus2f_queue_job_runner_design_report.md\n- 09_exports/original_plus2/original_plus2f_queue_job_runner_safety_report.md\n- 09_exports/original_plus2/original_plus2f_queue_job_runner_dependency_report.md\n- 09_exports/original_plus2/original_plus2f_queue_job_runner_validator_report.md\n- 09_exports/original_plus2/original_plus2f_queue_job_runner_acceptance_report.md\n\n## Implementation Boundary\nQueue/job runner only. No live mutation, no browser queue, no dashboard execution.\n\n## No-Go Conditions\n- queue without approval\n- queue without dry-run evidence\n- job runner without audit\n- live execution\n\n## Rollback Requirements\n- stop if the queue can bypass approval\n- revert any scheduling path\n- keep job state copy-only until future phases\n\n## Acceptance Criteria\n- queue state is server-side\n- job lifecycle is explicit\n- approval and dry-run are required\n\n## Final Response Requirements\n- report only\n- mention blocked status\n- do not enable real automation",
+        "codex_prompt": "STRICT EXECUTION MODE.\nMAX-PROMPT MODE.\nCODEX-CAPABLE WORK UNIT.\n\nTASK:\nImplement +2F - Queue / Job Runner in one large meaningful work unit.\n\nPROJECT:\nThe Agent Command Center\n\nSOURCE BRANCH:\ninterface/original-plus1e-backend-implementation-gate\n\nTARGET FUTURE BRANCH:\ninterface/original-plus2f-queue-job-runner\n\nPURPOSE:\nCoordinate queued automation jobs after dry-run and approval exist.\n\nAUTHORIZED FILES:\n- 14_backend/queue/**\n- scripts/validate_original_plus2f_queue_job_runner.py\n- scripts/validate_original_plus2f_queue_job_runner_e2e.py\n- 09_exports/original_plus2/\n\nFORBIDDEN FILES:\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\nTEST REQUIREMENTS:\n- queue validation\n- e2e contract validation\n- safety scan\n- diff scope check\n\nVALIDATOR REQUIREMENTS:\n- scripts/validate_original_plus2f_queue_job_runner.py\n- scripts/validate_original_plus2f_queue_job_runner_e2e.py\n\nREPORT REQUIREMENTS:\n- 09_exports/original_plus2/original_plus2f_queue_job_runner_report.md\n- 09_exports/original_plus2/original_plus2f_queue_job_runner_design_report.md\n- 09_exports/original_plus2/original_plus2f_queue_job_runner_safety_report.md\n- 09_exports/original_plus2/original_plus2f_queue_job_runner_dependency_report.md\n- 09_exports/original_plus2/original_plus2f_queue_job_runner_validator_report.md\n- 09_exports/original_plus2/original_plus2f_queue_job_runner_acceptance_report.md\n\nSAFETY BOUNDARY:\nNo live automation. No execution. No mutation. No backend writes. No deploy / merge / push / PR controls.\n\nNO-GO CONDITIONS:\n- queue without approval\n- queue without dry-run evidence\n- job runner without audit\n- live execution\n\nROLLBACK REQUIREMENTS:\n- stop if the queue can bypass approval\n- revert any scheduling path\n- keep job state copy-only until future phases\n\nACCEPTANCE CRITERIA:\n- queue state is server-side\n- job lifecycle is explicit\n- approval and dry-run are required\n\nFINAL RESPONSE:\nReport only.\nDo not enable real automation.\nDo not perform any action outside the files listed above.",
+        "allowed_files": [
+          "14_backend/queue/**",
+          "scripts/validate_original_plus2f_queue_job_runner.py",
+          "scripts/validate_original_plus2f_queue_job_runner_e2e.py",
+          "09_exports/original_plus2/"
+        ],
+        "forbidden_files": [
+          "13_web_dashboard/**",
+          "netlify/functions/**",
+          "11_interface/**",
+          "12_tui/**",
+          "10_runtime/**",
+          "09_exports/interface_phase_1/**",
+          "09_exports/interface_phase_2/**",
+          "09_exports/interface_phase_3/**",
+          "09_exports/interface_phase_4/**",
+          "09_exports/original_plus1/**"
+        ],
+        "implementation_boundary": "Queue/job runner only. No live mutation, no browser queue, no dashboard execution.",
+        "acceptance_criteria": [
+          "queue state is server-side",
+          "job lifecycle is explicit",
+          "approval and dry-run are required"
+        ],
+        "final_response_requirements": [
+          "report only",
+          "mention blocked status",
+          "do not enable real automation"
+        ],
+        "branch": "interface/original-plus2f-queue-job-runner"
+      },
+      {
+        "ticket_id": "+2G",
+        "title": "Mutation Gateway",
+        "purpose": "Enforce server-side mutation boundaries after queue and approval are present.",
+        "dependencies": "+2A, +2B, +2C, +2D, +2E, +2F",
+        "required_inputs": "auth foundation, request storage schema, audit contract, approval store, dry-run engine, queue runner",
+        "required_outputs": "mutation gateway contract, server-side mutation boundary, audit binding notes",
+        "required_tests": "mutation validation, e2e contract validation, safety scan, diff scope check",
+        "required_validators": "scripts/validate_original_plus2g_mutation_gateway.py, scripts/validate_original_plus2g_mutation_gateway_e2e.py",
+        "required_reports": "09_exports/original_plus2/original_plus2g_mutation_gateway_report.md, 09_exports/original_plus2/original_plus2g_mutation_gateway_design_report.md, 09_exports/original_plus2/original_plus2g_mutation_gateway_safety_report.md, 09_exports/original_plus2/original_plus2g_mutation_gateway_dependency_report.md, 09_exports/original_plus2/original_plus2g_mutation_gateway_validator_report.md, 09_exports/original_plus2/original_plus2g_mutation_gateway_acceptance_report.md",
+        "no_go_conditions": "mutation without audit, mutation without approval, mutation without rollback, live execution without gate",
+        "rollback_requirements": "keep mutation server-side only, revert any browser-side mutation path, stop if secrets leak to browser",
+        "current_status": "NOT_STARTED",
+        "blocked_for_now": true,
+        "ticket_markdown": "# +2G - Mutation Gateway\n\n## Purpose\nEnforce server-side mutation boundaries after queue and approval are present.\n\n## Dependencies\n- +2A\n- +2B\n- +2C\n- +2D\n- +2E\n- +2F\n\n## Allowed Files\n- 14_backend/mutation/**\n- scripts/validate_original_plus2g_mutation_gateway.py\n- scripts/validate_original_plus2g_mutation_gateway_e2e.py\n- 09_exports/original_plus2/\n\n## Forbidden Files\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\n## Required Inputs\n- auth foundation\n- request storage schema\n- audit contract\n- approval store\n- dry-run engine\n- queue runner\n\n## Required Outputs\n- mutation gateway contract\n- server-side mutation boundary\n- audit binding notes\n\n## Required Tests\n- mutation validation\n- e2e contract validation\n- safety scan\n- diff scope check\n\n## Required Validators\n- scripts/validate_original_plus2g_mutation_gateway.py\n- scripts/validate_original_plus2g_mutation_gateway_e2e.py\n\n## Required Reports\n- 09_exports/original_plus2/original_plus2g_mutation_gateway_report.md\n- 09_exports/original_plus2/original_plus2g_mutation_gateway_design_report.md\n- 09_exports/original_plus2/original_plus2g_mutation_gateway_safety_report.md\n- 09_exports/original_plus2/original_plus2g_mutation_gateway_dependency_report.md\n- 09_exports/original_plus2/original_plus2g_mutation_gateway_validator_report.md\n- 09_exports/original_plus2/original_plus2g_mutation_gateway_acceptance_report.md\n\n## Implementation Boundary\nMutation gateway only. No browser writes, no dashboard actions, no live automation outside backend gates.\n\n## No-Go Conditions\n- mutation without audit\n- mutation without approval\n- mutation without rollback\n- live execution without gate\n\n## Rollback Requirements\n- keep mutation server-side only\n- revert any browser-side mutation path\n- stop if secrets leak to browser\n\n## Acceptance Criteria\n- mutation path is server-side\n- approval and audit are mandatory\n- rollback requirements are explicit\n\n## Final Response Requirements\n- report only\n- mention blocked status\n- do not enable real automation",
+        "codex_prompt": "STRICT EXECUTION MODE.\nMAX-PROMPT MODE.\nCODEX-CAPABLE WORK UNIT.\n\nTASK:\nImplement +2G - Mutation Gateway in one large meaningful work unit.\n\nPROJECT:\nThe Agent Command Center\n\nSOURCE BRANCH:\ninterface/original-plus1e-backend-implementation-gate\n\nTARGET FUTURE BRANCH:\ninterface/original-plus2g-mutation-gateway\n\nPURPOSE:\nEnforce server-side mutation boundaries after queue and approval are present.\n\nAUTHORIZED FILES:\n- 14_backend/mutation/**\n- scripts/validate_original_plus2g_mutation_gateway.py\n- scripts/validate_original_plus2g_mutation_gateway_e2e.py\n- 09_exports/original_plus2/\n\nFORBIDDEN FILES:\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\nTEST REQUIREMENTS:\n- mutation validation\n- e2e contract validation\n- safety scan\n- diff scope check\n\nVALIDATOR REQUIREMENTS:\n- scripts/validate_original_plus2g_mutation_gateway.py\n- scripts/validate_original_plus2g_mutation_gateway_e2e.py\n\nREPORT REQUIREMENTS:\n- 09_exports/original_plus2/original_plus2g_mutation_gateway_report.md\n- 09_exports/original_plus2/original_plus2g_mutation_gateway_design_report.md\n- 09_exports/original_plus2/original_plus2g_mutation_gateway_safety_report.md\n- 09_exports/original_plus2/original_plus2g_mutation_gateway_dependency_report.md\n- 09_exports/original_plus2/original_plus2g_mutation_gateway_validator_report.md\n- 09_exports/original_plus2/original_plus2g_mutation_gateway_acceptance_report.md\n\nSAFETY BOUNDARY:\nNo live automation. No execution. No mutation. No backend writes. No deploy / merge / push / PR controls.\n\nNO-GO CONDITIONS:\n- mutation without audit\n- mutation without approval\n- mutation without rollback\n- live execution without gate\n\nROLLBACK REQUIREMENTS:\n- keep mutation server-side only\n- revert any browser-side mutation path\n- stop if secrets leak to browser\n\nACCEPTANCE CRITERIA:\n- mutation path is server-side\n- approval and audit are mandatory\n- rollback requirements are explicit\n\nFINAL RESPONSE:\nReport only.\nDo not enable real automation.\nDo not perform any action outside the files listed above.",
+        "allowed_files": [
+          "14_backend/mutation/**",
+          "scripts/validate_original_plus2g_mutation_gateway.py",
+          "scripts/validate_original_plus2g_mutation_gateway_e2e.py",
+          "09_exports/original_plus2/"
+        ],
+        "forbidden_files": [
+          "13_web_dashboard/**",
+          "netlify/functions/**",
+          "11_interface/**",
+          "12_tui/**",
+          "10_runtime/**",
+          "09_exports/interface_phase_1/**",
+          "09_exports/interface_phase_2/**",
+          "09_exports/interface_phase_3/**",
+          "09_exports/interface_phase_4/**",
+          "09_exports/original_plus1/**"
+        ],
+        "implementation_boundary": "Mutation gateway only. No browser writes, no dashboard actions, no live automation outside backend gates.",
+        "acceptance_criteria": [
+          "mutation path is server-side",
+          "approval and audit are mandatory",
+          "rollback requirements are explicit"
+        ],
+        "final_response_requirements": [
+          "report only",
+          "mention blocked status",
+          "do not enable real automation"
+        ],
+        "branch": "interface/original-plus2g-mutation-gateway"
+      },
+      {
+        "ticket_id": "+2H",
+        "title": "GitHub / Netlify Integration Adapters",
+        "purpose": "Add bounded integration adapters only after the mutation gateway exists.",
+        "dependencies": "+2A, +2B, +2C, +2D, +2E, +2F, +2G",
+        "required_inputs": "auth foundation, mutation gateway, secrets policy, integration policy",
+        "required_outputs": "adapter contracts, GitHub/Netlify boundary notes, secret handling plan",
+        "required_tests": "adapter validation, e2e contract validation, safety scan, diff scope check",
+        "required_validators": "scripts/validate_original_plus2h_github_netlify_adapters.py, scripts/validate_original_plus2h_github_netlify_adapters_e2e.py",
+        "required_reports": "09_exports/original_plus2/original_plus2h_github_netlify_adapters_report.md, 09_exports/original_plus2/original_plus2h_github_netlify_adapters_design_report.md, 09_exports/original_plus2/original_plus2h_github_netlify_adapters_safety_report.md, 09_exports/original_plus2/original_plus2h_github_netlify_adapters_dependency_report.md, 09_exports/original_plus2/original_plus2h_github_netlify_adapters_validator_report.md, 09_exports/original_plus2/original_plus2h_github_netlify_adapters_acceptance_report.md",
+        "no_go_conditions": "adapters without secrets policy, adapters without approval, adapters without rollback, live deployment control",
+        "rollback_requirements": "keep adapters bounded, revert any direct mutation path, never expose tokens in browser",
+        "current_status": "NOT_STARTED",
+        "blocked_for_now": true,
+        "ticket_markdown": "# +2H - GitHub / Netlify Integration Adapters\n\n## Purpose\nAdd bounded integration adapters only after the mutation gateway exists.\n\n## Dependencies\n- +2A\n- +2B\n- +2C\n- +2D\n- +2E\n- +2F\n- +2G\n\n## Allowed Files\n- 14_backend/integrations/**\n- scripts/validate_original_plus2h_github_netlify_adapters.py\n- scripts/validate_original_plus2h_github_netlify_adapters_e2e.py\n- 09_exports/original_plus2/\n\n## Forbidden Files\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\n## Required Inputs\n- auth foundation\n- mutation gateway\n- secrets policy\n- integration policy\n\n## Required Outputs\n- adapter contracts\n- GitHub/Netlify boundary notes\n- secret handling plan\n\n## Required Tests\n- adapter validation\n- e2e contract validation\n- safety scan\n- diff scope check\n\n## Required Validators\n- scripts/validate_original_plus2h_github_netlify_adapters.py\n- scripts/validate_original_plus2h_github_netlify_adapters_e2e.py\n\n## Required Reports\n- 09_exports/original_plus2/original_plus2h_github_netlify_adapters_report.md\n- 09_exports/original_plus2/original_plus2h_github_netlify_adapters_design_report.md\n- 09_exports/original_plus2/original_plus2h_github_netlify_adapters_safety_report.md\n- 09_exports/original_plus2/original_plus2h_github_netlify_adapters_dependency_report.md\n- 09_exports/original_plus2/original_plus2h_github_netlify_adapters_validator_report.md\n- 09_exports/original_plus2/original_plus2h_github_netlify_adapters_acceptance_report.md\n\n## Implementation Boundary\nIntegration adapters only. No live GitHub or Netlify mutation from the browser or dashboard.\n\n## No-Go Conditions\n- adapters without secrets policy\n- adapters without approval\n- adapters without rollback\n- live deployment control\n\n## Rollback Requirements\n- keep adapters bounded\n- revert any direct mutation path\n- never expose tokens in browser\n\n## Acceptance Criteria\n- adapter boundaries are server-side\n- secrets remain server-side\n- rollbacks are explicit\n\n## Final Response Requirements\n- report only\n- mention blocked status\n- do not enable real automation",
+        "codex_prompt": "STRICT EXECUTION MODE.\nMAX-PROMPT MODE.\nCODEX-CAPABLE WORK UNIT.\n\nTASK:\nImplement +2H - GitHub / Netlify Integration Adapters in one large meaningful work unit.\n\nPROJECT:\nThe Agent Command Center\n\nSOURCE BRANCH:\ninterface/original-plus1e-backend-implementation-gate\n\nTARGET FUTURE BRANCH:\ninterface/original-plus2h-github-netlify-adapters\n\nPURPOSE:\nAdd bounded integration adapters only after the mutation gateway exists.\n\nAUTHORIZED FILES:\n- 14_backend/integrations/**\n- scripts/validate_original_plus2h_github_netlify_adapters.py\n- scripts/validate_original_plus2h_github_netlify_adapters_e2e.py\n- 09_exports/original_plus2/\n\nFORBIDDEN FILES:\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\nTEST REQUIREMENTS:\n- adapter validation\n- e2e contract validation\n- safety scan\n- diff scope check\n\nVALIDATOR REQUIREMENTS:\n- scripts/validate_original_plus2h_github_netlify_adapters.py\n- scripts/validate_original_plus2h_github_netlify_adapters_e2e.py\n\nREPORT REQUIREMENTS:\n- 09_exports/original_plus2/original_plus2h_github_netlify_adapters_report.md\n- 09_exports/original_plus2/original_plus2h_github_netlify_adapters_design_report.md\n- 09_exports/original_plus2/original_plus2h_github_netlify_adapters_safety_report.md\n- 09_exports/original_plus2/original_plus2h_github_netlify_adapters_dependency_report.md\n- 09_exports/original_plus2/original_plus2h_github_netlify_adapters_validator_report.md\n- 09_exports/original_plus2/original_plus2h_github_netlify_adapters_acceptance_report.md\n\nSAFETY BOUNDARY:\nNo live automation. No execution. No mutation. No backend writes. No deploy / merge / push / PR controls.\n\nNO-GO CONDITIONS:\n- adapters without secrets policy\n- adapters without approval\n- adapters without rollback\n- live deployment control\n\nROLLBACK REQUIREMENTS:\n- keep adapters bounded\n- revert any direct mutation path\n- never expose tokens in browser\n\nACCEPTANCE CRITERIA:\n- adapter boundaries are server-side\n- secrets remain server-side\n- rollbacks are explicit\n\nFINAL RESPONSE:\nReport only.\nDo not enable real automation.\nDo not perform any action outside the files listed above.",
+        "allowed_files": [
+          "14_backend/integrations/**",
+          "scripts/validate_original_plus2h_github_netlify_adapters.py",
+          "scripts/validate_original_plus2h_github_netlify_adapters_e2e.py",
+          "09_exports/original_plus2/"
+        ],
+        "forbidden_files": [
+          "13_web_dashboard/**",
+          "netlify/functions/**",
+          "11_interface/**",
+          "12_tui/**",
+          "10_runtime/**",
+          "09_exports/interface_phase_1/**",
+          "09_exports/interface_phase_2/**",
+          "09_exports/interface_phase_3/**",
+          "09_exports/interface_phase_4/**",
+          "09_exports/original_plus1/**"
+        ],
+        "implementation_boundary": "Integration adapters only. No live GitHub or Netlify mutation from the browser or dashboard.",
+        "acceptance_criteria": [
+          "adapter boundaries are server-side",
+          "secrets remain server-side",
+          "rollbacks are explicit"
+        ],
+        "final_response_requirements": [
+          "report only",
+          "mention blocked status",
+          "do not enable real automation"
+        ],
+        "branch": "interface/original-plus2h-github-netlify-adapters"
+      },
+      {
+        "ticket_id": "+2I",
+        "title": "Rollback / No-Go Enforcement",
+        "purpose": "Block unsafe execution paths and enforce rollback when future automation goes wrong.",
+        "dependencies": "+2A, +2B, +2C, +2D, +2E, +2F, +2G, +2H",
+        "required_inputs": "auth foundation, mutation gateway, integration adapters, safety policy",
+        "required_outputs": "rollback enforcement contract, no-go router, blocker escalation notes",
+        "required_tests": "rollback validation, e2e contract validation, safety scan, diff scope check",
+        "required_validators": "scripts/validate_original_plus2i_rollback_no_go_enforcement.py, scripts/validate_original_plus2i_rollback_no_go_enforcement_e2e.py",
+        "required_reports": "09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_report.md, 09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_design_report.md, 09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_safety_report.md, 09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_dependency_report.md, 09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_validator_report.md, 09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_acceptance_report.md",
+        "no_go_conditions": "rollback policy missing, no-go bypass, unsafe execution allowed, live automation shortcut",
+        "rollback_requirements": "stop unsafe execution immediately, revert the dangerous path, preserve audit evidence",
+        "current_status": "NOT_STARTED",
+        "blocked_for_now": true,
+        "ticket_markdown": "# +2I - Rollback / No-Go Enforcement\n\n## Purpose\nBlock unsafe execution paths and enforce rollback when future automation goes wrong.\n\n## Dependencies\n- +2A\n- +2B\n- +2C\n- +2D\n- +2E\n- +2F\n- +2G\n- +2H\n\n## Allowed Files\n- 14_backend/rollback/**\n- scripts/validate_original_plus2i_rollback_no_go_enforcement.py\n- scripts/validate_original_plus2i_rollback_no_go_enforcement_e2e.py\n- 09_exports/original_plus2/\n\n## Forbidden Files\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\n## Required Inputs\n- auth foundation\n- mutation gateway\n- integration adapters\n- safety policy\n\n## Required Outputs\n- rollback enforcement contract\n- no-go router\n- blocker escalation notes\n\n## Required Tests\n- rollback validation\n- e2e contract validation\n- safety scan\n- diff scope check\n\n## Required Validators\n- scripts/validate_original_plus2i_rollback_no_go_enforcement.py\n- scripts/validate_original_plus2i_rollback_no_go_enforcement_e2e.py\n\n## Required Reports\n- 09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_report.md\n- 09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_design_report.md\n- 09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_safety_report.md\n- 09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_dependency_report.md\n- 09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_validator_report.md\n- 09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_acceptance_report.md\n\n## Implementation Boundary\nRollback and no-go enforcement only. No live execution, no browser mutation, no deployment controls.\n\n## No-Go Conditions\n- rollback policy missing\n- no-go bypass\n- unsafe execution allowed\n- live automation shortcut\n\n## Rollback Requirements\n- stop unsafe execution immediately\n- revert the dangerous path\n- preserve audit evidence\n\n## Acceptance Criteria\n- unsafe paths are blocked\n- rollback requirements are explicit\n- audit evidence is preserved\n\n## Final Response Requirements\n- report only\n- mention blocked status\n- do not enable real automation",
+        "codex_prompt": "STRICT EXECUTION MODE.\nMAX-PROMPT MODE.\nCODEX-CAPABLE WORK UNIT.\n\nTASK:\nImplement +2I - Rollback / No-Go Enforcement in one large meaningful work unit.\n\nPROJECT:\nThe Agent Command Center\n\nSOURCE BRANCH:\ninterface/original-plus1e-backend-implementation-gate\n\nTARGET FUTURE BRANCH:\ninterface/original-plus2i-rollback-no-go-enforcement\n\nPURPOSE:\nBlock unsafe execution paths and enforce rollback when future automation goes wrong.\n\nAUTHORIZED FILES:\n- 14_backend/rollback/**\n- scripts/validate_original_plus2i_rollback_no_go_enforcement.py\n- scripts/validate_original_plus2i_rollback_no_go_enforcement_e2e.py\n- 09_exports/original_plus2/\n\nFORBIDDEN FILES:\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\nTEST REQUIREMENTS:\n- rollback validation\n- e2e contract validation\n- safety scan\n- diff scope check\n\nVALIDATOR REQUIREMENTS:\n- scripts/validate_original_plus2i_rollback_no_go_enforcement.py\n- scripts/validate_original_plus2i_rollback_no_go_enforcement_e2e.py\n\nREPORT REQUIREMENTS:\n- 09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_report.md\n- 09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_design_report.md\n- 09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_safety_report.md\n- 09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_dependency_report.md\n- 09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_validator_report.md\n- 09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_acceptance_report.md\n\nSAFETY BOUNDARY:\nNo live automation. No execution. No mutation. No backend writes. No deploy / merge / push / PR controls.\n\nNO-GO CONDITIONS:\n- rollback policy missing\n- no-go bypass\n- unsafe execution allowed\n- live automation shortcut\n\nROLLBACK REQUIREMENTS:\n- stop unsafe execution immediately\n- revert the dangerous path\n- preserve audit evidence\n\nACCEPTANCE CRITERIA:\n- unsafe paths are blocked\n- rollback requirements are explicit\n- audit evidence is preserved\n\nFINAL RESPONSE:\nReport only.\nDo not enable real automation.\nDo not perform any action outside the files listed above.",
+        "allowed_files": [
+          "14_backend/rollback/**",
+          "scripts/validate_original_plus2i_rollback_no_go_enforcement.py",
+          "scripts/validate_original_plus2i_rollback_no_go_enforcement_e2e.py",
+          "09_exports/original_plus2/"
+        ],
+        "forbidden_files": [
+          "13_web_dashboard/**",
+          "netlify/functions/**",
+          "11_interface/**",
+          "12_tui/**",
+          "10_runtime/**",
+          "09_exports/interface_phase_1/**",
+          "09_exports/interface_phase_2/**",
+          "09_exports/interface_phase_3/**",
+          "09_exports/interface_phase_4/**",
+          "09_exports/original_plus1/**"
+        ],
+        "implementation_boundary": "Rollback and no-go enforcement only. No live execution, no browser mutation, no deployment controls.",
+        "acceptance_criteria": [
+          "unsafe paths are blocked",
+          "rollback requirements are explicit",
+          "audit evidence is preserved"
+        ],
+        "final_response_requirements": [
+          "report only",
+          "mention blocked status",
+          "do not enable real automation"
+        ],
+        "branch": "interface/original-plus2i-rollback-no-go-enforcement"
+      },
+      {
+        "ticket_id": "+2J",
+        "title": "Production Hardening & Monitoring",
+        "purpose": "Finalize monitoring, resilience, and release hardening after every prior backend ticket exists.",
+        "dependencies": "+2A, +2B, +2C, +2D, +2E, +2F, +2G, +2H, +2I",
+        "required_inputs": "all prior backend tickets, monitoring policy, release hardening checklist",
+        "required_outputs": "hardening plan, monitoring matrix, release readiness notes",
+        "required_tests": "hardening validation, e2e contract validation, safety scan, diff scope check",
+        "required_validators": "scripts/validate_original_plus2j_production_hardening_monitoring.py, scripts/validate_original_plus2j_production_hardening_monitoring_e2e.py",
+        "required_reports": "09_exports/original_plus2/original_plus2j_production_hardening_monitoring_report.md, 09_exports/original_plus2/original_plus2j_production_hardening_monitoring_design_report.md, 09_exports/original_plus2/original_plus2j_production_hardening_monitoring_safety_report.md, 09_exports/original_plus2/original_plus2j_production_hardening_monitoring_dependency_report.md, 09_exports/original_plus2/original_plus2j_production_hardening_monitoring_validator_report.md, 09_exports/original_plus2/original_plus2j_production_hardening_monitoring_acceptance_report.md",
+        "no_go_conditions": "hardening before prior tickets exist, monitoring without gates, live automation shortcut",
+        "rollback_requirements": "revert if monitoring is added before gates, keep release hardening copy-only until future implementation",
+        "current_status": "NOT_STARTED",
+        "blocked_for_now": true,
+        "ticket_markdown": "# +2J - Production Hardening & Monitoring\n\n## Purpose\nFinalize monitoring, resilience, and release hardening after every prior backend ticket exists.\n\n## Dependencies\n- +2A\n- +2B\n- +2C\n- +2D\n- +2E\n- +2F\n- +2G\n- +2H\n- +2I\n\n## Allowed Files\n- 14_backend/monitoring/**\n- scripts/validate_original_plus2j_production_hardening_monitoring.py\n- scripts/validate_original_plus2j_production_hardening_monitoring_e2e.py\n- 09_exports/original_plus2/\n\n## Forbidden Files\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\n## Required Inputs\n- all prior backend tickets\n- monitoring policy\n- release hardening checklist\n\n## Required Outputs\n- hardening plan\n- monitoring matrix\n- release readiness notes\n\n## Required Tests\n- hardening validation\n- e2e contract validation\n- safety scan\n- diff scope check\n\n## Required Validators\n- scripts/validate_original_plus2j_production_hardening_monitoring.py\n- scripts/validate_original_plus2j_production_hardening_monitoring_e2e.py\n\n## Required Reports\n- 09_exports/original_plus2/original_plus2j_production_hardening_monitoring_report.md\n- 09_exports/original_plus2/original_plus2j_production_hardening_monitoring_design_report.md\n- 09_exports/original_plus2/original_plus2j_production_hardening_monitoring_safety_report.md\n- 09_exports/original_plus2/original_plus2j_production_hardening_monitoring_dependency_report.md\n- 09_exports/original_plus2/original_plus2j_production_hardening_monitoring_validator_report.md\n- 09_exports/original_plus2/original_plus2j_production_hardening_monitoring_acceptance_report.md\n\n## Implementation Boundary\nProduction hardening only. No live automation, no browser execution, no mutation shortcuts.\n\n## No-Go Conditions\n- hardening before prior tickets exist\n- monitoring without gates\n- live automation shortcut\n\n## Rollback Requirements\n- revert if monitoring is added before gates\n- keep release hardening copy-only until future implementation\n\n## Acceptance Criteria\n- monitoring and release hardening are explicit\n- no live automation is enabled\n- all prior tickets remain prerequisites\n\n## Final Response Requirements\n- report only\n- mention blocked status\n- do not enable real automation",
+        "codex_prompt": "STRICT EXECUTION MODE.\nMAX-PROMPT MODE.\nCODEX-CAPABLE WORK UNIT.\n\nTASK:\nImplement +2J - Production Hardening & Monitoring in one large meaningful work unit.\n\nPROJECT:\nThe Agent Command Center\n\nSOURCE BRANCH:\ninterface/original-plus1e-backend-implementation-gate\n\nTARGET FUTURE BRANCH:\ninterface/original-plus2j-production-hardening-monitoring\n\nPURPOSE:\nFinalize monitoring, resilience, and release hardening after every prior backend ticket exists.\n\nAUTHORIZED FILES:\n- 14_backend/monitoring/**\n- scripts/validate_original_plus2j_production_hardening_monitoring.py\n- scripts/validate_original_plus2j_production_hardening_monitoring_e2e.py\n- 09_exports/original_plus2/\n\nFORBIDDEN FILES:\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\nTEST REQUIREMENTS:\n- hardening validation\n- e2e contract validation\n- safety scan\n- diff scope check\n\nVALIDATOR REQUIREMENTS:\n- scripts/validate_original_plus2j_production_hardening_monitoring.py\n- scripts/validate_original_plus2j_production_hardening_monitoring_e2e.py\n\nREPORT REQUIREMENTS:\n- 09_exports/original_plus2/original_plus2j_production_hardening_monitoring_report.md\n- 09_exports/original_plus2/original_plus2j_production_hardening_monitoring_design_report.md\n- 09_exports/original_plus2/original_plus2j_production_hardening_monitoring_safety_report.md\n- 09_exports/original_plus2/original_plus2j_production_hardening_monitoring_dependency_report.md\n- 09_exports/original_plus2/original_plus2j_production_hardening_monitoring_validator_report.md\n- 09_exports/original_plus2/original_plus2j_production_hardening_monitoring_acceptance_report.md\n\nSAFETY BOUNDARY:\nNo live automation. No execution. No mutation. No backend writes. No deploy / merge / push / PR controls.\n\nNO-GO CONDITIONS:\n- hardening before prior tickets exist\n- monitoring without gates\n- live automation shortcut\n\nROLLBACK REQUIREMENTS:\n- revert if monitoring is added before gates\n- keep release hardening copy-only until future implementation\n\nACCEPTANCE CRITERIA:\n- monitoring and release hardening are explicit\n- no live automation is enabled\n- all prior tickets remain prerequisites\n\nFINAL RESPONSE:\nReport only.\nDo not enable real automation.\nDo not perform any action outside the files listed above.",
+        "allowed_files": [
+          "14_backend/monitoring/**",
+          "scripts/validate_original_plus2j_production_hardening_monitoring.py",
+          "scripts/validate_original_plus2j_production_hardening_monitoring_e2e.py",
+          "09_exports/original_plus2/"
+        ],
+        "forbidden_files": [
+          "13_web_dashboard/**",
+          "netlify/functions/**",
+          "11_interface/**",
+          "12_tui/**",
+          "10_runtime/**",
+          "09_exports/interface_phase_1/**",
+          "09_exports/interface_phase_2/**",
+          "09_exports/interface_phase_3/**",
+          "09_exports/interface_phase_4/**",
+          "09_exports/original_plus1/**"
+        ],
+        "implementation_boundary": "Production hardening only. No live automation, no browser execution, no mutation shortcuts.",
+        "acceptance_criteria": [
+          "monitoring and release hardening are explicit",
+          "no live automation is enabled",
+          "all prior tickets remain prerequisites"
+        ],
+        "final_response_requirements": [
+          "report only",
+          "mention blocked status",
+          "do not enable real automation"
+        ],
+        "branch": "interface/original-plus2j-production-hardening-monitoring"
+      }
+    ],
+    "dependency_prerequisite_map": [
+      {
+        "ticket_id": "+2A",
+        "required_before": "Backend Auth Foundation",
+        "dependencies": [
+          "none"
+        ],
+        "current_status": "NOT_STARTED",
+        "blocking_level": "medium",
+        "recommended_future_phase": "original-plus2a-backend-auth-foundation"
+      },
+      {
+        "ticket_id": "+2B",
+        "required_before": "Persistent Request Storage",
+        "dependencies": [
+          "+2A"
+        ],
+        "current_status": "NOT_STARTED",
+        "blocking_level": "high",
+        "recommended_future_phase": "original-plus2b-persistent-request-storage"
+      },
+      {
+        "ticket_id": "+2C",
+        "required_before": "Immutable Audit Log",
+        "dependencies": [
+          "+2A",
+          "+2B"
+        ],
+        "current_status": "NOT_STARTED",
+        "blocking_level": "high",
+        "recommended_future_phase": "original-plus2c-immutable-audit-log"
+      },
+      {
+        "ticket_id": "+2D",
+        "required_before": "Approval Gate Storage",
+        "dependencies": [
+          "+2A",
+          "+2B",
+          "+2C"
+        ],
+        "current_status": "NOT_STARTED",
+        "blocking_level": "high",
+        "recommended_future_phase": "original-plus2d-approval-gate-storage"
+      },
+      {
+        "ticket_id": "+2E",
+        "required_before": "Server-Side Dry-Run Engine",
+        "dependencies": [
+          "+2A",
+          "+2B",
+          "+2C"
+        ],
+        "current_status": "NOT_STARTED",
+        "blocking_level": "high",
+        "recommended_future_phase": "original-plus2e-server-side-dry-run-engine"
+      },
+      {
+        "ticket_id": "+2F",
+        "required_before": "Queue / Job Runner",
+        "dependencies": [
+          "+2A",
+          "+2B",
+          "+2C",
+          "+2D",
+          "+2E"
+        ],
+        "current_status": "NOT_STARTED",
+        "blocking_level": "high",
+        "recommended_future_phase": "original-plus2f-queue-job-runner"
+      },
+      {
+        "ticket_id": "+2G",
+        "required_before": "Mutation Gateway",
+        "dependencies": [
+          "+2A",
+          "+2B",
+          "+2C",
+          "+2D",
+          "+2E",
+          "+2F"
+        ],
+        "current_status": "NOT_STARTED",
+        "blocking_level": "high",
+        "recommended_future_phase": "original-plus2g-mutation-gateway"
+      },
+      {
+        "ticket_id": "+2H",
+        "required_before": "GitHub / Netlify Integration Adapters",
+        "dependencies": [
+          "+2A",
+          "+2B",
+          "+2C",
+          "+2D",
+          "+2E",
+          "+2F",
+          "+2G"
+        ],
+        "current_status": "NOT_STARTED",
+        "blocking_level": "high",
+        "recommended_future_phase": "original-plus2h-github-netlify-adapters"
+      },
+      {
+        "ticket_id": "+2I",
+        "required_before": "Rollback / No-Go Enforcement",
+        "dependencies": [
+          "+2A",
+          "+2B",
+          "+2C",
+          "+2D",
+          "+2E",
+          "+2F",
+          "+2G",
+          "+2H"
+        ],
+        "current_status": "NOT_STARTED",
+        "blocking_level": "high",
+        "recommended_future_phase": "original-plus2i-rollback-no-go-enforcement"
+      },
+      {
+        "ticket_id": "+2J",
+        "required_before": "Production Hardening & Monitoring",
+        "dependencies": [
+          "+2A",
+          "+2B",
+          "+2C",
+          "+2D",
+          "+2E",
+          "+2F",
+          "+2G",
+          "+2H",
+          "+2I"
+        ],
+        "current_status": "NOT_STARTED",
+        "blocking_level": "high",
+        "recommended_future_phase": "original-plus2j-production-hardening-monitoring"
+      }
+    ],
+    "implementation_gate_statuses": [
+      {
+        "gate": "Auth Gate",
+        "current_status": "BLOCKED",
+        "blocking_reason": "No auth foundation exists yet.",
+        "required_future_ticket": "+2A",
+        "can_proceed_now": false
+      },
+      {
+        "gate": "Storage Gate",
+        "current_status": "BLOCKED",
+        "blocking_reason": "No persistent storage exists yet.",
+        "required_future_ticket": "+2B",
+        "can_proceed_now": false
+      },
+      {
+        "gate": "Audit Gate",
+        "current_status": "BLOCKED",
+        "blocking_reason": "No immutable audit log exists yet.",
+        "required_future_ticket": "+2C",
+        "can_proceed_now": false
+      },
+      {
+        "gate": "Approval Gate",
+        "current_status": "BLOCKED",
+        "blocking_reason": "No approval storage exists yet.",
+        "required_future_ticket": "+2D",
+        "can_proceed_now": false
+      },
+      {
+        "gate": "Dry-Run Gate",
+        "current_status": "BLOCKED",
+        "blocking_reason": "No server-side dry-run engine exists yet.",
+        "required_future_ticket": "+2E",
+        "can_proceed_now": false
+      },
+      {
+        "gate": "Queue Gate",
+        "current_status": "BLOCKED",
+        "blocking_reason": "No queue / job runner exists yet.",
+        "required_future_ticket": "+2F",
+        "can_proceed_now": false
+      },
+      {
+        "gate": "Mutation Gateway Gate",
+        "current_status": "BLOCKED",
+        "blocking_reason": "No mutation gateway exists yet.",
+        "required_future_ticket": "+2G",
+        "can_proceed_now": false
+      },
+      {
+        "gate": "External Integration Gate",
+        "current_status": "BLOCKED",
+        "blocking_reason": "No bounded GitHub / Netlify adapters exist yet.",
+        "required_future_ticket": "+2H",
+        "can_proceed_now": false
+      },
+      {
+        "gate": "Rollback Gate",
+        "current_status": "BLOCKED",
+        "blocking_reason": "No rollback / no-go enforcement exists yet.",
+        "required_future_ticket": "+2I",
+        "can_proceed_now": false
+      },
+      {
+        "gate": "Production Hardening Gate",
+        "current_status": "BLOCKED",
+        "blocking_reason": "No monitoring or release hardening exists yet.",
+        "required_future_ticket": "+2J",
+        "can_proceed_now": false
+      }
+    ],
+    "ticket_validator_requirements": [
+      {
+        "ticket_id": "+2A",
+        "unit_validator": "scripts/validate_original_plus2a_backend_auth_foundation.py",
+        "integration_validator": "scripts/validate_original_plus2a_backend_auth_foundation_e2e.py",
+        "safety_validator": "safety boundary validator",
+        "diff_scope_validator": "diff scope validator",
+        "report_validator": "report validator",
+        "production_verification_validator": "production verification validator when applicable"
+      },
+      {
+        "ticket_id": "+2B",
+        "unit_validator": "scripts/validate_original_plus2b_persistent_request_storage.py",
+        "integration_validator": "scripts/validate_original_plus2b_persistent_request_storage_e2e.py",
+        "safety_validator": "safety boundary validator",
+        "diff_scope_validator": "diff scope validator",
+        "report_validator": "report validator",
+        "production_verification_validator": "production verification validator when applicable"
+      },
+      {
+        "ticket_id": "+2C",
+        "unit_validator": "scripts/validate_original_plus2c_immutable_audit_log.py",
+        "integration_validator": "scripts/validate_original_plus2c_immutable_audit_log_e2e.py",
+        "safety_validator": "safety boundary validator",
+        "diff_scope_validator": "diff scope validator",
+        "report_validator": "report validator",
+        "production_verification_validator": "production verification validator when applicable"
+      },
+      {
+        "ticket_id": "+2D",
+        "unit_validator": "scripts/validate_original_plus2d_approval_gate_storage.py",
+        "integration_validator": "scripts/validate_original_plus2d_approval_gate_storage_e2e.py",
+        "safety_validator": "safety boundary validator",
+        "diff_scope_validator": "diff scope validator",
+        "report_validator": "report validator",
+        "production_verification_validator": "production verification validator when applicable"
+      },
+      {
+        "ticket_id": "+2E",
+        "unit_validator": "scripts/validate_original_plus2e_server_side_dry_run_engine.py",
+        "integration_validator": "scripts/validate_original_plus2e_server_side_dry_run_engine_e2e.py",
+        "safety_validator": "safety boundary validator",
+        "diff_scope_validator": "diff scope validator",
+        "report_validator": "report validator",
+        "production_verification_validator": "production verification validator when applicable"
+      },
+      {
+        "ticket_id": "+2F",
+        "unit_validator": "scripts/validate_original_plus2f_queue_job_runner.py",
+        "integration_validator": "scripts/validate_original_plus2f_queue_job_runner_e2e.py",
+        "safety_validator": "safety boundary validator",
+        "diff_scope_validator": "diff scope validator",
+        "report_validator": "report validator",
+        "production_verification_validator": "production verification validator when applicable"
+      },
+      {
+        "ticket_id": "+2G",
+        "unit_validator": "scripts/validate_original_plus2g_mutation_gateway.py",
+        "integration_validator": "scripts/validate_original_plus2g_mutation_gateway_e2e.py",
+        "safety_validator": "safety boundary validator",
+        "diff_scope_validator": "diff scope validator",
+        "report_validator": "report validator",
+        "production_verification_validator": "production verification validator when applicable"
+      },
+      {
+        "ticket_id": "+2H",
+        "unit_validator": "scripts/validate_original_plus2h_github_netlify_adapters.py",
+        "integration_validator": "scripts/validate_original_plus2h_github_netlify_adapters_e2e.py",
+        "safety_validator": "safety boundary validator",
+        "diff_scope_validator": "diff scope validator",
+        "report_validator": "report validator",
+        "production_verification_validator": "production verification validator when applicable"
+      },
+      {
+        "ticket_id": "+2I",
+        "unit_validator": "scripts/validate_original_plus2i_rollback_no_go_enforcement.py",
+        "integration_validator": "scripts/validate_original_plus2i_rollback_no_go_enforcement_e2e.py",
+        "safety_validator": "safety boundary validator",
+        "diff_scope_validator": "diff scope validator",
+        "report_validator": "report validator",
+        "production_verification_validator": "production verification validator when applicable"
+      },
+      {
+        "ticket_id": "+2J",
+        "unit_validator": "scripts/validate_original_plus2j_production_hardening_monitoring.py",
+        "integration_validator": "scripts/validate_original_plus2j_production_hardening_monitoring_e2e.py",
+        "safety_validator": "safety boundary validator",
+        "diff_scope_validator": "diff scope validator",
+        "report_validator": "report validator",
+        "production_verification_validator": "production verification validator when applicable"
+      }
+    ],
+    "ticket_report_requirements": [
+      {
+        "ticket_id": "+2A",
+        "implementation_report": "09_exports/original_plus2/original_plus2a_backend_auth_foundation_report.md",
+        "design_report": "09_exports/original_plus2/original_plus2a_backend_auth_foundation_design_report.md",
+        "safety_report": "09_exports/original_plus2/original_plus2a_backend_auth_foundation_safety_report.md",
+        "dependency_report": "09_exports/original_plus2/original_plus2a_backend_auth_foundation_dependency_report.md",
+        "validator_report": "09_exports/original_plus2/original_plus2a_backend_auth_foundation_validator_report.md",
+        "acceptance_report": "09_exports/original_plus2/original_plus2a_backend_auth_foundation_acceptance_report.md",
+        "production_verification_report": "future production verification report when applicable"
+      },
+      {
+        "ticket_id": "+2B",
+        "implementation_report": "09_exports/original_plus2/original_plus2b_persistent_request_storage_report.md",
+        "design_report": "09_exports/original_plus2/original_plus2b_persistent_request_storage_design_report.md",
+        "safety_report": "09_exports/original_plus2/original_plus2b_persistent_request_storage_safety_report.md",
+        "dependency_report": "09_exports/original_plus2/original_plus2b_persistent_request_storage_dependency_report.md",
+        "validator_report": "09_exports/original_plus2/original_plus2b_persistent_request_storage_validator_report.md",
+        "acceptance_report": "09_exports/original_plus2/original_plus2b_persistent_request_storage_acceptance_report.md",
+        "production_verification_report": "future production verification report when applicable"
+      },
+      {
+        "ticket_id": "+2C",
+        "implementation_report": "09_exports/original_plus2/original_plus2c_immutable_audit_log_report.md",
+        "design_report": "09_exports/original_plus2/original_plus2c_immutable_audit_log_design_report.md",
+        "safety_report": "09_exports/original_plus2/original_plus2c_immutable_audit_log_safety_report.md",
+        "dependency_report": "09_exports/original_plus2/original_plus2c_immutable_audit_log_dependency_report.md",
+        "validator_report": "09_exports/original_plus2/original_plus2c_immutable_audit_log_validator_report.md",
+        "acceptance_report": "09_exports/original_plus2/original_plus2c_immutable_audit_log_acceptance_report.md",
+        "production_verification_report": "future production verification report when applicable"
+      },
+      {
+        "ticket_id": "+2D",
+        "implementation_report": "09_exports/original_plus2/original_plus2d_approval_gate_storage_report.md",
+        "design_report": "09_exports/original_plus2/original_plus2d_approval_gate_storage_design_report.md",
+        "safety_report": "09_exports/original_plus2/original_plus2d_approval_gate_storage_safety_report.md",
+        "dependency_report": "09_exports/original_plus2/original_plus2d_approval_gate_storage_dependency_report.md",
+        "validator_report": "09_exports/original_plus2/original_plus2d_approval_gate_storage_validator_report.md",
+        "acceptance_report": "09_exports/original_plus2/original_plus2d_approval_gate_storage_acceptance_report.md",
+        "production_verification_report": "future production verification report when applicable"
+      },
+      {
+        "ticket_id": "+2E",
+        "implementation_report": "09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_report.md",
+        "design_report": "09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_design_report.md",
+        "safety_report": "09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_safety_report.md",
+        "dependency_report": "09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_dependency_report.md",
+        "validator_report": "09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_validator_report.md",
+        "acceptance_report": "09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_acceptance_report.md",
+        "production_verification_report": "future production verification report when applicable"
+      },
+      {
+        "ticket_id": "+2F",
+        "implementation_report": "09_exports/original_plus2/original_plus2f_queue_job_runner_report.md",
+        "design_report": "09_exports/original_plus2/original_plus2f_queue_job_runner_design_report.md",
+        "safety_report": "09_exports/original_plus2/original_plus2f_queue_job_runner_safety_report.md",
+        "dependency_report": "09_exports/original_plus2/original_plus2f_queue_job_runner_dependency_report.md",
+        "validator_report": "09_exports/original_plus2/original_plus2f_queue_job_runner_validator_report.md",
+        "acceptance_report": "09_exports/original_plus2/original_plus2f_queue_job_runner_acceptance_report.md",
+        "production_verification_report": "future production verification report when applicable"
+      },
+      {
+        "ticket_id": "+2G",
+        "implementation_report": "09_exports/original_plus2/original_plus2g_mutation_gateway_report.md",
+        "design_report": "09_exports/original_plus2/original_plus2g_mutation_gateway_design_report.md",
+        "safety_report": "09_exports/original_plus2/original_plus2g_mutation_gateway_safety_report.md",
+        "dependency_report": "09_exports/original_plus2/original_plus2g_mutation_gateway_dependency_report.md",
+        "validator_report": "09_exports/original_plus2/original_plus2g_mutation_gateway_validator_report.md",
+        "acceptance_report": "09_exports/original_plus2/original_plus2g_mutation_gateway_acceptance_report.md",
+        "production_verification_report": "future production verification report when applicable"
+      },
+      {
+        "ticket_id": "+2H",
+        "implementation_report": "09_exports/original_plus2/original_plus2h_github_netlify_adapters_report.md",
+        "design_report": "09_exports/original_plus2/original_plus2h_github_netlify_adapters_design_report.md",
+        "safety_report": "09_exports/original_plus2/original_plus2h_github_netlify_adapters_safety_report.md",
+        "dependency_report": "09_exports/original_plus2/original_plus2h_github_netlify_adapters_dependency_report.md",
+        "validator_report": "09_exports/original_plus2/original_plus2h_github_netlify_adapters_validator_report.md",
+        "acceptance_report": "09_exports/original_plus2/original_plus2h_github_netlify_adapters_acceptance_report.md",
+        "production_verification_report": "future production verification report when applicable"
+      },
+      {
+        "ticket_id": "+2I",
+        "implementation_report": "09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_report.md",
+        "design_report": "09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_design_report.md",
+        "safety_report": "09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_safety_report.md",
+        "dependency_report": "09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_dependency_report.md",
+        "validator_report": "09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_validator_report.md",
+        "acceptance_report": "09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_acceptance_report.md",
+        "production_verification_report": "future production verification report when applicable"
+      },
+      {
+        "ticket_id": "+2J",
+        "implementation_report": "09_exports/original_plus2/original_plus2j_production_hardening_monitoring_report.md",
+        "design_report": "09_exports/original_plus2/original_plus2j_production_hardening_monitoring_design_report.md",
+        "safety_report": "09_exports/original_plus2/original_plus2j_production_hardening_monitoring_safety_report.md",
+        "dependency_report": "09_exports/original_plus2/original_plus2j_production_hardening_monitoring_dependency_report.md",
+        "validator_report": "09_exports/original_plus2/original_plus2j_production_hardening_monitoring_validator_report.md",
+        "acceptance_report": "09_exports/original_plus2/original_plus2j_production_hardening_monitoring_acceptance_report.md",
+        "production_verification_report": "future production verification report when applicable"
+      }
+    ],
+    "rollback_no_go_ticket_policy": [
+      "Stop if any ticket implies live automation, execution, or mutation.",
+      "Refuse merge if a ticket requires Netlify Functions or browser-side writes.",
+      "Require human review whenever auth, storage, queue, or mutation boundaries are missing.",
+      "Split a ticket if it crosses more than one future backend boundary at a time.",
+      "Downgrade any ticket to planning-only if it leaks into current dashboard execution.",
+      "Revert immediately if a future phase would enable real automation before all prerequisites exist."
+    ],
+    "backend_build_readiness_summary": [
+      {
+        "label": "+2A readiness",
+        "value": "READY_FOR_PLANNING_ONLY",
+        "status": "warning"
+      },
+      {
+        "label": "+2B readiness",
+        "value": "BLOCKED_PENDING_2A",
+        "status": "locked"
+      },
+      {
+        "label": "+2C readiness",
+        "value": "BLOCKED_PENDING_2A_2B",
+        "status": "locked"
+      },
+      {
+        "label": "+2D readiness",
+        "value": "BLOCKED_PENDING_AUTH_STORAGE_AUDIT",
+        "status": "locked"
+      },
+      {
+        "label": "+2E readiness",
+        "value": "BLOCKED_PENDING_AUTH_STORAGE_AUDIT",
+        "status": "locked"
+      },
+      {
+        "label": "+2F readiness",
+        "value": "BLOCKED_PENDING_DRY_RUN_AND_APPROVAL",
+        "status": "locked"
+      },
+      {
+        "label": "+2G readiness",
+        "value": "BLOCKED_PENDING_QUEUE_AND_NO_GO",
+        "status": "locked"
+      },
+      {
+        "label": "+2H readiness",
+        "value": "BLOCKED_PENDING_MUTATION_GATEWAY_AND_SECRETS",
+        "status": "locked"
+      },
+      {
+        "label": "+2I readiness",
+        "value": "BLOCKED_PENDING_INTEGRATIONS",
+        "status": "locked"
+      },
+      {
+        "label": "+2J readiness",
+        "value": "BLOCKED_PENDING_ALL_PRIOR",
+        "status": "locked"
+      }
+    ],
+    "roadmap_markdown": "# Original +1E Backend Implementation Roadmap\n\n## Ticket Order\n- +2A Backend Auth Foundation | blocked_for_now: true | current_status: NOT_STARTED\n- +2B Persistent Request Storage | blocked_for_now: true | current_status: NOT_STARTED\n- +2C Immutable Audit Log | blocked_for_now: true | current_status: NOT_STARTED\n- +2D Approval Gate Storage | blocked_for_now: true | current_status: NOT_STARTED\n- +2E Server-Side Dry-Run Engine | blocked_for_now: true | current_status: NOT_STARTED\n- +2F Queue / Job Runner | blocked_for_now: true | current_status: NOT_STARTED\n- +2G Mutation Gateway | blocked_for_now: true | current_status: NOT_STARTED\n- +2H GitHub / Netlify Integration Adapters | blocked_for_now: true | current_status: NOT_STARTED\n- +2I Rollback / No-Go Enforcement | blocked_for_now: true | current_status: NOT_STARTED\n- +2J Production Hardening & Monitoring | blocked_for_now: true | current_status: NOT_STARTED\n\n## Final Recommendation\nPLAN_PLUS2A_NEXT\nDO_NOT_ENABLE_REAL_AUTOMATION\nNOT_READY_FOR_REAL_AUTOMATION",
+    "dependency_prerequisite_markdown": "# Original +1E Dependency Prerequisite Map\n\n## Dependency Chains\n- +2A must precede all write-capable features.\n- +2B depends on +2A.\n- +2C depends on +2A and +2B.\n- +2D depends on +2A, +2B, and +2C.\n- +2E depends on +2A, +2B, and +2C.\n- +2F depends on +2A through +2E.\n- +2G depends on +2A through +2F.\n- +2H depends on +2G plus secrets management.\n- +2I depends on +2G and +2H.\n- +2J depends on all prior tickets.",
+    "implementation_gate_status_markdown": "# Original +1E Implementation Gate Status\n\n- +2A Backend Auth Foundation: READY_FOR_PLANNING_ONLY | blocking_reason: All write-capable backend work still lacks the auth foundation. | required_future_ticket: +2A | can_proceed_now: false\n- +2B Persistent Request Storage: BLOCKED_PENDING_2A | blocking_reason: Persistent storage depends on authenticated sessions. | required_future_ticket: +2B | can_proceed_now: false\n- +2C Immutable Audit Log: BLOCKED_PENDING_2A_2B | blocking_reason: Immutable audit requires authenticated ticket persistence. | required_future_ticket: +2C | can_proceed_now: false\n- +2D Approval Gate Storage: BLOCKED_PENDING_AUTH_STORAGE_AUDIT | blocking_reason: Approval persistence depends on authenticated ticket and audit records. | required_future_ticket: +2D | can_proceed_now: false\n- +2E Server-Side Dry-Run Engine: BLOCKED_PENDING_AUTH_STORAGE_AUDIT | blocking_reason: Dry-run evidence needs ticket, auth, and audit infrastructure first. | required_future_ticket: +2E | can_proceed_now: false\n- +2F Queue / Job Runner: BLOCKED_PENDING_DRY_RUN_AND_APPROVAL | blocking_reason: Queueing depends on dry-run evidence and approval storage. | required_future_ticket: +2F | can_proceed_now: false\n- +2G Mutation Gateway: BLOCKED_PENDING_QUEUE_AND_NO_GO | blocking_reason: Mutation cannot proceed until queue, approval, and audit are all in place. | required_future_ticket: +2G | can_proceed_now: false\n- +2H GitHub / Netlify Integration Adapters: BLOCKED_PENDING_MUTATION_GATEWAY_AND_SECRETS | blocking_reason: Integration adapters require the mutation gateway and server-side secret handling first. | required_future_ticket: +2H | can_proceed_now: false\n- +2I Rollback / No-Go Enforcement: BLOCKED_PENDING_INTEGRATIONS | blocking_reason: Rollback enforcement depends on the mutation and integration layers existing first. | required_future_ticket: +2I | can_proceed_now: false\n- +2J Production Hardening & Monitoring: BLOCKED_PENDING_ALL_PRIOR | blocking_reason: Production hardening depends on every prior backend phase being in place. | required_future_ticket: +2J | can_proceed_now: false",
+    "ticket_validator_requirements_markdown": "# Original +1E Ticket Validator Requirements\n\n- +2A Backend Auth Foundation: unit validator, e2e validator, safety boundary validator, diff scope validator, report validator, production verification validator when applicable\n- +2B Persistent Request Storage: unit validator, e2e validator, safety boundary validator, diff scope validator, report validator, production verification validator when applicable\n- +2C Immutable Audit Log: unit validator, e2e validator, safety boundary validator, diff scope validator, report validator, production verification validator when applicable\n- +2D Approval Gate Storage: unit validator, e2e validator, safety boundary validator, diff scope validator, report validator, production verification validator when applicable\n- +2E Server-Side Dry-Run Engine: unit validator, e2e validator, safety boundary validator, diff scope validator, report validator, production verification validator when applicable\n- +2F Queue / Job Runner: unit validator, e2e validator, safety boundary validator, diff scope validator, report validator, production verification validator when applicable\n- +2G Mutation Gateway: unit validator, e2e validator, safety boundary validator, diff scope validator, report validator, production verification validator when applicable\n- +2H GitHub / Netlify Integration Adapters: unit validator, e2e validator, safety boundary validator, diff scope validator, report validator, production verification validator when applicable\n- +2I Rollback / No-Go Enforcement: unit validator, e2e validator, safety boundary validator, diff scope validator, report validator, production verification validator when applicable\n- +2J Production Hardening & Monitoring: unit validator, e2e validator, safety boundary validator, diff scope validator, report validator, production verification validator when applicable",
+    "ticket_report_requirements_markdown": "# Original +1E Ticket Report Requirements\n\n- +2A Backend Auth Foundation: implementation report, design report, safety report, dependency report, validator report, acceptance report, production verification report when applicable\n- +2B Persistent Request Storage: implementation report, design report, safety report, dependency report, validator report, acceptance report, production verification report when applicable\n- +2C Immutable Audit Log: implementation report, design report, safety report, dependency report, validator report, acceptance report, production verification report when applicable\n- +2D Approval Gate Storage: implementation report, design report, safety report, dependency report, validator report, acceptance report, production verification report when applicable\n- +2E Server-Side Dry-Run Engine: implementation report, design report, safety report, dependency report, validator report, acceptance report, production verification report when applicable\n- +2F Queue / Job Runner: implementation report, design report, safety report, dependency report, validator report, acceptance report, production verification report when applicable\n- +2G Mutation Gateway: implementation report, design report, safety report, dependency report, validator report, acceptance report, production verification report when applicable\n- +2H GitHub / Netlify Integration Adapters: implementation report, design report, safety report, dependency report, validator report, acceptance report, production verification report when applicable\n- +2I Rollback / No-Go Enforcement: implementation report, design report, safety report, dependency report, validator report, acceptance report, production verification report when applicable\n- +2J Production Hardening & Monitoring: implementation report, design report, safety report, dependency report, validator report, acceptance report, production verification report when applicable",
+    "rollback_no_go_ticket_policy_markdown": "# Original +1E Rollback / No-Go Ticket Policy\n\n- Stop if any ticket implies live automation, execution, or mutation.\n- Refuse merge if a ticket requires Netlify Functions or browser-side writes.\n- Require human review whenever auth, storage, queue, or mutation boundaries are missing.\n- Split a ticket if it crosses more than one future backend boundary at a time.\n- Downgrade any ticket to planning-only if it leaks into current dashboard execution.\n- Revert immediately if a future phase would enable real automation before all prerequisites exist.",
+    "backend_build_readiness_summary_markdown": "# Original +1E Backend Build Readiness Summary\n\n- +2A readiness: READY_FOR_PLANNING_ONLY\n- +2B readiness: BLOCKED_PENDING_2A\n- +2C readiness: BLOCKED_PENDING_2A_2B\n- +2D readiness: BLOCKED_PENDING_AUTH_STORAGE_AUDIT\n- +2E readiness: BLOCKED_PENDING_AUTH_STORAGE_AUDIT\n- +2F readiness: BLOCKED_PENDING_DRY_RUN_AND_APPROVAL\n- +2G readiness: BLOCKED_PENDING_QUEUE_AND_NO_GO\n- +2H readiness: BLOCKED_PENDING_MUTATION_GATEWAY_AND_SECRETS\n- +2I readiness: BLOCKED_PENDING_INTEGRATIONS\n- +2J readiness: BLOCKED_PENDING_ALL_PRIOR\n\n## Final Recommendation\nPLAN_PLUS2A_NEXT\nDO_NOT_ENABLE_REAL_AUTOMATION\nNOT_READY_FOR_REAL_AUTOMATION\nREADY_FOR_BACKEND_IMPLEMENTATION_PLANNING_ONLY",
+    "ticket_lookup": {
+      "+2A": {
+        "ticket_id": "+2A",
+        "title": "Backend Auth Foundation",
+        "branch": "interface/original-plus2a-backend-auth-foundation",
+        "purpose": "Establish identity and session validation before any write-capable backend work.",
+        "dependencies": [
+          "none"
+        ],
+        "required_inputs": [
+          "identity provider choice",
+          "session validation rules",
+          "role matrix"
+        ],
+        "required_outputs": [
+          "auth architecture",
+          "session validator contract",
+          "role policy",
+          "auth gate notes"
+        ],
+        "required_tests": [
+          "unit validation for auth rules",
+          "e2e boundary validation",
+          "safety scan",
+          "diff scope check"
+        ],
+        "required_validators": [
+          "scripts/validate_original_plus2a_backend_auth_foundation.py",
+          "scripts/validate_original_plus2a_backend_auth_foundation_e2e.py"
+        ],
+        "required_reports": [
+          "09_exports/original_plus2/original_plus2a_backend_auth_foundation_report.md",
+          "09_exports/original_plus2/original_plus2a_backend_auth_foundation_design_report.md",
+          "09_exports/original_plus2/original_plus2a_backend_auth_foundation_safety_report.md",
+          "09_exports/original_plus2/original_plus2a_backend_auth_foundation_dependency_report.md",
+          "09_exports/original_plus2/original_plus2a_backend_auth_foundation_validator_report.md",
+          "09_exports/original_plus2/original_plus2a_backend_auth_foundation_acceptance_report.md"
+        ],
+        "no_go_conditions": [
+          "browser-side auth",
+          "token storage in JS",
+          "session cookies in the browser",
+          "live execution",
+          "live mutation"
+        ],
+        "rollback_requirements": [
+          "stop at planning-only",
+          "remove any browser-held credential path",
+          "revert any live auth wiring"
+        ],
+        "allowed_files": [
+          "14_backend/auth/**",
+          "scripts/validate_original_plus2a_backend_auth_foundation.py",
+          "scripts/validate_original_plus2a_backend_auth_foundation_e2e.py",
+          "09_exports/original_plus2/"
+        ],
+        "forbidden_files": [
+          "13_web_dashboard/**",
+          "netlify/functions/**",
+          "11_interface/**",
+          "12_tui/**",
+          "10_runtime/**",
+          "09_exports/interface_phase_1/**",
+          "09_exports/interface_phase_2/**",
+          "09_exports/interface_phase_3/**",
+          "09_exports/interface_phase_4/**",
+          "09_exports/original_plus1/**"
+        ],
+        "implementation_boundary": "Backend-only auth foundation. No dashboard changes, no live auth, no persistence, no queue, no mutation.",
+        "acceptance_criteria": [
+          "auth architecture is copyable",
+          "session validation is explicit",
+          "role mapping is documented",
+          "no live automation is enabled"
+        ],
+        "final_response_requirements": [
+          "report only",
+          "mention blocked status",
+          "do not enable real automation"
+        ],
+        "current_status": "NOT_STARTED",
+        "blocked_for_now": true,
+        "gate_status": "READY_FOR_PLANNING_ONLY",
+        "blocking_reason": "All write-capable backend work still lacks the auth foundation.",
+        "required_future_ticket": "+2A",
+        "ticket_markdown": "# +2A - Backend Auth Foundation\n\n## Purpose\nEstablish identity and session validation before any write-capable backend work.\n\n## Dependencies\n- none\n\n## Allowed Files\n- 14_backend/auth/**\n- scripts/validate_original_plus2a_backend_auth_foundation.py\n- scripts/validate_original_plus2a_backend_auth_foundation_e2e.py\n- 09_exports/original_plus2/\n\n## Forbidden Files\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\n## Required Inputs\n- identity provider choice\n- session validation rules\n- role matrix\n\n## Required Outputs\n- auth architecture\n- session validator contract\n- role policy\n- auth gate notes\n\n## Required Tests\n- unit validation for auth rules\n- e2e boundary validation\n- safety scan\n- diff scope check\n\n## Required Validators\n- scripts/validate_original_plus2a_backend_auth_foundation.py\n- scripts/validate_original_plus2a_backend_auth_foundation_e2e.py\n\n## Required Reports\n- 09_exports/original_plus2/original_plus2a_backend_auth_foundation_report.md\n- 09_exports/original_plus2/original_plus2a_backend_auth_foundation_design_report.md\n- 09_exports/original_plus2/original_plus2a_backend_auth_foundation_safety_report.md\n- 09_exports/original_plus2/original_plus2a_backend_auth_foundation_dependency_report.md\n- 09_exports/original_plus2/original_plus2a_backend_auth_foundation_validator_report.md\n- 09_exports/original_plus2/original_plus2a_backend_auth_foundation_acceptance_report.md\n\n## Implementation Boundary\nBackend-only auth foundation. No dashboard changes, no live auth, no persistence, no queue, no mutation.\n\n## No-Go Conditions\n- browser-side auth\n- token storage in JS\n- session cookies in the browser\n- live execution\n- live mutation\n\n## Rollback Requirements\n- stop at planning-only\n- remove any browser-held credential path\n- revert any live auth wiring\n\n## Acceptance Criteria\n- auth architecture is copyable\n- session validation is explicit\n- role mapping is documented\n- no live automation is enabled\n\n## Final Response Requirements\n- report only\n- mention blocked status\n- do not enable real automation",
+        "codex_prompt": "STRICT EXECUTION MODE.\nMAX-PROMPT MODE.\nCODEX-CAPABLE WORK UNIT.\n\nTASK:\nImplement +2A - Backend Auth Foundation in one large meaningful work unit.\n\nPROJECT:\nThe Agent Command Center\n\nSOURCE BRANCH:\ninterface/original-plus1e-backend-implementation-gate\n\nTARGET FUTURE BRANCH:\ninterface/original-plus2a-backend-auth-foundation\n\nPURPOSE:\nEstablish identity and session validation before any write-capable backend work.\n\nAUTHORIZED FILES:\n- 14_backend/auth/**\n- scripts/validate_original_plus2a_backend_auth_foundation.py\n- scripts/validate_original_plus2a_backend_auth_foundation_e2e.py\n- 09_exports/original_plus2/\n\nFORBIDDEN FILES:\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\nTEST REQUIREMENTS:\n- unit validation for auth rules\n- e2e boundary validation\n- safety scan\n- diff scope check\n\nVALIDATOR REQUIREMENTS:\n- scripts/validate_original_plus2a_backend_auth_foundation.py\n- scripts/validate_original_plus2a_backend_auth_foundation_e2e.py\n\nREPORT REQUIREMENTS:\n- 09_exports/original_plus2/original_plus2a_backend_auth_foundation_report.md\n- 09_exports/original_plus2/original_plus2a_backend_auth_foundation_design_report.md\n- 09_exports/original_plus2/original_plus2a_backend_auth_foundation_safety_report.md\n- 09_exports/original_plus2/original_plus2a_backend_auth_foundation_dependency_report.md\n- 09_exports/original_plus2/original_plus2a_backend_auth_foundation_validator_report.md\n- 09_exports/original_plus2/original_plus2a_backend_auth_foundation_acceptance_report.md\n\nSAFETY BOUNDARY:\nNo live automation. No execution. No mutation. No backend writes. No deploy / merge / push / PR controls.\n\nNO-GO CONDITIONS:\n- browser-side auth\n- token storage in JS\n- session cookies in the browser\n- live execution\n- live mutation\n\nROLLBACK REQUIREMENTS:\n- stop at planning-only\n- remove any browser-held credential path\n- revert any live auth wiring\n\nACCEPTANCE CRITERIA:\n- auth architecture is copyable\n- session validation is explicit\n- role mapping is documented\n- no live automation is enabled\n\nFINAL RESPONSE:\nReport only.\nDo not enable real automation.\nDo not perform any action outside the files listed above."
+      },
+      "+2B": {
+        "ticket_id": "+2B",
+        "title": "Persistent Request Storage",
+        "branch": "interface/original-plus2b-persistent-request-storage",
+        "purpose": "Persist build tickets and review notes after auth exists.",
+        "dependencies": [
+          "+2A"
+        ],
+        "required_inputs": [
+          "auth foundation",
+          "ticket schema",
+          "storage retention rules"
+        ],
+        "required_outputs": [
+          "request store contract",
+          "draft persistence flow",
+          "ticket lifecycle notes"
+        ],
+        "required_tests": [
+          "storage boundary validation",
+          "e2e contract validation",
+          "safety scan",
+          "diff scope check"
+        ],
+        "required_validators": [
+          "scripts/validate_original_plus2b_persistent_request_storage.py",
+          "scripts/validate_original_plus2b_persistent_request_storage_e2e.py"
+        ],
+        "required_reports": [
+          "09_exports/original_plus2/original_plus2b_persistent_request_storage_report.md",
+          "09_exports/original_plus2/original_plus2b_persistent_request_storage_design_report.md",
+          "09_exports/original_plus2/original_plus2b_persistent_request_storage_safety_report.md",
+          "09_exports/original_plus2/original_plus2b_persistent_request_storage_dependency_report.md",
+          "09_exports/original_plus2/original_plus2b_persistent_request_storage_validator_report.md",
+          "09_exports/original_plus2/original_plus2b_persistent_request_storage_acceptance_report.md"
+        ],
+        "no_go_conditions": [
+          "no auth",
+          "browser persistence",
+          "live execution",
+          "mutation gateway bypass",
+          "queue without storage"
+        ],
+        "rollback_requirements": [
+          "stay copy-only",
+          "remove any client-side persistence",
+          "revert storage hooks that bypass auth"
+        ],
+        "allowed_files": [
+          "14_backend/storage/**",
+          "scripts/validate_original_plus2b_persistent_request_storage.py",
+          "scripts/validate_original_plus2b_persistent_request_storage_e2e.py",
+          "09_exports/original_plus2/"
+        ],
+        "forbidden_files": [
+          "13_web_dashboard/**",
+          "netlify/functions/**",
+          "11_interface/**",
+          "12_tui/**",
+          "10_runtime/**",
+          "09_exports/interface_phase_1/**",
+          "09_exports/interface_phase_2/**",
+          "09_exports/interface_phase_3/**",
+          "09_exports/interface_phase_4/**",
+          "09_exports/original_plus1/**"
+        ],
+        "implementation_boundary": "Backend storage only. No dashboard persistence, no live queue, no execution, no mutation.",
+        "acceptance_criteria": [
+          "ticket drafts are persistable server-side",
+          "lifecycle is explicit",
+          "no browser storage is introduced"
+        ],
+        "final_response_requirements": [
+          "report only",
+          "mention blocked status",
+          "do not enable real automation"
+        ],
+        "current_status": "NOT_STARTED",
+        "blocked_for_now": true,
+        "gate_status": "BLOCKED_PENDING_2A",
+        "blocking_reason": "Persistent storage depends on authenticated sessions.",
+        "required_future_ticket": "+2B",
+        "ticket_markdown": "# +2B - Persistent Request Storage\n\n## Purpose\nPersist build tickets and review notes after auth exists.\n\n## Dependencies\n- +2A\n\n## Allowed Files\n- 14_backend/storage/**\n- scripts/validate_original_plus2b_persistent_request_storage.py\n- scripts/validate_original_plus2b_persistent_request_storage_e2e.py\n- 09_exports/original_plus2/\n\n## Forbidden Files\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\n## Required Inputs\n- auth foundation\n- ticket schema\n- storage retention rules\n\n## Required Outputs\n- request store contract\n- draft persistence flow\n- ticket lifecycle notes\n\n## Required Tests\n- storage boundary validation\n- e2e contract validation\n- safety scan\n- diff scope check\n\n## Required Validators\n- scripts/validate_original_plus2b_persistent_request_storage.py\n- scripts/validate_original_plus2b_persistent_request_storage_e2e.py\n\n## Required Reports\n- 09_exports/original_plus2/original_plus2b_persistent_request_storage_report.md\n- 09_exports/original_plus2/original_plus2b_persistent_request_storage_design_report.md\n- 09_exports/original_plus2/original_plus2b_persistent_request_storage_safety_report.md\n- 09_exports/original_plus2/original_plus2b_persistent_request_storage_dependency_report.md\n- 09_exports/original_plus2/original_plus2b_persistent_request_storage_validator_report.md\n- 09_exports/original_plus2/original_plus2b_persistent_request_storage_acceptance_report.md\n\n## Implementation Boundary\nBackend storage only. No dashboard persistence, no live queue, no execution, no mutation.\n\n## No-Go Conditions\n- no auth\n- browser persistence\n- live execution\n- mutation gateway bypass\n- queue without storage\n\n## Rollback Requirements\n- stay copy-only\n- remove any client-side persistence\n- revert storage hooks that bypass auth\n\n## Acceptance Criteria\n- ticket drafts are persistable server-side\n- lifecycle is explicit\n- no browser storage is introduced\n\n## Final Response Requirements\n- report only\n- mention blocked status\n- do not enable real automation",
+        "codex_prompt": "STRICT EXECUTION MODE.\nMAX-PROMPT MODE.\nCODEX-CAPABLE WORK UNIT.\n\nTASK:\nImplement +2B - Persistent Request Storage in one large meaningful work unit.\n\nPROJECT:\nThe Agent Command Center\n\nSOURCE BRANCH:\ninterface/original-plus1e-backend-implementation-gate\n\nTARGET FUTURE BRANCH:\ninterface/original-plus2b-persistent-request-storage\n\nPURPOSE:\nPersist build tickets and review notes after auth exists.\n\nAUTHORIZED FILES:\n- 14_backend/storage/**\n- scripts/validate_original_plus2b_persistent_request_storage.py\n- scripts/validate_original_plus2b_persistent_request_storage_e2e.py\n- 09_exports/original_plus2/\n\nFORBIDDEN FILES:\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\nTEST REQUIREMENTS:\n- storage boundary validation\n- e2e contract validation\n- safety scan\n- diff scope check\n\nVALIDATOR REQUIREMENTS:\n- scripts/validate_original_plus2b_persistent_request_storage.py\n- scripts/validate_original_plus2b_persistent_request_storage_e2e.py\n\nREPORT REQUIREMENTS:\n- 09_exports/original_plus2/original_plus2b_persistent_request_storage_report.md\n- 09_exports/original_plus2/original_plus2b_persistent_request_storage_design_report.md\n- 09_exports/original_plus2/original_plus2b_persistent_request_storage_safety_report.md\n- 09_exports/original_plus2/original_plus2b_persistent_request_storage_dependency_report.md\n- 09_exports/original_plus2/original_plus2b_persistent_request_storage_validator_report.md\n- 09_exports/original_plus2/original_plus2b_persistent_request_storage_acceptance_report.md\n\nSAFETY BOUNDARY:\nNo live automation. No execution. No mutation. No backend writes. No deploy / merge / push / PR controls.\n\nNO-GO CONDITIONS:\n- no auth\n- browser persistence\n- live execution\n- mutation gateway bypass\n- queue without storage\n\nROLLBACK REQUIREMENTS:\n- stay copy-only\n- remove any client-side persistence\n- revert storage hooks that bypass auth\n\nACCEPTANCE CRITERIA:\n- ticket drafts are persistable server-side\n- lifecycle is explicit\n- no browser storage is introduced\n\nFINAL RESPONSE:\nReport only.\nDo not enable real automation.\nDo not perform any action outside the files listed above."
+      },
+      "+2C": {
+        "ticket_id": "+2C",
+        "title": "Immutable Audit Log",
+        "branch": "interface/original-plus2c-immutable-audit-log",
+        "purpose": "Store immutable audit events after auth and request storage exist.",
+        "dependencies": [
+          "+2A",
+          "+2B"
+        ],
+        "required_inputs": [
+          "auth foundation",
+          "request storage schema",
+          "audit retention rules"
+        ],
+        "required_outputs": [
+          "audit contract",
+          "immutable event model",
+          "audit hash notes"
+        ],
+        "required_tests": [
+          "audit boundary validation",
+          "e2e contract validation",
+          "safety scan",
+          "diff scope check"
+        ],
+        "required_validators": [
+          "scripts/validate_original_plus2c_immutable_audit_log.py",
+          "scripts/validate_original_plus2c_immutable_audit_log_e2e.py"
+        ],
+        "required_reports": [
+          "09_exports/original_plus2/original_plus2c_immutable_audit_log_report.md",
+          "09_exports/original_plus2/original_plus2c_immutable_audit_log_design_report.md",
+          "09_exports/original_plus2/original_plus2c_immutable_audit_log_safety_report.md",
+          "09_exports/original_plus2/original_plus2c_immutable_audit_log_dependency_report.md",
+          "09_exports/original_plus2/original_plus2c_immutable_audit_log_validator_report.md",
+          "09_exports/original_plus2/original_plus2c_immutable_audit_log_acceptance_report.md"
+        ],
+        "no_go_conditions": [
+          "mutable audit history",
+          "browser-side audit storage",
+          "live execution",
+          "mutation without audit"
+        ],
+        "rollback_requirements": [
+          "keep audit immutable",
+          "do not expose write APIs without hash binding",
+          "revert mutable audit paths"
+        ],
+        "allowed_files": [
+          "14_backend/audit/**",
+          "scripts/validate_original_plus2c_immutable_audit_log.py",
+          "scripts/validate_original_plus2c_immutable_audit_log_e2e.py",
+          "09_exports/original_plus2/"
+        ],
+        "forbidden_files": [
+          "13_web_dashboard/**",
+          "netlify/functions/**",
+          "11_interface/**",
+          "12_tui/**",
+          "10_runtime/**",
+          "09_exports/interface_phase_1/**",
+          "09_exports/interface_phase_2/**",
+          "09_exports/interface_phase_3/**",
+          "09_exports/interface_phase_4/**",
+          "09_exports/original_plus1/**"
+        ],
+        "implementation_boundary": "Backend audit only. No dashboard persistence, no live execution, no mutation, no queue bypass.",
+        "acceptance_criteria": [
+          "audit events are immutable",
+          "audit entries bind to auth and ticket state",
+          "no browser storage is used"
+        ],
+        "final_response_requirements": [
+          "report only",
+          "mention blocked status",
+          "do not enable real automation"
+        ],
+        "current_status": "NOT_STARTED",
+        "blocked_for_now": true,
+        "gate_status": "BLOCKED_PENDING_2A_2B",
+        "blocking_reason": "Immutable audit requires authenticated ticket persistence.",
+        "required_future_ticket": "+2C",
+        "ticket_markdown": "# +2C - Immutable Audit Log\n\n## Purpose\nStore immutable audit events after auth and request storage exist.\n\n## Dependencies\n- +2A\n- +2B\n\n## Allowed Files\n- 14_backend/audit/**\n- scripts/validate_original_plus2c_immutable_audit_log.py\n- scripts/validate_original_plus2c_immutable_audit_log_e2e.py\n- 09_exports/original_plus2/\n\n## Forbidden Files\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\n## Required Inputs\n- auth foundation\n- request storage schema\n- audit retention rules\n\n## Required Outputs\n- audit contract\n- immutable event model\n- audit hash notes\n\n## Required Tests\n- audit boundary validation\n- e2e contract validation\n- safety scan\n- diff scope check\n\n## Required Validators\n- scripts/validate_original_plus2c_immutable_audit_log.py\n- scripts/validate_original_plus2c_immutable_audit_log_e2e.py\n\n## Required Reports\n- 09_exports/original_plus2/original_plus2c_immutable_audit_log_report.md\n- 09_exports/original_plus2/original_plus2c_immutable_audit_log_design_report.md\n- 09_exports/original_plus2/original_plus2c_immutable_audit_log_safety_report.md\n- 09_exports/original_plus2/original_plus2c_immutable_audit_log_dependency_report.md\n- 09_exports/original_plus2/original_plus2c_immutable_audit_log_validator_report.md\n- 09_exports/original_plus2/original_plus2c_immutable_audit_log_acceptance_report.md\n\n## Implementation Boundary\nBackend audit only. No dashboard persistence, no live execution, no mutation, no queue bypass.\n\n## No-Go Conditions\n- mutable audit history\n- browser-side audit storage\n- live execution\n- mutation without audit\n\n## Rollback Requirements\n- keep audit immutable\n- do not expose write APIs without hash binding\n- revert mutable audit paths\n\n## Acceptance Criteria\n- audit events are immutable\n- audit entries bind to auth and ticket state\n- no browser storage is used\n\n## Final Response Requirements\n- report only\n- mention blocked status\n- do not enable real automation",
+        "codex_prompt": "STRICT EXECUTION MODE.\nMAX-PROMPT MODE.\nCODEX-CAPABLE WORK UNIT.\n\nTASK:\nImplement +2C - Immutable Audit Log in one large meaningful work unit.\n\nPROJECT:\nThe Agent Command Center\n\nSOURCE BRANCH:\ninterface/original-plus1e-backend-implementation-gate\n\nTARGET FUTURE BRANCH:\ninterface/original-plus2c-immutable-audit-log\n\nPURPOSE:\nStore immutable audit events after auth and request storage exist.\n\nAUTHORIZED FILES:\n- 14_backend/audit/**\n- scripts/validate_original_plus2c_immutable_audit_log.py\n- scripts/validate_original_plus2c_immutable_audit_log_e2e.py\n- 09_exports/original_plus2/\n\nFORBIDDEN FILES:\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\nTEST REQUIREMENTS:\n- audit boundary validation\n- e2e contract validation\n- safety scan\n- diff scope check\n\nVALIDATOR REQUIREMENTS:\n- scripts/validate_original_plus2c_immutable_audit_log.py\n- scripts/validate_original_plus2c_immutable_audit_log_e2e.py\n\nREPORT REQUIREMENTS:\n- 09_exports/original_plus2/original_plus2c_immutable_audit_log_report.md\n- 09_exports/original_plus2/original_plus2c_immutable_audit_log_design_report.md\n- 09_exports/original_plus2/original_plus2c_immutable_audit_log_safety_report.md\n- 09_exports/original_plus2/original_plus2c_immutable_audit_log_dependency_report.md\n- 09_exports/original_plus2/original_plus2c_immutable_audit_log_validator_report.md\n- 09_exports/original_plus2/original_plus2c_immutable_audit_log_acceptance_report.md\n\nSAFETY BOUNDARY:\nNo live automation. No execution. No mutation. No backend writes. No deploy / merge / push / PR controls.\n\nNO-GO CONDITIONS:\n- mutable audit history\n- browser-side audit storage\n- live execution\n- mutation without audit\n\nROLLBACK REQUIREMENTS:\n- keep audit immutable\n- do not expose write APIs without hash binding\n- revert mutable audit paths\n\nACCEPTANCE CRITERIA:\n- audit events are immutable\n- audit entries bind to auth and ticket state\n- no browser storage is used\n\nFINAL RESPONSE:\nReport only.\nDo not enable real automation.\nDo not perform any action outside the files listed above."
+      },
+      "+2D": {
+        "ticket_id": "+2D",
+        "title": "Approval Gate Storage",
+        "branch": "interface/original-plus2d-approval-gate-storage",
+        "purpose": "Persist approval and revocation records after the audit trail exists.",
+        "dependencies": [
+          "+2A",
+          "+2B",
+          "+2C"
+        ],
+        "required_inputs": [
+          "auth foundation",
+          "request storage schema",
+          "audit contract",
+          "approval policy"
+        ],
+        "required_outputs": [
+          "approval store contract",
+          "revocation model",
+          "approval audit binding"
+        ],
+        "required_tests": [
+          "approval storage validation",
+          "e2e contract validation",
+          "safety scan",
+          "diff scope check"
+        ],
+        "required_validators": [
+          "scripts/validate_original_plus2d_approval_gate_storage.py",
+          "scripts/validate_original_plus2d_approval_gate_storage_e2e.py"
+        ],
+        "required_reports": [
+          "09_exports/original_plus2/original_plus2d_approval_gate_storage_report.md",
+          "09_exports/original_plus2/original_plus2d_approval_gate_storage_design_report.md",
+          "09_exports/original_plus2/original_plus2d_approval_gate_storage_safety_report.md",
+          "09_exports/original_plus2/original_plus2d_approval_gate_storage_dependency_report.md",
+          "09_exports/original_plus2/original_plus2d_approval_gate_storage_validator_report.md",
+          "09_exports/original_plus2/original_plus2d_approval_gate_storage_acceptance_report.md"
+        ],
+        "no_go_conditions": [
+          "approval without audit binding",
+          "browser-side approvals",
+          "live execution",
+          "approval records without revocation"
+        ],
+        "rollback_requirements": [
+          "stop if approval storage is not immutable",
+          "remove any live approval writes",
+          "revert bypass paths"
+        ],
+        "allowed_files": [
+          "14_backend/approval/**",
+          "scripts/validate_original_plus2d_approval_gate_storage.py",
+          "scripts/validate_original_plus2d_approval_gate_storage_e2e.py",
+          "09_exports/original_plus2/"
+        ],
+        "forbidden_files": [
+          "13_web_dashboard/**",
+          "netlify/functions/**",
+          "11_interface/**",
+          "12_tui/**",
+          "10_runtime/**",
+          "09_exports/interface_phase_1/**",
+          "09_exports/interface_phase_2/**",
+          "09_exports/interface_phase_3/**",
+          "09_exports/interface_phase_4/**",
+          "09_exports/original_plus1/**"
+        ],
+        "implementation_boundary": "Approval storage only. No execution, no queue, no mutation, no dashboard persistence.",
+        "acceptance_criteria": [
+          "approval records are persisted server-side",
+          "revocations are modeled",
+          "audit binding is explicit"
+        ],
+        "final_response_requirements": [
+          "report only",
+          "mention blocked status",
+          "do not enable real automation"
+        ],
+        "current_status": "NOT_STARTED",
+        "blocked_for_now": true,
+        "gate_status": "BLOCKED_PENDING_AUTH_STORAGE_AUDIT",
+        "blocking_reason": "Approval persistence depends on authenticated ticket and audit records.",
+        "required_future_ticket": "+2D",
+        "ticket_markdown": "# +2D - Approval Gate Storage\n\n## Purpose\nPersist approval and revocation records after the audit trail exists.\n\n## Dependencies\n- +2A\n- +2B\n- +2C\n\n## Allowed Files\n- 14_backend/approval/**\n- scripts/validate_original_plus2d_approval_gate_storage.py\n- scripts/validate_original_plus2d_approval_gate_storage_e2e.py\n- 09_exports/original_plus2/\n\n## Forbidden Files\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\n## Required Inputs\n- auth foundation\n- request storage schema\n- audit contract\n- approval policy\n\n## Required Outputs\n- approval store contract\n- revocation model\n- approval audit binding\n\n## Required Tests\n- approval storage validation\n- e2e contract validation\n- safety scan\n- diff scope check\n\n## Required Validators\n- scripts/validate_original_plus2d_approval_gate_storage.py\n- scripts/validate_original_plus2d_approval_gate_storage_e2e.py\n\n## Required Reports\n- 09_exports/original_plus2/original_plus2d_approval_gate_storage_report.md\n- 09_exports/original_plus2/original_plus2d_approval_gate_storage_design_report.md\n- 09_exports/original_plus2/original_plus2d_approval_gate_storage_safety_report.md\n- 09_exports/original_plus2/original_plus2d_approval_gate_storage_dependency_report.md\n- 09_exports/original_plus2/original_plus2d_approval_gate_storage_validator_report.md\n- 09_exports/original_plus2/original_plus2d_approval_gate_storage_acceptance_report.md\n\n## Implementation Boundary\nApproval storage only. No execution, no queue, no mutation, no dashboard persistence.\n\n## No-Go Conditions\n- approval without audit binding\n- browser-side approvals\n- live execution\n- approval records without revocation\n\n## Rollback Requirements\n- stop if approval storage is not immutable\n- remove any live approval writes\n- revert bypass paths\n\n## Acceptance Criteria\n- approval records are persisted server-side\n- revocations are modeled\n- audit binding is explicit\n\n## Final Response Requirements\n- report only\n- mention blocked status\n- do not enable real automation",
+        "codex_prompt": "STRICT EXECUTION MODE.\nMAX-PROMPT MODE.\nCODEX-CAPABLE WORK UNIT.\n\nTASK:\nImplement +2D - Approval Gate Storage in one large meaningful work unit.\n\nPROJECT:\nThe Agent Command Center\n\nSOURCE BRANCH:\ninterface/original-plus1e-backend-implementation-gate\n\nTARGET FUTURE BRANCH:\ninterface/original-plus2d-approval-gate-storage\n\nPURPOSE:\nPersist approval and revocation records after the audit trail exists.\n\nAUTHORIZED FILES:\n- 14_backend/approval/**\n- scripts/validate_original_plus2d_approval_gate_storage.py\n- scripts/validate_original_plus2d_approval_gate_storage_e2e.py\n- 09_exports/original_plus2/\n\nFORBIDDEN FILES:\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\nTEST REQUIREMENTS:\n- approval storage validation\n- e2e contract validation\n- safety scan\n- diff scope check\n\nVALIDATOR REQUIREMENTS:\n- scripts/validate_original_plus2d_approval_gate_storage.py\n- scripts/validate_original_plus2d_approval_gate_storage_e2e.py\n\nREPORT REQUIREMENTS:\n- 09_exports/original_plus2/original_plus2d_approval_gate_storage_report.md\n- 09_exports/original_plus2/original_plus2d_approval_gate_storage_design_report.md\n- 09_exports/original_plus2/original_plus2d_approval_gate_storage_safety_report.md\n- 09_exports/original_plus2/original_plus2d_approval_gate_storage_dependency_report.md\n- 09_exports/original_plus2/original_plus2d_approval_gate_storage_validator_report.md\n- 09_exports/original_plus2/original_plus2d_approval_gate_storage_acceptance_report.md\n\nSAFETY BOUNDARY:\nNo live automation. No execution. No mutation. No backend writes. No deploy / merge / push / PR controls.\n\nNO-GO CONDITIONS:\n- approval without audit binding\n- browser-side approvals\n- live execution\n- approval records without revocation\n\nROLLBACK REQUIREMENTS:\n- stop if approval storage is not immutable\n- remove any live approval writes\n- revert bypass paths\n\nACCEPTANCE CRITERIA:\n- approval records are persisted server-side\n- revocations are modeled\n- audit binding is explicit\n\nFINAL RESPONSE:\nReport only.\nDo not enable real automation.\nDo not perform any action outside the files listed above."
+      },
+      "+2E": {
+        "ticket_id": "+2E",
+        "title": "Server-Side Dry-Run Engine",
+        "branch": "interface/original-plus2e-server-side-dry-run-engine",
+        "purpose": "Produce backend dry-run evidence before approval can advance.",
+        "dependencies": [
+          "+2A",
+          "+2B",
+          "+2C"
+        ],
+        "required_inputs": [
+          "auth foundation",
+          "request storage schema",
+          "audit contract",
+          "dry-run policy"
+        ],
+        "required_outputs": [
+          "dry-run engine contract",
+          "evidence bundle shape",
+          "dry-run audit notes"
+        ],
+        "required_tests": [
+          "dry-run validation",
+          "e2e contract validation",
+          "safety scan",
+          "diff scope check"
+        ],
+        "required_validators": [
+          "scripts/validate_original_plus2e_server_side_dry_run_engine.py",
+          "scripts/validate_original_plus2e_server_side_dry_run_engine_e2e.py"
+        ],
+        "required_reports": [
+          "09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_report.md",
+          "09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_design_report.md",
+          "09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_safety_report.md",
+          "09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_dependency_report.md",
+          "09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_validator_report.md",
+          "09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_acceptance_report.md"
+        ],
+        "no_go_conditions": [
+          "client-side dry-run only",
+          "dry-run that mutates state",
+          "dry-run without audit evidence",
+          "live execution"
+        ],
+        "rollback_requirements": [
+          "keep dry-run server-side",
+          "revert any execution side effects",
+          "preserve evidence output only"
+        ],
+        "allowed_files": [
+          "14_backend/dry_run/**",
+          "scripts/validate_original_plus2e_server_side_dry_run_engine.py",
+          "scripts/validate_original_plus2e_server_side_dry_run_engine_e2e.py",
+          "09_exports/original_plus2/"
+        ],
+        "forbidden_files": [
+          "13_web_dashboard/**",
+          "netlify/functions/**",
+          "11_interface/**",
+          "12_tui/**",
+          "10_runtime/**",
+          "09_exports/interface_phase_1/**",
+          "09_exports/interface_phase_2/**",
+          "09_exports/interface_phase_3/**",
+          "09_exports/interface_phase_4/**",
+          "09_exports/original_plus1/**"
+        ],
+        "implementation_boundary": "Dry-run evidence only. No live execution, no mutation, no dashboard-side simulation as source of truth.",
+        "acceptance_criteria": [
+          "dry-run evidence is generated server-side",
+          "approval depends on dry-run output",
+          "no live system is mutated"
+        ],
+        "final_response_requirements": [
+          "report only",
+          "mention blocked status",
+          "do not enable real automation"
+        ],
+        "current_status": "NOT_STARTED",
+        "blocked_for_now": true,
+        "gate_status": "BLOCKED_PENDING_AUTH_STORAGE_AUDIT",
+        "blocking_reason": "Dry-run evidence needs ticket, auth, and audit infrastructure first.",
+        "required_future_ticket": "+2E",
+        "ticket_markdown": "# +2E - Server-Side Dry-Run Engine\n\n## Purpose\nProduce backend dry-run evidence before approval can advance.\n\n## Dependencies\n- +2A\n- +2B\n- +2C\n\n## Allowed Files\n- 14_backend/dry_run/**\n- scripts/validate_original_plus2e_server_side_dry_run_engine.py\n- scripts/validate_original_plus2e_server_side_dry_run_engine_e2e.py\n- 09_exports/original_plus2/\n\n## Forbidden Files\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\n## Required Inputs\n- auth foundation\n- request storage schema\n- audit contract\n- dry-run policy\n\n## Required Outputs\n- dry-run engine contract\n- evidence bundle shape\n- dry-run audit notes\n\n## Required Tests\n- dry-run validation\n- e2e contract validation\n- safety scan\n- diff scope check\n\n## Required Validators\n- scripts/validate_original_plus2e_server_side_dry_run_engine.py\n- scripts/validate_original_plus2e_server_side_dry_run_engine_e2e.py\n\n## Required Reports\n- 09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_report.md\n- 09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_design_report.md\n- 09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_safety_report.md\n- 09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_dependency_report.md\n- 09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_validator_report.md\n- 09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_acceptance_report.md\n\n## Implementation Boundary\nDry-run evidence only. No live execution, no mutation, no dashboard-side simulation as source of truth.\n\n## No-Go Conditions\n- client-side dry-run only\n- dry-run that mutates state\n- dry-run without audit evidence\n- live execution\n\n## Rollback Requirements\n- keep dry-run server-side\n- revert any execution side effects\n- preserve evidence output only\n\n## Acceptance Criteria\n- dry-run evidence is generated server-side\n- approval depends on dry-run output\n- no live system is mutated\n\n## Final Response Requirements\n- report only\n- mention blocked status\n- do not enable real automation",
+        "codex_prompt": "STRICT EXECUTION MODE.\nMAX-PROMPT MODE.\nCODEX-CAPABLE WORK UNIT.\n\nTASK:\nImplement +2E - Server-Side Dry-Run Engine in one large meaningful work unit.\n\nPROJECT:\nThe Agent Command Center\n\nSOURCE BRANCH:\ninterface/original-plus1e-backend-implementation-gate\n\nTARGET FUTURE BRANCH:\ninterface/original-plus2e-server-side-dry-run-engine\n\nPURPOSE:\nProduce backend dry-run evidence before approval can advance.\n\nAUTHORIZED FILES:\n- 14_backend/dry_run/**\n- scripts/validate_original_plus2e_server_side_dry_run_engine.py\n- scripts/validate_original_plus2e_server_side_dry_run_engine_e2e.py\n- 09_exports/original_plus2/\n\nFORBIDDEN FILES:\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\nTEST REQUIREMENTS:\n- dry-run validation\n- e2e contract validation\n- safety scan\n- diff scope check\n\nVALIDATOR REQUIREMENTS:\n- scripts/validate_original_plus2e_server_side_dry_run_engine.py\n- scripts/validate_original_plus2e_server_side_dry_run_engine_e2e.py\n\nREPORT REQUIREMENTS:\n- 09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_report.md\n- 09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_design_report.md\n- 09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_safety_report.md\n- 09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_dependency_report.md\n- 09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_validator_report.md\n- 09_exports/original_plus2/original_plus2e_server_side_dry_run_engine_acceptance_report.md\n\nSAFETY BOUNDARY:\nNo live automation. No execution. No mutation. No backend writes. No deploy / merge / push / PR controls.\n\nNO-GO CONDITIONS:\n- client-side dry-run only\n- dry-run that mutates state\n- dry-run without audit evidence\n- live execution\n\nROLLBACK REQUIREMENTS:\n- keep dry-run server-side\n- revert any execution side effects\n- preserve evidence output only\n\nACCEPTANCE CRITERIA:\n- dry-run evidence is generated server-side\n- approval depends on dry-run output\n- no live system is mutated\n\nFINAL RESPONSE:\nReport only.\nDo not enable real automation.\nDo not perform any action outside the files listed above."
+      },
+      "+2F": {
+        "ticket_id": "+2F",
+        "title": "Queue / Job Runner",
+        "branch": "interface/original-plus2f-queue-job-runner",
+        "purpose": "Coordinate queued automation jobs after dry-run and approval exist.",
+        "dependencies": [
+          "+2A",
+          "+2B",
+          "+2C",
+          "+2D",
+          "+2E"
+        ],
+        "required_inputs": [
+          "auth foundation",
+          "request storage schema",
+          "audit contract",
+          "approval store",
+          "dry-run engine"
+        ],
+        "required_outputs": [
+          "queue runner contract",
+          "job lifecycle model",
+          "queue evidence notes"
+        ],
+        "required_tests": [
+          "queue validation",
+          "e2e contract validation",
+          "safety scan",
+          "diff scope check"
+        ],
+        "required_validators": [
+          "scripts/validate_original_plus2f_queue_job_runner.py",
+          "scripts/validate_original_plus2f_queue_job_runner_e2e.py"
+        ],
+        "required_reports": [
+          "09_exports/original_plus2/original_plus2f_queue_job_runner_report.md",
+          "09_exports/original_plus2/original_plus2f_queue_job_runner_design_report.md",
+          "09_exports/original_plus2/original_plus2f_queue_job_runner_safety_report.md",
+          "09_exports/original_plus2/original_plus2f_queue_job_runner_dependency_report.md",
+          "09_exports/original_plus2/original_plus2f_queue_job_runner_validator_report.md",
+          "09_exports/original_plus2/original_plus2f_queue_job_runner_acceptance_report.md"
+        ],
+        "no_go_conditions": [
+          "queue without approval",
+          "queue without dry-run evidence",
+          "job runner without audit",
+          "live execution"
+        ],
+        "rollback_requirements": [
+          "stop if the queue can bypass approval",
+          "revert any scheduling path",
+          "keep job state copy-only until future phases"
+        ],
+        "allowed_files": [
+          "14_backend/queue/**",
+          "scripts/validate_original_plus2f_queue_job_runner.py",
+          "scripts/validate_original_plus2f_queue_job_runner_e2e.py",
+          "09_exports/original_plus2/"
+        ],
+        "forbidden_files": [
+          "13_web_dashboard/**",
+          "netlify/functions/**",
+          "11_interface/**",
+          "12_tui/**",
+          "10_runtime/**",
+          "09_exports/interface_phase_1/**",
+          "09_exports/interface_phase_2/**",
+          "09_exports/interface_phase_3/**",
+          "09_exports/interface_phase_4/**",
+          "09_exports/original_plus1/**"
+        ],
+        "implementation_boundary": "Queue/job runner only. No live mutation, no browser queue, no dashboard execution.",
+        "acceptance_criteria": [
+          "queue state is server-side",
+          "job lifecycle is explicit",
+          "approval and dry-run are required"
+        ],
+        "final_response_requirements": [
+          "report only",
+          "mention blocked status",
+          "do not enable real automation"
+        ],
+        "current_status": "NOT_STARTED",
+        "blocked_for_now": true,
+        "gate_status": "BLOCKED_PENDING_DRY_RUN_AND_APPROVAL",
+        "blocking_reason": "Queueing depends on dry-run evidence and approval storage.",
+        "required_future_ticket": "+2F",
+        "ticket_markdown": "# +2F - Queue / Job Runner\n\n## Purpose\nCoordinate queued automation jobs after dry-run and approval exist.\n\n## Dependencies\n- +2A\n- +2B\n- +2C\n- +2D\n- +2E\n\n## Allowed Files\n- 14_backend/queue/**\n- scripts/validate_original_plus2f_queue_job_runner.py\n- scripts/validate_original_plus2f_queue_job_runner_e2e.py\n- 09_exports/original_plus2/\n\n## Forbidden Files\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\n## Required Inputs\n- auth foundation\n- request storage schema\n- audit contract\n- approval store\n- dry-run engine\n\n## Required Outputs\n- queue runner contract\n- job lifecycle model\n- queue evidence notes\n\n## Required Tests\n- queue validation\n- e2e contract validation\n- safety scan\n- diff scope check\n\n## Required Validators\n- scripts/validate_original_plus2f_queue_job_runner.py\n- scripts/validate_original_plus2f_queue_job_runner_e2e.py\n\n## Required Reports\n- 09_exports/original_plus2/original_plus2f_queue_job_runner_report.md\n- 09_exports/original_plus2/original_plus2f_queue_job_runner_design_report.md\n- 09_exports/original_plus2/original_plus2f_queue_job_runner_safety_report.md\n- 09_exports/original_plus2/original_plus2f_queue_job_runner_dependency_report.md\n- 09_exports/original_plus2/original_plus2f_queue_job_runner_validator_report.md\n- 09_exports/original_plus2/original_plus2f_queue_job_runner_acceptance_report.md\n\n## Implementation Boundary\nQueue/job runner only. No live mutation, no browser queue, no dashboard execution.\n\n## No-Go Conditions\n- queue without approval\n- queue without dry-run evidence\n- job runner without audit\n- live execution\n\n## Rollback Requirements\n- stop if the queue can bypass approval\n- revert any scheduling path\n- keep job state copy-only until future phases\n\n## Acceptance Criteria\n- queue state is server-side\n- job lifecycle is explicit\n- approval and dry-run are required\n\n## Final Response Requirements\n- report only\n- mention blocked status\n- do not enable real automation",
+        "codex_prompt": "STRICT EXECUTION MODE.\nMAX-PROMPT MODE.\nCODEX-CAPABLE WORK UNIT.\n\nTASK:\nImplement +2F - Queue / Job Runner in one large meaningful work unit.\n\nPROJECT:\nThe Agent Command Center\n\nSOURCE BRANCH:\ninterface/original-plus1e-backend-implementation-gate\n\nTARGET FUTURE BRANCH:\ninterface/original-plus2f-queue-job-runner\n\nPURPOSE:\nCoordinate queued automation jobs after dry-run and approval exist.\n\nAUTHORIZED FILES:\n- 14_backend/queue/**\n- scripts/validate_original_plus2f_queue_job_runner.py\n- scripts/validate_original_plus2f_queue_job_runner_e2e.py\n- 09_exports/original_plus2/\n\nFORBIDDEN FILES:\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\nTEST REQUIREMENTS:\n- queue validation\n- e2e contract validation\n- safety scan\n- diff scope check\n\nVALIDATOR REQUIREMENTS:\n- scripts/validate_original_plus2f_queue_job_runner.py\n- scripts/validate_original_plus2f_queue_job_runner_e2e.py\n\nREPORT REQUIREMENTS:\n- 09_exports/original_plus2/original_plus2f_queue_job_runner_report.md\n- 09_exports/original_plus2/original_plus2f_queue_job_runner_design_report.md\n- 09_exports/original_plus2/original_plus2f_queue_job_runner_safety_report.md\n- 09_exports/original_plus2/original_plus2f_queue_job_runner_dependency_report.md\n- 09_exports/original_plus2/original_plus2f_queue_job_runner_validator_report.md\n- 09_exports/original_plus2/original_plus2f_queue_job_runner_acceptance_report.md\n\nSAFETY BOUNDARY:\nNo live automation. No execution. No mutation. No backend writes. No deploy / merge / push / PR controls.\n\nNO-GO CONDITIONS:\n- queue without approval\n- queue without dry-run evidence\n- job runner without audit\n- live execution\n\nROLLBACK REQUIREMENTS:\n- stop if the queue can bypass approval\n- revert any scheduling path\n- keep job state copy-only until future phases\n\nACCEPTANCE CRITERIA:\n- queue state is server-side\n- job lifecycle is explicit\n- approval and dry-run are required\n\nFINAL RESPONSE:\nReport only.\nDo not enable real automation.\nDo not perform any action outside the files listed above."
+      },
+      "+2G": {
+        "ticket_id": "+2G",
+        "title": "Mutation Gateway",
+        "branch": "interface/original-plus2g-mutation-gateway",
+        "purpose": "Enforce server-side mutation boundaries after queue and approval are present.",
+        "dependencies": [
+          "+2A",
+          "+2B",
+          "+2C",
+          "+2D",
+          "+2E",
+          "+2F"
+        ],
+        "required_inputs": [
+          "auth foundation",
+          "request storage schema",
+          "audit contract",
+          "approval store",
+          "dry-run engine",
+          "queue runner"
+        ],
+        "required_outputs": [
+          "mutation gateway contract",
+          "server-side mutation boundary",
+          "audit binding notes"
+        ],
+        "required_tests": [
+          "mutation validation",
+          "e2e contract validation",
+          "safety scan",
+          "diff scope check"
+        ],
+        "required_validators": [
+          "scripts/validate_original_plus2g_mutation_gateway.py",
+          "scripts/validate_original_plus2g_mutation_gateway_e2e.py"
+        ],
+        "required_reports": [
+          "09_exports/original_plus2/original_plus2g_mutation_gateway_report.md",
+          "09_exports/original_plus2/original_plus2g_mutation_gateway_design_report.md",
+          "09_exports/original_plus2/original_plus2g_mutation_gateway_safety_report.md",
+          "09_exports/original_plus2/original_plus2g_mutation_gateway_dependency_report.md",
+          "09_exports/original_plus2/original_plus2g_mutation_gateway_validator_report.md",
+          "09_exports/original_plus2/original_plus2g_mutation_gateway_acceptance_report.md"
+        ],
+        "no_go_conditions": [
+          "mutation without audit",
+          "mutation without approval",
+          "mutation without rollback",
+          "live execution without gate"
+        ],
+        "rollback_requirements": [
+          "keep mutation server-side only",
+          "revert any browser-side mutation path",
+          "stop if secrets leak to browser"
+        ],
+        "allowed_files": [
+          "14_backend/mutation/**",
+          "scripts/validate_original_plus2g_mutation_gateway.py",
+          "scripts/validate_original_plus2g_mutation_gateway_e2e.py",
+          "09_exports/original_plus2/"
+        ],
+        "forbidden_files": [
+          "13_web_dashboard/**",
+          "netlify/functions/**",
+          "11_interface/**",
+          "12_tui/**",
+          "10_runtime/**",
+          "09_exports/interface_phase_1/**",
+          "09_exports/interface_phase_2/**",
+          "09_exports/interface_phase_3/**",
+          "09_exports/interface_phase_4/**",
+          "09_exports/original_plus1/**"
+        ],
+        "implementation_boundary": "Mutation gateway only. No browser writes, no dashboard actions, no live automation outside backend gates.",
+        "acceptance_criteria": [
+          "mutation path is server-side",
+          "approval and audit are mandatory",
+          "rollback requirements are explicit"
+        ],
+        "final_response_requirements": [
+          "report only",
+          "mention blocked status",
+          "do not enable real automation"
+        ],
+        "current_status": "NOT_STARTED",
+        "blocked_for_now": true,
+        "gate_status": "BLOCKED_PENDING_QUEUE_AND_NO_GO",
+        "blocking_reason": "Mutation cannot proceed until queue, approval, and audit are all in place.",
+        "required_future_ticket": "+2G",
+        "ticket_markdown": "# +2G - Mutation Gateway\n\n## Purpose\nEnforce server-side mutation boundaries after queue and approval are present.\n\n## Dependencies\n- +2A\n- +2B\n- +2C\n- +2D\n- +2E\n- +2F\n\n## Allowed Files\n- 14_backend/mutation/**\n- scripts/validate_original_plus2g_mutation_gateway.py\n- scripts/validate_original_plus2g_mutation_gateway_e2e.py\n- 09_exports/original_plus2/\n\n## Forbidden Files\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\n## Required Inputs\n- auth foundation\n- request storage schema\n- audit contract\n- approval store\n- dry-run engine\n- queue runner\n\n## Required Outputs\n- mutation gateway contract\n- server-side mutation boundary\n- audit binding notes\n\n## Required Tests\n- mutation validation\n- e2e contract validation\n- safety scan\n- diff scope check\n\n## Required Validators\n- scripts/validate_original_plus2g_mutation_gateway.py\n- scripts/validate_original_plus2g_mutation_gateway_e2e.py\n\n## Required Reports\n- 09_exports/original_plus2/original_plus2g_mutation_gateway_report.md\n- 09_exports/original_plus2/original_plus2g_mutation_gateway_design_report.md\n- 09_exports/original_plus2/original_plus2g_mutation_gateway_safety_report.md\n- 09_exports/original_plus2/original_plus2g_mutation_gateway_dependency_report.md\n- 09_exports/original_plus2/original_plus2g_mutation_gateway_validator_report.md\n- 09_exports/original_plus2/original_plus2g_mutation_gateway_acceptance_report.md\n\n## Implementation Boundary\nMutation gateway only. No browser writes, no dashboard actions, no live automation outside backend gates.\n\n## No-Go Conditions\n- mutation without audit\n- mutation without approval\n- mutation without rollback\n- live execution without gate\n\n## Rollback Requirements\n- keep mutation server-side only\n- revert any browser-side mutation path\n- stop if secrets leak to browser\n\n## Acceptance Criteria\n- mutation path is server-side\n- approval and audit are mandatory\n- rollback requirements are explicit\n\n## Final Response Requirements\n- report only\n- mention blocked status\n- do not enable real automation",
+        "codex_prompt": "STRICT EXECUTION MODE.\nMAX-PROMPT MODE.\nCODEX-CAPABLE WORK UNIT.\n\nTASK:\nImplement +2G - Mutation Gateway in one large meaningful work unit.\n\nPROJECT:\nThe Agent Command Center\n\nSOURCE BRANCH:\ninterface/original-plus1e-backend-implementation-gate\n\nTARGET FUTURE BRANCH:\ninterface/original-plus2g-mutation-gateway\n\nPURPOSE:\nEnforce server-side mutation boundaries after queue and approval are present.\n\nAUTHORIZED FILES:\n- 14_backend/mutation/**\n- scripts/validate_original_plus2g_mutation_gateway.py\n- scripts/validate_original_plus2g_mutation_gateway_e2e.py\n- 09_exports/original_plus2/\n\nFORBIDDEN FILES:\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\nTEST REQUIREMENTS:\n- mutation validation\n- e2e contract validation\n- safety scan\n- diff scope check\n\nVALIDATOR REQUIREMENTS:\n- scripts/validate_original_plus2g_mutation_gateway.py\n- scripts/validate_original_plus2g_mutation_gateway_e2e.py\n\nREPORT REQUIREMENTS:\n- 09_exports/original_plus2/original_plus2g_mutation_gateway_report.md\n- 09_exports/original_plus2/original_plus2g_mutation_gateway_design_report.md\n- 09_exports/original_plus2/original_plus2g_mutation_gateway_safety_report.md\n- 09_exports/original_plus2/original_plus2g_mutation_gateway_dependency_report.md\n- 09_exports/original_plus2/original_plus2g_mutation_gateway_validator_report.md\n- 09_exports/original_plus2/original_plus2g_mutation_gateway_acceptance_report.md\n\nSAFETY BOUNDARY:\nNo live automation. No execution. No mutation. No backend writes. No deploy / merge / push / PR controls.\n\nNO-GO CONDITIONS:\n- mutation without audit\n- mutation without approval\n- mutation without rollback\n- live execution without gate\n\nROLLBACK REQUIREMENTS:\n- keep mutation server-side only\n- revert any browser-side mutation path\n- stop if secrets leak to browser\n\nACCEPTANCE CRITERIA:\n- mutation path is server-side\n- approval and audit are mandatory\n- rollback requirements are explicit\n\nFINAL RESPONSE:\nReport only.\nDo not enable real automation.\nDo not perform any action outside the files listed above."
+      },
+      "+2H": {
+        "ticket_id": "+2H",
+        "title": "GitHub / Netlify Integration Adapters",
+        "branch": "interface/original-plus2h-github-netlify-adapters",
+        "purpose": "Add bounded integration adapters only after the mutation gateway exists.",
+        "dependencies": [
+          "+2A",
+          "+2B",
+          "+2C",
+          "+2D",
+          "+2E",
+          "+2F",
+          "+2G"
+        ],
+        "required_inputs": [
+          "auth foundation",
+          "mutation gateway",
+          "secrets policy",
+          "integration policy"
+        ],
+        "required_outputs": [
+          "adapter contracts",
+          "GitHub/Netlify boundary notes",
+          "secret handling plan"
+        ],
+        "required_tests": [
+          "adapter validation",
+          "e2e contract validation",
+          "safety scan",
+          "diff scope check"
+        ],
+        "required_validators": [
+          "scripts/validate_original_plus2h_github_netlify_adapters.py",
+          "scripts/validate_original_plus2h_github_netlify_adapters_e2e.py"
+        ],
+        "required_reports": [
+          "09_exports/original_plus2/original_plus2h_github_netlify_adapters_report.md",
+          "09_exports/original_plus2/original_plus2h_github_netlify_adapters_design_report.md",
+          "09_exports/original_plus2/original_plus2h_github_netlify_adapters_safety_report.md",
+          "09_exports/original_plus2/original_plus2h_github_netlify_adapters_dependency_report.md",
+          "09_exports/original_plus2/original_plus2h_github_netlify_adapters_validator_report.md",
+          "09_exports/original_plus2/original_plus2h_github_netlify_adapters_acceptance_report.md"
+        ],
+        "no_go_conditions": [
+          "adapters without secrets policy",
+          "adapters without approval",
+          "adapters without rollback",
+          "live deployment control"
+        ],
+        "rollback_requirements": [
+          "keep adapters bounded",
+          "revert any direct mutation path",
+          "never expose tokens in browser"
+        ],
+        "allowed_files": [
+          "14_backend/integrations/**",
+          "scripts/validate_original_plus2h_github_netlify_adapters.py",
+          "scripts/validate_original_plus2h_github_netlify_adapters_e2e.py",
+          "09_exports/original_plus2/"
+        ],
+        "forbidden_files": [
+          "13_web_dashboard/**",
+          "netlify/functions/**",
+          "11_interface/**",
+          "12_tui/**",
+          "10_runtime/**",
+          "09_exports/interface_phase_1/**",
+          "09_exports/interface_phase_2/**",
+          "09_exports/interface_phase_3/**",
+          "09_exports/interface_phase_4/**",
+          "09_exports/original_plus1/**"
+        ],
+        "implementation_boundary": "Integration adapters only. No live GitHub or Netlify mutation from the browser or dashboard.",
+        "acceptance_criteria": [
+          "adapter boundaries are server-side",
+          "secrets remain server-side",
+          "rollbacks are explicit"
+        ],
+        "final_response_requirements": [
+          "report only",
+          "mention blocked status",
+          "do not enable real automation"
+        ],
+        "current_status": "NOT_STARTED",
+        "blocked_for_now": true,
+        "gate_status": "BLOCKED_PENDING_MUTATION_GATEWAY_AND_SECRETS",
+        "blocking_reason": "Integration adapters require the mutation gateway and server-side secret handling first.",
+        "required_future_ticket": "+2H",
+        "ticket_markdown": "# +2H - GitHub / Netlify Integration Adapters\n\n## Purpose\nAdd bounded integration adapters only after the mutation gateway exists.\n\n## Dependencies\n- +2A\n- +2B\n- +2C\n- +2D\n- +2E\n- +2F\n- +2G\n\n## Allowed Files\n- 14_backend/integrations/**\n- scripts/validate_original_plus2h_github_netlify_adapters.py\n- scripts/validate_original_plus2h_github_netlify_adapters_e2e.py\n- 09_exports/original_plus2/\n\n## Forbidden Files\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\n## Required Inputs\n- auth foundation\n- mutation gateway\n- secrets policy\n- integration policy\n\n## Required Outputs\n- adapter contracts\n- GitHub/Netlify boundary notes\n- secret handling plan\n\n## Required Tests\n- adapter validation\n- e2e contract validation\n- safety scan\n- diff scope check\n\n## Required Validators\n- scripts/validate_original_plus2h_github_netlify_adapters.py\n- scripts/validate_original_plus2h_github_netlify_adapters_e2e.py\n\n## Required Reports\n- 09_exports/original_plus2/original_plus2h_github_netlify_adapters_report.md\n- 09_exports/original_plus2/original_plus2h_github_netlify_adapters_design_report.md\n- 09_exports/original_plus2/original_plus2h_github_netlify_adapters_safety_report.md\n- 09_exports/original_plus2/original_plus2h_github_netlify_adapters_dependency_report.md\n- 09_exports/original_plus2/original_plus2h_github_netlify_adapters_validator_report.md\n- 09_exports/original_plus2/original_plus2h_github_netlify_adapters_acceptance_report.md\n\n## Implementation Boundary\nIntegration adapters only. No live GitHub or Netlify mutation from the browser or dashboard.\n\n## No-Go Conditions\n- adapters without secrets policy\n- adapters without approval\n- adapters without rollback\n- live deployment control\n\n## Rollback Requirements\n- keep adapters bounded\n- revert any direct mutation path\n- never expose tokens in browser\n\n## Acceptance Criteria\n- adapter boundaries are server-side\n- secrets remain server-side\n- rollbacks are explicit\n\n## Final Response Requirements\n- report only\n- mention blocked status\n- do not enable real automation",
+        "codex_prompt": "STRICT EXECUTION MODE.\nMAX-PROMPT MODE.\nCODEX-CAPABLE WORK UNIT.\n\nTASK:\nImplement +2H - GitHub / Netlify Integration Adapters in one large meaningful work unit.\n\nPROJECT:\nThe Agent Command Center\n\nSOURCE BRANCH:\ninterface/original-plus1e-backend-implementation-gate\n\nTARGET FUTURE BRANCH:\ninterface/original-plus2h-github-netlify-adapters\n\nPURPOSE:\nAdd bounded integration adapters only after the mutation gateway exists.\n\nAUTHORIZED FILES:\n- 14_backend/integrations/**\n- scripts/validate_original_plus2h_github_netlify_adapters.py\n- scripts/validate_original_plus2h_github_netlify_adapters_e2e.py\n- 09_exports/original_plus2/\n\nFORBIDDEN FILES:\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\nTEST REQUIREMENTS:\n- adapter validation\n- e2e contract validation\n- safety scan\n- diff scope check\n\nVALIDATOR REQUIREMENTS:\n- scripts/validate_original_plus2h_github_netlify_adapters.py\n- scripts/validate_original_plus2h_github_netlify_adapters_e2e.py\n\nREPORT REQUIREMENTS:\n- 09_exports/original_plus2/original_plus2h_github_netlify_adapters_report.md\n- 09_exports/original_plus2/original_plus2h_github_netlify_adapters_design_report.md\n- 09_exports/original_plus2/original_plus2h_github_netlify_adapters_safety_report.md\n- 09_exports/original_plus2/original_plus2h_github_netlify_adapters_dependency_report.md\n- 09_exports/original_plus2/original_plus2h_github_netlify_adapters_validator_report.md\n- 09_exports/original_plus2/original_plus2h_github_netlify_adapters_acceptance_report.md\n\nSAFETY BOUNDARY:\nNo live automation. No execution. No mutation. No backend writes. No deploy / merge / push / PR controls.\n\nNO-GO CONDITIONS:\n- adapters without secrets policy\n- adapters without approval\n- adapters without rollback\n- live deployment control\n\nROLLBACK REQUIREMENTS:\n- keep adapters bounded\n- revert any direct mutation path\n- never expose tokens in browser\n\nACCEPTANCE CRITERIA:\n- adapter boundaries are server-side\n- secrets remain server-side\n- rollbacks are explicit\n\nFINAL RESPONSE:\nReport only.\nDo not enable real automation.\nDo not perform any action outside the files listed above."
+      },
+      "+2I": {
+        "ticket_id": "+2I",
+        "title": "Rollback / No-Go Enforcement",
+        "branch": "interface/original-plus2i-rollback-no-go-enforcement",
+        "purpose": "Block unsafe execution paths and enforce rollback when future automation goes wrong.",
+        "dependencies": [
+          "+2A",
+          "+2B",
+          "+2C",
+          "+2D",
+          "+2E",
+          "+2F",
+          "+2G",
+          "+2H"
+        ],
+        "required_inputs": [
+          "auth foundation",
+          "mutation gateway",
+          "integration adapters",
+          "safety policy"
+        ],
+        "required_outputs": [
+          "rollback enforcement contract",
+          "no-go router",
+          "blocker escalation notes"
+        ],
+        "required_tests": [
+          "rollback validation",
+          "e2e contract validation",
+          "safety scan",
+          "diff scope check"
+        ],
+        "required_validators": [
+          "scripts/validate_original_plus2i_rollback_no_go_enforcement.py",
+          "scripts/validate_original_plus2i_rollback_no_go_enforcement_e2e.py"
+        ],
+        "required_reports": [
+          "09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_report.md",
+          "09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_design_report.md",
+          "09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_safety_report.md",
+          "09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_dependency_report.md",
+          "09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_validator_report.md",
+          "09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_acceptance_report.md"
+        ],
+        "no_go_conditions": [
+          "rollback policy missing",
+          "no-go bypass",
+          "unsafe execution allowed",
+          "live automation shortcut"
+        ],
+        "rollback_requirements": [
+          "stop unsafe execution immediately",
+          "revert the dangerous path",
+          "preserve audit evidence"
+        ],
+        "allowed_files": [
+          "14_backend/rollback/**",
+          "scripts/validate_original_plus2i_rollback_no_go_enforcement.py",
+          "scripts/validate_original_plus2i_rollback_no_go_enforcement_e2e.py",
+          "09_exports/original_plus2/"
+        ],
+        "forbidden_files": [
+          "13_web_dashboard/**",
+          "netlify/functions/**",
+          "11_interface/**",
+          "12_tui/**",
+          "10_runtime/**",
+          "09_exports/interface_phase_1/**",
+          "09_exports/interface_phase_2/**",
+          "09_exports/interface_phase_3/**",
+          "09_exports/interface_phase_4/**",
+          "09_exports/original_plus1/**"
+        ],
+        "implementation_boundary": "Rollback and no-go enforcement only. No live execution, no browser mutation, no deployment controls.",
+        "acceptance_criteria": [
+          "unsafe paths are blocked",
+          "rollback requirements are explicit",
+          "audit evidence is preserved"
+        ],
+        "final_response_requirements": [
+          "report only",
+          "mention blocked status",
+          "do not enable real automation"
+        ],
+        "current_status": "NOT_STARTED",
+        "blocked_for_now": true,
+        "gate_status": "BLOCKED_PENDING_INTEGRATIONS",
+        "blocking_reason": "Rollback enforcement depends on the mutation and integration layers existing first.",
+        "required_future_ticket": "+2I",
+        "ticket_markdown": "# +2I - Rollback / No-Go Enforcement\n\n## Purpose\nBlock unsafe execution paths and enforce rollback when future automation goes wrong.\n\n## Dependencies\n- +2A\n- +2B\n- +2C\n- +2D\n- +2E\n- +2F\n- +2G\n- +2H\n\n## Allowed Files\n- 14_backend/rollback/**\n- scripts/validate_original_plus2i_rollback_no_go_enforcement.py\n- scripts/validate_original_plus2i_rollback_no_go_enforcement_e2e.py\n- 09_exports/original_plus2/\n\n## Forbidden Files\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\n## Required Inputs\n- auth foundation\n- mutation gateway\n- integration adapters\n- safety policy\n\n## Required Outputs\n- rollback enforcement contract\n- no-go router\n- blocker escalation notes\n\n## Required Tests\n- rollback validation\n- e2e contract validation\n- safety scan\n- diff scope check\n\n## Required Validators\n- scripts/validate_original_plus2i_rollback_no_go_enforcement.py\n- scripts/validate_original_plus2i_rollback_no_go_enforcement_e2e.py\n\n## Required Reports\n- 09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_report.md\n- 09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_design_report.md\n- 09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_safety_report.md\n- 09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_dependency_report.md\n- 09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_validator_report.md\n- 09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_acceptance_report.md\n\n## Implementation Boundary\nRollback and no-go enforcement only. No live execution, no browser mutation, no deployment controls.\n\n## No-Go Conditions\n- rollback policy missing\n- no-go bypass\n- unsafe execution allowed\n- live automation shortcut\n\n## Rollback Requirements\n- stop unsafe execution immediately\n- revert the dangerous path\n- preserve audit evidence\n\n## Acceptance Criteria\n- unsafe paths are blocked\n- rollback requirements are explicit\n- audit evidence is preserved\n\n## Final Response Requirements\n- report only\n- mention blocked status\n- do not enable real automation",
+        "codex_prompt": "STRICT EXECUTION MODE.\nMAX-PROMPT MODE.\nCODEX-CAPABLE WORK UNIT.\n\nTASK:\nImplement +2I - Rollback / No-Go Enforcement in one large meaningful work unit.\n\nPROJECT:\nThe Agent Command Center\n\nSOURCE BRANCH:\ninterface/original-plus1e-backend-implementation-gate\n\nTARGET FUTURE BRANCH:\ninterface/original-plus2i-rollback-no-go-enforcement\n\nPURPOSE:\nBlock unsafe execution paths and enforce rollback when future automation goes wrong.\n\nAUTHORIZED FILES:\n- 14_backend/rollback/**\n- scripts/validate_original_plus2i_rollback_no_go_enforcement.py\n- scripts/validate_original_plus2i_rollback_no_go_enforcement_e2e.py\n- 09_exports/original_plus2/\n\nFORBIDDEN FILES:\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\nTEST REQUIREMENTS:\n- rollback validation\n- e2e contract validation\n- safety scan\n- diff scope check\n\nVALIDATOR REQUIREMENTS:\n- scripts/validate_original_plus2i_rollback_no_go_enforcement.py\n- scripts/validate_original_plus2i_rollback_no_go_enforcement_e2e.py\n\nREPORT REQUIREMENTS:\n- 09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_report.md\n- 09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_design_report.md\n- 09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_safety_report.md\n- 09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_dependency_report.md\n- 09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_validator_report.md\n- 09_exports/original_plus2/original_plus2i_rollback_no_go_enforcement_acceptance_report.md\n\nSAFETY BOUNDARY:\nNo live automation. No execution. No mutation. No backend writes. No deploy / merge / push / PR controls.\n\nNO-GO CONDITIONS:\n- rollback policy missing\n- no-go bypass\n- unsafe execution allowed\n- live automation shortcut\n\nROLLBACK REQUIREMENTS:\n- stop unsafe execution immediately\n- revert the dangerous path\n- preserve audit evidence\n\nACCEPTANCE CRITERIA:\n- unsafe paths are blocked\n- rollback requirements are explicit\n- audit evidence is preserved\n\nFINAL RESPONSE:\nReport only.\nDo not enable real automation.\nDo not perform any action outside the files listed above."
+      },
+      "+2J": {
+        "ticket_id": "+2J",
+        "title": "Production Hardening & Monitoring",
+        "branch": "interface/original-plus2j-production-hardening-monitoring",
+        "purpose": "Finalize monitoring, resilience, and release hardening after every prior backend ticket exists.",
+        "dependencies": [
+          "+2A",
+          "+2B",
+          "+2C",
+          "+2D",
+          "+2E",
+          "+2F",
+          "+2G",
+          "+2H",
+          "+2I"
+        ],
+        "required_inputs": [
+          "all prior backend tickets",
+          "monitoring policy",
+          "release hardening checklist"
+        ],
+        "required_outputs": [
+          "hardening plan",
+          "monitoring matrix",
+          "release readiness notes"
+        ],
+        "required_tests": [
+          "hardening validation",
+          "e2e contract validation",
+          "safety scan",
+          "diff scope check"
+        ],
+        "required_validators": [
+          "scripts/validate_original_plus2j_production_hardening_monitoring.py",
+          "scripts/validate_original_plus2j_production_hardening_monitoring_e2e.py"
+        ],
+        "required_reports": [
+          "09_exports/original_plus2/original_plus2j_production_hardening_monitoring_report.md",
+          "09_exports/original_plus2/original_plus2j_production_hardening_monitoring_design_report.md",
+          "09_exports/original_plus2/original_plus2j_production_hardening_monitoring_safety_report.md",
+          "09_exports/original_plus2/original_plus2j_production_hardening_monitoring_dependency_report.md",
+          "09_exports/original_plus2/original_plus2j_production_hardening_monitoring_validator_report.md",
+          "09_exports/original_plus2/original_plus2j_production_hardening_monitoring_acceptance_report.md"
+        ],
+        "no_go_conditions": [
+          "hardening before prior tickets exist",
+          "monitoring without gates",
+          "live automation shortcut"
+        ],
+        "rollback_requirements": [
+          "revert if monitoring is added before gates",
+          "keep release hardening copy-only until future implementation"
+        ],
+        "allowed_files": [
+          "14_backend/monitoring/**",
+          "scripts/validate_original_plus2j_production_hardening_monitoring.py",
+          "scripts/validate_original_plus2j_production_hardening_monitoring_e2e.py",
+          "09_exports/original_plus2/"
+        ],
+        "forbidden_files": [
+          "13_web_dashboard/**",
+          "netlify/functions/**",
+          "11_interface/**",
+          "12_tui/**",
+          "10_runtime/**",
+          "09_exports/interface_phase_1/**",
+          "09_exports/interface_phase_2/**",
+          "09_exports/interface_phase_3/**",
+          "09_exports/interface_phase_4/**",
+          "09_exports/original_plus1/**"
+        ],
+        "implementation_boundary": "Production hardening only. No live automation, no browser execution, no mutation shortcuts.",
+        "acceptance_criteria": [
+          "monitoring and release hardening are explicit",
+          "no live automation is enabled",
+          "all prior tickets remain prerequisites"
+        ],
+        "final_response_requirements": [
+          "report only",
+          "mention blocked status",
+          "do not enable real automation"
+        ],
+        "current_status": "NOT_STARTED",
+        "blocked_for_now": true,
+        "gate_status": "BLOCKED_PENDING_ALL_PRIOR",
+        "blocking_reason": "Production hardening depends on every prior backend phase being in place.",
+        "required_future_ticket": "+2J",
+        "ticket_markdown": "# +2J - Production Hardening & Monitoring\n\n## Purpose\nFinalize monitoring, resilience, and release hardening after every prior backend ticket exists.\n\n## Dependencies\n- +2A\n- +2B\n- +2C\n- +2D\n- +2E\n- +2F\n- +2G\n- +2H\n- +2I\n\n## Allowed Files\n- 14_backend/monitoring/**\n- scripts/validate_original_plus2j_production_hardening_monitoring.py\n- scripts/validate_original_plus2j_production_hardening_monitoring_e2e.py\n- 09_exports/original_plus2/\n\n## Forbidden Files\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\n## Required Inputs\n- all prior backend tickets\n- monitoring policy\n- release hardening checklist\n\n## Required Outputs\n- hardening plan\n- monitoring matrix\n- release readiness notes\n\n## Required Tests\n- hardening validation\n- e2e contract validation\n- safety scan\n- diff scope check\n\n## Required Validators\n- scripts/validate_original_plus2j_production_hardening_monitoring.py\n- scripts/validate_original_plus2j_production_hardening_monitoring_e2e.py\n\n## Required Reports\n- 09_exports/original_plus2/original_plus2j_production_hardening_monitoring_report.md\n- 09_exports/original_plus2/original_plus2j_production_hardening_monitoring_design_report.md\n- 09_exports/original_plus2/original_plus2j_production_hardening_monitoring_safety_report.md\n- 09_exports/original_plus2/original_plus2j_production_hardening_monitoring_dependency_report.md\n- 09_exports/original_plus2/original_plus2j_production_hardening_monitoring_validator_report.md\n- 09_exports/original_plus2/original_plus2j_production_hardening_monitoring_acceptance_report.md\n\n## Implementation Boundary\nProduction hardening only. No live automation, no browser execution, no mutation shortcuts.\n\n## No-Go Conditions\n- hardening before prior tickets exist\n- monitoring without gates\n- live automation shortcut\n\n## Rollback Requirements\n- revert if monitoring is added before gates\n- keep release hardening copy-only until future implementation\n\n## Acceptance Criteria\n- monitoring and release hardening are explicit\n- no live automation is enabled\n- all prior tickets remain prerequisites\n\n## Final Response Requirements\n- report only\n- mention blocked status\n- do not enable real automation",
+        "codex_prompt": "STRICT EXECUTION MODE.\nMAX-PROMPT MODE.\nCODEX-CAPABLE WORK UNIT.\n\nTASK:\nImplement +2J - Production Hardening & Monitoring in one large meaningful work unit.\n\nPROJECT:\nThe Agent Command Center\n\nSOURCE BRANCH:\ninterface/original-plus1e-backend-implementation-gate\n\nTARGET FUTURE BRANCH:\ninterface/original-plus2j-production-hardening-monitoring\n\nPURPOSE:\nFinalize monitoring, resilience, and release hardening after every prior backend ticket exists.\n\nAUTHORIZED FILES:\n- 14_backend/monitoring/**\n- scripts/validate_original_plus2j_production_hardening_monitoring.py\n- scripts/validate_original_plus2j_production_hardening_monitoring_e2e.py\n- 09_exports/original_plus2/\n\nFORBIDDEN FILES:\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\nTEST REQUIREMENTS:\n- hardening validation\n- e2e contract validation\n- safety scan\n- diff scope check\n\nVALIDATOR REQUIREMENTS:\n- scripts/validate_original_plus2j_production_hardening_monitoring.py\n- scripts/validate_original_plus2j_production_hardening_monitoring_e2e.py\n\nREPORT REQUIREMENTS:\n- 09_exports/original_plus2/original_plus2j_production_hardening_monitoring_report.md\n- 09_exports/original_plus2/original_plus2j_production_hardening_monitoring_design_report.md\n- 09_exports/original_plus2/original_plus2j_production_hardening_monitoring_safety_report.md\n- 09_exports/original_plus2/original_plus2j_production_hardening_monitoring_dependency_report.md\n- 09_exports/original_plus2/original_plus2j_production_hardening_monitoring_validator_report.md\n- 09_exports/original_plus2/original_plus2j_production_hardening_monitoring_acceptance_report.md\n\nSAFETY BOUNDARY:\nNo live automation. No execution. No mutation. No backend writes. No deploy / merge / push / PR controls.\n\nNO-GO CONDITIONS:\n- hardening before prior tickets exist\n- monitoring without gates\n- live automation shortcut\n\nROLLBACK REQUIREMENTS:\n- revert if monitoring is added before gates\n- keep release hardening copy-only until future implementation\n\nACCEPTANCE CRITERIA:\n- monitoring and release hardening are explicit\n- no live automation is enabled\n- all prior tickets remain prerequisites\n\nFINAL RESPONSE:\nReport only.\nDo not enable real automation.\nDo not perform any action outside the files listed above."
+      }
+    }
   }
 }
