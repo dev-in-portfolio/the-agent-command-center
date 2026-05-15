@@ -61,8 +61,6 @@ def main():
     ).stdout.strip().splitlines()
 
     allowed_prefixes = [
-        "scripts/validate_original_plus2e_server_side_dry_run_engine_e2e.py",
-        "scripts/validate_original_plus2e_server_side_dry_run_engine.py",
         "scripts/validate_original_plus2d_approval_gate_storage_e2e.py",
         "scripts/validate_original_plus2c_immutable_audit_log.py",
         "scripts/validate_original_plus2a_backend_auth_foundation_e2e.py",
@@ -260,7 +258,6 @@ def main():
     ]
 
     authorized_functions = [
-        "netlify/functions/dry-run-status.js",
         "netlify/functions/approval-gate-status.js",
         "netlify/functions/auth-status.js",
         "netlify/functions/role-matrix.js",
@@ -270,7 +267,6 @@ def main():
         "netlify/functions/_shared/models/"
     ]
     authorized_backend = [
-        "14_backend/dry_run/",
         "14_backend/approval_gate/",
         "14_backend/auth/",
         "14_backend/request_storage/",
