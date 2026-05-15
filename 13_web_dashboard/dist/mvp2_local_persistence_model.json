@@ -1,0 +1,89 @@
+{
+  "model_id": "mvp2-local-durable-request-persistence-runtime",
+  "model_version": "1.0",
+  "local_persistence_status": {
+    "model_id": "mvp2-local-persistence-status",
+    "model_version": "1.0",
+    "local_sqlite_persistence_available": true,
+    "production_persistence_configured": false,
+    "env_required_for_local_dev": false,
+    "env_required_for_production": true,
+    "database_url_read": false,
+    "migrations_applied_automatically": false,
+    "real_automation_enabled": false,
+    "local_dev_database_path": ".agent_command_center/demo_runtime.sqlite3",
+    "current_recommendation": [
+      "LOCAL_PERSISTENCE_READY_FOR_DEV_TESTING",
+      "PRODUCTION_PERSISTENCE_PROVIDER_REQUIRED",
+      "REAL_AUTH_PROVIDER_REQUIRED",
+      "NOT_READY_FOR_REAL_AUTOMATION",
+      "NEXT_STEP_CHOOSE_PRODUCTION_POSTGRES_AND_AUTH_PROVIDER"
+    ]
+  },
+  "adapter_methods": [
+    "initialize_local_dev_database",
+    "create_request",
+    "get_request",
+    "list_requests",
+    "update_request_state",
+    "add_lifecycle_event",
+    "get_lifecycle_events",
+    "close"
+  ],
+  "request_repository_responsibilities": [
+    "wrap the SQLite adapter",
+    "validate request payloads before local storage",
+    "create and fetch requests",
+    "list requests",
+    "transition lifecycle state",
+    "record lifecycle events",
+    "never execute automation"
+  ],
+  "local_dev_database_path": ".agent_command_center/demo_runtime.sqlite3",
+  "local_dev_database_path_explanation": "The demo runner writes to a local SQLite file only for development and preview runs.",
+  "migration_behavior": {
+    "file_path": "14_backend/product_runtime/persistence/apply_local_migrations.py",
+    "sql_path": "14_backend/product_runtime/migrations/001_mvp_request_lifecycle.sql",
+    "apply_mode": "explicit local-dev only",
+    "production_safe": true,
+    "database_url_read": false,
+    "env_reads": false,
+    "external_network": false
+  },
+  "lifecycle_persistence_demo_summary": {
+    "request_title": "Prepare safe deployment review packet",
+    "states": [
+      "request_received",
+      "request_validated",
+      "dry_run_plan_generated",
+      "approval_required",
+      "audit_event_prepared",
+      "blocked_before_execution",
+      "ready_for_human_review"
+    ],
+    "persisted_locally": true,
+    "no_external_mutation": true,
+    "real_automation_enabled": false
+  },
+  "production_persistence_gap": [
+    "choose production Postgres provider",
+    "choose auth provider",
+    "add env/secrets later",
+    "add production migrations later",
+    "add real request API later",
+    "add server-side identity binding later"
+  ],
+  "next_product_decision": [
+    "choose_production_postgres_provider",
+    "choose_auth_provider",
+    "wire_real_request_create_list_get_api",
+    "then_add_server_side_identity_binding"
+  ],
+  "current_recommendation": [
+    "LOCAL_PERSISTENCE_READY_FOR_DEV_TESTING",
+    "PRODUCTION_PERSISTENCE_PROVIDER_REQUIRED",
+    "REAL_AUTH_PROVIDER_REQUIRED",
+    "NOT_READY_FOR_REAL_AUTOMATION",
+    "NEXT_STEP_CHOOSE_PRODUCTION_POSTGRES_AND_AUTH_PROVIDER"
+  ]
+}

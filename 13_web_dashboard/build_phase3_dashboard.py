@@ -20,6 +20,7 @@ from dashboard_renderer import render_html, render_print_html
 from dashboard_schema import validate_snapshot
 from dashboard_safety import scan_phase3_safety
 from build_mvp1_product_runtime import build_mvp1_product_runtime_model
+from build_mvp2_local_persistence import build_mvp2_local_persistence_model
 
 
 def _emit_error(message):
@@ -452,6 +453,7 @@ def _build_outputs(snapshot, validation_result, safety_result):
     snapshot["original_plus2d_approval_gate_model"] = _original_plus2d_approval_gate_model()
     snapshot["original_plus2e_dry_run_engine_model"] = _original_plus2e_dry_run_model()
     snapshot["mvp1_product_runtime_model"] = build_mvp1_product_runtime_model()
+    snapshot["mvp2_local_persistence_model"] = build_mvp2_local_persistence_model()
     _write_text(DIST_DIR / "original_plus1b_contract_schemas.json", json.dumps(_original_plus1b_contract_pack(), indent=2, sort_keys=False))
     _write_text(DIST_DIR / "original_plus1c_readiness_qa_model.json", json.dumps(_original_plus1c_readiness_qa_model(), indent=2, sort_keys=False))
     _write_text(DIST_DIR / "original_plus1d_backend_boundary_model.json", json.dumps(_original_plus1d_backend_boundary_model(), indent=2, sort_keys=False))
@@ -462,6 +464,7 @@ def _build_outputs(snapshot, validation_result, safety_result):
     _write_text(DIST_DIR / "original_plus2d_approval_gate_model.json", json.dumps(_original_plus2d_approval_gate_model(), indent=2, sort_keys=False))
     _write_text(DIST_DIR / "original_plus2e_dry_run_engine_model.json", json.dumps(_original_plus2e_dry_run_model(), indent=2, sort_keys=False))
     _write_text(DIST_DIR / "mvp1_product_runtime_model.json", json.dumps(snapshot["mvp1_product_runtime_model"], indent=2, sort_keys=False))
+    _write_text(DIST_DIR / "mvp2_local_persistence_model.json", json.dumps(snapshot["mvp2_local_persistence_model"], indent=2, sort_keys=False))
     _write_text(DIST_DIR / "index.html", render_html(snapshot))
     _write_text(DIST_DIR / "print.html", render_print_html(snapshot))
     _write_text(DIST_DIR / "dashboard_data.json", json.dumps(snapshot, indent=2, sort_keys=False))

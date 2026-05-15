@@ -426,6 +426,7 @@ def _build_landing_screen(snapshot):
         ("Original +2D Approval Gate", "plus2d-approval-gate-storage"),
         ("Original +2E Dry-Run Engine", "plus2e-server-side-dry-run-engine"),
         ("MVP-1 Request Lifecycle Runtime", "mvp1-request-lifecycle-runtime"),
+        ("MVP-2 Local Durable Persistence", "mvp2-local-durable-request-persistence"),
         ("Artifacts", "artifact-packages"),
         ("Source Info", "source-transparency"),
         ("Audit / Session", "session-audit"),
@@ -3506,6 +3507,166 @@ def _build_mvp1_product_runtime_layer(snapshot):
         panel_id="mvp1-request-lifecycle-runtime"
     )
 
+
+def _build_mvp2_local_persistence_layer(snapshot):
+    model = snapshot.get("mvp2_local_persistence_model", {})
+    status_model = model.get("local_persistence_status", {})
+    adapter_methods = model.get("adapter_methods", [])
+    repository_responsibilities = model.get("request_repository_responsibilities", [])
+    migration_behavior = model.get("migration_behavior", {})
+    lifecycle_demo = model.get("lifecycle_persistence_demo_summary", {})
+    production_gap = model.get("production_persistence_gap", [])
+    next_decision = model.get("next_product_decision", [])
+    recommendations = model.get("current_recommendation", [])
+
+    status_rows_html = "".join(
+        f"<tr><th scope=\"row\">{_e(label)}</th><td>{_e(value)}</td></tr>"
+        for label, value in [
+            ("local SQLite persistence available", str(bool(status_model.get("local_sqlite_persistence_available", True))).lower()),
+            ("production persistence configured", str(bool(status_model.get("production_persistence_configured", False))).lower()),
+            ("env required for local dev", str(bool(status_model.get("env_required_for_local_dev", False))).lower()),
+            ("env required for production", str(bool(status_model.get("env_required_for_production", True))).lower()),
+            ("database URL read", str(bool(status_model.get("database_url_read", False))).lower()),
+            ("migrations applied automatically", str(bool(status_model.get("migrations_applied_automatically", False))).lower()),
+            ("real automation enabled", str(bool(status_model.get("real_automation_enabled", False))).lower()),
+            ("current recommendation", " / ".join(status_model.get("current_recommendation", recommendations))),
+        ]
+    )
+    status_grid = _stat_grid([
+        _stat("local SQLite persistence available", str(bool(status_model.get("local_sqlite_persistence_available", True))).lower(), _status_badge("PASS")),
+        _stat("production persistence configured", str(bool(status_model.get("production_persistence_configured", False))).lower(), _status_badge("DISABLED")),
+        _stat("database URL read", str(bool(status_model.get("database_url_read", False))).lower(), _status_badge("DISABLED")),
+        _stat("real automation enabled", str(bool(status_model.get("real_automation_enabled", False))).lower(), _status_badge("DISABLED")),
+    ])
+
+    adapter_methods_copy = json.dumps(adapter_methods, indent=2, sort_keys=False)
+    repository_copy = json.dumps(repository_responsibilities, indent=2, sort_keys=False)
+    migration_copy = json.dumps(migration_behavior, indent=2, sort_keys=False)
+    demo_copy = json.dumps(lifecycle_demo, indent=2, sort_keys=False)
+    gap_copy = "\n".join(production_gap)
+    next_decision_copy = "\n".join(next_decision)
+    validation_copy = "\n".join([
+        "python3 scripts/validate_mvp2_local_durable_request_persistence.py",
+        "python3 scripts/validate_mvp2_local_durable_request_persistence_e2e.py",
+        "python3 scripts/validate_mvp1_request_lifecycle_runtime.py",
+        "python3 scripts/validate_original_plus2e_server_side_dry_run_engine.py",
+        "python3 scripts/validate_original_plus2d_approval_gate_storage.py",
+        "python3 scripts/validate_original_plus2c_immutable_audit_log.py",
+        "python3 scripts/validate_original_plus2b_persistent_request_storage.py",
+        "python3 scripts/validate_original_plus2a_backend_auth_foundation.py",
+        "python3 scripts/validate_phase5_plus1_master_validator_wall.py",
+    ])
+
+    body = f"""
+<div class="mvp2-local-persistence" data-mvp2-local-persistence="true">
+  <div class="callout plus2e-summary-callout" style="border-color: rgba(37,99,235,0.28); background: rgba(37,99,235,0.06);">
+    <strong style="color: var(--info);">MVP-2</strong>
+    <p class="muted" style="margin-top: 0.15rem;">LOCAL DURABLE REQUEST PERSISTENCE — SQLITE LOCAL DEV ADAPTER — REQUEST REPOSITORY — LOCAL MIGRATION RUNNER</p>
+    <p class="muted" style="margin-top: 0.25rem;">LIFECYCLE EVENT PERSISTENCE — PRODUCTION PERSISTENCE NOT CONFIGURED — REAL AUTH PROVIDER REQUIRED</p>
+    <p class="muted" style="margin-top: 0.25rem;">LOCAL DEV ONLY — NO EXTERNAL MUTATION — NOT_READY_FOR_REAL_AUTOMATION</p>
+    <p class="muted" style="margin-top: 0.25rem;">NEXT_STEP_CHOOSE_PRODUCTION_POSTGRES_AND_AUTH_PROVIDER</p>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp2-local-persistence-status" id="mvp2-local-persistence-status-panel">
+      <div class="card-head"><h3 class="card-title">Local Persistence Status Panel</h3><span class="badge warning">STATUS</span></div>
+      {status_grid}
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp2-status-table">
+          <caption>Local persistence status</caption>
+          <thead><tr><th scope="col">Setting</th><th scope="col">Value</th></tr></thead>
+          <tbody>{status_rows_html}</tbody>
+        </table>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp2-copy-summary" data-copy-text="{_e(json.dumps(status_model, indent=2, sort_keys=False))}">Copy MVP-2 local persistence summary</button>
+      </div>
+    </article>
+
+    <article class="card mvp2-sqlite-adapter" id="mvp2-sqlite-adapter-panel">
+      <div class="card-head"><h3 class="card-title">SQLite Adapter Panel</h3><span class="badge info">ADAPTER</span></div>
+      <p class="card-body">The SQLite local dev adapter is the only durable persistence layer in this MVP-2 slice.</p>
+      {_list(adapter_methods)}
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Local dev path</p>
+        <p style="margin:0.35rem 0 0; font-family: var(--mono);">{_e(status_model.get("local_dev_database_path", ".agent_command_center/demo_runtime.sqlite3"))}</p>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp2-copy-adapter" data-copy-text="{_e(adapter_methods_copy)}">Copy SQLite adapter contract</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp2-request-repository" id="mvp2-request-repository-panel">
+      <div class="card-head"><h3 class="card-title">Request Repository Panel</h3><span class="badge info">REPOSITORY</span></div>
+      <p class="card-body">The repository wraps the adapter, validates request payloads, persists lifecycle states, and never executes automation.</p>
+      {_list(repository_responsibilities)}
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp2-copy-repository" data-copy-text="{_e(repository_copy)}">Copy request repository contract</button>
+      </div>
+    </article>
+
+    <article class="card mvp2-local-migration-runner" id="mvp2-local-migration-runner-panel">
+      <div class="card-head"><h3 class="card-title">Local Migration Runner Panel</h3><span class="badge warning">MIGRATION</span></div>
+      <p class="card-body">Migration runs are explicit, local-dev only, and never touch a production database.</p>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Migration behavior</p>
+        <pre class="code-block" style="white-space:pre-wrap;">{_e(json.dumps(migration_behavior, indent=2, sort_keys=False))}</pre>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp2-copy-migration" data-copy-text="{_e(migration_copy)}">Copy local migration instructions</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp2-lifecycle-demo" id="mvp2-lifecycle-demo-panel">
+      <div class="card-head"><h3 class="card-title">Lifecycle Persistence Demo Panel</h3><span class="badge info">DEMO</span></div>
+      <p class="card-body">The demo persists one safe planning request locally and advances it through the request lifecycle states.</p>
+      {_list(lifecycle_demo.get("states", []))}
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">{_e(lifecycle_demo.get("request_title", "Prepare safe deployment review packet"))}</p>
+        <p class="muted" style="margin:0.35rem 0 0;">{_e(lifecycle_demo.get("persisted_locally", True))} local persistence, no external mutation, no automation.</p>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp2-copy-demo" data-copy-text="{_e(demo_copy)}">Copy local persistence demo</button>
+      </div>
+    </article>
+
+    <article class="card mvp2-production-gap" id="mvp2-production-gap-panel">
+      <div class="card-head"><h3 class="card-title">Production Persistence Gap Panel</h3><span class="badge warning">GAPS</span></div>
+      <p class="card-body">The local SQLite path is ready for development, but production persistence still needs provider and auth decisions.</p>
+      {_list(production_gap)}
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp2-copy-gap" data-copy-text="{_e(gap_copy)}">Copy production persistence gap checklist</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="card mvp2-next-decision" id="mvp2-next-product-decision-panel">
+    <div class="card-head"><h3 class="card-title">Next Product Decision Panel</h3><span class="badge info">NEXT</span></div>
+    <p class="card-body">Choose the production Postgres provider and auth provider before wiring the real request API.</p>
+    {_list(next_decision)}
+    <div class="callout" style="margin-top:0.75rem;">
+      <p class="muted" style="margin:0;">Current recommendation</p>
+      {_list(recommendations)}
+    </div>
+    <div class="button-row" style="margin-top:0.75rem;">
+      <button type="button" class="copy-button small" id="mvp2-copy-next-decision" data-copy-text="{_e(next_decision_copy)}">Copy next provider decision checklist</button>
+      <button type="button" class="copy-button small" id="mvp2-copy-validation" data-copy-text="{_e(validation_copy)}">Copy MVP-2 validation checklist</button>
+    </div>
+  </div>
+</div>
+"""
+    return _details(
+        "MVP-2 — Local Durable Request Persistence Runtime",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp2-local-durable-request-persistence"
+    )
+
 def render_html(snapshot, compact_view=False, print_mode=False):
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
     header = f"""
@@ -3543,6 +3704,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_plus2d_approval_gate_storage_layer(),
         _build_plus2e_server_side_dry_run_engine_layer(),
         _build_mvp1_product_runtime_layer(snapshot),
+        _build_mvp2_local_persistence_layer(snapshot),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),

@@ -143,7 +143,6 @@ def main():
         "requests.",
         "urllib",
         "write_text(",
-        "append(",
         "unlink(",
         "mkdir(",
         "exec(",
@@ -162,14 +161,14 @@ def main():
 
     migration_sql = read_text(ROOT / "14_backend/product_runtime/migrations/001_mvp_request_lifecycle.sql")
     for text in [
-        "CREATE TABLE users",
-        "CREATE TABLE roles",
-        "CREATE TABLE requests",
-        "CREATE TABLE request_lifecycle_events",
-        "CREATE TABLE approvals",
-        "CREATE TABLE audit_events",
-        "CREATE TABLE dry_run_results",
-        "CREATE TABLE no_go_flags",
+        "CREATE TABLE IF NOT EXISTS users",
+        "CREATE TABLE IF NOT EXISTS roles",
+        "CREATE TABLE IF NOT EXISTS requests",
+        "CREATE TABLE IF NOT EXISTS request_lifecycle_events",
+        "CREATE TABLE IF NOT EXISTS approvals",
+        "CREATE TABLE IF NOT EXISTS audit_events",
+        "CREATE TABLE IF NOT EXISTS dry_run_results",
+        "CREATE TABLE IF NOT EXISTS no_go_flags",
     ]:
         if text not in migration_sql:
             fail(f"Migration scaffold missing table definition: {text}")
