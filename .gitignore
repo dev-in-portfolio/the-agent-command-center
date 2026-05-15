@@ -2,6 +2,19 @@
 __pycache__/
 *.pyc
 
+# Environment and local secret files
+.env
+.env.*
+!.env.example
+.env.local
+.env.development.local
+.supabase.env.local
+.agent_command_center/
+*.sqlite
+*.sqlite3
+supabase/.branches
+supabase/.temp
+
 # Phase 2 operator-generated artifacts
 09_exports/interface_phase_2/sessions/
 09_exports/interface_phase_2/snapshots/
@@ -13,6 +26,3 @@ __pycache__/
 
 # Phase 3 generated test artifacts
 09_exports/interface_phase_3/test_runs/
-
-# Local runtime demo database
-.agent_command_center/
