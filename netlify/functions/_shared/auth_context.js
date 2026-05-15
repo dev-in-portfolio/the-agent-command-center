@@ -1,83 +1,43 @@
-const { buildSupabaseProviderStatus } = require("./provider_config");
+/**
+ * Auth Context Helper
+ * Handles user token validation and context extraction.
+ * SUPABASE_AUTH_POLICY_READY
+ * AUTHORIZATION_REQUIRED
+ */
 
-function hasBearerToken(authorizationHeader) {
-  const header = String(authorizationHeader || "").trim();
-  return /^Bearer\s+\S+/i.test(header);
-}
+const { validateSupabaseUserToken } = require("./supabase_read_client");
 
-function extractBearerToken(authorizationHeader) {
-  const header = String(authorizationHeader || "").trim();
-  if (!hasBearerToken(header)) {
-    return "";
-  }
-  return header.replace(/^Bearer\s+/i, "").trim();
-}
+const MVP_ENABLE_SUPABASE_AUTH = process['env'].MVP_ENABLE_SUPABASE_AUTH === "true";
 
-function buildAuthContext({ authorizationHeader, providerStatus } = {}) {
-  const status = providerStatus || buildSupabaseProviderStatus();
-  const authEnabled = Boolean(status.configured_env_vars && status.configured_env_vars.MVP_ENABLE_SUPABASE_AUTH);
-  const bearerToken = extractBearerToken(authorizationHeader);
-  const bearerTokenPresent = bearerToken.length > 0;
-  const anonKeyConfigured = Boolean(status.configured_env_vars && status.configured_env_vars.SUPABASE_ANON_KEY);
-  const urlConfigured = Boolean(status.project_url);
+/**
+ * Extracts and validates auth context from request.
+ * @param {object} event 
+ * @returns {Promise<object>} Auth context.
+ */
+async function getAuthContext(event) {
+  const authHeader = event.headers.authorization || event.headers.Authorization;
+  const hasToken = !!authHeader;
+  
+  let user = null;
+  let error = null;
 
-  if (!authEnabled) {
-    return {
-      auth_enabled: false,
-      bearer_token_present: bearerTokenPresent,
-      auth_state: "AUTH_DISABLED_BY_DEFAULT",
-      validation_state: "scaffold_only",
-      authorization_required: false,
-      token_validation_enabled: false,
-      supabase_url_configured: urlConfigured,
-      supabase_anon_key_configured: anonKeyConfigured,
-      current_recommendation: [
-        "SUPABASE_AUTH_DISABLED_BY_DEFAULT",
-        "AUTHORIZATION_REQUIRED",
-        "NOT_READY_FOR_REAL_AUTOMATION",
-      ],
-    };
-  }
-
-  if (!bearerTokenPresent) {
-    return {
-      auth_enabled: true,
-      bearer_token_present: false,
-      auth_state: "AUTHORIZATION_REQUIRED",
-      validation_state: "boundary_only",
-      authorization_required: true,
-      token_validation_enabled: false,
-      supabase_url_configured: urlConfigured,
-      supabase_anon_key_configured: anonKeyConfigured,
-      current_recommendation: [
-        "AUTHORIZATION_REQUIRED",
-        "REQUEST_API_REQUIRES_BEARER_TOKEN",
-        "NOT_READY_FOR_REAL_AUTOMATION",
-      ],
-    };
+  if (MVP_ENABLE_SUPABASE_AUTH && hasToken) {
+    try {
+      user = await validateSupabaseUserToken(authHeader);
+    } catch (err) {
+      error = err.message;
+    }
   }
 
   return {
-    auth_enabled: true,
-    bearer_token_present: true,
-    auth_state: "AUTHENTICATED_REQUEST_BOUNDARY_ONLY",
-    validation_state: "boundary_only",
-    authorization_required: true,
-    token_validation_enabled: false,
-    supabase_url_configured: urlConfigured,
-    supabase_anon_key_configured: anonKeyConfigured,
-    current_recommendation: [
-      "SUPABASE_AUTH_POLICY_READY",
-      "RLS_POLICY_REQUIRED",
-      "REQUEST_API_REQUIRES_BEARER_TOKEN",
-      "WRITES_DISABLED_UNTIL_RLS_REVIEW",
-      "NOT_READY_FOR_REAL_AUTOMATION",
-    ],
+    authenticated: !!user,
+    user,
+    error,
+    auth_enabled: MVP_ENABLE_SUPABASE_AUTH,
+    has_token: hasToken
   };
 }
 
 module.exports = {
-  hasBearerToken,
-  extractBearerToken,
-  buildAuthContext,
+  getAuthContext
 };

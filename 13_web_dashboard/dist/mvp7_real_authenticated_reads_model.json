@@ -1,0 +1,40 @@
+{
+  "model_id": "mvp7-real-authenticated-supabase-request-reads",
+  "model_version": "1.0",
+  "real_authenticated_reads_model": {
+    "model_id": "supabase-real-authenticated-reads-model",
+    "model_version": "1.0",
+    "project_ref": "mobvzrkcsfbumgbwvkcp",
+    "supabase_url": "https://mobvzrkcsfbumgbwvkcp.supabase.co",
+    "read_mode": "real_supabase_postgrest_get",
+    "auth_validation_mode": "supabase_auth_user_endpoint",
+    "uses_anon_key": true,
+    "uses_user_bearer_token": true,
+    "uses_service_role": false,
+    "writes_enabled": false,
+    "post_enabled": false,
+    "rls_enforced": true
+  },
+  "helper_functions": [
+    "validateSupabaseUserToken",
+    "listMyRequests",
+    "getMyRequest",
+    "listMyRequestLifecycleEvents",
+    "listMyDryRunResults"
+  ],
+  "endpoint_actions": [
+    "list",
+    "get",
+    "events",
+    "dry_run_results"
+  ],
+  "token_validation_path": "GET /auth/v1/user",
+  "rls_enforcement": "Row Level Security enforces user ownership based on auth.uid()",
+  "write_lock": "All POST/PUT/PATCH/DELETE methods are blocked by adapter and feature flags",
+  "current_recommendation": [
+    "REAL_AUTHENTICATED_READS_IMPLEMENTED",
+    "VERIFY_WITH_REAL_USER_TOKEN",
+    "WRITES_DISABLED_UNTIL_SEPARATE_REVIEW",
+    "NEXT_STEP_BUILD_CONTROLLED_REQUEST_CREATE_WRITES"
+  ]
+}

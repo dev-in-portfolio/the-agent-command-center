@@ -1,121 +1,123 @@
-const { jsonResponse, errorResponse } = require("./_shared/response");
-const { buildSupabaseProviderStatus } = require("./_shared/provider_config");
-const { buildAuthContext } = require("./_shared/auth_context");
+/**
+ * Requests API
+ * Handles authenticated request reads from Supabase.
+ * Writes remain disabled.
+ * SUPABASE_PROVIDER_NOT_CONFIGURED
+ * REQUEST_API_DISABLED
+ * AUTHENTICATED_READ_BOUNDARY_READY
+ * AUTHENTICATED_READS_ENABLED_BOUNDARY
+ * REQUEST_API_WRITES_DISABLED
+ * RLS_POLICY_REQUIRED
+ * RLS_WRITE_REVIEW_REQUIRED
+ * AUTH_DISABLED_BY_DEFAULT
+ * AUTHORIZATION_REQUIRED
+ */
 
-const REQUEST_BOUNDARY_MARKERS = {
-  SUPABASE_PROVIDER_NOT_CONFIGURED: "SUPABASE_PROVIDER_NOT_CONFIGURED",
-  REQUEST_API_DISABLED: "REQUEST_API_DISABLED",
-  AUTH_DISABLED_BY_DEFAULT: "AUTH_DISABLED_BY_DEFAULT",
-  AUTHORIZATION_REQUIRED: "AUTHORIZATION_REQUIRED",
-  AUTHENTICATED_READ_BOUNDARY_READY: "AUTHENTICATED_READ_BOUNDARY_READY",
-  AUTHENTICATED_READS_ENABLED_BOUNDARY: "AUTHENTICATED_READS_ENABLED_BOUNDARY",
-  REQUEST_API_WRITES_DISABLED: "REQUEST_API_WRITES_DISABLED",
-  RLS_POLICY_REQUIRED: "RLS_POLICY_REQUIRED",
-  RLS_WRITE_REVIEW_REQUIRED: "RLS_WRITE_REVIEW_REQUIRED",
-};
+const { getAuthContext } = require("./_shared/auth_context");
+const { 
+  listMyRequests, 
+  getMyRequest, 
+  listMyRequestLifecycleEvents, 
+  listMyDryRunResults 
+} = require("./_shared/supabase_read_client");
 
-exports.handler = async function(event) {
-  const method = String(event.httpMethod || "GET").toUpperCase();
-  if (method !== "GET" && method !== "POST") {
-    return errorResponse("Method Not Allowed", 405);
+const MVP_ENABLE_SUPABASE_REQUEST_API = process['env'].MVP_ENABLE_SUPABASE_REQUEST_API === "true";
+const MVP_ENABLE_REQUEST_API_WRITES = process['env'].MVP_ENABLE_REQUEST_API_WRITES === "true";
+
+exports.handler = async (event, context) => {
+  const method = event.httpMethod;
+
+  // 1. Check if API is enabled
+  if (!MVP_ENABLE_SUPABASE_REQUEST_API) {
+    return {
+      statusCode: 403,
+      body: JSON.stringify({ error: "SUPABASE_REQUEST_API_DISABLED" })
+    };
   }
 
-  const providerStatus = buildSupabaseProviderStatus();
-  const authContext = buildAuthContext({
-    authorizationHeader: event.headers && (event.headers.authorization || event.headers.Authorization),
-    providerStatus,
-  });
-  const boundaryMarkers = {
-    ...REQUEST_BOUNDARY_MARKERS,
-    provider_configured: Boolean(providerStatus.provider_configured),
-    request_api_enabled: Boolean(providerStatus.request_api_enabled),
-    request_api_writes_enabled: Boolean(providerStatus.request_api_writes_enabled),
-  };
+  // 2. Extract Auth Context
+  const auth = await getAuthContext(event);
 
-  if (!providerStatus.provider_configured) {
-    return jsonResponse({
-      ok: false,
-      error_code: REQUEST_BOUNDARY_MARKERS.SUPABASE_PROVIDER_NOT_CONFIGURED,
-      request_api_state: "provider_not_configured",
-      provider_status: providerStatus,
-      auth_context: authContext,
-      request_api_markers: boundaryMarkers,
-    }, 409);
+  if (!auth.auth_enabled) {
+    return {
+      statusCode: 403,
+      body: JSON.stringify({ error: "SUPABASE_AUTH_DISABLED" })
+    };
   }
 
-  if (!providerStatus.request_api_enabled) {
-    return jsonResponse({
-      ok: false,
-      error_code: REQUEST_BOUNDARY_MARKERS.REQUEST_API_DISABLED,
-      request_api_state: "disabled_by_default",
-      provider_status: providerStatus,
-      auth_context: authContext,
-      request_api_markers: boundaryMarkers,
-    }, 409);
+  if (!auth.authenticated) {
+    return {
+      statusCode: 401,
+      body: JSON.stringify({ 
+        error: "AUTHENTICATION_REQUIRED",
+        details: auth.error
+      })
+    };
   }
 
-  if (!authContext.auth_enabled) {
-    return jsonResponse({
-      ok: false,
-      error_code: REQUEST_BOUNDARY_MARKERS.AUTH_DISABLED_BY_DEFAULT,
-      request_api_state: "auth_disabled_by_default",
-      provider_status: providerStatus,
-      auth_context: authContext,
-      request_api_markers: boundaryMarkers,
-    }, 409);
-  }
-
-  if (!authContext.bearer_token_present) {
-    return jsonResponse({
-      ok: false,
-      error_code: REQUEST_BOUNDARY_MARKERS.AUTHORIZATION_REQUIRED,
-      request_api_state: "authorization_required",
-      provider_status: providerStatus,
-      auth_context: authContext,
-      request_api_markers: boundaryMarkers,
-    }, 401);
-  }
-
+  // 3. Handle GET Reads
   if (method === "GET") {
-    const readsBoundaryReady =
-      providerStatus.provider_configured &&
-      providerStatus.request_api_enabled &&
-      authContext.auth_enabled &&
-      authContext.bearer_token_present;
+    const action = event.queryStringParameters.action || "list";
+    const id = event.queryStringParameters.id;
+    const bearerToken = event.headers.authorization || event.headers.Authorization;
 
-    return jsonResponse({
-      ok: true,
-      error_code: null,
-      request_api_state: readsBoundaryReady
-        ? REQUEST_BOUNDARY_MARKERS.AUTHENTICATED_READS_ENABLED_BOUNDARY
-        : REQUEST_BOUNDARY_MARKERS.AUTHENTICATED_READ_BOUNDARY_READY,
-      provider_status: providerStatus,
-      auth_context: authContext,
-      request_api_markers: boundaryMarkers,
-      note: readsBoundaryReady
-        ? "MVP-6 keeps GET boundary-only until an explicit read adapter is approved; no Supabase network calls are executed yet."
-        : "MVP-5 keeps GET boundary-only and does not execute Supabase network calls yet.",
-    });
+    try {
+      let data;
+      switch (action) {
+        case "list":
+          data = await listMyRequests(bearerToken);
+          break;
+        case "get":
+          if (!id) throw new Error("MISSING_ID");
+          data = await getMyRequest(bearerToken, id);
+          break;
+        case "events":
+          if (!id) throw new Error("MISSING_ID");
+          data = await listMyRequestLifecycleEvents(bearerToken, id);
+          break;
+        case "dry_run_results":
+          if (!id) throw new Error("MISSING_ID");
+          data = await listMyDryRunResults(bearerToken, id);
+          break;
+        default:
+          return {
+            statusCode: 400,
+            body: JSON.stringify({ error: "INVALID_ACTION", action })
+          };
+      }
+
+      return {
+        statusCode: 200,
+        body: JSON.stringify({ 
+          status: "SUCCESS",
+          action,
+          data 
+        })
+      };
+    } catch (err) {
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ 
+          error: "READ_FAILED",
+          message: err.message 
+        })
+      };
+    }
   }
 
-  if (method === "POST" && !providerStatus.request_api_writes_enabled) {
-    return jsonResponse({
-      ok: false,
-      error_code: REQUEST_BOUNDARY_MARKERS.REQUEST_API_WRITES_DISABLED,
-      request_api_state: "writes_disabled_by_default",
-      provider_status: providerStatus,
-      auth_context: authContext,
-      request_api_markers: boundaryMarkers,
-    }, 409);
+  // 4. Block Writes
+  if (method === "POST" || method === "PUT" || method === "PATCH" || method === "DELETE") {
+    return {
+      statusCode: 403,
+      body: JSON.stringify({ 
+        error: "REQUEST_API_WRITES_DISABLED",
+        message: "Writes require separate RLS and code review."
+      })
+    };
   }
 
-  return jsonResponse({
-    ok: false,
-    error_code: REQUEST_BOUNDARY_MARKERS.RLS_WRITE_REVIEW_REQUIRED,
-    request_api_state: "rls_write_review_required",
-    provider_status: providerStatus,
-    auth_context: authContext,
-    request_api_markers: boundaryMarkers,
-    note: "MVP-6 keeps production writes disabled and requires RLS write review before any write path is opened.",
-  }, 409);
+  return {
+    statusCode: 405,
+    body: JSON.stringify({ error: "METHOD_NOT_ALLOWED" })
+  };
 };

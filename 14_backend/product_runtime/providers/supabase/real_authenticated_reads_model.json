@@ -1,0 +1,33 @@
+{
+  "model_id": "supabase-real-authenticated-reads-model",
+  "model_version": "1.0",
+  "project_ref": "mobvzrkcsfbumgbwvkcp",
+  "supabase_url": "https://mobvzrkcsfbumgbwvkcp.supabase.co",
+  "read_mode": "real_supabase_postgrest_get",
+  "auth_validation_mode": "supabase_auth_user_endpoint",
+  "uses_anon_key": true,
+  "uses_user_bearer_token": true,
+  "uses_service_role": false,
+  "writes_enabled": false,
+  "post_enabled": false,
+  "rls_enforced": true,
+  "supported_reads": [
+    "list_my_requests",
+    "get_my_request",
+    "list_my_request_lifecycle_events",
+    "list_my_dry_run_results"
+  ],
+  "blocked_methods": [
+    "create_request",
+    "update_request",
+    "delete_request",
+    "approve_request",
+    "execute_request"
+  ],
+  "current_recommendation": [
+    "REAL_AUTHENTICATED_READS_IMPLEMENTED",
+    "VERIFY_WITH_REAL_USER_TOKEN",
+    "WRITES_DISABLED_UNTIL_SEPARATE_REVIEW",
+    "NOT_READY_FOR_REAL_AUTOMATION"
+  ]
+}
