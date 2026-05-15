@@ -1233,3 +1233,29 @@ pre.code-block {
   white-space: pre-wrap;
   word-break: break-word;
 }
+.plus2e-dry-run-engine {
+  display: grid;
+  gap: 1.5rem;
+  min-width: 0;
+}
+
+.plus2e-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+#plus2e-request-schema-preview,
+#plus2e-plan-schema-preview,
+#plus2e-result-schema-preview {
+  max-height: 280px;
+  overflow: auto;
+}
+
+#plus2e-validation-result {
+  max-height: 200px;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}

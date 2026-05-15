@@ -424,6 +424,7 @@ def _build_landing_screen(snapshot):
         ("Original +2B Request Storage", "plus2b-persistent-request-storage"),
         ("Original +2C Audit Log", "plus2c-immutable-audit-log"),
         ("Original +2D Approval Gate", "plus2d-approval-gate-storage"),
+        ("Original +2E Dry-Run Engine", "plus2e-server-side-dry-run-engine"),
         ("Artifacts", "artifact-packages"),
         ("Source Info", "source-transparency"),
         ("Audit / Session", "session-audit"),
@@ -3102,6 +3103,172 @@ def _build_plus2d_approval_gate_storage_layer():
         panel_id="plus2d-approval-gate-storage"
     )
 
+def _build_plus2e_server_side_dry_run_engine_layer():
+    body = """
+<div class="plus2e-dry-run-engine" data-plus2e-dry-run-engine="true">
+  <div class="callout plus2e-summary-callout" style="border-color: rgba(99,102,241,0.28); background: rgba(99,102,241,0.06);">
+    <strong style="color: var(--info);">SERVER-SIDE DRY-RUN ENGINE FOUNDATION</strong>
+    <p class="muted" style="margin-top: 0.15rem;">DRY-RUN REQUEST CONTRACT — DRY-RUN PLAN CONTRACT — DRY-RUN RESULT CONTRACT — DRY-RUN STATUS — DRY-RUN ADAPTER BOUNDARY</p>
+    <p class="muted" style="margin-top: 0.25rem;">DRY-RUN EXECUTION NOT CONFIGURED — DRY-RUN STORAGE NOT CONFIGURED — NO COMMAND EXECUTION — NO SUBPROCESS — NO EXTERNAL SYSTEM WRITES</p>
+    <p class="muted" style="margin-top: 0.25rem;">NOT_READY_FOR_DRY_RUN_EXECUTION — NOT_READY_FOR_REAL_AUTOMATION</p>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card plus2e-dry-run-status" id="plus2e-dry-run-status-panel">
+      <div class="card-head"><h3 class="card-title">Dry-Run Engine Status Panel</h3><span class="badge warning">STATUS</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus2e-status-table">
+          <caption>Dry-run engine status</caption>
+          <thead><tr><th scope="col">Setting</th><th scope="col">Value</th></tr></thead>
+          <tbody id="plus2e-status-body"><tr><td colspan="2" class="empty">No status loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="card plus2e-dry-run-request-schema" id="plus2e-dry-run-request-schema-panel">
+      <div class="card-head"><h3 class="card-title">Dry-Run Request Schema Panel</h3><span class="badge info">SCHEMA</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <pre class="code-block" id="plus2e-request-schema-preview" style="font-size:0.8rem;"></pre>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="plus2e-copy-request-schema">Copy dry-run request schema</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card plus2e-dry-run-plan-schema" id="plus2e-dry-run-plan-schema-panel">
+      <div class="card-head"><h3 class="card-title">Dry-Run Plan Schema Panel</h3><span class="badge info">SCHEMA</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <pre class="code-block" id="plus2e-plan-schema-preview" style="font-size:0.8rem;"></pre>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="plus2e-copy-plan-schema">Copy dry-run plan schema</button>
+      </div>
+    </article>
+
+    <article class="card plus2e-dry-run-result-schema" id="plus2e-dry-run-result-schema-panel">
+      <div class="card-head"><h3 class="card-title">Dry-Run Result Schema Panel</h3><span class="badge info">SCHEMA</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <pre class="code-block" id="plus2e-result-schema-preview" style="font-size:0.8rem;"></pre>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="plus2e-copy-result-schema">Copy dry-run result schema</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card plus2e-impact-boundary" id="plus2e-impact-boundary-panel">
+      <div class="card-head"><h3 class="card-title">Dry-Run Impact Boundary Panel</h3><span class="badge info">IMPACT</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus2e-impact-table">
+          <caption>Impact boundaries</caption>
+          <thead><tr><th scope="col">Impact Type</th><th scope="col">Categories</th></tr></thead>
+          <tbody id="plus2e-impact-body"><tr><td colspan="2" class="empty">No impact model loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="plus2e-copy-impact">Copy dry-run impact boundary</button>
+      </div>
+    </article>
+
+    <article class="card plus2e-adapter-boundary" id="plus2e-adapter-boundary-panel">
+      <div class="card-head"><h3 class="card-title">Dry-Run Adapter Boundary Panel</h3><span class="badge locked">BOUNDARY</span></div>
+      <p class="card-body">The dry-run adapter contract defines the required methods for backend dry-run management.</p>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <ul id="plus2e-adapter-methods" style="margin:0;padding-left:1.5rem;font-family:var(--mono);">
+          <li>No methods loaded yet.</li>
+        </ul>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="plus2e-copy-adapter">Copy dry-run adapter boundary</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card plus2e-validation-preview" id="plus2e-validation-preview-panel">
+      <div class="card-head"><h3 class="card-title">Dry-Run Validation Preview Panel</h3><span class="badge warning">PREVIEW</span></div>
+      <p class="card-body">Simulated server-side validation of a dry-run request payload.</p>
+      <div id="plus2e-validation-result" style="margin-top:1rem;padding:0.75rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg);">
+        <p class="muted">Select an action type to validate.</p>
+      </div>
+      <div style="margin-top:1rem;">
+        <label class="control-group">
+          <span class="muted" style="display:block;margin-bottom:0.35rem;">Action Type</span>
+          <select id="plus2e-test-action" class="table-filter" style="width:100%;font-family:var(--mono);">
+            <option value="">Select action...</option>
+            <option value="view_status">view_status</option>
+            <option value="validate_request">validate_request</option>
+            <option value="generate_plan">generate_plan</option>
+            <option value="execute_command">execute_command (forbidden)</option>
+            <option value="mutate_backend">mutate_backend (forbidden)</option>
+            <option value="deploy_site">deploy_site (forbidden)</option>
+          </select>
+        </label>
+      </div>
+    </article>
+
+    <article class="card plus2e-disabled-execution-boundary" id="plus2e-disabled-execution-boundary-panel">
+      <div class="card-head"><h3 class="card-title">Disabled Dry-Run Execution Boundary Panel</h3><span class="badge fail">LOCKED</span></div>
+      <p class="card-body">Dry-run execution is currently disabled at the boundary layer.</p>
+      <table class="data-table" style="margin-top:0.75rem;">
+        <caption>Disabled execution methods</caption>
+        <thead><tr><th scope="col">Operation</th><th scope="col">Result</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">run_dry_run</th><td><span class="badge locked">DRY_RUN_EXECUTION_NOT_CONFIGURED</span></td></tr>
+          <tr><th scope="row">get_dry_run_result</th><td><span class="badge locked">DRY_RUN_STORAGE_NOT_CONFIGURED</span></td></tr>
+          <tr><th scope="row">package_dry_run_evidence</th><td><span class="badge locked">DRY_RUN_STORAGE_NOT_CONFIGURED</span></td></tr>
+        </tbody>
+      </table>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="plus2e-copy-disabled">Copy disabled dry-run execution boundary report</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card plus2e-evidence-package-contract" id="plus2e-evidence-package-contract-panel">
+      <div class="card-head"><h3 class="card-title">Dry-Run Evidence Package Contract Panel</h3><span class="badge info">CONTRACT</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus2e-evidence-table">
+          <caption>Evidence package contract</caption>
+          <thead><tr><th scope="col">Property</th><th scope="col">Value</th></tr></thead>
+          <tbody id="plus2e-evidence-body"><tr><td colspan="2" class="empty">No contract loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="plus2e-copy-evidence">Copy dry-run evidence package contract</button>
+      </div>
+    </article>
+
+    <article class="card plus2e-future-dry-run-dependencies" id="plus2e-future-dry-run-dependencies-panel">
+      <div class="card-head"><h3 class="card-title">Future Dry-Run Dependency Panel</h3><span class="badge warning">MISSING</span></div>
+      <p class="card-body">Real dry-run execution cannot be enabled until the following prerequisites are met.</p>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus2e-dependencies-table">
+          <caption>Missing dry-run dependencies</caption>
+          <thead><tr><th scope="col">Dependency</th><th scope="col">Status</th></tr></thead>
+          <tbody id="plus2e-dependencies-body"><tr><td colspan="2" class="empty">No dependencies loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="plus2e-copy-dependencies">Copy future dry-run dependency checklist</button>
+        <button type="button" class="copy-button small" id="plus2e-copy-validation">Copy +2E validation checklist</button>
+      </div>
+    </article>
+  </div>
+</div>
+"""
+    return _details(
+        "Original +2E — Server-Side Dry-Run Engine Foundation",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="plus2e-server-side-dry-run-engine"
+    )
+
 def render_html(snapshot, compact_view=False, print_mode=False):
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
     header = f"""
@@ -3137,6 +3304,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_plus2b_persistent_request_storage_layer(),
         _build_plus2c_immutable_audit_log_layer(),
         _build_plus2d_approval_gate_storage_layer(),
+        _build_plus2e_server_side_dry_run_engine_layer(),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),

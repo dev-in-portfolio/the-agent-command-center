@@ -1,0 +1,20 @@
+{
+  "dry_run_foundation_status": "READY_FOR_FOUNDATION_REVIEW_ONLY",
+  "dry_run_execution_enabled": false,
+  "durable_dry_run_storage_configured": false,
+  "command_execution_enabled": false,
+  "external_api_simulation_enabled": false,
+  "evidence_persistence_verified": false,
+  "request_storage_dependency_ready": true,
+  "audit_dependency_ready": true,
+  "approval_dependency_ready": true,
+  "current_mode": "DRY_RUN_FOUNDATION_ONLY",
+  "current_recommendation": [
+    "DRY_RUN_CONTRACT_READY",
+    "DRY_RUN_EXECUTION_NOT_CONFIGURED",
+    "DURABLE_DRY_RUN_STORAGE_NOT_CONFIGURED",
+    "NOT_READY_FOR_DRY_RUN_EXECUTION",
+    "NOT_READY_FOR_REAL_AUTOMATION",
+    "PLAN_PLUS2F_AFTER_DRY_RUN_EXECUTION_BOUNDARY_DECISION"
+  ]
+}

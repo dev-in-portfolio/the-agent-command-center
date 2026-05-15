@@ -59,7 +59,8 @@ def main():
         "role-matrix.js",
         "request-storage-status.js",
         "audit-log-status.js",
-        "approval-gate-status.js"
+        "approval-gate-status.js",
+        "dry-run-status.js"
     ]
     actual_funcs = [f.name for f in func_dir.glob("*.js")]
     if sorted(actual_funcs) != sorted(allowed_funcs):
