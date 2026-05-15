@@ -38,6 +38,7 @@ def check():
             continue
         if line.startswith("netlify/functions/"):
             allowed_functions = [
+                "netlify/functions/audit-log-status.js",
                 "netlify/functions/auth-status.js",
                 "netlify/functions/role-matrix.js",
                 "netlify/functions/request-storage-status.js",
@@ -58,6 +59,7 @@ def check():
             raise SystemExit(f"FAIL: Runtime changes not allowed: {line}")
         if line.startswith("14_backend/"):
             allowed_backend = [
+                "14_backend/audit_log/",
                 "14_backend/auth/",
                 "14_backend/request_storage/"
             ]
