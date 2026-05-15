@@ -1090,3 +1090,39 @@ pre.code-block {
   .data-table th { background: #eee !important; color: #000 !important; }
   .badge { border: 1px solid #000 !important; color: #000 !important; background: #fff !important; }
 }
+.plus2a-auth-foundation {
+  display: grid;
+  gap: 1.5rem;
+  min-width: 0;
+}
+
+.plus2a-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+.plus2a-auth-status,
+.plus2a-demo-identities,
+.plus2a-role-matrix,
+.plus2a-permission-check,
+.plus2a-forbidden-boundary,
+.plus2a-future-auth-dependencies {
+  min-width: 0;
+}
+
+.plus2a-auth-status .table-wrap,
+.plus2a-demo-identities .table-wrap,
+.plus2a-role-matrix .table-wrap,
+.plus2a-forbidden-boundary .table-wrap,
+.plus2a-future-auth-dependencies .table-wrap {
+  min-width: 0;
+}
+
+#plus2a-check-result {
+  max-height: 280px;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}

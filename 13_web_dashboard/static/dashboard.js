@@ -5360,3 +5360,262 @@
     initPhase5d();
   }
 })();
+
+(function () {
+  var plus2aState = {
+    model: null,
+  };
+
+  function p2a(id) {
+    return document.getElementById(id);
+  }
+
+  function readDashboardData() {
+    var node = p2a("dashboard-data");
+    if (!node) return {};
+    try {
+      return JSON.parse(node.textContent || "{}");
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function getModel() {
+    var dashboardData = readDashboardData();
+    var model = plus2aState.model || dashboardData.original_plus2a_auth_foundation_model || null;
+    plus2aState.model = model;
+    return model;
+  }
+
+  function escapeHtml(value) {
+    return String(value == null ? "" : value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function badgeClass(status) {
+    var value = String(status || "").toLowerCase();
+    if (value === "true" || value === "yes" || value === "ready_for_demo_only" || value === "read_only_auth_foundation" || value === "ready_for_auth_foundation_review_only") {
+      return "pass";
+    }
+    if (value === "false" || value === "no" || value === "missing" || value === "not_ready_for_real_automation") {
+      return "locked";
+    }
+    return "info";
+  }
+
+  function buildRows(items, renderer, emptyText) {
+    if (!items || !items.length) return emptyText;
+    return items.map(function (item) {
+      return "<tr>" + renderer(item) + "</tr>";
+    }).join("");
+  }
+
+  function boolValue(value) {
+    return value ? "true" : "false";
+  }
+
+  function buildStatusRows(model) {
+    if (!model || !model.auth_status_model) return '<tr><td colspan="2" class="empty">No status loaded yet.</td></tr>';
+    var status = model.auth_status_model;
+    var rows = [
+      ["Auth Foundation Status", status.auth_foundation_status],
+      ["Live Auth Enabled", boolValue(status.live_auth_enabled)],
+      ["External Provider Enabled", boolValue(status.external_provider_enabled)],
+      ["Session Persistence Enabled", boolValue(status.session_persistence_enabled)],
+      ["Cookie Auth Enabled", boolValue(status.cookie_auth_enabled)],
+      ["Token Auth Enabled", boolValue(status.token_auth_enabled)],
+      ["Real User Database Enabled", boolValue(status.real_user_database_enabled)],
+      ["Current Mode", status.current_mode],
+    ];
+    return rows.map(function(row) {
+       return "<tr><th scope=\"row\">" + escapeHtml(row[0]) + "</th><td><span class=\"badge " + badgeClass(row[1]) + "\">" + escapeHtml(row[1]) + "</span></td></tr>";
+    }).join("");
+  }
+
+  function buildIdentityRows(model) {
+    return buildRows(model && model.demo_identity_model, function(item) {
+      return [
+        '<th scope="row"><code>' + escapeHtml(item.user_id) + '</code></th>',
+        '<td>' + escapeHtml(item.display_name) + '</td>',
+        '<td>' + escapeHtml(item.role) + '</td>',
+        '<td><span class="badge ' + badgeClass(item.auth_mode === "DEMO_DETERMINISTIC" ? "pass" : "info") + '">' + escapeHtml(item.auth_mode) + '</span></td>',
+      ].join("");
+    }, '<tr><td colspan="4" class="empty">No demo identities loaded yet.</td></tr>');
+  }
+
+  function buildRoleRows(model) {
+    if (!model || !model.role_model) return '<tr><td colspan="3" class="empty">No roles loaded yet.</td></tr>';
+    var roles = model.role_model;
+    var rows = [];
+    for (var key in roles) {
+      if (roles.hasOwnProperty(key)) {
+        var role = roles[key];
+        rows.push([
+          '<th scope="row"><code>' + escapeHtml(key) + '</code></th>',
+          '<td>' + escapeHtml((role.permissions || []).join(", ")) + '</td>',
+          '<td><span class="badge ' + badgeClass(role.future_auth_required) + '">' + escapeHtml(boolValue(role.future_auth_required)) + '</span></td>',
+        ].join(""));
+      }
+    }
+    if (!rows.length) return '<tr><td colspan="3" class="empty">No roles loaded yet.</td></tr>';
+    return "<tr>" + rows.join("</tr><tr>") + "</tr>";
+  }
+
+  function buildForbiddenRows(model) {
+    var forbidden = model && model.forbidden_permission_boundary ? model.forbidden_permission_boundary : [];
+    if (!forbidden.length) return '<li>No boundaries loaded yet.</li>';
+    return forbidden.map(function(item) {
+      return '<li>' + escapeHtml(item) + '</li>';
+    }).join("");
+  }
+
+  function buildDependencyRows(model) {
+    return buildRows(model && model.future_auth_dependencies, function(item) {
+      return [
+        '<th scope="row">' + escapeHtml(item.item) + '</th>',
+        '<td><span class="badge ' + badgeClass(item.status) + '">' + escapeHtml(item.status) + '</span></td>',
+      ].join("");
+    }, '<tr><td colspan="2" class="empty">No dependencies loaded yet.</td></tr>');
+  }
+
+  function updateIdentitySelect(model) {
+    var select = p2a("plus2a-identity-select");
+    if (!select) return;
+    var identities = model && model.demo_identity_model ? model.demo_identity_model : [];
+    if (!identities.length) {
+      select.innerHTML = '<option value="">No identities loaded yet.</option>';
+      return;
+    }
+    select.innerHTML = identities.map(function(item) {
+       return '<option value="' + escapeHtml(item.user_id) + '">' + escapeHtml(item.display_name + " (" + item.role + ")") + '</option>';
+    }).join("");
+  }
+  
+  function checkPermissionLocal(model, userId, permission) {
+    if (!model) return { allowed: false, reason: "Model not loaded.", current_mode: "READ_ONLY_AUTH_FOUNDATION" };
+    var forbidden = model.forbidden_permission_boundary || [];
+    if (forbidden.indexOf(permission) !== -1) {
+       return { allowed: false, reason: "Permission is globally forbidden.", current_mode: "READ_ONLY_AUTH_FOUNDATION" };
+    }
+    var identities = model.demo_identity_model || [];
+    var identity = null;
+    for (var i = 0; i < identities.length; i++) {
+       if (identities[i].user_id === userId) {
+          identity = identities[i];
+          break;
+       }
+    }
+    if (!identity) return { allowed: false, reason: "Identity not found.", current_mode: "READ_ONLY_AUTH_FOUNDATION" };
+    var roles = model.role_model || {};
+    var role = roles[identity.role];
+    if (!role) return { allowed: false, reason: "Role not found.", current_mode: "READ_ONLY_AUTH_FOUNDATION" };
+    var permissions = role.permissions || [];
+    if (permissions.indexOf(permission) !== -1) {
+       return { allowed: true, reason: "Permission granted.", current_mode: "READ_ONLY_AUTH_FOUNDATION" };
+    }
+    return { allowed: false, reason: "Permission not found for role.", current_mode: "READ_ONLY_AUTH_FOUNDATION" };
+  }
+
+  function updatePermissionCheck(model) {
+    var resultDiv = p2a("plus2a-check-result");
+    var identitySelect = p2a("plus2a-identity-select");
+    var permissionSelect = p2a("plus2a-permission-select");
+    if (!resultDiv || !identitySelect || !permissionSelect || !model) return;
+    
+    var userId = identitySelect.value;
+    var permission = permissionSelect.value.split(" ")[0]; // remove " (forbidden)" if present
+    
+    if (!userId || !permission) {
+       resultDiv.innerHTML = '<p class="muted">Select an identity and permission to preview.</p>';
+       return;
+    }
+    
+    var result = checkPermissionLocal(model, userId, permission);
+    var badge = result.allowed ? '<span class="badge pass">ALLOWED</span>' : '<span class="badge locked">DENIED</span>';
+    
+    resultDiv.innerHTML = [
+       '<p style="margin-bottom:0.5rem;"><strong>Result:</strong> ' + badge + '</p>',
+       '<p style="margin-bottom:0.5rem;" class="muted"><strong>Reason:</strong> ' + escapeHtml(result.reason) + '</p>',
+       '<p class="muted"><strong>Mode:</strong> <code>' + escapeHtml(result.current_mode) + '</code></p>'
+    ].join("");
+  }
+
+  function updatePlus2AUI() {
+    var model = getModel();
+    var statusBody = p2a("plus2a-status-body");
+    var identitiesBody = p2a("plus2a-identities-body");
+    var roleBody = p2a("plus2a-role-body");
+    var forbiddenList = p2a("plus2a-forbidden-list");
+    var dependenciesBody = p2a("plus2a-dependencies-body");
+    
+    if (statusBody) statusBody.innerHTML = buildStatusRows(model);
+    if (identitiesBody) identitiesBody.innerHTML = buildIdentityRows(model);
+    if (roleBody) roleBody.innerHTML = buildRoleRows(model);
+    if (forbiddenList) forbiddenList.innerHTML = buildForbiddenRows(model);
+    if (dependenciesBody) dependenciesBody.innerHTML = buildDependencyRows(model);
+    
+    updateIdentitySelect(model);
+    updatePermissionCheck(model);
+  }
+
+  function copyRenderedText(text, emptyMessage, successMessage) {
+    var status = p2a("copy-status");
+    if (!text) {
+      if (status) status.textContent = emptyMessage;
+      return;
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () {
+        if (status) status.textContent = successMessage;
+      }).catch(function () {});
+      return;
+    }
+    var field = document.createElement("textarea");
+    field.value = text;
+    field.style.position = "fixed";
+    field.style.left = "-9999px";
+    document.body.appendChild(field);
+    field.select();
+    document.execCommand("copy");
+    document.body.removeChild(field);
+    if (status) status.textContent = successMessage;
+  }
+
+  function bindCopyButton(buttonId, getter, emptyMessage, successMessage) {
+    var button = p2a(buttonId);
+    if (!button) return;
+    button.addEventListener("click", function () {
+      var model = getModel();
+      var text = getter(model);
+      copyRenderedText(text, emptyMessage, successMessage);
+    });
+  }
+
+  function initPlus2A() {
+    var shell = document.querySelector("[data-plus2a-auth-foundation]");
+    if (!shell) return;
+
+    bindCopyButton("plus2a-copy-status", function(m) { return JSON.stringify(m && m.auth_status_model, null, 2); }, "No status loaded.", "Auth foundation status copied.");
+    bindCopyButton("plus2a-copy-roles", function(m) { return JSON.stringify(m && m.role_model, null, 2); }, "No roles loaded.", "Role matrix copied.");
+    bindCopyButton("plus2a-copy-boundary", function(m) { return JSON.stringify(m && m.forbidden_permission_boundary, null, 2); }, "No boundary loaded.", "Forbidden boundary copied.");
+    bindCopyButton("plus2a-copy-dependencies", function(m) { return JSON.stringify(m && m.future_auth_dependencies, null, 2); }, "No dependencies loaded.", "Dependencies copied.");
+    bindCopyButton("plus2a-copy-validation", function(m) { return "Requires: validate_original_plus2a_backend_auth_foundation.py\nRequires: validate_original_plus2a_backend_auth_foundation_e2e.py"; }, "Error", "Validation checklist copied.");
+
+    var identitySelect = p2a("plus2a-identity-select");
+    var permissionSelect = p2a("plus2a-permission-select");
+    if (identitySelect) identitySelect.addEventListener("change", function() { updatePermissionCheck(getModel()); });
+    if (permissionSelect) permissionSelect.addEventListener("change", function() { updatePermissionCheck(getModel()); });
+
+    updatePlus2AUI();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initPlus2A);
+  } else {
+    initPlus2A();
+  }
+})();

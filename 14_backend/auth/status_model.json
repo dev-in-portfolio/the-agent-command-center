@@ -1,0 +1,15 @@
+{
+  "auth_foundation_status": "READY_FOR_DEMO_ONLY",
+  "live_auth_enabled": false,
+  "external_provider_enabled": false,
+  "session_persistence_enabled": false,
+  "cookie_auth_enabled": false,
+  "token_auth_enabled": false,
+  "secrets_required_now": false,
+  "real_user_database_enabled": false,
+  "current_mode": "READ_ONLY_AUTH_FOUNDATION",
+  "current_recommendation": [
+    "READY_FOR_AUTH_FOUNDATION_REVIEW_ONLY",
+    "NOT_READY_FOR_REAL_AUTOMATION"
+  ]
+}

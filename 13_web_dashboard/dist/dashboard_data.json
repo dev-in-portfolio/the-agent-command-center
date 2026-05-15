@@ -1,6 +1,6 @@
 {
-  "dashboard_id": "PH3-20260515-000050",
-  "created_at_utc": "2026-05-15T00:00:50Z",
+  "dashboard_id": "PH3-20260515-004715",
+  "created_at_utc": "2026-05-15T00:47:15Z",
   "phase": "Read-Only Operations Dashboard",
   "repo": "dev-in-portfolio/the-agent-command-center",
   "source_lineage": "dev-in-portfolio/agent-command-center-3",
@@ -1007,7 +1007,7 @@
     "source_exists": true,
     "source_type": "generated_static_snapshot",
     "source_confidence": "generated_static_snapshot",
-    "generated_at_utc": "2026-05-15T00:00:53Z",
+    "generated_at_utc": "2026-05-15T00:47:18Z",
     "freshness_status": "generated_static_snapshot",
     "snapshot_age_seconds": 0,
     "notes": [
@@ -1210,119 +1210,119 @@
     "allowed_label_findings": [
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 485,
+        "line": 486,
         "pattern": "NO DEPLOY",
         "context": "<span>NO DEPLOY CONTROLS</span>",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 486,
+        "line": 487,
         "pattern": "NO MERGE",
         "context": "<span>NO MERGE CONTROLS</span>",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 487,
+        "line": 488,
         "pattern": "NO SECRET ACCESS",
         "context": "<span>NO SECRET ACCESS</span>",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 802,
+        "line": 803,
         "pattern": "NO DEPLOY",
         "context": "TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO DEPLOY / MERGE / ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 925,
+        "line": 926,
         "pattern": "NO DEPLOY",
         "context": "GENERATED LOCALLY \u2014 COPY ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO DEPLOY / MERGE / PU",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1023,
+        "line": 1024,
         "pattern": "NO DEPLOY",
         "context": "DECISION LEDGER PREVIEW \u2014 TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO EXECUTION \u2014 NO MUTAT",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1205,
+        "line": 1206,
         "pattern": "NO DEPLOY",
         "context": "GENERATED LOCALLY \u2014 COPY/PASTE HANDOFF ONLY \u2014 TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1379,
+        "line": 1380,
         "pattern": "NO DEPLOY",
         "context": "END-TO-END OPERATOR FLOW \u2014 SCENARIO PREVIEW ONLY \u2014 GENERATED LOCALLY \u2014 TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1514,
+        "line": 1515,
         "pattern": "NO DEPLOY",
         "context": "READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO BACKEND WRITES \u2014 NO DEPLOY / MERGE / PUSH / PR CON",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1731,
+        "line": 1732,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">CONTRACTS ONLY \u2014 COPY/PASTE ONLY \u2014 READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 N",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1846,
+        "line": 1847,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">COPY/PASTE ONLY \u2014 READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1963,
+        "line": 1964,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO BACK",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2144,
+        "line": 2145,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO BACK",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2383,
+        "line": 2384,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2383,
+        "line": 2384,
         "pattern": "NO MERGE",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2383,
+        "line": 2384,
         "pattern": "NO PUSH",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2383,
+        "line": 2384,
         "pattern": "NO SECRET ACCESS",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
@@ -4723,5 +4723,313 @@
         "codex_prompt": "STRICT EXECUTION MODE.\nMAX-PROMPT MODE.\nCODEX-CAPABLE WORK UNIT.\n\nTASK:\nImplement +2J - Production Hardening & Monitoring in one large meaningful work unit.\n\nPROJECT:\nThe Agent Command Center\n\nSOURCE BRANCH:\ninterface/original-plus1e-backend-implementation-gate\n\nTARGET FUTURE BRANCH:\ninterface/original-plus2j-production-hardening-monitoring\n\nPURPOSE:\nFinalize monitoring, resilience, and release hardening after every prior backend ticket exists.\n\nAUTHORIZED FILES:\n- 14_backend/monitoring/**\n- scripts/validate_original_plus2j_production_hardening_monitoring.py\n- scripts/validate_original_plus2j_production_hardening_monitoring_e2e.py\n- 09_exports/original_plus2/\n\nFORBIDDEN FILES:\n- 13_web_dashboard/**\n- netlify/functions/**\n- 11_interface/**\n- 12_tui/**\n- 10_runtime/**\n- 09_exports/interface_phase_1/**\n- 09_exports/interface_phase_2/**\n- 09_exports/interface_phase_3/**\n- 09_exports/interface_phase_4/**\n- 09_exports/original_plus1/**\n\nTEST REQUIREMENTS:\n- hardening validation\n- e2e contract validation\n- safety scan\n- diff scope check\n\nVALIDATOR REQUIREMENTS:\n- scripts/validate_original_plus2j_production_hardening_monitoring.py\n- scripts/validate_original_plus2j_production_hardening_monitoring_e2e.py\n\nREPORT REQUIREMENTS:\n- 09_exports/original_plus2/original_plus2j_production_hardening_monitoring_report.md\n- 09_exports/original_plus2/original_plus2j_production_hardening_monitoring_design_report.md\n- 09_exports/original_plus2/original_plus2j_production_hardening_monitoring_safety_report.md\n- 09_exports/original_plus2/original_plus2j_production_hardening_monitoring_dependency_report.md\n- 09_exports/original_plus2/original_plus2j_production_hardening_monitoring_validator_report.md\n- 09_exports/original_plus2/original_plus2j_production_hardening_monitoring_acceptance_report.md\n\nSAFETY BOUNDARY:\nNo live automation. No execution. No mutation. No backend writes. No deploy / merge / push / PR controls.\n\nNO-GO CONDITIONS:\n- hardening before prior tickets exist\n- monitoring without gates\n- live automation shortcut\n\nROLLBACK REQUIREMENTS:\n- revert if monitoring is added before gates\n- keep release hardening copy-only until future implementation\n\nACCEPTANCE CRITERIA:\n- monitoring and release hardening are explicit\n- no live automation is enabled\n- all prior tickets remain prerequisites\n\nFINAL RESPONSE:\nReport only.\nDo not enable real automation.\nDo not perform any action outside the files listed above."
       }
     }
+  },
+  "original_plus2a_auth_foundation_model": {
+    "auth_status_model": {
+      "auth_foundation_status": "READY_FOR_DEMO_ONLY",
+      "live_auth_enabled": false,
+      "external_provider_enabled": false,
+      "session_persistence_enabled": false,
+      "cookie_auth_enabled": false,
+      "token_auth_enabled": false,
+      "secrets_required_now": false,
+      "real_user_database_enabled": false,
+      "current_mode": "READ_ONLY_AUTH_FOUNDATION",
+      "current_recommendation": [
+        "READY_FOR_AUTH_FOUNDATION_REVIEW_ONLY",
+        "NOT_READY_FOR_REAL_AUTOMATION"
+      ]
+    },
+    "demo_identity_model": [
+      {
+        "user_id": "demo_viewer",
+        "display_name": "Demo Viewer",
+        "role": "viewer",
+        "auth_mode": "DEMO_DETERMINISTIC",
+        "real_auth_provider": "none",
+        "can_execute_now": false,
+        "can_mutate_now": false
+      },
+      {
+        "user_id": "demo_operator",
+        "display_name": "Demo Operator",
+        "role": "operator",
+        "auth_mode": "DEMO_DETERMINISTIC",
+        "real_auth_provider": "none",
+        "can_execute_now": false,
+        "can_mutate_now": false
+      },
+      {
+        "user_id": "demo_reviewer",
+        "display_name": "Demo Reviewer",
+        "role": "reviewer",
+        "auth_mode": "DEMO_DETERMINISTIC",
+        "real_auth_provider": "none",
+        "can_execute_now": false,
+        "can_mutate_now": false
+      },
+      {
+        "user_id": "demo_approver",
+        "display_name": "Demo Approver",
+        "role": "approver",
+        "auth_mode": "DEMO_DETERMINISTIC",
+        "real_auth_provider": "none",
+        "can_execute_now": false,
+        "can_mutate_now": false
+      },
+      {
+        "user_id": "demo_admin",
+        "display_name": "Demo Admin",
+        "role": "automation_admin",
+        "auth_mode": "DEMO_DETERMINISTIC",
+        "real_auth_provider": "none",
+        "can_execute_now": false,
+        "can_mutate_now": false
+      }
+    ],
+    "role_model": {
+      "viewer": {
+        "description": "Read-only access to status and non-sensitive dashboards.",
+        "permissions": [
+          "view_status",
+          "view_dashboard",
+          "view_readiness",
+          "view_auth_status",
+          "view_role_matrix"
+        ],
+        "can_execute_now": false,
+        "can_mutate_now": false,
+        "future_auth_required": true
+      },
+      "operator": {
+        "description": "Can draft and build operational requests, but not execute them.",
+        "permissions": [
+          "view_status",
+          "view_dashboard",
+          "view_readiness",
+          "view_auth_status",
+          "view_role_matrix",
+          "draft_request",
+          "build_packet"
+        ],
+        "can_execute_now": false,
+        "can_mutate_now": false,
+        "future_auth_required": true
+      },
+      "reviewer": {
+        "description": "Can review packets and compose handoffs.",
+        "permissions": [
+          "view_status",
+          "view_dashboard",
+          "view_readiness",
+          "view_auth_status",
+          "view_role_matrix",
+          "review_packet",
+          "compose_handoff"
+        ],
+        "can_execute_now": false,
+        "can_mutate_now": false,
+        "future_auth_required": true
+      },
+      "approver": {
+        "description": "Can simulate runbooks and approve planning.",
+        "permissions": [
+          "view_status",
+          "view_dashboard",
+          "view_readiness",
+          "view_auth_status",
+          "view_role_matrix",
+          "generate_runbook",
+          "approve_planning_only"
+        ],
+        "can_execute_now": false,
+        "can_mutate_now": false,
+        "future_auth_required": true
+      },
+      "automation_admin": {
+        "description": "Full access to automation lifecycle features.",
+        "permissions": [
+          "view_status",
+          "view_dashboard",
+          "view_readiness",
+          "view_auth_status",
+          "view_role_matrix",
+          "draft_request",
+          "build_packet",
+          "review_packet",
+          "compose_handoff",
+          "generate_runbook",
+          "approve_planning_only"
+        ],
+        "can_execute_now": false,
+        "can_mutate_now": false,
+        "future_auth_required": true
+      },
+      "break_glass_admin": {
+        "description": "Emergency access overriding standard automation limits.",
+        "permissions": [
+          "view_status",
+          "view_dashboard",
+          "view_readiness",
+          "view_auth_status",
+          "view_role_matrix",
+          "draft_request",
+          "build_packet",
+          "review_packet",
+          "compose_handoff",
+          "generate_runbook",
+          "approve_planning_only"
+        ],
+        "can_execute_now": false,
+        "can_mutate_now": false,
+        "future_auth_required": true
+      }
+    },
+    "permission_matrix": {
+      "viewer": {
+        "description": "Read-only access to status and non-sensitive dashboards.",
+        "permissions": [
+          "view_status",
+          "view_dashboard",
+          "view_readiness",
+          "view_auth_status",
+          "view_role_matrix"
+        ],
+        "can_execute_now": false,
+        "can_mutate_now": false,
+        "future_auth_required": true
+      },
+      "operator": {
+        "description": "Can draft and build operational requests, but not execute them.",
+        "permissions": [
+          "view_status",
+          "view_dashboard",
+          "view_readiness",
+          "view_auth_status",
+          "view_role_matrix",
+          "draft_request",
+          "build_packet"
+        ],
+        "can_execute_now": false,
+        "can_mutate_now": false,
+        "future_auth_required": true
+      },
+      "reviewer": {
+        "description": "Can review packets and compose handoffs.",
+        "permissions": [
+          "view_status",
+          "view_dashboard",
+          "view_readiness",
+          "view_auth_status",
+          "view_role_matrix",
+          "review_packet",
+          "compose_handoff"
+        ],
+        "can_execute_now": false,
+        "can_mutate_now": false,
+        "future_auth_required": true
+      },
+      "approver": {
+        "description": "Can simulate runbooks and approve planning.",
+        "permissions": [
+          "view_status",
+          "view_dashboard",
+          "view_readiness",
+          "view_auth_status",
+          "view_role_matrix",
+          "generate_runbook",
+          "approve_planning_only"
+        ],
+        "can_execute_now": false,
+        "can_mutate_now": false,
+        "future_auth_required": true
+      },
+      "automation_admin": {
+        "description": "Full access to automation lifecycle features.",
+        "permissions": [
+          "view_status",
+          "view_dashboard",
+          "view_readiness",
+          "view_auth_status",
+          "view_role_matrix",
+          "draft_request",
+          "build_packet",
+          "review_packet",
+          "compose_handoff",
+          "generate_runbook",
+          "approve_planning_only"
+        ],
+        "can_execute_now": false,
+        "can_mutate_now": false,
+        "future_auth_required": true
+      },
+      "break_glass_admin": {
+        "description": "Emergency access overriding standard automation limits.",
+        "permissions": [
+          "view_status",
+          "view_dashboard",
+          "view_readiness",
+          "view_auth_status",
+          "view_role_matrix",
+          "draft_request",
+          "build_packet",
+          "review_packet",
+          "compose_handoff",
+          "generate_runbook",
+          "approve_planning_only"
+        ],
+        "can_execute_now": false,
+        "can_mutate_now": false,
+        "future_auth_required": true
+      }
+    },
+    "forbidden_permission_boundary": [
+      "execute_command",
+      "mutate_backend",
+      "mutate_github",
+      "mutate_netlify",
+      "deploy_site",
+      "merge_branch",
+      "push_branch",
+      "create_pr",
+      "trigger_workflow",
+      "store_request",
+      "store_approval",
+      "queue_job"
+    ],
+    "future_auth_dependencies": [
+      {
+        "item": "real identity provider",
+        "status": "missing"
+      },
+      {
+        "item": "secure sessions",
+        "status": "missing"
+      },
+      {
+        "item": "server-side user store",
+        "status": "missing"
+      },
+      {
+        "item": "server-side role enforcement",
+        "status": "missing"
+      },
+      {
+        "item": "audit identity binding",
+        "status": "missing"
+      },
+      {
+        "item": "approval identity binding",
+        "status": "missing"
+      },
+      {
+        "item": "secrets management",
+        "status": "missing"
+      },
+      {
+        "item": "production auth hardening",
+        "status": "missing"
+      }
+    ]
   }
 }
