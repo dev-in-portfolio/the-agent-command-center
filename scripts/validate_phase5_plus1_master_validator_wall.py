@@ -62,6 +62,8 @@ def js_safety_check(path):
         "./original_plus1e_backend_build_tickets.json",
         "./original_plus2a_auth_foundation_model.json",
         "./original_plus2b_request_storage_model.json",
+        "./mvp7_real_authenticated_reads_model.json",
+        "/api/request-read-smoke-status",
     }
     for target in re.findall(r'fetch\(["\']([^"\']+)["\']', text):
         check(target in allowed_fetches, f"dashboard.js unauthorized fetch: {target}")
@@ -121,6 +123,15 @@ report_requirements = [
     (ROOT / "09_exports" / "mvp_product_track" / "mvp6_next_product_step_report.md", "PASS_WITH_HIGH_CONFIDENCE"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp6_acceptance_report.md", "PASS_WITH_CONDITIONAL_LIVE_DEPENDENCY"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp6_validator_wall_review.md", "PASS_WITH_TARGETED_VALIDATION"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp7_acceptance_report.md", "REAL_AUTHENTICATED_SUPABASE_READS_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp7_real_authenticated_reads_report.md", "REAL_AUTHENTICATED_READS_IMPLEMENTED"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp7_auth_token_validation_report.md", "IMPLEMENTED"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp7_postgrest_read_adapter_report.md", "IMPLEMENTED"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp7_request_endpoint_actions_report.md", "IMPLEMENTED"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp7_read_smoke_test_report.md", "PASS_WITH_TOKEN_TEST_OPTIONAL"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp7_security_boundary_report.md", "VERIFIED_FOR_READS"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp7_next_product_step_report.md", "READY_FOR_VERIFICATION"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp7_requests_endpoint_hardening_report.md", "PASS_WITH_TARGETED_HARDENING"),
 ]
 for path, marker in report_requirements:
     check(path.exists(), f"missing report: {path.relative_to(ROOT)}")
@@ -171,6 +182,16 @@ for marker in [
     "SERVICE ROLE NOT EXPOSED TO BROWSER",
     "WRITES REQUIRE SEPARATE REVIEW",
     "NEXT_STEP_VERIFY_AUTHENTICATED_READS_WITH_REAL_USER_TOKEN",
+    "MVP-7",
+    "REAL AUTHENTICATED SUPABASE READS",
+    "SUPABASE AUTH TOKEN VALIDATION",
+    "POSTGREST READS ENABLED",
+    "ANON KEY + USER BEARER TOKEN",
+    "RLS-ENFORCED REQUEST READS",
+    "SERVICE ROLE NOT USED",
+    "WRITES STILL DISABLED",
+    "POST WRITES BLOCKED",
+    "VERIFY WITH REAL USER TOKEN",
 ]:
     check(marker in index, f"index.html missing required marker: {marker}")
 
@@ -206,7 +227,10 @@ allowed_prefixes = [
         "scripts/validate_mvp5_migration_readiness_authenticated_reads_e2e.py",
         "scripts/validate_mvp6_controlled_migration_authenticated_reads.py",
         "scripts/validate_mvp6_controlled_migration_authenticated_reads_e2e.py",
+        "scripts/validate_mvp7_real_authenticated_supabase_reads.py",
+        "scripts/validate_mvp7_real_authenticated_supabase_reads_e2e.py",
         "13_web_dashboard/",
+
         "09_exports/interface_phase_5/",
         "09_exports/original_plus1/",
         "09_exports/original_plus2/",
@@ -233,7 +257,9 @@ allowed_prefixes = [
     "netlify/functions/requests.js",
     "netlify/functions/request-readiness-status.js",
     "netlify/functions/backend-manifest.js",
+    "netlify/functions/request-read-smoke-status.js",
     "netlify/functions/_shared/provider_config.js",
+    "netlify/functions/_shared/supabase_read_client.js",
     "netlify/functions/_shared/auth_context.js",
     "netlify/functions/_shared/models/",
     "scripts/validate_original_plus1b_operator_console_contract_layer.py",

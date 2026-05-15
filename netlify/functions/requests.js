@@ -57,8 +57,9 @@ exports.handler = async (event, context) => {
 
   // 3. Handle GET Reads
   if (method === "GET") {
-    const action = event.queryStringParameters.action || "list";
-    const id = event.queryStringParameters.id;
+    const params = event.queryStringParameters || {};
+    const action = params.action || "list";
+    const id = params.id;
     const bearerToken = event.headers.authorization || event.headers.Authorization;
 
     try {
