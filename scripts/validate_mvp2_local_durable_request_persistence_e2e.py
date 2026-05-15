@@ -44,6 +44,7 @@ def main():
         "scripts/validate_mvp2_local_durable_request_persistence.py",
         "scripts/validate_mvp2_local_durable_request_persistence_e2e.py",
         "scripts/validate_mvp1_request_lifecycle_runtime.py",
+        "scripts/validate_phase5_plus1_master_validator_wall.py",
         ".gitignore",
     ]
     forbidden_prefixes = [
