@@ -146,6 +146,11 @@ allowed_prefixes = [
     "13_web_dashboard/",
     "09_exports/interface_phase_5/",
     "09_exports/original_plus1/",
+    "09_exports/original_plus2/",
+    "14_backend/auth/",
+    "netlify/functions/auth-status.js",
+    "netlify/functions/role-matrix.js",
+    "netlify/functions/backend-manifest.js",
     "scripts/validate_original_plus1b_operator_console_contract_layer.py",
     "scripts/validate_original_plus1b_operator_console_contract_layer_e2e.py",
     "scripts/validate_original_plus1c_readiness_scoring_contract_qa.py",
@@ -168,7 +173,6 @@ allowed_prefixes = [
 ]
 
 forbidden_prefixes = [
-    "netlify/functions/",
     "09_exports/interface_phase_1/",
     "09_exports/interface_phase_2/",
     "09_exports/interface_phase_3/",
@@ -176,7 +180,6 @@ forbidden_prefixes = [
     "11_interface/",
     "12_tui/",
     "10_runtime/",
-    "14_backend/",
 ]
 
 for path in changed:
