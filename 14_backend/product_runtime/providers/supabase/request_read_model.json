@@ -1,0 +1,28 @@
+{
+  "model_id": "supabase-request-read-model",
+  "model_version": "1.0",
+  "endpoint": "/api/requests",
+  "method": "GET",
+  "requires_provider_configured": true,
+  "requires_request_api_enabled": true,
+  "requires_supabase_auth_enabled": true,
+  "requires_bearer_token": true,
+  "uses_service_role": false,
+  "uses_anon_key_with_user_bearer": true,
+  "returns_only_user_owned_requests": true,
+  "writes_enabled": false,
+  "auth_token_validation_plan": [
+    "require a bearer token before any read boundary is considered active",
+    "validate tokens only with Supabase auth and anon-key-backed user context when the auth flag is explicitly enabled",
+    "never expose the service role to browser code",
+    "keep the read adapter boundary-only until the read path is explicitly approved"
+  ],
+  "current_status": "scaffold_only_boundary",
+  "current_recommendation": [
+    "MIGRATION_READINESS_CHECK_READY",
+    "MANUAL_MIGRATION_REVIEW_REQUIRED",
+    "AUTHENTICATED_READS_BOUNDARY_READY",
+    "WRITES_DISABLED_UNTIL_RLS_REVIEW",
+    "NEXT_STEP_MANUALLY_APPLY_MIGRATIONS_AND_ENABLE_AUTH_READS"
+  ]
+}

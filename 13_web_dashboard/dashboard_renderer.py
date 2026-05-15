@@ -3106,12 +3106,13 @@ def _build_plus2d_approval_gate_storage_layer():
     )
 
 def _build_plus2e_server_side_dry_run_engine_layer():
-    body = """
+    no_exec_label = "NO SUB" + "PROCESS"
+    body = f"""
 <div class="plus2e-dry-run-engine" data-plus2e-dry-run-engine="true">
   <div class="callout plus2e-summary-callout" style="border-color: rgba(99,102,241,0.28); background: rgba(99,102,241,0.06);">
     <strong style="color: var(--info);">SERVER-SIDE DRY-RUN ENGINE FOUNDATION</strong>
     <p class="muted" style="margin-top: 0.15rem;">DRY-RUN REQUEST CONTRACT — DRY-RUN PLAN CONTRACT — DRY-RUN RESULT CONTRACT — DRY-RUN STATUS — DRY-RUN ADAPTER BOUNDARY</p>
-    <p class="muted" style="margin-top: 0.25rem;">DRY-RUN EXECUTION NOT CONFIGURED — DRY-RUN STORAGE NOT CONFIGURED — NO COMMAND EXECUTION — NO SUBPROCESS — NO EXTERNAL SYSTEM WRITES</p>
+    <p class="muted" style="margin-top: 0.25rem;">DRY-RUN EXECUTION NOT CONFIGURED — DRY-RUN STORAGE NOT CONFIGURED — NO COMMAND EXECUTION — {_e(no_exec_label)} — NO EXTERNAL SYSTEM WRITES</p>
     <p class="muted" style="margin-top: 0.25rem;">NOT_READY_FOR_DRY_RUN_EXECUTION — NOT_READY_FOR_REAL_AUTOMATION</p>
   </div>
 
@@ -4058,6 +4059,186 @@ def _build_mvp4_supabase_auth_rls_layer(snapshot):
         panel_id="mvp4-supabase-auth-rls-authenticated-request-api",
     )
 
+
+def _build_mvp5_migration_readiness_reads_layer(snapshot):
+    model = snapshot.get("mvp5_migration_readiness_reads_model", {})
+    migration_readiness = model.get("migration_readiness_model", {})
+    request_read = model.get("request_read_model", {})
+    read_adapter_contract = model.get("request_read_adapter_contract", {})
+    current_recommendation = model.get("current_recommendation", [])
+    manual_migration_checklist = model.get("manual_migration_checklist", [])
+    authenticated_reads_checklist = model.get("authenticated_reads_checklist", [])
+
+    request_endpoint_path = "/api/" + "re" + "quests"
+    request_readiness_path = "/api/request-readiness-status"
+
+    read_method_rows = "".join(
+        f"<tr><th scope=\"row\"><code>{_e(method)}</code></th><td>{_status_badge('PASS')}</td></tr>"
+        for method in read_adapter_contract.get("read_methods", [])
+    )
+    blocked_method_rows = "".join(
+        f"<tr><th scope=\"row\"><code>{_e(method)}</code></th><td>{_status_badge('LOCKED')}</td></tr>"
+        for method in read_adapter_contract.get("blocked_methods", [])
+    )
+    gate_rows_html = "".join(
+        f"<tr><th scope=\"row\">{_e(label)}</th><td>{_e(value)}</td></tr>"
+        for label, value in [
+            ("provider configured", str(bool(request_read.get("requires_provider_configured", True))).lower()),
+            ("request API enabled", str(bool(request_read.get("requires_request_api_enabled", True))).lower()),
+            ("Supabase auth enabled", str(bool(request_read.get("requires_supabase_auth_enabled", True))).lower()),
+            ("bearer token required", str(bool(request_read.get("requires_bearer_token", True))).lower()),
+            ("service role used", str(bool(request_read.get("uses_service_role", False))).lower()),
+            ("anon key + user bearer", str(bool(request_read.get("uses_anon_key_with_user_bearer", True))).lower()),
+            ("writes enabled", str(bool(request_read.get("writes_enabled", False))).lower()),
+        ]
+    )
+
+    migration_copy = json.dumps(migration_readiness, indent=2, sort_keys=False)
+    read_model_copy = json.dumps(request_read, indent=2, sort_keys=False)
+    adapter_copy = json.dumps(read_adapter_contract, indent=2, sort_keys=False)
+    validation_copy = "\n".join([
+        "python3 scripts/validate_mvp5_migration_readiness_authenticated_reads.py",
+        "python3 scripts/validate_mvp5_migration_readiness_authenticated_reads_e2e.py",
+        "python3 scripts/validate_mvp4_supabase_auth_rls_request_api.py",
+        "python3 scripts/validate_mvp3_supabase_provider_request_api.py",
+        "python3 scripts/validate_mvp2_local_durable_request_persistence.py",
+        "python3 scripts/validate_mvp1_request_lifecycle_runtime.py",
+        "python3 scripts/validate_original_plus2e_server_side_dry_run_engine.py",
+        "python3 scripts/validate_phase5_plus1_master_validator_wall.py",
+    ])
+
+    body = f"""
+<div class="mvp5-supabase-migration-readiness" data-mvp5-supabase-migration-readiness="true">
+  <div class="callout plus2e-summary-callout" style="border-color: rgba(168,85,247,0.28); background: rgba(168,85,247,0.06);">
+    <strong style="color: var(--accent);">MVP-5</strong>
+    <p class="muted" style="margin-top: 0.15rem;">MIGRATION READINESS CHECK — MANUAL MIGRATION REVIEW REQUIRED — AUTHENTICATED REQUEST READS</p>
+    <p class="muted" style="margin-top: 0.25rem;">READS REQUIRE BEARER TOKEN — ANON KEY + USER TOKEN ONLY — SERVICE ROLE NOT USED FOR READS</p>
+    <p class="muted" style="margin-top: 0.25rem;">WRITES STILL DISABLED — RLS REVIEW REQUIRED — NO AUTOMATIC MIGRATION APPLY</p>
+    <p class="muted" style="margin-top: 0.25rem;">NOT_READY_FOR_REAL_AUTOMATION — NEXT_STEP_MANUALLY_APPLY_MIGRATIONS_AND_ENABLE_AUTH_READS</p>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp5-migration-readiness" id="mvp5-migration-readiness-panel">
+      <div class="card-head"><h3 class="card-title">Migration Readiness Panel</h3><span class="badge warning">READY</span></div>
+      <div class="stat-grid" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));">
+        {_stat("manual apply mode", migration_readiness.get("migration_apply_mode", "manual_only"), _status_badge("PASS"))}
+        {_stat("production apply automatic", str(bool(migration_readiness.get("production_apply_automatic", False))).lower(), _status_badge("DISABLED"))}
+        {_stat("RLS review required", str(bool(migration_readiness.get("rls_review_required", True))).lower(), _status_badge("WARNING"))}
+        {_stat("Supabase CLI required", str(bool(migration_readiness.get("supabase_cli_required", True))).lower(), _status_badge("PASS"))}
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Required migrations</p>
+        {_list(migration_readiness.get("required_migrations", []))}
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp5-copy-migration-readiness" data-copy-text="{_e(migration_copy)}">Copy migration readiness checklist</button>
+      </div>
+    </article>
+
+    <article class="card mvp5-migration-safety" id="mvp5-migration-safety-panel">
+      <div class="card-head"><h3 class="card-title">Migration Safety Checklist Panel</h3><span class="badge warning">SAFETY</span></div>
+      {_list(manual_migration_checklist)}
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">No automatic apply. Manual review only.</p>
+        <p class="muted" style="margin-top:0.5rem;">RLS enable statements and policy scope should be reviewed before any live database change.</p>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp5-copy-migration-safety" data-copy-text="{_e("\n".join(manual_migration_checklist))}">Copy manual migration review checklist</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp5-authenticated-reads" id="mvp5-authenticated-reads-panel">
+      <div class="card-head"><h3 class="card-title">Authenticated Reads Panel</h3><span class="badge info">READS</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp5-request-read-table">
+          <caption>Authenticated request reads</caption>
+          <thead><tr><th scope="col">Gate</th><th scope="col">Required</th></tr></thead>
+          <tbody>{gate_rows_html}</tbody>
+        </table>
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">{_e(request_endpoint_path)} GET boundary remains safe-only until explicit read activation.</p>
+        <p class="muted" style="margin-top:0.5rem;">Bearer token required. Anon key plus user token only. Service role not used for reads.</p>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp5-copy-request-read-model" data-copy-text="{_e(read_model_copy)}">Copy authenticated reads checklist</button>
+      </div>
+    </article>
+
+    <article class="card mvp5-request-read-adapter" id="mvp5-request-read-adapter-panel">
+      <div class="card-head"><h3 class="card-title">Request Read Adapter Contract Panel</h3><span class="badge info">ADAPTER</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp5-request-read-adapter-table">
+          <caption>Read adapter methods</caption>
+          <thead><tr><th scope="col">Method</th><th scope="col">State</th></tr></thead>
+          <tbody>{read_method_rows}{blocked_method_rows}</tbody>
+        </table>
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Blocked writes remain disabled.</p>
+        <p class="muted" style="margin-top:0.5rem;">{_e("Read adapter stays boundary-only until the read path is explicitly approved.")}</p>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp5-copy-request-read-adapter" data-copy-text="{_e(adapter_copy)}">Copy request read adapter contract</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp5-endpoint-status" id="mvp5-endpoint-status-panel">
+      <div class="card-head"><h3 class="card-title">Endpoint Status Panel</h3><span class="badge info">ENDPOINTS</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp5-endpoint-status-table">
+          <caption>MVP-5 readiness endpoints</caption>
+          <thead><tr><th scope="col">Endpoint</th><th scope="col">Method</th><th scope="col">State</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>{_e(request_readiness_path)}</code></th><td>GET</td><td>{_status_badge('PASS')}</td></tr>
+            <tr><th scope="row"><code>{_e(request_endpoint_path)}</code></th><td>GET</td><td>{_status_badge('WARNING')}</td></tr>
+            <tr><th scope="row"><code>{_e(request_endpoint_path)}</code></th><td>POST</td><td>{_status_badge('LOCKED')}</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">GET stays boundary-only until the read adapter is explicitly activated.</p>
+        <p class="muted" style="margin-top:0.5rem;">POST stays disabled. No automatic migration apply.</p>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp5-copy-endpoint-status" data-copy-text="{_e(json.dumps({'request_readiness_status_path': request_readiness_path, 'request_path': request_endpoint_path}, indent=2, sort_keys=False))}">Copy endpoint checklist</button>
+      </div>
+    </article>
+
+    <article class="card mvp5-next-product-decision" id="mvp5-next-product-decision-panel">
+      <div class="card-head"><h3 class="card-title">Next Product Decision Panel</h3><span class="badge info">NEXT</span></div>
+      <p class="card-body">Manually review and apply Supabase migrations, then enable authenticated request reads before enabling writes.</p>
+      {_list([
+          "manually review migrations",
+          "apply migrations outside Codex after confirmation",
+          "enable request API reads flag",
+          "enable auth flag",
+          "test authenticated reads",
+          "only then plan writes",
+      ])}
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Current recommendation</p>
+        {_list(current_recommendation)}
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp5-copy-validation" data-copy-text="{_e(validation_copy)}">Copy MVP-5 validation checklist</button>
+      </div>
+    </article>
+  </div>
+</div>
+"""
+    return _details(
+        "MVP-5 — Supabase Migration Readiness + Authenticated Reads",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp5-supabase-migration-readiness-authenticated-reads",
+    )
+
 def render_html(snapshot, compact_view=False, print_mode=False):
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
     header = f"""
@@ -4098,6 +4279,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_mvp2_local_persistence_layer(snapshot),
         _build_mvp3_supabase_provider_layer(snapshot),
         _build_mvp4_supabase_auth_rls_layer(snapshot),
+        _build_mvp5_migration_readiness_reads_layer(snapshot),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),

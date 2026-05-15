@@ -105,6 +105,13 @@ report_requirements = [
     (PLUS1 / "original_plus1d_design_report.md", "PASS_WITH_HIGH_CONFIDENCE"),
     (PLUS1 / "original_plus1d_safety_report.md", "PASS_WITH_HIGH_CONFIDENCE"),
     (PLUS1 / "original_plus1d_acceptance_report.md", "PASS_WITH_HIGH_CONFIDENCE"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp5_acceptance_report.md", "PASS_WITH_HIGH_CONFIDENCE"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp5_migration_readiness_report.md", "PASS_WITH_HIGH_CONFIDENCE"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp5_manual_migration_review_report.md", "PASS_WITH_HIGH_CONFIDENCE"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp5_authenticated_request_reads_report.md", "PASS_WITH_HIGH_CONFIDENCE"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp5_request_read_adapter_contract_report.md", "PASS_WITH_HIGH_CONFIDENCE"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp5_security_boundary_report.md", "PASS_WITH_HIGH_CONFIDENCE"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp5_next_product_step_report.md", "PASS_WITH_HIGH_CONFIDENCE"),
 ]
 for path, marker in report_requirements:
     check(path.exists(), f"missing report: {path.relative_to(ROOT)}")
@@ -135,6 +142,16 @@ for marker in [
     "NO BACKEND WRITES",
     "READY_FOR_BACKEND_ARCHITECTURE_REVIEW_ONLY",
     "NOT_READY_FOR_REAL_AUTOMATION",
+    "MIGRATION READINESS CHECK",
+    "MANUAL MIGRATION REVIEW REQUIRED",
+    "AUTHENTICATED REQUEST READS",
+    "READS REQUIRE BEARER TOKEN",
+    "ANON KEY + USER TOKEN ONLY",
+    "SERVICE ROLE NOT USED FOR READS",
+    "WRITES STILL DISABLED",
+    "RLS REVIEW REQUIRED",
+    "NO AUTOMATIC MIGRATION APPLY",
+    "NEXT_STEP_MANUALLY_APPLY_MIGRATIONS_AND_ENABLE_AUTH_READS",
 ]:
     check(marker in index, f"index.html missing required marker: {marker}")
 
@@ -166,6 +183,8 @@ allowed_prefixes = [
         "scripts/validate_mvp3_supabase_provider_request_api_e2e.py",
         "scripts/validate_mvp4_supabase_auth_rls_request_api.py",
         "scripts/validate_mvp4_supabase_auth_rls_request_api_e2e.py",
+        "scripts/validate_mvp5_migration_readiness_authenticated_reads.py",
+        "scripts/validate_mvp5_migration_readiness_authenticated_reads_e2e.py",
         "13_web_dashboard/",
         "09_exports/interface_phase_5/",
         "09_exports/original_plus1/",
@@ -191,6 +210,7 @@ allowed_prefixes = [
     "netlify/functions/provider-status.js",
     "netlify/functions/auth-status.js",
     "netlify/functions/requests.js",
+    "netlify/functions/request-readiness-status.js",
     "netlify/functions/backend-manifest.js",
     "netlify/functions/_shared/provider_config.js",
     "netlify/functions/_shared/auth_context.js",
