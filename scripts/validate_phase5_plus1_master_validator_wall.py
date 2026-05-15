@@ -191,6 +191,7 @@ allowed_prefixes = [
     "scripts/validate_original_plus2d_approval_gate_storage_e2e.py",
     "scripts/validate_phase5_plus1_master_validator_wall.py",
     "scripts/validate_backend_phase_4a_e2e.py",
+    "scripts/validate_backend_phase_4b_planning.py",
     "scripts/validate_backend_phase_4c_planning.py",
     "scripts/validate_backend_phase_4d_strategic_e2e.py",
     "scripts/validate_interface_phase_3_e2e.py",
