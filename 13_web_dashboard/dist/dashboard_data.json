@@ -1,6 +1,6 @@
 {
-  "dashboard_id": "PH3-20260515-214335",
-  "created_at_utc": "2026-05-15T21:43:35Z",
+  "dashboard_id": "PH3-20260515-221232",
+  "created_at_utc": "2026-05-15T22:12:32Z",
   "phase": "Read-Only Operations Dashboard",
   "repo": "dev-in-portfolio/the-agent-command-center",
   "source_lineage": "dev-in-portfolio/agent-command-center-3",
@@ -1007,7 +1007,7 @@
     "source_exists": true,
     "source_type": "generated_static_snapshot",
     "source_confidence": "generated_static_snapshot",
-    "generated_at_utc": "2026-05-15T21:43:39Z",
+    "generated_at_utc": "2026-05-15T22:12:35Z",
     "freshness_status": "generated_static_snapshot",
     "snapshot_age_seconds": 0,
     "notes": [
@@ -1210,119 +1210,119 @@
     "allowed_label_findings": [
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 492,
+        "line": 496,
         "pattern": "NO DEPLOY",
         "context": "<span>NO DEPLOY CONTROLS</span>",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 493,
+        "line": 497,
         "pattern": "NO MERGE",
         "context": "<span>NO MERGE CONTROLS</span>",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 494,
+        "line": 498,
         "pattern": "NO SECRET ACCESS",
         "context": "<span>NO SECRET ACCESS</span>",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 809,
+        "line": 813,
         "pattern": "NO DEPLOY",
         "context": "TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO DEPLOY / MERGE / ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 932,
+        "line": 936,
         "pattern": "NO DEPLOY",
         "context": "GENERATED LOCALLY \u2014 COPY ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO DEPLOY / MERGE / PU",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1030,
+        "line": 1034,
         "pattern": "NO DEPLOY",
         "context": "DECISION LEDGER PREVIEW \u2014 TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO EXECUTION \u2014 NO MUTAT",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1212,
+        "line": 1216,
         "pattern": "NO DEPLOY",
         "context": "GENERATED LOCALLY \u2014 COPY/PASTE HANDOFF ONLY \u2014 TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1386,
+        "line": 1390,
         "pattern": "NO DEPLOY",
         "context": "END-TO-END OPERATOR FLOW \u2014 SCENARIO PREVIEW ONLY \u2014 GENERATED LOCALLY \u2014 TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1521,
+        "line": 1525,
         "pattern": "NO DEPLOY",
         "context": "READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO BACKEND WRITES \u2014 NO DEPLOY / MERGE / PUSH / PR CON",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1738,
+        "line": 1742,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">CONTRACTS ONLY \u2014 COPY/PASTE ONLY \u2014 READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 N",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1853,
+        "line": 1857,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">COPY/PASTE ONLY \u2014 READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1970,
+        "line": 1974,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO BACK",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2151,
+        "line": 2155,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO BACK",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2390,
+        "line": 2394,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2390,
+        "line": 2394,
         "pattern": "NO MERGE",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2390,
+        "line": 2394,
         "pattern": "NO PUSH",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2390,
+        "line": 2394,
         "pattern": "NO SECRET ACCESS",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
@@ -6895,6 +6895,196 @@
       "AUTHENTICATED_READS_BOUNDARY_READY",
       "WRITES_DISABLED_UNTIL_RLS_REVIEW",
       "NEXT_STEP_MANUALLY_APPLY_MIGRATIONS_AND_ENABLE_AUTH_READS"
+    ]
+  },
+  "mvp6_controlled_migration_reads_model": {
+    "model_id": "mvp6-controlled-supabase-migration-authenticated-reads",
+    "model_version": "1.0",
+    "controlled_migration_apply_model": {
+      "model_id": "supabase-controlled-migration-apply-model",
+      "model_version": "1.0",
+      "project_ref": "mobvzrkcsfbumgbwvkcp",
+      "project_url": "https://mobvzrkcsfbumgbwvkcp.supabase.co",
+      "required_migrations": [
+        "001_supabase_request_runtime.sql",
+        "002_supabase_auth_rls_policies.sql"
+      ],
+      "apply_mode": "controlled_cli_apply",
+      "migration_apply_allowed_in_this_phase": true,
+      "required_preflight": [
+        "supabase_cli_available",
+        "linked_project_ref_matches",
+        "readiness_checker_passes",
+        "no_secret_leaks",
+        "no_broad_public_writes",
+        "writes_flag_remains_false"
+      ],
+      "forbidden": [
+        "print_secrets",
+        "commit_secrets",
+        "expose_service_role_to_browser",
+        "enable_writes",
+        "automation"
+      ],
+      "current_recommendation": [
+        "CONTROLLED_MIGRATION_APPLY_READY",
+        "APPLY_SCHEMA_AND_RLS_ONLY",
+        "ENABLE_AUTHENTICATED_READS_ONLY",
+        "WRITES_DISABLED_UNTIL_SEPARATE_REVIEW",
+        "NOT_READY_FOR_REAL_AUTOMATION"
+      ]
+    },
+    "post_migration_verification_model": {
+      "model_id": "supabase-post-migration-verification-model",
+      "model_version": "1.0",
+      "required_tables": [
+        "app_users",
+        "app_roles",
+        "requests",
+        "request_lifecycle_events",
+        "approvals",
+        "audit_events",
+        "dry_run_results",
+        "no_go_flags"
+      ],
+      "required_rls_tables": [
+        "app_users",
+        "app_roles",
+        "requests",
+        "request_lifecycle_events",
+        "approvals",
+        "audit_events",
+        "dry_run_results",
+        "no_go_flags"
+      ],
+      "verification_mode": "schema_metadata_only",
+      "no_row_data_required": true,
+      "no_secret_output": true,
+      "current_recommendation": [
+        "POST_MIGRATION_SCHEMA_VERIFICATION_READY",
+        "RLS_METADATA_VERIFICATION_REQUIRED",
+        "NO_ROW_DATA_REQUIRED",
+        "NO_SECRET_OUTPUT",
+        "NOT_READY_FOR_REAL_AUTOMATION"
+      ]
+    },
+    "authenticated_reads_enablement_model": {
+      "model_id": "supabase-authenticated-reads-enablement-model",
+      "model_version": "1.0",
+      "request_api_reads_target": "enabled",
+      "request_api_writes_target": "disabled",
+      "supabase_auth_target": "enabled",
+      "bearer_token_required": true,
+      "service_role_used_for_reads": false,
+      "anon_key_plus_user_token": true,
+      "current_status": "pending_env_activation",
+      "current_recommendation": [
+        "CONTROLLED_MIGRATION_APPLY_READY",
+        "AUTHENTICATED_READS_ENABLEMENT_READY",
+        "REQUEST_API_READS_ENABLED_TARGET",
+        "WRITES_DISABLED_UNTIL_SEPARATE_REVIEW",
+        "NOT_READY_FOR_REAL_AUTOMATION"
+      ]
+    },
+    "migration_readiness_model": {
+      "model_id": "supabase-migration-readiness-model",
+      "model_version": "1.0",
+      "project_ref": "mobvzrkcsfbumgbwvkcp",
+      "project_url": "https://mobvzrkcsfbumgbwvkcp.supabase.co",
+      "required_migrations": [
+        "001_supabase_request_runtime.sql",
+        "002_supabase_auth_rls_policies.sql"
+      ],
+      "migration_apply_mode": "manual_only",
+      "production_apply_automatic": false,
+      "supabase_cli_required": true,
+      "rls_review_required": true,
+      "writes_enabled_after_migration": false,
+      "reads_allowed_after_auth_review": "boundary_only",
+      "migration_check_script": "14_backend/product_runtime/providers/supabase/migration_readiness_check.py",
+      "manual_migration_runbook": [
+        "confirm the required migration files are present locally",
+        "review RLS enable statements and policy scope",
+        "confirm no broad anonymous write policies are present",
+        "apply migrations manually outside Codex after approval",
+        "verify the request read boundary remains read-only"
+      ],
+      "auth_token_validation_plan": [
+        "accept bearer tokens only when Supabase auth is explicitly enabled",
+        "validate tokens against the Supabase user endpoint using anon key plus bearer token only",
+        "never validate browser tokens with service role credentials",
+        "keep read results boundary-only until the read adapter is explicitly approved"
+      ],
+      "current_recommendation": [
+        "MIGRATION_READINESS_CHECK_READY",
+        "MANUAL_MIGRATION_REVIEW_REQUIRED",
+        "AUTHENTICATED_READS_BOUNDARY_READY",
+        "WRITES_DISABLED_UNTIL_RLS_REVIEW",
+        "NOT_READY_FOR_REAL_AUTOMATION"
+      ]
+    },
+    "request_read_model": {
+      "model_id": "supabase-request-read-model",
+      "model_version": "1.0",
+      "endpoint": "/api/requests",
+      "method": "GET",
+      "requires_provider_configured": true,
+      "requires_request_api_enabled": true,
+      "requires_supabase_auth_enabled": true,
+      "requires_bearer_token": true,
+      "uses_service_role": false,
+      "uses_anon_key_with_user_bearer": true,
+      "returns_only_user_owned_requests": true,
+      "writes_enabled": false,
+      "auth_token_validation_plan": [
+        "require a bearer token before any read boundary is considered active",
+        "validate tokens only with Supabase auth and anon-key-backed user context when the auth flag is explicitly enabled",
+        "never expose the service role to browser code",
+        "keep the read adapter boundary-only until the read path is explicitly approved"
+      ],
+      "current_status": "scaffold_only_boundary",
+      "current_recommendation": [
+        "MIGRATION_READINESS_CHECK_READY",
+        "MANUAL_MIGRATION_REVIEW_REQUIRED",
+        "AUTHENTICATED_READS_BOUNDARY_READY",
+        "WRITES_DISABLED_UNTIL_RLS_REVIEW",
+        "NEXT_STEP_MANUALLY_APPLY_MIGRATIONS_AND_ENABLE_AUTH_READS"
+      ]
+    },
+    "manual_migration_checklist": [
+      "confirm supabase cli is available and linked to the project ref",
+      "confirm readiness checker passes locally",
+      "review the migration SQL files",
+      "apply schema and RLS migrations only",
+      "keep request writes disabled"
+    ],
+    "authenticated_reads_checklist": [
+      "confirm provider configured",
+      "confirm request API reads target is enabled",
+      "confirm auth target is enabled",
+      "confirm bearer token is required",
+      "confirm service role stays server-only"
+    ],
+    "feature_flag_targets": {
+      "MVP_ENABLE_SUPABASE_REQUEST_API": true,
+      "MVP_ENABLE_SUPABASE_AUTH": true,
+      "MVP_ENABLE_REQUEST_API_WRITES": false
+    },
+    "endpoint_list": [
+      "/api/request-readiness-status",
+      "/api/requests GET",
+      "/api/requests POST"
+    ],
+    "current_recommendation": [
+      "CONTROLLED_MIGRATION_APPLY_READY",
+      "APPLY_SCHEMA_AND_RLS_ONLY",
+      "ENABLE_AUTHENTICATED_READS_ONLY",
+      "WRITES_DISABLED_UNTIL_SEPARATE_REVIEW",
+      "NOT_READY_FOR_REAL_AUTOMATION"
+    ],
+    "next_product_decision": [
+      "verify_authenticated_reads_with_real_user_token",
+      "then_build_controlled_request_create_writes"
     ]
   }
 }

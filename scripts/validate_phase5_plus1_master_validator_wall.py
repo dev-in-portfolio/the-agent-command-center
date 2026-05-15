@@ -112,6 +112,15 @@ report_requirements = [
     (ROOT / "09_exports" / "mvp_product_track" / "mvp5_request_read_adapter_contract_report.md", "PASS_WITH_HIGH_CONFIDENCE"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp5_security_boundary_report.md", "PASS_WITH_HIGH_CONFIDENCE"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp5_next_product_step_report.md", "PASS_WITH_HIGH_CONFIDENCE"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp6_controlled_migration_apply_report.md", "PASS_WITH_HIGH_CONFIDENCE"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp6_migration_apply_result_report.md", "PASS_WITH_NOTES"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp6_post_migration_verification_report.md", "PASS_WITH_NOTES"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp6_authenticated_reads_enablement_report.md", "PASS_WITH_HIGH_CONFIDENCE"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp6_feature_flag_enablement_report.md", "PASS_WITH_NOTES"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp6_security_boundary_report.md", "PASS_WITH_HIGH_CONFIDENCE"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp6_next_product_step_report.md", "PASS_WITH_HIGH_CONFIDENCE"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp6_acceptance_report.md", "PASS_WITH_CONDITIONAL_LIVE_DEPENDENCY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp6_validator_wall_review.md", "PASS_WITH_TARGETED_VALIDATION"),
 ]
 for path, marker in report_requirements:
     check(path.exists(), f"missing report: {path.relative_to(ROOT)}")
@@ -152,6 +161,16 @@ for marker in [
     "RLS REVIEW REQUIRED",
     "NO AUTOMATIC MIGRATION APPLY",
     "NEXT_STEP_MANUALLY_APPLY_MIGRATIONS_AND_ENABLE_AUTH_READS",
+    "MVP-6",
+    "CONTROLLED MIGRATION APPLY",
+    "SCHEMA AND RLS MIGRATION",
+    "POST-MIGRATION VERIFICATION",
+    "AUTHENTICATED READS ENABLEMENT",
+    "REQUEST API READS ENABLED TARGET",
+    "REQUEST API WRITES STILL DISABLED",
+    "SERVICE ROLE NOT EXPOSED TO BROWSER",
+    "WRITES REQUIRE SEPARATE REVIEW",
+    "NEXT_STEP_VERIFY_AUTHENTICATED_READS_WITH_REAL_USER_TOKEN",
 ]:
     check(marker in index, f"index.html missing required marker: {marker}")
 
@@ -185,6 +204,8 @@ allowed_prefixes = [
         "scripts/validate_mvp4_supabase_auth_rls_request_api_e2e.py",
         "scripts/validate_mvp5_migration_readiness_authenticated_reads.py",
         "scripts/validate_mvp5_migration_readiness_authenticated_reads_e2e.py",
+        "scripts/validate_mvp6_controlled_migration_authenticated_reads.py",
+        "scripts/validate_mvp6_controlled_migration_authenticated_reads_e2e.py",
         "13_web_dashboard/",
         "09_exports/interface_phase_5/",
         "09_exports/original_plus1/",

@@ -1,0 +1,18 @@
+{
+  "model_id": "supabase-authenticated-reads-enablement-model",
+  "model_version": "1.0",
+  "request_api_reads_target": "enabled",
+  "request_api_writes_target": "disabled",
+  "supabase_auth_target": "enabled",
+  "bearer_token_required": true,
+  "service_role_used_for_reads": false,
+  "anon_key_plus_user_token": true,
+  "current_status": "pending_env_activation",
+  "current_recommendation": [
+    "CONTROLLED_MIGRATION_APPLY_READY",
+    "AUTHENTICATED_READS_ENABLEMENT_READY",
+    "REQUEST_API_READS_ENABLED_TARGET",
+    "WRITES_DISABLED_UNTIL_SEPARATE_REVIEW",
+    "NOT_READY_FOR_REAL_AUTOMATION"
+  ]
+}

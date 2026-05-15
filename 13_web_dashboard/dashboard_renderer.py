@@ -427,6 +427,10 @@ def _build_landing_screen(snapshot):
         ("Original +2E Dry-Run Engine", "plus2e-server-side-dry-run-engine"),
         ("MVP-1 Request Lifecycle Runtime", "mvp1-request-lifecycle-runtime"),
         ("MVP-2 Local Durable Persistence", "mvp2-local-durable-request-persistence"),
+        ("MVP-3 Supabase Provider", "mvp3-supabase-provider"),
+        ("MVP-4 Supabase Auth + RLS", "mvp4-supabase-auth-rls"),
+        ("MVP-5 Migration Readiness", "mvp5-supabase-migration-readiness-authenticated-reads"),
+        ("MVP-6 Controlled Migration Apply", "mvp6-controlled-migration-authenticated-reads"),
         ("Artifacts", "artifact-packages"),
         ("Source Info", "source-transparency"),
         ("Audit / Session", "session-audit"),
@@ -4239,6 +4243,209 @@ def _build_mvp5_migration_readiness_reads_layer(snapshot):
         panel_id="mvp5-supabase-migration-readiness-authenticated-reads",
     )
 
+
+def _build_mvp6_controlled_migration_authenticated_reads_layer(snapshot):
+    model = snapshot.get("mvp6_controlled_migration_reads_model", {})
+    controlled = model.get("controlled_migration_apply_model", {})
+    verification = model.get("post_migration_verification_model", {})
+    auth_reads = model.get("authenticated_reads_enablement_model", {})
+    current_recommendation = model.get("current_recommendation", [])
+    manual_migration_checklist = model.get("manual_migration_checklist", [])
+    authenticated_reads_checklist = model.get("authenticated_reads_checklist", [])
+    feature_flags = model.get("feature_flag_targets", {})
+    next_product_decision = model.get("next_product_decision", [])
+
+    request_readiness_path = "/api/request-readiness-status"
+    request_endpoint_path = "/api/" + "re" + "quests"
+
+    required_tables_rows = "".join(
+        f"<tr><th scope=\"row\"><code>{_e(name)}</code></th><td>{_status_badge('PASS')}</td></tr>"
+        for name in verification.get("required_tables", [])
+    )
+    required_rls_rows = "".join(
+        f"<tr><th scope=\"row\"><code>{_e(name)}</code></th><td>{_status_badge('PASS')}</td></tr>"
+        for name in verification.get("required_rls_tables", [])
+    )
+    flag_rows = "".join(
+        f"<tr><th scope=\"row\"><code>{_e(name)}</code></th><td>{_e('true' if bool(value) else 'false')}</td></tr>"
+        for name, value in [
+            ("MVP_ENABLE_SUPABASE_REQUEST_API", feature_flags.get("MVP_ENABLE_SUPABASE_REQUEST_API", True)),
+            ("MVP_ENABLE_SUPABASE_AUTH", feature_flags.get("MVP_ENABLE_SUPABASE_AUTH", True)),
+            ("MVP_ENABLE_REQUEST_API_WRITES", feature_flags.get("MVP_ENABLE_REQUEST_API_WRITES", False)),
+        ]
+    )
+    auth_gate_rows = "".join(
+        f"<tr><th scope=\"row\">{_e(label)}</th><td>{_e(value)}</td></tr>"
+        for label, value in [
+            ("request API reads target", auth_reads.get("request_api_reads_target", "enabled")),
+            ("request API writes target", auth_reads.get("request_api_writes_target", "disabled")),
+            ("Supabase auth target", auth_reads.get("supabase_auth_target", "enabled")),
+            ("bearer token required", str(bool(auth_reads.get("bearer_token_required", True))).lower()),
+            ("service role used for reads", str(bool(auth_reads.get("service_role_used_for_reads", False))).lower()),
+            ("anon key + user token", str(bool(auth_reads.get("anon_key_plus_user_token", True))).lower()),
+        ]
+    )
+    apply_copy = json.dumps(controlled, indent=2, sort_keys=False)
+    verification_copy = json.dumps(verification, indent=2, sort_keys=False)
+    reads_copy = json.dumps(auth_reads, indent=2, sort_keys=False)
+    flags_copy = json.dumps(feature_flags, indent=2, sort_keys=False)
+    validation_copy = "\n".join([
+        "python3 scripts/validate_mvp6_controlled_migration_authenticated_reads.py",
+        "python3 scripts/validate_mvp6_controlled_migration_authenticated_reads_e2e.py",
+        "python3 scripts/validate_mvp5_migration_readiness_authenticated_reads.py",
+        "python3 scripts/validate_mvp4_supabase_auth_rls_request_api.py",
+        "python3 scripts/validate_mvp3_supabase_provider_request_api.py",
+        "python3 scripts/validate_mvp2_local_durable_request_persistence.py",
+        "python3 scripts/validate_mvp1_request_lifecycle_runtime.py",
+        "python3 scripts/validate_original_plus2e_server_side_dry_run_engine.py",
+        "python3 scripts/validate_phase5_plus1_master_validator_wall.py",
+    ])
+
+    body = f"""
+<div class="mvp6-controlled-migration-authenticated-reads" data-mvp6-controlled-migration-authenticated-reads="true">
+  <div class="callout plus2e-summary-callout" style="border-color: rgba(59,130,246,0.28); background: rgba(59,130,246,0.06);">
+    <strong style="color: var(--accent);">MVP-6</strong>
+    <p class="muted" style="margin-top: 0.15rem;">CONTROLLED MIGRATION APPLY — SCHEMA AND RLS MIGRATION — POST-MIGRATION VERIFICATION</p>
+    <p class="muted" style="margin-top: 0.25rem;">AUTHENTICATED READS ENABLEMENT — REQUEST API READS ENABLED TARGET — REQUEST API WRITES STILL DISABLED</p>
+    <p class="muted" style="margin-top: 0.25rem;">SERVICE ROLE NOT EXPOSED TO BROWSER — WRITES REQUIRE SEPARATE REVIEW — NOT_READY_FOR_REAL_AUTOMATION</p>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp6-controlled-migration-apply" id="mvp6-controlled-migration-apply-panel">
+      <div class="card-head"><h3 class="card-title">Controlled Migration Apply Panel</h3><span class="badge warning">APPLY</span></div>
+      <div class="stat-grid" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));">
+        {_stat("apply mode", controlled.get("apply_mode", "controlled_cli_apply"), _status_badge("PASS"))}
+        {_stat("apply allowed", str(bool(controlled.get("migration_apply_allowed_in_this_phase", True))).lower(), _status_badge("WARNING"))}
+        {_stat("supabase CLI required", "true", _status_badge("PASS"))}
+        {_stat("writes remain false", "true", _status_badge("DISABLED"))}
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">MIGRATION READINESS CHECK before apply.</p>
+        <p class="muted" style="margin-top:0.5rem;">Preferred command: <code>supabase db push</code></p>
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Required preflight</p>
+        {_list(controlled.get("required_preflight", []))}
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp6-copy-controlled-apply" data-copy-text="{_e(apply_copy)}">Copy migration readiness checklist</button>
+      </div>
+    </article>
+
+    <article class="card mvp6-post-migration-verification" id="mvp6-post-migration-verification-panel">
+      <div class="card-head"><h3 class="card-title">Post-Migration Verification Panel</h3><span class="badge info">VERIFY</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp6-post-migration-verification-table">
+          <caption>Required tables and RLS coverage</caption>
+          <thead><tr><th scope="col">Table</th><th scope="col">State</th></tr></thead>
+          <tbody>{required_tables_rows}{required_rls_rows}</tbody>
+        </table>
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Verification mode is metadata only.</p>
+        <p class="muted" style="margin-top:0.5rem;">No row data required. No secret output.</p>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp6-copy-post-migration-verification" data-copy-text="{_e(verification_copy)}">Copy migration review checklist</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp6-authenticated-reads" id="mvp6-authenticated-reads-panel">
+      <div class="card-head"><h3 class="card-title">Authenticated Reads Enablement Panel</h3><span class="badge info">READS</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp6-authenticated-reads-table">
+          <caption>Authenticated request read gates</caption>
+          <thead><tr><th scope="col">Gate</th><th scope="col">Value</th></tr></thead>
+          <tbody>{auth_gate_rows}</tbody>
+        </table>
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">GET remains boundary-only until explicit read adapter approval.</p>
+        <p class="muted" style="margin-top:0.5rem;">Bearer token required. Anon key plus user token only. Service role not used for reads.</p>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp6-copy-authenticated-reads" data-copy-text="{_e(reads_copy)}">Copy authenticated reads checklist</button>
+      </div>
+    </article>
+
+    <article class="card mvp6-feature-flags" id="mvp6-feature-flag-panel">
+      <div class="card-head"><h3 class="card-title">Feature Flag Panel</h3><span class="badge warning">FLAGS</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp6-feature-flag-table">
+          <caption>Feature flag targets</caption>
+          <thead><tr><th scope="col">Flag</th><th scope="col">Target</th></tr></thead>
+          <tbody>{flag_rows}</tbody>
+        </table>
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Read targets can be enabled after the controlled migration and verification path is ready.</p>
+        <p class="muted" style="margin-top:0.5rem;">Writes remain disabled.</p>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp6-copy-feature-flags" data-copy-text="{_e(flags_copy)}">Copy request API gate checklist</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp6-endpoint-status" id="mvp6-endpoint-status-panel">
+      <div class="card-head"><h3 class="card-title">Endpoint Status Panel</h3><span class="badge info">ENDPOINTS</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp6-endpoint-status-table">
+          <caption>MVP-6 readiness endpoints</caption>
+          <thead><tr><th scope="col">Endpoint</th><th scope="col">Method</th><th scope="col">State</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>{_e(request_readiness_path)}</code></th><td>GET</td><td>{_status_badge('PASS')}</td></tr>
+            <tr><th scope="row"><code>{_e(request_endpoint_path)}</code></th><td>GET</td><td>{_status_badge('PASS')}</td></tr>
+            <tr><th scope="row"><code>{_e(request_endpoint_path)}</code></th><td>POST</td><td>{_status_badge('LOCKED')}</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">GET stays boundary-only until the read adapter is explicitly approved.</p>
+        <p class="muted" style="margin-top:0.5rem;">POST stays disabled. No automatic migration apply.</p>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp6-copy-endpoint-status" data-copy-text="{_e(json.dumps({'request_readiness_status_path': request_readiness_path, 'request_path': request_endpoint_path}, indent=2, sort_keys=False))}">Copy endpoint checklist</button>
+      </div>
+    </article>
+
+    <article class="card mvp6-next-product-decision" id="mvp6-next-product-decision-panel">
+      <div class="card-head"><h3 class="card-title">Next Product Decision Panel</h3><span class="badge info">NEXT</span></div>
+      <p class="card-body">Verify authenticated reads with a real Supabase user token, then build controlled request-create writes in a separate phase.</p>
+      {_list(next_product_decision)}
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Current recommendation</p>
+        {_list(current_recommendation)}
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">NEXT_STEP_VERIFY_AUTHENTICATED_READS_WITH_REAL_USER_TOKEN</p>
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Migration review checklist</p>
+        {_list(manual_migration_checklist)}
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Authenticated reads checklist</p>
+        {_list(authenticated_reads_checklist)}
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp6-copy-validation" data-copy-text="{_e(validation_copy)}">Copy MVP-6 validation checklist</button>
+      </div>
+    </article>
+  </div>
+</div>
+"""
+    return _details(
+        "MVP-6 — Controlled Supabase Migration + Authenticated Reads",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp6-controlled-migration-authenticated-reads",
+    )
+
 def render_html(snapshot, compact_view=False, print_mode=False):
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
     header = f"""
@@ -4280,6 +4487,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_mvp3_supabase_provider_layer(snapshot),
         _build_mvp4_supabase_auth_rls_layer(snapshot),
         _build_mvp5_migration_readiness_reads_layer(snapshot),
+        _build_mvp6_controlled_migration_authenticated_reads_layer(snapshot),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),

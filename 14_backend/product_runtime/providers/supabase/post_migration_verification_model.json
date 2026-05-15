@@ -1,0 +1,34 @@
+{
+  "model_id": "supabase-post-migration-verification-model",
+  "model_version": "1.0",
+  "required_tables": [
+    "app_users",
+    "app_roles",
+    "requests",
+    "request_lifecycle_events",
+    "approvals",
+    "audit_events",
+    "dry_run_results",
+    "no_go_flags"
+  ],
+  "required_rls_tables": [
+    "app_users",
+    "app_roles",
+    "requests",
+    "request_lifecycle_events",
+    "approvals",
+    "audit_events",
+    "dry_run_results",
+    "no_go_flags"
+  ],
+  "verification_mode": "schema_metadata_only",
+  "no_row_data_required": true,
+  "no_secret_output": true,
+  "current_recommendation": [
+    "POST_MIGRATION_SCHEMA_VERIFICATION_READY",
+    "RLS_METADATA_VERIFICATION_REQUIRED",
+    "NO_ROW_DATA_REQUIRED",
+    "NO_SECRET_OUTPUT",
+    "NOT_READY_FOR_REAL_AUTOMATION"
+  ]
+}

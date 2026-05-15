@@ -1,0 +1,190 @@
+{
+  "model_id": "mvp6-controlled-supabase-migration-authenticated-reads",
+  "model_version": "1.0",
+  "controlled_migration_apply_model": {
+    "model_id": "supabase-controlled-migration-apply-model",
+    "model_version": "1.0",
+    "project_ref": "mobvzrkcsfbumgbwvkcp",
+    "project_url": "https://mobvzrkcsfbumgbwvkcp.supabase.co",
+    "required_migrations": [
+      "001_supabase_request_runtime.sql",
+      "002_supabase_auth_rls_policies.sql"
+    ],
+    "apply_mode": "controlled_cli_apply",
+    "migration_apply_allowed_in_this_phase": true,
+    "required_preflight": [
+      "supabase_cli_available",
+      "linked_project_ref_matches",
+      "readiness_checker_passes",
+      "no_secret_leaks",
+      "no_broad_public_writes",
+      "writes_flag_remains_false"
+    ],
+    "forbidden": [
+      "print_secrets",
+      "commit_secrets",
+      "expose_service_role_to_browser",
+      "enable_writes",
+      "automation"
+    ],
+    "current_recommendation": [
+      "CONTROLLED_MIGRATION_APPLY_READY",
+      "APPLY_SCHEMA_AND_RLS_ONLY",
+      "ENABLE_AUTHENTICATED_READS_ONLY",
+      "WRITES_DISABLED_UNTIL_SEPARATE_REVIEW",
+      "NOT_READY_FOR_REAL_AUTOMATION"
+    ]
+  },
+  "post_migration_verification_model": {
+    "model_id": "supabase-post-migration-verification-model",
+    "model_version": "1.0",
+    "required_tables": [
+      "app_users",
+      "app_roles",
+      "requests",
+      "request_lifecycle_events",
+      "approvals",
+      "audit_events",
+      "dry_run_results",
+      "no_go_flags"
+    ],
+    "required_rls_tables": [
+      "app_users",
+      "app_roles",
+      "requests",
+      "request_lifecycle_events",
+      "approvals",
+      "audit_events",
+      "dry_run_results",
+      "no_go_flags"
+    ],
+    "verification_mode": "schema_metadata_only",
+    "no_row_data_required": true,
+    "no_secret_output": true,
+    "current_recommendation": [
+      "POST_MIGRATION_SCHEMA_VERIFICATION_READY",
+      "RLS_METADATA_VERIFICATION_REQUIRED",
+      "NO_ROW_DATA_REQUIRED",
+      "NO_SECRET_OUTPUT",
+      "NOT_READY_FOR_REAL_AUTOMATION"
+    ]
+  },
+  "authenticated_reads_enablement_model": {
+    "model_id": "supabase-authenticated-reads-enablement-model",
+    "model_version": "1.0",
+    "request_api_reads_target": "enabled",
+    "request_api_writes_target": "disabled",
+    "supabase_auth_target": "enabled",
+    "bearer_token_required": true,
+    "service_role_used_for_reads": false,
+    "anon_key_plus_user_token": true,
+    "current_status": "pending_env_activation",
+    "current_recommendation": [
+      "CONTROLLED_MIGRATION_APPLY_READY",
+      "AUTHENTICATED_READS_ENABLEMENT_READY",
+      "REQUEST_API_READS_ENABLED_TARGET",
+      "WRITES_DISABLED_UNTIL_SEPARATE_REVIEW",
+      "NOT_READY_FOR_REAL_AUTOMATION"
+    ]
+  },
+  "migration_readiness_model": {
+    "model_id": "supabase-migration-readiness-model",
+    "model_version": "1.0",
+    "project_ref": "mobvzrkcsfbumgbwvkcp",
+    "project_url": "https://mobvzrkcsfbumgbwvkcp.supabase.co",
+    "required_migrations": [
+      "001_supabase_request_runtime.sql",
+      "002_supabase_auth_rls_policies.sql"
+    ],
+    "migration_apply_mode": "manual_only",
+    "production_apply_automatic": false,
+    "supabase_cli_required": true,
+    "rls_review_required": true,
+    "writes_enabled_after_migration": false,
+    "reads_allowed_after_auth_review": "boundary_only",
+    "migration_check_script": "14_backend/product_runtime/providers/supabase/migration_readiness_check.py",
+    "manual_migration_runbook": [
+      "confirm the required migration files are present locally",
+      "review RLS enable statements and policy scope",
+      "confirm no broad anonymous write policies are present",
+      "apply migrations manually outside Codex after approval",
+      "verify the request read boundary remains read-only"
+    ],
+    "auth_token_validation_plan": [
+      "accept bearer tokens only when Supabase auth is explicitly enabled",
+      "validate tokens against the Supabase user endpoint using anon key plus bearer token only",
+      "never validate browser tokens with service role credentials",
+      "keep read results boundary-only until the read adapter is explicitly approved"
+    ],
+    "current_recommendation": [
+      "MIGRATION_READINESS_CHECK_READY",
+      "MANUAL_MIGRATION_REVIEW_REQUIRED",
+      "AUTHENTICATED_READS_BOUNDARY_READY",
+      "WRITES_DISABLED_UNTIL_RLS_REVIEW",
+      "NOT_READY_FOR_REAL_AUTOMATION"
+    ]
+  },
+  "request_read_model": {
+    "model_id": "supabase-request-read-model",
+    "model_version": "1.0",
+    "endpoint": "/api/requests",
+    "method": "GET",
+    "requires_provider_configured": true,
+    "requires_request_api_enabled": true,
+    "requires_supabase_auth_enabled": true,
+    "requires_bearer_token": true,
+    "uses_service_role": false,
+    "uses_anon_key_with_user_bearer": true,
+    "returns_only_user_owned_requests": true,
+    "writes_enabled": false,
+    "auth_token_validation_plan": [
+      "require a bearer token before any read boundary is considered active",
+      "validate tokens only with Supabase auth and anon-key-backed user context when the auth flag is explicitly enabled",
+      "never expose the service role to browser code",
+      "keep the read adapter boundary-only until the read path is explicitly approved"
+    ],
+    "current_status": "scaffold_only_boundary",
+    "current_recommendation": [
+      "MIGRATION_READINESS_CHECK_READY",
+      "MANUAL_MIGRATION_REVIEW_REQUIRED",
+      "AUTHENTICATED_READS_BOUNDARY_READY",
+      "WRITES_DISABLED_UNTIL_RLS_REVIEW",
+      "NEXT_STEP_MANUALLY_APPLY_MIGRATIONS_AND_ENABLE_AUTH_READS"
+    ]
+  },
+  "manual_migration_checklist": [
+    "confirm supabase cli is available and linked to the project ref",
+    "confirm readiness checker passes locally",
+    "review the migration SQL files",
+    "apply schema and RLS migrations only",
+    "keep request writes disabled"
+  ],
+  "authenticated_reads_checklist": [
+    "confirm provider configured",
+    "confirm request API reads target is enabled",
+    "confirm auth target is enabled",
+    "confirm bearer token is required",
+    "confirm service role stays server-only"
+  ],
+  "feature_flag_targets": {
+    "MVP_ENABLE_SUPABASE_REQUEST_API": true,
+    "MVP_ENABLE_SUPABASE_AUTH": true,
+    "MVP_ENABLE_REQUEST_API_WRITES": false
+  },
+  "endpoint_list": [
+    "/api/request-readiness-status",
+    "/api/requests GET",
+    "/api/requests POST"
+  ],
+  "current_recommendation": [
+    "CONTROLLED_MIGRATION_APPLY_READY",
+    "APPLY_SCHEMA_AND_RLS_ONLY",
+    "ENABLE_AUTHENTICATED_READS_ONLY",
+    "WRITES_DISABLED_UNTIL_SEPARATE_REVIEW",
+    "NOT_READY_FOR_REAL_AUTOMATION"
+  ],
+  "next_product_decision": [
+    "verify_authenticated_reads_with_real_user_token",
+    "then_build_controlled_request_create_writes"
+  ]
+}
