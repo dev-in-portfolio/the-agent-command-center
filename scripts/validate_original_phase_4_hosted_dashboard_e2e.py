@@ -56,13 +56,15 @@ def check_forbidden_paths():
         "netlify/functions/auth-status.js",
         "netlify/functions/role-matrix.js",
         "netlify/functions/request-storage-status.js",
+        "netlify/functions/audit-log-status.js",
+        "netlify/functions/approval-gate-status.js",
         "netlify/functions/backend-manifest.js",
         "netlify/functions/_shared/models/"
     ]
     
     for f in changed_files:
-        # Exempt 14_backend/auth and 14_backend/request_storage
-        if f.startswith("14_backend/auth/") or f.startswith("14_backend/request_storage/"):
+        # Exempt 14_backend foundation paths
+        if f.startswith("14_backend/auth/") or f.startswith("14_backend/request_storage/") or f.startswith("14_backend/audit_log/") or f.startswith("14_backend/approval_gate/"):
             continue
             
         # Exempt allowed netlify functions
@@ -146,7 +148,9 @@ def check_fetch_targets():
     print("Checking fetch targets...")
     allowed_targets = [
         "./original_plus2c_audit_log_model.json",
+        "./original_plus2d_approval_gate_model.json",
         "/api/audit-log-status",
+        "/api/approval-gate-status",
         '/api/health',
         '/api/status',
         '/api/backend-manifest',

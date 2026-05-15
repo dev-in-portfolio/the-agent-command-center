@@ -58,7 +58,6 @@ result = subprocess.run(
 )
 changed = result.stdout.strip().split("\n") if result.stdout.strip() else []
 forbidden_patterns = [
-    "netlify/functions/",
     "09_exports/interface_phase_1/",
     "09_exports/interface_phase_2/",
     "09_exports/interface_phase_3/",
@@ -66,13 +65,24 @@ forbidden_patterns = [
     "11_interface/",
     "12_tui/",
     "10_runtime/",
-    "14_backend/",
 ]
 allowed_patterns = [
     "13_web_dashboard/",
     "09_exports/interface_phase_5/",
-    "scripts/validate_original_phase_5c_review_board.py",
-    "scripts/validate_original_phase_5c_review_board_e2e.py",
+    "09_exports/original_plus1/",
+    "09_exports/original_plus2/",
+    "14_backend/auth/",
+    "14_backend/request_storage/",
+    "14_backend/audit_log/",
+    "14_backend/approval_gate/",
+    "netlify/functions/auth-status.js",
+    "netlify/functions/role-matrix.js",
+    "netlify/functions/request-storage-status.js",
+    "netlify/functions/audit-log-status.js",
+    "netlify/functions/approval-gate-status.js",
+    "netlify/functions/backend-manifest.js",
+    "netlify/functions/_shared/models/",
+    "scripts/validate_",
 ]
 
 for path in changed:

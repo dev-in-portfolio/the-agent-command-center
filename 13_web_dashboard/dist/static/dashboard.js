@@ -6100,3 +6100,272 @@
     initPlus2C();
   }
 })();
+
+(function () {
+  var plus2dState = {
+    model: null,
+  };
+
+  function p2d(id) {
+    return document.getElementById(id);
+  }
+
+  function readDashboardData() {
+    var node = p2d("dashboard-data");
+    if (!node) return {};
+    try {
+      return JSON.parse(node.textContent || "{}");
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function getModel() {
+    var dashboardData = readDashboardData();
+    var model = plus2dState.model || dashboardData.original_plus2d_approval_gate_model || null;
+    plus2dState.model = model;
+    return model;
+  }
+
+  function escapeHtml(value) {
+    return String(value == null ? "" : value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function badgeClass(status) {
+    var value = String(status || "").toLowerCase();
+    if (value === "true" || value === "yes" || value === "ready_for_foundation_review_only" || value === "approval_foundation_only" || value === "approval_contract_ready") {
+      return "pass";
+    }
+    if (value === "false" || value === "no" || value === "missing" || value === "durable_approval_storage_not_configured" || value === "not_ready_for_approval_persistence" || value === "not_ready_for_real_automation" || value === "approval_storage_not_configured") {
+      return "locked";
+    }
+    return "info";
+  }
+
+  function buildRows(items, renderer, emptyText) {
+    if (!items || !items.length) return emptyText;
+    return items.map(function (item) {
+      return "<tr>" + renderer(item) + "</tr>";
+    }).join("");
+  }
+
+  function boolValue(value) {
+    return value ? "true" : "false";
+  }
+
+  function buildStatusRows(model) {
+    if (!model || !model.approval_readiness_model) return '<tr><td colspan="2" class="empty">No status loaded yet.</td></tr>';
+    var status = model.approval_readiness_model;
+    var rows = [
+      ["Approval Foundation Status", status.approval_foundation_status],
+      ["Durable Approval Storage Configured", boolValue(status.durable_approval_storage_configured)],
+      ["Approval Write Endpoint Enabled", boolValue(status.approval_write_endpoint_enabled)],
+      ["Approval Record Persistence Verified", boolValue(status.approval_record_persistence_verified)],
+      ["Approval Identity Binding Ready", boolValue(status.approval_identity_binding_ready)],
+      ["Audit Dependency Ready", boolValue(status.audit_dependency_ready)],
+      ["Request Storage Dependency Ready", boolValue(status.request_storage_dependency_ready)],
+      ["Current Mode", status.current_mode],
+    ];
+    return rows.map(function(row) {
+       return "<tr><th scope=\"row\">" + escapeHtml(row[0]) + "</th><td><span class=\"badge " + badgeClass(row[1]) + "\">" + escapeHtml(row[1]) + "</span></td></tr>";
+    }).join("");
+  }
+
+  function buildScopeRows(model) {
+    if (!model || !model.approval_scope_model) return '<tr><td colspan="2" class="empty">No scopes loaded yet.</td></tr>';
+    var scopes = model.approval_scope_model;
+    var rows = [
+      ["Allowed Review Scopes", (scopes.allowed || []).join(", ")],
+      ["Forbidden Scopes", (scopes.forbidden || []).join(", ")]
+    ];
+    return rows.map(function(row) {
+       var cls = row[0].indexOf("Forbidden") !== -1 ? "locked" : "pass";
+       return "<tr><th scope=\"row\">" + escapeHtml(row[0]) + "</th><td><span class=\"badge " + cls + "\">" + escapeHtml(row[1]) + "</span></td></tr>";
+    }).join("");
+  }
+
+  function buildLifecycleRows(model) {
+    if (!model || !model.approval_lifecycle_model) return '<tr><td colspan="2" class="empty">No lifecycle loaded yet.</td></tr>';
+    var lcm = model.approval_lifecycle_model;
+    var rows = [
+      ["Allowed States", (lcm.allowed_states || []).join(", ")],
+      ["Forbidden States", (lcm.forbidden_states || []).join(", ")]
+    ];
+    return rows.map(function(row) {
+       var cls = row[0].indexOf("Forbidden") !== -1 ? "locked" : "pass";
+       return "<tr><th scope=\"row\">" + escapeHtml(row[0]) + "</th><td><span class=\"badge " + cls + "\">" + escapeHtml(row[1]) + "</span></td></tr>";
+    }).join("");
+  }
+
+  function buildAdapterMethods(model) {
+    var methods = model && model.approval_adapter_contract ? model.approval_adapter_contract.methods : [];
+    if (!methods || !methods.length) return '<li>No methods loaded yet.</li>';
+    return methods.map(function(m) {
+      return '<li><code>' + escapeHtml(m) + '</code></li>';
+    }).join("");
+  }
+
+  function buildPolicyRows(model) {
+    if (!model || !model.expiration_revocation_policy) return '<tr><td colspan="2" class="empty">No policy loaded yet.</td></tr>';
+    var p = model.expiration_revocation_policy;
+    var rows = [
+      ["Default Expiration (min)", p.default_expiration_window_minutes],
+      ["Max Expiration (min)", p.max_expiration_window_minutes],
+      ["Revocation Allowed", boolValue(p.revocation_allowed)],
+      ["Revocation Audit Required", boolValue(p.revocation_audit_required)],
+      ["Expired Blocks Action", boolValue(p.expired_approval_blocks_action)],
+      ["Cannot Auth Forbidden Scope", boolValue(p.approval_cannot_authorize_forbidden_scope)],
+      ["No-Go Overrides Approval", boolValue(p.no_go_overrides_approval)],
+    ];
+    return rows.map(function(row) {
+       return "<tr><th scope=\"row\">" + escapeHtml(row[0]) + "</th><td><span class=\"badge " + badgeClass(row[1]) + "\">" + escapeHtml(row[1]) + "</span></td></tr>";
+    }).join("");
+  }
+
+  function buildDependencyRows(model) {
+    return buildRows(model && model.future_approval_dependencies, function(item) {
+      return [
+        '<th scope="row">' + escapeHtml(item.item) + '</th>',
+        '<td><span class="badge ' + badgeClass(item.status) + '">' + escapeHtml(item.status) + '</span></td>',
+      ].join("");
+    }, '<tr><td colspan="2" class="empty">No dependencies loaded yet.</td></tr>');
+  }
+
+  function validateScopeLocal(model, scope) {
+     if (!scope) return { valid: false, error: "No scope selected." };
+     var m = model.approval_scope_model || {};
+     var allowed = m.allowed || [];
+     var forbidden = m.forbidden || [];
+     
+     if (forbidden.indexOf(scope) !== -1) {
+        return { valid: false, error: "Forbidden scope for current phase: " + scope };
+     }
+     if (allowed.indexOf(scope) !== -1) {
+        return { valid: true };
+     }
+     return { valid: false, error: "Unknown scope: " + scope };
+  }
+
+  function updateValidationPreview(model) {
+    var resultDiv = p2d("plus2d-validation-result");
+    var scopeSelect = p2d("plus2d-test-scope");
+    if (!resultDiv || !scopeSelect || !model) return;
+    
+    var scope = scopeSelect.value;
+    
+    if (!scope) {
+       resultDiv.innerHTML = '<p class="muted">Select an approval scope to validate.</p>';
+       return;
+    }
+    
+    var res = validateScopeLocal(model, scope);
+    var badge = res.valid ? '<span class="badge pass">VALID</span>' : '<span class="badge locked">INVALID</span>';
+    var error = res.error ? '<p class="muted" style="margin-top:0.5rem;"><strong>Error:</strong> ' + escapeHtml(res.error) + '</p>' : '';
+    
+    resultDiv.innerHTML = '<p><strong>Result:</strong> ' + badge + '</p>' + error;
+  }
+
+  function updateScopeSelect(model) {
+    var select = p2d("plus2d-test-scope");
+    if (!select || !model) return;
+    var m = model.approval_scope_model || {};
+    var all = (m.allowed || []).concat(m.forbidden || []);
+    if (!all.length) {
+      select.innerHTML = '<option value="">No scopes loaded yet.</option>';
+      return;
+    }
+    var current = select.value;
+    select.innerHTML = '<option value="">Select scope...</option>' + all.map(function(item) {
+       var label = item + (m.forbidden.indexOf(item) !== -1 ? " (forbidden)" : "");
+       return '<option value="' + escapeHtml(item) + '">' + escapeHtml(label) + '</option>';
+    }).join("");
+    select.value = current;
+  }
+
+  function updatePlus2DUI() {
+    var model = getModel();
+    var statusBody = p2d("plus2d-status-body");
+    var reqSchemaPreview = p2d("plus2d-request-schema-preview");
+    var recSchemaPreview = p2d("plus2d-record-schema-preview");
+    var scopeBody = p2d("plus2d-scope-body");
+    var lifecycleBody = p2d("plus2d-lifecycle-body");
+    var adapterMethods = p2d("plus2d-adapter-methods");
+    var policyBody = p2d("plus2d-policy-body");
+    var dependenciesBody = p2d("plus2d-dependencies-body");
+    
+    if (statusBody) statusBody.innerHTML = buildStatusRows(model);
+    if (reqSchemaPreview && model) reqSchemaPreview.textContent = JSON.stringify(model.approval_request_schema, null, 2);
+    if (recSchemaPreview && model) recSchemaPreview.textContent = JSON.stringify(model.approval_record_schema, null, 2);
+    if (scopeBody) scopeBody.innerHTML = buildScopeRows(model);
+    if (lifecycleBody) lifecycleBody.innerHTML = buildLifecycleRows(model);
+    if (adapterMethods) adapterMethods.innerHTML = buildAdapterMethods(model);
+    if (policyBody) policyBody.innerHTML = buildPolicyRows(model);
+    if (dependenciesBody) dependenciesBody.innerHTML = buildDependencyRows(model);
+    
+    updateScopeSelect(model);
+    updateValidationPreview(model);
+  }
+
+  function copyRenderedText(text, emptyMessage, successMessage) {
+    var status = p2d("copy-status");
+    if (!text) {
+      if (status) status.textContent = emptyMessage;
+      return;
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () {
+        if (status) status.textContent = successMessage;
+      }).catch(function () {});
+      return;
+    }
+    var field = document.createElement("textarea");
+    field.value = text;
+    field.style.position = "fixed";
+    field.style.left = "-9999px";
+    document.body.appendChild(field);
+    field.select();
+    document.execCommand("copy");
+    document.body.removeChild(field);
+    if (status) status.textContent = successMessage;
+  }
+
+  function bindCopyButton(buttonId, getter, emptyMessage, successMessage) {
+    var button = p2d(buttonId);
+    if (!button) return;
+    button.addEventListener("click", function () {
+      var model = getModel();
+      var text = getter(model);
+      copyRenderedText(text, emptyMessage, successMessage);
+    });
+  }
+
+  function initPlus2D() {
+    var shell = document.querySelector("[data-plus2d-approval-gate]");
+    if (!shell) return;
+
+    bindCopyButton("plus2d-copy-request-schema", function(m) { return JSON.stringify(m && m.approval_request_schema, null, 2); }, "No schema loaded.", "Request schema copied.");
+    bindCopyButton("plus2d-copy-record-schema", function(m) { return JSON.stringify(m && m.approval_record_schema, null, 2); }, "No schema loaded.", "Record schema copied.");
+    bindCopyButton("plus2d-copy-scope", function(m) { return JSON.stringify(m && m.approval_scope_model, null, 2); }, "No model loaded.", "Scope boundary copied.");
+    bindCopyButton("plus2d-copy-adapter", function(m) { return JSON.stringify(m && m.approval_adapter_contract, null, 2); }, "No adapter loaded.", "Adapter copied.");
+    bindCopyButton("plus2d-copy-disabled", function(m) { return "APPROVAL_STORAGE_NOT_CONFIGURED"; }, "Error", "Boundary report copied.");
+    bindCopyButton("plus2d-copy-policy", function(m) { return JSON.stringify(m && m.expiration_revocation_policy, null, 2); }, "No policy loaded.", "Policy copied.");
+    bindCopyButton("plus2d-copy-dependencies", function(m) { return JSON.stringify(m && m.future_approval_dependencies, null, 2); }, "No dependencies loaded.", "Dependencies copied.");
+    bindCopyButton("plus2d-copy-validation", function(m) { return "Requires: validate_original_plus2d_approval_gate_storage.py\nRequires: validate_original_plus2d_approval_gate_storage_e2e.py"; }, "Error", "Validation checklist copied.");
+
+    var scopeSelect = p2d("plus2d-test-scope");
+    if (scopeSelect) scopeSelect.addEventListener("change", function() { updateValidationPreview(getModel()); });
+
+    updatePlus2DUI();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initPlus2D);
+  } else {
+    initPlus2D();
+  }
+})();

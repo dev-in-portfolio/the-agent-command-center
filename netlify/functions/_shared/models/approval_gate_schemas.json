@@ -1,0 +1,91 @@
+{
+  "approval_request_schema": {
+    "type": "object",
+    "required": ["approval_request_id", "request_id", "requested_by", "requested_at", "approval_scope", "approval_type"],
+    "properties": {
+      "approval_request_id": { "type": "string" },
+      "request_id": { "type": "string" },
+      "requested_by": { "type": "string" },
+      "requested_by_role": { "type": "string" },
+      "requested_at": { "type": "string", "format": "date-time" },
+      "approval_scope": { "type": "string" },
+      "approval_type": { "enum": ["standard", "emergency", "system"] },
+      "requested_action_type": { "type": "string" },
+      "risk_classification": { "enum": ["low", "medium", "high", "critical"] },
+      "dry_run_reference": { "type": "string" },
+      "audit_reference": { "type": "string" },
+      "no_go_flags": { "type": "array", "items": { "type": "string" } },
+      "expiration_policy": { "type": "string" },
+      "current_state": { "type": "string" },
+      "restrictions": { "type": "array", "items": { "type": "string" } },
+      "reason_summary": { "type": "string" }
+    }
+  },
+  "approval_record_schema": {
+    "type": "object",
+    "required": ["approval_id", "approval_request_id", "request_id", "approver_id", "approved_at", "approval_status"],
+    "properties": {
+      "approval_id": { "type": "string" },
+      "approval_request_id": { "type": "string" },
+      "request_id": { "type": "string" },
+      "approver_id": { "type": "string" },
+      "approver_role": { "type": "string" },
+      "approval_scope": { "type": "string" },
+      "approval_type": { "type": "string" },
+      "approval_status": { "enum": ["approved", "rejected", "revoked", "expired"] },
+      "approved_at": { "type": "string", "format": "date-time" },
+      "approved_until": { "type": "string", "format": "date-time" },
+      "restrictions": { "type": "array", "items": { "type": "string" } },
+      "revocation_status": { "type": "boolean" },
+      "revocation_reason": { "type": "string" },
+      "audit_event_id": { "type": "string" },
+      "storage_status": { "type": "string" }
+    }
+  },
+  "approval_scope_model": {
+    "allowed": [
+      "planning_review_only",
+      "packet_review_only",
+      "handoff_review_only",
+      "runbook_review_only",
+      "dry_run_planning_only",
+      "no_go_review_only"
+    ],
+    "forbidden": [
+      "live_execution",
+      "backend_mutation",
+      "github_mutation",
+      "netlify_mutation",
+      "deploy_site",
+      "merge_branch",
+      "push_branch",
+      "create_pr",
+      "trigger_workflow",
+      "queue_execution"
+    ]
+  },
+  "approval_lifecycle_model": {
+    "allowed_states": [
+      "approval_not_requested",
+      "approval_requested_for_planning",
+      "pending_review",
+      "approved_for_planning_only",
+      "rejected",
+      "blocked_by_no_go",
+      "expired",
+      "revoked",
+      "approval_storage_not_configured"
+    ],
+    "forbidden_states": [
+      "approved_for_execution",
+      "approved_for_mutation",
+      "execution_running",
+      "execution_completed",
+      "external_system_mutated",
+      "deployed",
+      "merged",
+      "pushed",
+      "pr_created"
+    ]
+  }
+}

@@ -423,6 +423,7 @@ def _build_landing_screen(snapshot):
         ("Original +2A Auth Foundation", "plus2a-backend-auth-foundation"),
         ("Original +2B Request Storage", "plus2b-persistent-request-storage"),
         ("Original +2C Audit Log", "plus2c-immutable-audit-log"),
+        ("Original +2D Approval Gate", "plus2d-approval-gate-storage"),
         ("Artifacts", "artifact-packages"),
         ("Source Info", "source-transparency"),
         ("Audit / Session", "session-audit"),
@@ -2940,6 +2941,167 @@ def _build_plus2c_immutable_audit_log_layer():
         panel_id="plus2c-immutable-audit-log"
     )
 
+def _build_plus2d_approval_gate_storage_layer():
+    body = """
+<div class="plus2d-approval-gate" data-plus2d-approval-gate="true">
+  <div class="callout plus2d-summary-callout" style="border-color: rgba(245,158,11,0.28); background: rgba(245,158,11,0.06);">
+    <strong style="color: var(--warning);">APPROVAL GATE STORAGE FOUNDATION</strong>
+    <p class="muted" style="margin-top: 0.15rem;">APPROVAL REQUEST CONTRACT — APPROVAL RECORD CONTRACT — APPROVAL STATUS — APPROVAL SCOPE MODEL — APPROVAL ADAPTER BOUNDARY</p>
+    <p class="muted" style="margin-top: 0.25rem;">APPROVAL STORAGE NOT CONFIGURED — APPROVAL WRITE DISABLED — NO EXECUTION — NO MUTATION — NO EXTERNAL SYSTEM WRITES</p>
+    <p class="muted" style="margin-top: 0.25rem;">NOT_READY_FOR_APPROVAL_PERSISTENCE — NOT_READY_FOR_REAL_AUTOMATION</p>
+  </div>
+
+  <div class="plus2d-preview-grid">
+    <article class="card plus2d-approval-status" id="plus2d-approval-status-panel">
+      <div class="card-head"><h3 class="card-title">Approval Gate Status Panel</h3><span class="badge warning">STATUS</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus2d-status-table">
+          <caption>Approval gate status</caption>
+          <thead><tr><th scope="col">Setting</th><th scope="col">Value</th></tr></thead>
+          <tbody id="plus2d-status-body"><tr><td colspan="2" class="empty">No status loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="card plus2d-approval-request-schema" id="plus2d-approval-request-schema-panel">
+      <div class="card-head"><h3 class="card-title">Approval Request Schema Panel</h3><span class="badge info">SCHEMA</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <pre class="code-block" id="plus2d-request-schema-preview" style="font-size:0.8rem;"></pre>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="plus2d-copy-request-schema">Copy approval request schema</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2d-preview-grid">
+    <article class="card plus2d-approval-record-schema" id="plus2d-approval-record-schema-panel">
+      <div class="card-head"><h3 class="card-title">Approval Record Schema Panel</h3><span class="badge info">SCHEMA</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <pre class="code-block" id="plus2d-record-schema-preview" style="font-size:0.8rem;"></pre>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="plus2d-copy-record-schema">Copy approval record schema</button>
+      </div>
+    </article>
+
+    <article class="card plus2d-scope-boundary" id="plus2d-scope-boundary-panel">
+      <div class="card-head"><h3 class="card-title">Approval Scope Boundary Panel</h3><span class="badge info">SCOPES</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus2d-scope-table">
+          <caption>Scope boundaries</caption>
+          <thead><tr><th scope="col">Scope Type</th><th scope="col">Scopes</th></tr></thead>
+          <tbody id="plus2d-scope-body"><tr><td colspan="2" class="empty">No scopes loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="plus2d-copy-scope">Copy approval scope boundary</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2d-preview-grid">
+    <article class="card plus2d-lifecycle-model" id="plus2d-lifecycle-model-panel">
+      <div class="card-head"><h3 class="card-title">Approval Lifecycle Model Panel</h3><span class="badge info">LIFECYCLE</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus2d-lifecycle-table">
+          <caption>Lifecycle states</caption>
+          <thead><tr><th scope="col">State Type</th><th scope="col">States</th></tr></thead>
+          <tbody id="plus2d-lifecycle-body"><tr><td colspan="2" class="empty">No lifecycle loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="card plus2d-adapter-boundary" id="plus2d-adapter-boundary-panel">
+      <div class="card-head"><h3 class="card-title">Approval Adapter Boundary Panel</h3><span class="badge locked">BOUNDARY</span></div>
+      <p class="card-body">The approval adapter contract defines the required methods for backend approval management.</p>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <ul id="plus2d-adapter-methods" style="margin:0;padding-left:1.5rem;font-family:var(--mono);">
+          <li>No methods loaded yet.</li>
+        </ul>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="plus2d-copy-adapter">Copy approval adapter boundary</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2d-preview-grid">
+    <article class="card plus2d-validation-preview" id="plus2d-validation-preview-panel">
+      <div class="card-head"><h3 class="card-title">Approval Validation Preview Panel</h3><span class="badge warning">PREVIEW</span></div>
+      <p class="card-body">Simulated server-side validation of an approval scope.</p>
+      <div id="plus2d-validation-result" style="margin-top:1rem;padding:0.75rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg);">
+        <p class="muted">Select an approval scope to validate.</p>
+      </div>
+      <div style="margin-top:1rem;">
+        <label class="control-group">
+          <span class="muted" style="display:block;margin-bottom:0.35rem;">Approval Scope</span>
+          <select id="plus2d-test-scope" class="table-filter" style="width:100%;font-family:var(--mono);">
+            <option value="">Select scope...</option>
+          </select>
+        </label>
+      </div>
+    </article>
+
+    <article class="card plus2d-disabled-write-boundary" id="plus2d-disabled-write-boundary-panel">
+      <div class="card-head"><h3 class="card-title">Disabled Approval Write Boundary Panel</h3><span class="badge fail">LOCKED</span></div>
+      <p class="card-body">All approval write operations are currently disabled at the boundary layer.</p>
+      <table class="data-table" style="margin-top:0.75rem;">
+        <caption>Disabled write methods</caption>
+        <thead><tr><th scope="col">Operation</th><th scope="col">Result</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">create_approval_request</th><td><span class="badge locked">APPROVAL_STORAGE_NOT_CONFIGURED</span></td></tr>
+          <tr><th scope="row">record_approval_decision</th><td><span class="badge locked">APPROVAL_STORAGE_NOT_CONFIGURED</span></td></tr>
+          <tr><th scope="row">revoke_approval</th><td><span class="badge locked">APPROVAL_STORAGE_NOT_CONFIGURED</span></td></tr>
+        </tbody>
+      </table>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="plus2d-copy-disabled">Copy disabled approval write boundary report</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2d-preview-grid">
+    <article class="card plus2d-expiration-policy" id="plus2d-expiration-policy-panel">
+      <div class="card-head"><h3 class="card-title">Expiration / Revocation Policy Panel</h3><span class="badge info">POLICY</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus2d-policy-table">
+          <caption>Approval policy</caption>
+          <thead><tr><th scope="col">Policy Setting</th><th scope="col">Value</th></tr></thead>
+          <tbody id="plus2d-policy-body"><tr><td colspan="2" class="empty">No policy loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="plus2d-copy-policy">Copy expiration/revocation policy</button>
+      </div>
+    </article>
+
+    <article class="card plus2d-future-approval-dependencies" id="plus2d-future-approval-dependencies-panel">
+      <div class="card-head"><h3 class="card-title">Future Approval Dependency Panel</h3><span class="badge warning">MISSING</span></div>
+      <p class="card-body">Real approval persistence cannot be enabled until the following prerequisites are met.</p>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus2d-dependencies-table">
+          <caption>Missing approval dependencies</caption>
+          <thead><tr><th scope="col">Dependency</th><th scope="col">Status</th></tr></thead>
+          <tbody id="plus2d-dependencies-body"><tr><td colspan="2" class="empty">No dependencies loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="plus2d-copy-dependencies">Copy future approval dependency checklist</button>
+        <button type="button" class="copy-button small" id="plus2d-copy-validation">Copy +2D validation checklist</button>
+      </div>
+    </article>
+  </div>
+</div>
+"""
+    return _details(
+        "Original +2D — Approval Gate Storage Foundation",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="plus2d-approval-gate-storage"
+    )
+
 def render_html(snapshot, compact_view=False, print_mode=False):
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
     header = f"""
@@ -2974,6 +3136,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_plus2a_backend_auth_foundation_layer(),
         _build_plus2b_persistent_request_storage_layer(),
         _build_plus2c_immutable_audit_log_layer(),
+        _build_plus2d_approval_gate_storage_layer(),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),
