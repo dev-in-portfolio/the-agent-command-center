@@ -13,3 +13,6 @@ __pycache__/
 
 # Phase 3 generated test artifacts
 09_exports/interface_phase_3/test_runs/
+
+# Local runtime demo database
+.agent_command_center/

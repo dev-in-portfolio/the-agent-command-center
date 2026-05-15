@@ -1,21 +1,21 @@
 -- MVP-1 request lifecycle runtime migration scaffold.
 -- This file is intentionally scaffold-only and must not be executed in this phase.
 
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
     id TEXT PRIMARY KEY,
     display_name TEXT NOT NULL,
     role_id TEXT NOT NULL,
     created_at_utc TEXT NOT NULL
 );
 
-CREATE TABLE roles (
+CREATE TABLE IF NOT EXISTS roles (
     id TEXT PRIMARY KEY,
     role_name TEXT NOT NULL,
     description TEXT NOT NULL,
     created_at_utc TEXT NOT NULL
 );
 
-CREATE TABLE requests (
+CREATE TABLE IF NOT EXISTS requests (
     id TEXT PRIMARY KEY,
     actor_id TEXT NOT NULL,
     actor_role TEXT NOT NULL,
@@ -26,7 +26,7 @@ CREATE TABLE requests (
     created_at_utc TEXT NOT NULL
 );
 
-CREATE TABLE request_lifecycle_events (
+CREATE TABLE IF NOT EXISTS request_lifecycle_events (
     id TEXT PRIMARY KEY,
     request_id TEXT NOT NULL,
     lifecycle_state TEXT NOT NULL,
@@ -36,7 +36,7 @@ CREATE TABLE request_lifecycle_events (
     FOREIGN KEY (request_id) REFERENCES requests(id)
 );
 
-CREATE TABLE approvals (
+CREATE TABLE IF NOT EXISTS approvals (
     id TEXT PRIMARY KEY,
     request_id TEXT NOT NULL,
     approval_state TEXT NOT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE approvals (
     FOREIGN KEY (request_id) REFERENCES requests(id)
 );
 
-CREATE TABLE audit_events (
+CREATE TABLE IF NOT EXISTS audit_events (
     id TEXT PRIMARY KEY,
     request_id TEXT NOT NULL,
     actor_id TEXT NOT NULL,
@@ -56,7 +56,7 @@ CREATE TABLE audit_events (
     FOREIGN KEY (request_id) REFERENCES requests(id)
 );
 
-CREATE TABLE dry_run_results (
+CREATE TABLE IF NOT EXISTS dry_run_results (
     id TEXT PRIMARY KEY,
     request_id TEXT NOT NULL,
     dry_run_plan_id TEXT NOT NULL,
@@ -66,7 +66,7 @@ CREATE TABLE dry_run_results (
     FOREIGN KEY (request_id) REFERENCES requests(id)
 );
 
-CREATE TABLE no_go_flags (
+CREATE TABLE IF NOT EXISTS no_go_flags (
     id TEXT PRIMARY KEY,
     request_id TEXT NOT NULL,
     flag_name TEXT NOT NULL,

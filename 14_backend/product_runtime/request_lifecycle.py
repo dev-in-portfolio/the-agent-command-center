@@ -1,4 +1,5 @@
 import json
+import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -35,17 +36,19 @@ DEMO_FIXTURE = _load_json("demo_fixture.json")
 
 
 class RequestLifecycleOrchestrator:
-    def __init__(self):
+    def __init__(self, persistence_adapter=None):
         self.request_storage = RequestStorageAdapter()
         self.dry_run = DryRunAdapter()
         self.approval_gate = ApprovalStorageAdapter()
         self.audit_log = AuditStorageAdapter()
+        self.persistence_adapter = persistence_adapter
 
     def validate_request_structure(self, payload):
         required = ["title", "intent", "requested_action"]
         missing = [field for field in required if not str(payload.get(field, "")).strip()]
         forbidden_terms = [
             "execute",
+            "execution",
             "deploy",
             "merge",
             "push",
@@ -57,7 +60,10 @@ class RequestLifecycleOrchestrator:
             str(payload.get(field, ""))
             for field in ["title", "intent", "requested_action", "scope", "target_system"]
         ).lower()
-        blocked_terms = [term for term in forbidden_terms if term in combined]
+        blocked_terms = [
+            term for term in forbidden_terms
+            if re.search(rf"\\b{re.escape(term)}\\b", combined)
+        ]
         return {
             "valid": not missing and not blocked_terms,
             "missing_fields": missing,
@@ -89,7 +95,83 @@ class RequestLifecycleOrchestrator:
             "reason": "No real auth provider or durable persistence is configured yet.",
         }
 
-    def build_storage_result(self, payload):
+    def _persist_local_lifecycle(self, payload, auth_context, validation_result, dry_run_result):
+        adapter = self.persistence_adapter
+        if adapter is None:
+            return {
+                "available": False,
+                "storage_state": "storage_not_configured",
+                "local_persistence_enabled": False,
+                "production_persistence_configured": False,
+                "request_record": None,
+                "transition_states": [],
+            }
+
+        request_payload = {
+            "request_id": str(payload.get("request_id") or DEMO_FIXTURE.get("request_id") or "mvp1-request"),
+            "actor_id": auth_context["actor_id"],
+            "actor_role": auth_context["actor_role"],
+            "title": payload.get("title", ""),
+            "intent": payload.get("intent", ""),
+            "requested_action": payload.get("requested_action_type") or payload.get("requested_action", "planning_review_only"),
+            "lifecycle_state": "request_received",
+        }
+
+        create_result = adapter.create_request(request_payload)
+        request_record = create_result.get("request") if isinstance(create_result, dict) else create_result
+        request_id = (request_record or {}).get("id") or request_payload["request_id"]
+        transition_states = [
+            "request_received",
+            "request_validated",
+            "storage_not_configured",
+            "dry_run_plan_generated",
+            "approval_required",
+            "audit_event_prepared",
+            "blocked_before_execution",
+            "ready_for_human_review",
+        ]
+        transition_results = []
+        for state in transition_states[1:]:
+            if hasattr(adapter, "transition_request_state"):
+                transition_results.append(
+                    adapter.transition_request_state(
+                        request_id,
+                        state,
+                        event_summary=f"Local runtime transition: {state}.",
+                    )
+                )
+            elif hasattr(adapter, "update_request_state"):
+                transition_results.append(
+                    adapter.update_request_state(
+                        request_id,
+                        state,
+                        event_summary=f"Local runtime transition: {state}.",
+                    )
+                )
+        final_request = None
+        if hasattr(adapter, "get_request"):
+            request_lookup = adapter.get_request(request_id)
+            final_request = request_lookup.get("request") if isinstance(request_lookup, dict) else request_lookup
+
+        lifecycle_events = []
+        if hasattr(adapter, "get_lifecycle_events"):
+            event_lookup = adapter.get_lifecycle_events(request_id)
+            lifecycle_events = event_lookup.get("events") if isinstance(event_lookup, dict) else event_lookup
+
+        return {
+            "available": True,
+            "storage_state": "local_sqlite_persistence_available",
+            "local_persistence_enabled": True,
+            "production_persistence_configured": False,
+            "validation_result": validation_result,
+            "dry_run_preview": dry_run_result.get("plan", {}),
+            "request_record": final_request or request_record,
+            "transition_states": transition_states,
+            "transition_results": transition_results,
+            "lifecycle_events": lifecycle_events,
+        }
+
+    def build_storage_result(self, payload, auth_context=None, validation_result=None, dry_run_result=None):
         storage_payload = {
             "title": payload.get("title", ""),
             "intent": payload.get("intent", ""),
@@ -98,12 +180,19 @@ class RequestLifecycleOrchestrator:
         }
         validation = self.request_storage.validate_request_draft(storage_payload)
         create_attempt = self.request_storage.create_request_draft(storage_payload)
+        local_persistence = self._persist_local_lifecycle(
+            payload,
+            auth_context or {"actor_id": "demo_operator", "actor_role": "operator"},
+            validation_result or validation,
+            dry_run_result or {},
+        )
         return {
             "validation": validation,
             "create_attempt": create_attempt,
-            "storage_state": "storage_not_configured",
-            "persistence_enabled": False,
-            "durable_storage_configured": False,
+            "storage_state": local_persistence.get("storage_state", "storage_not_configured"),
+            "persistence_enabled": bool(self.persistence_adapter),
+            "durable_storage_configured": bool(self.persistence_adapter),
+            "local_persistence": local_persistence,
         }
 
     def build_dry_run_result(self, payload):
@@ -176,8 +265,13 @@ class RequestLifecycleOrchestrator:
         auth_context = self.attach_demo_auth_context(payload)
         validation_result = self.validate_request_structure(payload)
         risk = self.classify_risk(payload)
-        storage_result = self.build_storage_result(payload)
         dry_run_result = self.build_dry_run_result(payload)
+        storage_result = self.build_storage_result(
+            payload,
+            auth_context=auth_context,
+            validation_result=validation_result,
+            dry_run_result=dry_run_result,
+        )
         approval_requirement = self.build_approval_requirement(payload)
         audit_summary = self.build_audit_summary(payload)
         blocked_operations = [
@@ -217,7 +311,9 @@ class RequestLifecycleOrchestrator:
             "recommended_next_action": "choose_storage_provider_and_auth_provider_then_build_real_request_persistence",
             "real_execution_enabled": False,
             "external_mutation_enabled": False,
-            "persistence_enabled": False,
+            "persistence_enabled": bool(self.persistence_adapter),
+            "local_persistence_enabled": bool(self.persistence_adapter),
+            "production_persistence_configured": False,
             "risk_classification": risk,
             "demo_auth_context": auth_context,
             "state_flow": STATE_MODEL.get("lifecycle_states", []),
