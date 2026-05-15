@@ -16,4 +16,6 @@ The validator wall edit is narrow MVP-4 awareness only and does not weaken safet
 - No external mutation allowance added.
 - No GitHub/Netlify mutation allowance added.
 - No deploy/merge/push/PR controls allowed.
+- No anonymous write allowance added.
+- No broad public RLS allowance added.
 - No automation allowed.
