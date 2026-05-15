@@ -38,6 +38,8 @@ def js_safety_check(path):
     for method in ['method: "POST"', "method:'POST'", 'method: "PUT"', "method:'PUT'", 'method: "PATCH"', "method:'PATCH'", 'method: "DELETE"', "method:'DELETE'"]:
         check(method not in text, f"dashboard.js contains forbidden HTTP method: {method}")
     allowed_fetches = {
+        "./original_plus2c_audit_log_model.json",
+        "/api/audit-log-status",
         "/api/health",
         "/api/status",
         "/api/backend-manifest",
@@ -151,15 +153,20 @@ changed = subprocess.run(
 ).stdout.strip().splitlines()
 
 allowed_prefixes = [
+        "scripts/validate_original_plus2c",
+        "scripts/validate_original_plus2b",
+        "scripts/validate_original_plus2a",
     "13_web_dashboard/",
     "09_exports/interface_phase_5/",
     "09_exports/original_plus1/",
     "09_exports/original_plus2/",
     "14_backend/auth/",
     "14_backend/request_storage/",
+    "14_backend/audit_log/",
     "netlify/functions/auth-status.js",
     "netlify/functions/role-matrix.js",
     "netlify/functions/request-storage-status.js",
+    "netlify/functions/audit-log-status.js",
     "netlify/functions/backend-manifest.js",
     "netlify/functions/_shared/models/",
     "scripts/validate_original_plus1b_operator_console_contract_layer.py",
@@ -174,6 +181,8 @@ allowed_prefixes = [
     "scripts/validate_original_plus2a_backend_auth_foundation_e2e.py",
     "scripts/validate_original_plus2b_persistent_request_storage.py",
     "scripts/validate_original_plus2b_persistent_request_storage_e2e.py",
+    "scripts/validate_original_plus2c_immutable_audit_log.py",
+    "scripts/validate_original_plus2c_immutable_audit_log_e2e.py",
     "scripts/validate_phase5_plus1_master_validator_wall.py",
     "scripts/validate_backend_phase_4a_e2e.py",
     "scripts/validate_backend_phase_4c_planning.py",
@@ -187,6 +196,9 @@ allowed_prefixes = [
     "scripts/validate_original_plus1_controlled_automation_readiness_e2e.py",
     "scripts/validate_original_phase_5b_request_packet_builder_e2e.py",
     "scripts/validate_original_phase_5c_review_board.py",
+    "scripts/validate_backend_phase_4d_disabled_ui.py",
+    "scripts/validate_interface_phase_3_dashboard.py",
+    "scripts/validate_original_phase_5c_review_board_e2e.py",
     "scripts/validate_original_phase_5d_handoff_composer.py",
     "scripts/validate_original_phase_5d_handoff_composer_e2e.py",
     "scripts/validate_original_phase_5e_runbook_simulator.py",

@@ -92,6 +92,8 @@ def js_safety_check(path):
 
     fetch_calls = re.findall(r'fetch\(["\']([^"\']+)["\']', text)
     allowed_targets = [
+        "./original_plus2c_audit_log_model.json",
+        "/api/audit-log-status",
         '/api/health', '/api/status', '/api/backend-manifest',
         '/api/auth-status', '/api/role-matrix', '/api/request-storage-status',
         './status_snapshot.json',

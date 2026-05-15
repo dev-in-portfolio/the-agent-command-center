@@ -47,6 +47,17 @@ def main():
 
     js = (ROOT / "13_web_dashboard/dist/static/dashboard.js").read_text(encoding="utf-8")
     allowed_fetches = [
+        "./original_plus2c_audit_log_model.json",
+        "./original_plus2b_request_storage_model.json",
+        "./original_plus2a_auth_foundation_model.json",
+        "./original_plus1e_backend_build_tickets.json",
+        "./original_plus1d_backend_boundary_model.json",
+        "./original_plus1c_readiness_qa_model.json",
+        "./original_plus1b_contract_schemas.json",
+        "/api/audit-log-status",
+        "/api/request-storage-status",
+        "/api/role-matrix",
+        "/api/auth-status",
         "/api/health",
         "/api/status",
         "/api/backend-manifest",

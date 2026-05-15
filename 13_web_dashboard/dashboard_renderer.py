@@ -422,6 +422,7 @@ def _build_landing_screen(snapshot):
         ("Original +1E Implementation Gate", "plus1e-backend-implementation-gate"),
         ("Original +2A Auth Foundation", "plus2a-backend-auth-foundation"),
         ("Original +2B Request Storage", "plus2b-persistent-request-storage"),
+        ("Original +2C Audit Log", "plus2c-immutable-audit-log"),
         ("Artifacts", "artifact-packages"),
         ("Source Info", "source-transparency"),
         ("Audit / Session", "session-audit"),
@@ -2790,6 +2791,155 @@ def _build_plus2b_persistent_request_storage_layer():
         panel_id="plus2b-persistent-request-storage"
     )
 
+def _build_plus2c_immutable_audit_log_layer():
+    body = """
+<div class="plus2c-audit-log" data-plus2c-audit-log="true">
+  <div class="callout plus2c-summary-callout" style="border-color: rgba(139,92,246,0.28); background: rgba(139,92,246,0.06);">
+    <strong style="color: var(--info);">IMMUTABLE AUDIT LOG FOUNDATION</strong>
+    <p class="muted" style="margin-top: 0.15rem;">AUDIT EVENT CONTRACT — HASH CHAIN CONTRACT — AUDIT STATUS — AUDIT EVENT SCHEMA — AUDIT ADAPTER BOUNDARY</p>
+    <p class="muted" style="margin-top: 0.25rem;">AUDIT STORAGE NOT CONFIGURED — AUDIT APPEND DISABLED — NO EXECUTION — NO MUTATION — NO EXTERNAL SYSTEM WRITES</p>
+    <p class="muted" style="margin-top: 0.25rem;">NOT_READY_FOR_AUDIT_PERSISTENCE — NOT_READY_FOR_REAL_AUTOMATION</p>
+  </div>
+
+  <div class="plus2c-preview-grid">
+    <article class="card plus2c-audit-status" id="plus2c-audit-status-panel">
+      <div class="card-head"><h3 class="card-title">Audit Log Status Panel</h3><span class="badge warning">STATUS</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus2c-status-table">
+          <caption>Audit log status</caption>
+          <thead><tr><th scope="col">Setting</th><th scope="col">Value</th></tr></thead>
+          <tbody id="plus2c-status-body"><tr><td colspan="2" class="empty">No status loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="card plus2c-event-schema" id="plus2c-event-schema-panel">
+      <div class="card-head"><h3 class="card-title">Audit Event Schema Panel</h3><span class="badge info">SCHEMA</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <pre class="code-block" id="plus2c-schema-preview" style="font-size:0.8rem;"></pre>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="plus2c-copy-schema">Copy audit event schema</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2c-preview-grid">
+    <article class="card plus2c-category-boundary" id="plus2c-category-boundary-panel">
+      <div class="card-head"><h3 class="card-title">Audit Event Category Boundary Panel</h3><span class="badge info">CATEGORIES</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus2c-category-table">
+          <caption>Category boundaries</caption>
+          <thead><tr><th scope="col">Category Type</th><th scope="col">Categories</th></tr></thead>
+          <tbody id="plus2c-category-body"><tr><td colspan="2" class="empty">No categories loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="card plus2c-hash-chain" id="plus2c-hash-chain-panel">
+      <div class="card-head"><h3 class="card-title">Hash Chain Contract Panel</h3><span class="badge locked">INTEGRITY</span></div>
+      <p class="card-body">The hash chain contract defines the cryptographic integrity model for audit immutability.</p>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus2c-chain-table">
+          <caption>Hash chain contract</caption>
+          <thead><tr><th scope="col">Property</th><th scope="col">Value</th></tr></thead>
+          <tbody id="plus2c-chain-body"><tr><td colspan="2" class="empty">No contract loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="plus2c-copy-chain">Copy hash chain contract</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2c-preview-grid">
+    <article class="card plus2c-adapter-boundary" id="plus2c-adapter-boundary-panel">
+      <div class="card-head"><h3 class="card-title">Audit Adapter Boundary Panel</h3><span class="badge locked">BOUNDARY</span></div>
+      <p class="card-body">The audit adapter contract defines the required methods for backend audit management.</p>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <ul id="plus2c-adapter-methods" style="margin:0;padding-left:1.5rem;font-family:var(--mono);">
+          <li>No methods loaded yet.</li>
+        </ul>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="plus2c-copy-adapter">Copy audit adapter boundary</button>
+      </div>
+    </article>
+
+    <article class="card plus2c-validation-preview" id="plus2c-validation-preview-panel">
+      <div class="card-head"><h3 class="card-title">Audit Validation Preview Panel</h3><span class="badge warning">PREVIEW</span></div>
+      <p class="card-body">Simulated server-side validation of an audit event category.</p>
+      <div id="plus2c-validation-result" style="margin-top:1rem;padding:0.75rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg);">
+        <p class="muted">Select an event category to validate.</p>
+      </div>
+      <div style="margin-top:1rem;">
+        <label class="control-group">
+          <span class="muted" style="display:block;margin-bottom:0.35rem;">Event Category</span>
+          <select id="plus2c-test-category" class="table-filter" style="width:100%;font-family:var(--mono);">
+            <option value="">Select category...</option>
+          </select>
+        </label>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2c-preview-grid">
+    <article class="card plus2c-disabled-append-boundary" id="plus2c-disabled-append-boundary-panel">
+      <div class="card-head"><h3 class="card-title">Disabled Audit Append Boundary Panel</h3><span class="badge fail">LOCKED</span></div>
+      <p class="card-body">All audit append operations are currently disabled at the boundary layer.</p>
+      <table class="data-table" style="margin-top:0.75rem;">
+        <caption>Disabled append methods</caption>
+        <thead><tr><th scope="col">Operation</th><th scope="col">Result</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">append_audit_event</th><td><span class="badge locked">AUDIT_STORAGE_NOT_CONFIGURED</span></td></tr>
+          <tr><th scope="row">verify_audit_chain</th><td><span class="badge locked">NO_DURABLE_CHAIN_CONFIGURED</span></td></tr>
+        </tbody>
+      </table>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="plus2c-copy-disabled">Copy disabled audit append boundary report</button>
+      </div>
+    </article>
+
+    <article class="card plus2c-retention-policy" id="plus2c-retention-policy-panel">
+      <div class="card-head"><h3 class="card-title">Retention / Redaction Policy Panel</h3><span class="badge info">POLICY</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="plus2c-policy-table">
+          <caption>Audit policy</caption>
+          <thead><tr><th scope="col">Policy Setting</th><th scope="col">Value</th></tr></thead>
+          <tbody id="plus2c-policy-body"><tr><td colspan="2" class="empty">No policy loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="plus2c-copy-policy">Copy retention/redaction policy</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="card plus2c-future-audit-dependencies" id="plus2c-future-audit-dependencies-panel">
+    <div class="card-head"><h3 class="card-title">Future Audit Dependency Panel</h3><span class="badge warning">MISSING</span></div>
+    <p class="card-body">Real audit log persistence cannot be enabled until the following prerequisites are met.</p>
+    <div class="table-wrap" style="margin-top:0.75rem;">
+      <table class="data-table" id="plus2c-dependencies-table">
+        <caption>Missing audit dependencies</caption>
+        <thead><tr><th scope="col">Dependency</th><th scope="col">Status</th></tr></thead>
+        <tbody id="plus2c-dependencies-body"><tr><td colspan="2" class="empty">No dependencies loaded yet.</td></tr></tbody>
+      </table>
+    </div>
+    <div class="button-row" style="margin-top:0.75rem;">
+      <button type="button" class="copy-button small" id="plus2c-copy-dependencies">Copy future audit dependency checklist</button>
+      <button type="button" class="copy-button small" id="plus2c-copy-validation">Copy +2C validation checklist</button>
+    </div>
+  </div>
+</div>
+"""
+    return _details(
+        "Original +2C — Immutable Audit Log Foundation",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="plus2c-immutable-audit-log"
+    )
+
 def render_html(snapshot, compact_view=False, print_mode=False):
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
     header = f"""
@@ -2823,6 +2973,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_plus1e_backend_implementation_gate_layer(),
         _build_plus2a_backend_auth_foundation_layer(),
         _build_plus2b_persistent_request_storage_layer(),
+        _build_plus2c_immutable_audit_log_layer(),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),

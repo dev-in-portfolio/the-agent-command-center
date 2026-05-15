@@ -72,6 +72,12 @@ def main():
     ).stdout.strip().splitlines()
 
     allowed_prefixes = [
+        "scripts/validate_original_plus2c",
+        "scripts/validate_original_plus2b",
+        "scripts/validate_original_plus2a",
+        "netlify/functions/audit-log-status.js",
+        "14_backend/audit_log/",
+        "09_exports/original_plus2/",
         "13_web_dashboard/",
         "09_exports/original_plus1/",
         "09_exports/interface_phase_5/",
@@ -123,12 +129,14 @@ def main():
         "netlify/functions/auth-status.js",
         "netlify/functions/role-matrix.js",
         "netlify/functions/request-storage-status.js",
+        "netlify/functions/audit-log-status.js",
         "netlify/functions/backend-manifest.js",
         "netlify/functions/_shared/models/"
     ]
     authorized_backend = [
         "14_backend/auth/",
-        "14_backend/request_storage/"
+        "14_backend/request_storage/",
+        "14_backend/audit_log/"
     ]
 
     for path in changed:

@@ -145,6 +145,8 @@ def check_dangerous_patterns():
 def check_fetch_targets():
     print("Checking fetch targets...")
     allowed_targets = [
+        "./original_plus2c_audit_log_model.json",
+        "/api/audit-log-status",
         '/api/health',
         '/api/status',
         '/api/backend-manifest',

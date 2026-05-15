@@ -1,0 +1,185 @@
+{
+  "audit_readiness_model": {
+    "audit_foundation_status": "READY_FOR_FOUNDATION_REVIEW_ONLY",
+    "durable_audit_storage_configured": false,
+    "append_endpoint_enabled": false,
+    "immutable_chain_verified": false,
+    "persistence_verified": false,
+    "hash_algorithm": "SHA256",
+    "current_mode": "AUDIT_FOUNDATION_ONLY",
+    "current_recommendation": [
+      "AUDIT_CONTRACT_READY",
+      "DURABLE_AUDIT_STORAGE_NOT_CONFIGURED",
+      "NOT_READY_FOR_AUDIT_PERSISTENCE",
+      "NOT_READY_FOR_REAL_AUTOMATION",
+      "PLAN_PLUS2D_AFTER_AUDIT_STORAGE_DECISION"
+    ]
+  },
+  "audit_event_schema": {
+    "type": "object",
+    "required": [
+      "audit_event_id",
+      "timestamp",
+      "actor_id",
+      "event_type",
+      "event_category",
+      "event_hash"
+    ],
+    "properties": {
+      "audit_event_id": {
+        "type": "string"
+      },
+      "timestamp": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "actor_id": {
+        "type": "string"
+      },
+      "actor_role": {
+        "type": "string"
+      },
+      "source_phase": {
+        "type": "string"
+      },
+      "request_id": {
+        "type": "string"
+      },
+      "event_type": {
+        "type": "string"
+      },
+      "event_category": {
+        "type": "string"
+      },
+      "previous_state": {
+        "type": "string"
+      },
+      "next_state": {
+        "type": "string"
+      },
+      "risk_classification": {
+        "enum": [
+          "low",
+          "medium",
+          "high",
+          "critical"
+        ]
+      },
+      "approval_reference": {
+        "type": "string"
+      },
+      "dry_run_reference": {
+        "type": "string"
+      },
+      "storage_reference": {
+        "type": "string"
+      },
+      "no_go_reason": {
+        "type": "string"
+      },
+      "safety_boundary": {
+        "type": "string"
+      },
+      "event_payload_summary": {
+        "type": "string"
+      },
+      "previous_hash": {
+        "type": "string"
+      },
+      "event_hash": {
+        "type": "string"
+      },
+      "integrity_status": {
+        "type": "string"
+      }
+    }
+  },
+  "audit_event_categories": {
+    "allowed": [
+      "status_viewed",
+      "request_draft_validated",
+      "request_storage_status_checked",
+      "auth_status_checked",
+      "role_matrix_viewed",
+      "planning_packet_generated",
+      "review_decision_previewed",
+      "handoff_previewed",
+      "runbook_previewed",
+      "no_go_generated",
+      "safety_boundary_checked",
+      "production_verification_recorded"
+    ],
+    "forbidden": [
+      "command_executed",
+      "backend_mutated",
+      "github_mutated",
+      "netlify_mutated",
+      "deployment_triggered",
+      "branch_merged",
+      "branch_pushed",
+      "pr_created",
+      "queue_job_executed",
+      "automation_started"
+    ]
+  },
+  "immutable_hash_chain_contract": {
+    "hash_algorithm": "SHA256",
+    "canonical_serialization": "JSON_SORT_KEYS",
+    "integrity_fields": [
+      "previous_hash",
+      "event_hash"
+    ],
+    "tamper_detection": "active_chain_validation"
+  },
+  "audit_adapter_contract": {
+    "methods": [
+      "get_audit_status()",
+      "validate_audit_event(payload)",
+      "compute_event_hash(payload)",
+      "append_audit_event(payload)",
+      "get_audit_event(audit_event_id)",
+      "list_audit_events()",
+      "verify_audit_chain()"
+    ],
+    "current_behavior": "AUDIT_STORAGE_NOT_CONFIGURED"
+  },
+  "retention_redaction_policy": {
+    "retention_class": "STANDARD_OPERATIONAL",
+    "redaction_allowed_for_payload_summary": true,
+    "immutable_core_fields": true,
+    "pii_policy": "NO_PII_ALLOWED",
+    "secret_redaction_required": true,
+    "token_redaction_required": true,
+    "no_secret_storage": true
+  },
+  "future_audit_dependencies": [
+    {
+      "item": "approved durable audit storage provider",
+      "status": "missing"
+    },
+    {
+      "item": "request storage dependency",
+      "status": "missing"
+    },
+    {
+      "item": "auth identity binding dependency",
+      "status": "missing"
+    },
+    {
+      "item": "approval record dependency",
+      "status": "missing"
+    },
+    {
+      "item": "append-only enforcement",
+      "status": "missing"
+    },
+    {
+      "item": "backup/restore plan",
+      "status": "missing"
+    },
+    {
+      "item": "retention policy",
+      "status": "missing"
+    }
+  ]
+}

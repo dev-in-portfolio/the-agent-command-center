@@ -1159,3 +1159,39 @@ pre.code-block {
   white-space: pre-wrap;
   word-break: break-word;
 }
+.plus2c-audit-log {
+  display: grid;
+  gap: 1.5rem;
+  min-width: 0;
+}
+
+.plus2c-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+.plus2c-audit-status,
+.plus2c-event-schema,
+.plus2c-category-boundary,
+.plus2c-hash-chain,
+.plus2c-adapter-boundary,
+.plus2c-validation-preview,
+.plus2c-disabled-append-boundary,
+.plus2c-retention-policy,
+.plus2c-future-audit-dependencies {
+  min-width: 0;
+}
+
+#plus2c-schema-preview {
+  max-height: 280px;
+  overflow: auto;
+}
+
+#plus2c-validation-result {
+  max-height: 200px;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}

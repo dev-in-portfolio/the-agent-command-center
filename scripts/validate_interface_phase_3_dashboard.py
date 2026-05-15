@@ -215,7 +215,18 @@ def _validate_html_and_assets():
             raise RuntimeError(f"CSS missing {needle}")
 
     # Allow same-origin backend fetches
-    allowed_fetches = ['fetch("/api/health")', "fetch('/api/health')", 'fetch("/api/status")', "fetch('/api/status')", 'fetch("/api/backend-manifest")', "fetch('/api/backend-manifest')", 'fetch("./status_snapshot.json")', "fetch('./status_snapshot.json')", 'fetch("./phase4d_identity_schema.json")', "fetch('./phase4d_identity_schema.json')", 'fetch("./phase4d_action_schema.json")', "fetch('./phase4d_action_schema.json')", 'fetch("./phase4d_audit_schema.json")', "fetch('./phase4d_audit_schema.json')", 'fetch("./phase4d_risk_model.json")', "fetch('./phase4d_risk_model.json')", 'fetch("./phase4d_approval_schema.json")', "fetch('./phase4d_approval_schema.json')"]
+    allowed_fetches = [
+        "./original_plus2c_audit_log_model.json",
+        "./original_plus2b_request_storage_model.json",
+        "./original_plus2a_auth_foundation_model.json",
+        "./original_plus1e_backend_build_tickets.json",
+        "./original_plus1d_backend_boundary_model.json",
+        "./original_plus1c_readiness_qa_model.json",
+        "./original_plus1b_contract_schemas.json",
+        "/api/audit-log-status",
+        "/api/request-storage-status",
+        "/api/role-matrix",
+        "/api/auth-status",'fetch("/api/health")', "fetch('/api/health')", 'fetch("/api/status")', "fetch('/api/status')", 'fetch("/api/backend-manifest")', "fetch('/api/backend-manifest')", 'fetch("./status_snapshot.json")', "fetch('./status_snapshot.json')", 'fetch("./phase4d_identity_schema.json")', "fetch('./phase4d_identity_schema.json')", 'fetch("./phase4d_action_schema.json")', "fetch('./phase4d_action_schema.json')", 'fetch("./phase4d_audit_schema.json")', "fetch('./phase4d_audit_schema.json')", 'fetch("./phase4d_risk_model.json")', "fetch('./phase4d_risk_model.json')", 'fetch("./phase4d_approval_schema.json")', "fetch('./phase4d_approval_schema.json')"]
     
     js = _read_text(DIST_DIR / "static" / "dashboard.js")
     for line in js.splitlines():

@@ -29,6 +29,11 @@ def check_forbidden_paths():
     ]
     
     allowed_prefixes = [
+        "scripts/validate_original_plus2c",
+        "scripts/validate_original_plus2b",
+        "scripts/validate_original_plus2a",
+        "netlify/functions/audit-log-status.js",
+        "14_backend/audit_log/",
         "13_web_dashboard/",
         "14_backend/auth/",
         "14_backend/request_storage/",
@@ -56,6 +61,8 @@ def check_fetch_targets():
     print("Checking fetch targets...")
     import re
     allowed_targets = [
+        "./original_plus2c_audit_log_model.json",
+        "/api/audit-log-status",
         '/api/health', '/api/status', '/api/backend-manifest',
         '/api/auth-status', '/api/role-matrix', '/api/request-storage-status',
         './status_snapshot.json',
