@@ -1,0 +1,50 @@
+{
+  "model_id": "mvp12-controlled-lifecycle-event-creation",
+  "model_version": "1.0",
+  "controlled_lifecycle_event_model": {
+    "purpose": "controlled lifecycle event / operator note creation",
+    "endpoint": "/api/requests?action=add_event&id=<request_id>",
+    "write_mode": "controlled_authenticated_lifecycle_event_create_only",
+    "uses_anon_key": true,
+    "uses_user_bearer_token": true,
+    "requires_write_flag": true,
+    "write_flag": "MVP_ENABLE_REQUEST_API_WRITES"
+  },
+  "lifecycle_event_payload_schema": {
+    "allowed_fields": ["event_type", "lifecycle_state", "message", "visibility", "metadata"],
+    "blocked_fields": ["id", "actor_id", "user_id", "owner_id", "request_owner", "approved", "executed"]
+  },
+  "lifecycle_event_creation_ui_model": {
+    "requires_selected_request": true,
+    "post_success_behavior": [
+      "refresh_lifecycle_timeline",
+      "show_created_event",
+      "preserve_selected_request"
+    ]
+  },
+  "request_api_actions": [
+    "list",
+    "get",
+    "events",
+    "dry_run_results",
+    "create",
+    "add_event"
+  ],
+  "timeline_refresh_behavior": "Automated re-fetch of events action upon successful add_event POST",
+  "security_boundaries": [
+    "user-owned request events only",
+    "RLS enforced",
+    "no service role used",
+    "request row update blocked",
+    "update/delete/execute blocked",
+    "automation disabled"
+  ],
+  "current_recommendation": [
+    "CONTROLLED_LIFECYCLE_EVENT_CREATION_IMPLEMENTED",
+    "TIMELINE_REFRESH_READY",
+    "UPDATE_DELETE_APPROVE_EXECUTE_BLOCKED",
+    "SERVICE_ROLE_NOT_USED",
+    "NOT_READY_FOR_REAL_AUTOMATION",
+    "NEXT_STEP_VERIFY_LIFECYCLE_EVENT_CREATION_WITH_REAL_USER_TOKEN"
+  ]
+}

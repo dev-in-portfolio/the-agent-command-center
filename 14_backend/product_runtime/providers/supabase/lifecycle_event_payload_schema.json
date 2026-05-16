@@ -1,0 +1,82 @@
+{
+  "model_id": "lifecycle-event-payload-schema",
+  "model_version": "1.0",
+  "allowed_fields": [
+    {
+      "name": "event_type",
+      "type": "string",
+      "required": true,
+      "enum": [
+        "operator_note",
+        "validation_note",
+        "status_note",
+        "dry_run_note",
+        "client_visible_note",
+        "internal_note"
+      ]
+    },
+    {
+      "name": "lifecycle_state",
+      "type": "string",
+      "required": false,
+      "enum": [
+        "request_received",
+        "validated",
+        "dry_run_ready",
+        "review_needed",
+        "waiting_on_operator",
+        "blocked",
+        "completed_note",
+        "failed_note"
+      ]
+    },
+    {
+      "name": "message",
+      "type": "string",
+      "required": true,
+      "max_length": 2000
+    },
+    {
+      "name": "visibility",
+      "type": "string",
+      "required": false,
+      "enum": [
+        "internal",
+        "operator",
+        "client_visible"
+      ]
+    },
+    {
+      "name": "metadata",
+      "type": "object",
+      "required": false,
+      "max_serialized_length": 5000
+    }
+  ],
+  "rejected_fields": [
+    "id",
+    "actor_id",
+    "user_id",
+    "owner_id",
+    "request_owner",
+    "approved",
+    "executed",
+    "command",
+    "shell",
+    "script",
+    "token",
+    "secret",
+    "service_role",
+    "github",
+    "netlify",
+    "deploy",
+    "merge",
+    "push",
+    "pull_request",
+    "automation",
+    "approval_granted",
+    "execute_request",
+    "automation_started",
+    "automation_executed"
+  ]
+}

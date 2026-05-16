@@ -436,6 +436,7 @@ def _build_landing_screen(snapshot):
         ("MVP-9 Request Detail + Lifecycle", "mvp9-request-detail-lifecycle-timeline"),
         ("MVP-10 Operator Workspace", "mvp10-operator-workspace-ui"),
         ("MVP-11 Workspace Polish", "mvp11-token-aware-workspace-polish"),
+        ("MVP-12 Lifecycle Event Creation", "mvp12-controlled-lifecycle-event-creation"),
         ("Artifacts", "artifact-packages"),
         ("Source Info", "source-transparency"),
         ("Audit / Session", "session-audit"),
@@ -5257,6 +5258,193 @@ def _build_mvp11_workspace_polish_layer(snapshot):
         panel_id="mvp11-token-aware-workspace-polish",
     )
 
+def _build_mvp12_controlled_lifecycle_event_layer(snapshot):
+    model = snapshot.get("mvp12_controlled_lifecycle_event_model", {})
+    write_model = model.get("controlled_lifecycle_event_model", {})
+    payload_schema = model.get("lifecycle_event_payload_schema", {})
+    ui_model = model.get("lifecycle_event_creation_ui_model", {})
+    security = model.get("security_boundaries", [])
+    current_recommendation = model.get("current_recommendation", [])
+
+    schema_rows = "".join(
+        f"<tr><th scope=\"row\"><code>{_e(field)}</code></th><td>ALLOWED</td></tr>"
+        for field in payload_schema.get("allowed_fields", [])
+    ) + "".join(
+        f"<tr><th scope=\"row\"><code>{_e(field)}</code></th><td>BLOCKED</td></tr>"
+        for field in payload_schema.get("blocked_fields", [])
+    )
+
+    write_info = "".join(
+        f"<tr><th scope=\"row\">{_e(label)}</th><td>{_e(value)}</td></tr>"
+        for label, value in [
+            ("project ref", write_model.get("project_ref", "mobvzrkcsfbumgbwvkcp")),
+            ("write mode", write_model.get("write_mode", "controlled_authenticated_lifecycle_event_create_only")),
+            ("write flag", write_model.get("write_flag", "MVP_ENABLE_REQUEST_API_WRITES")),
+            ("uses anon key", str(bool(write_model.get("uses_anon_key", True))).lower()),
+            ("uses user token", str(bool(write_model.get("uses_user_bearer_token", True))).lower()),
+            ("uses service role", str(bool(write_model.get("uses_service_role", False))).lower()),
+            ("RLS enforced", str(bool(write_model.get("requires_rls", True))).lower()),
+        ]
+    )
+
+    security_rows = "".join(
+        f"<tr><th scope=\"row\">{_e(item)}</th><td>{_status_badge('ENFORCED' if 'blocked' in item or 'no ' in item or 'memory' in item else 'PASS')}</td></tr>"
+        for item in security
+    )
+
+    validation_copy = "\n".join([
+        "python3 scripts/validate_mvp12_controlled_lifecycle_event_creation.py",
+        "python3 scripts/validate_mvp12_controlled_lifecycle_event_creation_e2e.py",
+        "python3 scripts/validate_mvp11_token_aware_workspace_polish.py",
+        "python3 scripts/validate_mvp10_operator_request_workspace_ui.py",
+        "python3 scripts/validate_mvp9_request_detail_lifecycle_timeline.py",
+        "python3 scripts/validate_mvp8_controlled_authenticated_request_create.py",
+        "python3 scripts/validate_mvp7_real_authenticated_supabase_reads.py",
+        "python3 scripts/validate_mvp6_controlled_migration_authenticated_reads.py",
+        "python3 scripts/validate_mvp5_migration_readiness_authenticated_reads.py",
+        "python3 scripts/validate_mvp4_supabase_auth_rls_request_api.py",
+        "python3 scripts/validate_mvp3_supabase_provider_request_api.py",
+        "python3 scripts/validate_mvp2_local_durable_request_persistence.py",
+        "python3 scripts/validate_mvp1_request_lifecycle_runtime.py",
+        "python3 scripts/validate_original_plus2e_server_side_dry_run_engine.py",
+        "python3 scripts/validate_phase5_plus1_master_validator_wall.py",
+    ])
+
+    body = f"""
+<div class="mvp12-controlled-lifecycle-event-creation" data-mvp12-controlled-lifecycle-event-creation="true">
+  <div class="callout plus2e-summary-callout" style="border-color: rgba(59,130,246,0.28); background: rgba(59,130,246,0.06);">
+    <strong style="color: var(--accent);">MVP-12</strong>
+    <p class="muted" style="margin-top: 0.15rem;">CONTROLLED LIFECYCLE EVENT CREATION — OPERATOR NOTE CREATION</p>
+    <p class="muted" style="margin-top: 0.25rem;">AUTHENTICATED EVENT POST REQUIRED — STRICT EVENT PAYLOAD VALIDATION — ANON KEY + USER BEARER TOKEN</p>
+    <p class="muted" style="margin-top: 0.25rem;">RLS-ENFORCED EVENT INSERT — TIMELINE REFRESH AFTER EVENT — REQUEST ROW UPDATE BLOCKED</p>
+    <p class="muted" style="margin-top: 0.25rem;">UPDATE DELETE APPROVE EXECUTE BLOCKED — SERVICE ROLE NOT USED — AUTOMATION STILL DISABLED</p>
+    <p class="muted" style="margin-top: 0.25rem;">NEXT_STEP_VERIFY_LIFECYCLE_EVENT_CREATION_WITH_REAL_USER_TOKEN — NOT_READY_FOR_REAL_AUTOMATION</p>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp12-creation-status" id="mvp12-creation-status-panel">
+      <div class="card-head"><h3 class="card-title">Lifecycle Event Creation Panel</h3><span class="badge success">IMPLEMENTED</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp12-write-info-table">
+          <caption>Event creation configuration</caption>
+          <thead><tr><th scope="col">Property</th><th scope="col">Value</th></tr></thead>
+          <tbody>{write_info}</tbody>
+        </table>
+      </div>
+      <p class="card-body" style="margin-top: 0.5rem;">Target endpoint: <code>{_e(write_model.get('endpoint', ''))}</code></p>
+    </article>
+
+    <article class="card mvp12-payload-schema" id="mvp12-payload-schema-panel">
+      <div class="card-head"><h3 class="card-title">Event Payload Schema Panel</h3><span class="badge info">SCHEMA</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp12-schema-table">
+          <caption>Allowed event fields</caption>
+          <thead><tr><th scope="col">Field</th><th scope="col">Status</th></tr></thead>
+          <tbody>{schema_rows}</tbody>
+        </table>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp12-copy-schema" data-copy-text="{_e(json.dumps(payload_schema, indent=2))}">Copy event payload schema</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp12-write-gate" id="mvp12-write-gate-panel">
+      <div class="card-head"><h3 class="card-title">Event Write Gate Panel</h3><span class="badge warning">GATE</span></div>
+      <p class="card-body">Pre-insertion requirement gates.</p>
+      {_list([
+          "provider configured",
+          "request API enabled",
+          "auth enabled",
+          "bearer token valid",
+          "write flag enabled",
+          "selected request id present",
+          "payload valid",
+          "RLS event insert allowed"
+      ])}
+    </article>
+
+    <article class="card mvp12-timeline-refresh" id="mvp12-timeline-refresh-panel">
+      <div class="card-head"><h3 class="card-title">Timeline Refresh Panel</h3><span class="badge info">UX</span></div>
+      <p class="card-body">Behavior after successful event creation.</p>
+      {_list([
+          "create event",
+          "refresh lifecycle timeline",
+          "preserve selected request",
+          "show created event"
+      ])}
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp12-blocked-actions" id="mvp12-blocked-actions-panel">
+      <div class="card-head"><h3 class="card-title">Blocked Actions Panel</h3><span class="badge danger">LOCKED</span></div>
+      <p class="card-body">Explicitly restricted actions.</p>
+      {_list([
+          "request row update blocked",
+          "delete blocked",
+          "approve blocked",
+          "execute blocked",
+          "automation blocked",
+          "GitHub/Netlify mutation blocked"
+      ])}
+    </article>
+
+    <article class="card mvp12-smoke-status" id="mvp12-smoke-status-panel">
+      <div class="card-head"><h3 class="card-title">Smoke Status Panel</h3><span class="badge info">SMOKE</span></div>
+      <p class="card-body">The smoke status endpoint <code>/api/lifecycle-event-smoke-status</code> allows safe verification.</p>
+      {_list([
+          "token required for auth check",
+          "no write on smoke status"
+      ])}
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp12-security-boundary" id="mvp12-security-boundary-panel">
+      <div class="card-head"><h3 class="card-title">Security Boundary Panel</h3><span class="badge warning">SECURITY</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp12-security-table">
+          <caption>Active security boundaries</caption>
+          <thead><tr><th scope="col">Boundary</th><th scope="col">State</th></tr></thead>
+          <tbody>{security_rows}</tbody>
+        </table>
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Write Scope Limits</p>
+        <p class="muted" style="margin-top:0.25rem;">no service role • no token storage • no token logging • no broad writes • no automation</p>
+      </div>
+    </article>
+
+    <article class="card mvp12-next-product-decision" id="mvp12-next-product-decision-panel">
+      <div class="card-head"><h3 class="card-title">Next Product Decision Panel</h3><span class="badge info">NEXT</span></div>
+      <p class="card-body">Verify lifecycle event creation with real user token, then build request activity feed polish.</p>
+      {_list([
+          "verify lifecycle event creation with real user token",
+          "build request activity feed polish",
+          "add operator notes UI",
+          "not ready for real automation",
+      ])}
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Current recommendation</p>
+        {_list(current_recommendation)}
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp12-copy-validation" data-copy-text="{_e(validation_copy)}">Copy MVP-12 validation checklist</button>
+      </div>
+    </article>
+  </div>
+</div>
+"""
+    return _details(
+        "MVP-12 — Controlled Lifecycle Event Creation + Timeline Refresh",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp12-controlled-lifecycle-event-creation",
+    )
+
 def render_html(snapshot, compact_view=False, print_mode=False):
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
     header = f"""
@@ -5304,6 +5492,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_mvp9_request_detail_lifecycle_layer(snapshot),
         _build_mvp10_operator_workspace_layer(snapshot),
         _build_mvp11_workspace_polish_layer(snapshot),
+        _build_mvp12_controlled_lifecycle_event_layer(snapshot),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),

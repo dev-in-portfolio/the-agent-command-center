@@ -1,0 +1,30 @@
+{
+  "model_id": "lifecycle-event-creation-ui-model",
+  "model_version": "1.0",
+  "purpose": "controlled lifecycle event / operator note creation",
+  "endpoint": "/api/requests?action=add_event&id=<request_id>",
+  "method": "POST",
+  "requires_selected_request": true,
+  "requires_real_user_token": true,
+  "requires_write_flag": true,
+  "default_write_flag_should_remain_false_unless_testing": true,
+  "fields": [
+    "event_type",
+    "lifecycle_state",
+    "message",
+    "visibility",
+    "metadata"
+  ],
+  "post_success_behavior": [
+    "refresh_lifecycle_timeline",
+    "show_created_event",
+    "preserve_selected_request"
+  ],
+  "blocked_actions": [
+    "approve_request",
+    "execute_request",
+    "delete_request",
+    "update_request",
+    "start_automation"
+  ]
+}
