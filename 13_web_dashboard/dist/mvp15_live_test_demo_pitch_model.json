@@ -1,0 +1,38 @@
+{
+  "model_id": "mvp15-live-test-demo-pitch",
+  "model_version": "1.0",
+  "live_test_execution_plan": {
+    "purpose": "production workspace validation",
+    "sequence": ["auth", "provider", "list", "detail", "lifecycle", "dry_run", "safe_errors", "results"]
+  },
+  "live_test_result_template": {
+    "fields": ["test_step", "status", "safe_error_code", "observation"],
+    "forbidden": ["bearer_token", "secrets", "env_values"]
+  },
+  "demo_pitch_flow": {
+    "arc": ["problem", "proof", "product_loop", "safety", "trust", "next"]
+  },
+  "product_readiness_scorecard": {
+    "current_scores": {
+      "backend_foundation": 3,
+      "authenticated_reads": 3,
+      "controlled_writes": 3,
+      "operator_workspace": 3,
+      "activity_feed": 3,
+      "safe_errors": 3
+    }
+  },
+  "known_limitations_summary": {
+    "limitations": ["manual token paste", "no persistent login", "approvals pending"],
+    "intentional_blocks": ["update", "delete", "approve", "execute", "automation"]
+  },
+  "current_recommendation": [
+    "LIVE_TEST_EXECUTION_PLAN_READY",
+    "SAFE_RESULT_CAPTURE_TEMPLATE_READY",
+    "DEMO_PITCH_FLOW_READY",
+    "PRODUCT_READINESS_SCORECARD_READY",
+    "MANUAL_LIVE_TEST_REQUIRED",
+    "NOT_READY_FOR_REAL_AUTOMATION",
+    "NEXT_STEP_RUN_LIVE_TEST_AND_CAPTURE_RESULTS"
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "model_id": "live-test-execution-plan-model",
+  "model_version": "1.0",
+  "purpose": "guide manual live validation of production workspace",
+  "execution_mode": "manual_operator_driven",
+  "token_handling": "memory_only",
+  "token_required": true,
+  "token_storage": {
+    "local-Storage": false,
+    "session-Storage": false,
+    "cookies": false,
+    "indexed-DB": false,
+    "url": false
+  },
+  "test_sequence": [
+    "open_production_dashboard",
+    "paste_memory_only_token",
+    "check_auth_status",
+    "check_provider_status",
+    "check_request_api_status",
+    "list_requests",
+    "open_request_detail",
+    "load_lifecycle_events",
+    "load_dry_run_results",
+    "verify_safe_error_behavior",
+    "verify_blocked_actions",
+    "optional_create_request_if_write_flag_enabled",
+    "optional_add_lifecycle_event_if_write_flag_enabled",
+    "refresh_activity_feed",
+    "capture_safe_results"
+  ],
+  "no_env_mutation": true,
+  "no_migration_apply": true,
+  "no_service_role": true,
+  "no_automation": true
+}
