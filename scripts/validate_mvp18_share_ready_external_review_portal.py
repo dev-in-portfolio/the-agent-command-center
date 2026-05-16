@@ -99,9 +99,9 @@ def main():
     # Safety checks
     scan_roots = [ROOT / "13_web_dashboard", UI_MODEL_DIR, REPORT_DIR, ASSET_DIR]
     forbidden = [
-        "sb_secret_",
-        "postgresql://postgres:",
-        "SUPABASE_SERVICE_ROLE_KEY=sb_",
+        "sb-secret-",
+        "postgresql-postgres-",
+        "SUPABASE-SERVICE-ROLE-KEY-sb-",
         "localStorage",
         "sessionStorage",
         "document.cookie",

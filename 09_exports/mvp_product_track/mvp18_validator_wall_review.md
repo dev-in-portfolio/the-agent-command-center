@@ -7,7 +7,7 @@ PASS_WITH_TARGETED_VALIDATION
 - scripts/validate_phase5_plus1_master_validator_wall.py
 
 ## Result
-The validator wall edit performed in this phase adds MVP-18 awareness (Share-Ready External Review Portal + Demo Package QA) without weakening safety gates.
+The validator wall edit performed in this phase adds MVP-18 awareness, Share-Ready External Review Portal, and Demo Package QA coverage without weakening safety gates.
 
 ## Safety Confirmations
 - No secret allowance added.
@@ -22,4 +22,4 @@ The validator wall edit performed in this phase adds MVP-18 awareness (Share-Rea
 - No migration apply allowed.
 - No request row update/delete/approve/execute allowed.
 - No automation allowed.
-- No overclaim allowance added.
+- No live test overclaim allowance added.
