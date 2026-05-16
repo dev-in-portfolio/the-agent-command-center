@@ -1,0 +1,37 @@
+{
+  "model_id": "supabase-controlled-lifecycle-event-model",
+  "model_version": "1.0",
+  "project_ref": "mobvzrkcsfbumgbwvkcp",
+  "supabase_url": "https://mobvzrkcsfbumgbwvkcp.supabase.co",
+  "write_mode": "controlled_authenticated_lifecycle_event_create_only",
+  "endpoint": "/api/requests?action=add_event&id=<request_id>",
+  "method": "POST",
+  "target_table": "request_lifecycle_events",
+  "uses_anon_key": true,
+  "uses_user_bearer_token": true,
+  "uses_service_role": false,
+  "requires_rls": true,
+  "requires_valid_user_token": true,
+  "requires_write_flag": true,
+  "write_flag": "MVP_ENABLE_REQUEST_API_WRITES",
+  "allowed_write": [
+    "create_lifecycle_event"
+  ],
+  "blocked_writes": [
+    "update_request",
+    "delete_request",
+    "approve_request",
+    "execute_request",
+    "create_audit_event_directly",
+    "create_no_go_flag_directly",
+    "update_lifecycle_state_directly"
+  ],
+  "automation_enabled": false,
+  "current_recommendation": [
+    "CONTROLLED_LIFECYCLE_EVENT_CREATION_IMPLEMENTED",
+    "VERIFY_WITH_REAL_USER_TOKEN",
+    "TIMELINE_REFRESH_READY",
+    "UPDATE_DELETE_APPROVE_EXECUTE_BLOCKED",
+    "NOT_READY_FOR_REAL_AUTOMATION"
+  ]
+}

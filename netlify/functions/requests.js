@@ -21,7 +21,9 @@ const {
   listMyDryRunResults 
 } = require("./_shared/supabase_read_client");
 const { validateCreateRequestPayload } = require("./_shared/request_payload_validator");
+const { validateLifecycleEventPayload } = require("./_shared/lifecycle_event_payload_validator");
 const { createRequest } = require("./_shared/supabase_write_client");
+const { createLifecycleEvent } = require("./_shared/supabase_lifecycle_write_client");
 
 const MVP_ENABLE_SUPABASE_REQUEST_API = process['env'].MVP_ENABLE_SUPABASE_REQUEST_API === "true";
 const MVP_ENABLE_REQUEST_API_WRITES = process['env'].MVP_ENABLE_REQUEST_API_WRITES === "true";
@@ -108,11 +110,11 @@ exports.handler = async (event, context) => {
     }
   }
 
-  // 4. Handle POST Writes (Controlled Create Only)
+  // 4. Handle POST Writes (Controlled Create and Add Event Only)
   if (method === "POST") {
     const action = params.action;
 
-    if (action !== "create") {
+    if (action !== "create" && action !== "add_event") {
       return {
         statusCode: 405,
         body: JSON.stringify({ error: "WRITE_ACTION_NOT_ALLOWED", action })
@@ -131,33 +133,49 @@ exports.handler = async (event, context) => {
 
     try {
       const payload = JSON.parse(event.body || "{}");
-      const validation = validateCreateRequestPayload(payload);
 
-      if (!validation.valid) {
+      if (action === "create") {
+        const validation = validateCreateRequestPayload(payload);
+        if (!validation.valid) {
+          return {
+            statusCode: 400,
+            body: JSON.stringify({ error: "INVALID_PAYLOAD", details: validation.errors })
+          };
+        }
+        const result = await createRequest(bearerToken, validation.data, auth);
         return {
-          statusCode: 400,
-          body: JSON.stringify({ 
-            error: "INVALID_PAYLOAD",
-            details: validation.errors
-          })
+          statusCode: 201,
+          body: JSON.stringify({ status: "SUCCESS", action: "create", data: result })
         };
       }
 
-      const result = await createRequest(bearerToken, validation.data, auth);
+      if (action === "add_event") {
+        const id = params.id;
+        if (!id) {
+          return {
+            statusCode: 400,
+            body: JSON.stringify({ error: "MISSING_REQUEST_ID" })
+          };
+        }
+        const validation = validateLifecycleEventPayload(payload);
+        if (!validation.valid) {
+          return {
+            statusCode: 400,
+            body: JSON.stringify({ error: "INVALID_PAYLOAD", details: validation.errors })
+          };
+        }
+        const result = await createLifecycleEvent(bearerToken, id, validation.data, auth);
+        return {
+          statusCode: 201,
+          body: JSON.stringify({ status: "SUCCESS", action: "add_event", data: result })
+        };
+      }
 
-      return {
-        statusCode: 201,
-        body: JSON.stringify({ 
-          status: "SUCCESS",
-          action: "create",
-          data: result 
-        })
-      };
     } catch (err) {
       return {
         statusCode: 500,
         body: JSON.stringify({ 
-          error: "CREATE_FAILED",
+          error: "WRITE_FAILED",
           message: err.message 
         })
       };
