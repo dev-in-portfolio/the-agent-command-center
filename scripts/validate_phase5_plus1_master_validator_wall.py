@@ -63,7 +63,9 @@ def js_safety_check(path):
         "./original_plus2a_auth_foundation_model.json",
         "./original_plus2b_request_storage_model.json",
         "./mvp7_real_authenticated_reads_model.json",
+        "./mvp8_controlled_request_create_model.json",
         "/api/request-read-smoke-status",
+        "/api/request-write-smoke-status",
     }
     for target in re.findall(r'fetch\(["\']([^"\']+)["\']', text):
         check(target in allowed_fetches, f"dashboard.js unauthorized fetch: {target}")
@@ -132,6 +134,15 @@ report_requirements = [
     (ROOT / "09_exports" / "mvp_product_track" / "mvp7_security_boundary_report.md", "VERIFIED_FOR_READS"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp7_next_product_step_report.md", "READY_FOR_VERIFICATION"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp7_requests_endpoint_hardening_report.md", "PASS_WITH_TARGETED_HARDENING"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp8_acceptance_report.md", "CONTROLLED_AUTHENTICATED_REQUEST_CREATE_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp8_controlled_request_create_report.md", "CONTROLLED_REQUEST_CREATE_WRITE_IMPLEMENTED"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp8_payload_schema_report.md", "DEFINED_AND_ENFORCED"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp8_write_gate_report.md", "ACTIVE"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp8_blocked_actions_report.md", "ENFORCED"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp8_create_smoke_test_report.md", "PASS_WITH_CREATE_SMOKE_TEST_OPTIONAL"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp8_security_boundary_report.md", "VERIFIED_FOR_CREATION"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp8_next_product_step_report.md", "READY_FOR_VERIFICATION"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp8_write_path_review_report.md", "PASS_WITH_TARGETED_REVIEW"),
 ]
 for path, marker in report_requirements:
     check(path.exists(), f"missing report: {path.relative_to(ROOT)}")
@@ -192,6 +203,17 @@ for marker in [
     "WRITES STILL DISABLED",
     "POST WRITES BLOCKED",
     "VERIFY WITH REAL USER TOKEN",
+    "MVP-8",
+    "CONTROLLED REQUEST CREATE WRITE",
+    "CREATE ONLY",
+    "AUTHENTICATED POST REQUIRED",
+    "STRICT PAYLOAD VALIDATION",
+    "ANON KEY + USER BEARER TOKEN",
+    "RLS-ENFORCED INSERT",
+    "SERVICE ROLE NOT USED",
+    "UPDATE DELETE EXECUTE BLOCKED",
+    "AUTOMATION STILL DISABLED",
+    "VERIFY CREATE WITH REAL USER TOKEN",
 ]:
     check(marker in index, f"index.html missing required marker: {marker}")
 
@@ -229,8 +251,9 @@ allowed_prefixes = [
         "scripts/validate_mvp6_controlled_migration_authenticated_reads_e2e.py",
         "scripts/validate_mvp7_real_authenticated_supabase_reads.py",
         "scripts/validate_mvp7_real_authenticated_supabase_reads_e2e.py",
+        "scripts/validate_mvp8_controlled_authenticated_request_create.py",
+        "scripts/validate_mvp8_controlled_authenticated_request_create_e2e.py",
         "13_web_dashboard/",
-
         "09_exports/interface_phase_5/",
         "09_exports/original_plus1/",
         "09_exports/original_plus2/",
@@ -258,8 +281,11 @@ allowed_prefixes = [
     "netlify/functions/request-readiness-status.js",
     "netlify/functions/backend-manifest.js",
     "netlify/functions/request-read-smoke-status.js",
+    "netlify/functions/request-write-smoke-status.js",
     "netlify/functions/_shared/provider_config.js",
     "netlify/functions/_shared/supabase_read_client.js",
+    "netlify/functions/_shared/supabase_write_client.js",
+    "netlify/functions/_shared/request_payload_validator.js",
     "netlify/functions/_shared/auth_context.js",
     "netlify/functions/_shared/models/",
     "scripts/validate_original_plus1b_operator_console_contract_layer.py",

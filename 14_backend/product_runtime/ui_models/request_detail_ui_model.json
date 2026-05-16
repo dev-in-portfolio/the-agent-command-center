@@ -1,0 +1,32 @@
+{
+  "model_id": "request-detail-ui-model",
+  "model_version": "1.0",
+  "purpose": "single request detail",
+  "source_endpoint": "/api/requests?action=get&id=<request_id>",
+  "auth_required": true,
+  "bearer_token_required": true,
+  "rls_enforced": true,
+  "service_role_used": false,
+  "sections": [
+    "overview",
+    "intent",
+    "status",
+    "metadata",
+    "timestamps",
+    "lifecycle_timeline",
+    "dry_run_results"
+  ],
+  "allowed_actions": [
+    "refresh",
+    "copy_request_id",
+    "view_lifecycle",
+    "view_dry_run_results"
+  ],
+  "blocked_actions": [
+    "edit_request",
+    "delete_request",
+    "approve_request",
+    "execute_request",
+    "start_automation"
+  ]
+}
