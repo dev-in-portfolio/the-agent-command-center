@@ -1,0 +1,14 @@
+{
+  "model_id": "feedback-rls-policy-review-model",
+  "model_version": "1.0",
+  "purpose": "proposed RLS policy review for future feedback persistence",
+  "rls_enabled_required": true,
+  "owner_scoped_reads_required": true,
+  "owner_scoped_inserts_required": true,
+  "owner_scoped_updates_allowed": false,
+  "deletes_allowed": false,
+  "anonymous_access_allowed": false,
+  "broad_public_access_allowed": false,
+  "policy_review_required_before_apply": true,
+  "migration_apply_enabled": false
+}

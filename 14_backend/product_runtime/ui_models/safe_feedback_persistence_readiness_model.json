@@ -1,0 +1,28 @@
+{
+  "model_id": "safe-feedback-persistence-readiness-model",
+  "model_version": "1.0",
+  "purpose": "reviewed readiness model for safe persisted feedback storage",
+  "persistence_enabled": false,
+  "backend_submission_enabled": false,
+  "supabase_write_enabled": false,
+  "service_role_used": false,
+  "token_required": false,
+  "migration_apply_enabled": false,
+  "readiness_checks": [
+    "schema_defined",
+    "rls_policy_defined",
+    "insert_mapping_defined",
+    "feature_flag_required",
+    "service_role_forbidden",
+    "anonymous_write_forbidden",
+    "operator_review_required"
+  ],
+  "blocked_until_review": [
+    "migration_apply",
+    "feedback_insert",
+    "feedback_update",
+    "feedback_delete",
+    "feedback_submit_api",
+    "browser_direct_supabase_call"
+  ]
+}

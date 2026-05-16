@@ -1,0 +1,45 @@
+{
+  "model_id": "mvp21-safe-feedback-persistence",
+  "model_version": "1.0",
+  "persistence_readiness": {
+    "purpose": "reviewed readiness for storage",
+    "status": "SAFE_FEEDBACK_PERSISTENCE_READINESS_READY"
+  },
+  "schema_review": {
+    "purpose": "proposed feedback storage schema",
+    "table": "external_feedback_packets",
+    "status": "SCHEMA_REVIEW_READY"
+  },
+  "rls_review": {
+    "purpose": "proposed RLS policy",
+    "rule": "owner_user_id = auth.uid()",
+    "status": "RLS_POLICY_REVIEW_READY"
+  },
+  "api_contract": {
+    "purpose": "future API contract",
+    "endpoint": "/api/feedback?action=import",
+    "status": "API_CONTRACT_REVIEW_READY"
+  },
+  "feature_flag": {
+    "purpose": "release gate",
+    "flag": "MVP_ENABLE_FEEDBACK_PERSISTENCE",
+    "status": "FEATURE_FLAG_DEFINED_DISABLED"
+  },
+  "security_boundaries": {
+    "no_migration_apply": true,
+    "no_feedback_writes_enabled": true,
+    "service_role_not_used": true
+  },
+  "current_recommendation": [
+    "SAFE_FEEDBACK_PERSISTENCE_READINESS_READY",
+    "SCHEMA_REVIEW_READY",
+    "RLS_POLICY_REVIEW_READY",
+    "API_CONTRACT_REVIEW_READY",
+    "FEATURE_FLAG_DEFINED_DISABLED",
+    "NO_MIGRATION_APPLY",
+    "NO_FEEDBACK_WRITES_ENABLED",
+    "SERVICE_ROLE_NOT_USED",
+    "NOT_READY_FOR_REAL_AUTOMATION",
+    "NEXT_STEP_REVIEW_AND_OPTIONALLY_BUILD_CONTROLLED_FEEDBACK_IMPORT_WRITE"
+  ]
+}

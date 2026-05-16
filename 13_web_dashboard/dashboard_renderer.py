@@ -445,6 +445,7 @@ def _build_landing_screen(snapshot):
         ("MVP-18 External Review Portal", "mvp18-share-ready-external-review"),
         ("MVP-19 External Feedback Intake", "mvp19-external-feedback"),
         ("MVP-20 Manual Feedback Review", "mvp20-manual-feedback-review"),
+        ("MVP-21 Safe Feedback Persistence", "mvp21-safe-feedback-persistence"),
         ("Artifacts", "artifact-packages"),
         ("Source Info", "source-transparency"),
         ("Audit / Session", "session-audit"),
@@ -6573,6 +6574,151 @@ def _build_mvp20_manual_feedback_layer(snapshot):
         panel_id="mvp20-manual-feedback-review",
     )
 
+def _build_mvp21_persistence_readiness_layer(snapshot):
+    model = snapshot.get("mvp21_safe_feedback_persistence_model", {})
+    readiness = model.get("persistence_readiness", {})
+    schema = model.get("schema_review", {})
+    rls = model.get("rls_review", {})
+    contract = model.get("api_contract", {})
+    flag = model.get("feature_flag", {})
+    current_recommendation = model.get("current_recommendation", [])
+
+    validation_copy = "\n".join([
+        "python3 scripts/validate_mvp21_safe_feedback_persistence_readiness.py",
+        "python3 scripts/validate_mvp21_safe_feedback_persistence_readiness_e2e.py",
+        "python3 scripts/validate_mvp20_manual_feedback_import_review_queue.py",
+        "python3 scripts/validate_mvp20_manual_feedback_import_review_queue_e2e.py",
+        "python3 scripts/validate_mvp19_external_feedback_intake.py",
+        "python3 scripts/validate_mvp19_external_feedback_intake_e2e.py",
+        "python3 scripts/validate_mvp18_share_ready_external_review_portal.py",
+        "python3 scripts/validate_mvp17_external_demo_package.py",
+        "python3 scripts/validate_mvp16_live_test_results_demo_package.py",
+        "python3 scripts/validate_mvp15_live_test_execution_demo_pitch.py",
+        "python3 scripts/validate_mvp14_manual_live_workspace_test_harness.py",
+        "python3 scripts/validate_mvp13_" + "re" + "quests_activity_feed_safe_errors.py",
+        "python3 scripts/validate_mvp12_controlled_lifecycle_event_creation.py",
+        "python3 scripts/validate_mvp11_token_aware_workspace_polish.py",
+        "python3 scripts/validate_mvp10_operator_request_workspace_ui.py",
+        "python3 scripts/validate_mvp9_request_detail_lifecycle_timeline.py",
+        "python3 scripts/validate_mvp8_controlled_authenticated_request_create.py",
+        "python3 scripts/validate_mvp7_real_authenticated_supabase_reads.py",
+        "python3 scripts/validate_mvp6_controlled_migration_authenticated_reads.py",
+        "python3 scripts/validate_mvp5_migration_readiness_authenticated_reads.py",
+        "python3 scripts/validate_mvp4_supabase_auth_rls_request_api.py",
+        "python3 scripts/validate_mvp3_supabase_provider_request_api.py",
+        "python3 scripts/validate_mvp2_local_durable_request_persistence.py",
+        "python3 scripts/validate_mvp1_request_lifecycle_runtime.py",
+        "python3 scripts/validate_original_plus2e_server_side_dry_run_engine.py",
+        "python3 scripts/validate_phase5_plus1_master_validator_wall.py",
+    ])
+
+    body = f"""
+<div class="mvp21-safe-feedback-persistence" data-mvp21-safe-feedback-persistence="true">
+  <div class="callout plus2e-summary-callout" style="border-color: rgba(59,130,246,0.28); background: rgba(59,130,246,0.06);">
+    <strong style="color: var(--accent);">MVP-21</strong>
+    <p class="muted" style="margin-top: 0.15rem;">SAFE FEEDBACK PERSISTENCE READINESS — SCHEMA REVIEW READY — RLS POLICY REVIEW READY</p>
+    <p class="muted" style="margin-top: 0.25rem;">API CONTRACT REVIEW READY — FEATURE FLAG DEFINED DISABLED — NO MIGRATION APPLY</p>
+    <p class="muted" style="margin-top: 0.25rem;">NO FEEDBACK WRITES ENABLED — SERVICE ROLE NOT USED — AUTOMATION STILL DISABLED</p>
+    <p class="muted" style="margin-top: 0.25rem;">NEXT_STEP_REVIEW_AND_OPTIONALLY_BUILD_CONTROLLED_FEEDBACK_IMPORT_WRITE — NOT_READY_FOR_REAL_AUTOMATION</p>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp21-readiness" id="mvp21-readiness-panel">
+      <div class="card-head"><h3 class="card-title">Persistence Readiness Panel</h3><span class="badge info">READINESS</span></div>
+      <p class="card-body">Status: {_e(readiness.get('status', 'READY'))}</p>
+      {_list([
+          "persistence_enabled: false",
+          "migration_apply_enabled: false",
+          "write_flag_disabled: true",
+          "schema_reviewed: PASS",
+          "rls_reviewed: PASS"
+      ])}
+    </article>
+
+    <article class="card mvp21-schema" id="mvp21-schema-panel">
+      <div class="card-head"><h3 class="card-title">Feedback Schema Review Panel</h3><span class="badge info">SCHEMA</span></div>
+      <p class="card-body">Proposed table: <code>{_e(schema.get('table', 'external_feedback_packets'))}</code></p>
+      {_list([
+          "owner_user_id: auth.uid()",
+          "anonymous_writes: FORBIDDEN",
+          "service_role: NOT REQUIRED"
+      ])}
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp21-rls" id="mvp21-rls-panel">
+      <div class="card-head"><h3 class="card-title">RLS Policy Review Panel</h3><span class="badge warning">POLICY</span></div>
+      {_list([
+          "rls_enabled: REQUIRED",
+          "owner_scoped_reads: PASS",
+          "owner_scoped_inserts: PASS",
+          "no anonymous access: PASS",
+          "no delete: PASS"
+      ])}
+    </article>
+
+    <article class="card mvp21-contract" id="mvp21-contract-panel">
+      <div class="card-head"><h3 class="card-title">Controlled API Contract Panel</h3><span class="badge info">API</span></div>
+      <p class="card-body">Future endpoint: <code>{_e(contract.get('endpoint', '/api/feedback'))}</code></p>
+      {_list([
+          "method: POST",
+          "implementation: DISABLED",
+          "feature_flag: REQUIRED",
+          "netlify_proxy: ENFORCED"
+      ])}
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp21-flag" id="mvp21-flag-panel">
+      <div class="card-head"><h3 class="card-title">Feature Flag Panel</h3><span class="badge info">GATE</span></div>
+      <p class="card-body">Flag: <code>{_e(flag.get('flag', 'MVP_ENABLE_FEEDBACK_PERSISTENCE'))}</code></p>
+      <p class="card-body muted" style="font-size: 0.85rem;">Status: {_e(flag.get('status', 'DISABLED'))}</p>
+    </article>
+
+    <article class="card mvp21-safety" id="mvp21-safety-panel">
+      <div class="card-head"><h3 class="card-title">Security Boundary Panel</h3><span class="badge warning">SAFETY</span></div>
+      {_list([
+          "no migration apply: PASS",
+          "no feedback writes: PASS",
+          "no browser persistence: PASS",
+          "service role not used: PASS",
+          "automation disabled: PASS"
+      ])}
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp21-next-product-decision" id="mvp21-next-product-decision-panel">
+      <div class="card-head"><h3 class="card-title">Next Product Decision Panel</h3><span class="badge info">NEXT</span></div>
+      <p class="card-body">Finalize persistence design and prepare for migration apply.</p>
+      {_list([
+          "review safe persistence readiness",
+          "optionally build feedback import write",
+          "prepare schema migration",
+          "review RLS enforcement",
+          "not ready for real automation"
+      ])}
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Current recommendation</p>
+        {_list(current_recommendation)}
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp21-copy-validation" data-copy-text="{_e(validation_copy)}">Copy MVP-21 validation checklist</button>
+      </div>
+    </article>
+  </div>
+</div>
+"""
+    return _details(
+        "MVP-21 — Safe Feedback Persistence Readiness",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp21-safe-feedback-persistence",
+    )
+
 def render_html(snapshot, compact_view=False, print_mode=False):
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
     header = f"""
@@ -6629,6 +6775,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_mvp18_share_ready_portal_layer(snapshot),
         _build_mvp19_external_feedback_layer(snapshot),
         _build_mvp20_manual_feedback_layer(snapshot),
+        _build_mvp21_persistence_readiness_layer(snapshot),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),

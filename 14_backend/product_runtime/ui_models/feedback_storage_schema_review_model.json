@@ -1,0 +1,29 @@
+{
+  "model_id": "feedback-storage-schema-review-model",
+  "model_version": "1.0",
+  "purpose": "proposed feedback storage schema review",
+  "table_name_candidate": "external_feedback_packets",
+  "migration_apply_enabled": false,
+  "fields": [
+    "id",
+    "owner_user_id",
+    "reviewer_persona",
+    "reviewer_context",
+    "clarity_rating",
+    "confidence_rating",
+    "demo_readiness_rating",
+    "pitchability_rating",
+    "strongest_parts",
+    "confusing_parts",
+    "blockers",
+    "trust_concerns",
+    "suggested_next_step",
+    "would_share",
+    "imported_at",
+    "created_at",
+    "updated_at"
+  ],
+  "ownership_rule": "owner_user_id must equal auth.uid()",
+  "anonymous_writes_allowed": false,
+  "service_role_required": false
+}
