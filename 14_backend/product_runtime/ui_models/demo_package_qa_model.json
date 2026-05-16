@@ -1,0 +1,40 @@
+{
+  "model_id": "demo-package-qa-model",
+  "model_version": "1.0",
+  "purpose": "QA checklist for external demo package",
+  "qa_checks": [
+    "all_expected_files_present",
+    "no_tokens",
+    "no_secrets",
+    "no_env_values",
+    "no_authorization_headers",
+    "no_raw_backend_errors",
+    "no_overclaiming",
+    "live_test_status_clear",
+    "blocked_actions_clear",
+    "role_paths_clear",
+    "next_milestones_clear"
+  ],
+  "expected_files": [
+    "README.md",
+    "product_one_pager.md",
+    "technical_reviewer_brief.md",
+    "founder_operator_brief.md",
+    "recruiter_brief.md",
+    "safety_boundary_brief.md",
+    "demo_walkthrough_script.md",
+    "demo_q_and_a.md",
+    "reviewer_checklist.md",
+    "known_limitations.md",
+    "next_milestones.md",
+    "START_HERE.md",
+    "SHARE_SAFE_CHECKLIST.md",
+    "REVIEW_PACKET_INDEX.md",
+    "FEEDBACK_PROMPTS.md"
+  ],
+  "pass_status": [
+    "QA_READY",
+    "QA_NEEDS_REVIEW",
+    "QA_BLOCKED"
+  ]
+}
