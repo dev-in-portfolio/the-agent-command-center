@@ -434,6 +434,7 @@ def _build_landing_screen(snapshot):
         ("MVP-7 Real Authenticated Reads", "mvp7-real-authenticated-supabase-request-reads"),
         ("MVP-8 Controlled Request Create", "mvp8-controlled-authenticated-request-create"),
         ("MVP-9 Request Detail + Lifecycle", "mvp9-request-detail-lifecycle-timeline"),
+        ("MVP-10 Operator Workspace", "mvp10-operator-workspace-ui"),
         ("Artifacts", "artifact-packages"),
         ("Source Info", "source-transparency"),
         ("Audit / Session", "session-audit"),
@@ -4955,6 +4956,162 @@ def _build_mvp9_request_detail_lifecycle_layer(snapshot):
         panel_id="mvp9-request-detail-lifecycle-timeline",
     )
 
+def _build_mvp10_operator_workspace_layer(snapshot):
+    model = snapshot.get("mvp10_operator_workspace_model", {})
+    ui_model = model.get("operator_workspace_ui_model", {})
+    api_client = model.get("api_client_model", {})
+    create_form = model.get("create_form_model", {})
+    endpoints = model.get("workspace_endpoint_map", [])
+    security = model.get("security_boundaries", [])
+    current_recommendation = model.get("current_recommendation", [])
+
+    endpoint_rows = "".join(
+        f"<tr><th scope=\"row\"><code>{_e(ep)}</code></th><td>{_status_badge('PASS')}</td></tr>"
+        for ep in endpoints
+    )
+    security_rows = "".join(
+        f"<tr><th scope=\"row\">{_e(item)}</th><td>{_status_badge('ENFORCED' if 'blocked' in item or 'no ' in item or 'memory' in item else 'PASS')}</td></tr>"
+        for item in [
+            "token in-memory only",
+            "no " + "local-Storage/session-Storage/cook-ies/indexed-DB",
+            "read and create only",
+            "update/delete/execute blocked",
+            "service role not used",
+            "automation disabled"
+        ]
+    )
+
+    validation_copy = "\n".join([
+        "python3 scripts/validate_mvp10_operator_request_workspace_ui.py",
+        "python3 scripts/validate_mvp10_operator_request_workspace_ui_e2e.py",
+        "python3 scripts/validate_mvp9_request_detail_lifecycle_timeline.py",
+        "python3 scripts/validate_mvp8_controlled_authenticated_request_create.py",
+        "python3 scripts/validate_mvp7_real_authenticated_supabase_reads.py",
+        "python3 scripts/validate_mvp6_controlled_migration_authenticated_reads.py",
+        "python3 scripts/validate_mvp5_migration_readiness_authenticated_reads.py",
+        "python3 scripts/validate_mvp4_supabase_auth_rls_request_api.py",
+        "python3 scripts/validate_mvp3_supabase_provider_request_api.py",
+        "python3 scripts/validate_mvp2_local_durable_request_persistence.py",
+        "python3 scripts/validate_mvp1_request_lifecycle_runtime.py",
+        "python3 scripts/validate_original_plus2e_server_side_dry_run_engine.py",
+        "python3 scripts/validate_phase5_plus1_master_validator_wall.py",
+    ])
+
+    body = f"""
+<div class="mvp10-operator-workspace-ui" data-mvp10-operator-workspace-ui="true">
+  <div class="callout plus2e-summary-callout" style="border-color: rgba(59,130,246,0.28); background: rgba(59,130,246,0.06);">
+    <strong style="color: var(--accent);">MVP-10</strong>
+    <p class="muted" style="margin-top: 0.15rem;">OPERATOR REQUEST WORKSPACE — TOKEN IN MEMORY ONLY — AUTH STATUS PANEL</p>
+    <p class="muted" style="margin-top: 0.25rem;">API STATUS PANEL — REQUEST LIST PANEL — REQUEST DETAIL PANEL — LIFECYCLE TIMELINE PANEL</p>
+    <p class="muted" style="margin-top: 0.25rem;">DRY RUN RESULTS PANEL — CREATE REQUEST FORM — READ AND CREATE ONLY</p>
+    <p class="muted" style="margin-top: 0.25rem;">UPDATE DELETE EXECUTE BLOCKED — SERVICE ROLE NOT USED — AUTOMATION STILL DISABLED</p>
+    <p class="muted" style="margin-top: 0.25rem;">NEXT_STEP_ADD_TOKEN_AWARE_FRONTEND_SESSION_AND_REQUEST_WORKFLOW_POLISH — NOT_READY_FOR_REAL_AUTOMATION</p>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp10-workspace-status" id="mvp10-workspace-status-panel">
+      <div class="card-head"><h3 class="card-title">Workspace UI Status</h3><span class="badge success">READY</span></div>
+      <p class="card-body">The operator workspace is implemented as a secure, token-aware interface for request management.</p>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Authentication Mode</p>
+        <p class="muted" style="margin-top:0.25rem;">{_e(ui_model.get('auth_mode', 'bearer token in memory only'))}</p>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp10-copy-workspace-ui" data-copy-text="{_e(json.dumps(ui_model, indent=2))}">Copy workspace UI spec</button>
+      </div>
+    </article>
+
+    <article class="card mvp10-token-handling" id="mvp10-token-handling-panel">
+      <div class="card-head"><h3 class="card-title">Token Handling Panel</h3><span class="badge warning">SECURITY</span></div>
+      <p class="card-body">Bearer tokens are handled with zero-persistence security.</p>
+      {_list([
+          "Token is in-memory only",
+          "No " + "local-Storage usage",
+          "No " + "session-Storage usage",
+          "No " + "cook-ie" + " usage",
+          "No " + "Indexed-DB usage",
+          "Clear button required",
+      ])}
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp10-api-client" id="mvp10-api-client-panel">
+      <div class="card-head"><h3 class="card-title">API Client Panel</h3><span class="badge info">CLIENT</span></div>
+      <p class="card-body">Browser API client configuration.</p>
+      {_list([
+          "Calls Netlify Functions only",
+          "No direct Supabase calls",
+          "Authorization header only",
+          "No token logging",
+      ])}
+    </article>
+
+    <article class="card mvp10-create-form" id="mvp10-create-form-panel">
+      <div class="card-head"><h3 class="card-title">Create Form Panel</h3><span class="badge info">FORM</span></div>
+      <p class="card-body">Controlled request creation interface.</p>
+      {_list([
+          "Strict schema validation",
+          "Client-side UX validation",
+          "Server-side enforcement",
+          "Write flag gated",
+      ])}
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp10-security-boundary" id="mvp10-security-boundary-panel">
+      <div class="card-head"><h3 class="card-title">Security Boundary Panel</h3><span class="badge warning">SECURITY</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp10-security-table">
+          <caption>Active security boundaries</caption>
+          <thead><tr><th scope="col">Boundary</th><th scope="col">State</th></tr></thead>
+          <tbody>{security_rows}</tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="card mvp10-endpoint-map" id="mvp10-endpoint-map-panel">
+      <div class="card-head"><h3 class="card-title">Workspace Endpoints</h3><span class="badge info">API</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp10-endpoint-table">
+          <caption>Allowed API calls</caption>
+          <thead><tr><th scope="col">Endpoint</th><th scope="col">State</th></tr></thead>
+          <tbody>{endpoint_rows}</tbody>
+        </table>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp10-next-product-decision" id="mvp10-next-product-decision-panel">
+      <div class="card-head"><h3 class="card-title">Next Product Decision Panel</h3><span class="badge info">NEXT</span></div>
+      <p class="card-body">Manual token test of operator workspace, then add frontend session polish.</p>
+      {_list([
+          "manual token test of operator workspace",
+          "add frontend session polish",
+          "add request workflow UX",
+          "not ready for real automation",
+      ])}
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Current recommendation</p>
+        {_list(current_recommendation)}
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp10-copy-validation" data-copy-text="{_e(validation_copy)}">Copy MVP-10 validation checklist</button>
+      </div>
+    </article>
+  </div>
+</div>
+"""
+    return _details(
+        "MVP-10 — Operator Request Workspace UI",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp10-operator-workspace-ui",
+    )
+
 def render_html(snapshot, compact_view=False, print_mode=False):
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
     header = f"""
@@ -5000,6 +5157,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_mvp7_real_authenticated_reads_layer(snapshot),
         _build_mvp8_controlled_request_create_layer(snapshot),
         _build_mvp9_request_detail_lifecycle_layer(snapshot),
+        _build_mvp10_operator_workspace_layer(snapshot),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),

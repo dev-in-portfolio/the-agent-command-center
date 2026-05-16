@@ -1,0 +1,45 @@
+{
+  "model_id": "mvp10-operator-workspace-ui",
+  "model_version": "1.0",
+  "operator_workspace_ui_model": {
+    "purpose": "usable operator request workspace",
+    "auth_mode": "manual_bearer_token_in_memory_only",
+    "panels": ["auth_status", "api_status", "request_list", "request_detail", "lifecycle_timeline", "dry_run_results", "create_request_form"]
+  },
+  "api_client_model": {
+    "browser_calls_netlify_only": true,
+    "direct_supabase_calls": false,
+    "token_handling": "Authorization header, in-memory only"
+  },
+  "create_form_model": {
+    "source_schema": "request_create_payload_schema.json",
+    "fields": ["title", "summary", "request_type", "priority", "source", "metadata"],
+    "write_flag_required": "MVP_ENABLE_REQUEST_API_WRITES"
+  },
+  "workspace_endpoint_map": [
+    "GET /api/provider-status",
+    "GET /api/auth-status",
+    "GET /api/requests?action=list",
+    "GET /api/requests?action=get&id=<uuid>",
+    "GET /api/requests?action=events&id=<uuid>",
+    "GET /api/requests?action=dry_run_results&id=<uuid>",
+    "POST /api/requests?action=create"
+  ],
+  "security_boundaries": [
+    "token in-memory only",
+    "no local-Storage/session-Storage/cookies/indexed-DB",
+    "read and create only",
+    "update/delete/execute blocked",
+    "service role not used",
+    "automation disabled"
+  ],
+  "current_recommendation": [
+    "OPERATOR_REQUEST_WORKSPACE_UI_READY",
+    "TOKEN_IN_MEMORY_ONLY",
+    "READ_AND_CREATE_ONLY",
+    "UPDATE_DELETE_EXECUTE_BLOCKED",
+    "SERVICE_ROLE_NOT_USED",
+    "NOT_READY_FOR_REAL_AUTOMATION",
+    "NEXT_STEP_ADD_TOKEN_AWARE_FRONTEND_SESSION_AND_REQUEST_WORKFLOW_POLISH"
+  ]
+}
