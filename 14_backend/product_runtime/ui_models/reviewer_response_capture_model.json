@@ -1,0 +1,28 @@
+{
+  "model_id": "reviewer-response-capture-model",
+  "model_version": "1.0",
+  "purpose": "structured reviewer response capture",
+  "response_packet_fields": [
+    "reviewer_persona",
+    "reviewer_context",
+    "clarity_rating",
+    "confidence_rating",
+    "demo_readiness_rating",
+    "pitchability_rating",
+    "strongest_parts",
+    "confusing_parts",
+    "blockers",
+    "trust_concerns",
+    "suggested_next_step",
+    "would_review_again",
+    "would_share_with_relevant_person"
+  ],
+  "safety_rules": [
+    "do_not_collect_secrets",
+    "do_not_collect_tokens",
+    "do_not_collect_credentials",
+    "do_not_collect_private_client_data",
+    "do_not_submit_to_backend",
+    "do_not_persist_in_browser_storage"
+  ]
+}

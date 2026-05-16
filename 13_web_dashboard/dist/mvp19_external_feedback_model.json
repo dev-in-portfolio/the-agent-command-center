@@ -1,0 +1,38 @@
+{
+  "model_id": "mvp19-external-feedback",
+  "model_version": "1.0",
+  "feedback_intake": {
+    "purpose": "structured feedback capture",
+    "status": "EXTERNAL_FEEDBACK_INTAKE_READY",
+    "mode": "static_client_side_only"
+  },
+  "response_capture": {
+    "purpose": "reviewer response packet",
+    "status": "REVIEWER_RESPONSE_CAPTURE_READY",
+    "output": "static_packet_only"
+  },
+  "feedback_review_queue": {
+    "purpose": "manual triage of signals",
+    "status": "READY_FOR_MANUAL_ triage"
+  },
+  "feedback_synthesis_readiness": {
+    "purpose": "recurring signal identification",
+    "status": "READY_FOR_MANUAL_SYNTHESIS"
+  },
+  "security_boundaries": {
+    "no_backend_submission": true,
+    "no_browser_persistence": true,
+    "no_secrets_collected": true,
+    "service_role_not_used": true
+  },
+  "current_recommendation": [
+    "EXTERNAL_FEEDBACK_INTAKE_READY",
+    "REVIEWER_RESPONSE_CAPTURE_READY",
+    "STATIC_FEEDBACK_PACKET_ONLY",
+    "NO_BACKEND_FEEDBACK_SUBMISSION",
+    "NO_BROWSER_PERSISTENCE",
+    "SERVICE_ROLE_NOT_USED",
+    "NOT_READY_FOR_REAL_AUTOMATION",
+    "NEXT_STEP_RUN_EXTERNAL_REVIEW_ROUND_OR_ADD_MANUAL_FEEDBACK_IMPORT_QUEUE"
+  ]
+}
