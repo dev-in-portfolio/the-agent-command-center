@@ -1,0 +1,25 @@
+{
+  "model_id": "operator-workspace-api-client-model",
+  "model_version": "1.0",
+  "browser_calls_netlify_only": true,
+  "direct_supabase_browser_calls": false,
+  "service_role_browser_exposure_allowed": false,
+  "endpoints": [
+    "GET /api/provider-status",
+    "GET /api/auth-status",
+    "GET /api/request-readiness-status",
+    "GET /api/request-read-smoke-status",
+    "GET /api/request-write-smoke-status",
+    "GET /api/requests?action=list",
+    "GET /api/requests?action=get&id=<request_id>",
+    "GET /api/requests?action=events&id=<request_id>",
+    "GET /api/requests?action=dry_run_results&id=<request_id>",
+    "POST /api/requests?action=create"
+  ],
+  "token_handling": [
+    "Authorization header only",
+    "in-memory only",
+    "never persisted",
+    "clear button required"
+  ]
+}

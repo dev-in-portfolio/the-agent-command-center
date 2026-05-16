@@ -1,0 +1,36 @@
+{
+  "model_id": "operator-workspace-create-form-model",
+  "model_version": "1.0",
+  "source_schema": "request_create_payload_schema.json",
+  "fields": [
+    "title",
+    "summary",
+    "request_type",
+    "priority",
+    "source",
+    "metadata"
+  ],
+  "client_side_validation": true,
+  "server_side_validation_required": true,
+  "write_flag_required": "MVP_ENABLE_REQUEST_API_WRITES",
+  "graceful_disabled_state": "REQUEST_API_WRITES_DISABLED",
+  "blocked_fields": [
+    "id",
+    "actor_id",
+    "actor_role",
+    "lifecycle_state",
+    "status",
+    "approved",
+    "executed",
+    "command",
+    "shell",
+    "script",
+    "token",
+    "secret",
+    "service_role",
+    "deploy",
+    "merge",
+    "push",
+    "automation"
+  ]
+}

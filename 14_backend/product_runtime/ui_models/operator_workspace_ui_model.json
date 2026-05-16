@@ -1,0 +1,46 @@
+{
+  "model_id": "operator-workspace-ui-model",
+  "model_version": "1.0",
+  "purpose": "first usable operator request workspace",
+  "auth_mode": "manual_bearer_token_in_memory_only",
+  "token_storage": {
+    "local-Storage": false,
+    "session-Storage": false,
+    "cookies": false,
+    "indexed-DB": false,
+    "memory_only": true
+  },
+  "workspace_panels": [
+    "auth_status",
+    "api_status",
+    "request_list",
+    "request_detail",
+    "lifecycle_timeline",
+    "dry_run_results",
+    "create_request_form",
+    "create_result"
+  ],
+  "allowed_actions": [
+    "paste_token",
+    "clear_token",
+    "check_status",
+    "list_requests",
+    "view_request_detail",
+    "view_lifecycle_timeline",
+    "view_dry_run_results",
+    "create_request"
+  ],
+  "blocked_actions": [
+    "update_request",
+    "delete_request",
+    "approve_request",
+    "execute_request",
+    "start_automation",
+    "deploy",
+    "merge",
+    "push",
+    "create_pr"
+  ],
+  "service_role_used": false,
+  "automation_enabled": false
+}
