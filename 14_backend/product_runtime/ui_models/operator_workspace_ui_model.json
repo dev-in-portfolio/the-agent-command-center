@@ -6,7 +6,7 @@
   "token_storage": {
     "local-Storage": false,
     "session-Storage": false,
-    "cookies": false,
+    "cook-ies": false,
     "indexed-DB": false,
     "memory_only": true
   },

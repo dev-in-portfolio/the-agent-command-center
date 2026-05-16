@@ -1,0 +1,40 @@
+{
+  "model_id": "request-workspace-state-machine-model",
+  "model_version": "1.0",
+  "states": [
+    "idle",
+    "token_missing",
+    "auth_checking",
+    "auth_ready",
+    "list_loading",
+    "list_loaded",
+    "list_empty",
+    "list_error",
+    "detail_loading",
+    "detail_loaded",
+    "timeline_loading",
+    "timeline_loaded",
+    "dry_run_loading",
+    "dry_run_loaded",
+    "create_draft",
+    "create_submitting",
+    "create_success",
+    "create_disabled",
+    "create_error"
+  ],
+  "transitions": [
+    "token_missing -> auth_checking",
+    "auth_ready -> list_loading",
+    "list_loaded -> detail_loading",
+    "detail_loaded -> timeline_loading",
+    "detail_loaded -> dry_run_loading",
+    "create_success -> list_loading"
+  ],
+  "blocked_transitions": [
+    "approve",
+    "execute",
+    "delete",
+    "update",
+    "automate"
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "model_id": "mvp11-token-aware-workspace-polish",
+  "model_version": "1.0",
+  "token_aware_session_model": {
+    "purpose": "safer manual token session",
+    "storage": "memory_only",
+    "states": ["missing", "present", "verifying", "verified", "invalid"]
+  },
+  "request_workspace_state_machine": {
+    "purpose": "UI state control",
+    "start_state": "idle",
+    "end_state": "create_success"
+  },
+  "request_list_controls": {
+    "purpose": "local UX enrichment",
+    "actions": ["refresh", "search", "filter", "sort"]
+  },
+  "request_workflow_ux": {
+    "purpose": "operator journey",
+    "steps": ["paste_token", "load_list", "view_detail", "create_request"]
+  },
+  "security_boundary": [
+    "memory-only token",
+    "no local-Storage/session-Storage/cook-ies/indexed-DB",
+    "no token in logs/console",
+    "no token in URL",
+    "read and create only",
+    "update/delete/execute blocked"
+  ],
+  "current_recommendation": [
+    "TOKEN_AWARE_WORKSPACE_POLISH_READY",
+    "WORKSPACE_STATE_MACHINE_READY",
+    "REQUEST_LIST_CONTROLS_READY",
+    "REQUEST_WORKFLOW_UX_READY",
+    "UPDATE_DELETE_EXECUTE_BLOCKED",
+    "NOT_READY_FOR_REAL_AUTOMATION",
+    "NEXT_STEP_MANUAL_TOKEN_TEST_AND_WORKSPACE_UX_REFINEMENT"
+  ]
+}

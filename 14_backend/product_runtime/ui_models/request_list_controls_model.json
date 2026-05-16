@@ -1,0 +1,23 @@
+{
+  "model_id": "request-list-controls-model",
+  "model_version": "1.0",
+  "controls": [
+    "refresh",
+    "search_local",
+    "filter_by_state",
+    "filter_by_request_type",
+    "sort_by_created_at",
+    "sort_by_updated_at",
+    "sort_by_title"
+  ],
+  "local_only_controls": true,
+  "no_server_mutation": true,
+  "no_token_persistence": true,
+  "empty_states": [
+    "no_requests",
+    "no_search_results",
+    "auth_required",
+    "api_disabled",
+    "read_failed"
+  ]
+}

@@ -435,6 +435,7 @@ def _build_landing_screen(snapshot):
         ("MVP-8 Controlled Request Create", "mvp8-controlled-authenticated-request-create"),
         ("MVP-9 Request Detail + Lifecycle", "mvp9-request-detail-lifecycle-timeline"),
         ("MVP-10 Operator Workspace", "mvp10-operator-workspace-ui"),
+        ("MVP-11 Workspace Polish", "mvp11-token-aware-workspace-polish"),
         ("Artifacts", "artifact-packages"),
         ("Source Info", "source-transparency"),
         ("Audit / Session", "session-audit"),
@@ -5112,6 +5113,150 @@ def _build_mvp10_operator_workspace_layer(snapshot):
         panel_id="mvp10-operator-workspace-ui",
     )
 
+def _build_mvp11_workspace_polish_layer(snapshot):
+    model = snapshot.get("mvp11_token_aware_workspace_polish_model", {})
+    session_model = model.get("token_aware_session_model", {})
+    state_machine = model.get("request_workspace_state_machine", {})
+    list_controls = model.get("request_list_controls", {})
+    workflow_ux = model.get("request_workflow_ux", {})
+    security = model.get("security_boundary", [])
+    current_recommendation = model.get("current_recommendation", [])
+
+    control_rows = "".join(
+        f"<tr><th scope=\"row\"><code>{_e(item)}</code></th><td>SUPPORTED</td></tr>"
+        for item in list_controls.get("actions", [])
+    )
+    security_rows = "".join(
+        f"<tr><th scope=\"row\">{_e(item)}</th><td>{_status_badge('ENFORCED' if 'blocked' in item or 'no ' in item or 'memory' in item else 'PASS')}</td></tr>"
+        for item in security
+    )
+
+    validation_copy = "\n".join([
+        "python3 scripts/validate_mvp11_token_aware_workspace_polish.py",
+        "python3 scripts/validate_mvp11_token_aware_workspace_polish_e2e.py",
+        "python3 scripts/validate_mvp10_operator_request_workspace_ui.py",
+        "python3 scripts/validate_mvp9_request_detail_lifecycle_timeline.py",
+        "python3 scripts/validate_mvp8_controlled_authenticated_request_create.py",
+        "python3 scripts/validate_mvp7_real_authenticated_supabase_reads.py",
+        "python3 scripts/validate_mvp6_controlled_migration_authenticated_reads.py",
+        "python3 scripts/validate_mvp5_migration_readiness_authenticated_reads.py",
+        "python3 scripts/validate_mvp4_supabase_auth_rls_request_api.py",
+        "python3 scripts/validate_mvp3_supabase_provider_request_api.py",
+        "python3 scripts/validate_mvp2_local_durable_request_persistence.py",
+        "python3 scripts/validate_mvp1_request_lifecycle_runtime.py",
+        "python3 scripts/validate_original_plus2e_server_side_dry_run_engine.py",
+        "python3 scripts/validate_phase5_plus1_master_validator_wall.py",
+    ])
+
+    body = f"""
+<div class="mvp11-token-aware-workspace-polish" data-mvp11-token-aware-workspace-polish="true">
+  <div class="callout plus2e-summary-callout" style="border-color: rgba(59,130,246,0.28); background: rgba(59,130,246,0.06);">
+    <strong style="color: var(--accent);">MVP-11</strong>
+    <p class="muted" style="margin-top: 0.15rem;">TOKEN-AWARE WORKSPACE SESSION — MEMORY-ONLY TOKEN STATE — TOKEN VERIFY CLEAR FLOW</p>
+    <p class="muted" style="margin-top: 0.25rem;">REQUEST WORKSPACE STATE MACHINE — REQUEST LIST SEARCH FILTER SORT — REQUEST DETAIL WORKFLOW</p>
+    <p class="muted" style="margin-top: 0.25rem;">LIFECYCLE TIMELINE WORKFLOW — DRY RUN RESULTS WORKFLOW — CREATE SUCCESS REFRESH FLOW</p>
+    <p class="muted" style="margin-top: 0.25rem;">UPDATE DELETE EXECUTE BLOCKED — SERVICE ROLE NOT USED — AUTOMATION STILL DISABLED</p>
+    <p class="muted" style="margin-top: 0.25rem;">NEXT_STEP_MANUAL_TOKEN_TEST_AND_WORKSPACE_UX_REFINEMENT — NOT_READY_FOR_REAL_AUTOMATION</p>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp11-token-session" id="mvp11-token-session-panel">
+      <div class="card-head"><h3 class="card-title">Token Session Panel</h3><span class="badge info">SESSION</span></div>
+      <p class="card-body">Refined token management with explicit lifecycle states.</p>
+      {_list([
+          "Token presence status indicator",
+          "Verification workflow conception",
+          "One-click clear memory variable",
+          "Zero persistence enforced",
+      ])}
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp11-copy-session" data-copy-text="{_e(json.dumps(session_model, indent=2))}">Copy session model</button>
+      </div>
+    </article>
+
+    <article class="card mvp11-list-controls" id="mvp11-list-controls-panel">
+      <div class="card-head"><h3 class="card-title">Request List Controls Panel</h3><span class="badge info">UX</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp11-controls-table">
+          <caption>Local enrichment controls</caption>
+          <thead><tr><th scope="col">Control</th><th scope="col">Status</th></tr></thead>
+          <tbody>{control_rows}</tbody>
+        </table>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp11-state-machine" id="mvp11-state-machine-panel">
+      <div class="card-head"><h3 class="card-title">Workspace State Machine Panel</h3><span class="badge success">LOGIC</span></div>
+      <p class="card-body">Governs UI transitions from <code>{_e(state_machine.get('start_state', 'idle'))}</code> to <code>{_e(state_machine.get('end_state', 'create_success'))}</code>.</p>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Purpose</p>
+        <p class="muted" style="margin-top:0.25rem;">Consistent UX handling across loading, error, and empty states.</p>
+      </div>
+    </article>
+
+    <article class="card mvp11-workflow-ux" id="mvp11-workflow-ux-panel">
+      <div class="card-head"><h3 class="card-title">Request Workflow Panel</h3><span class="badge info">FLOW</span></div>
+      <p class="card-body">The standard operator journey through the workspace.</p>
+      {_list(workflow_ux.get("steps", []))}
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp11-create-success" id="mvp11-create-success-panel">
+      <div class="card-head"><h3 class="card-title">Create Success Flow Panel</h3><span class="badge info">FEEDBACK</span></div>
+      <p class="card-body">Behavior after successful request creation.</p>
+      {_list([
+          "Display success notification",
+          "Automatic list refresh concept",
+          "Optional jump to new request detail",
+          "Reset form for next creation",
+      ])}
+    </article>
+
+    <article class="card mvp11-security-boundary" id="mvp11-security-boundary-panel">
+      <div class="card-head"><h3 class="card-title">Security Boundary Panel</h3><span class="badge warning">SECURITY</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp11-security-table">
+          <caption>Active security boundaries</caption>
+          <thead><tr><th scope="col">Boundary</th><th scope="col">State</th></tr></thead>
+          <tbody>{security_rows}</tbody>
+        </table>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp11-next-product-decision" id="mvp11-next-product-decision-panel">
+      <div class="card-head"><h3 class="card-title">Next Product Decision Panel</h3><span class="badge info">NEXT</span></div>
+      <p class="card-body">Manual token test of workspace, then build request lifecycle event creation.</p>
+      {_list([
+          "manual token test of workspace",
+          "verify request creation end-to-end",
+          "build request lifecycle event creation",
+          "add manual approval path conception",
+          "not ready for real automation",
+      ])}
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Current recommendation</p>
+        {_list(current_recommendation)}
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp11-copy-validation" data-copy-text="{_e(validation_copy)}">Copy MVP-11 validation checklist</button>
+      </div>
+    </article>
+  </div>
+</div>
+"""
+    return _details(
+        "MVP-11 — Token-Aware Workspace + Request Workflow Polish",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp11-token-aware-workspace-polish",
+    )
+
 def render_html(snapshot, compact_view=False, print_mode=False):
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
     header = f"""
@@ -5158,6 +5303,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_mvp8_controlled_request_create_layer(snapshot),
         _build_mvp9_request_detail_lifecycle_layer(snapshot),
         _build_mvp10_operator_workspace_layer(snapshot),
+        _build_mvp11_workspace_polish_layer(snapshot),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),

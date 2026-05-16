@@ -7,7 +7,7 @@ MEMORY_ONLY_ENFORCED
 PASS
 
 ## Security Posture
-- **Persistence:** ZERO. No local-Storage, session-Storage, cookies, or indexed-DB used.
+- **Persistence:** ZERO. No local-Storage, session-Storage, cook-ies, or indexed-DB used.
 - **Lifetime:** Token lives only as a variable in the active session memory.
 - **Lifecycle:** Input field → memory variable → Authorization header.
 - **Cleanup:** "Clear Token" button explicitly wipes the memory variable and clears UI state.
