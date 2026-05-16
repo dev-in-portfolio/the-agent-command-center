@@ -1,0 +1,29 @@
+{
+  "model_id": "mvp17-external-demo-package",
+  "model_version": "1.0",
+  "external_demo_package_summary": {
+    "purpose": "safe external-facing demo package",
+    "audience": ["recruiter", "technical_reviewer", "founder_operator"],
+    "assets": ["README", "one-pager", "technical-brief", "safety-brief", "demo-script", "q-and-a"]
+  },
+  "public_product_summary": {
+    "one_sentence": "Safety-first request control layer for agentic workflows.",
+    "focus": "separating reviewable intake from automation"
+  },
+  "reviewer_brief": {
+    "technical": ["RLS boundary", "safe errors", "mutation gates"],
+    "product": ["safety-first engineering", "iterative delivery"]
+  },
+  "demo_q_and_a_summary": {
+    "topics": ["not-autonomous-yet", "no-browser-secrets", "blocked-mutations"]
+  },
+  "current_recommendation": [
+    "EXTERNAL_DEMO_PACKAGE_READY",
+    "REVIEWER_BRIEF_READY",
+    "PRODUCT_SUMMARY_READY",
+    "SAFETY_BOUNDARY_BRIEF_READY",
+    "DO_NOT_OVERCLAIM_LIVE_TEST_STATUS",
+    "NOT_READY_FOR_REAL_AUTOMATION",
+    "NEXT_STEP_PREPARE_EXTERNAL_REVIEW_OR_RUN_LIVE_TEST_FIRST"
+  ]
+}

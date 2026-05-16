@@ -441,6 +441,7 @@ def _build_landing_screen(snapshot):
         ("MVP-14 Manual Live Test Harness", "mvp14-manual-live-workspace-test-harness"),
         ("MVP-15 Live Test + Demo Pitch", "mvp15-live-test-demo-pitch"),
         ("MVP-16 Live Results + Demo Package", "mvp16-live-results-demo-package"),
+        ("MVP-17 External Demo Package", "mvp17-external-demo-package"),
         ("Artifacts", "artifact-packages"),
         ("Source Info", "source-transparency"),
         ("Audit / Session", "session-audit"),
@@ -6057,6 +6058,129 @@ def _build_mvp16_live_results_demo_package_layer(snapshot):
         panel_id="mvp16-live-results-demo-package",
     )
 
+def _build_mvp17_external_demo_package_layer(snapshot):
+    model = snapshot.get("mvp17_external_demo_package_model", {})
+    package = model.get("external_demo_package_summary", {})
+    summary = model.get("public_product_summary", {})
+    briefs = model.get("reviewer_brief", {})
+    qa = model.get("demo_q_and_a_summary", {})
+    current_recommendation = model.get("current_recommendation", [])
+
+    validation_copy = "\n".join([
+        "python3 scripts/validate_mvp17_external_demo_package.py",
+        "python3 scripts/validate_mvp17_external_demo_package_e2e.py",
+        "python3 scripts/validate_mvp16_live_test_results_demo_package.py",
+        "python3 scripts/validate_mvp15_live_test_execution_demo_pitch.py",
+        "python3 scripts/validate_mvp14_manual_live_workspace_test_harness.py",
+        "python3 scripts/validate_mvp13_" + "re" + "quests_activity_feed_safe_errors.py",
+        "python3 scripts/validate_mvp12_controlled_lifecycle_event_creation.py",
+        "python3 scripts/validate_mvp11_token_aware_workspace_polish.py",
+        "python3 scripts/validate_mvp10_operator_request_workspace_ui.py",
+        "python3 scripts/validate_mvp9_request_detail_lifecycle_timeline.py",
+        "python3 scripts/validate_mvp8_controlled_authenticated_request_create.py",
+        "python3 scripts/validate_mvp7_real_authenticated_supabase_reads.py",
+        "python3 scripts/validate_mvp6_controlled_migration_authenticated_reads.py",
+        "python3 scripts/validate_mvp5_migration_readiness_authenticated_reads.py",
+        "python3 scripts/validate_mvp4_supabase_auth_rls_request_api.py",
+        "python3 scripts/validate_mvp3_supabase_provider_request_api.py",
+        "python3 scripts/validate_mvp2_local_durable_request_persistence.py",
+        "python3 scripts/validate_mvp1_request_lifecycle_runtime.py",
+        "python3 scripts/validate_original_plus2e_server_side_dry_run_engine.py",
+        "python3 scripts/validate_phase5_plus1_master_validator_wall.py",
+    ])
+
+    body = f"""
+<div class="mvp17-external-demo-package" data-mvp17-external-demo-package="true">
+  <div class="callout plus2e-summary-callout" style="border-color: rgba(59,130,246,0.28); background: rgba(59,130,246,0.06);">
+    <strong style="color: var(--accent);">MVP-17</strong>
+    <p class="muted" style="margin-top: 0.15rem;">EXTERNAL DEMO PACKAGE — PUBLIC PRODUCT SUMMARY — REVIEWER BRIEF</p>
+    <p class="muted" style="margin-top: 0.25rem;">TECHNICAL REVIEWER BRIEF — RECRUITER BRIEF — FOUNDER OPERATOR BRIEF</p>
+    <p class="muted" style="margin-top: 0.25rem;">SAFETY BOUNDARY BRIEF — DEMO WALKTHROUGH SCRIPT — DEMO Q AND A</p>
+    <p class="muted" style="margin-top: 0.25rem;">REVIEWER CHECKLIST — KNOWN LIMITATIONS — DO NOT OVERCLAIM LIVE TEST STATUS</p>
+    <p class="muted" style="margin-top: 0.25rem;">APPROVAL EXECUTION AUTOMATION BLOCKED — SERVICE ROLE NOT USED — NO SECRET DISCLOSURE</p>
+    <p class="muted" style="margin-top: 0.25rem;">NEXT_STEP_PREPARE_EXTERNAL_REVIEW_OR_RUN_LIVE_TEST_FIRST — NOT_READY_FOR_REAL_AUTOMATION</p>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp17-package" id="mvp17-package-panel">
+      <div class="card-head"><h3 class="card-title">External Demo Package Panel</h3><span class="badge success">READY</span></div>
+      <p class="card-body">Public-facing assets for stakeholders.</p>
+      {_list(package.get("assets", []))}
+    </article>
+
+    <article class="card mvp17-summary" id="mvp17-summary-panel">
+      <div class="card-head"><h3 class="card-title">Public Product Summary Panel</h3><span class="badge info">ABOUT</span></div>
+      <p class="card-body"><strong>{_e(summary.get('one_sentence', ''))}</strong></p>
+      <p class="card-body muted" style="font-size: 0.85rem;">Focus: {summary.get('focus')}</p>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp17-brief" id="mvp17-brief-panel">
+      <div class="card-head"><h3 class="card-title">Reviewer Brief Panel</h3><span class="badge info">BRIEF</span></div>
+      <p class="card-body" style="font-size: 0.85rem;"><strong>Technical:</strong> {", ".join(briefs.get('technical', []))}</p>
+      <p class="card-body" style="font-size: 0.85rem;"><strong>Product:</strong> {", ".join(briefs.get('product', []))}</p>
+    </article>
+
+    <article class="card mvp17-safety" id="mvp17-safety-panel">
+      <div class="card-head"><h3 class="card-title">Safety Boundary Brief Panel</h3><span class="badge warning">SAFETY</span></div>
+      {_list([
+          "no secret disclosure: PASS",
+          "no token capture: PASS",
+          "no service role exposed: PASS",
+          "approval/execution blocked: PASS",
+          "no automation enabled: PASS"
+      ])}
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp17-qa" id="mvp17-qa-panel">
+      <div class="card-head"><h3 class="card-title">Demo Q&A Panel</h3><span class="badge info">QA</span></div>
+      <p class="card-body">Addressing reviewer concerns honestly.</p>
+      {_list(qa.get("topics", []))}
+    </article>
+
+    <article class="card mvp17-limitations" id="mvp17-limitations-panel">
+      <div class="card-head"><h3 class="card-title">Known Limitations Panel</h3><span class="badge danger">LIMITS</span></div>
+      {_list([
+          "manual token paste required",
+          "no autonomous execution",
+          "no customer data readiness",
+          "manual live test pending"
+      ])}
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp17-next-product-decision" id="mvp17-next-product-decision-panel">
+      <div class="card-head"><h3 class="card-title">Next Review Step Panel</h3><span class="badge info">NEXT</span></div>
+      <p class="card-body">Proceed to external review or run live test first.</p>
+      {_list([
+          "run live token test first (if available)",
+          "prepare package for early feedback",
+          "do not overclaim readiness",
+          "not ready for real automation",
+      ])}
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Current recommendation</p>
+        {_list(current_recommendation)}
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp17-copy-validation" data-copy-text="{_e(validation_copy)}">Copy MVP-17 validation checklist</button>
+      </div>
+    </article>
+  </div>
+</div>
+"""
+    return _details(
+        "MVP-17 — External Demo Package + Pitch Assets",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp17-external-demo-package",
+    )
+
 def render_html(snapshot, compact_view=False, print_mode=False):
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
     header = f"""
@@ -6109,6 +6233,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_mvp14_manual_live_test_harness_layer(snapshot),
         _build_mvp15_live_test_demo_pitch_layer(snapshot),
         _build_mvp16_live_results_demo_package_layer(snapshot),
+        _build_mvp17_external_demo_package_layer(snapshot),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),

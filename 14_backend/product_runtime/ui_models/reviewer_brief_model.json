@@ -1,0 +1,26 @@
+{
+  "model_id": "reviewer-brief-model",
+  "model_version": "1.0",
+  "technical_reviewer_focus": [
+    "architecture",
+    "auth/RLS boundary",
+    "Netlify Function boundary",
+    "safe error handling",
+    "intentionally blocked mutation paths",
+    "validator discipline"
+  ],
+  "recruiter_focus": [
+    "product thinking",
+    "safety-first engineering",
+    "iterative delivery",
+    "demo-ready communication",
+    "full-stack implementation path"
+  ],
+  "founder_operator_focus": [
+    "operational control layer",
+    "request visibility",
+    "audit-style activity trail",
+    "risk reduction before automation",
+    "roadmap to controlled approvals/execution"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "model_id": "demo-q-and-a-model",
+  "model_version": "1.0",
+  "questions": [
+    {
+      "q": "Is this an autonomous agent execution system?",
+      "a": "Not yet. It is intentionally a safety-first request control layer. Approval, execution, and automation are blocked until reviewed phases."
+    },
+    {
+      "q": "Does it expose secrets in the browser?",
+      "a": "No. The browser calls Netlify Functions. Service role and secret keys are not exposed to browser code."
+    },
+    {
+      "q": "Is the live test complete?",
+      "a": "The harness and execution plan are ready. Manual live testing with a real token is a gated step before full external rollout."
+    },
+    {
+      "q": "What is the strongest technical proof point?",
+      "a": "It has progressed from local lifecycle scaffolding through Supabase Auth/RLS, real authenticated reads, controlled writes, lifecycle event creation, safe errors, operator workspace, and demo package."
+    },
+    {
+      "q": "What is intentionally not enabled?",
+      "a": "Request update/delete, approvals, execution, automation, deploy/merge/push/PR controls, env mutation, migrations, and browser service-role access."
+    }
+  ]
+}

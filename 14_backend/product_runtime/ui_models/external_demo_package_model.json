@@ -1,0 +1,37 @@
+{
+  "model_id": "external-demo-package-model",
+  "model_version": "1.0",
+  "purpose": "safe external-facing demo package for reviewers",
+  "audience": [
+    "recruiter",
+    "technical_reviewer",
+    "founder_operator",
+    "potential_collaborator"
+  ],
+  "allowed_public_claims": [
+    "safety-first request control layer",
+    "authenticated request workspace",
+    "Supabase-backed request and lifecycle storage",
+    "controlled request creation",
+    "controlled lifecycle event notes",
+    "activity feed and safe error UX",
+    "intentional block on approval/execution/automation"
+  ],
+  "forbidden_public_claims": [
+    "fully-autonomous-execution-engine",
+    "production-customer-ready",
+    "handles unrestricted secrets",
+    "approval/execution automation-is-live",
+    "deploy/merge/push controls are live",
+    "service role available in browser"
+  ],
+  "demo_assets": [
+    "external_demo_readme",
+    "product_one_pager",
+    "technical_brief",
+    "safety_boundary_brief",
+    "demo_walkthrough",
+    "reviewer_checklist",
+    "q_and_a_sheet"
+  ]
+}
