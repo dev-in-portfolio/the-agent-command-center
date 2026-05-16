@@ -1,0 +1,36 @@
+{
+  "model_id": "request-activity-feed-model",
+  "model_version": "1.0",
+  "purpose": "unified read-only activity feed from request lifecycle events",
+  "source_endpoint": "/api/requests?action=events&id=<request_id>",
+  "auth_required": true,
+  "rls_enforced": true,
+  "service_role_used": false,
+  "display_modes": [
+    "timeline",
+    "compact_feed",
+    "grouped_by_day",
+    "grouped_by_event_type"
+  ],
+  "event_categories": [
+    "operator_note",
+    "validation_note",
+    "status_note",
+    "dry_run_note",
+    "client_visible_note",
+    "internal_note"
+  ],
+  "actions_allowed": [
+    "refresh_activity",
+    "filter_activity",
+    "copy_event_id",
+    "copy_safe_error_code"
+  ],
+  "actions_blocked": [
+    "edit_event",
+    "delete_event",
+    "approve_request",
+    "execute_request",
+    "automate"
+  ]
+}

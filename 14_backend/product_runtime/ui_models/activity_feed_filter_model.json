@@ -1,0 +1,19 @@
+{
+  "model_id": "activity-feed-filter-model",
+  "model_version": "1.0",
+  "filters": [
+    "event_type",
+    "lifecycle_state",
+    "visibility",
+    "date_bucket",
+    "text_search_local"
+  ],
+  "sorts": [
+    "created_at_desc",
+    "created_at_asc",
+    "event_type"
+  ],
+  "local_only_controls": true,
+  "no_server_mutation": true,
+  "no_token_persistence": true
+}

@@ -1,0 +1,29 @@
+{
+  "model_id": "safe-api-error-model",
+  "model_version": "1.0",
+  "purpose": "stable user-facing API error handling",
+  "raw_error_exposure_allowed": false,
+  "token_exposure_allowed": false,
+  "env_exposure_allowed": false,
+  "stack_trace_exposure_allowed": false,
+  "sql_detail_exposure_allowed": false,
+  "safe_error_categories": [
+    "auth_required",
+    "auth_failed",
+    "rls_denied_or_not_found",
+    "request_api_disabled",
+    "writes_disabled",
+    "invalid_payload",
+    "schema_mismatch",
+    "read_failed_safe",
+    "write_failed_safe",
+    "network_failed",
+    "unknown_safe_server_error"
+  ],
+  "ui_behavior": [
+    "show_safe_error_code",
+    "show_short_safe_message",
+    "allow_copy_safe_error_code",
+    "do_not_show_raw_error"
+  ]
+}

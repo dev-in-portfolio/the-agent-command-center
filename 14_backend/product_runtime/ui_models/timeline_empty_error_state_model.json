@@ -1,0 +1,25 @@
+{
+  "model_id": "timeline-empty-error-state-model",
+  "model_version": "1.0",
+  "empty_states": [
+    "no_events_yet",
+    "no_filtered_events",
+    "request_not_selected",
+    "auth_required"
+  ],
+  "error_states": [
+    "rls_denied_or_not_found",
+    "event_read_failed",
+    "event_write_disabled",
+    "invalid_event_payload",
+    "network_failed",
+    "unknown_safe_server_error"
+  ],
+  "ui_rules": [
+    "never_show_raw_backend_error",
+    "never_show_token",
+    "never_show_env_values",
+    "show_safe_code_only",
+    "preserve_selected_request_on_error"
+  ]
+}
