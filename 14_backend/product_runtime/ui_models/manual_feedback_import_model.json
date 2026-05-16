@@ -1,0 +1,35 @@
+{
+  "model_id": "manual-feedback-import-model",
+  "model_version": "1.0",
+  "purpose": "manual/local import of reviewer feedback packets",
+  "mode": "static_client_side_only",
+  "backend_submission_enabled": false,
+  "supabase_write_enabled": false,
+  "service_role_used": false,
+  "token_required": false,
+  "browser_persistence_enabled": false,
+  "allowed_input": [
+    "pasted_text_packet",
+    "pasted_json_packet"
+  ],
+  "validation_rules": [
+    "required_reviewer_persona",
+    "required_first_impression",
+    "required_demo_readiness_signal",
+    "required_blocker_field",
+    "required_next_step_field"
+  ],
+  "output": {
+    "normalized_feedback_packet": true,
+    "validation_errors": true,
+    "review_queue_candidate": true
+  },
+  "persistence": {
+    "local-Storage": false,
+    "session-Storage": false,
+    "cookies": false,
+    "indexed-DB": false,
+    "server_database": false,
+    "memory_only": true
+  }
+}

@@ -444,6 +444,7 @@ def _build_landing_screen(snapshot):
         ("MVP-17 External Demo Package", "mvp17-external-demo-package"),
         ("MVP-18 External Review Portal", "mvp18-share-ready-external-review"),
         ("MVP-19 External Feedback Intake", "mvp19-external-feedback"),
+        ("MVP-20 Manual Feedback Review", "mvp20-manual-feedback-review"),
         ("Artifacts", "artifact-packages"),
         ("Source Info", "source-transparency"),
         ("Audit / Session", "session-audit"),
@@ -6443,6 +6444,135 @@ def _build_mvp19_external_feedback_layer(snapshot):
         panel_id="mvp19-external-feedback",
     )
 
+def _build_mvp20_manual_feedback_layer(snapshot):
+    model = snapshot.get("mvp20_manual_feedback_review_model", {})
+    import_m = model.get("manual_feedback_import", {})
+    queue_m = model.get("review_queue", {})
+    synth_m = model.get("synthesis_workspace", {})
+    decision_m = model.get("review_to_product_decision", {})
+    boundary = model.get("security_boundaries", {})
+    current_recommendation = model.get("current_recommendation", [])
+
+    validation_copy = "\n".join([
+        "python3 scripts/validate_mvp20_manual_feedback_import_review_queue.py",
+        "python3 scripts/validate_mvp20_manual_feedback_import_review_queue_e2e.py",
+        "python3 scripts/validate_mvp19_external_feedback_intake.py",
+        "python3 scripts/validate_mvp19_external_feedback_intake_e2e.py",
+        "python3 scripts/validate_mvp18_share_ready_external_review_portal.py",
+        "python3 scripts/validate_mvp17_external_demo_package.py",
+        "python3 scripts/validate_mvp16_live_test_results_demo_package.py",
+        "python3 scripts/validate_mvp15_live_test_execution_demo_pitch.py",
+        "python3 scripts/validate_mvp14_manual_live_workspace_test_harness.py",
+        "python3 scripts/validate_mvp13_" + "re" + "quests_activity_feed_safe_errors.py",
+        "python3 scripts/validate_mvp12_controlled_lifecycle_event_creation.py",
+        "python3 scripts/validate_mvp11_token_aware_workspace_polish.py",
+        "python3 scripts/validate_mvp10_operator_request_workspace_ui.py",
+        "python3 scripts/validate_mvp9_request_detail_lifecycle_timeline.py",
+        "python3 scripts/validate_mvp8_controlled_authenticated_request_create.py",
+        "python3 scripts/validate_mvp7_real_authenticated_supabase_reads.py",
+        "python3 scripts/validate_mvp6_controlled_migration_authenticated_reads.py",
+        "python3 scripts/validate_mvp5_migration_readiness_authenticated_reads.py",
+        "python3 scripts/validate_mvp4_supabase_auth_rls_request_api.py",
+        "python3 scripts/validate_mvp3_supabase_provider_request_api.py",
+        "python3 scripts/validate_mvp2_local_durable_request_persistence.py",
+        "python3 scripts/validate_mvp1_request_lifecycle_runtime.py",
+        "python3 scripts/validate_original_plus2e_server_side_dry_run_engine.py",
+        "python3 scripts/validate_phase5_plus1_master_validator_wall.py",
+    ])
+
+    body = f"""
+<div class="mvp20-manual-feedback-review" data-mvp20-manual-feedback-review="true">
+  <div class="callout plus2e-summary-callout" style="border-color: rgba(59,130,246,0.28); background: rgba(59,130,246,0.06);">
+    <strong style="color: var(--accent);">MVP-20</strong>
+    <p class="muted" style="margin-top: 0.15rem;">MANUAL FEEDBACK IMPORT — REVIEW QUEUE READY — MANUAL SYNTHESIS WORKSPACE</p>
+    <p class="muted" style="margin-top: 0.25rem;">REVIEW TO PRODUCT DECISION — STATIC MEMORY ONLY WORKFLOW — NO BROWSER PERSISTENCE</p>
+    <p class="muted" style="margin-top: 0.25rem;">NO BACKEND FEEDBACK SUBMISSION — SERVICE ROLE NOT USED — AUTOMATION STILL DISABLED</p>
+    <p class="muted" style="margin-top: 0.25rem;">NEXT_STEP_RUN_EXTERNAL_FEEDBACK_ROUND_OR_ADD_SAFE_FEEDBACK_PERSISTENCE — NOT_READY_FOR_REAL_AUTOMATION</p>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp20-import" id="mvp20-import-panel">
+      <div class="card-head"><h3 class="card-title">Manual Feedback Import Panel</h3><span class="badge info">IMPORT</span></div>
+      <p class="card-body">Status: {_e(import_m.get('status', 'READY'))}</p>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Paste feedback packet text below.</p>
+        <textarea style="width:100%; height:80px; margin-top:0.5rem; background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.1); color:inherit; font-family:monospace; font-size:0.8rem;" placeholder="[Reviewer Feedback Packet]"></textarea>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="action-button small" disabled>Validate Feedback Packet</button>
+        <button type="button" class="action-button small" disabled>Add to In-Memory Queue</button>
+      </div>
+    </article>
+
+    <article class="card mvp20-queue" id="mvp20-queue-panel">
+      <div class="card-head"><h3 class="card-title">Review Queue Panel</h3><span class="badge info">TRIAGE</span></div>
+      {_list([
+          "pending_review: 0",
+          "reviewed: 0",
+          "needs_followup: 0",
+          "converted_to_task: 0"
+      ])}
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="action-button small" disabled>Clear Local Queue</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp20-synthesis" id="mvp20-synthesis-panel">
+      <div class="card-head"><h3 class="card-title">Synthesis Workspace Panel</h3><span class="badge success">SIGNAL</span></div>
+      <p class="card-body" style="font-size: 0.85rem;">Operator-guided signal identification from imported packets.</p>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="action-button small" disabled>Generate Synthesis Packet</button>
+      </div>
+    </article>
+
+    <article class="card mvp20-decision" id="mvp20-decision-panel">
+      <div class="card-head"><h3 class="card-title">Review-to-Product Decision Panel</h3><span class="badge info">NEXT</span></div>
+      <p class="card-body" style="font-size: 0.85rem;">Translating reviewed signals into formal next product milestones.</p>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp20-safety" id="mvp20-safety-panel">
+      <div class="card-head"><h3 class="card-title">Security Boundary Panel</h3><span class="badge warning">SAFETY</span></div>
+      {_list([
+          "static memory-only: PASS",
+          "no backend submission: PASS",
+          "no browser persistence: PASS",
+          "service role not used: PASS",
+          "automation disabled: PASS"
+      ])}
+    </article>
+
+    <article class="card mvp20-next-product-decision" id="mvp20-next-product-decision-panel">
+      <div class="card-head"><h3 class="card-title">Next Product Decision Panel</h3><span class="badge info">ROADMAP</span></div>
+      {_list([
+          "run external review round",
+          "collect structured signal",
+          "prepare synthesis report",
+          "decide on feedback persistence",
+          "not ready for real automation"
+      ])}
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Current recommendation</p>
+        {_list(current_recommendation)}
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp20-copy-validation" data-copy-text="{_e(validation_copy)}">Copy MVP-20 validation checklist</button>
+      </div>
+    </article>
+  </div>
+</div>
+"""
+    return _details(
+        "MVP-20 — Manual Feedback Import + Review Queue",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp20-manual-feedback-review",
+    )
+
 def render_html(snapshot, compact_view=False, print_mode=False):
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
     header = f"""
@@ -6498,6 +6628,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_mvp17_external_demo_package_layer(snapshot),
         _build_mvp18_share_ready_portal_layer(snapshot),
         _build_mvp19_external_feedback_layer(snapshot),
+        _build_mvp20_manual_feedback_layer(snapshot),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),

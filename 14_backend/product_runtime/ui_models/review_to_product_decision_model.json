@@ -1,0 +1,21 @@
+{
+  "model_id": "review-to-product-decision-model",
+  "model_version": "1.0",
+  "purpose": "translate manually reviewed feedback into next product decisions",
+  "input_sources": [
+    "validated_feedback_packets",
+    "review_queue_summary",
+    "synthesis_notes"
+  ],
+  "decision_options": [
+    "run_more_external_review",
+    "add_manual_feedback_persistence",
+    "add_reviewer_role_dashboard",
+    "add_pitch_demo_mode",
+    "refine_operator_workspace",
+    "prioritize_security_hardening"
+  ],
+  "requires_operator_decision": true,
+  "automation_enabled": false,
+  "execution_enabled": false
+}

@@ -1,0 +1,38 @@
+{
+  "model_id": "mvp20-manual-feedback-review",
+  "model_version": "1.0",
+  "manual_feedback_import": {
+    "purpose": "pasted packet parsing",
+    "status": "MANUAL_FEEDBACK_IMPORT_READY",
+    "mode": "static_memory_only"
+  },
+  "review_queue": {
+    "purpose": "in-memory triage",
+    "status": "REVIEW_QUEUE_READY"
+  },
+  "synthesis_workspace": {
+    "purpose": "operator-guided synthesis",
+    "status": "MANUAL_SYNTHESIS_READY"
+  },
+  "review_to_product_decision": {
+    "purpose": "roadmap informing",
+    "status": "REVIEW_TO_PRODUCT_DECISION_READY"
+  },
+  "security_boundaries": {
+    "static_memory_only_workflow": true,
+    "no_backend_feedback_submission": true,
+    "no_browser_persistence": true,
+    "service_role_not_used": true
+  },
+  "current_recommendation": [
+    "MANUAL_FEEDBACK_IMPORT_READY",
+    "REVIEW_QUEUE_READY",
+    "MANUAL_SYNTHESIS_READY",
+    "STATIC_MEMORY_ONLY_WORKFLOW",
+    "NO_BACKEND_FEEDBACK_SUBMISSION",
+    "NO_BROWSER_PERSISTENCE",
+    "SERVICE_ROLE_NOT_USED",
+    "NOT_READY_FOR_REAL_AUTOMATION",
+    "NEXT_STEP_RUN_EXTERNAL_FEEDBACK_ROUND_OR_ADD_SAFE_FEEDBACK_PERSISTENCE"
+  ]
+}

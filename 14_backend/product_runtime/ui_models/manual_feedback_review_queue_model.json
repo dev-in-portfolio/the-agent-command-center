@@ -1,0 +1,37 @@
+{
+  "model_id": "manual-feedback-review-queue-model",
+  "model_version": "1.0",
+  "purpose": "in-memory operator review queue for manually imported feedback packets",
+  "backend_queue_enabled": false,
+  "automatic_ingestion_enabled": false,
+  "allowed_states": [
+    "pending_review",
+    "reviewed",
+    "needs_followup",
+    "converted_to_product_task",
+    "archived"
+  ],
+  "allowed_actions": [
+    "import_packet",
+    "validate_packet",
+    "add_to_in_memory_queue",
+    "mark_reviewed",
+    "mark_needs_followup",
+    "mark_converted_to_product_task",
+    "archive_locally",
+    "copy_queue_summary",
+    "export_queue_summary"
+  ],
+  "blocked_actions": [
+    "auto_execute",
+    "auto_approve",
+    "auto_deploy",
+    "auto_merge",
+    "submit_to_backend",
+    "save_to_database",
+    "write_to_supabase",
+    "create_github_issue",
+    "create_netlify_deploy"
+  ],
+  "persistence": "memory_only"
+}
