@@ -1,0 +1,25 @@
+{
+  "model_id": "controlled-feedback-persistence-api-contract-model",
+  "model_version": "1.0",
+  "purpose": "future API contract for controlled feedback persistence",
+  "endpoint_candidate": "/api/feedback?action=import",
+  "method_candidate": "POST",
+  "implementation_enabled": false,
+  "feature_flag_required": "MVP_ENABLE_FEEDBACK_PERSISTENCE",
+  "default_feature_flag_state": false,
+  "browser_direct_supabase_calls": false,
+  "browser_calls_netlify_only": true,
+  "service_role_used": false,
+  "allowed_future_actions": [
+    "import_feedback_packet"
+  ],
+  "blocked_actions": [
+    "update_feedback",
+    "delete_feedback",
+    "approve_feedback",
+    "execute_feedback",
+    "submit_to_github",
+    "submit_to_netlify",
+    "automate_feedback_processing"
+  ]
+}

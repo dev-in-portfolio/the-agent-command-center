@@ -1,0 +1,11 @@
+{
+  "model_id": "feedback-persistence-feature-flag-model",
+  "model_version": "1.0",
+  "purpose": "feedback persistence feature flag and release gate",
+  "flag_name": "MVP_ENABLE_FEEDBACK_PERSISTENCE",
+  "default_enabled": false,
+  "required_for_future_writes": true,
+  "may_be_enabled_in_mvp21": false,
+  "operator_review_required": true,
+  "production_enablement_requires_separate_phase": true
+}

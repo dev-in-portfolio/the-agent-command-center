@@ -32,56 +32,63 @@ def assert_contains(text, needle, label):
 
 def main():
     required_files = [
-        UI_MODEL_DIR / "manual_feedback_import_model.json",
-        UI_MODEL_DIR / "manual_feedback_review_queue_model.json",
-        UI_MODEL_DIR / "manual_feedback_synthesis_workspace_model.json",
-        UI_MODEL_DIR / "review_to_product_decision_model.json",
-        DIST_DIR / "mvp20_manual_feedback_review_model.json",
-        REPORT_DIR / "mvp20_manual_feedback_import_report.md",
-        REPORT_DIR / "mvp20_review_queue_report.md",
-        REPORT_DIR / "mvp20_synthesis_workspace_report.md",
-        REPORT_DIR / "mvp20_review_to_product_decision_report.md",
-        REPORT_DIR / "mvp20_security_boundary_report.md",
-        REPORT_DIR / "mvp20_next_product_step_report.md",
-        REPORT_DIR / "mvp20_validator_quality_report.md",
-        REPORT_DIR / "mvp20_acceptance_report.md",
+        UI_MODEL_DIR / "safe_feedback_persistence_readiness_model.json",
+        UI_MODEL_DIR / "feedback_storage_schema_review_model.json",
+        UI_MODEL_DIR / "feedback_rls_policy_review_model.json",
+        UI_MODEL_DIR / "controlled_feedback_persistence_api_contract_model.json",
+        UI_MODEL_DIR / "feedback_persistence_feature_flag_model.json",
+        DIST_DIR / "mvp21_safe_feedback_persistence_model.json",
+        REPORT_DIR / "mvp21_safe_feedback_persistence_readiness_report.md",
+        REPORT_DIR / "mvp21_feedback_schema_review_report.md",
+        REPORT_DIR / "mvp21_feedback_rls_policy_review_report.md",
+        REPORT_DIR / "mvp21_feedback_api_contract_review_report.md",
+        REPORT_DIR / "mvp21_feedback_feature_flag_report.md",
+        REPORT_DIR / "mvp21_security_boundary_report.md",
+        REPORT_DIR / "mvp21_next_product_step_report.md",
+        REPORT_DIR / "mvp21_validator_quality_report.md",
+        REPORT_DIR / "mvp21_acceptance_report.md",
+        REPORT_DIR / "mvp21_validator_wall_review.md",
     ]
     for path in required_files:
         ensure_exists(path)
 
     index = read_text(DIST_DIR / "index.html")
     required_strings = [
-        "MVP-20",
-        "MANUAL FEEDBACK IMPORT",
-        "REVIEW QUEUE READY",
-        "MANUAL SYNTHESIS WORKSPACE",
-        "REVIEW TO PRODUCT DECISION",
-        "STATIC MEMORY ONLY WORKFLOW",
-        "NO BACKEND FEEDBACK SUBMISSION",
-        "NO BROWSER PERSISTENCE",
+        "MVP-21",
+        "SAFE FEEDBACK PERSISTENCE READINESS",
+        "SCHEMA REVIEW READY",
+        "RLS POLICY REVIEW READY",
+        "API CONTRACT REVIEW READY",
+        "FEATURE FLAG DEFINED DISABLED",
+        "NO MIGRATION APPLY",
+        "NO FEEDBACK WRITES ENABLED",
         "SERVICE ROLE NOT USED",
         "AUTOMATION STILL DISABLED",
-        "NEXT_STEP_RUN_EXTERNAL_FEEDBACK_ROUND_OR_ADD_SAFE_FEEDBACK_PERSISTENCE",
+        "NEXT_STEP_REVIEW_AND_OPTIONALLY_BUILD_CONTROLLED_FEEDBACK_IMPORT_WRITE",
         "NOT_READY_FOR_REAL_AUTOMATION",
-        "Manual Feedback Import Panel",
-        "Review Queue Panel",
-        "Synthesis Workspace Panel",
-        "Review-to-Product Decision Panel",
+        "Persistence Readiness Panel",
+        "Feedback Schema Review Panel",
+        "RLS Policy Review Panel",
+        "Controlled API Contract Panel",
+        "Feature Flag Panel",
         "Security Boundary Panel",
-        "Copy MVP-20 validation checklist",
+        "Copy MVP-21 validation checklist",
     ]
     for text in required_strings:
         assert_contains(index, text, "index.html marker")
 
-    acceptance = read_text(REPORT_DIR / "mvp20_acceptance_report.md")
+    acceptance = read_text(REPORT_DIR / "mvp21_acceptance_report.md")
     for text in [
-        "MANUAL_FEEDBACK_IMPORT_REVIEW_QUEUE_READY",
-        "PASS_WITH_STATIC_MEMORY_ONLY_FEEDBACK_WORKFLOW",
+        "SAFE_FEEDBACK_PERSISTENCE_READINESS_READY",
+        "PASS_WITH_NO_FEEDBACK_WRITES_ENABLED",
     ]:
         assert_contains(acceptance, text, "acceptance report marker")
 
-    security_report = read_text(REPORT_DIR / "mvp20_security_boundary_report.md")
-    assert_contains(security_report, "VERIFIED_FOR_STATIC_MEMORY_ONLY_FEEDBACK", "security report marker")
+    security_report = read_text(REPORT_DIR / "mvp21_security_boundary_report.md")
+    assert_contains(security_report, "VERIFIED_FOR_PERSISTENCE_READINESS_ONLY", "security report marker")
+
+    next_step_report = read_text(REPORT_DIR / "mvp21_next_product_step_report.md")
+    assert_contains(next_step_report, "READY_FOR_CONTROLLED_FEEDBACK_IMPORT_WRITE_REVIEW", "next-step report marker")
 
     # Real Safety Scans
     scan_roots = [ROOT / "13_web_dashboard", UI_MODEL_DIR, REPORT_DIR]
@@ -131,6 +138,7 @@ def main():
         "merge",
         "push",
         "create pr",
+        "apply migration",
     ]
 
     for root in scan_roots:
@@ -152,7 +160,7 @@ def main():
                     if "scripts/validate_" in path_str: continue
                     if "13_web_dashboard" in path_str and path.suffix == ".py": continue
                     # Allow in MD if part of a safety statement
-                    if path.suffix == ".md" and any(x in lower for x in ["not used", "excluded", "no ", "blocked", "required", "setup", "env", "contract", "no-secret"]):
+                    if path.suffix == ".md" and any(x in lower for x in ["not used", "excluded", "no ", "blocked", "required", "setup", "env", "contract", "no-secret", "forbidden"]):
                         continue
                     # Allow metadata names in JSON/HTML as long as actual value is not leaked
                     if path.suffix in [".json", ".html"] and pattern in ["SUPABASE_SERVICE_ROLE_KEY", "service_role", "service-role"]:
@@ -188,35 +196,45 @@ def main():
                              if not any(x in label for x in ["blocked", "disabled"]):
                                  fail(f"Potential unblocked control in {path.relative_to(ROOT)}: {label}")
 
-    # 4. Semantic check for MVP-20 JSON
+    # 4. Semantic check for MVP-21 JSON
     def check_json_security(data, path):
-        security = data.get("security_boundaries", {})
-        if security:
-            if security.get("static_memory_only_workflow") is not True and "mvp20" in str(path).lower():
-                fail(f"JSON model missing static_memory_only_workflow: true: {path}")
-            if security.get("no_backend_feedback_submission") is not True and "mvp20" in str(path).lower():
-                fail(f"JSON model missing no_backend_feedback_submission: true: {path}")
-
         def walk_flags(obj):
             if not isinstance(obj, dict): return
             for k, v in obj.items():
                 nk = k.lower()
                 if nk.endswith("enabled") and v is True:
                      if nk.startswith("no_"): continue
-                     if any(x in nk for x in ["submission", "write", "automation", "synthesis", "ingestion", "queue", "persistence"]):
+                     # Exact patterns for quality audit compliance
+                     dangerous_flags = [
+                         "submission", "write", "automation", "synthesis", 
+                         "ingestion", "queue", "persistence", "migration", 
+                         "apply", "implementation", "migration_apply_enabled", 
+                         "persistence_enabled", "supabase_write_enabled"
+                     ]
+                     if any(x in nk for x in dangerous_flags):
                           fail(f"Forbidden enabled flag {k} in {path}")
+                if nk == "default_enabled" and v is True:
+                     fail(f"Forbidden default_enabled flag {k} in {path}")
+                if nk == "service_role_used" and v is True:
+                     fail(f"Forbidden service_role_used flag {k} in {path}")
+                if nk == "token_required" and v is True and ("mvp19" in str(path).lower() or "mvp20" in str(path).lower() or "mvp21" in str(path).lower()):
+                     fail(f"Forbidden token_required flag {k} in {path}")
                 walk_flags(v)
         walk_flags(data)
 
-    model_path = DIST_DIR / "mvp20_manual_feedback_review_model.json"
-    if model_path.exists():
-        check_json_security(json.loads(read_text(model_path)), model_path)
-    
-    import_path = UI_MODEL_DIR / "manual_feedback_import_model.json"
-    if import_path.exists():
-        check_json_security(json.loads(read_text(import_path)), import_path)
+    model_paths = [
+        DIST_DIR / "mvp21_safe_feedback_persistence_model.json",
+        UI_MODEL_DIR / "safe_feedback_persistence_readiness_model.json",
+        UI_MODEL_DIR / "feedback_persistence_feature_flag_model.json",
+        UI_MODEL_DIR / "feedback_storage_schema_review_model.json",
+        UI_MODEL_DIR / "feedback_rls_policy_review_model.json",
+        UI_MODEL_DIR / "controlled_feedback_persistence_api_contract_model.json",
+    ]
+    for p in model_paths:
+        if p.exists():
+            check_json_security(json.loads(read_text(p)), p)
 
-    print("MVP20_MANUAL_FEEDBACK_IMPORT_REVIEW_QUEUE_VALIDATION_PASS")
+    print("MVP21_SAFE_FEEDBACK_PERSISTENCE_READINESS_VALIDATION_PASS")
 
 
 if __name__ == "__main__":
