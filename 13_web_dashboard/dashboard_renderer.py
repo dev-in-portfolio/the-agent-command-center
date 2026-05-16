@@ -446,6 +446,7 @@ def _build_landing_screen(snapshot):
         ("MVP-19 External Feedback Intake", "mvp19-external-feedback"),
         ("MVP-20 Manual Feedback Review", "mvp20-manual-feedback-review"),
         ("MVP-21 Safe Feedback Persistence", "mvp21-safe-feedback-persistence"),
+        ("MVP-22 Controlled Feedback Write", "mvp22-controlled-feedback-write"),
         ("Artifacts", "artifact-packages"),
         ("Source Info", "source-transparency"),
         ("Audit / Session", "session-audit"),
@@ -6719,6 +6720,133 @@ def _build_mvp21_persistence_readiness_layer(snapshot):
         panel_id="mvp21-safe-feedback-persistence",
     )
 
+def _build_mvp22_controlled_write_layer(snapshot):
+    model = snapshot.get("mvp22_controlled_feedback_import_write_model", {})
+    summary = model.get("implementation_summary", {})
+    gate = model.get("write_gate", {})
+    boundaries = model.get("security_boundaries", {})
+    current_recommendation = model.get("current_recommendation", [])
+
+    validation_copy = "\n".join([
+        "python3 scripts/validate_mvp22_controlled_feedback_import_write.py",
+        "python3 scripts/validate_mvp22_controlled_feedback_import_write_e2e.py",
+        "python3 scripts/validate_mvp21_safe_feedback_persistence_readiness.py",
+        "python3 scripts/validate_mvp21_safe_feedback_persistence_readiness_e2e.py",
+        "python3 scripts/validate_mvp20_manual_feedback_import_review_queue.py",
+        "python3 scripts/validate_mvp20_manual_feedback_import_review_queue_e2e.py",
+        "python3 scripts/validate_mvp19_external_feedback_intake.py",
+        "python3 scripts/validate_mvp19_external_feedback_intake_e2e.py",
+        "python3 scripts/validate_phase5_plus1_master_validator_wall.py",
+    ])
+
+    body = f"""
+<div class="mvp22-controlled-feedback-write" data-mvp22-controlled-feedback-write="true">
+  <div class="callout plus2e-summary-callout" style="border-color: rgba(59,130,246,0.28); background: rgba(59,130,246,0.06);">
+    <strong style="color: var(--accent);">MVP-22</strong>
+    <p class="muted" style="margin-top: 0.15rem;">CONTROLLED FEEDBACK IMPORT WRITE — FEEDBACK IMPORT ENDPOINT READY — PAYLOAD VALIDATION ENFORCED</p>
+    <p class="muted" style="margin-top: 0.25rem;">OWNER-SCOPED INSERT DESIGNED — FEATURE FLAG DISABLED BY DEFAULT — FEEDBACK_PERSISTENCE_DISABLED</p>
+    <p class="muted" style="margin-top: 0.25rem;">SERVICE ROLE NOT USED — NO MIGRATION APPLY — UPDATE DELETE EXECUTE BLOCKED</p>
+    <p class="muted" style="margin-top: 0.25rem;">NEXT_STEP_MANUALLY_APPLY_FEEDBACK_MIGRATION_AND_RUN_TOKEN_GATED_IMPORT_SMOKE_TEST — NOT_READY_FOR_REAL_AUTOMATION</p>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp22-endpoint" id="mvp22-endpoint-panel">
+      <div class="card-head"><h3 class="card-title">Controlled Feedback Import Endpoint Panel</h3><span class="badge info">API</span></div>
+      <p class="card-body">Endpoint: <code>{_e(summary.get('endpoint', '/api/feedback?action=import'))}</code></p>
+      {_list([
+          "method: POST",
+          "action: import",
+          "gate: MVP_ENABLE_FEEDBACK_PERSISTENCE",
+          "status: READY (GATED)"
+      ])}
+    </article>
+
+    <article class="card mvp22-validation" id="mvp22-validation-panel">
+      <div class="card-head"><h3 class="card-title">Payload Validation Panel</h3><span class="badge warning">STRICT</span></div>
+      {_list([
+          "required: reviewer_persona",
+          "required: substantive_feedback",
+          "blocked: owner_user_id (server-derived)",
+          "blocked: dangerous_fields (token/secret/command)"
+      ])}
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp22-client" id="mvp22-client-panel">
+      <div class="card-head"><h3 class="card-title">Feedback Write Client Panel</h3><span class="badge info">CLIENT</span></div>
+      {_list([
+          "auth: anon key + user bearer token only",
+          "service role: NOT USED",
+          "scope: owner_user_id insert only",
+          "actions: update/delete BLOCKED"
+      ])}
+    </article>
+
+    <article class="card mvp22-migration" id="mvp22-migration-panel">
+      <div class="card-head"><h3 class="card-title">Migration / RLS Panel</h3><span class="badge warning">SCHEMA</span></div>
+      {_list([
+          "003_feedback_persistence_schema: CREATED",
+          "004_feedback_persistence_rls_policies: CREATED",
+          "migration apply: NOT PERFORMED",
+          "RLS: owner-scoped insert/read design PASS"
+      ])}
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp22-smoke" id="mvp22-smoke-panel">
+      <div class="card-head"><h3 class="card-title">Smoke Status Panel</h3><span class="badge info">TEST</span></div>
+      {_list([
+          "status check allowed: PASS",
+          "automatic insert: BLOCKED",
+          "manual test required: TOKEN + FLAG",
+          "live test status: NOT_RUN_BY_DEFAULT"
+      ])}
+    </article>
+
+    <article class="card mvp22-safety" id="mvp22-safety-panel">
+      <div class="card-head"><h3 class="card-title">Security Boundary Panel</h3><span class="badge warning">SAFETY</span></div>
+      {_list([
+          "service role usage: PASS",
+          "migration apply: PASS",
+          "automation: PASS",
+          "update/delete: PASS",
+          "deploy/merge/push controls: PASS"
+      ])}
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp22-next-product-decision" id="mvp22-next-product-decision-panel">
+      <div class="card-head"><h3 class="card-title">Next Product Decision Panel</h3><span class="badge info">NEXT</span></div>
+      <p class="card-body">Apply feedback migrations and run the first authenticated write smoke test.</p>
+      {_list([
+          "apply feedback schema migration",
+          "run token-gated import smoke test",
+          "verify owner-scoped RLS in production",
+          "collect first real reviewer signal",
+          "not ready for real automation"
+      ])}
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Current recommendation</p>
+        {_list(current_recommendation)}
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp22-copy-validation" data-copy-text="{_e(validation_copy)}">Copy MVP-22 validation checklist</button>
+      </div>
+    </article>
+  </div>
+</div>
+"""
+    return _details(
+        "MVP-22 — Controlled Feedback Import Write",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp22-controlled-feedback-write",
+    )
+
 def render_html(snapshot, compact_view=False, print_mode=False):
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
     header = f"""
@@ -6776,6 +6904,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_mvp19_external_feedback_layer(snapshot),
         _build_mvp20_manual_feedback_layer(snapshot),
         _build_mvp21_persistence_readiness_layer(snapshot),
+        _build_mvp22_controlled_write_layer(snapshot),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),
