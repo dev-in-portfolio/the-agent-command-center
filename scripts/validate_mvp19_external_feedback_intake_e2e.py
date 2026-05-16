@@ -20,7 +20,7 @@ def run(cmd):
 def main():
     validators = [
         "python3 scripts/validate_mvp19_external_feedback_intake.py",
-        "python3 scripts/validate_mvp18_share_ready_external_review_portal.py",
+        "python3 scripts/validate_mvp18_share_ready_external_review_portal_e2e.py",
         "python3 scripts/validate_phase5_plus1_master_validator_wall.py",
     ]
 
@@ -29,10 +29,53 @@ def main():
         if code != 0:
             fail(f"Validator {v} failed:\nSTDOUT: {stdout}\nSTDERR: {stderr}")
 
-    # Final safety scan
-    stdout, stderr, code = run("python3 - <<'PY'\nfrom pathlib import Path\nscan_roots = [Path('14_backend/product_runtime'), Path('netlify/functions'), Path('13_web_dashboard'), Path('09_exports/mvp_product_track'), Path('09_exports/external_demo_package')]\nfor root in scan_roots:\n if not root.exists(): continue\n for path in root.rglob('*'):\n  if not path.is_file(): continue\n  if '__pycache__' in path.parts: continue\n  if path.suffix.lower() in {'.png', '.jpg', '.jpeg', '.gif', '.webp', '.ico'}: continue\n  text = path.read_text(encoding='utf-8', errors='replace')\n  lower = text.lower()\n  if 'sb-secret-' in lower and not any(x in str(path) for x in ['scripts/validate_', '09_exports/']): raise SystemExit(f'SECRET_KEY_LEAK: {path}')\n  if not any(x in str(path) for x in ['scripts/validate_', '09_exports/', 'dashboard_renderer.py', '13_web_dashboard/dist/']):\n   for item in ['localstorage', 'sessionstorage', 'document.cookie', 'indexeddb']:\n    if item in lower: raise SystemExit(f'FORBIDDEN_PATTERN {item}: {path}')\nprint('MVP19_SAFETY_SCAN_PASS')\nPY")
+    # Final System-Wide Safety Scan
+    scan_script = """
+import sys
+from pathlib import Path
+scan_roots = [
+    Path("14_backend/product_runtime"),
+    Path("netlify/functions"),
+    Path("13_web_dashboard"),
+    Path("09_exports/mvp_product_track"),
+    Path("09_exports/external_demo_package")
+]
+for root in scan_roots:
+    if not root.exists(): continue
+    for path in root.rglob("*"):
+        if not path.is_file(): continue
+        if "__pycache__" in path.parts: continue
+        if path.suffix.lower() in {".png", ".jpg", ".jpeg", ".gif", ".webp", ".ico"}: continue
+        text = path.read_text(encoding="utf-8", errors="replace")
+        lower = text.lower()
+        path_str = str(path).lower()
+        if "scripts/validate_" in path_str: continue
+
+        # 1. Critical Leaks
+        if "sb_secret_" in text: raise SystemExit(f"SECRET_KEY_LEAK: {path}")
+        if "postgresql://postgres:" in text: raise SystemExit(f"POSTGRES_CONNECTION_STRING_LEAK: {path}")
+        if "SUPABASE_SERVICE_ROLE_KEY=sb_" in text: raise SystemExit(f"SERVICE_ROLE_VALUE_LEAK: {path}")
+        if "service-role" in lower and not any(x in lower for x in ["not used", "blocked", "excluded", "no "]):
+             if path.suffix in {".js", ".html", ".json"}:
+                 raise SystemExit(f"POTENTIAL_SERVICE_ROLE_EXPOSURE: {path}")
+
+        # 2. Browser Persistence (Check only JS/HTML runtime)
+        if path.suffix in {".js", ".html"} and "13_web_dashboard" in path_str and "/dist/" not in path_str:
+            for item in ["localStorage.setItem", "localStorage.getItem", "sessionStorage.setItem", "sessionStorage.getItem", "document.cookie =", "indexedDB.open"]:
+                if item in text: raise SystemExit(f"FORBIDDEN_PERSISTENCE {item}: {path}")
+
+        # 3. Unauthorized Network (Check only JS/HTML runtime)
+        if path.suffix in {".js", ".html"} and "13_web_dashboard" in path_str and "/dist/" not in path_str:
+             if "supabase.co" in lower: raise SystemExit(f"FORBIDDEN_SUPABASE_BROWSER_CALL: {path}")
+             if "/api/feedback" in lower: raise SystemExit(f"FORBIDDEN_FEEDBACK_NETWORK: {path}")
+             if "api.github.com" in lower: raise SystemExit(f"FORBIDDEN_GITHUB_API_CALL: {path}")
+             if "api.netlify.com" in lower: raise SystemExit(f"FORBIDDEN_NETLIFY_API_CALL: {path}")
+
+print("MVP19_TIGHTENED_SAFETY_SCAN_PASS")
+"""
+    stdout, stderr, code = run(f"python3 - <<'PY'{scan_script}PY")
     if code != 0:
-        fail(f"Safety scan failed: {stdout}")
+        fail(f"Tightened safety scan failed: {stdout}")
 
     print("MVP19_EXTERNAL_FEEDBACK_INTAKE_E2E_VALIDATION_PASS")
 

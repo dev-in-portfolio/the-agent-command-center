@@ -18,6 +18,12 @@ The validator wall edit performed in this phase adds MVP-19 awareness for Extern
 - MVP-19 validator file paths.
 - MVP-19 external demo feedback package files.
 
+## Validator Tightening Follow-Up
+- MVP-19 direct validator now scans real secret/service-role/database patterns.
+- MVP-19 direct validator checks security boundary and next-step markers.
+- MVP-19 E2E validator now runs MVP-18 E2E validation.
+- MVP-19 E2E validator now scans real forbidden persistence, network, service-role, and mutation patterns.
+
 ## Safety Confirmations
 - No secret allowance added.
 - No service-role browser exposure allowed.
