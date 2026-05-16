@@ -77,6 +77,10 @@ const SAFE_ERROR_MAP = {
     code: "SUPABASE_CREATE_LIFECYCLE_EVENT_FAILED",
     message: "Failed to create the lifecycle event."
   },
+  "SUPABASE_CREATE_FAILED": {
+    code: "SUPABASE_CREATE_FAILED",
+    message: "Failed to complete the create action safely."
+  },
   "UNKNOWN_SAFE_SERVER_ERROR": {
     code: "UNKNOWN_SAFE_SERVER_ERROR",
     message: "An unexpected server error occurred."

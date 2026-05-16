@@ -1,0 +1,38 @@
+{
+  "model_id": "mvp14-manual-live-workspace-test-harness",
+  "model_version": "1.0",
+  "harness_summary": {
+    "purpose": "controlled manual verification",
+    "token_posture": "memory-only",
+    "scope": "read flow, creation readiness, safe errors"
+  },
+  "live_test_checklist_summary": {
+    "sections": ["preflight", "token", "status", "read", "create", "safe-error", "demo"],
+    "states": ["not_run", "pass", "fail", "blocked"]
+  },
+  "demo_readiness_summary": {
+    "goal": "show real product loop safely",
+    "ready_requirements": ["dashboard visible", "API available", "read flow verified"]
+  },
+  "manual_result_capture_summary": {
+    "purpose": "safe local result tracking",
+    "persistence": "none"
+  },
+  "security_boundary": [
+    "memory-only token",
+    "no local-Storage/session-Storage/cookies/indexed-DB",
+    "browser calls Netlify only",
+    "no service role exposure",
+    "write flags respected",
+    "update/delete/approve/execute blocked"
+  ],
+  "current_recommendation": [
+    "MANUAL_LIVE_WORKSPACE_TEST_HARNESS_READY",
+    "DEMO_READINESS_CHECKLIST_READY",
+    "SAFE_MANUAL_TEST_RESULT_CAPTURE_READY",
+    "TOKEN_IN_MEMORY_ONLY",
+    "UPDATE_DELETE_APPROVE_EXECUTE_BLOCKED",
+    "NOT_READY_FOR_REAL_AUTOMATION",
+    "NEXT_STEP_RUN_MANUAL_LIVE_WORKSPACE_TEST_WITH_REAL_USER_TOKEN"
+  ]
+}

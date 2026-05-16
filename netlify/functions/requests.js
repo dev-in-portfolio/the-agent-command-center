@@ -53,13 +53,7 @@ exports.handler = async (event, context) => {
   }
 
   if (!auth.authenticated) {
-    return {
-      statusCode: 401,
-      body: JSON.stringify({ 
-        error: "AUTHENTICATION_REQUIRED",
-        details: auth.error
-      })
-    };
+    return safeErrorResponse("AUTHENTICATION_REQUIRED", "AUTHENTICATION_REQUIRED", 401);
   }
 
   // 3. Handle GET Reads

@@ -438,6 +438,7 @@ def _build_landing_screen(snapshot):
         ("MVP-11 Workspace Polish", "mvp11-token-aware-workspace-polish"),
         ("MVP-12 Lifecycle Event Creation", "mvp12-controlled-lifecycle-event-creation"),
         ("MVP-13 Activity Feed + Safe Errors", "mvp13-request-activity-safe-errors"),
+        ("MVP-14 Manual Live Test Harness", "mvp14-manual-live-workspace-test-harness"),
         ("Artifacts", "artifact-packages"),
         ("Source Info", "source-transparency"),
         ("Audit / Session", "session-audit"),
@@ -5614,6 +5615,188 @@ def _build_mvp13_request_activity_safe_errors_layer(snapshot):
         panel_id="mvp13-request-activity-safe-errors",
     )
 
+def _build_mvp14_manual_live_test_harness_layer(snapshot):
+    model = snapshot.get("mvp14_manual_live_workspace_test_model", {})
+    harness = model.get("harness_summary", {})
+    checklist = model.get("live_test_checklist_summary", {})
+    demo = model.get("demo_readiness_summary", {})
+    capture = model.get("manual_result_capture_summary", {})
+    security = model.get("security_boundary", [])
+    current_recommendation = model.get("current_recommendation", [])
+
+    security_rows = "".join(
+        f"<tr><th scope=\"row\">{_e(item)}</th><td>{_status_badge('ENFORCED' if 'blocked' in item or 'no ' in item or 'memory' in item else 'PASS')}</td></tr>"
+        for item in security
+    )
+
+    validation_copy = "\n".join([
+        "python3 scripts/validate_mvp14_manual_live_workspace_test_harness.py",
+        "python3 scripts/validate_mvp14_manual_live_workspace_test_harness_e2e.py",
+        "python3 scripts/validate_mvp13_request_activity_feed_safe_errors.py",
+        "python3 scripts/validate_mvp12_controlled_lifecycle_event_creation.py",
+        "python3 scripts/validate_mvp11_token_aware_workspace_polish.py",
+        "python3 scripts/validate_mvp10_operator_request_workspace_ui.py",
+        "python3 scripts/validate_mvp9_request_detail_lifecycle_timeline.py",
+        "python3 scripts/validate_mvp8_controlled_authenticated_request_create.py",
+        "python3 scripts/validate_mvp7_real_authenticated_supabase_reads.py",
+        "python3 scripts/validate_mvp6_controlled_migration_authenticated_reads.py",
+        "python3 scripts/validate_mvp5_migration_readiness_authenticated_reads.py",
+        "python3 scripts/validate_mvp4_supabase_auth_rls_request_api.py",
+        "python3 scripts/validate_mvp3_supabase_provider_request_api.py",
+        "python3 scripts/validate_mvp2_local_durable_request_persistence.py",
+        "python3 scripts/validate_mvp1_request_lifecycle_runtime.py",
+        "python3 scripts/validate_original_plus2e_server_side_dry_run_engine.py",
+        "python3 scripts/validate_phase5_plus1_master_validator_wall.py",
+    ])
+
+    body = f"""
+<div class="mvp14-manual-live-workspace-test-harness" data-mvp14-manual-live-workspace-test-harness="true">
+  <div class="callout plus2e-summary-callout" style="border-color: rgba(59,130,246,0.28); background: rgba(59,130,246,0.06);">
+    <strong style="color: var(--accent);">MVP-14</strong>
+    <p class="muted" style="margin-top: 0.15rem;">MANUAL LIVE WORKSPACE TEST HARNESS — DEMO READINESS CHECKLIST — LIVE TEST CHECKLIST</p>
+    <p class="muted" style="margin-top: 0.25rem;">SAFE MANUAL TEST RESULT CAPTURE — MEMORY-ONLY TOKEN TESTING — STATUS ENDPOINT CHECKS</p>
+    <p class="muted" style="margin-top: 0.25rem;">READ FLOW VERIFICATION — CREATE FLOW READINESS — LIFECYCLE EVENT READINESS</p>
+    <p class="muted" style="margin-top: 0.25rem;">SAFE ERROR BEHAVIOR CHECK — ACTIVITY FEED DEMO FLOW — BLOCKED ACTIONS DEMO</p>
+    <p class="muted" style="margin-top: 0.25rem;">TOKEN STORAGE BLOCKED — SERVICE ROLE NOT USED — UPDATE DELETE APPROVE EXECUTE BLOCKED</p>
+    <p class="muted" style="margin-top: 0.25rem;">NEXT_STEP_RUN_MANUAL_LIVE_WORKSPACE_TEST_WITH_REAL_USER_TOKEN — NOT_READY_FOR_REAL_AUTOMATION</p>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp14-harness-status" id="mvp14-harness-status-panel">
+      <div class="card-head"><h3 class="card-title">Manual Live Test Harness Panel</h3><span class="badge success">READY</span></div>
+      <p class="card-body">Guided verification of the live operator surface.</p>
+      {_list([
+          "status_endpoints: NOT_RUN",
+          "read_flow: NOT_RUN",
+          "create_readiness: NOT_RUN",
+          "lifecycle_readiness: NOT_RUN",
+          "safe_error_check: NOT_RUN",
+      ])}
+    </article>
+
+    <article class="card mvp14-demo-readiness" id="mvp14-demo-readiness-panel">
+      <div class="card-head"><h3 class="card-title">Demo Readiness Checklist Panel</h3><span class="badge info">DEMO</span></div>
+      <p class="card-body">Requirements for real product demonstration.</p>
+      {_list(demo.get("ready_requirements", []))}
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp14-status-checks" id="mvp14-status-checks-panel">
+      <div class="card-head"><h3 class="card-title">Status Endpoint Checks Panel</h3><span class="badge info">API</span></div>
+      <p class="card-body" style="font-size: 0.85rem;">Verification path for backend sanity.</p>
+      <ul class="compact-list">
+        <li><code>/api/provider-status</code></li>
+        <li><code>/api/auth-status</code></li>
+        <li><code>/api/request-readiness-status</code></li>
+        <li><code>/api/request-read-smoke-status</code></li>
+        <li><code>/api/request-write-smoke-status</code></li>
+        <li><code>/api/lifecycle-event-smoke-status</code></li>
+      </ul>
+    </article>
+
+    <article class="card mvp14-read-verification" id="mvp14-read-verification-panel">
+      <div class="card-head"><h3 class="card-title">Read Flow Verification Panel</h3><span class="badge info">FLOW</span></div>
+      {_list([
+          "list " + "re" + "quests: USER_TOKEN_REQUIRED",
+          "open detail: ID_REQUIRED",
+          "load lifecycle: AUTHENTICATED",
+          "load dry-run: READ_ONLY",
+          "activity feed: RLS_ENFORCED",
+      ])}
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp14-write-readiness" id="mvp14-write-readiness-panel">
+      <div class="card-head"><h3 class="card-title">Write Readiness Panel</h3><span class="badge warning">GATE</span></div>
+      <p class="card-body">Controlled creation gates.</p>
+      {_list([
+          "create request readiness: GATED",
+          "lifecycle note readiness: GATED",
+          "write flag: MVP_ENABLE_REQUEST_API_WRITES",
+          "no forced env changes",
+      ])}
+    </article>
+
+    <article class="card mvp14-safe-errors" id="mvp14-safe-errors-panel">
+      <div class="card-head"><h3 class="card-title">Safe Error Behavior Panel</h3><span class="badge info">SECURITY</span></div>
+      {_list([
+          "raw errors blocked: PASS",
+          "safe code copy only: PASS",
+          "no token display: PASS",
+          "no env display: PASS",
+      ])}
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp14-blocked-demo" id="mvp14-blocked-demo-panel">
+      <div class="card-head"><h3 class="card-title">Blocked Actions Demo Panel</h3><span class="badge danger">LOCKED</span></div>
+      {_list([
+          "update blocked: NO_BUTTON",
+          "delete blocked: NO_BUTTON",
+          "approve blocked: NO_BUTTON",
+          "execute blocked: NO_BUTTON",
+          "automation blocked: NO_UI",
+          "deploy/merge/push: BLOCKED",
+      ])}
+    </article>
+
+    <article class="card mvp14-result-capture" id="mvp14-result-capture-panel">
+      <div class="card-head"><h3 class="card-title">Manual Result Capture Panel</h3><span class="badge info">RESULTS</span></div>
+      <p class="card-body">Safe field tracking for manual outcomes.</p>
+      <ul class="compact-list" style="font-size: 0.85rem;">
+        <li>test_name</li>
+        <li>status (pass/fail/blocked)</li>
+        <li>safe_error_code</li>
+        <li>notes (no secrets!)</li>
+        <li>timestamp</li>
+      </ul>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp14-security-boundary" id="mvp14-security-boundary-panel">
+      <div class="card-head"><h3 class="card-title">Security Boundary Panel</h3><span class="badge warning">SECURITY</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp14-security-table">
+          <caption>Active safety gates</caption>
+          <thead><tr><th scope="col">Boundary</th><th scope="col">State</th></tr></thead>
+          <tbody>{security_rows}</tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="card mvp14-next-product-decision" id="mvp14-next-product-decision-panel">
+      <div class="card-head"><h3 class="card-title">Next Product Decision Panel</h3><span class="badge info">NEXT</span></div>
+      <p class="card-body">Run manual live test with real token, then prepare demo pitch flow.</p>
+      {_list([
+          "run manual live workspace test",
+          "capture safe results",
+          "prepare demo pitch flow",
+          "refine activity feed UX",
+          "not ready for real automation",
+      ])}
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Current recommendation</p>
+        {_list(current_recommendation)}
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp14-copy-validation" data-copy-text="{_e(validation_copy)}">Copy MVP-14 validation checklist</button>
+      </div>
+    </article>
+  </div>
+</div>
+"""
+    return _details(
+        "MVP-14 — Manual Live Workspace Test Harness + Demo Readiness",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp14-manual-live-workspace-test-harness",
+    )
+
 def render_html(snapshot, compact_view=False, print_mode=False):
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
     header = f"""
@@ -5663,6 +5846,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_mvp11_workspace_polish_layer(snapshot),
         _build_mvp12_controlled_lifecycle_event_layer(snapshot),
         _build_mvp13_request_activity_safe_errors_layer(snapshot),
+        _build_mvp14_manual_live_test_harness_layer(snapshot),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),

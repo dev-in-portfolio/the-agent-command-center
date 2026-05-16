@@ -1,0 +1,26 @@
+{
+  "model_id": "live-test-checklist-model",
+  "model_version": "1.0",
+  "checklist_sections": [
+    "preflight",
+    "token",
+    "status_endpoints",
+    "read_flow",
+    "create_flow_readiness",
+    "lifecycle_event_flow_readiness",
+    "safe_error_flow",
+    "activity_feed_flow",
+    "demo_flow"
+  ],
+  "pass_fail_states": [
+    "not_run",
+    "pass",
+    "fail",
+    "skipped",
+    "blocked",
+    "needs_manual_token",
+    "write_flag_disabled"
+  ],
+  "no_secret_capture": true,
+  "no_token_capture": true
+}
