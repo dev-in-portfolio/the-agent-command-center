@@ -1,0 +1,22 @@
+{
+  "model_id": "public-facing-product-summary-model",
+  "model_version": "1.0",
+  "one_sentence": "The Agent Command Center is a safety-first request control layer for reviewing, tracking, and preparing agentic workflows before automation is allowed.",
+  "short_summary": "It gives operators an authenticated workspace to create requests, inspect request details, track lifecycle activity, and preserve safety boundaries before any approval or execution capability is enabled.",
+  "current_capabilities": [
+    "authenticated request reads",
+    "controlled request creation",
+    "controlled lifecycle event notes",
+    "request activity feed",
+    "safe API error UX",
+    "demo/test readiness package"
+  ],
+  "intentionally_blocked": [
+    "approvals",
+    "execution",
+    "automation",
+    "request delete/update",
+    "deploy/merge/push/PR controls",
+    "browser service-role access"
+  ]
+}

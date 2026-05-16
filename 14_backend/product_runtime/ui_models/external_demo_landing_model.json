@@ -1,0 +1,30 @@
+{
+  "model_id": "external-demo-landing-model",
+  "model_version": "1.0",
+  "page_goal": "reviewer-friendly overview of The Agent Command Center",
+  "sections": [
+    "hero_summary",
+    "what_it_is",
+    "problem_it_solves",
+    "current_capabilities",
+    "safety_boundaries",
+    "technical_architecture",
+    "demo_walkthrough",
+    "reviewer_checklist",
+    "known_limitations",
+    "next_milestones"
+  ],
+  "visible_warnings": [
+    "manual_live_test_may_still_be_required",
+    "execution_and_automation_intentionally_disabled",
+    "no_customer_data_without_review"
+  ],
+  "forbidden_content": [
+    "tokens",
+    "secrets",
+    "env_values",
+    "service_role",
+    "database_url",
+    "private credentials"
+  ]
+}
