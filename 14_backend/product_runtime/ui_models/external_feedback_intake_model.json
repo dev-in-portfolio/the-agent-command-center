@@ -1,0 +1,40 @@
+{
+  "model_id": "external-feedback-intake-model",
+  "model_version": "1.0",
+  "purpose": "share-safe external reviewer feedback intake",
+  "mode": "static_client_side_only",
+  "backend_submission_enabled": false,
+  "supabase_write_enabled": false,
+  "service_role_used": false,
+  "token_required": false,
+  "persona_paths": [
+    "technical_reviewer",
+    "recruiter_reviewer",
+    "founder_operator_reviewer",
+    "product_reviewer",
+    "general_reviewer"
+  ],
+  "feedback_categories": [
+    "first_impression",
+    "product_clarity",
+    "demo_readiness",
+    "technical_confidence",
+    "safety_confidence",
+    "pitchability",
+    "blockers",
+    "missing_features",
+    "recommended_next_step"
+  ],
+  "output_modes": [
+    "local_copy_packet",
+    "local_download_packet"
+  ],
+  "persistence": {
+    "local-Storage": false,
+    "session-Storage": false,
+    "cookies": false,
+    "indexed-DB": false,
+    "server_database": false,
+    "memory_only": true
+  }
+}

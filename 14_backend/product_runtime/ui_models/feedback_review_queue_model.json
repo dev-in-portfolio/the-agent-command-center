@@ -1,0 +1,28 @@
+{
+  "model_id": "feedback-review-queue-model",
+  "model_version": "1.0",
+  "purpose": "operator-facing review queue model for collected feedback packets",
+  "source": "manually imported or pasted reviewer packets",
+  "automatic_ingestion_enabled": false,
+  "backend_queue_enabled": false,
+  "allowed_states": [
+    "pending_review",
+    "reviewed",
+    "needs_followup",
+    "converted_to_product_task",
+    "archived"
+  ],
+  "blocked_states": [
+    "auto_execute",
+    "auto_approve",
+    "auto_deploy",
+    "auto_merge"
+  ],
+  "review_dimensions": [
+    "product_signal",
+    "technical_signal",
+    "safety_signal",
+    "pitch_signal",
+    "blocker_signal"
+  ]
+}

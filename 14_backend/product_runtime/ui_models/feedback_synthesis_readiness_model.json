@@ -1,0 +1,17 @@
+{
+  "model_id": "feedback-synthesis-readiness-model",
+  "model_version": "1.0",
+  "purpose": "prepare collected reviewer signal for later synthesis",
+  "synthesis_enabled": "manual_only",
+  "ai_auto_synthesis_enabled": false,
+  "requires_operator_review": true,
+  "output_sections": [
+    "recurring_praise",
+    "recurring_confusion",
+    "recurring_blockers",
+    "product_readiness_signal",
+    "demo_readiness_signal",
+    "recommended_mvp20_direction"
+  ],
+  "automation_enabled": false
+}
