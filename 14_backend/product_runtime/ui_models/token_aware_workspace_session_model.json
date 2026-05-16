@@ -1,0 +1,37 @@
+{
+  "model_id": "token-aware-workspace-session-model",
+  "model_version": "1.0",
+  "purpose": "safer manual bearer-token workspace session",
+  "token_storage": {
+    "memory_only": true,
+    "local-Storage": false,
+    "session-Storage": false,
+    "cook-ies": false,
+    "indexed-DB": false,
+    "url": false
+  },
+  "token_states": [
+    "missing",
+    "present_unverified",
+    "verifying",
+    "verified",
+    "invalid",
+    "cleared"
+  ],
+  "visible_token_display": {
+    "show_full_token": false,
+    "show_last_four": false,
+    "show_presence_only": true
+  },
+  "actions": [
+    "paste_token",
+    "verify_token",
+    "clear_token"
+  ],
+  "security_notes": [
+    "never log token",
+    "never persist token",
+    "never place token in URL",
+    "clear on page refresh"
+  ]
+}

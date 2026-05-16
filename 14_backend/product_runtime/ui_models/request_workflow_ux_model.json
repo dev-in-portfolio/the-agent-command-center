@@ -1,0 +1,27 @@
+{
+  "model_id": "request-workflow-ux-model",
+  "model_version": "1.0",
+  "workflow_steps": [
+    "paste_token",
+    "verify_session",
+    "load_requests",
+    "select_request",
+    "inspect_detail",
+    "inspect_timeline",
+    "inspect_dry_run_results",
+    "create_request",
+    "refresh_after_create"
+  ],
+  "completion_moment": [
+    "request_created",
+    "request_visible_in_list",
+    "request_detail_opened"
+  ],
+  "blocked_workflows": [
+    "approve_request",
+    "execute_request",
+    "delete_request",
+    "update_request",
+    "automation"
+  ]
+}

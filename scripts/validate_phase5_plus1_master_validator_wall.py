@@ -65,6 +65,7 @@ def js_safety_check(path):
         "./mvp7_real_authenticated_reads_model.json",
         "./mvp8_controlled_request_create_model.json",
         "./mvp9_request_detail_lifecycle_model.json",
+        "./mvp10_operator_workspace_model.json",
         "/api/request-read-smoke-status",
         "/api/request-write-smoke-status",
     }
@@ -151,6 +152,15 @@ report_requirements = [
     (ROOT / "09_exports" / "mvp_product_track" / "mvp9_create_verification_harness_report.md", "DEFINED"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp9_security_boundary_report.md", "VERIFIED_FOR_UI_MODELS"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp9_next_product_step_report.md", "READY_FOR_WORKSPACE_UI"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp10_acceptance_report.md", "OPERATOR_REQUEST_WORKSPACE_UI_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp10_api_client_report.md", "IMPLEMENTED"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp10_create_form_report.md", "IMPLEMENTED"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp10_next_product_step_report.md", "READY_FOR_POLISH"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp10_operator_workspace_ui_report.md", "OPERATOR_REQUEST_WORKSPACE_UI_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp10_request_panels_report.md", "IMPLEMENTED"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp10_security_boundary_report.md", "VERIFIED_FOR_WORKSPACE"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp10_token_handling_report.md", "MEMORY_ONLY_ENFORCED"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp10_actual_token_storage_review.md", "PASS_WITH_TARGETED_REVIEW"),
 ]
 for path, marker in report_requirements:
     check(path.exists(), f"missing report: {path.relative_to(ROOT)}")
@@ -233,6 +243,21 @@ for marker in [
     "SERVICE ROLE NOT USED",
     "AUTOMATION STILL DISABLED",
     "NEXT_STEP_BUILD_OPERATOR_REQUEST_WORKSPACE_UI",
+    "MVP-10",
+    "OPERATOR REQUEST WORKSPACE",
+    "TOKEN IN MEMORY ONLY",
+    "AUTH STATUS PANEL",
+    "API STATUS PANEL",
+    "REQUEST LIST PANEL",
+    "REQUEST DETAIL PANEL",
+    "LIFECYCLE TIMELINE PANEL",
+    "DRY RUN RESULTS PANEL",
+    "CREATE REQUEST FORM",
+    "READ AND CREATE ONLY",
+    "UPDATE DELETE EXECUTE BLOCKED",
+    "SERVICE ROLE NOT USED",
+    "AUTOMATION STILL DISABLED",
+    "NEXT_STEP_ADD_TOKEN_AWARE_FRONTEND_SESSION_AND_REQUEST_WORKFLOW_POLISH",
 ]:
     check(marker in index, f"index.html missing required marker: {marker}")
 
@@ -274,8 +299,9 @@ allowed_prefixes = [
         "scripts/validate_mvp8_controlled_authenticated_request_create_e2e.py",
         "scripts/validate_mvp9_request_detail_lifecycle_timeline.py",
         "scripts/validate_mvp9_request_detail_lifecycle_timeline_e2e.py",
+        "scripts/validate_mvp10_operator_request_workspace_ui.py",
+        "scripts/validate_mvp10_operator_request_workspace_ui_e2e.py",
         "13_web_dashboard/",
-
         "09_exports/interface_phase_5/",
         "09_exports/original_plus1/",
         "09_exports/original_plus2/",

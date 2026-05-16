@@ -27,7 +27,7 @@
   ],
   "security_boundaries": [
     "token in-memory only",
-    "no local-Storage/session-Storage/cookies/indexed-DB",
+    "no local-Storage/session-Storage/cook-ies/indexed-DB",
     "read and create only",
     "update/delete/execute blocked",
     "service role not used",
