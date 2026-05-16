@@ -24,6 +24,7 @@ const { validateCreateRequestPayload } = require("./_shared/request_payload_vali
 const { validateLifecycleEventPayload } = require("./_shared/lifecycle_event_payload_validator");
 const { createRequest } = require("./_shared/supabase_write_client");
 const { createLifecycleEvent } = require("./_shared/supabase_lifecycle_write_client");
+const { safeErrorResponse } = require("./_shared/safe_error");
 
 const MVP_ENABLE_SUPABASE_REQUEST_API = process['env'].MVP_ENABLE_SUPABASE_REQUEST_API === "true";
 const MVP_ENABLE_REQUEST_API_WRITES = process['env'].MVP_ENABLE_REQUEST_API_WRITES === "true";
@@ -100,13 +101,7 @@ exports.handler = async (event, context) => {
         })
       };
     } catch (err) {
-      return {
-        statusCode: 500,
-        body: JSON.stringify({ 
-          error: "READ_FAILED",
-          message: err.message 
-        })
-      };
+      return safeErrorResponse(err, "SUPABASE_READ_FAILED", 500);
     }
   }
 
@@ -172,13 +167,7 @@ exports.handler = async (event, context) => {
       }
 
     } catch (err) {
-      return {
-        statusCode: 500,
-        body: JSON.stringify({ 
-          error: "WRITE_FAILED",
-          message: err.message 
-        })
-      };
+      return safeErrorResponse(err, "SUPABASE_CREATE_FAILED", 500);
     }
   }
 
