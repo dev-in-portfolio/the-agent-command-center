@@ -1,0 +1,40 @@
+{
+  "model_id": "live-test-result-template-model",
+  "model_version": "1.0",
+  "purpose": "safe manual result capture without secrets",
+  "result_statuses": [
+    "not_run",
+    "pass",
+    "fail",
+    "skipped",
+    "blocked",
+    "token_required",
+    "write_flag_disabled"
+  ],
+  "allowed_capture_fields": [
+    "test_step",
+    "result_status",
+    "safe_error_code",
+    "short_observation_without_secrets",
+    "timestamp",
+    "follow_up_needed"
+  ],
+  "forbidden_capture_fields": [
+    "bearer_token",
+    "authorization_header",
+    "access_token",
+    "refresh_token",
+    "service_role",
+    "env_value",
+    "database_url",
+    "password",
+    "raw_stack_trace",
+    "raw_backend_error"
+  ],
+  "storage_policy": {
+    "commit_results_to_repo": false,
+    "store_token": false,
+    "store_secret": false,
+    "template_only": true
+  }
+}

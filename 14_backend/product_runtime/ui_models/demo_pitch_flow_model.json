@@ -1,0 +1,28 @@
+{
+  "model_id": "demo-pitch-flow-model",
+  "model_version": "1.0",
+  "purpose": "product demo narrative for early pitch readiness",
+  "audience": [
+    "technical reviewer",
+    "recruiter",
+    "founder/operator",
+    "potential collaborator"
+  ],
+  "demo_arc": [
+    { "step": "problem", "narrative": "agent workflows need safe request gates before automation" },
+    { "step": "proof", "narrative": "authenticated user-owned request workspace" },
+    { "step": "product_loop", "narrative": "create request, inspect detail, view activity, add lifecycle note" },
+    { "step": "safety", "narrative": "blocked update/delete/approve/execute until reviewed" },
+    { "step": "trust", "narrative": "safe errors, RLS, no service role in browser" },
+    { "step": "next", "narrative": "controlled approvals and execution preview later" }
+  ],
+  "demo_sections": [
+    "opening_30_seconds",
+    "product_walkthrough",
+    "architecture_summary",
+    "safety_boundary",
+    "live_test_results",
+    "next_milestones"
+  ],
+  "no_hype_claims_without_test": true
+}

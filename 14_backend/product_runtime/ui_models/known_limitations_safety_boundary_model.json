@@ -1,0 +1,32 @@
+{
+  "model_id": "known-limitations-safety-boundary-model",
+  "model_version": "1.0",
+  "current_limitations": [
+    "real user token manual paste required",
+    "no persistent frontend login/session yet",
+    "write flag may be disabled",
+    "live test still required",
+    "demo flow needs captured pass/fail results",
+    "approvals not implemented",
+    "execution not implemented",
+    "automation not implemented"
+  ],
+  "intentional_blocks": [
+    "request_update",
+    "request_delete",
+    "approve",
+    "execute",
+    "automation",
+    "deploy",
+    "merge",
+    "push",
+    "create_pr",
+    "service_role_browser_exposure",
+    "token_storage"
+  ],
+  "safety_language": [
+    "This is a controlled request workspace, not an execution engine.",
+    "Writes are narrow and reviewed.",
+    "Automation remains intentionally disabled."
+  ]
+}

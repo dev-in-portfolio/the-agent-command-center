@@ -1,0 +1,40 @@
+{
+  "model_id": "product-readiness-scorecard-model",
+  "model_version": "1.0",
+  "score_categories": [
+    "backend_foundation",
+    "supabase_auth_rls",
+    "authenticated_reads",
+    "controlled_writes",
+    "lifecycle_events",
+    "operator_workspace",
+    "activity_feed",
+    "safe_errors",
+    "manual_live_testing",
+    "demo_readiness"
+  ],
+  "scoring": {
+    "0": "not_started",
+    "1": "scaffolded",
+    "2": "implemented",
+    "3": "production_verified",
+    "4": "manually_live_tested",
+    "5": "demo_ready"
+  },
+  "current_expected_scores": {
+    "backend_foundation": 3,
+    "supabase_auth_rls": 3,
+    "authenticated_reads": 3,
+    "controlled_writes": 3,
+    "lifecycle_events": 3,
+    "operator_workspace": 3,
+    "activity_feed": 3,
+    "safe_errors": 3,
+    "manual_live_testing": 1,
+    "demo_readiness": 1
+  },
+  "next_score_targets": {
+    "manual_live_testing": 4,
+    "demo_readiness": 4
+  }
+}

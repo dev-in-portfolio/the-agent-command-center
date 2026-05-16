@@ -439,6 +439,7 @@ def _build_landing_screen(snapshot):
         ("MVP-12 Lifecycle Event Creation", "mvp12-controlled-lifecycle-event-creation"),
         ("MVP-13 Activity Feed + Safe Errors", "mvp13-request-activity-safe-errors"),
         ("MVP-14 Manual Live Test Harness", "mvp14-manual-live-workspace-test-harness"),
+        ("MVP-15 Live Test + Demo Pitch", "mvp15-live-test-demo-pitch"),
         ("Artifacts", "artifact-packages"),
         ("Source Info", "source-transparency"),
         ("Audit / Session", "session-audit"),
@@ -5797,6 +5798,134 @@ def _build_mvp14_manual_live_test_harness_layer(snapshot):
         panel_id="mvp14-manual-live-workspace-test-harness",
     )
 
+def _build_mvp15_live_test_demo_pitch_layer(snapshot):
+    model = snapshot.get("mvp15_live_test_demo_pitch_model", {})
+    plan = model.get("live_test_execution_plan", {})
+    template = model.get("live_test_result_template", {})
+    pitch = model.get("demo_pitch_flow", {})
+    readiness = model.get("product_readiness_scorecard", {})
+    limitations = model.get("known_limitations_summary", {})
+    current_recommendation = model.get("current_recommendation", [])
+
+    validation_copy = "\n".join([
+        "python3 scripts/validate_mvp15_live_test_execution_demo_pitch.py",
+        "python3 scripts/validate_mvp15_live_test_execution_demo_pitch_e2e.py",
+        "python3 scripts/validate_mvp14_manual_live_workspace_test_harness.py",
+        "python3 scripts/validate_mvp13_request_activity_feed_safe_errors.py",
+        "python3 scripts/validate_mvp12_controlled_lifecycle_event_creation.py",
+        "python3 scripts/validate_mvp11_token_aware_workspace_polish.py",
+        "python3 scripts/validate_mvp10_operator_request_workspace_ui.py",
+        "python3 scripts/validate_mvp9_request_detail_lifecycle_timeline.py",
+        "python3 scripts/validate_mvp8_controlled_authenticated_request_create.py",
+        "python3 scripts/validate_mvp7_real_authenticated_supabase_reads.py",
+        "python3 scripts/validate_mvp6_controlled_migration_authenticated_reads.py",
+        "python3 scripts/validate_mvp5_migration_readiness_authenticated_reads.py",
+        "python3 scripts/validate_mvp4_supabase_auth_rls_request_api.py",
+        "python3 scripts/validate_mvp3_supabase_provider_request_api.py",
+        "python3 scripts/validate_mvp2_local_durable_request_persistence.py",
+        "python3 scripts/validate_mvp1_request_lifecycle_runtime.py",
+        "python3 scripts/validate_original_plus2e_server_side_dry_run_engine.py",
+        "python3 scripts/validate_phase5_plus1_master_validator_wall.py",
+    ])
+
+    body = f"""
+<div class="mvp15-live-test-demo-pitch" data-mvp15-live-test-demo-pitch="true">
+  <div class="callout plus2e-summary-callout" style="border-color: rgba(59,130,246,0.28); background: rgba(59,130,246,0.06);">
+    <strong style="color: var(--accent);">MVP-15</strong>
+    <p class="muted" style="margin-top: 0.15rem;">LIVE TEST EXECUTION PLAN — SAFE TEST RESULT TEMPLATE — DEMO PITCH FLOW</p>
+    <p class="muted" style="margin-top: 0.25rem;">PRODUCT READINESS SCORECARD — KNOWN LIMITATIONS AND SAFETY BOUNDARY</p>
+    <p class="muted" style="margin-top: 0.25rem;">MANUAL TOKEN TEST REQUIRED — MEMORY-ONLY TOKEN TESTING — PRODUCTION WORKSPACE TEST SEQUENCE</p>
+    <p class="muted" style="margin-top: 0.25rem;">SAFE RESULT CAPTURE ONLY — NO SECRET CAPTURE — NO ENV MUTATION — NO MIGRATION APPLY</p>
+    <p class="muted" style="margin-top: 0.25rem;">BLOCKED ACTIONS REMAIN BLOCKED — SERVICE ROLE NOT USED — AUTOMATION STILL DISABLED</p>
+    <p class="muted" style="margin-top: 0.25rem;">NEXT_STEP_RUN_LIVE_TEST_AND_CAPTURE_RESULTS — NOT_READY_FOR_REAL_AUTOMATION</p>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp15-test-plan" id="mvp15-test-plan-panel">
+      <div class="card-head"><h3 class="card-title">Live Test Execution Plan Panel</h3><span class="badge info">PLAN</span></div>
+      <p class="card-body">Ordered production workspace verification sequence.</p>
+      {_list(plan.get("sequence", []))}
+    </article>
+
+    <article class="card mvp15-result-template" id="mvp15-result-template-panel">
+      <div class="card-head"><h3 class="card-title">Safe Test Result Template Panel</h3><span class="badge info">RESULTS</span></div>
+      <p class="card-body">Allowed capture fields (no secrets).</p>
+      {_list(template.get("fields", []))}
+      <p class="card-body muted" style="margin-top: 0.5rem; font-size: 0.85rem;">Forbidden: {", ".join(template.get("forbidden", []))}</p>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp15-pitch-flow" id="mvp15-pitch-flow-panel">
+      <div class="card-head"><h3 class="card-title">Demo Pitch Flow Panel</h3><span class="badge success">PITCH</span></div>
+      <p class="card-body">Product demo narrative arc.</p>
+      {_list(pitch.get("arc", []))}
+    </article>
+
+    <article class="card mvp15-scorecard" id="mvp15-scorecard-panel">
+      <div class="card-head"><h3 class="card-title">Product Readiness Scorecard Panel</h3><span class="badge info">SCORE</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp15-scorecard-table">
+          <caption>Readiness Scoring (0-5)</caption>
+          <thead><tr><th scope="col">Category</th><th scope="col">Score</th></tr></thead>
+          <tbody>
+            {"".join(f"<tr><th scope=\"row\">{_e(k)}</th><td>{_status_badge(str(v))}</td></tr>" for k, v in readiness.get("current_scores", {}).items())}
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp15-limitations" id="mvp15-limitations-panel">
+      <div class="card-head"><h3 class="card-title">Known Limitations Panel</h3><span class="badge warning">LIMITS</span></div>
+      {_list(limitations.get("limitations", []))}
+    </article>
+
+    <article class="card mvp15-safety-boundary" id="mvp15-safety-boundary-panel">
+      <div class="card-head"><h3 class="card-title">Safety Boundary Panel</h3><span class="badge warning">SECURITY</span></div>
+      <p class="card-body">Strictly enforced safety gates.</p>
+      {_list([
+          "memory-only token testing",
+          "no token storage (local-Storage/session-Storage/cookies/indexed-DB)",
+          "no env mutation / no migrations",
+          "no service role used or exposed",
+          "update/delete/approve/execute blocked",
+          "automation still disabled"
+      ])}
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp15-next-product-decision" id="mvp15-next-product-decision-panel">
+      <div class="card-head"><h3 class="card-title">Next Product Decision Panel</h3><span class="badge info">NEXT</span></div>
+      <p class="card-body">Run manual live test and capture results.</p>
+      {_list([
+          "run manual live test with real user token",
+          "capture safe results in report",
+          "prepare demo pitch package",
+          "refine storyboard",
+          "not ready for real automation",
+      ])}
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Current recommendation</p>
+        {_list(current_recommendation)}
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp15-copy-validation" data-copy-text="{_e(validation_copy)}">Copy MVP-15 validation checklist</button>
+      </div>
+    </article>
+  </div>
+</div>
+"""
+    return _details(
+        "MVP-15 — Live Test Execution + Demo Pitch Flow",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp15-live-test-demo-pitch",
+    )
+
 def render_html(snapshot, compact_view=False, print_mode=False):
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
     header = f"""
@@ -5847,6 +5976,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_mvp12_controlled_lifecycle_event_layer(snapshot),
         _build_mvp13_request_activity_safe_errors_layer(snapshot),
         _build_mvp14_manual_live_test_harness_layer(snapshot),
+        _build_mvp15_live_test_demo_pitch_layer(snapshot),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),
