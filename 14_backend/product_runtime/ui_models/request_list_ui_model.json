@@ -1,0 +1,40 @@
+{
+  "model_id": "request-list-ui-model",
+  "model_version": "1.0",
+  "purpose": "user-owned request list",
+  "source_endpoint": "/api/requests?action=list",
+  "auth_required": true,
+  "bearer_token_required": true,
+  "rls_enforced": true,
+  "service_role_used": false,
+  "visible_fields": [
+    "id",
+    "title",
+    "requested_action",
+    "lifecycle_state",
+    "actor_role",
+    "created_at",
+    "updated_at"
+  ],
+  "actions_available": [
+    "view_detail",
+    "refresh"
+  ],
+  "actions_blocked": [
+    "update",
+    "delete",
+    "approve",
+    "execute",
+    "automate"
+  ],
+  "empty_state": {
+    "message": "No requests found.",
+    "sub_message": "Authenticated user has not created any requests yet."
+  },
+  "error_states": [
+    "auth_required",
+    "read_failed",
+    "rls_denied",
+    "network_error"
+  ]
+}

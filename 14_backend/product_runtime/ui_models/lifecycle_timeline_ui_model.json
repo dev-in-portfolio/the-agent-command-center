@@ -1,0 +1,28 @@
+{
+  "model_id": "lifecycle-timeline-ui-model",
+  "model_version": "1.0",
+  "purpose": "display lifecycle events for one request",
+  "source_endpoint": "/api/requests?action=events&id=<request_id>",
+  "auth_required": true,
+  "rls_enforced": true,
+  "event_fields": [
+    "id",
+    "request_id",
+    "event_type",
+    "lifecycle_state",
+    "message",
+    "created_at"
+  ],
+  "timeline_states": [
+    "request_received",
+    "validated",
+    "dry_run_ready",
+    "approval_required",
+    "approved",
+    "rejected",
+    "completed",
+    "failed"
+  ],
+  "display_mode": "read_only",
+  "writes_enabled": false
+}

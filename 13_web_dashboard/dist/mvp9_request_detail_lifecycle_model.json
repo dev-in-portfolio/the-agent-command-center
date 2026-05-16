@@ -1,0 +1,48 @@
+{
+  "model_id": "mvp9-request-detail-lifecycle-timeline",
+  "model_version": "1.0",
+  "request_list_ui_model": {
+    "purpose": "user-owned request list",
+    "endpoint": "/api/requests?action=list",
+    "visible_fields": ["id", "title", "requested_action", "lifecycle_state", "created_at"],
+    "actions": ["view_detail", "refresh"]
+  },
+  "request_detail_ui_model": {
+    "purpose": "single request detail",
+    "endpoint": "/api/requests?action=get&id=<request_id>",
+    "sections": ["overview", "intent", "status", "metadata", "lifecycle_timeline", "dry_run_results"]
+  },
+  "lifecycle_timeline_model": {
+    "purpose": "request lifecycle events",
+    "endpoint": "/api/requests?action=events&id=<request_id>",
+    "states": ["request_received", "validated", "dry_run_ready", "approval_required", "approved", "completed"]
+  },
+  "create_verification_harness": {
+    "purpose": "create verification",
+    "endpoint": "/api/requests?action=create",
+    "requires_token": true,
+    "requires_write_flag": true
+  },
+  "endpoint_map": [
+    "GET /api/requests?action=list",
+    "GET /api/requests?action=get&id=<uuid>",
+    "GET /api/requests?action=events&id=<uuid>",
+    "GET /api/requests?action=dry_run_results&id=<uuid>",
+    "POST /api/requests?action=create"
+  ],
+  "security_boundaries": [
+    "user-owned requests only",
+    "RLS enforced",
+    "no service role used",
+    "update/delete/execute blocked",
+    "automation disabled"
+  ],
+  "current_recommendation": [
+    "REQUEST_DETAIL_UI_READY",
+    "LIFECYCLE_TIMELINE_READY",
+    "CREATE_VERIFICATION_HARNESS_READY",
+    "UPDATE_DELETE_EXECUTE_BLOCKED",
+    "NOT_READY_FOR_REAL_AUTOMATION",
+    "NEXT_STEP_BUILD_OPERATOR_REQUEST_WORKSPACE_UI"
+  ]
+}

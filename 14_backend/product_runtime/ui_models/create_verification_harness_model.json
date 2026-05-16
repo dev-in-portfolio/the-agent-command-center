@@ -1,0 +1,30 @@
+{
+  "model_id": "create-verification-harness-model",
+  "model_version": "1.0",
+  "purpose": "controlled create verification support",
+  "endpoint": "/api/requests?action=create",
+  "method": "POST",
+  "requires_real_user_token": true,
+  "requires_write_flag": true,
+  "default_write_flag_should_remain_false": true,
+  "smoke_test_optional": true,
+  "smoke_test_payload": {
+    "title": "MVP-9 Verification Request",
+    "request_type": "validation_task",
+    "priority": "low",
+    "source": "api",
+    "summary": "Created by controlled MVP-9 verification harness.",
+    "metadata": {
+      "smoke_test": true,
+      "phase": "MVP-9"
+    }
+  },
+  "allowed_result_states": [
+    "TOKEN_NOT_PROVIDED",
+    "WRITE_FLAG_DISABLED",
+    "CREATE_VERIFICATION_SKIPPED",
+    "CREATE_VERIFICATION_READY",
+    "CREATE_VERIFICATION_PASS",
+    "CREATE_VERIFICATION_FAIL"
+  ]
+}
