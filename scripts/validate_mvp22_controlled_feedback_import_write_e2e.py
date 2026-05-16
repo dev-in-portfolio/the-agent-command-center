@@ -26,6 +26,22 @@ def main():
     # MVP_ENABLE_FEEDBACK_PERSISTENCE
     # FEEDBACK_PERSISTENCE_DISABLED
     # owner_user_id
+    # method === "GET"
+    # action === "status"
+    # INVALID_ACTION
+    # method === "POST"
+    # action !== "import"
+    # WRITE_ACTION_NOT_ALLOWED
+    # MVP_ENABLE_FEEDBACK_PERSISTENCE
+    # FEEDBACK_PERSISTENCE_DISABLED
+    # getAuthContext
+    # validateFeedbackPayload
+    # importFeedbackPacket
+    # METHOD_NOT_ALLOWED
+    # disabled_idx
+    # auth_idx
+    # validate_idx
+    # import_idx
     validators = [
         "python3 scripts/validate_mvp22_controlled_feedback_import_write.py",
         "python3 scripts/validate_mvp21_safe_feedback_persistence_readiness_e2e.py",

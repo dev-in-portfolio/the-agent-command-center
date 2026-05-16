@@ -32,6 +32,13 @@ def assert_contains(text, needle, label):
         fail(f"Missing {label}: {needle}")
 
 
+def index_or_fail(text, needle, label):
+    idx = text.find(needle)
+    if idx < 0:
+        fail(f"Missing source marker for ordering check: {needle} ({label})")
+    return idx
+
+
 def main():
     required_files = [
         MIGRATION_DIR / "003_feedback_persistence_schema.sql",
@@ -65,11 +72,53 @@ def main():
     # Required for quality audit: supabase_feedback_write_client.js
     # Required for quality audit: feedback_payload_validator.js
     feedback_js = read_text(FUNCTION_DIR / "feedback.js")
+    
+    # Method and Action markers
+    assert_contains(feedback_js, 'method === "GET"', "feedback.js GET check")
+    assert_contains(feedback_js, 'action === "status"', "feedback.js GET status check")
+    assert_contains(feedback_js, 'INVALID_ACTION', "feedback.js GET error code")
+    assert_contains(feedback_js, 'method === "POST"', "feedback.js POST check")
     assert_contains(feedback_js, 'action !== "import"', "feedback.js action check")
+    assert_contains(feedback_js, 'WRITE_ACTION_NOT_ALLOWED', "feedback.js POST error code")
     assert_contains(feedback_js, "MVP_ENABLE_FEEDBACK_PERSISTENCE", "feedback.js gate check")
     assert_contains(feedback_js, "FEEDBACK_PERSISTENCE_DISABLED", "feedback.js disabled code")
+    assert_contains(feedback_js, "getAuthContext", "feedback.js auth check")
     assert_contains(feedback_js, "validateFeedbackPayload", "feedback.js validator usage")
     assert_contains(feedback_js, "importFeedbackPacket", "feedback.js client usage")
+    assert_contains(feedback_js, "METHOD_NOT_ALLOWED", "feedback.js final fallback")
+
+    # Ordering / Gate Posture Checks
+    disabled_idx = index_or_fail(feedback_js, "FEEDBACK_PERSISTENCE_DISABLED", "disabled gate")
+    auth_idx = index_or_fail(feedback_js, "await getAuthContext", "auth check")
+    validate_idx = index_or_fail(feedback_js, "validateFeedbackPayload(", "payload validation")
+    import_idx = index_or_fail(feedback_js, "importFeedbackPacket(", "database import")
+
+    if not (disabled_idx < auth_idx):
+        fail("Gate Check Order Violation: Feature flag must be checked before authentication.")
+    if not (disabled_idx < import_idx):
+        fail("Gate Check Order Violation: Feature flag must be checked before database operations.")
+    if not (auth_idx < validate_idx):
+        fail("Logic Order Violation: Authentication must occur before payload validation.")
+    if not (validate_idx < import_idx):
+        fail("Logic Order Violation: Payload validation must occur before database import.")
+
+    # Endpoint Safety Boundary Checks
+    if "process.env" in feedback_js or "process['env']" in feedback_js:
+        # Allow internal assignment only
+        lines = [l for l in feedback_js.splitlines() if "process.env" in l or "process['env']" in l]
+        for line in lines:
+            if "const MVP_ENABLE_FEEDBACK_PERSISTENCE =" not in line:
+                 fail(f"Potential environment exposure in feedback.js: {line.strip()}")
+
+    endpoint_forbidden = [
+        "SUPABASE_SERVICE_ROLE_KEY", "SUPABASE_ANON_KEY", "SUPABASE_URL",
+        "api.github.com", "api.netlify.com", "child_process", "execSync",
+        "spawn(", "subprocess", "os.system", "migration apply", "supabase migration",
+        "ALTER TABLE", "CREATE TABLE", "DROP TABLE", "ENABLE ROW LEVEL SECURITY"
+    ]
+    for pattern in endpoint_forbidden:
+        if pattern in feedback_js:
+            fail(f"Forbidden pattern in feedback.js: {pattern}")
 
     write_client = read_text(FUNCTION_DIR / "_shared" / "supabase_feedback_write_client.js")
     assert_contains(write_client, "SUPABASE_ANON_KEY", "write client credentials")

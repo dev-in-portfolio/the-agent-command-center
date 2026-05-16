@@ -16,3 +16,13 @@ PASS
 
 ## Result
 The validator system continues to meet the project's quality contract for high-rigor security enforcement.
+
+## Method / Action Rejection Coverage Follow-Up
+- MVP-22 direct validator now explicitly checks feedback.js GET status behavior.
+- MVP-22 direct validator now explicitly checks invalid GET action rejection.
+- MVP-22 direct validator now explicitly checks POST import behavior.
+- MVP-22 direct validator now explicitly checks unsupported POST action rejection.
+- MVP-22 direct validator now explicitly checks unsupported method rejection.
+- MVP-22 direct validator now checks disabled feature flag gating before auth/write/import.
+- MVP-22 direct validator now checks auth before validation/import.
+- MVP-22 E2E validator now requires the method/action rejection checks.
