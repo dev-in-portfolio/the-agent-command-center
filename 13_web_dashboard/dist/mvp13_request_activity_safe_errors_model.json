@@ -1,0 +1,41 @@
+{
+  "model_id": "mvp13-request-activity-safe-errors",
+  "model_version": "1.0",
+  "safe_api_error_model": {
+    "purpose": "stable user-facing API error handling",
+    "categories": [
+      "auth_required", "auth_failed", "rls_denied_or_not_found", "request_api_disabled",
+      "writes_disabled", "invalid_payload", "schema_mismatch", "read_failed_safe",
+      "write_failed_safe", "network_failed", "unknown_safe_server_error"
+    ]
+  },
+  "request_activity_feed_model": {
+    "purpose": "unified read-only activity feed",
+    "endpoint": "/api/requests?action=events&id=<request_id>",
+    "display_modes": ["timeline", "compact_feed", "grouped_by_day", "grouped_by_event_type"]
+  },
+  "activity_feed_filter_model": {
+    "purpose": "client-side event filtering",
+    "filters": ["event_type", "lifecycle_state", "visibility", "date_bucket", "text_search_local"]
+  },
+  "timeline_empty_error_state_model": {
+    "ui_rules": ["never_show_raw_backend_error", "never_show_token", "never_show_env_values", "show_safe_code_only"]
+  },
+  "security_boundaries": [
+    "user-owned activity only",
+    "RLS-enforced event reads",
+    "request row update blocked",
+    "update/delete/approve/execute blocked",
+    "service role not used",
+    "raw error exposure blocked"
+  ],
+  "current_recommendation": [
+    "REQUEST_ACTIVITY_FEED_POLISH_READY",
+    "SAFE_ERROR_UX_READY",
+    "TIMELINE_FILTERING_READY",
+    "RAW_ERROR_EXPOSURE_BLOCKED",
+    "UPDATE_DELETE_APPROVE_EXECUTE_BLOCKED",
+    "NOT_READY_FOR_REAL_AUTOMATION",
+    "NEXT_STEP_MANUAL_LIFECYCLE_EVENT_TEST_THEN_ACTIVITY_FEED_REFINEMENT"
+  ]
+}

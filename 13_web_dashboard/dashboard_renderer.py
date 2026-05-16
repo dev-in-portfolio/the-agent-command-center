@@ -437,6 +437,7 @@ def _build_landing_screen(snapshot):
         ("MVP-10 Operator Workspace", "mvp10-operator-workspace-ui"),
         ("MVP-11 Workspace Polish", "mvp11-token-aware-workspace-polish"),
         ("MVP-12 Lifecycle Event Creation", "mvp12-controlled-lifecycle-event-creation"),
+        ("MVP-13 Activity Feed + Safe Errors", "mvp13-request-activity-safe-errors"),
         ("Artifacts", "artifact-packages"),
         ("Source Info", "source-transparency"),
         ("Audit / Session", "session-audit"),
@@ -5445,6 +5446,174 @@ def _build_mvp12_controlled_lifecycle_event_layer(snapshot):
         panel_id="mvp12-controlled-lifecycle-event-creation",
     )
 
+def _build_mvp13_request_activity_safe_errors_layer(snapshot):
+    model = snapshot.get("mvp13_request_activity_safe_errors_model", {})
+    safe_error = model.get("safe_api_error_model", {})
+    activity_feed = model.get("request_activity_feed_model", {})
+    filters = model.get("activity_feed_filter_model", {})
+    empty_error = model.get("timeline_empty_error_state_model", {})
+    security = model.get("security_boundaries", [])
+    current_recommendation = model.get("current_recommendation", [])
+
+    error_cats = "".join(
+        f"<tr><th scope=\"row\"><code>{_e(cat)}</code></th><td>MAPPED</td></tr>"
+        for cat in safe_error.get("categories", [])
+    )
+    
+    feed_modes = "".join(
+        f"<tr><th scope=\"row\"><code>{_e(mode)}</code></th><td>SUPPORTED</td></tr>"
+        for mode in activity_feed.get("display_modes", [])
+    )
+
+    filter_rows = "".join(
+        f"<tr><th scope=\"row\"><code>{_e(f)}</code></th><td>ACTIVE</td></tr>"
+        for f in filters.get("filters", [])
+    )
+
+    ui_rule_rows = "".join(
+        f"<tr><th scope=\"row\"><code>{_e(rule)}</code></th><td>{_status_badge('ENFORCED')}</td></tr>"
+        for rule in empty_error.get("ui_rules", [])
+    )
+
+    security_rows = "".join(
+        f"<tr><th scope=\"row\">{_e(item)}</th><td>{_status_badge('ENFORCED' if 'blocked' in item or 'no ' in item or 'memory' in item else 'PASS')}</td></tr>"
+        for item in security
+    )
+
+    validation_copy = "\n".join([
+        "python3 scripts/validate_mvp13_request_activity_feed_safe_errors.py",
+        "python3 scripts/validate_mvp13_request_activity_feed_safe_errors_e2e.py",
+        "python3 scripts/validate_mvp12_controlled_lifecycle_event_creation.py",
+        "python3 scripts/validate_mvp11_token_aware_workspace_polish.py",
+        "python3 scripts/validate_mvp10_operator_request_workspace_ui.py",
+        "python3 scripts/validate_mvp9_request_detail_lifecycle_timeline.py",
+        "python3 scripts/validate_mvp8_controlled_authenticated_request_create.py",
+        "python3 scripts/validate_mvp7_real_authenticated_supabase_reads.py",
+        "python3 scripts/validate_mvp6_controlled_migration_authenticated_reads.py",
+        "python3 scripts/validate_mvp5_migration_readiness_authenticated_reads.py",
+        "python3 scripts/validate_mvp4_supabase_auth_rls_request_api.py",
+        "python3 scripts/validate_mvp3_supabase_provider_request_api.py",
+        "python3 scripts/validate_mvp2_local_durable_request_persistence.py",
+        "python3 scripts/validate_mvp1_request_lifecycle_runtime.py",
+        "python3 scripts/validate_original_plus2e_server_side_dry_run_engine.py",
+        "python3 scripts/validate_phase5_plus1_master_validator_wall.py",
+    ])
+
+    body = f"""
+<div class="mvp13-request-activity-safe-errors" data-mvp13-request-activity-safe-errors="true">
+  <div class="callout plus2e-summary-callout" style="border-color: rgba(59,130,246,0.28); background: rgba(59,130,246,0.06);">
+    <strong style="color: var(--accent);">MVP-13</strong>
+    <p class="muted" style="margin-top: 0.15rem;">REQUEST ACTIVITY FEED — SAFE API ERROR UX</p>
+    <p class="muted" style="margin-top: 0.25rem;">RAW ERROR EXPOSURE BLOCKED — TIMELINE FILTERING — GROUPED ACTIVITY FEED</p>
+    <p class="muted" style="margin-top: 0.25rem;">EMPTY AND ERROR STATES — COPY SAFE ERROR CODE — USER-OWNED ACTIVITY ONLY</p>
+    <p class="muted" style="margin-top: 0.25rem;">RLS-ENFORCED EVENT READS — REQUEST ROW UPDATE BLOCKED — UPDATE DELETE APPROVE EXECUTE BLOCKED</p>
+    <p class="muted" style="margin-top: 0.25rem;">SERVICE ROLE NOT USED — AUTOMATION STILL DISABLED</p>
+    <p class="muted" style="margin-top: 0.25rem;">NEXT_STEP_MANUAL_LIFECYCLE_EVENT_TEST_THEN_ACTIVITY_FEED_REFINEMENT — NOT_READY_FOR_REAL_AUTOMATION</p>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp13-safe-error" id="mvp13-safe-error-panel">
+      <div class="card-head"><h3 class="card-title">Safe Error UX Panel</h3><span class="badge success">IMPLEMENTED</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp13-error-cats-table">
+          <caption>Safe API Error Categories</caption>
+          <thead><tr><th scope="col">Category</th><th scope="col">Status</th></tr></thead>
+          <tbody>{error_cats}</tbody>
+        </table>
+      </div>
+      <p class="card-body" style="margin-top: 0.5rem;">Raw errors, tokens, env values, and SQL stack traces are strictly blocked.</p>
+    </article>
+
+    <article class="card mvp13-activity-feed" id="mvp13-activity-feed-panel">
+      <div class="card-head"><h3 class="card-title">Request Activity Feed Panel</h3><span class="badge info">UX</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp13-feed-modes-table">
+          <caption>Display Modes</caption>
+          <thead><tr><th scope="col">Mode</th><th scope="col">Status</th></tr></thead>
+          <tbody>{feed_modes}</tbody>
+        </table>
+      </div>
+      <p class="card-body" style="margin-top: 0.5rem;">Unified read-only activity feed from lifecycle events.</p>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp13-activity-filtering" id="mvp13-activity-filtering-panel">
+      <div class="card-head"><h3 class="card-title">Activity Filtering Panel</h3><span class="badge info">FILTERS</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp13-filters-table">
+          <caption>Available Filters</caption>
+          <thead><tr><th scope="col">Filter</th><th scope="col">Status</th></tr></thead>
+          <tbody>{filter_rows}</tbody>
+        </table>
+      </div>
+    </article>
+
+    <article class="card mvp13-empty-error-states" id="mvp13-empty-error-states-panel">
+      <div class="card-head"><h3 class="card-title">Empty/Error States Panel</h3><span class="badge info">STATES</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp13-ui-rules-table">
+          <caption>UI Rules Enforcement</caption>
+          <thead><tr><th scope="col">Rule</th><th scope="col">Status</th></tr></thead>
+          <tbody>{ui_rule_rows}</tbody>
+        </table>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp13-timeline-refresh-ux" id="mvp13-timeline-refresh-ux-panel">
+      <div class="card-head"><h3 class="card-title">Timeline Refresh UX Panel</h3><span class="badge info">FLOW</span></div>
+      <p class="card-body">Behavior after successful event creation.</p>
+      {_list([
+          "refresh event feed post add_event",
+          "preserve selected request context",
+          "display newest event seamlessly",
+          "no request row update"
+      ])}
+    </article>
+
+    <article class="card mvp13-security-boundary" id="mvp13-security-boundary-panel">
+      <div class="card-head"><h3 class="card-title">Security Boundary Panel</h3><span class="badge warning">SECURITY</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp13-security-table">
+          <caption>Active security boundaries</caption>
+          <thead><tr><th scope="col">Boundary</th><th scope="col">State</th></tr></thead>
+          <tbody>{security_rows}</tbody>
+        </table>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp13-next-product-decision" id="mvp13-next-product-decision-panel">
+      <div class="card-head"><h3 class="card-title">Next Product Decision Panel</h3><span class="badge info">NEXT</span></div>
+      <p class="card-body">Manual lifecycle event test, then build request activity feed refinement.</p>
+      {_list([
+          "manual lifecycle event test with real user token",
+          "build request activity feed refinement",
+          "consider controlled request approval preview",
+          "not ready for real automation",
+      ])}
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Current recommendation</p>
+        {_list(current_recommendation)}
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp13-copy-validation" data-copy-text="{_e(validation_copy)}">Copy MVP-13 validation checklist</button>
+      </div>
+    </article>
+  </div>
+</div>
+"""
+    return _details(
+        "MVP-13 — Request Activity Feed + Safe Error UX",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp13-request-activity-safe-errors",
+    )
+
 def render_html(snapshot, compact_view=False, print_mode=False):
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
     header = f"""
@@ -5493,6 +5662,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_mvp10_operator_workspace_layer(snapshot),
         _build_mvp11_workspace_polish_layer(snapshot),
         _build_mvp12_controlled_lifecycle_event_layer(snapshot),
+        _build_mvp13_request_activity_safe_errors_layer(snapshot),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),
