@@ -1,0 +1,33 @@
+{
+  "model_id": "mvp18-share-ready-external-review",
+  "model_version": "1.0",
+  "portal_summary": {
+    "purpose": "share-ready reviewer portal",
+    "status": "SHARE_READY_EXTERNAL_REVIEW_PORTAL_READY",
+    "audience": ["recruiter", "technical_reviewer", "founder_operator"]
+  },
+  "review_navigation": {
+    "paths": ["recruiter", "technical", "founder", "collaborator"],
+    "timeboxes": ["5m", "15m", "30m"]
+  },
+  "demo_package_qa": {
+    "status": "QA_READY",
+    "checks": ["no-secrets", "no-tokens", "no-overclaiming", "file-completeness"]
+  },
+  "share_safe_instructions": {
+    "policy": "no-secrets, non-hype, strong-but-honest",
+    "safe_intro": "safety-first request control layer"
+  },
+  "reviewer_routing": {
+    "personas": ["recruiter", "technical", "founder", "collaborator"]
+  },
+  "current_recommendation": [
+    "SHARE_READY_EXTERNAL_REVIEW_PORTAL_READY",
+    "DEMO_PACKAGE_QA_READY",
+    "REVIEW_PACKET_INDEX_READY",
+    "SHARE_SAFE_CHECKLIST_READY",
+    "LIVE_TEST_STATUS_NOT_OVERCLAIMED",
+    "NOT_READY_FOR_REAL_AUTOMATION",
+    "NEXT_STEP_REVIEW_PACKAGE_AND_PREPARE_EXTERNAL_FEEDBACK_ROUND"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "model_id": "share-safe-reviewer-instructions-model",
+  "model_version": "1.0",
+  "purpose": "instructions for sharing demo package safely",
+  "safe_to_share": [
+    "product summary",
+    "reviewer briefs",
+    "safety boundary",
+    "demo walkthrough",
+    "Q&A",
+    "known limitations",
+    "next milestones"
+  ],
+  "do_not_share": [
+    "tokens",
+    "Authorization headers",
+    "Supabase secret key",
+    "service role key",
+    "database URL",
+    "env values",
+    "raw backend errors",
+    "private credentials"
+  ],
+  "recommended_intro": "This is an early safety-first request control layer for agentic workflows. Approval, execution, and automation remain intentionally blocked while the request workspace, activity tracking, safe errors, and demo package are being reviewed."
+}

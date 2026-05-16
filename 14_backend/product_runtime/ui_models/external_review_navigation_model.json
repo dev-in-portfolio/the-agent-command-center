@@ -1,0 +1,54 @@
+{
+  "model_id": "external-review-navigation-model",
+  "model_version": "1.0",
+  "purpose": "route reviewers to the right asset quickly",
+  "navigation_paths": {
+    "recruiter": {
+      "first": "recruiter_brief.md",
+      "then": [
+        "product_one_pager.md",
+        "demo_walkthrough_script.md",
+        "known_limitations.md"
+      ]
+    },
+    "technical_reviewer": {
+      "first": "technical_reviewer_brief.md",
+      "then": [
+        "technical_architecture_summary",
+        "safety_boundary_brief.md",
+        "reviewer_checklist.md"
+      ]
+    },
+    "founder_operator": {
+      "first": "founder_operator_brief.md",
+      "then": [
+        "product_one_pager.md",
+        "safety_boundary_brief.md",
+        "next_milestones.md"
+      ]
+    },
+    "general_reviewer": {
+      "first": "README.md",
+      "then": [
+        "product_one_pager.md",
+        "demo_q_and_a.md",
+        "reviewer_checklist.md"
+      ]
+    }
+  },
+  "reviewer_timeboxes": {
+    "5_minutes": [
+      "README.md",
+      "product_one_pager.md"
+    ],
+    "15_minutes": [
+      "README.md",
+      "product_one_pager.md",
+      "demo_walkthrough_script.md",
+      "safety_boundary_brief.md"
+    ],
+    "30_minutes": [
+      "all_core_briefs"
+    ]
+  }
+}

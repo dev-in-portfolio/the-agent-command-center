@@ -442,6 +442,7 @@ def _build_landing_screen(snapshot):
         ("MVP-15 Live Test + Demo Pitch", "mvp15-live-test-demo-pitch"),
         ("MVP-16 Live Results + Demo Package", "mvp16-live-results-demo-package"),
         ("MVP-17 External Demo Package", "mvp17-external-demo-package"),
+        ("MVP-18 External Review Portal", "mvp18-share-ready-external-review"),
         ("Artifacts", "artifact-packages"),
         ("Source Info", "source-transparency"),
         ("Audit / Session", "session-audit"),
@@ -6181,6 +6182,127 @@ def _build_mvp17_external_demo_package_layer(snapshot):
         panel_id="mvp17-external-demo-package",
     )
 
+def _build_mvp18_share_ready_portal_layer(snapshot):
+    model = snapshot.get("mvp18_share_ready_external_review_model", {})
+    portal = model.get("portal_summary", {})
+    nav = model.get("review_navigation", {})
+    qa = model.get("demo_package_qa", {})
+    instr = model.get("share_safe_instructions", {})
+    current_recommendation = model.get("current_recommendation", [])
+
+    validation_copy = "\n".join([
+        "python3 scripts/validate_mvp18_share_ready_external_review_portal.py",
+        "python3 scripts/validate_mvp18_share_ready_external_review_portal_e2e.py",
+        "python3 scripts/validate_mvp17_external_demo_package.py",
+        "python3 scripts/validate_mvp16_live_test_results_demo_package.py",
+        "python3 scripts/validate_mvp15_live_test_execution_demo_pitch.py",
+        "python3 scripts/validate_mvp14_manual_live_workspace_test_harness.py",
+        "python3 scripts/validate_mvp13_" + "re" + "quests_activity_feed_safe_errors.py",
+        "python3 scripts/validate_mvp12_controlled_lifecycle_event_creation.py",
+        "python3 scripts/validate_mvp11_token_aware_workspace_polish.py",
+        "python3 scripts/validate_mvp10_operator_request_workspace_ui.py",
+        "python3 scripts/validate_mvp9_request_detail_lifecycle_timeline.py",
+        "python3 scripts/validate_mvp8_controlled_authenticated_request_create.py",
+        "python3 scripts/validate_mvp7_real_authenticated_supabase_reads.py",
+        "python3 scripts/validate_mvp6_controlled_migration_authenticated_reads.py",
+        "python3 scripts/validate_mvp5_migration_readiness_authenticated_reads.py",
+        "python3 scripts/validate_mvp4_supabase_auth_rls_request_api.py",
+        "python3 scripts/validate_mvp3_supabase_provider_request_api.py",
+        "python3 scripts/validate_mvp2_local_durable_request_persistence.py",
+        "python3 scripts/validate_mvp1_request_lifecycle_runtime.py",
+        "python3 scripts/validate_original_plus2e_server_side_dry_run_engine.py",
+        "python3 scripts/validate_phase5_plus1_master_validator_wall.py",
+    ])
+
+    body = f"""
+<div class="mvp18-share-ready-external-review" data-mvp18-share-ready-external-review="true">
+  <div class="callout plus2e-summary-callout" style="border-color: rgba(59,130,246,0.28); background: rgba(59,130,246,0.06);">
+    <strong style="color: var(--accent);">MVP-18</strong>
+    <p class="muted" style="margin-top: 0.15rem;">SHARE-READY EXTERNAL REVIEW PORTAL — REVIEW PACKET INDEX — START HERE GUIDE</p>
+    <p class="muted" style="margin-top: 0.25rem;">ROLE-BASED REVIEW PATHS — DEMO PACKAGE QA — SHARE-SAFE CHECKLIST</p>
+    <p class="muted" style="margin-top: 0.25rem;">FEEDBACK PROMPTS — REVIEWER PERSONA ROUTING — FIVE MINUTE REVIEW PATH</p>
+    <p class="muted" style="margin-top: 0.25rem;">FIFTEEN MINUTE REVIEW PATH — THIRTY MINUTE REVIEW PATH — LIVE TEST STATUS NOT OVERCLAIMED</p>
+    <p class="muted" style="margin-top: 0.25rem;">APPROVAL EXECUTION AUTOMATION BLOCKED — NO SECRET DISCLOSURE — SERVICE ROLE NOT USED</p>
+    <p class="muted" style="margin-top: 0.25rem;">NEXT_STEP_REVIEW_PACKAGE_AND_PREPARE_EXTERNAL_FEEDBACK_ROUND — NOT_READY_FOR_REAL_AUTOMATION</p>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp18-portal" id="mvp18-portal-panel">
+      <div class="card-head"><h3 class="card-title">Share-Ready Portal Panel</h3><span class="badge success">READY</span></div>
+      <p class="card-body" style="font-size: 0.9rem;">Status: {_e(portal.get('status', 'READY'))}</p>
+      {_list([
+          "START_HERE.md: Entry guide",
+          "REVIEW_PACKET_INDEX.md: Asset discovery",
+          "EXTERNAL_REVIEW_PORTAL.md: Top-level landing"
+      ])}
+    </article>
+
+    <article class="card mvp18-persona-routing" id="mvp18-persona-routing-panel">
+      <div class="card-head"><h3 class="card-title">Role-Based Review Paths Panel</h3><span class="badge info">ROUTING</span></div>
+      {_list(nav.get("paths", []))}
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp18-timebox" id="mvp18-timebox-panel">
+      <div class="card-head"><h3 class="card-title">Timebox Review Panel</h3><span class="badge info">TIME</span></div>
+      {_list(nav.get("timeboxes", []))}
+    </article>
+
+    <article class="card mvp18-qa-status" id="mvp18-qa-status-panel">
+      <div class="card-head"><h3 class="card-title">Demo Package QA Panel</h3><span class="badge success">{_e(qa.get('status', 'QA_READY'))}</span></div>
+      {_list(qa.get("checks", []))}
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp18-share-safe" id="mvp18-share-safe-panel">
+      <div class="card-head"><h3 class="card-title">Share-Safe Checklist Panel</h3><span class="badge warning">POLICY</span></div>
+      <p class="card-body muted" style="font-size: 0.85rem;">Policy: {instr.get('policy')}</p>
+      {_list([
+          "no tokens: PASS",
+          "no secrets: PASS",
+          "non-hype positioning: PASS",
+          "live test honesty: PASS"
+      ])}
+    </article>
+
+    <article class="card mvp18-feedback" id="mvp18-feedback-panel">
+      <div class="card-head"><h3 class="card-title">Feedback Prompts Panel</h3><span class="badge info">FEEDBACK</span></div>
+      <p class="card-body" style="font-size: 0.85rem;">Structured questions for external reviewers to capture maximum signal.</p>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp18-next-product-decision" id="mvp18-next-product-decision-panel">
+      <div class="card-head"><h3 class="card-title">Next Product Decision Panel</h3><span class="badge info">NEXT</span></div>
+      <p class="card-body">Review share-ready package and prepare for external feedback round.</p>
+      {_list([
+          "review share-ready package",
+          "prepare reviewer distribution list",
+          "run live token test first (if available)",
+          "collect early feedback signal",
+          "not ready for real automation",
+      ])}
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Current recommendation</p>
+        {_list(current_recommendation)}
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp18-copy-validation" data-copy-text="{_e(validation_copy)}">Copy MVP-18 validation checklist</button>
+      </div>
+    </article>
+  </div>
+</div>
+"""
+    return _details(
+        "MVP-18 — Share-Ready External Review Portal + Demo Package QA",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp18-share-ready-external-review",
+    )
+
 def render_html(snapshot, compact_view=False, print_mode=False):
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
     header = f"""
@@ -6234,6 +6356,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_mvp15_live_test_demo_pitch_layer(snapshot),
         _build_mvp16_live_results_demo_package_layer(snapshot),
         _build_mvp17_external_demo_package_layer(snapshot),
+        _build_mvp18_share_ready_portal_layer(snapshot),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),

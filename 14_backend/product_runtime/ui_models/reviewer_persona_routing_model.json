@@ -1,0 +1,39 @@
+{
+  "model_id": "reviewer-persona-routing-model",
+  "model_version": "1.0",
+  "purpose": "match reviewer type to the best explanation",
+  "personas": {
+    "recruiter": {
+      "goal": "understand capability, product thinking, and demo story",
+      "asset_sequence": [
+        "recruiter_brief.md",
+        "product_one_pager.md",
+        "demo_walkthrough_script.md"
+      ]
+    },
+    "technical_reviewer": {
+      "goal": "inspect architecture and safety boundaries",
+      "asset_sequence": [
+        "technical_reviewer_brief.md",
+        "safety_boundary_brief.md",
+        "reviewer_checklist.md"
+      ]
+    },
+    "founder_operator": {
+      "goal": "understand operational value and roadmap",
+      "asset_sequence": [
+        "founder_operator_brief.md",
+        "product_one_pager.md",
+        "next_milestones.md"
+      ]
+    },
+    "collaborator": {
+      "goal": "understand where contribution or partnership fits",
+      "asset_sequence": [
+        "README.md",
+        "known_limitations.md",
+        "next_milestones.md"
+      ]
+    }
+  }
+}

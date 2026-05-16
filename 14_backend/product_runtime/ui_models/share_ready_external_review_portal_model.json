@@ -1,0 +1,35 @@
+{
+  "model_id": "share-ready-external-review-portal-model",
+  "model_version": "1.0",
+  "purpose": "share-ready reviewer portal for external feedback",
+  "audience": [
+    "recruiter",
+    "technical_reviewer",
+    "founder_operator",
+    "potential_collaborator"
+  ],
+  "portal_sections": [
+    "start_here",
+    "product_summary",
+    "role_based_review_paths",
+    "demo_walkthrough",
+    "safety_boundary",
+    "technical_architecture",
+    "known_limitations",
+    "reviewer_feedback_prompts",
+    "next_steps"
+  ],
+  "safety_requirements": {
+    "no_secrets": true,
+    "no_tokens": true,
+    "no_env_values": true,
+    "no_service_role": true,
+    "no_overclaiming": true,
+    "live_test_status_clear": true
+  },
+  "current_positioning": {
+    "safety_first_request_control_layer": true,
+    "autonomous_execution_engine": false,
+    "production_customer_ready": false
+  }
+}
