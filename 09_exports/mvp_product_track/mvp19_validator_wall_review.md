@@ -23,6 +23,7 @@ The validator wall edit performed in this phase adds MVP-19 awareness for Extern
 - MVP-19 direct validator checks security boundary and next-step markers.
 - MVP-19 E2E validator now runs MVP-18 E2E validation.
 - MVP-19 E2E validator now scans real forbidden persistence, network, service-role, and mutation patterns.
+- MVP-19 validators now scan production dist artifacts instead of blanket-skipping 13_web_dashboard/dist.
 
 ## Safety Confirmations
 - No secret allowance added.

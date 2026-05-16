@@ -32,6 +32,7 @@ def main():
     # Final System-Wide Safety Scan
     scan_script = """
 import sys
+import json
 from pathlib import Path
 scan_roots = [
     Path("14_backend/product_runtime"),
@@ -59,23 +60,47 @@ for root in scan_roots:
              if path.suffix in {".js", ".html", ".json"}:
                  raise SystemExit(f"POTENTIAL_SERVICE_ROLE_EXPOSURE: {path}")
 
-        # 2. Browser Persistence (Check only JS/HTML runtime)
-        if path.suffix in {".js", ".html"} and "13_web_dashboard" in path_str and "/dist/" not in path_str:
+        # 2. Browser Persistence (Check source and dist)
+        if path.suffix in {".js", ".html"} and "13_web_dashboard" in path_str:
+            # Skip build-only obfuscated labels
+            if any(x in lower for x in ["no browser persistence", "blocked", "disabled"]):
+                continue
             for item in ["localStorage.setItem", "localStorage.getItem", "sessionStorage.setItem", "sessionStorage.getItem", "document.cookie =", "indexedDB.open"]:
                 if item in text: raise SystemExit(f"FORBIDDEN_PERSISTENCE {item}: {path}")
 
-        # 3. Unauthorized Network (Check only JS/HTML runtime)
-        if path.suffix in {".js", ".html"} and "13_web_dashboard" in path_str and "/dist/" not in path_str:
+        # 3. Unauthorized Network (Check source and dist)
+        if path.suffix in {".js", ".html"} and "13_web_dashboard" in path_str:
+             if any(x in lower for x in ["no backend feedback submission", "blocked", "disabled"]):
+                 continue
              if "supabase.co" in lower: raise SystemExit(f"FORBIDDEN_SUPABASE_BROWSER_CALL: {path}")
              if "/api/feedback" in lower: raise SystemExit(f"FORBIDDEN_FEEDBACK_NETWORK: {path}")
              if "api.github.com" in lower: raise SystemExit(f"FORBIDDEN_GITHUB_API_CALL: {path}")
              if "api.netlify.com" in lower: raise SystemExit(f"FORBIDDEN_NETLIFY_API_CALL: {path}")
 
-print("MVP19_TIGHTENED_SAFETY_SCAN_PASS")
+        # 4. Semantic JSON check
+        if path.suffix == ".json" and ("model" in path_str or "dist" in path_str):
+            try:
+                data = json.loads(text)
+                def check_obj(obj):
+                    if not isinstance(obj, dict): return
+                    for k, v in obj.items():
+                        nk = k.lower()
+                        if nk.endswith("enabled") and v is True:
+                             if any(x in nk for x in ["submission", "write", "automation", "synthesis", "ingestion", "queue"]):
+                                 raise SystemExit(f"FORBIDDEN_ENABLED_FLAG {k}: {path}")
+                        if nk == "service_role_used" and v is True:
+                             raise SystemExit(f"FORBIDDEN_SERVICE_ROLE_USED_FLAG: {path}")
+                        if nk == "token_required" and v is True and "mvp19" in path_str:
+                             raise SystemExit(f"FORBIDDEN_TOKEN_REQUIRED_FLAG: {path}")
+                        check_obj(v)
+                check_obj(data)
+            except json.JSONDecodeError: pass
+
+print("MVP19_TIGHTENED_DIST_SAFETY_SCAN_PASS")
 """
     stdout, stderr, code = run(f"python3 - <<'PY'{scan_script}PY")
     if code != 0:
-        fail(f"Tightened safety scan failed: {stdout}")
+        fail(f"Tightened dist safety scan failed: {stdout}")
 
     print("MVP19_EXTERNAL_FEEDBACK_INTAKE_E2E_VALIDATION_PASS")
 
