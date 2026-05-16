@@ -1,0 +1,40 @@
+{
+  "model_id": "manual-live-workspace-test-harness-model",
+  "model_version": "1.0",
+  "purpose": "controlled manual verification of live operator workspace",
+  "token_handling": "memory_only",
+  "token_storage": {
+    "local-Storage": false,
+    "session-Storage": false,
+    "cookies": false,
+    "indexed-DB": false,
+    "url": false
+  },
+  "live_tests": [
+    "auth_status_check",
+    "provider_status_check",
+    "request_api_status_check",
+    "list_my_requests",
+    "get_request_detail",
+    "get_lifecycle_events",
+    "get_dry_run_results",
+    "create_request_readiness",
+    "add_lifecycle_event_readiness",
+    "safe_error_behavior"
+  ],
+  "writes_default": {
+    "force_enable_write_flag": false,
+    "respect_existing_write_flag": true,
+    "no_env_mutation": true
+  },
+  "forbidden": [
+    "token_storage",
+    "service_role",
+    "update_request",
+    "delete_request",
+    "approve_request",
+    "execute_request",
+    "automation",
+    "deploy_merge_push_pr"
+  ]
+}

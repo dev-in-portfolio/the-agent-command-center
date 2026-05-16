@@ -1,0 +1,27 @@
+{
+  "model_id": "manual-test-result-capture-model",
+  "model_version": "1.0",
+  "purpose": "local/manual tracking of test outcomes without secrets",
+  "allowed_fields": [
+    "test_name",
+    "status",
+    "safe_error_code",
+    "notes_without_secrets",
+    "timestamp"
+  ],
+  "forbidden_fields": [
+    "token",
+    "Authorization",
+    "access_token",
+    "refresh_token",
+    "service_role",
+    "env_value",
+    "password",
+    "database_url"
+  ],
+  "storage": {
+    "browser_persistent_storage": false,
+    "repo_committed_live_results": false,
+    "manual_report_template_only": true
+  }
+}

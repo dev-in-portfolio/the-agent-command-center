@@ -1,0 +1,33 @@
+{
+  "model_id": "demo-readiness-model",
+  "model_version": "1.0",
+  "demo_goal": "show real product loop safely",
+  "demo_steps": [
+    "explain_workspace",
+    "paste_memory_only_token",
+    "verify_auth_status",
+    "load_request_list",
+    "open_request_detail",
+    "view_activity_feed",
+    "create_request_if_write_flag_enabled",
+    "add_lifecycle_note_if_write_flag_enabled",
+    "show_safe_error_behavior",
+    "explain_blocked_actions"
+  ],
+  "demo_ready_requirements": [
+    "production_dashboard_available",
+    "auth_status_endpoint_available",
+    "request_api_available",
+    "at_least_read_flow_verified",
+    "safe_errors_verified",
+    "blocked_actions_visible"
+  ],
+  "not_demo_ready_conditions": [
+    "auth_failure",
+    "token_missing",
+    "request_api_disabled",
+    "raw_error_exposure",
+    "service_role_exposure",
+    "blocked_action_available"
+  ]
+}
