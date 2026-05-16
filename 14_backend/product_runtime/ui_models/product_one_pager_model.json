@@ -1,0 +1,43 @@
+{
+  "model_id": "product-one-pager-model",
+  "model_version": "1.0",
+  "title": "The Agent Command Center",
+  "subtitle": "Safety-first request control layer for agentic workflows",
+  "problem": [
+    "Agent systems need reviewable request intake before automation.",
+    "Teams need visibility, status, and audit-like lifecycle history.",
+    "Automation without control gates is risky."
+  ],
+  "solution": [
+    "Authenticated request workspace.",
+    "User-owned request reads.",
+    "Controlled create path.",
+    "Lifecycle event notes.",
+    "Activity feed and safe error handling.",
+    "Dangerous actions intentionally blocked."
+  ],
+  "current_capabilities": [
+    "Supabase-backed request storage",
+    "Authenticated reads",
+    "Controlled request creation",
+    "Lifecycle event creation",
+    "Operator workspace UI",
+    "Activity feed",
+    "Safe error UX",
+    "Live test/demo readiness package"
+  ],
+  "blocked_until_review": [
+    "approvals",
+    "execution",
+    "automation",
+    "deployment controls",
+    "request mutation/delete"
+  ],
+  "next_milestones": [
+    "manual live test",
+    "persistent frontend auth/session",
+    "approval preview",
+    "execution simulation",
+    "controlled automation preview"
+  ]
+}
