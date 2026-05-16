@@ -1,0 +1,38 @@
+{
+  "model_id": "live-test-results-package-model",
+  "model_version": "1.0",
+  "purpose": "package manual live test outcomes without secrets",
+  "expected_status": "LIVE_TEST_RESULTS_PACKAGE_READY",
+  "result_capture_policy": {
+    "no_tokens": true,
+    "no_authorization_headers": true,
+    "no_env_values": true,
+    "no_raw_backend_errors": true,
+    "safe_error_codes_only": true
+  },
+  "result_sections": [
+    "status_endpoint_results",
+    "auth_check_result",
+    "request_list_result",
+    "request_detail_result",
+    "lifecycle_events_result",
+    "dry_run_results_result",
+    "create_readiness_result",
+    "lifecycle_event_readiness_result",
+    "activity_feed_result",
+    "safe_error_result",
+    "blocked_actions_result"
+  ],
+  "allowed_result_values": [
+    "not_run",
+    "pass",
+    "fail",
+    "skipped",
+    "blocked",
+    "token_required",
+    "write_flag_disabled"
+  ],
+  "live_test_status": {
+    "default": "LIVE_TEST_NOT_RUN_TOKEN_REQUIRED"
+  }
+}

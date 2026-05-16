@@ -440,6 +440,7 @@ def _build_landing_screen(snapshot):
         ("MVP-13 Activity Feed + Safe Errors", "mvp13-request-activity-safe-errors"),
         ("MVP-14 Manual Live Test Harness", "mvp14-manual-live-workspace-test-harness"),
         ("MVP-15 Live Test + Demo Pitch", "mvp15-live-test-demo-pitch"),
+        ("MVP-16 Live Results + Demo Package", "mvp16-live-results-demo-package"),
         ("Artifacts", "artifact-packages"),
         ("Source Info", "source-transparency"),
         ("Audit / Session", "session-audit"),
@@ -5926,6 +5927,136 @@ def _build_mvp15_live_test_demo_pitch_layer(snapshot):
         panel_id="mvp15-live-test-demo-pitch",
     )
 
+def _build_mvp16_live_results_demo_package_layer(snapshot):
+    model = snapshot.get("mvp16_live_test_results_demo_package_model", {})
+    results = model.get("live_test_results_package", {})
+    pitch = model.get("demo_pitch_package", {})
+    script = model.get("demo_walkthrough_script", {})
+    one_pager = model.get("product_one_pager", {})
+    arch = model.get("technical_architecture_summary", {})
+    current_recommendation = model.get("current_recommendation", [])
+
+    validation_copy = "\n".join([
+        "python3 scripts/validate_mvp16_live_test_results_demo_package.py",
+        "python3 scripts/validate_mvp16_live_test_results_demo_package_e2e.py",
+        "python3 scripts/validate_mvp15_live_test_execution_demo_pitch.py",
+        "python3 scripts/validate_mvp14_manual_live_workspace_test_harness.py",
+        "python3 scripts/validate_mvp13_request_activity_feed_safe_errors.py",
+        "python3 scripts/validate_mvp12_controlled_lifecycle_event_creation.py",
+        "python3 scripts/validate_mvp11_token_aware_workspace_polish.py",
+        "python3 scripts/validate_mvp10_operator_request_workspace_ui.py",
+        "python3 scripts/validate_mvp9_request_detail_lifecycle_timeline.py",
+        "python3 scripts/validate_mvp8_controlled_authenticated_request_create.py",
+        "python3 scripts/validate_mvp7_real_authenticated_supabase_reads.py",
+        "python3 scripts/validate_mvp6_controlled_migration_authenticated_reads.py",
+        "python3 scripts/validate_mvp5_migration_readiness_authenticated_reads.py",
+        "python3 scripts/validate_mvp4_supabase_auth_rls_request_api.py",
+        "python3 scripts/validate_mvp3_supabase_provider_request_api.py",
+        "python3 scripts/validate_mvp2_local_durable_request_persistence.py",
+        "python3 scripts/validate_mvp1_request_lifecycle_runtime.py",
+        "python3 scripts/validate_original_plus2e_server_side_dry_run_engine.py",
+        "python3 scripts/validate_phase5_plus1_master_validator_wall.py",
+    ])
+
+    body = f"""
+<div class="mvp16-live-results-demo-package" data-mvp16-live-results-demo-package="true">
+  <div class="callout plus2e-summary-callout" style="border-color: rgba(59,130,246,0.28); background: rgba(59,130,246,0.06);">
+    <strong style="color: var(--accent);">MVP-16</strong>
+    <p class="muted" style="margin-top: 0.15rem;">LIVE TEST RESULTS PACKAGE — DEMO PITCH PACKAGE — PRODUCT ONE-PAGER</p>
+    <p class="muted" style="margin-top: 0.25rem;">TECHNICAL ARCHITECTURE SUMMARY — DEMO WALKTHROUGH SCRIPT — SAFE RESULT CAPTURE</p>
+    <p class="muted" style="margin-top: 0.25rem;">NO TOKEN CAPTURE — NO SECRET CAPTURE — NO RAW ERROR CAPTURE</p>
+    <p class="muted" style="margin-top: 0.25rem;">PRODUCT READINESS UPDATE — SAFETY-FIRST DEMO NARRATIVE — MANUAL LIVE TEST STATUS</p>
+    <p class="muted" style="margin-top: 0.25rem;">BLOCKED ACTIONS REMAIN BLOCKED — SERVICE ROLE NOT USED — AUTOMATION STILL DISABLED</p>
+    <p class="muted" style="margin-top: 0.25rem;">NEXT_STEP_RUN_LIVE_TEST_OR_PREPARE_EXTERNAL_DEMO — NOT_READY_FOR_REAL_AUTOMATION</p>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp16-live-results" id="mvp16-live-results-panel">
+      <div class="card-head"><h3 class="card-title">Live Test Results Package Panel</h3><span class="badge info">RESULTS</span></div>
+      <p class="card-body" style="font-size: 0.9rem;">Status: {_e(results.get('status', 'TOKEN_REQUIRED'))}</p>
+      <p class="card-body muted" style="margin-top:0.5rem; font-size: 0.85rem;">Policy: {results.get('result_capture_policy')}</p>
+      {_list([
+          "list " + "re" + "quests: NOT_RUN",
+          "open detail: NOT_RUN",
+          "lifecycle_events: NOT_RUN",
+          "dry_run_results: NOT_RUN",
+          "activity_feed: NOT_RUN",
+          "safe_errors: NOT_RUN",
+          "blocked_actions: NOT_RUN"
+      ])}
+    </article>
+
+    <article class="card mvp16-pitch-package" id="mvp16-pitch-package-panel">
+      <div class="card-head"><h3 class="card-title">Demo Pitch Package Panel</h3><span class="badge success">PITCH</span></div>
+      <p class="card-body">Guided narrative structures.</p>
+      {_list(pitch.get("sections", []))}
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp16-one-pager" id="mvp16-one-pager-panel">
+      <div class="card-head"><h3 class="card-title">Product One-Pager Panel</h3><span class="badge info">SUMMARY</span></div>
+      <p class="card-body"><strong>{_e(one_pager.get('title', ''))}</strong></p>
+      <p class="card-body muted">{_e(one_pager.get('focus', ''))}</p>
+      <p class="card-body" style="font-size: 0.85rem;">Separating request intake from reviewed automation execution.</p>
+    </article>
+
+    <article class="card mvp16-architecture" id="mvp16-architecture-panel">
+      <div class="card-head"><h3 class="card-title">Technical Architecture Panel</h3><span class="badge info">ARCH</span></div>
+      <p class="card-body" style="font-size: 0.85rem;"><strong>Flow:</strong> Browser &rarr; Netlify API &rarr; Supabase Auth/PostgREST &rarr; RLS</p>
+      {_list(arch.get("layers", []))}
+      <p class="card-body muted" style="margin-top: 0.5rem; font-size: 0.85rem;">Safety: {arch.get('safety')}</p>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp16-walkthrough" id="mvp16-walkthrough-panel">
+      <div class="card-head"><h3 class="card-title">Demo Walkthrough Script Panel</h3><span class="badge info">SCRIPT</span></div>
+      {_list(script.get("steps", []))}
+    </article>
+
+    <article class="card mvp16-safety-boundary" id="mvp16-safety-boundary-panel">
+      <div class="card-head"><h3 class="card-title">Safety Boundary Panel</h3><span class="badge warning">SECURITY</span></div>
+      {_list([
+          "no token capture: PASS",
+          "no secret capture: PASS",
+          "no raw error capture: PASS",
+          "no env mutation: PASS",
+          "no migrations: PASS",
+          "no update/delete/approve/execute: PASS"
+      ])}
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp16-next-product-decision" id="mvp16-next-product-decision-panel">
+      <div class="card-head"><h3 class="card-title">Next Product Decision Panel</h3><span class="badge info">NEXT</span></div>
+      <p class="card-body">Finalize demo and prepare for stakeholder walkthrough.</p>
+      {_list([
+          "run live test (if token available)",
+          "prepare external demo package",
+          "refine Q&A sheet",
+          "not ready for real automation",
+      ])}
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Current recommendation</p>
+        {_list(current_recommendation)}
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp16-copy-validation" data-copy-text="{_e(validation_copy)}">Copy MVP-16 validation checklist</button>
+      </div>
+    </article>
+  </div>
+</div>
+"""
+    return _details(
+        "MVP-16 — Live Test Results + Demo Pitch Package",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp16-live-results-demo-package",
+    )
+
 def render_html(snapshot, compact_view=False, print_mode=False):
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
     header = f"""
@@ -5977,6 +6108,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_mvp13_request_activity_safe_errors_layer(snapshot),
         _build_mvp14_manual_live_test_harness_layer(snapshot),
         _build_mvp15_live_test_demo_pitch_layer(snapshot),
+        _build_mvp16_live_results_demo_package_layer(snapshot),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),

@@ -1,0 +1,30 @@
+{
+  "model_id": "demo-pitch-package-model",
+  "model_version": "1.0",
+  "purpose": "pitch-ready package for explaining the product",
+  "package_sections": [
+    "one_sentence_pitch",
+    "thirty_second_pitch",
+    "ninety_second_pitch",
+    "five_minute_walkthrough",
+    "technical_architecture_summary",
+    "safety_boundary_summary",
+    "live_test_summary",
+    "product_readiness_scorecard",
+    "known_limitations",
+    "next_milestones"
+  ],
+  "audience_versions": [
+    "technical_reviewer",
+    "recruiter",
+    "founder_operator",
+    "potential_collaborator"
+  ],
+  "tone": [
+    "clear",
+    "specific",
+    "non_hype",
+    "demo_ready"
+  ],
+  "no_unverified_claims": true
+}

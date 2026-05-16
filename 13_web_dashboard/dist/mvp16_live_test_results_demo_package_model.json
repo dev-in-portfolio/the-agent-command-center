@@ -1,0 +1,34 @@
+{
+  "model_id": "mvp16-live-test-results-demo-package",
+  "model_version": "1.0",
+  "live_test_results_package": {
+    "purpose": "package manual live test outcomes",
+    "status": "LIVE_TEST_RESULTS_PACKAGE_READY",
+    "result_capture_policy": "no_tokens, no_secrets, safe_codes_only"
+  },
+  "demo_pitch_package": {
+    "purpose": "pitch-ready explanations",
+    "sections": ["one_sentence", "walkthrough", "architecture", "safety"]
+  },
+  "demo_walkthrough_script": {
+    "purpose": "operator demo guidance",
+    "steps": ["opening", "workspace_walkthrough", "safety_boundary", "closing"]
+  },
+  "product_one_pager": {
+    "title": "The Agent Command Center",
+    "focus": "safety-first request control"
+  },
+  "technical_architecture_summary": {
+    "layers": ["UI", "Netlify API", "Supabase Auth", "RLS"],
+    "safety": "memory_only_token, no_service_role"
+  },
+  "current_recommendation": [
+    "LIVE_TEST_RESULTS_PACKAGE_READY",
+    "DEMO_PITCH_PACKAGE_READY",
+    "PRODUCT_ONE_PAGER_READY",
+    "TECHNICAL_ARCHITECTURE_SUMMARY_READY",
+    "MANUAL_LIVE_TEST_STILL_REQUIRED_IF_NOT_RUN",
+    "NOT_READY_FOR_REAL_AUTOMATION",
+    "NEXT_STEP_RUN_LIVE_TEST_OR_PREPARE_EXTERNAL_DEMO"
+  ]
+}

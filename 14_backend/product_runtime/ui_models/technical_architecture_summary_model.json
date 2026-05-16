@@ -1,0 +1,30 @@
+{
+  "model_id": "technical-architecture-summary-model",
+  "model_version": "1.0",
+  "layers": [
+    "static_dashboard_ui",
+    "netlify_functions_api",
+    "supabase_auth",
+    "supabase_postgrest",
+    "row_level_security",
+    "request_lifecycle_models",
+    "safe_error_boundary"
+  ],
+  "data_flow": [
+    "browser calls Netlify Functions",
+    "Netlify Functions validate bearer token",
+    "Supabase Auth confirms user",
+    "PostgREST reads/writes use anon key plus user bearer token",
+    "RLS enforces ownership",
+    "service role is not used"
+  ],
+  "safety_controls": [
+    "memory_only_token",
+    "no_browser_service_role",
+    "no_token_storage",
+    "safe_error_mapping",
+    "write_flag_gates",
+    "blocked_update_delete_approve_execute",
+    "no_automation"
+  ]
+}

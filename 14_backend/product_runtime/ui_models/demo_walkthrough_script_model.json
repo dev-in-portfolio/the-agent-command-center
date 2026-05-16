@@ -1,0 +1,26 @@
+{
+  "model_id": "demo-walkthrough-script-model",
+  "model_version": "1.0",
+  "opening": [
+    "This is a controlled agent request workspace.",
+    "It is designed to separate request intake, review, activity tracking, and eventual automation.",
+    "The dangerous actions stay blocked until explicitly reviewed."
+  ],
+  "walkthrough_steps": [
+    "show_dashboard_status",
+    "show_memory_only_token_boundary",
+    "show_request_workspace",
+    "load_request_list",
+    "open_request_detail",
+    "show_activity_feed",
+    "show_safe_errors",
+    "show_create_request_readiness",
+    "show_lifecycle_note_readiness",
+    "show_blocked_actions",
+    "explain_next_milestones"
+  ],
+  "closing": [
+    "This is not pretending to be an autonomous execution engine yet.",
+    "It is a safety-first control layer that can grow into one."
+  ]
+}
