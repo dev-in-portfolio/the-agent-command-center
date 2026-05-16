@@ -7,7 +7,16 @@ PASS_WITH_TARGETED_VALIDATION
 - scripts/validate_phase5_plus1_master_validator_wall.py
 
 ## Result
-The validator wall edit performed in this phase will add MVP-19 awareness without weakening safety gates.
+The validator wall edit performed in this phase adds MVP-19 awareness for External Feedback Intake and Reviewer Response Capture without weakening safety gates.
+
+## Added MVP-19 Coverage
+- MVP-19 acceptance report marker.
+- MVP-19 security boundary marker.
+- MVP-19 next product step marker.
+- MVP-19 dashboard markers.
+- MVP-19 static feedback model JSON.
+- MVP-19 validator file paths.
+- MVP-19 external demo feedback package files.
 
 ## Safety Confirmations
 - No secret allowance added.
@@ -21,5 +30,7 @@ The validator wall edit performed in this phase will add MVP-19 awareness withou
 - No Netlify env mutation allowed.
 - No migration apply allowed.
 - No request row update/delete/approve/execute allowed.
+- No backend feedback submission allowed.
+- No browser persistence allowed.
 - No automation allowed.
 - No overclaim allowance added.
