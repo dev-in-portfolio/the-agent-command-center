@@ -64,6 +64,7 @@ def js_safety_check(path):
         "./original_plus2b_request_storage_model.json",
         "./mvp7_real_authenticated_reads_model.json",
         "./mvp8_controlled_request_create_model.json",
+        "./mvp9_request_detail_lifecycle_model.json",
         "/api/request-read-smoke-status",
         "/api/request-write-smoke-status",
     }
@@ -143,6 +144,13 @@ report_requirements = [
     (ROOT / "09_exports" / "mvp_product_track" / "mvp8_security_boundary_report.md", "VERIFIED_FOR_CREATION"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp8_next_product_step_report.md", "READY_FOR_VERIFICATION"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp8_write_path_review_report.md", "PASS_WITH_TARGETED_REVIEW"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp9_acceptance_report.md", "REQUEST_DETAIL_LIFECYCLE_TIMELINE_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp9_request_list_ui_report.md", "DEFINED"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp9_request_detail_ui_report.md", "DEFINED"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp9_lifecycle_timeline_report.md", "DEFINED"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp9_create_verification_harness_report.md", "DEFINED"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp9_security_boundary_report.md", "VERIFIED_FOR_UI_MODELS"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp9_next_product_step_report.md", "READY_FOR_WORKSPACE_UI"),
 ]
 for path, marker in report_requirements:
     check(path.exists(), f"missing report: {path.relative_to(ROOT)}")
@@ -214,6 +222,17 @@ for marker in [
     "UPDATE DELETE EXECUTE BLOCKED",
     "AUTOMATION STILL DISABLED",
     "VERIFY CREATE WITH REAL USER TOKEN",
+    "MVP-9",
+    "REQUEST LIST UI MODEL",
+    "REQUEST DETAIL UI MODEL",
+    "LIFECYCLE TIMELINE",
+    "USER-OWNED REQUESTS ONLY",
+    "RLS-ENFORCED READS",
+    "CREATE VERIFICATION HARNESS",
+    "UPDATE DELETE EXECUTE BLOCKED",
+    "SERVICE ROLE NOT USED",
+    "AUTOMATION STILL DISABLED",
+    "NEXT_STEP_BUILD_OPERATOR_REQUEST_WORKSPACE_UI",
 ]:
     check(marker in index, f"index.html missing required marker: {marker}")
 
@@ -253,7 +272,10 @@ allowed_prefixes = [
         "scripts/validate_mvp7_real_authenticated_supabase_reads_e2e.py",
         "scripts/validate_mvp8_controlled_authenticated_request_create.py",
         "scripts/validate_mvp8_controlled_authenticated_request_create_e2e.py",
+        "scripts/validate_mvp9_request_detail_lifecycle_timeline.py",
+        "scripts/validate_mvp9_request_detail_lifecycle_timeline_e2e.py",
         "13_web_dashboard/",
+
         "09_exports/interface_phase_5/",
         "09_exports/original_plus1/",
         "09_exports/original_plus2/",
