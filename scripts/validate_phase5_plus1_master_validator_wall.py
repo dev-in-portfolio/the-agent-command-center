@@ -301,6 +301,8 @@ allowed_prefixes = [
         "scripts/validate_mvp9_request_detail_lifecycle_timeline_e2e.py",
         "scripts/validate_mvp10_operator_request_workspace_ui.py",
         "scripts/validate_mvp10_operator_request_workspace_ui_e2e.py",
+        "scripts/validate_mvp11_token_aware_workspace_polish.py",
+        "scripts/validate_mvp11_token_aware_workspace_polish_e2e.py",
         "13_web_dashboard/",
         "09_exports/interface_phase_5/",
         "09_exports/original_plus1/",
