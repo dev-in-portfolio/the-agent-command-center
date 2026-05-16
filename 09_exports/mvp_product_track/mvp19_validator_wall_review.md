@@ -24,6 +24,7 @@ The validator wall edit performed in this phase adds MVP-19 awareness for Extern
 - MVP-19 E2E validator now runs MVP-18 E2E validation.
 - MVP-19 E2E validator now scans real forbidden persistence, network, service-role, and mutation patterns.
 - MVP-19 validators now scan production dist artifacts instead of blanket-skipping 13_web_dashboard/dist.
+- MVP-19 E2E validator no longer skips entire dashboard files because they contain safety-label text such as blocked, disabled, NO BROWSER PERSISTENCE, or NO BACKEND FEEDBACK SUBMISSION.
 
 ## Safety Confirmations
 - No secret allowance added.
