@@ -1,0 +1,28 @@
+{
+  "model_id": "manual-feedback-synthesis-workspace-model",
+  "model_version": "1.0",
+  "purpose": "operator-guided synthesis of imported feedback",
+  "ai_auto_synthesis_enabled": false,
+  "manual_synthesis_only": true,
+  "synthesis_sections": [
+    "recurring_praise",
+    "recurring_confusion",
+    "recurring_blockers",
+    "trust_concerns",
+    "demo_readiness_signal",
+    "product_readiness_signal",
+    "recommended_mvp21_direction"
+  ],
+  "blocked_claims": [
+    "external_validation_complete",
+    "customer_validation_complete",
+    "live_user_feedback_proven",
+    "automated_ai_synthesis_complete"
+  ],
+  "output_formats": [
+    "feedback_synthesis_packet",
+    "product_decision_packet",
+    "next_mvp_candidate_notes"
+  ],
+  "automation_enabled": false
+}

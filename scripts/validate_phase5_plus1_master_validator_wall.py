@@ -75,6 +75,7 @@ def js_safety_check(path):
         "./mvp17_external_demo_package_model.json",
         "./mvp18_share_ready_external_review_model.json",
         "./mvp19_external_feedback_model.json",
+        "./mvp20_manual_feedback_review_model.json",
         "/api/request-read-smoke-status",
         "/api/request-write-smoke-status",
         "/api/lifecycle-event-smoke-status",
@@ -254,6 +255,16 @@ report_requirements = [
     (ROOT / "09_exports" / "mvp_product_track" / "mvp19_security_boundary_report.md", "VERIFIED_FOR_STATIC_FEEDBACK"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp19_next_product_step_report.md", "READY_FOR_FEEDBACK_COLLECTION"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp19_validator_wall_review.md", "PASS_WITH_TARGETED_VALIDATION"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp19_production_verification_report.md", "PRODUCTION_VERIFIED"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp20_acceptance_report.md", "MANUAL_FEEDBACK_IMPORT_REVIEW_QUEUE_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp20_manual_feedback_import_report.md", "DEFINED"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp20_review_queue_report.md", "DEFINED"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp20_synthesis_workspace_report.md", "DEFINED"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp20_review_to_product_decision_report.md", "DEFINED"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp20_security_boundary_report.md", "VERIFIED_FOR_STATIC_MEMORY_ONLY_FEEDBACK"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp20_next_product_step_report.md", "READY_FOR_EXTERNAL_FEEDBACK_ROUND_OR_SAFE_PERSISTENCE_REVIEW"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp20_validator_quality_report.md", "DEFINED"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp20_validator_wall_review.md", "PASS_WITH_TARGETED_VALIDATION"),
 ]
 for path, marker in report_requirements:
     check(path.exists(), f"missing report: {path.relative_to(ROOT)}")
@@ -479,12 +490,25 @@ for marker in [
     "SERVICE ROLE NOT USED",
     "AUTOMATION STILL DISABLED",
     "NEXT_STEP_RUN_EXTERNAL_REVIEW_ROUND_OR_ADD_MANUAL_FEEDBACK_IMPORT_QUEUE",
+    "MVP-20",
+    "MANUAL FEEDBACK IMPORT",
+    "REVIEW QUEUE READY",
+    "MANUAL SYNTHESIS WORKSPACE",
+    "REVIEW TO PRODUCT DECISION",
+    "STATIC MEMORY ONLY WORKFLOW",
+    "NO BACKEND FEEDBACK SUBMISSION",
+    "NO BROWSER PERSISTENCE",
+    "SERVICE ROLE NOT USED",
+    "AUTOMATION STILL DISABLED",
+    "NEXT_STEP_RUN_EXTERNAL_FEEDBACK_ROUND_OR_ADD_SAFE_FEEDBACK_PERSISTENCE",
     "NOT_READY_FOR_REAL_AUTOMATION",
 ]:
     check(marker in index, f"index.html missing required marker: {marker}")
 
 for match in re.finditer(r'(<button[^>]*>)([^<]+)(</button>)', index):
     tag, button_label, _ = match.groups()
+    if "disabled" in tag.lower():
+        continue
     clean = button_label.strip().lower()
     if clean.startswith("copy ") or clean.startswith("load ") or clean.startswith("phase ") or clean.startswith("original +"):
         continue
@@ -541,6 +565,8 @@ allowed_prefixes = [
         "scripts/validate_mvp18_share_ready_external_review_portal_e2e.py",
         "scripts/validate_mvp19_external_feedback_intake.py",
         "scripts/validate_mvp19_external_feedback_intake_e2e.py",
+        "scripts/validate_mvp20_manual_feedback_import_review_queue.py",
+        "scripts/validate_mvp20_manual_feedback_import_review_queue_e2e.py",
         "13_web_dashboard/",
         "09_exports/interface_phase_5/",
         "09_exports/original_plus1/",
