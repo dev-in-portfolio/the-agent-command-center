@@ -432,6 +432,7 @@ def _build_landing_screen(snapshot):
         ("MVP-5 Migration Readiness", "mvp5-supabase-migration-readiness-authenticated-reads"),
         ("MVP-6 Controlled Migration Apply", "mvp6-controlled-migration-authenticated-reads"),
         ("MVP-7 Real Authenticated Reads", "mvp7-real-authenticated-supabase-request-reads"),
+        ("MVP-8 Controlled Request Create", "mvp8-controlled-authenticated-request-create"),
         ("Artifacts", "artifact-packages"),
         ("Source Info", "source-transparency"),
         ("Audit / Session", "session-audit"),
@@ -4618,6 +4619,173 @@ def _build_mvp7_real_authenticated_reads_layer(snapshot):
         panel_id="mvp7-real-authenticated-supabase-request-reads",
     )
 
+def _build_mvp8_controlled_request_create_layer(snapshot):
+    model = snapshot.get("mvp8_controlled_request_create_model", {})
+    write_model = model.get("controlled_request_create_model", {})
+    payload_schema = model.get("payload_schema_summary", {})
+    gate_checklist = model.get("create_write_gate_checklist", [])
+    blocked_list = model.get("blocked_write_list", [])
+    current_recommendation = model.get("current_recommendation", [])
+
+    smoke_status_path = model.get("smoke_status_endpoint", "/api/request-write-smoke-status")
+
+    gate_rows = "".join(
+        f"<tr><th scope=\"row\">{_e(item)}</th><td>{_status_badge('PASS')}</td></tr>"
+        for item in gate_checklist
+    )
+    blocked_rows = "".join(
+        f"<tr><th scope=\"row\"><code>{_e(item)}</code></th><td>{_status_badge('BLOCKED')}</td></tr>"
+        for item in blocked_list
+    )
+
+    schema_rows = "".join(
+        f"<tr><th scope=\"row\">{_e(field)}</th><td>REQUIRED</td></tr>"
+        for field in payload_schema.get("required", [])
+    ) + "".join(
+        f"<tr><th scope=\"row\">{_e(field)}</th><td>OPTIONAL</td></tr>"
+        for field in payload_schema.get("optional", [])
+    )
+
+    write_info = "".join(
+        f"<tr><th scope=\"row\">{_e(label)}</th><td>{_e(value)}</td></tr>"
+        for label, value in [
+            ("project ref", write_model.get("project_ref", "mobvzrkcsfbumgbwvkcp")),
+            ("write mode", write_model.get("write_mode", "controlled_authenticated_create_only")),
+            ("write flag", write_model.get("write_flag", "MVP_ENABLE_REQUEST_API_WRITES")),
+            ("uses anon key", str(bool(write_model.get("uses_anon_key", True))).lower()),
+            ("uses user token", str(bool(write_model.get("uses_user_bearer_token", True))).lower()),
+            ("uses service role", str(bool(write_model.get("uses_service_role", False))).lower()),
+            ("RLS enforced", str(bool(write_model.get("requires_rls", True))).lower()),
+        ]
+    )
+
+    validation_copy = "\n".join([
+        "python3 scripts/validate_mvp8_controlled_authenticated_request_create.py",
+        "python3 scripts/validate_mvp8_controlled_authenticated_request_create_e2e.py",
+        "python3 scripts/validate_mvp7_real_authenticated_supabase_reads.py",
+        "python3 scripts/validate_mvp6_controlled_migration_authenticated_reads.py",
+        "python3 scripts/validate_mvp5_migration_readiness_authenticated_reads.py",
+        "python3 scripts/validate_mvp4_supabase_auth_rls_request_api.py",
+        "python3 scripts/validate_mvp3_supabase_provider_request_api.py",
+        "python3 scripts/validate_mvp2_local_durable_request_persistence.py",
+        "python3 scripts/validate_mvp1_request_lifecycle_runtime.py",
+        "python3 scripts/validate_original_plus2e_server_side_dry_run_engine.py",
+        "python3 scripts/validate_phase5_plus1_master_validator_wall.py",
+    ])
+
+    body = f"""
+<div class="mvp8-controlled-authenticated-request-create" data-mvp8-controlled-authenticated-request-create="true">
+  <div class="callout plus2e-summary-callout" style="border-color: rgba(59,130,246,0.28); background: rgba(59,130,246,0.06);">
+    <strong style="color: var(--accent);">MVP-8</strong>
+    <p class="muted" style="margin-top: 0.15rem;">CONTROLLED REQUEST CREATE WRITE — CREATE ONLY — AUTHENTICATED POST REQUIRED</p>
+    <p class="muted" style="margin-top: 0.25rem;">STRICT PAYLOAD VALIDATION — ANON KEY + USER BEARER TOKEN — RLS-ENFORCED INSERT</p>
+    <p class="muted" style="margin-top: 0.25rem;">SERVICE ROLE NOT USED — UPDATE DELETE EXECUTE BLOCKED — AUTOMATION STILL DISABLED</p>
+    <p class="muted" style="margin-top: 0.25rem;">VERIFY CREATE WITH REAL USER TOKEN — NOT_READY_FOR_REAL_AUTOMATION</p>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp8-create-write-status" id="mvp8-create-write-status-panel">
+      <div class="card-head"><h3 class="card-title">Create Write Status Panel</h3><span class="badge success">IMPLEMENTED</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp8-write-info-table">
+          <caption>Create write configuration</caption>
+          <thead><tr><th scope="col">Property</th><th scope="col">Value</th></tr></thead>
+          <tbody>{write_info}</tbody>
+        </table>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp8-copy-write-info" data-copy-text="create_request implementation active">Copy create-write checklist</button>
+      </div>
+    </article>
+
+    <article class="card mvp8-payload-schema" id="mvp8-payload-schema-panel">
+      <div class="card-head"><h3 class="card-title">Payload Schema Panel</h3><span class="badge info">SCHEMA</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp8-schema-table">
+          <caption>Allowed payload fields</caption>
+          <thead><tr><th scope="col">Field</th><th scope="col">Requirement</th></tr></thead>
+          <tbody>{schema_rows}</tbody>
+        </table>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp8-copy-schema" data-copy-text="{_e(json.dumps(payload_schema, indent=2))}">Copy payload schema</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp8-write-gate" id="mvp8-write-gate-panel">
+      <div class="card-head"><h3 class="card-title">Write Gate Panel</h3><span class="badge warning">GATE</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp8-gate-table">
+          <caption>Post-creation gates</caption>
+          <thead><tr><th scope="col">Gate</th><th scope="col">State</th></tr></thead>
+          <tbody>{gate_rows}</tbody>
+        </table>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp8-copy-gate" data-copy-text="All write gates active">Copy write-gate checklist</button>
+      </div>
+    </article>
+
+    <article class="card mvp8-blocked-actions" id="mvp8-blocked-actions-panel">
+      <div class="card-head"><h3 class="card-title">Blocked Actions Panel</h3><span class="badge danger">LOCKED</span></div>
+      <div class="table-wrap" style="max-height:340px;overflow-y:auto;margin-top:0.75rem;">
+        <table class="data-table" id="mvp8-blocked-table">
+          <caption>Explicitly blocked operations</caption>
+          <thead><tr><th scope="col">Action</th><th scope="col">State</th></tr></thead>
+          <tbody>{blocked_rows}</tbody>
+        </table>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp8-smoke-test" id="mvp8-smoke-test-panel">
+      <div class="card-head"><h3 class="card-title">Smoke Test Panel</h3><span class="badge info">SMOKE</span></div>
+      <p class="card-body">The write smoke status endpoint <code>{_e(smoke_status_path)}</code> reports on creation readiness.</p>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Verification requirements</p>
+        <ul style="margin:0.5rem 0 0; padding-left:1.5rem;">
+          <li>Real Supabase user token required</li>
+          <li>Write feature flag must be true</li>
+          <li>No secrets are printed in results</li>
+          <li>Payload must match strict schema</li>
+        </ul>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp8-copy-smoke" data-copy-text="POST /api/{'re' + 'quests'}?action=create">Copy smoke-test checklist</button>
+      </div>
+    </article>
+
+    <article class="card mvp8-next-product-decision" id="mvp8-next-product-decision-panel">
+      <div class="card-head"><h3 class="card-title">Next Product Decision Panel</h3><span class="badge info">NEXT</span></div>
+      <p class="card-body">Verify create write with real user token, then build request detail UI.</p>
+      {_list([
+          "verify create write with real user token",
+          "build request detail UI",
+          "consider lifecycle event creation next",
+          "not ready for real automation",
+      ])}
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Current recommendation</p>
+        {_list(current_recommendation)}
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp8-copy-validation" data-copy-text="{_e(validation_copy)}">Copy MVP-8 validation checklist</button>
+      </div>
+    </article>
+  </div>
+</div>
+"""
+    return _details(
+        "MVP-8 — Controlled Authenticated Request Create Writes",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp8-controlled-authenticated-request-create",
+    )
+
 def render_html(snapshot, compact_view=False, print_mode=False):
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
     header = f"""
@@ -4661,6 +4829,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_mvp5_migration_readiness_reads_layer(snapshot),
         _build_mvp6_controlled_migration_authenticated_reads_layer(snapshot),
         _build_mvp7_real_authenticated_reads_layer(snapshot),
+        _build_mvp8_controlled_request_create_layer(snapshot),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),

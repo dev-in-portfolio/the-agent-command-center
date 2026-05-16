@@ -20,12 +20,16 @@ const {
   listMyRequestLifecycleEvents, 
   listMyDryRunResults 
 } = require("./_shared/supabase_read_client");
+const { validateCreateRequestPayload } = require("./_shared/request_payload_validator");
+const { createRequest } = require("./_shared/supabase_write_client");
 
 const MVP_ENABLE_SUPABASE_REQUEST_API = process['env'].MVP_ENABLE_SUPABASE_REQUEST_API === "true";
 const MVP_ENABLE_REQUEST_API_WRITES = process['env'].MVP_ENABLE_REQUEST_API_WRITES === "true";
 
 exports.handler = async (event, context) => {
   const method = event.httpMethod;
+  const params = event.queryStringParameters || {};
+  const bearerToken = event.headers.authorization || event.headers.Authorization;
 
   // 1. Check if API is enabled
   if (!MVP_ENABLE_SUPABASE_REQUEST_API) {
@@ -57,10 +61,8 @@ exports.handler = async (event, context) => {
 
   // 3. Handle GET Reads
   if (method === "GET") {
-    const params = event.queryStringParameters || {};
     const action = params.action || "list";
     const id = params.id;
-    const bearerToken = event.headers.authorization || event.headers.Authorization;
 
     try {
       let data;
@@ -106,13 +108,69 @@ exports.handler = async (event, context) => {
     }
   }
 
-  // 4. Block Writes
-  if (method === "POST" || method === "PUT" || method === "PATCH" || method === "DELETE") {
+  // 4. Handle POST Writes (Controlled Create Only)
+  if (method === "POST") {
+    const action = params.action;
+
+    if (action !== "create") {
+      return {
+        statusCode: 405,
+        body: JSON.stringify({ error: "WRITE_ACTION_NOT_ALLOWED", action })
+      };
+    }
+
+    if (!MVP_ENABLE_REQUEST_API_WRITES) {
+      return {
+        statusCode: 403,
+        body: JSON.stringify({ 
+          error: "REQUEST_API_WRITES_DISABLED",
+          message: "Writes require separate RLS and code review."
+        })
+      };
+    }
+
+    try {
+      const payload = JSON.parse(event.body || "{}");
+      const validation = validateCreateRequestPayload(payload);
+
+      if (!validation.valid) {
+        return {
+          statusCode: 400,
+          body: JSON.stringify({ 
+            error: "INVALID_PAYLOAD",
+            details: validation.errors
+          })
+        };
+      }
+
+      const result = await createRequest(bearerToken, validation.data, auth);
+
+      return {
+        statusCode: 201,
+        body: JSON.stringify({ 
+          status: "SUCCESS",
+          action: "create",
+          data: result 
+        })
+      };
+    } catch (err) {
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ 
+          error: "CREATE_FAILED",
+          message: err.message 
+        })
+      };
+    }
+  }
+
+  // 5. Block Other Methods
+  if (method === "PUT" || method === "PATCH" || method === "DELETE") {
     return {
       statusCode: 403,
       body: JSON.stringify({ 
         error: "REQUEST_API_WRITES_DISABLED",
-        message: "Writes require separate RLS and code review."
+        message: "Update and delete remain blocked in this phase."
       })
     };
   }

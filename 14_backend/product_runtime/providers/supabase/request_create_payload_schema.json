@@ -1,0 +1,82 @@
+{
+  "model_id": "request-create-payload-schema",
+  "model_version": "1.0",
+  "allowed_fields": [
+    {
+      "name": "title",
+      "type": "string",
+      "required": true,
+      "max_length": 160
+    },
+    {
+      "name": "summary",
+      "type": "string",
+      "required": false,
+      "max_length": 2000
+    },
+    {
+      "name": "request_type",
+      "type": "string",
+      "required": true,
+      "enum": [
+        "dashboard_task",
+        "backend_task",
+        "product_task",
+        "validation_task",
+        "documentation_task",
+        "operator_note"
+      ]
+    },
+    {
+      "name": "priority",
+      "type": "string",
+      "required": false,
+      "enum": [
+        "low",
+        "normal",
+        "high",
+        "urgent"
+      ]
+    },
+    {
+      "name": "source",
+      "type": "string",
+      "required": false,
+      "enum": [
+        "dashboard",
+        "api",
+        "operator"
+      ]
+    },
+    {
+      "name": "metadata",
+      "type": "object",
+      "required": false,
+      "max_serialized_length": 5000
+    }
+  ],
+  "rejected_fields": [
+    "id",
+    "user_id",
+    "owner_id",
+    "actor_id",
+    "created_by",
+    "status",
+    "lifecycle_state",
+    "approved",
+    "executed",
+    "command",
+    "shell",
+    "script",
+    "token",
+    "secret",
+    "service_role",
+    "github",
+    "netlify",
+    "deploy",
+    "merge",
+    "push",
+    "pull_request",
+    "automation"
+  ]
+}

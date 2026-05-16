@@ -1,0 +1,53 @@
+{
+  "model_id": "mvp8-controlled-authenticated-request-create",
+  "model_version": "1.0",
+  "controlled_request_create_model": {
+    "model_id": "supabase-controlled-request-create-model",
+    "model_version": "1.0",
+    "project_ref": "mobvzrkcsfbumgbwvkcp",
+    "supabase_url": "https://mobvzrkcsfbumgbwvkcp.supabase.co",
+    "write_mode": "controlled_authenticated_create_only",
+    "uses_anon_key": true,
+    "uses_user_bearer_token": true,
+    "uses_service_role": false,
+    "requires_rls": true,
+    "requires_valid_user_token": true,
+    "requires_write_flag": true,
+    "write_flag": "MVP_ENABLE_REQUEST_API_WRITES"
+  },
+  "payload_schema_summary": {
+    "required": ["title", "request_type"],
+    "optional": ["summary", "priority", "source", "metadata"],
+    "enums": {
+      "request_type": ["dashboard_task", "backend_task", "product_task", "validation_task", "documentation_task", "operator_note"],
+      "priority": ["low", "normal", "high", "urgent"],
+      "source": ["dashboard", "api", "operator"]
+    },
+    "rejected": ["id", "user_id", "actor_id", "status", "approved", "executed", "command", "secret"]
+  },
+  "create_write_gate_checklist": [
+    "provider configured",
+    "request API enabled",
+    "auth enabled",
+    "bearer token valid",
+    "write flag enabled",
+    "payload valid",
+    "RLS insert allowed"
+  ],
+  "blocked_write_list": [
+    "update_request",
+    "delete_request",
+    "approve_request",
+    "execute_request",
+    "automation"
+  ],
+  "smoke_status_endpoint": "/api/request-write-smoke-status",
+  "current_recommendation": [
+    "CONTROLLED_REQUEST_CREATE_WRITE_IMPLEMENTED",
+    "VERIFY_CREATE_WITH_REAL_USER_TOKEN",
+    "UPDATE_DELETE_EXECUTE_BLOCKED",
+    "WRITES_LIMITED_TO_CREATE_ONLY",
+    "NOT_READY_FOR_REAL_AUTOMATION",
+    "NEXT_STEP_VERIFY_CREATE_WRITE_THEN_ADD_REQUEST_DETAIL_UI"
+  ]
+}
