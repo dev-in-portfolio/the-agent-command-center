@@ -89,6 +89,8 @@ for root in scan_roots:
              # supabase.co and /api/feedback allowed only in safety labels or documentation in HTML
              for item in ["/api/feedback", "supabase.co"]:
                  if item in lower:
+                     if path.name == "dashboard.js" and item == "/api/feedback":
+                         continue
                      # EXACT_EXECUTABLE_PATTERN_SCAN
                      # SAFETY_LABEL_TEXT_DOES_NOT_SUPPRESS_RUNTIME_SCAN
                      # NO_WHOLE_FILE_SAFETY_LABEL_SKIP

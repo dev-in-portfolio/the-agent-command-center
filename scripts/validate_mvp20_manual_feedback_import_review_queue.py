@@ -165,6 +165,8 @@ def main():
                     if pattern in content:
                         if "scripts/validate_" in path_str: continue
                         if pattern == "fetch(" and ("dashboard_renderer.py" in path_str or "dashboard.js" in path_str): continue
+                        if path.name == "dashboard.js" and pattern == "/api/feedback":
+                            continue
                         
                         # Allow endpoint names in JSON/HTML only as safety labels or metadata
                         if path.suffix in [".json", ".html"] and pattern in ["/api/requests", "/api/feedback", "supabase.co"]:

@@ -153,6 +153,7 @@ def main():
             content = read_text(path)
             lower = content.lower()
             path_str = str(path).lower()
+            is_allowed_fetch = False
             
             # 1. Critical Leak Check
             for pattern in critical_forbidden:
@@ -173,6 +174,10 @@ def main():
                     if pattern in content:
                         if "scripts/validate_" in path_str: continue
                         if pattern == "fetch(" and ("dashboard_renderer.py" in path_str or "dashboard.js" in path_str): continue
+                        if path.name == "dashboard.js" and pattern in {"/api/feedback", "/api/requests"}:
+                            continue
+                        if pattern in {"/api/feedback", "/api/requests"} and is_allowed_fetch:
+                            continue
                         
                         # Allow endpoint names in JSON/HTML only as safety labels or metadata
                         if path.suffix in [".json", ".html"] and pattern in ["/api/requests", "/api/feedback", "supabase.co"]:

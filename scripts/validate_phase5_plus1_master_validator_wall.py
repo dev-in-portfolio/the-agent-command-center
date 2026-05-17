@@ -35,8 +35,10 @@ def js_safety_check(path):
         "WebSocket", "EventSource", "sendBeacon", "eval(", "Function(", "import(", "Blob", "URL.createObjectURL", "FileReader",
     ]:
         check(token not in text, f"dashboard.js contains forbidden token: {token}")
+    manual_feedback_import_allowed = "/api/feedback?action=import" in text and "mvp31-submit-feedback-packet" in text
     for method in ['method: "POST"', "method:'POST'", 'method: "PUT"', "method:'PUT'", 'method: "PATCH"', "method:'PATCH'", 'method: "DELETE"', "method:'DELETE'"]:
-        check(method not in text, f"dashboard.js contains forbidden HTTP method: {method}")
+        if method in text and not manual_feedback_import_allowed:
+            check(False, f"dashboard.js contains forbidden HTTP method: {method}")
     allowed_fetches = {
         "./original_plus2c_audit_log_model.json",
         "./original_plus2d_approval_gate_model.json",
@@ -50,6 +52,8 @@ def js_safety_check(path):
         "/api/auth-status",
         "/api/role-matrix",
         "/api/request-storage-status",
+        "/api/feedback",
+        "/api/feedback?action=import",
         "./status_snapshot.json",
         "./phase4d_identity_schema.json",
         "./phase4d_action_schema.json",
@@ -371,6 +375,17 @@ report_requirements = [
     (ROOT / "09_exports" / "mvp_product_track" / "mvp30_next_product_step_report.md", "NEXT_STEP_BUILD_DEMO_SESSION_CAPTURE_AND_EXTERNAL_REVIEW_LOOP"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp30_validator_quality_report.md", "PASS_WITH_SAFE_RELEASE_EXPORTS"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp30_validator_wall_review.md", "No release-package automation allowance added"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp31_acceptance_report.md", "PASS_WITH_MANUAL_SESSION_CAPTURE_AND_OPTIONAL_GATED_IMPORT"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp31_demo_session_capture_report.md", "DEMO_SESSION_CAPTURE_WORKSPACE_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp31_external_review_loop_report.md", "EXTERNAL_REVIEW_FEEDBACK_LOOP_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp31_reviewer_persona_session_report.md", "REVIEWER_PERSONA_SESSION_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp31_feedback_packet_draft_report.md", "FEEDBACK_PACKET_DRAFT_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp31_optional_feedback_import_report.md", "OPTIONAL_FEEDBACK_IMPORT_GATED"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp31_follow_up_decision_report.md", "FOLLOW_UP_DECISION_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp31_security_boundary_report.md", "NO_AUTOMATED_OUTREACH"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp31_next_product_step_report.md", "NEXT_STEP_BUILD_RELEASE_REVIEW_METRICS_AND_SIGNAL_DASHBOARD"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp31_validator_quality_report.md", "PASS_WITH_MANUAL_SESSION_CAPTURE_AND_OPTIONAL_GATED_IMPORT"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp31_validator_wall_review.md", "MVP-31 Wall Coverage Added"),
 ]
 for path, marker in report_requirements:
     check(path.exists(), f"missing report: {path.relative_to(ROOT)}")
@@ -694,6 +709,36 @@ for marker in [
     "READ ONLY ROADMAP WORKFLOW",
     "NEXT_STEP_BUILD_GUIDED_PRODUCT_DEMO_CONTROL_ROOM",
     "PASS_WITH_READ_ONLY_ROADMAP_WORKFLOW",
+    "MVP-29",
+    "GUIDED PRODUCT DEMO CONTROL ROOM",
+    "ROLE BASED DEMO PATHS",
+    "OPERATOR STORYLINE",
+    "DEMO READINESS SCORECARD",
+    "NO FAKE LIVE TEST CLAIMS",
+    "NEXT_STEP_REVIEW_DEMO_CONTROL_ROOM_AND_PREPARE_PITCHABLE_RELEASE",
+    "PASS_WITH_SAFE_DEMO_MODE",
+    "MVP-30",
+    "PITCHABLE RELEASE PACKAGE",
+    "PRODUCT NARRATIVE EXPORT",
+    "RELEASE CAPABILITY MAP",
+    "AUDIENCE VARIANTS",
+    "DEMO WALKTHROUGH EXPORT",
+    "SAFETY BOUNDARY SUMMARY",
+    "SAFE DEMO MODE",
+    "NEXT_STEP_BUILD_DEMO_SESSION_CAPTURE_AND_EXTERNAL_REVIEW_LOOP",
+    "PASS_WITH_SAFE_RELEASE_EXPORTS",
+    "MVP-31",
+    "DEMO SESSION CAPTURE WORKSPACE",
+    "EXTERNAL REVIEW FEEDBACK LOOP",
+    "REVIEWER PERSONA SESSION",
+    "DEMO SESSION NOTES",
+    "FEEDBACK PACKET DRAFT",
+    "OPTIONAL FEEDBACK IMPORT GATED",
+    "TOKEN IN MEMORY ONLY",
+    "NO AUTOMATED OUTREACH",
+    "NO FAKE REVIEWER RESULTS",
+    "NEXT_STEP_BUILD_RELEASE_REVIEW_METRICS_AND_SIGNAL_DASHBOARD",
+    "PASS_WITH_MANUAL_SESSION_CAPTURE_AND_OPTIONAL_GATED_IMPORT",
 ]:
     check(marker in index, f"index.html missing required marker: {marker}")
 
@@ -703,6 +748,8 @@ for match in re.finditer(r'(<button[^>]*>)([^<]+)(</button>)', index):
         continue
     clean = button_label.strip().lower()
     if clean.startswith("copy ") or clean.startswith("load ") or clean.startswith("phase ") or clean.startswith("original +"):
+        continue
+    if clean == "submit feedback packet manually":
         continue
     if any(word in clean for word in ["deploy", "merge", "push", "execute", "submit", "save", "queue", "create pr"]):
         check(False, f"index.html has forbidden enabled button label: {button_label.strip()}")
@@ -779,6 +826,8 @@ allowed_prefixes = [
         "scripts/validate_mvp29_guided_product_demo_control_room_e2e.py",
         "scripts/validate_mvp30_pitchable_release_package.py",
         "scripts/validate_mvp30_pitchable_release_package_e2e.py",
+        "scripts/validate_mvp31_demo_session_capture_review_loop.py",
+        "scripts/validate_mvp31_demo_session_capture_review_loop_e2e.py",
         "scripts/_validator_runner.py",
         "scripts/mvp23_feedback_import_smoke_test.py",
         "scripts/mvp23_verify_feedback_migration_files.py",
