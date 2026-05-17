@@ -7181,3 +7181,29 @@
     initMvp37();
   }
 })();
+
+(function() {
+  function initMvp38() {
+    const buildReviewRoom = () => "Final Release Review Room\n\nDemo Script Lock\nReviewer Walkthrough Path\nFinal Review Audience Paths\nRelease Go/No-Go Checklist\nDemo Timing Talking Points\n\nOPERATOR REVIEW ONLY — FINAL REVIEW ONLY — DEMO SCRIPT LOCKED";
+    const buildDemoScriptLock = () => "Demo Script Lock\n\nDemo Overview\nWalkthrough Path\nClick-by-Click Instructions\nScript Lock Status: LOCKED\n\nFINAL REVIEW ONLY";
+    const buildWalkthroughPath = () => "Reviewer Walkthrough Path\n\nPath Overview\nStep-by-Step Walkthrough\nReviewer Notes\n\nFINAL REVIEW ONLY";
+    const buildAudiencePaths = () => "Final Review Audience Paths\n\nFounder Path\nRecruiter Path\nTechnical Reviewer Path\nOperator Path\n\nFINAL REVIEW ONLY";
+    const buildChecklist = () => "Release Go/No-Go Checklist\n\nReview Completion Checklist\nAudience Sign-Off\nOperator Decision Summary\n\nFINAL REVIEW ONLY";
+    const buildTiming = () => "Demo Timing and Talking Points\n\nTiming Estimates\nTalking Points by Section\nClick Path Notes\n\nFINAL REVIEW ONLY";
+    const buildCopyBank = () => "Final Release Review Copy Bank\n\nReview Room Copy\nDemo Script Lock Copy\nWalkthrough Copy\nAudience Path Copy\nChecklist Copy\nTiming Copy\n\nFINAL REVIEW ONLY";
+
+    bindDynamicCopy("mvp38-copy-review-room", buildReviewRoom, "MVP-38 review room copied.");
+    bindDynamicCopy("mvp38-copy-demo-script-lock", buildDemoScriptLock, "MVP-38 demo script lock copied.");
+    bindDynamicCopy("mvp38-copy-walkthrough-path", buildWalkthroughPath, "MVP-38 walkthrough path copied.");
+    bindDynamicCopy("mvp38-copy-audience-paths", buildAudiencePaths, "MVP-38 audience paths copied.");
+    bindDynamicCopy("mvp38-copy-checklist", buildChecklist, "MVP-38 checklist copied.");
+    bindDynamicCopy("mvp38-copy-timing", buildTiming, "MVP-38 timing copied.");
+    bindDynamicCopy("mvp38-copy-copy-bank", buildCopyBank, "MVP-38 copy bank copied.");
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initMvp38);
+  } else {
+    initMvp38();
+  }
+})();

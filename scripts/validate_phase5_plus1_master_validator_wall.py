@@ -861,6 +861,19 @@ for marker in [
     "NO AUTOMATIC RELEASE APPROVAL",
     "PASS_WITH_OPERATOR_REVIEW_ONLY_HANDOFF",
     "NEXT_STEP_BUILD_FINAL_RELEASE_REVIEW_ROOM_AND_DEMO_SCRIPT_LOCK",
+    "MVP-38",
+    "FINAL RELEASE REVIEW ROOM",
+    "DEMO SCRIPT LOCK",
+    "REVIEWER WALKTHROUGH PATH",
+    "FINAL REVIEW AUDIENCE PATHS",
+    "RELEASE GO NO GO CHECKLIST",
+    "DEMO TIMING TALKING POINTS",
+    "FINAL RELEASE REVIEW COPY BANK",
+    "FINAL REVIEW ONLY",
+    "DEMO SCRIPT LOCKED",
+    "NO DEPLOYMENT",
+    "PASS_WITH_OPERATOR_REVIEW_ONLY_FINAL_ROOM",
+    "NEXT_STEP_BUILD_EXTERNAL_DEMO_REVIEW_SHARE_PACKAGE_LOCK",
 ]:
     check(marker in index, f"index.html missing required marker: {marker}")
 
@@ -962,6 +975,8 @@ allowed_prefixes = [
         "scripts/validate_mvp36_review_to_roadmap_decision_sync_e2e.py",
         "scripts/validate_mvp37_release_candidate_decision_log_handoff.py",
         "scripts/validate_mvp37_release_candidate_decision_log_handoff_e2e.py",
+        "scripts/validate_mvp38_final_release_review_room_demo_script_lock.py",
+        "scripts/validate_mvp38_final_release_review_room_demo_script_lock_e2e.py",
         "scripts/_validator_runner.py",
         "scripts/mvp23_feedback_import_smoke_test.py",
         "scripts/mvp23_verify_feedback_migration_files.py",
