@@ -1123,6 +1123,130 @@ def _build_mvp32_release_review_metrics_signal_dashboard_layer(snapshot):
         panel_id="mvp32-release-review-metrics-signal-dashboard",
     )
 
+def _build_mvp33_product_launch_readiness_final_pitch_packet_layer(snapshot):
+    body = """
+<div class="mvp-section" data-mvp="33" data-mvp33-product-launch-readiness="true">
+  <div class="callout success-callout">
+    <strong style="color: var(--success);">MVP-33</strong>
+    <p class="muted">PASS_WITH_SAFE_LAUNCH_REVIEW_ONLY</p>
+    <p class="muted">PRODUCT LAUNCH READINESS CONSOLE — RELEASE CANDIDATE SCORECARD — FINAL PITCH PACKET</p>
+    <p class="muted">STAKEHOLDER PITCH VARIANTS — OPERATOR LAUNCH DECISION PANEL — SAFETY READINESS ONE PAGER</p>
+    <p class="muted">SAFE LAUNCH REVIEW ONLY — NO FAKE LAUNCH STATUS — NO DEPLOY CONTROLS</p>
+    <p class="muted">SERVICE ROLE NOT USED — UPDATE DELETE EXECUTE BLOCKED — AUTOMATION STILL DISABLED</p>
+    <p class="muted">NEXT_STEP_REVIEW_FINAL_PITCH_PACKET_AND_PREPARE_RELEASE_CANDIDATE — NOT_READY_FOR_REAL_AUTOMATION</p>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card" id="mvp33-launch-readiness-console-panel">
+      <div class="card-head"><h3 class="card-title">Product Launch Readiness Console</h3><span class="badge success">CONSOLE</span></div>
+      <p class="card-body">Consolidated launch readiness console aggregating scorecard, pitch packet, and operator decision panel.</p>
+      <ul class="compact-list">
+        <li>Launch Readiness Console Ready</li>
+        <li>Release Candidate Scorecard Ready</li>
+        <li>Final Pitch Packet Builder Ready</li>
+        <li>Stakeholder Pitch Variants Ready</li>
+        <li>Operator Launch Decision Panel Ready</li>
+      </ul>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp33-copy-launch-readiness-console">Copy Launch Readiness Console</button>
+      </div>
+    </article>
+
+    <article class="card" id="mvp33-release-candidate-scorecard-panel">
+      <div class="card-head"><h3 class="card-title">Release Candidate Scorecard</h3><span class="badge info">SCORECARD</span></div>
+      <p class="card-body">Category-level scorecard tracking launch readiness across key dimensions.</p>
+      <ul class="compact-list">
+        <li>Demo Session Coverage</li>
+        <li>Reviewer Persona Coverage</li>
+        <li>Feedback Theme Completeness</li>
+        <li>Objection Readiness</li>
+        <li>Product Decision Completion</li>
+        <li>Safety Boundary Status</li>
+        <li>Release Documentation Completeness</li>
+        <li>Pitch Packet Readiness</li>
+      </ul>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp33-copy-scorecard">Copy Scorecard</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card" id="mvp33-final-pitch-packet-panel">
+      <div class="card-head"><h3 class="card-title">Final Pitch Packet</h3><span class="badge warning">PITCH</span></div>
+      <p class="card-body">Complete final pitch packet with narrative, capability map, demo walkthrough, architecture, and safety summary.</p>
+      <ul class="compact-list">
+        <li>Product Narrative</li>
+        <li>Release Capability Map</li>
+        <li>Demo Walkthrough</li>
+        <li>Technical Architecture</li>
+        <li>Safety Boundary Summary</li>
+        <li>Release Review Metrics</li>
+        <li>Reviewer Signal Summary</li>
+        <li>Launch Readiness Scorecard</li>
+        <li>Operator Demo Script</li>
+        <li>Stakeholder Pitch Variants</li>
+      </ul>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp33-copy-pitch-packet">Copy Pitch Packet</button>
+      </div>
+    </article>
+
+    <article class="card" id="mvp33-stakeholder-pitch-variants-panel">
+      <div class="card-head"><h3 class="card-title">Stakeholder Pitch Variants</h3><span class="badge info">VARIANTS</span></div>
+      <p class="card-body">Role-tailored pitch variants for founder, recruiter, and technical reviewer audiences.</p>
+      <ul class="compact-list">
+        <li>Founder Pitch Variant</li>
+        <li>Recruiter Pitch Variant</li>
+        <li>Technical Reviewer Pitch Variant</li>
+      </ul>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp33-copy-pitch-variants">Copy Pitch Variants</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card" id="mvp33-operator-launch-decision-panel">
+      <div class="card-head"><h3 class="card-title">Operator Launch Decision Panel</h3><span class="badge locked">DECISION</span></div>
+      <p class="card-body">Operator-facing launch decision panel. No automated decisions. No deploy controls.</p>
+      <ul class="compact-list">
+        <li>Ready for Launch Review</li>
+        <li>Needs More Demo Sessions</li>
+        <li>Needs More Reviewer Feedback</li>
+        <li>Needs More Objection Prep</li>
+        <li>Blocked Until Safety Review</li>
+      </ul>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp33-copy-decision-panel">Copy Decision Panel</button>
+      </div>
+    </article>
+
+    <article class="card" id="mvp33-safety-readiness-panel">
+      <div class="card-head"><h3 class="card-title">Safety Readiness Panel</h3><span class="badge warning">SAFETY</span></div>
+      <p class="card-body">Safety readiness one-pager. All controls documented. No deploy or launch automation.</p>
+      <ul class="compact-list">
+        <li>Safe launch review only.</li>
+        <li>No fake launch status.</li>
+        <li>No deploy controls.</li>
+        <li>No launch automation.</li>
+        <li>Service role not used.</li>
+        <li>Browser persistence blocked.</li>
+        <li>Update/delete/approve/execute blocked.</li>
+        <li>Automation disabled.</li>
+      </ul>
+    </article>
+  </div>
+</div>
+"""
+    return _details(
+        "MVP-33 — Product Launch Readiness + Final Pitch Packet",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp33-product-launch-readiness-final-pitch-packet",
+    )
+
 def _build_action_panel(snapshot):
     action_summary = snapshot.get("action_registry_summary", {})
     rows = _build_action_rows(action_summary.get("actions", []))
@@ -7555,6 +7679,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_mvp30_pitchable_release_package_layer(snapshot),
         _build_mvp31_demo_session_capture_review_loop_layer(snapshot),
         _build_mvp32_release_review_metrics_signal_dashboard_layer(snapshot),
+        _build_mvp33_product_launch_readiness_final_pitch_packet_layer(snapshot),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),
