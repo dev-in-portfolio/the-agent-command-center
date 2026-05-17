@@ -850,6 +850,17 @@ for marker in [
     "NO LIVE WRITES",
     "NEXT_STEP_BUILD_RELEASE_CANDIDATE_DECISION_LOG_AND_HANDOFF",
     "PASS_WITH_OPERATOR_REVIEW_ONLY_SYNC",
+    "MVP-37",
+    "RELEASE CANDIDATE DECISION LOG",
+    "DECISION RATIONALE TRAIL",
+    "ROADMAP SYNC HANDOFF PACKET",
+    "REQUEST DRAFT HANDOFF",
+    "STAKEHOLDER HANDOFF SUMMARY",
+    "OPERATOR RELEASE HANDOFF REVIEW",
+    "RELEASE CANDIDATE HANDOFF COPY BANK",
+    "NO AUTOMATIC RELEASE APPROVAL",
+    "PASS_WITH_OPERATOR_REVIEW_ONLY_HANDOFF",
+    "NEXT_STEP_BUILD_FINAL_RELEASE_REVIEW_ROOM_AND_DEMO_SCRIPT_LOCK",
 ]:
     check(marker in index, f"index.html missing required marker: {marker}")
 
@@ -949,6 +960,8 @@ allowed_prefixes = [
         "scripts/validate_mvp35_external_review_feedback_summary_outreach_prep_e2e.py",
         "scripts/validate_mvp36_review_to_roadmap_decision_sync.py",
         "scripts/validate_mvp36_review_to_roadmap_decision_sync_e2e.py",
+        "scripts/validate_mvp37_release_candidate_decision_log_handoff.py",
+        "scripts/validate_mvp37_release_candidate_decision_log_handoff_e2e.py",
         "scripts/_validator_runner.py",
         "scripts/mvp23_feedback_import_smoke_test.py",
         "scripts/mvp23_verify_feedback_migration_files.py",
