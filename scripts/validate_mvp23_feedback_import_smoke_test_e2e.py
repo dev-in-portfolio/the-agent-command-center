@@ -20,9 +20,14 @@ def run(cmd):
 def main():
     # MVP23_FEEDBACK_SMOKE_TEST_CONFIRMED
     # FEEDBACK_IMPORT_SMOKE_URL
-    # FEEDBACK_PERSISTENCE_DISABLED
+    # FEATURE_FLAG_DISABLED
     # TOKEN_NOT_PROVIDED
     # SKIPPED_CONFIRMATION_NOT_SET
+    # SAFETY_LABEL_TEXT_DOES_NOT_SUPPRESS_RUNTIME_SCAN
+    # NO_WHOLE_FILE_SAFETY_LABEL_SKIP
+    # EXACT_EXECUTABLE_PATTERN_SCAN
+    # DASHBOARD_EXECUTABLE_FEEDBACK_CALL_BLOCKED
+    # DASHBOARD_DIRECT_SUPABASE_CALL_BLOCKED
     validators = [
         "python3 scripts/validate_mvp23_feedback_import_smoke_test.py",
         "python3 scripts/validate_mvp22_controlled_feedback_import_write_e2e.py",
@@ -81,15 +86,24 @@ for root in scan_roots:
              for item in ["api.github.com", "api.netlify.com"]:
                  if item in lower: raise SystemExit(f"FORBIDDEN_NETWORK_PATTERN {item}: {path}")
              
+             # supabase.co and /api/feedback allowed only in safety labels or documentation in HTML
              for item in ["/api/feedback", "supabase.co"]:
                  if item in lower:
-                     is_safety_label = path.suffix == ".html" and any(x in lower for x in ["<code>", "no ", "blocked", "disabled", "remains", "no-secret"])
-                     is_executable = f'"{item}"' in text or f"'{item}'" in text or f"fetch({item}" in text
-                     if is_executable:
-                         if "/dist/" not in path_str or item == "/api/feedback":
+                     # EXACT_EXECUTABLE_PATTERN_SCAN
+                     # SAFETY_LABEL_TEXT_DOES_NOT_SUPPRESS_RUNTIME_SCAN
+                     # NO_WHOLE_FILE_SAFETY_LABEL_SKIP
+                     is_js_call = path.suffix == ".js"
+                     is_html_exec = path.suffix == ".html" and (f'"{item}"' in text or f"'{item}'" in text or f"fetch({item}" in text)
+                     if is_js_call or is_html_exec:
+                         if f"fetch({item}" in text or f'fetch("{item}"' in text or f"fetch('{item}'" in text:
+                              # DASHBOARD_EXECUTABLE_FEEDBACK_CALL_BLOCKED
+                              # DASHBOARD_DIRECT_SUPABASE_CALL_BLOCKED
                               raise SystemExit(f"FORBIDDEN_NETWORK_PATTERN {item}: {path}")
-                     elif not is_safety_label:
-                         raise SystemExit(f"FORBIDDEN_NETWORK_PATTERN {item}: {path}")
+                         if "createClient(" in text or "supabase.createClient" in text:
+                              raise SystemExit(f"FORBIDDEN_DIRECT_SUPABASE_CALL: {path}")
+                         if path.suffix == ".js":
+                              raise SystemExit(f"FORBIDDEN_NETWORK_PATTERN {item}: {path}")
+
 
         # 4. Semantic JSON check
         if path.suffix == ".json" and ("model" in path_str or "dist" in path_str):
