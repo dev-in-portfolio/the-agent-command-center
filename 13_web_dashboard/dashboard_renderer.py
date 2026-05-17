@@ -724,6 +724,30 @@ def _build_mvp28_operator_roadmap_prioritization_layer(snapshot):
         panel_id="mvp28-operator-roadmap-prioritization-board",
     )
 
+
+def _build_mvp29_guided_product_demo_control_room_layer(snapshot):
+    body = f"""
+<div class="mvp-section" data-mvp="29">
+  <div class="callout success-callout">
+    <strong style="color: var(--success);">MVP-29</strong>
+    <p class="muted">PASS_WITH_SAFE_DEMO_MODE</p>
+    <p class="muted">GUIDED PRODUCT DEMO CONTROL ROOM</p>
+    <p class="muted">ROLE BASED DEMO PATHS — OPERATOR STORYLINE</p>
+    <p class="muted">DEMO READINESS SCORECARD — PITCHABLE PRODUCT WALKTHROUGH</p>
+    <p class="muted">SAFE DEMO MODE — NO FAKE LIVE TEST CLAIMS</p>
+    <p class="muted">SERVICE ROLE NOT USED — UPDATE DELETE EXECUTE BLOCKED — AUTOMATION STILL DISABLED</p>
+    <p class="muted">NEXT_STEP_REVIEW_DEMO_CONTROL_ROOM_AND_PREPARE_PITCHABLE_RELEASE — NOT_READY_FOR_REAL_AUTOMATION</p>
+  </div>
+</div>
+"""
+    return _details(
+        "MVP-29 — Guided Product Demo Control Room",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp29-guided-product-demo-control-room",
+    )
+
 def _build_action_panel(snapshot):
     action_summary = snapshot.get("action_registry_summary", {})
     rows = _build_action_rows(action_summary.get("actions", []))
@@ -7152,6 +7176,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_mvp26_feedback_synthesis_product_decision_layer(snapshot),
         _build_mvp27_feedback_to_request_conversion_layer(snapshot),
         _build_mvp28_operator_roadmap_prioritization_layer(snapshot),
+        _build_mvp29_guided_product_demo_control_room_layer(snapshot),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),
