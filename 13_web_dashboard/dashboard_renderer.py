@@ -613,6 +613,28 @@ def _build_validator_panel(snapshot):
     )
 
 
+def _build_mvp24_beta_feedback_import_layer(snapshot):
+    body = f"""
+<div class="mvp-section" data-mvp="24">
+  <div class="callout success-callout">
+    <strong style="color: var(--success);">MVP-24</strong>
+    <p class="muted">REVIEWED BETA FEEDBACK IMPORT WORKSPACE</p>
+    <p class="muted">TOKEN IN MEMORY ONLY — FEEDBACK ENDPOINT STATUS PANEL — MIGRATION READINESS PANEL</p>
+    <p class="muted">FEEDBACK PACKET IMPORT FORM — PAYLOAD VALIDATION PREVIEW — FEEDBACK_PERSISTENCE_DISABLED HANDLED</p>
+    <p class="muted">NETLIFY FUNCTION ONLY — SERVICE ROLE NOT USED — NO AUTOMATIC MIGRATION APPLY</p>
+    <p class="muted">UPDATE DELETE EXECUTE BLOCKED — AUTOMATION STILL DISABLED</p>
+    <p class="muted">NEXT_STEP_ADD_AUTHENTICATED_FEEDBACK_REVIEW_INBOX — NOT_READY_FOR_REAL_AUTOMATION</p>
+  </div>
+</div>
+"""
+    return _details(
+        "MVP-24 — Reviewed Beta Feedback Import Workspace",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp24-beta-feedback-import-workspace",
+    )
+
 def _build_action_panel(snapshot):
     action_summary = snapshot.get("action_registry_summary", {})
     rows = _build_action_rows(action_summary.get("actions", []))
@@ -7036,6 +7058,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_mvp21_persistence_readiness_layer(snapshot),
         _build_mvp22_controlled_write_layer(snapshot),
         _build_mvp23_smoke_test_layer(snapshot),
+        _build_mvp24_beta_feedback_import_layer(snapshot),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),
