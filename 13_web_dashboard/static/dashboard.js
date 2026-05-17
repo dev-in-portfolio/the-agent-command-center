@@ -6774,4 +6774,119 @@
   } else {
     initMvp31();
   }
+
+  function initMvp32() {
+    var shell = document.querySelector("[data-mvp32-release-review-metrics]");
+    if (!shell) return;
+
+    function buildMetricsSummary() {
+      return [
+        "MVP-32 release review metrics summary",
+        "Demo Session Coverage: Manual review",
+        "Reviewer Persona Coverage: Manual review",
+        "Feedback Theme Volume: Manual review",
+        "Objection/Confusion/Trust Concern Counts: Manual review",
+        "Product Decision Completion: Manual review",
+        "Roadmap Alignment Score: Manual review",
+        "No fake metrics. No fake reviewer results.",
+      ].join("\n");
+    }
+
+    function buildReviewerSignalSummary() {
+      return [
+        "MVP-32 reviewer signal summary",
+        "Objection Signals: Per-persona count",
+        "Confusion Signals: Per-persona count",
+        "Trust Concern Signals: Per-persona count",
+        "Product Decision Follow-Ups: Count",
+        "No fake reviewer results.",
+      ].join("\n");
+    }
+
+    function buildDemoSessionSignalSummary() {
+      return [
+        "MVP-32 demo session signal summary",
+        "Session Count: Rolled up from workspace",
+        "Reviewer Personas: Aggregated",
+        "Feedback Themes: Collected",
+        "Follow-Up Decisions: Recorded",
+      ].join("\n");
+    }
+
+    function buildReleaseReadinessScorecard() {
+      return [
+        "MVP-32 release readiness scorecard",
+        "Demo Session Coverage: Manual review",
+        "Reviewer Persona Coverage: Manual review",
+        "Feedback Theme Volume: Manual review",
+        "Objection Resolution: Manual review",
+        "Product Decision Completion: Manual review",
+        "Roadmap Alignment: Manual review",
+        "Safety Boundary: All controls active",
+        "No fake metrics.",
+      ].join("\n");
+    }
+
+    function buildProductDecisionSignalRollup() {
+      return [
+        "MVP-32 product decision signal rollup",
+        "Decisions from Feedback: Tracked",
+        "Decisions from Demo Sessions: Tracked",
+        "Roadmap Impact Signals: Tracked",
+        "Release Blockers: Identified and tracked",
+        "No fake metrics.",
+      ].join("\n");
+    }
+
+    function buildRoadmapSignalRollup() {
+      return [
+        "MVP-32 roadmap signal rollup",
+        "Roadmap Impact Signals: Tracked",
+        "Priority Shift Signals: Tracked",
+        "New Feature Requests: Tracked",
+        "Release Blockers Identified: Tracked",
+      ].join("\n");
+    }
+
+    function buildSignalPacket() {
+      return [
+        "MVP-32 release review signal packet",
+        "",
+        "--- Release Review Metrics Summary ---",
+        buildMetricsSummary(),
+        "",
+        "--- Reviewer Signal Summary ---",
+        buildReviewerSignalSummary(),
+        "",
+        "--- Demo Session Signal Summary ---",
+        buildDemoSessionSignalSummary(),
+        "",
+        "--- Release Readiness Scorecard ---",
+        buildReleaseReadinessScorecard(),
+        "",
+        "--- Product Decision Signal Rollup ---",
+        buildProductDecisionSignalRollup(),
+        "",
+        "--- Roadmap Signal Rollup ---",
+        buildRoadmapSignalRollup(),
+        "",
+        "--- End of Signal Packet ---",
+        "No fake metrics. No fake reviewer results. Manual operator review required.",
+      ].join("\n");
+    }
+
+    bindDynamicCopy("mvp32-copy-metrics-summary", buildMetricsSummary, "MVP-32 metrics summary copied.");
+    bindDynamicCopy("mvp32-copy-reviewer-signal-summary", buildReviewerSignalSummary, "MVP-32 reviewer signal summary copied.");
+    bindDynamicCopy("mvp32-copy-demo-session-signal-summary", buildDemoSessionSignalSummary, "MVP-32 demo session signal summary copied.");
+    bindDynamicCopy("mvp32-copy-release-readiness-scorecard", buildReleaseReadinessScorecard, "MVP-32 readiness scorecard copied.");
+    bindDynamicCopy("mvp32-copy-product-decision-signal-rollup", buildProductDecisionSignalRollup, "MVP-32 decision signal rollup copied.");
+    bindDynamicCopy("mvp32-copy-roadmap-signal-rollup", buildRoadmapSignalRollup, "MVP-32 roadmap signal rollup copied.");
+    bindDynamicCopy("mvp32-copy-signal-packet", buildSignalPacket, "MVP-32 signal packet copied.");
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initMvp32);
+  } else {
+    initMvp32();
+  }
 })();

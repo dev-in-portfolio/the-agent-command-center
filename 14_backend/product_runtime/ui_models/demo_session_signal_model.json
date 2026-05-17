@@ -1,0 +1,21 @@
+{
+  "model": "demo_session_signal",
+  "version": "1.0.0",
+  "mvp": "32",
+  "posture": {
+    "no_fake_metrics": true,
+    "service_role_used": false,
+    "browser_direct_supabase_calls": false,
+    "browser_persistence_enabled": false
+  },
+  "signal_fields": [
+    "session_count",
+    "session_outcomes",
+    "reviewer_personas_present",
+    "feedback_themes_collected",
+    "follow_up_decisions_recorded",
+    "objection_signals",
+    "confusion_signals",
+    "trust_concern_signals"
+  ]
+}

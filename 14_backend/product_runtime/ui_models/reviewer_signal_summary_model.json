@@ -1,0 +1,22 @@
+{
+  "model": "reviewer_signal_summary",
+  "version": "1.0.0",
+  "mvp": "32",
+  "posture": {
+    "no_fake_metrics": true,
+    "no_fake_reviewer_results": true,
+    "service_role_used": false,
+    "browser_direct_supabase_calls": false,
+    "browser_persistence_enabled": false
+  },
+  "summary_fields": [
+    "total_reviewers",
+    "reviewer_persona_breakdown",
+    "feedback_volume_by_persona",
+    "top_signal_themes",
+    "objection_count",
+    "confusion_count",
+    "trust_concern_count",
+    "product_decision_follow_ups"
+  ]
+}

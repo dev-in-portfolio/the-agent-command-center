@@ -1,0 +1,20 @@
+{
+  "model": "product_decision_signal_rollup",
+  "version": "1.0.0",
+  "mvp": "32",
+  "posture": {
+    "no_fake_metrics": true,
+    "no_fake_reviewer_results": true,
+    "service_role_used": false,
+    "browser_direct_supabase_calls": false,
+    "browser_persistence_enabled": false
+  },
+  "rollup_categories": [
+    "decisions_from_feedback",
+    "decisions_from_demo_sessions",
+    "roadmap_impact_signals",
+    "follow_up_actions",
+    "release_blockers_identified",
+    "release_blockers_resolved"
+  ]
+}

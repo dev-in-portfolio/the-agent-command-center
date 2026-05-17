@@ -386,6 +386,17 @@ report_requirements = [
     (ROOT / "09_exports" / "mvp_product_track" / "mvp31_next_product_step_report.md", "NEXT_STEP_BUILD_RELEASE_REVIEW_METRICS_AND_SIGNAL_DASHBOARD"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp31_validator_quality_report.md", "PASS_WITH_MANUAL_SESSION_CAPTURE_AND_OPTIONAL_GATED_IMPORT"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp31_validator_wall_review.md", "MVP-31 Wall Coverage Added"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp32_release_review_metrics_dashboard_report.md", "RELEASE_REVIEW_METRICS_SIGNAL_DASHBOARD_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp32_reviewer_signal_summary_report.md", "REVIEWER_SIGNAL_SUMMARY_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp32_demo_session_signal_report.md", "DEMO_SESSION_SIGNAL_SUMMARY_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp32_release_readiness_metric_report.md", "RELEASE_READINESS_METRICS_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp32_product_decision_signal_rollup_report.md", "PRODUCT_DECISION_SIGNAL_ROLLUP_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp32_signal_packet_export_report.md", "EXPORTABLE_SIGNAL_PACKET_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp32_security_boundary_report.md", "SECURITY_BOUNDARY_INTACT"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp32_next_product_step_report.md", "NEXT_STEP_BUILD_PRODUCT_LAUNCH_READINESS_FINAL_PITCH_PACKET"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp32_validator_quality_report.md", "PASS_WITH_MANUAL_EXISTING_SIGNAL_ROLLUPS"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp32_acceptance_report.md", "PASS_WITH_MANUAL_EXISTING_SIGNAL_ROLLUPS"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp32_validator_wall_review.md", "MVP-32 Wall Coverage Added"),
 ]
 for path, marker in report_requirements:
     check(path.exists(), f"missing report: {path.relative_to(ROOT)}")
@@ -739,6 +750,18 @@ for marker in [
     "NO FAKE REVIEWER RESULTS",
     "NEXT_STEP_BUILD_RELEASE_REVIEW_METRICS_AND_SIGNAL_DASHBOARD",
     "PASS_WITH_MANUAL_SESSION_CAPTURE_AND_OPTIONAL_GATED_IMPORT",
+    "MVP-32",
+    "RELEASE REVIEW METRICS DASHBOARD",
+    "REVIEWER SIGNAL SUMMARY",
+    "DEMO SESSION SIGNALS",
+    "RELEASE READINESS METRICS",
+    "PRODUCT DECISION SIGNAL ROLLUP",
+    "ROADMAP SIGNAL ROLLUP",
+    "EXPORTABLE SIGNAL PACKET",
+    "NO FAKE METRICS",
+    "NO FAKE REVIEWER RESULTS",
+    "NEXT_STEP_BUILD_PRODUCT_LAUNCH_READINESS_FINAL_PITCH_PACKET",
+    "PASS_WITH_MANUAL_EXISTING_SIGNAL_ROLLUPS",
 ]:
     check(marker in index, f"index.html missing required marker: {marker}")
 
@@ -828,6 +851,8 @@ allowed_prefixes = [
         "scripts/validate_mvp30_pitchable_release_package_e2e.py",
         "scripts/validate_mvp31_demo_session_capture_review_loop.py",
         "scripts/validate_mvp31_demo_session_capture_review_loop_e2e.py",
+        "scripts/validate_mvp32_release_review_metrics_signal_dashboard.py",
+        "scripts/validate_mvp32_release_review_metrics_signal_dashboard_e2e.py",
         "scripts/_validator_runner.py",
         "scripts/mvp23_feedback_import_smoke_test.py",
         "scripts/mvp23_verify_feedback_migration_files.py",
