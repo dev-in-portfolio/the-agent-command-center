@@ -678,6 +678,28 @@ def _build_mvp26_feedback_synthesis_product_decision_layer(snapshot):
         panel_id="mvp26-feedback-synthesis-product-decision-workflow",
     )
 
+def _build_mvp27_feedback_to_request_conversion_layer(snapshot):
+    body = f"""
+<div class="mvp-section" data-mvp="27">
+  <div class="callout success-callout">
+    <strong style="color: var(--success);">MVP-27</strong>
+    <p class="muted">PASS_WITH_OPTIONAL_SERVER_GATED_REQUEST_CREATE</p>
+    <p class="muted">FEEDBACK TO REQUEST CONVERSION WORKSPACE</p>
+    <p class="muted">REQUEST DRAFT FROM FEEDBACK — DECISION TO REQUEST PAYLOAD PREVIEW</p>
+    <p class="muted">CONTROLLED REQUEST CREATE OPTIONAL — TOKEN IN MEMORY ONLY — REQUEST WRITES SERVER GATED</p>
+    <p class="muted">SERVICE ROLE NOT USED — UPDATE DELETE EXECUTE BLOCKED — AUTOMATION STILL DISABLED</p>
+    <p class="muted">NEXT_STEP_BUILD_OPERATOR_ROADMAP_PRIORITIZATION_BOARD — NOT_READY_FOR_REAL_AUTOMATION</p>
+  </div>
+</div>
+"""
+    return _details(
+        "MVP-27 — Feedback-to-Request Conversion Workspace",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp27-feedback-to-request-conversion-workspace",
+    )
+
 def _build_action_panel(snapshot):
     action_summary = snapshot.get("action_registry_summary", {})
     rows = _build_action_rows(action_summary.get("actions", []))
@@ -7104,6 +7126,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_mvp24_beta_feedback_import_layer(snapshot),
         _build_mvp25_authenticated_feedback_review_layer(snapshot),
         _build_mvp26_feedback_synthesis_product_decision_layer(snapshot),
+        _build_mvp27_feedback_to_request_conversion_layer(snapshot),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),

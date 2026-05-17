@@ -1,0 +1,32 @@
+{
+  "model_id": "request-draft-from-feedback-model",
+  "model_version": "1.0",
+  "request_draft_from_feedback_ready": true,
+  "draft_fields": [
+    "title",
+    "problem_statement",
+    "user_impact",
+    "supporting_feedback_ids",
+    "theme_cluster",
+    "recommended_scope",
+    "operator_notes"
+  ],
+  "source_inputs": [
+    "product decision card",
+    "feedback synthesis cluster",
+    "signal strength summary"
+  ],
+  "copy_only_actions": [
+    "copy request title",
+    "copy request summary",
+    "copy structured draft"
+  ],
+  "token_in_memory_only": true,
+  "service_role_used": false,
+  "browser_direct_supabase_calls": false,
+  "update_enabled": false,
+  "delete_enabled": false,
+  "approve_enabled": false,
+  "execute_enabled": false,
+  "automation_enabled": false
+}

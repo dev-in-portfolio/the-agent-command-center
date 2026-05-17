@@ -1,0 +1,25 @@
+{
+  "model_id": "feedback-decision-to-request-payload-model",
+  "model_version": "1.0",
+  "decision_to_request_payload_preview_ready": true,
+  "payload_preview_sections": [
+    "request metadata",
+    "operator intent",
+    "feedback evidence",
+    "risk notes",
+    "manual review notes"
+  ],
+  "request_create_endpoint": "POST /api/requests?action=create",
+  "payload_preview_only": true,
+  "manual_click_required_for_create": true,
+  "automatic_request_creation": false,
+  "request_writes_server_gated": true,
+  "token_in_memory_only": true,
+  "service_role_used": false,
+  "browser_direct_supabase_calls": false,
+  "update_enabled": false,
+  "delete_enabled": false,
+  "approve_enabled": false,
+  "execute_enabled": false,
+  "automation_enabled": false
+}

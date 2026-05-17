@@ -1,0 +1,7 @@
+# MVP-27
+
+- PASS_WITH_OPTIONAL_SERVER_GATED_REQUEST_CREATE
+- TOKEN_IN_MEMORY_ONLY
+- REQUEST_WRITES_SERVER_GATED
+- SERVICE ROLE NOT USED
+- Validator checks manual-only request-create posture, not just labels.
