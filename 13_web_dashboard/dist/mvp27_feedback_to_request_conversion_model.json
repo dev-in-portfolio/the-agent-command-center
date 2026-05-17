@@ -1,0 +1,23 @@
+{
+  "model_id": "mvp27-feedback-to-request-conversion-model",
+  "model_version": "1.0",
+  "mvp": "27",
+  "feedback_to_request_conversion_workspace_ready": true,
+  "pass_marker": "PASS_WITH_OPTIONAL_SERVER_GATED_REQUEST_CREATE",
+  "request_draft_from_feedback_ready": true,
+  "decision_to_request_payload_preview_ready": true,
+  "controlled_request_create_optional": true,
+  "token_in_memory_only": true,
+  "request_writes_server_gated": true,
+  "request_create_endpoint": "POST /api/requests?action=create",
+  "manual_click_required_for_create": true,
+  "automatic_request_creation": false,
+  "service_role_used": false,
+  "browser_direct_supabase_calls": false,
+  "update_enabled": false,
+  "delete_enabled": false,
+  "approve_enabled": false,
+  "execute_enabled": false,
+  "automation_enabled": false,
+  "next_step": "NEXT_STEP_BUILD_OPERATOR_ROADMAP_PRIORITIZATION_BOARD"
+}

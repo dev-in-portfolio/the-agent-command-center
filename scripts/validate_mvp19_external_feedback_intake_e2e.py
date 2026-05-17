@@ -2,6 +2,9 @@
 import subprocess
 from pathlib import Path
 
+subprocess._USE_POSIX_SPAWN = False
+from _validator_runner import run_validator_cmd
+
 ROOT = Path(__file__).resolve().parent.parent
 
 
@@ -10,11 +13,7 @@ def fail(message):
 
 
 def run(cmd):
-    try:
-        res = subprocess.run(cmd, shell=True, capture_output=True, text=True, cwd=ROOT)
-        return res.stdout, res.stderr, res.returncode
-    except Exception as exc:
-        fail(f"Execution error for {cmd}: {exc}")
+    return run_validator_cmd(cmd, ROOT)
 
 
 def main():

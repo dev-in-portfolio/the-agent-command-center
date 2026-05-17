@@ -1,0 +1,38 @@
+{
+  "model_id": "feedback-to-request-conversion-workspace-model",
+  "model_version": "1.0",
+  "feedback_to_request_conversion_workspace_ready": true,
+  "request_draft_from_feedback_ready": true,
+  "decision_to_request_payload_preview_ready": true,
+  "controlled_request_create_optional": true,
+  "token_in_memory_only": true,
+  "request_writes_server_gated": true,
+  "manual_click_required_for_create": true,
+  "automatic_request_creation": false,
+  "request_create_endpoint": "POST /api/requests?action=create",
+  "request_create_mode": "manual_optional",
+  "service_role_used": false,
+  "browser_direct_supabase_calls": false,
+  "update_enabled": false,
+  "delete_enabled": false,
+  "approve_enabled": false,
+  "execute_enabled": false,
+  "automation_enabled": false,
+  "does_not_store_token": true,
+  "does_not_print_token": true,
+  "does_not_apply_migration": true,
+  "does_not_enable_feature_flag": true,
+  "workspace_capabilities": [
+    "convert reviewed feedback decisions into request drafts",
+    "preview request payload before any submit attempt",
+    "copy draft and payload safely",
+    "attempt optional server-gated request create only after manual operator action"
+  ],
+  "safety_boundary": [
+    "no auto-submit on page load",
+    "no browser token persistence",
+    "no direct browser Supabase access",
+    "no service role exposure",
+    "no approve or execute controls"
+  ]
+}

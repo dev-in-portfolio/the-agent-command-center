@@ -82,6 +82,7 @@ def js_safety_check(path):
         "./mvp24_beta_feedback_import_workspace_model.json",
         "./mvp25_authenticated_feedback_review_inbox_model.json",
         "./mvp26_feedback_synthesis_product_decision_model.json",
+        "./mvp27_feedback_to_request_conversion_model.json",
         "/api/request-read-smoke-status",
         "/api/request-write-smoke-status",
         "/api/lifecycle-event-smoke-status",
@@ -329,6 +330,15 @@ report_requirements = [
     (ROOT / "09_exports" / "mvp_product_track" / "mvp26_next_product_step_report.md", "NEXT_STEP_BUILD_FEEDBACK_TO_REQUEST_CONVERSION_WORKSPACE"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp26_validator_quality_report.md", "SERVICE_ROLE_NOT_USED"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp26_validator_wall_review.md", "UPDATE_DELETE_EXECUTE_BLOCKED"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp27_acceptance_report.md", "PASS_WITH_OPTIONAL_SERVER_GATED_REQUEST_CREATE"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp27_feedback_to_request_workspace_report.md", "FEEDBACK_TO_REQUEST_CONVERSION_WORKSPACE_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp27_request_draft_report.md", "REQUEST_DRAFT_FROM_FEEDBACK_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp27_request_payload_preview_report.md", "DECISION_TO_REQUEST_PAYLOAD_PREVIEW_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp27_controlled_request_creation_report.md", "CONTROLLED_REQUEST_CREATE_OPTIONAL"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp27_security_boundary_report.md", "SERVICE_ROLE_NOT_USED"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp27_next_product_step_report.md", "NEXT_STEP_BUILD_OPERATOR_ROADMAP_PRIORITIZATION_BOARD"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp27_validator_quality_report.md", "REQUEST_WRITES_SERVER_GATED"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp27_validator_wall_review.md", "NO_DIRECT_BROWSER_SUPABASE_ALLOWANCE"),
 ]
 for path, marker in report_requirements:
     check(path.exists(), f"missing report: {path.relative_to(ROOT)}")
@@ -634,6 +644,15 @@ for marker in [
     "OWNER-SCOPED FEEDBACK READS",
     "NEXT_STEP_BUILD_FEEDBACK_TO_REQUEST_CONVERSION_WORKSPACE",
     "PASS_WITH_READ_ONLY_MANUAL_SYNTHESIS",
+    "MVP-27",
+    "FEEDBACK TO REQUEST CONVERSION WORKSPACE",
+    "REQUEST DRAFT FROM FEEDBACK",
+    "DECISION TO REQUEST PAYLOAD PREVIEW",
+    "CONTROLLED REQUEST CREATE OPTIONAL",
+    "TOKEN IN MEMORY ONLY",
+    "REQUEST WRITES SERVER GATED",
+    "NEXT_STEP_BUILD_OPERATOR_ROADMAP_PRIORITIZATION_BOARD",
+    "PASS_WITH_OPTIONAL_SERVER_GATED_REQUEST_CREATE",
 ]:
     check(marker in index, f"index.html missing required marker: {marker}")
 
@@ -711,6 +730,8 @@ allowed_prefixes = [
         "scripts/validate_mvp25_authenticated_feedback_review_inbox_e2e.py",
         "scripts/validate_mvp26_feedback_synthesis_product_decision.py",
         "scripts/validate_mvp26_feedback_synthesis_product_decision_e2e.py",
+        "scripts/validate_mvp27_feedback_to_request_conversion.py",
+        "scripts/validate_mvp27_feedback_to_request_conversion_e2e.py",
         "scripts/mvp23_feedback_import_smoke_test.py",
         "scripts/mvp23_verify_feedback_migration_files.py",
         "13_web_dashboard/",

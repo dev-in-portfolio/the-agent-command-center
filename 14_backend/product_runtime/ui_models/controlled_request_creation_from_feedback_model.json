@@ -1,0 +1,30 @@
+{
+  "model_id": "controlled-request-creation-from-feedback-model",
+  "model_version": "1.0",
+  "controlled_request_create_optional": true,
+  "request_writes_server_gated": true,
+  "request_create_endpoint": "POST /api/requests?action=create",
+  "manual_click_required_for_create": true,
+  "automatic_request_creation": false,
+  "graceful_writes_disabled_handling": true,
+  "token_in_memory_only": true,
+  "service_role_used": false,
+  "browser_direct_supabase_calls": false,
+  "update_enabled": false,
+  "delete_enabled": false,
+  "approve_enabled": false,
+  "execute_enabled": false,
+  "automation_enabled": false,
+  "allowed_outcomes": [
+    "show payload preview",
+    "copy draft",
+    "attempt manual create through server gate",
+    "show writes-disabled response without fallback mutation"
+  ],
+  "forbidden_outcomes": [
+    "auto-create request on load",
+    "direct browser Supabase write",
+    "stored token reuse",
+    "approve or execute request"
+  ]
+}
