@@ -397,6 +397,17 @@ report_requirements = [
     (ROOT / "09_exports" / "mvp_product_track" / "mvp32_validator_quality_report.md", "PASS_WITH_MANUAL_EXISTING_SIGNAL_ROLLUPS"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp32_acceptance_report.md", "PASS_WITH_MANUAL_EXISTING_SIGNAL_ROLLUPS"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp32_validator_wall_review.md", "MVP-32 Wall Coverage Added"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp33_product_launch_readiness_console_report.md", "PRODUCT_LAUNCH_READINESS_CONSOLE_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp33_final_pitch_packet_report.md", "FINAL_PITCH_PACKET_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp33_release_candidate_scorecard_report.md", "RELEASE_CANDIDATE_SCORECARD_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp33_stakeholder_pitch_variants_report.md", "STAKEHOLDER_PITCH_VARIANTS_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp33_operator_launch_decision_panel_report.md", "OPERATOR_LAUNCH_DECISION_PANEL_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp33_safety_readiness_one_pager_report.md", "SAFETY_READINESS_ONE_PAGER_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp33_security_boundary_report.md", "SECURITY_BOUNDARY_INTACT"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp33_next_product_step_report.md", "NEXT_STEP_REVIEW_FINAL_PITCH_PACKET_AND_PREPARE_RELEASE_CANDIDATE"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp33_validator_quality_report.md", "PASS_WITH_SAFE_LAUNCH_REVIEW_ONLY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp33_acceptance_report.md", "PRODUCT_LAUNCH_READINESS_FINAL_PITCH_PACKET_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp33_validator_wall_review.md", "MVP-33 Wall Coverage Added"),
 ]
 for path, marker in report_requirements:
     check(path.exists(), f"missing report: {path.relative_to(ROOT)}")
@@ -762,6 +773,16 @@ for marker in [
     "NO FAKE REVIEWER RESULTS",
     "NEXT_STEP_BUILD_PRODUCT_LAUNCH_READINESS_FINAL_PITCH_PACKET",
     "PASS_WITH_MANUAL_EXISTING_SIGNAL_ROLLUPS",
+    "MVP-33",
+    "PRODUCT LAUNCH READINESS CONSOLE",
+    "RELEASE CANDIDATE SCORECARD",
+    "STAKEHOLDER PITCH VARIANTS",
+    "OPERATOR LAUNCH DECISION PANEL",
+    "SAFE LAUNCH REVIEW ONLY",
+    "NO FAKE LAUNCH STATUS",
+    "NO DEPLOY CONTROLS",
+    "PASS_WITH_SAFE_LAUNCH_REVIEW_ONLY",
+    "NEXT_STEP_REVIEW_FINAL_PITCH_PACKET_AND_PREPARE_RELEASE_CANDIDATE",
 ]:
     check(marker in index, f"index.html missing required marker: {marker}")
 
@@ -853,6 +874,8 @@ allowed_prefixes = [
         "scripts/validate_mvp31_demo_session_capture_review_loop_e2e.py",
         "scripts/validate_mvp32_release_review_metrics_signal_dashboard.py",
         "scripts/validate_mvp32_release_review_metrics_signal_dashboard_e2e.py",
+        "scripts/validate_mvp33_product_launch_readiness_final_pitch_packet.py",
+        "scripts/validate_mvp33_product_launch_readiness_final_pitch_packet_e2e.py",
         "scripts/_validator_runner.py",
         "scripts/mvp23_feedback_import_smoke_test.py",
         "scripts/mvp23_verify_feedback_migration_files.py",
