@@ -700,6 +700,30 @@ def _build_mvp27_feedback_to_request_conversion_layer(snapshot):
         panel_id="mvp27-feedback-to-request-conversion-workspace",
     )
 
+
+def _build_mvp28_operator_roadmap_prioritization_layer(snapshot):
+    body = f"""
+<div class="mvp-section" data-mvp="28">
+  <div class="callout success-callout">
+    <strong style="color: var(--success);">MVP-28</strong>
+    <p class="muted">PASS_WITH_READ_ONLY_ROADMAP_WORKFLOW</p>
+    <p class="muted">OPERATOR ROADMAP PRIORITIZATION BOARD</p>
+    <p class="muted">FEEDBACK SIGNALS TO ROADMAP — PRODUCT DECISION LANES</p>
+    <p class="muted">PRIORITY SCORING — IMPACT EFFORT CONFIDENCE MATRIX</p>
+    <p class="muted">READ ONLY ROADMAP WORKFLOW — SERVICE ROLE NOT USED</p>
+    <p class="muted">UPDATE DELETE EXECUTE BLOCKED — AUTOMATION STILL DISABLED</p>
+    <p class="muted">NEXT_STEP_BUILD_GUIDED_PRODUCT_DEMO_CONTROL_ROOM — NOT_READY_FOR_REAL_AUTOMATION</p>
+  </div>
+</div>
+"""
+    return _details(
+        "MVP-28 — Operator Roadmap + Prioritization Board",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp28-operator-roadmap-prioritization-board",
+    )
+
 def _build_action_panel(snapshot):
     action_summary = snapshot.get("action_registry_summary", {})
     rows = _build_action_rows(action_summary.get("actions", []))
@@ -7127,6 +7151,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_mvp25_authenticated_feedback_review_layer(snapshot),
         _build_mvp26_feedback_synthesis_product_decision_layer(snapshot),
         _build_mvp27_feedback_to_request_conversion_layer(snapshot),
+        _build_mvp28_operator_roadmap_prioritization_layer(snapshot),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),

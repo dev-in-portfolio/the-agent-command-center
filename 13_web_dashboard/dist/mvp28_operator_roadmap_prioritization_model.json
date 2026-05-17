@@ -1,0 +1,22 @@
+{
+  "model_id": "mvp28-operator-roadmap-prioritization-model",
+  "model_version": "1.0",
+  "mvp": "28",
+  "operator_roadmap_prioritization_board_ready": true,
+  "feedback_signals_to_roadmap_ready": true,
+  "product_decision_lanes_ready": true,
+  "priority_scoring_ready": true,
+  "impact_effort_confidence_matrix_ready": true,
+  "read_only_roadmap_workflow": true,
+  "pass_marker": "PASS_WITH_READ_ONLY_ROADMAP_WORKFLOW",
+  "manual_review_required": true,
+  "token_in_memory_only": true,
+  "service_role_used": false,
+  "browser_direct_supabase_calls": false,
+  "update_enabled": false,
+  "delete_enabled": false,
+  "approve_enabled": false,
+  "execute_enabled": false,
+  "automation_enabled": false,
+  "next_step": "NEXT_STEP_BUILD_GUIDED_PRODUCT_DEMO_CONTROL_ROOM"
+}

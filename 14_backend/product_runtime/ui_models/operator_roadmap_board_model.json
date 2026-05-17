@@ -1,0 +1,29 @@
+{
+  "model_id": "operator-roadmap-board-model",
+  "model_version": "1.0",
+  "operator_roadmap_prioritization_board_ready": true,
+  "feedback_signals_to_roadmap_ready": true,
+  "product_decision_lanes_ready": true,
+  "priority_scoring_ready": true,
+  "impact_effort_confidence_matrix_ready": true,
+  "read_only_roadmap_workflow": true,
+  "service_role_used": false,
+  "browser_direct_supabase_calls": false,
+  "update_enabled": false,
+  "delete_enabled": false,
+  "approve_enabled": false,
+  "execute_enabled": false,
+  "automation_enabled": false,
+  "does_not_store_token": true,
+  "does_not_print_token": true,
+  "does_not_apply_migration": true,
+  "does_not_enable_feature_flag": true,
+  "board_sections": [
+    "feedback signals",
+    "product decision lanes",
+    "priority scoring",
+    "impact effort confidence matrix",
+    "read only roadmap workflow",
+    "manual operator review"
+  ]
+}
