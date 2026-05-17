@@ -7,6 +7,7 @@
 const { getAuthContext } = require("./_shared/auth_context");
 const { validateFeedbackPayload } = require("./_shared/feedback_payload_validator");
 const { importFeedbackPacket } = require("./_shared/supabase_feedback_write_client");
+const { listFeedbackPackets, getFeedbackPacket } = require("./_shared/supabase_feedback_read_client");
 const { safeErrorResponse } = require("./_shared/safe_error");
 
 const MVP_ENABLE_FEEDBACK_PERSISTENCE = process['env'].MVP_ENABLE_FEEDBACK_PERSISTENCE === "true";
@@ -16,27 +17,7 @@ exports.handler = async (event, context) => {
   const params = event.queryStringParameters || {};
   const bearerToken = event.headers.authorization || event.headers.Authorization;
 
-  // 1. Handle GET Status (Always available if endpoint exists)
-  if (method === "GET") {
-    const action = params.action || "status";
-    if (action === "status") {
-      return {
-        statusCode: 200,
-        body: JSON.stringify({
-          status: "SUCCESS",
-          endpoint: "feedback",
-          persistence_gate: MVP_ENABLE_FEEDBACK_PERSISTENCE ? "ENABLED" : "DISABLED",
-          write_ready: MVP_ENABLE_FEEDBACK_PERSISTENCE
-        })
-      };
-    }
-    return {
-      statusCode: 400,
-      body: JSON.stringify({ error: "INVALID_ACTION", action })
-    };
-  }
-
-  // 2. Handle POST Import (Gated)
+  // 1. Handle POST Import (Gated)
   if (method === "POST") {
     const action = params.action;
 
@@ -95,6 +76,53 @@ exports.handler = async (event, context) => {
       }
       return safeErrorResponse(err, "SUPABASE_CREATE_FAILED", 500);
     }
+  }
+
+  // 2. Handle GET Actions
+  if (method === "GET") {
+    const action = params.action || "status";
+    
+    if (action === "status") {
+      return {
+        statusCode: 200,
+        body: JSON.stringify({
+          status: "SUCCESS",
+          endpoint: "feedback",
+          persistence_gate: MVP_ENABLE_FEEDBACK_PERSISTENCE ? "ENABLED" : "DISABLED",
+          write_ready: MVP_ENABLE_FEEDBACK_PERSISTENCE
+        })
+      };
+    }
+    
+    if (action === "list" || action === "get") {
+      const authRead = await getAuthContext(event);
+      if (!authRead.authenticated) {
+        return safeErrorResponse("AUTHENTICATION_REQUIRED", "AUTHENTICATION_REQUIRED", 401);
+      }
+      
+      const token = bearerToken.replace("Bearer ", "").replace("bearer ", "");
+      
+      if (action === "list") {
+        const result = await listFeedbackPackets(token);
+        if (!result.success) {
+          return { statusCode: result.status || 500, body: JSON.stringify({ error: result.error }) };
+        }
+        return { statusCode: 200, body: JSON.stringify({ status: "SUCCESS", data: result.data }) };
+      }
+      
+      if (action === "get") {
+        const result = await getFeedbackPacket(token, params.id);
+        if (!result.success) {
+          return { statusCode: result.status || 500, body: JSON.stringify({ error: result.error }) };
+        }
+        return { statusCode: 200, body: JSON.stringify({ status: "SUCCESS", data: result.data }) };
+      }
+    }
+
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ error: "INVALID_ACTION", action })
+    };
   }
 
   // 3. Block Other Methods
