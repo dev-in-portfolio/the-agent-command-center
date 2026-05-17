@@ -1,0 +1,24 @@
+{
+  "model_id": "demo-readiness-scorecard-model",
+  "model_version": "1.0",
+  "mvp": "29",
+  "guided_product_demo_control_room_ready": true,
+  "demo_readiness_scorecard_ready": true,
+  "pitchable_product_walkthrough_ready": true,
+  "safe_demo_mode": true,
+  "no_fake_live_test_claims": true,
+  "service_role_used": false,
+  "browser_direct_supabase_calls": false,
+  "update_enabled": false,
+  "delete_enabled": false,
+  "approve_enabled": false,
+  "execute_enabled": false,
+  "automation_enabled": false,
+  "manual_review_required": true,
+  "scorecard_dimensions": [
+    "story clarity",
+    "operator flow",
+    "safety posture",
+    "demo confidence"
+  ]
+}

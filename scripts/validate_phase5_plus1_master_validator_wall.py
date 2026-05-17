@@ -84,6 +84,7 @@ def js_safety_check(path):
         "./mvp26_feedback_synthesis_product_decision_model.json",
         "./mvp27_feedback_to_request_conversion_model.json",
         "./mvp28_operator_roadmap_prioritization_model.json",
+        "./mvp29_guided_product_demo_control_room_model.json",
         "/api/request-read-smoke-status",
         "/api/request-write-smoke-status",
         "/api/lifecycle-event-smoke-status",
@@ -349,6 +350,15 @@ report_requirements = [
     (ROOT / "09_exports" / "mvp_product_track" / "mvp28_next_product_step_report.md", "NEXT_STEP_BUILD_GUIDED_PRODUCT_DEMO_CONTROL_ROOM"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp28_validator_quality_report.md", "IMPACT_EFFORT_CONFIDENCE_MATRIX_READY"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp28_validator_wall_review.md", "NO ROADMAP AUTO-WRITE ALLOWANCE"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp29_acceptance_report.md", "PASS_WITH_SAFE_DEMO_MODE"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp29_guided_demo_control_room_report.md", "GUIDED_PRODUCT_DEMO_CONTROL_ROOM_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp29_demo_persona_paths_report.md", "ROLE_BASED_DEMO_PATHS_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp29_demo_storyline_report.md", "OPERATOR_STORYLINE_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp29_demo_readiness_scorecard_report.md", "DEMO_READINESS_SCORECARD_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp29_security_boundary_report.md", "NO_FAKE_LIVE_TEST_CLAIMS"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp29_next_product_step_report.md", "NEXT_STEP_REVIEW_DEMO_CONTROL_ROOM_AND_PREPARE_PITCHABLE_RELEASE"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp29_validator_quality_report.md", "PASS_WITH_SAFE_DEMO_MODE"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp29_validator_wall_review.md", "No fake live claims added"),
 ]
 for path, marker in report_requirements:
     check(path.exists(), f"missing report: {path.relative_to(ROOT)}")
@@ -753,6 +763,8 @@ allowed_prefixes = [
         "scripts/validate_mvp27_feedback_to_request_conversion_e2e.py",
         "scripts/validate_mvp28_operator_roadmap_prioritization.py",
         "scripts/validate_mvp28_operator_roadmap_prioritization_e2e.py",
+        "scripts/validate_mvp29_guided_product_demo_control_room.py",
+        "scripts/validate_mvp29_guided_product_demo_control_room_e2e.py",
         "scripts/_validator_runner.py",
         "scripts/mvp23_feedback_import_smoke_test.py",
         "scripts/mvp23_verify_feedback_migration_files.py",
