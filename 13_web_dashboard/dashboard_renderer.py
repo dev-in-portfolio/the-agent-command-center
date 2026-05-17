@@ -981,6 +981,148 @@ def _build_mvp31_demo_session_capture_review_loop_layer(snapshot):
         panel_id="mvp31-demo-session-capture-review-loop",
     )
 
+def _build_mvp32_release_review_metrics_signal_dashboard_layer(snapshot):
+    body = """
+<div class="mvp-section" data-mvp="32" data-mvp32-release-review-metrics="true">
+  <div class="callout success-callout">
+    <strong style="color: var(--success);">MVP-32</strong>
+    <p class="muted">PASS_WITH_MANUAL_EXISTING_SIGNAL_ROLLUPS</p>
+    <p class="muted">RELEASE REVIEW METRICS DASHBOARD — REVIEWER SIGNAL SUMMARY — DEMO SESSION SIGNALS</p>
+    <p class="muted">RELEASE READINESS METRICS — PRODUCT DECISION SIGNAL ROLLUP — ROADMAP SIGNAL ROLLUP</p>
+    <p class="muted">EXPORTABLE SIGNAL PACKET — NO FAKE METRICS — NO FAKE REVIEWER RESULTS</p>
+    <p class="muted">SERVICE ROLE NOT USED — UPDATE DELETE EXECUTE BLOCKED — AUTOMATION STILL DISABLED</p>
+    <p class="muted">NEXT_STEP_BUILD_PRODUCT_LAUNCH_READINESS_FINAL_PITCH_PACKET — NOT_READY_FOR_REAL_AUTOMATION</p>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card" id="mvp32-release-review-metrics-panel">
+      <div class="card-head"><h3 class="card-title">Release Review Metrics Dashboard</h3><span class="badge success">METRICS</span></div>
+      <p class="card-body">Aggregated release review metrics from demo session captures, reviewer signals, and product decisions.</p>
+      <ul class="compact-list">
+        <li>Demo Session Coverage</li>
+        <li>Reviewer Persona Coverage</li>
+        <li>Feedback Theme Volume</li>
+        <li>Objection/Confusion/Trust Concern Counts</li>
+        <li>Product Decision Completion</li>
+        <li>Roadmap Alignment Score</li>
+      </ul>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp32-copy-metrics-summary">Copy Metrics Summary</button>
+      </div>
+    </article>
+
+    <article class="card" id="mvp32-reviewer-signal-summary-panel">
+      <div class="card-head"><h3 class="card-title">Reviewer Signal Summary</h3><span class="badge info">SIGNALS</span></div>
+      <p class="card-body">Per-persona signal breakdown from reviewer feedback and demo session outcomes.</p>
+      <ul class="compact-list">
+        <li>Objection Signals</li>
+        <li>Confusion Signals</li>
+        <li>Trust Concern Signals</li>
+        <li>Product Decision Follow-Ups</li>
+      </ul>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp32-copy-reviewer-signal-summary">Copy Reviewer Signal Summary</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card" id="mvp32-demo-session-signals-panel">
+      <div class="card-head"><h3 class="card-title">Demo Session Signals</h3><span class="badge info">SIGNALS</span></div>
+      <p class="card-body">Signal rollup from demo session captures, notes, and follow-up decisions.</p>
+      <ul class="compact-list">
+        <li>Session Count and Outcomes</li>
+        <li>Reviewer Personas Present</li>
+        <li>Feedback Themes Collected</li>
+        <li>Follow-Up Decisions Recorded</li>
+      </ul>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp32-copy-demo-session-signal-summary">Copy Demo Session Signal Summary</button>
+      </div>
+    </article>
+
+    <article class="card" id="mvp32-release-readiness-metrics-panel">
+      <div class="card-head"><h3 class="card-title">Release Readiness Metrics</h3><span class="badge info">METRICS</span></div>
+      <p class="card-body">Category-level readiness scoring for operator launch assessment.</p>
+      <ul class="compact-list">
+        <li>Demo Session Coverage: Manual review</li>
+        <li>Reviewer Persona Coverage: Manual review</li>
+        <li>Feedback Theme Volume: Manual review</li>
+        <li>Objection Resolution: Manual review</li>
+        <li>Product Decision Completion: Manual review</li>
+        <li>Safety Boundary: All controls active</li>
+      </ul>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp32-copy-release-readiness-scorecard">Copy Release Readiness Scorecard</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card" id="mvp32-product-decision-signal-rollup-panel">
+      <div class="card-head"><h3 class="card-title">Product Decision Signal Rollup</h3><span class="badge info">ROLLUP</span></div>
+      <p class="card-body">Decision traceability from feedback and demo sessions through roadmap impact.</p>
+      <ul class="compact-list">
+        <li>Decisions from Feedback</li>
+        <li>Decisions from Demo Sessions</li>
+        <li>Roadmap Impact Signals</li>
+        <li>Release Blocker Tracking</li>
+      </ul>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp32-copy-product-decision-signal-rollup">Copy Product Decision Signal Rollup</button>
+      </div>
+    </article>
+
+    <article class="card" id="mvp32-roadmap-signal-rollup-panel">
+      <div class="card-head"><h3 class="card-title">Roadmap Signal Rollup</h3><span class="badge info">ROLLUP</span></div>
+      <p class="card-body">Roadmap alignment signals derived from review feedback and demo session outcomes.</p>
+      <ul class="compact-list">
+        <li>Roadmap Impact Signals</li>
+        <li>Priority Shift Signals</li>
+        <li>New Feature Requests</li>
+        <li>Release Blockers Identified</li>
+      </ul>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp32-copy-roadmap-signal-rollup">Copy Roadmap Signal Rollup</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card" id="mvp32-exportable-signal-packet-panel">
+      <div class="card-head"><h3 class="card-title">Exportable Signal Packet</h3><span class="badge warning">EXPORT</span></div>
+      <p class="card-body">Consolidated release review signal packet for operator review. No automated launch decision.</p>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp32-copy-signal-packet">Copy Signal Packet</button>
+      </div>
+      <pre id="mvp32-signal-packet-preview" class="code-block" style="white-space:pre-wrap; min-height:120px; margin-top:0.75rem;">Release Review Signal Packet — No fake metrics. No fake reviewer results. Manual operator review required.</pre>
+    </article>
+
+    <article class="card" id="mvp32-security-boundary-panel">
+      <div class="card-head"><h3 class="card-title">Security Boundary Panel</h3><span class="badge warning">SAFETY</span></div>
+      <p class="card-body">Release review metrics dashboard stays manual, signal-based, and automation-free.</p>
+      <ul class="compact-list">
+        <li>No fake metrics.</li>
+        <li>No fake reviewer results.</li>
+        <li>No email sending.</li>
+        <li>No automated outreach.</li>
+        <li>Service role not used.</li>
+        <li>Browser persistence blocked.</li>
+        <li>Update/delete/approve/execute blocked.</li>
+        <li>Automation disabled.</li>
+      </ul>
+    </article>
+  </div>
+</div>
+"""
+    return _details(
+        "MVP-32 — Release Review Metrics + Signal Dashboard",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp32-release-review-metrics-signal-dashboard",
+    )
+
 def _build_action_panel(snapshot):
     action_summary = snapshot.get("action_registry_summary", {})
     rows = _build_action_rows(action_summary.get("actions", []))
@@ -7412,6 +7554,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_mvp29_guided_product_demo_control_room_layer(snapshot),
         _build_mvp30_pitchable_release_package_layer(snapshot),
         _build_mvp31_demo_session_capture_review_loop_layer(snapshot),
+        _build_mvp32_release_review_metrics_signal_dashboard_layer(snapshot),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),

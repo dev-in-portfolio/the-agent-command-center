@@ -1,0 +1,20 @@
+{
+  "model": "release_readiness_metric",
+  "version": "1.0.0",
+  "mvp": "32",
+  "posture": {
+    "no_fake_metrics": true,
+    "service_role_used": false,
+    "browser_direct_supabase_calls": false,
+    "browser_persistence_enabled": false
+  },
+  "metric_categories": [
+    "demo_session_coverage",
+    "reviewer_persona_coverage",
+    "feedback_theme_volume",
+    "objection_resolution_rate",
+    "product_decision_completion",
+    "roadmap_alignment_score",
+    "safety_boundary_status"
+  ]
+}

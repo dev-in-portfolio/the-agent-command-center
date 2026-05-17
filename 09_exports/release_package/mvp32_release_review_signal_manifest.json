@@ -1,0 +1,18 @@
+{
+  "manifest": "mvp32_release_review_signal_manifest",
+  "version": "1.0.0",
+  "mvp": "32",
+  "posture": {
+    "no_fake_metrics": true,
+    "no_fake_reviewer_results": true,
+    "service_role_used": false
+  },
+  "exports": [
+    "09_exports/release_package/mvp32_release_review_metrics_summary.md",
+    "09_exports/release_package/mvp32_reviewer_signal_summary.md",
+    "09_exports/release_package/mvp32_demo_session_signal_summary.md",
+    "09_exports/release_package/mvp32_product_decision_signal_rollup.md",
+    "09_exports/release_package/mvp32_release_readiness_scorecard.md",
+    "09_exports/release_package/mvp32_release_review_signal_packet.md"
+  ]
+}
