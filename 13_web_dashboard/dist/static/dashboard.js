@@ -7101,3 +7101,31 @@
     initMvp34();
   }
 })();
+
+(function() {
+  function initMvp35() {
+    const buildFeedbackSummary = () => "External Review Feedback Summary\n\nInvestor Feedback Captured\nRecruiter Feedback Captured\nTechnical Reviewer Feedback Captured\nPartner Feedback Captured\n\nCOPY ONLY OUTREACH PREP";
+    const buildResponseMatrix = () => "Reviewer Response Matrix\n\nInvestor Response Path\nRecruiter Response Path\nTechnical Reviewer Response Path\n\nCOPY ONLY OUTREACH PREP";
+    const buildThemes = () => "Feedback Themes, Questions, and Objections\n\nProduct-Market Fit Theme\nScalability Theme\nTeam and Hiring Theme\nTimeline and Traction Theme\n\nCOPY ONLY OUTREACH PREP";
+    const buildOutreachDraft = () => "Outreach Prep Draft Workspace\n\nInvestor Follow-Up Draft\nRecruiter Follow-Up Draft\nTechnical Reviewer Follow-Up Draft\n\nCOPY ONLY OUTREACH PREP";
+    const buildResponsePacket = () => "Follow-Up Response Packet\n\nPMF Response Packet\nArchitecture Response Packet\nTeam Response Packet\nTraction Response Packet\n\nCOPY ONLY OUTREACH PREP";
+    const buildReplyGuide = () => "External Reviewer Reply Guide\n\nBest Practices\nTemplate Structure\nReviewer-Specific Guidance\n\nCOPY ONLY OUTREACH PREP";
+    const buildDecisionPacket = () => "Operator Follow-Up Decision Packet\n\nReviewer Status Overview\nDecision Options\nOperator Action Plan\n\nCOPY ONLY OUTREACH PREP";
+    const buildCopyBank = () => "Outreach Prep Copy Bank\n\nEmail Subject Lines\nEmail Opening Paragraphs\nCall Talking Points\nSocial Media Drafts\n\nCOPY ONLY OUTREACH PREP";
+
+    bindDynamicCopy("mvp35-copy-feedback-summary", buildFeedbackSummary, "MVP-35 feedback summary copied.");
+    bindDynamicCopy("mvp35-copy-response-matrix", buildResponseMatrix, "MVP-35 response matrix copied.");
+    bindDynamicCopy("mvp35-copy-themes", buildThemes, "MVP-35 themes copied.");
+    bindDynamicCopy("mvp35-copy-outreach-draft", buildOutreachDraft, "MVP-35 outreach draft copied.");
+    bindDynamicCopy("mvp35-copy-response-packet", buildResponsePacket, "MVP-35 response packet copied.");
+    bindDynamicCopy("mvp35-copy-reply-guide", buildReplyGuide, "MVP-35 reply guide copied.");
+    bindDynamicCopy("mvp35-copy-decision-packet", buildDecisionPacket, "MVP-35 decision packet copied.");
+    bindDynamicCopy("mvp35-copy-copy-bank", buildCopyBank, "MVP-35 copy bank copied.");
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initMvp35);
+  } else {
+    initMvp35();
+  }
+})();

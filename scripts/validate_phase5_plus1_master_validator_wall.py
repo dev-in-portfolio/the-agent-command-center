@@ -419,6 +419,17 @@ report_requirements = [
     (ROOT / "09_exports" / "mvp_product_track" / "mvp34_validator_quality_report.md", "PASS_WITH_PUBLIC_SAFE_REVIEW_ROOM"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp34_acceptance_report.md", "PUBLIC_RELEASE_CANDIDATE_REVIEW_PORTAL_READY"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp34_validator_wall_review.md", "MVP-34 Wall Coverage Added"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp35_external_review_feedback_summary_report.md", "EXTERNAL_REVIEW_FEEDBACK_SUMMARY_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp35_reviewer_response_matrix_report.md", "REVIEWER_RESPONSE_MATRIX_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp35_outreach_prep_workspace_report.md", "OUTREACH_PREP_WORKSPACE_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp35_follow_up_response_packet_report.md", "FOLLOW_UP_RESPONSE_PACKET_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp35_external_reviewer_reply_guide_report.md", "EXTERNAL_REVIEWER_REPLY_GUIDE_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp35_operator_follow_up_decision_report.md", "OPERATOR_FOLLOW_UP_DECISION_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp35_security_boundary_report.md", "SECURITY_BOUNDARY_INTACT"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp35_next_product_step_report.md", "NEXT_STEP_BUILD_REVIEW_TO_ROADMAP_DECISION_SYNC"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp35_validator_quality_report.md", "PASS_WITH_COPY_ONLY_OUTREACH_PREP"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp35_acceptance_report.md", "EXTERNAL_REVIEW_FEEDBACK_SUMMARY_OUTREACH_PREP_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp35_validator_wall_review.md", "MVP-35 Wall Coverage Added"),
 ]
 for path, marker in report_requirements:
     check(path.exists(), f"missing report: {path.relative_to(ROOT)}")
@@ -811,6 +822,20 @@ for marker in [
     "NOT_READY_FOR_REAL_AUTOMATION",
     "PASS_WITH_PUBLIC_SAFE_REVIEW_ROOM",
     "NEXT_STEP_BUILD_EXTERNAL_REVIEW_FEEDBACK_SUMMARY_AND_OUTREACH_PREP",
+    "MVP-35",
+    "EXTERNAL REVIEW FEEDBACK SUMMARY",
+    "REVIEWER RESPONSE MATRIX",
+    "FEEDBACK THEMES",
+    "OUTREACH PREP WORKSPACE",
+    "FOLLOW UP RESPONSE PACKET",
+    "EXTERNAL REVIEWER REPLY GUIDE",
+    "OPERATOR FOLLOW UP DECISION PANEL",
+    "OUTREACH PREP COPY BANK",
+    "COPY ONLY OUTREACH PREP",
+    "NO AUTOMATED OUTREACH",
+    "NO CONTACT AUTOMATION",
+    "NEXT_STEP_BUILD_REVIEW_TO_ROADMAP_DECISION_SYNC",
+    "PASS_WITH_COPY_ONLY_OUTREACH_PREP",
 ]:
     check(marker in index, f"index.html missing required marker: {marker}")
 
@@ -906,6 +931,8 @@ allowed_prefixes = [
         "scripts/validate_mvp33_product_launch_readiness_final_pitch_packet_e2e.py",
         "scripts/validate_mvp34_public_release_candidate_review_portal.py",
         "scripts/validate_mvp34_public_release_candidate_review_portal_e2e.py",
+        "scripts/validate_mvp35_external_review_feedback_summary_outreach_prep.py",
+        "scripts/validate_mvp35_external_review_feedback_summary_outreach_prep_e2e.py",
         "scripts/_validator_runner.py",
         "scripts/mvp23_feedback_import_smoke_test.py",
         "scripts/mvp23_verify_feedback_migration_files.py",
