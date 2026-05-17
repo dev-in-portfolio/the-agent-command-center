@@ -1,0 +1,18 @@
+{
+  "model_id": "product-narrative-export-model",
+  "model_version": "1.0",
+  "mvp": "30",
+  "product_narrative_export_ready": true,
+  "safe_demo_mode": true,
+  "no_fake_live_test_claims": true,
+  "service_role_used": false,
+  "browser_direct_supabase_calls": false,
+  "browser_persistence_enabled": false,
+  "update_enabled": false,
+  "delete_enabled": false,
+  "approve_enabled": false,
+  "execute_enabled": false,
+  "automation_enabled": false,
+  "deploy_merge_push_controls_enabled": false,
+  "manual_review_required": true
+}

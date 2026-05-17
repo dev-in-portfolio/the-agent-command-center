@@ -748,6 +748,119 @@ def _build_mvp29_guided_product_demo_control_room_layer(snapshot):
         panel_id="mvp29-guided-product-demo-control-room",
     )
 
+
+def _build_mvp30_pitchable_release_package_layer(snapshot):
+    release_overview = (
+        "The Agent Command Center is a read-only operator dashboard for review, synthesis, roadmap, "
+        "and demo packaging. It explains the product, the operator flow, and the safety boundary "
+        "without enabling live mutation."
+    )
+    product_narrative = (
+        "The product starts with authenticated request and feedback review, synthesizes signals into "
+        "decisions, converts decisions into roadmap and release narratives, and presents a guided demo "
+        "control room for safe pitch and handoff."
+    )
+    demo_walkthrough = (
+        "1. Open the command center.\n"
+        "2. Review the pitchable release package.\n"
+        "3. Walk the demo control room.\n"
+        "4. Explain what is real now and what stays blocked.\n"
+        "5. Copy the release packet for recruiter, founder, or reviewer use."
+    )
+    technical_summary = (
+        "Static dashboard layer with exported markdown/json packets, read-only UI models, and no browser-side "
+        "secret storage, direct Supabase access, or execution controls."
+    )
+    safety_summary = (
+        "Safe demo mode, no fake live test claims, service role not used, browser persistence blocked, "
+        "update/delete/approve/execute blocked, automation disabled, and deploy/merge/push/PR controls absent."
+    )
+    capability_map = (
+        "Authenticated request reads; feedback review; synthesis and product decisions; request draft conversion; "
+        "roadmap prioritization; guided demo control room; pitchable release packaging."
+    )
+    packet_index = (
+        "release_overview.md\n"
+        "product_narrative.md\n"
+        "demo_walkthrough.md\n"
+        "technical_architecture_summary.md\n"
+        "safety_boundary_summary.md\n"
+        "capability_map.md\n"
+        "recruiter_version.md\n"
+        "founder_operator_version.md\n"
+        "technical_reviewer_version.md\n"
+        "release_packet_index.md\n"
+        "release_manifest.json"
+    )
+    body = f"""
+<div class="mvp-section" data-mvp="30">
+  <div class="callout success-callout">
+    <strong style="color: var(--success);">MVP-30</strong>
+    <p class="muted">PASS_WITH_SAFE_RELEASE_EXPORTS</p>
+    <p class="muted">PITCHABLE RELEASE PACKAGE</p>
+    <p class="muted">PRODUCT NARRATIVE EXPORT — RELEASE CAPABILITY MAP — AUDIENCE VARIANTS</p>
+    <p class="muted">DEMO WALKTHROUGH EXPORT — TECHNICAL ARCHITECTURE SUMMARY — SAFETY BOUNDARY SUMMARY</p>
+    <p class="muted">RECRUITER VERSION — FOUNDER OPERATOR VERSION — TECHNICAL REVIEWER VERSION</p>
+    <p class="muted">SAFE DEMO MODE — NO FAKE LIVE TEST CLAIMS — SERVICE ROLE NOT USED</p>
+    <p class="muted">UPDATE DELETE EXECUTE BLOCKED — AUTOMATION STILL DISABLED</p>
+    <p class="muted">NEXT_STEP_BUILD_DEMO_SESSION_CAPTURE_AND_EXTERNAL_REVIEW_LOOP — NOT_READY_FOR_REAL_AUTOMATION</p>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card" id="mvp30-release-package-panel">
+      <div class="card-head"><h3 class="card-title">Pitchable Release Package</h3><span class="badge success">PACKAGE</span></div>
+      <p class="card-body">{_e(release_overview)}</p>
+      <div class="button-row" style="margin-top:0.75rem;">
+        {_copy_button("Copy Release Overview", release_overview, kind="copy-button small")}
+        {_copy_button("Copy Product Narrative", product_narrative, kind="copy-button small")}
+        {_copy_button("Copy Demo Walkthrough", demo_walkthrough, kind="copy-button small")}
+      </div>
+    </article>
+
+    <article class="card" id="mvp30-technical-summary-panel">
+      <div class="card-head"><h3 class="card-title">Technical Architecture Summary</h3><span class="badge info">TECH</span></div>
+      <p class="card-body">{_e(technical_summary)}</p>
+      <div class="button-row" style="margin-top:0.75rem;">
+        {_copy_button("Copy Technical Summary", technical_summary, kind="copy-button small")}
+        {_copy_button("Copy Safety Boundary Summary", safety_summary, kind="copy-button small")}
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card" id="mvp30-capability-map-panel">
+      <div class="card-head"><h3 class="card-title">Release Capability Map</h3><span class="badge info">MAP</span></div>
+      <p class="card-body">{_e(capability_map)}</p>
+      <div class="button-row" style="margin-top:0.75rem;">
+        {_copy_button("Copy Capability Map", capability_map, kind="copy-button small")}
+        {_copy_button("Copy Release Packet Index", packet_index, kind="copy-button small")}
+      </div>
+    </article>
+
+    <article class="card" id="mvp30-audience-variants-panel">
+      <div class="card-head"><h3 class="card-title">Audience Variants</h3><span class="badge info">VERSIONS</span></div>
+      <ul class="compact-list">
+        <li><strong>Recruiter Version:</strong> concise product story and value map.</li>
+        <li><strong>Founder Operator Version:</strong> workflow, safety, and operator leverage.</li>
+        <li><strong>Technical Reviewer Version:</strong> architecture and safety boundary detail.</li>
+      </ul>
+      <div class="button-row" style="margin-top:0.75rem;">
+        {_copy_button("Copy Recruiter Version", "Recruiter version: concise product story and value map.", kind="copy-button small")}
+        {_copy_button("Copy Founder Operator Version", "Founder operator version: workflow, safety, and operator leverage.", kind="copy-button small")}
+        {_copy_button("Copy Technical Reviewer Version", "Technical reviewer version: architecture and safety boundary detail.", kind="copy-button small")}
+      </div>
+    </article>
+  </div>
+</div>
+"""
+    return _details(
+        "MVP-30 — Pitchable Release Package + Product Narrative",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp30-pitchable-release-package-product-narrative",
+    )
+
 def _build_action_panel(snapshot):
     action_summary = snapshot.get("action_registry_summary", {})
     rows = _build_action_rows(action_summary.get("actions", []))
@@ -7177,6 +7290,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_mvp27_feedback_to_request_conversion_layer(snapshot),
         _build_mvp28_operator_roadmap_prioritization_layer(snapshot),
         _build_mvp29_guided_product_demo_control_room_layer(snapshot),
+        _build_mvp30_pitchable_release_package_layer(snapshot),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),

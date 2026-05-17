@@ -1,0 +1,32 @@
+{
+  "package_id": "mvp30-pitchable-release-package",
+  "mvp": 30,
+  "release_package_ready": true,
+  "product_narrative_export_ready": true,
+  "capability_map_ready": true,
+  "audience_variants_ready": true,
+  "demo_walkthrough_export_ready": true,
+  "safe_demo_mode": true,
+  "no_fake_live_test_claims": true,
+  "service_role_used": false,
+  "browser_direct_supabase_calls": false,
+  "browser_persistence_enabled": false,
+  "update_enabled": false,
+  "delete_enabled": false,
+  "approve_enabled": false,
+  "execute_enabled": false,
+  "automation_enabled": false,
+  "deploy_merge_push_controls_enabled": false,
+  "artifacts": [
+    "mvp30_release_overview.md",
+    "mvp30_product_narrative.md",
+    "mvp30_demo_walkthrough.md",
+    "mvp30_technical_architecture_summary.md",
+    "mvp30_safety_boundary_summary.md",
+    "mvp30_capability_map.md",
+    "mvp30_recruiter_version.md",
+    "mvp30_founder_operator_version.md",
+    "mvp30_technical_reviewer_version.md",
+    "mvp30_release_packet_index.md"
+  ]
+}
