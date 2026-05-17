@@ -88,7 +88,7 @@ for filename, marker in report_checks:
     if path.exists():
         check(marker in path.read_text(encoding="utf-8", errors="replace"), f"report missing marker: {filename} ({marker})")
 
-# -- MVP37_EXPORT_ARTIFACTS_CHECK --
+# -- MVP37_RELEASE_CANDIDATE_HANDOFF_EXPORT_ARTIFACTS_CHECK --
 export_paths = [
     EXPORTS / "mvp37_release_candidate_decision_log.md",
     EXPORTS / "mvp37_decision_rationale_trail.md",
