@@ -1,0 +1,26 @@
+{
+  "model_id": "token-gated-feedback-import-smoke-test-model",
+  "model_version": "1.0",
+  "purpose": "controlled token-gated feedback import smoke test",
+  "actual_import_allowed": true,
+  "actual_import_default": false,
+  "requires_operator_confirmation_env": "MVP23_FEEDBACK_SMOKE_TEST_CONFIRMED",
+  "required_confirmation_value": "true",
+  "requires_access_token_env": "SUPABASE_TEST_ACCESS_TOKEN",
+  "requires_target_url_env": "FEEDBACK_IMPORT_SMOKE_URL",
+  "requires_feature_flag_enabled_on_target": true,
+  "does_not_enable_feature_flag": true,
+  "does_not_apply_migration": true,
+  "does_not_store_token": true,
+  "does_not_print_token": true,
+  "allowed_results": [
+    "NOT_RUN",
+    "SKIPPED_CONFIRMATION_NOT_SET",
+    "TOKEN_NOT_PROVIDED",
+    "TARGET_URL_NOT_PROVIDED",
+    "FEATURE_FLAG_DISABLED",
+    "ENDPOINT_NOT_READY",
+    "IMPORT_SMOKE_TEST_PASS",
+    "IMPORT_SMOKE_TEST_FAIL"
+  ]
+}

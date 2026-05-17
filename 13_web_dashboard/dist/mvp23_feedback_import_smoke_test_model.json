@@ -1,0 +1,30 @@
+{
+  "model_id": "mvp23-feedback-import-smoke-test",
+  "model_version": "1.0",
+  "migration_flow": {
+    "purpose": "manual migration operator flow",
+    "status": "MANUAL_MIGRATION_OPERATOR_FLOW_READY"
+  },
+  "smoke_test": {
+    "purpose": "token-gated smoke test harness",
+    "status": "TOKEN_GATED_FEEDBACK_IMPORT_SMOKE_TEST_READY"
+  },
+  "security_boundaries": {
+    "no_automatic_migration_apply": true,
+    "tokens_not_stored_or_printed": true,
+    "service_role_not_used": true
+  },
+  "current_recommendation": [
+    "TOKEN_GATED_FEEDBACK_IMPORT_SMOKE_TEST_READY",
+    "MANUAL_MIGRATION_OPERATOR_FLOW_READY",
+    "DISABLED_MODE_VERIFICATION_READY",
+    "LIVE_IMPORT_TEST_OPTIONAL_AND_GATED",
+    "TOKENS_NOT_STORED_OR_PRINTED",
+    "SERVICE ROLE NOT USED",
+    "NO AUTOMATIC MIGRATION APPLY",
+    "UPDATE DELETE EXECUTE BLOCKED",
+    "AUTOMATION STILL DISABLED",
+    "NOT_READY_FOR_REAL_AUTOMATION",
+    "NEXT_STEP_RUN_REVIEWED_MIGRATION_AND_TOKEN_GATED_SMOKE_TEST"
+  ]
+}

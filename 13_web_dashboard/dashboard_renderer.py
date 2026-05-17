@@ -447,6 +447,7 @@ def _build_landing_screen(snapshot):
         ("MVP-20 Manual Feedback Review", "mvp20-manual-feedback-review"),
         ("MVP-21 Safe Feedback Persistence", "mvp21-safe-feedback-persistence"),
         ("MVP-22 Controlled Feedback Write", "mvp22-controlled-feedback-write"),
+        ("MVP-23 Token-Gated Smoke Test", "mvp23-token-gated-smoke-test"),
         ("Artifacts", "artifact-packages"),
         ("Source Info", "source-transparency"),
         ("Audit / Session", "session-audit"),
@@ -6847,6 +6848,135 @@ def _build_mvp22_controlled_write_layer(snapshot):
         panel_id="mvp22-controlled-feedback-write",
     )
 
+def _build_mvp23_smoke_test_layer(snapshot):
+    model = snapshot.get("mvp23_feedback_import_smoke_test_model", {})
+    migration = model.get("migration_flow", {})
+    smoke = model.get("smoke_test", {})
+    boundaries = model.get("security_boundaries", {})
+    current_recommendation = model.get("current_recommendation", [])
+
+    validation_copy = "\n".join([
+        "python3 scripts/validate_mvp23_feedback_import_smoke_test.py",
+        "python3 scripts/validate_mvp23_feedback_import_smoke_test_e2e.py",
+        "python3 scripts/mvp23_verify_feedback_migration_files.py",
+        "python3 scripts/validate_mvp22_controlled_feedback_import_write.py",
+        "python3 scripts/validate_mvp22_controlled_feedback_import_write_e2e.py",
+        "python3 scripts/validate_mvp21_safe_feedback_persistence_readiness.py",
+        "python3 scripts/validate_mvp21_safe_feedback_persistence_readiness_e2e.py",
+        "python3 scripts/validate_mvp20_manual_feedback_import_review_queue.py",
+        "python3 scripts/validate_mvp20_manual_feedback_import_review_queue_e2e.py",
+        "python3 scripts/validate_mvp19_external_feedback_intake.py",
+        "python3 scripts/validate_mvp19_external_feedback_intake_e2e.py",
+        "python3 scripts/validate_phase5_plus1_master_validator_wall.py",
+    ])
+
+    body = f"""
+<div class="mvp23-token-gated-smoke-test" data-mvp23-token-gated-smoke-test="true">
+  <div class="callout plus2e-summary-callout" style="border-color: rgba(59,130,246,0.28); background: rgba(59,130,246,0.06);">
+    <strong style="color: var(--accent);">MVP-23</strong>
+    <p class="muted" style="margin-top: 0.15rem;">TOKEN-GATED FEEDBACK IMPORT SMOKE TEST — MANUAL MIGRATION OPERATOR FLOW — DISABLED MODE VERIFICATION</p>
+    <p class="muted" style="margin-top: 0.25rem;">LIVE IMPORT TEST OPTIONAL AND GATED — TOKENS NOT STORED OR PRINTED — SERVICE ROLE NOT USED</p>
+    <p class="muted" style="margin-top: 0.25rem;">NO AUTOMATIC MIGRATION APPLY — UPDATE DELETE EXECUTE BLOCKED — AUTOMATION STILL DISABLED</p>
+    <p class="muted" style="margin-top: 0.25rem;">NEXT_STEP_RUN_REVIEWED_MIGRATION_AND_TOKEN_GATED_SMOKE_TEST — NOT_READY_FOR_REAL_AUTOMATION</p>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp23-migration-flow" id="mvp23-migration-flow-panel">
+      <div class="card-head"><h3 class="card-title">Manual Migration Operator Flow Panel</h3><span class="badge info">OPERATOR</span></div>
+      <p class="card-body">Status: CREATED (MANUAL ONLY)</p>
+      {_list([
+          "migration files: 003, 004",
+          "apply mode: OUTSIDE APP RUNTIME",
+          "reviewed env required: YES",
+          "no automatic apply: PASS"
+      ])}
+    </article>
+
+    <article class="card mvp23-disabled-mode" id="mvp23-disabled-mode-panel">
+      <div class="card-head"><h3 class="card-title">Disabled Mode Verification Panel</h3><span class="badge warning">GATED</span></div>
+      {_list([
+          "endpoint status check: ALLOWED",
+          "disabled behavior: FEEDBACK_PERSISTENCE_DISABLED",
+          "no import attempted when disabled: PASS"
+      ])}
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp23-smoke-test" id="mvp23-smoke-test-panel">
+      <div class="card-head"><h3 class="card-title">Token-Gated Smoke Test Panel</h3><span class="badge info">HARNESS</span></div>
+      {_list([
+          "env: SUPABASE_TEST_ACCESS_TOKEN",
+          "gate: MVP23_FEEDBACK_SMOKE_TEST_CONFIRMED",
+          "target: FEEDBACK_IMPORT_SMOKE_URL",
+          "optional live import: READY"
+      ])}
+    </article>
+
+    <article class="card mvp23-artifact" id="mvp23-artifact-panel">
+      <div class="card-head"><h3 class="card-title">Smoke Result Artifact Panel</h3><span class="badge info">OUTPUT</span></div>
+      {_list([
+          "markdown result: mvp23_feedback_import_smoke_test_result.md",
+          "json result: mvp23_feedback_import_smoke_test_result.json",
+          "token redaction: ENFORCED",
+          "env redaction: ENFORCED"
+      ])}
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp23-decision" id="mvp23-decision-panel">
+      <div class="card-head"><h3 class="card-title">Operator Decision Panel</h3><span class="badge info">DECISION</span></div>
+      {_list([
+          "retry after migration",
+          "enable feature flag for test only",
+          "fix endpoint/validator/client",
+          "promote to reviewed beta"
+      ])}
+    </article>
+
+    <article class="card mvp23-safety" id="mvp23-safety-panel">
+      <div class="card-head"><h3 class="card-title">Security Boundary Panel</h3><span class="badge warning">SAFETY</span></div>
+      {_list([
+          "service role usage: PASS",
+          "token storage: PASS",
+          "automatic migration: PASS",
+          "automation: PASS",
+          "update/delete/execute: BLOCKED"
+      ])}
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card mvp23-next-product-decision" id="mvp23-next-product-decision-panel">
+      <div class="card-head"><h3 class="card-title">Next Product Decision Panel</h3><span class="badge info">NEXT</span></div>
+      <p class="card-body">Run the first token-gated write test in a reviewed environment.</p>
+      {_list([
+          "manually apply migrations",
+          "run token-gated smoke test",
+          "review smoke result artifact",
+          "decide beta feedback workflow",
+          "not ready for real automation"
+      ])}
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Current recommendation</p>
+        {_list(current_recommendation)}
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp23-copy-validation" data-copy-text="{_e(validation_copy)}">Copy MVP-23 validation checklist</button>
+      </div>
+    </article>
+  </div>
+</div>
+"""
+    return _details(
+        "MVP-23 — Token-Gated Feedback Import Smoke Test",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp23-token-gated-smoke-test",
+    )
+
 def render_html(snapshot, compact_view=False, print_mode=False):
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
     header = f"""
@@ -6905,6 +7035,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_mvp20_manual_feedback_layer(snapshot),
         _build_mvp21_persistence_readiness_layer(snapshot),
         _build_mvp22_controlled_write_layer(snapshot),
+        _build_mvp23_smoke_test_layer(snapshot),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),

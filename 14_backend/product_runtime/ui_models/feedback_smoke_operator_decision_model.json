@@ -1,0 +1,17 @@
+{
+  "model_id": "feedback-smoke-operator-decision-model",
+  "model_version": "1.0",
+  "purpose": "translate smoke test outcome into next product decision",
+  "decision_options": [
+    "apply_migration_then_retry_smoke_test",
+    "enable_feature_flag_for_reviewed_test_only",
+    "fix_feedback_import_endpoint",
+    "fix_payload_validator",
+    "fix_feedback_write_client",
+    "promote_feedback_import_to_reviewed_beta",
+    "keep_writes_disabled"
+  ],
+  "requires_operator_decision": true,
+  "automation_enabled": false,
+  "execution_enabled": false
+}

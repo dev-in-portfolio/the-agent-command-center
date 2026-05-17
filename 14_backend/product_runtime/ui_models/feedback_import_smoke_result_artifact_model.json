@@ -1,0 +1,31 @@
+{
+  "model_id": "feedback-import-smoke-result-artifact-model",
+  "model_version": "1.0",
+  "purpose": "local smoke test result artifact schema",
+  "allowed_output_files": [
+    "09_exports/mvp_product_track/mvp23_feedback_import_smoke_test_result.md",
+    "09_exports/mvp_product_track/mvp23_feedback_import_smoke_test_result.json"
+  ],
+  "token_redaction_required": true,
+  "env_value_redaction_required": true,
+  "allowed_fields": [
+    "status",
+    "verdict",
+    "target_url_host_only",
+    "endpoint_status",
+    "feature_flag_state_label",
+    "import_attempted",
+    "import_result",
+    "inserted_id_present",
+    "timestamp",
+    "next_operator_step"
+  ],
+  "forbidden_fields": [
+    "bearer_token",
+    "access_token",
+    "raw_authorization_header",
+    "service_role",
+    "env_values",
+    "database_password"
+  ]
+}
