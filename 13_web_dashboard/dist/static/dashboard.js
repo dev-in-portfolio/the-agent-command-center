@@ -6975,4 +6975,129 @@
   } else {
     initMvp33();
   }
+
+  function initMvp34() {
+    var shell = document.querySelector("[data-mvp34-review-portal]");
+    if (!shell) return;
+
+    function buildPortalSummary() {
+      return [
+        "MVP-34 public release candidate review portal summary",
+        "Release Candidate Scorecard Ready",
+        "Public Safe Pitch Packet Ready",
+        "Release Candidate Artifact Index Ready",
+        "Public Safe Demo Script Ready",
+        "Review Questions Prep Guide Ready",
+        "External Review Instructions Ready",
+        "Safe public review only. No public writes. No token input.",
+      ].join("\n");
+    }
+
+    function buildInvestorPath() {
+      return [
+        "MVP-34 investor review path",
+        "Review the pitch packet and capability map.",
+        "Walk through the public safe demo script.",
+        "Review the release candidate artifact index.",
+        "Submit feedback via the external reviewer path.",
+        "Safe review only. No token input. No secrets exposed.",
+      ].join("\n");
+    }
+
+    function buildRecruiterPath() {
+      return [
+        "MVP-34 recruiter review path",
+        "Review the product narrative and value map.",
+        "Walk through the founder story and team context.",
+        "Review the public safe pitch packet.",
+        "Submit feedback via the external reviewer path.",
+        "Safe review only. No token input. No secrets exposed.",
+      ].join("\n");
+    }
+
+    function buildFounderPath() {
+      return [
+        "MVP-34 founder review path",
+        "Review the full release candidate portal.",
+        "Walk through the complete demo script.",
+        "Review the release candidate scorecard.",
+        "Review the artifact index and prep materials.",
+        "Safe review only. No deploy controls. No launch automation.",
+      ].join("\n");
+    }
+
+    function buildPitchPacket() {
+      return [
+        "MVP-34 public safe pitch packet",
+        "",
+        "Public Product Narrative: Ready",
+        "Public Capability Map: Ready",
+        "Public Demo Walkthrough: Ready",
+        "Public Architecture Summary: Ready",
+        "Public Safety Boundary Summary: All controls active",
+        "",
+        "No deploy controls. No launch automation. No secrets exposed.",
+      ].join("\n");
+    }
+
+    function buildArtifactIndex() {
+      return [
+        "MVP-34 release candidate artifact index",
+        "Release Reports Indexed",
+        "Pitch Packet Versions Indexed",
+        "Demo Script Versions Indexed",
+        "Review Prep Materials Indexed",
+        "All artifacts safe for public review.",
+      ].join("\n");
+    }
+
+    function buildDemoScript() {
+      return [
+        "MVP-34 public safe demo script",
+        "Investor Demo Script: Ready",
+        "Recruiter Demo Script: Ready",
+        "Technical Reviewer Demo Script: Ready",
+        "Partner Demo Script: Ready",
+        "Safe review only. No fake live test claims.",
+      ].join("\n");
+    }
+
+    function buildReviewQuestions() {
+      return [
+        "MVP-34 review questions prep guide",
+        "Investor Q&A Prep: Ready",
+        "Recruiter Q&A Prep: Ready",
+        "Technical Reviewer Q&A Prep: Ready",
+        "Partner Q&A Prep: Ready",
+        "All questions and answers are safe for public review.",
+      ].join("\n");
+    }
+
+    function buildReviewInstructions() {
+      return [
+        "MVP-34 external review instructions",
+        "Investor Review Instructions: Ready",
+        "Recruiter Review Instructions: Ready",
+        "Technical Reviewer Instructions: Ready",
+        "Partner Review Instructions: Ready",
+        "All instructions are safe for public distribution.",
+      ].join("\n");
+    }
+
+    bindDynamicCopy("mvp34-copy-portal", buildPortalSummary, "MVP-34 portal summary copied.");
+    bindDynamicCopy("mvp34-copy-investor-path", buildInvestorPath, "MVP-34 investor path copied.");
+    bindDynamicCopy("mvp34-copy-recruiter-path", buildRecruiterPath, "MVP-34 recruiter path copied.");
+    bindDynamicCopy("mvp34-copy-founder-path", buildFounderPath, "MVP-34 founder path copied.");
+    bindDynamicCopy("mvp34-copy-pitch-packet", buildPitchPacket, "MVP-34 pitch packet copied.");
+    bindDynamicCopy("mvp34-copy-artifact-index", buildArtifactIndex, "MVP-34 artifact index copied.");
+    bindDynamicCopy("mvp34-copy-demo-script", buildDemoScript, "MVP-34 demo script copied.");
+    bindDynamicCopy("mvp34-copy-review-questions", buildReviewQuestions, "MVP-34 review questions copied.");
+    bindDynamicCopy("mvp34-copy-review-instructions", buildReviewInstructions, "MVP-34 review instructions copied.");
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initMvp34);
+  } else {
+    initMvp34();
+  }
 })();

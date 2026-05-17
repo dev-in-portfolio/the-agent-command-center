@@ -1,0 +1,38 @@
+{
+  "model": "release_candidate_review_instruction",
+  "version": "1.0.0",
+  "mvp": "34",
+  "status": {
+    "ui_ready": true,
+    "model_ready": true,
+    "route_ready": true,
+    "middleware_ready": true,
+    "component_ready": true,
+    "integration_ready": true,
+    "deploy_ready": true,
+    "review_ready": true,
+    "export_ready": true,
+    "docs_ready": true,
+    "test_ready": true,
+    "security_ready": true
+  },
+  "posture": {
+    "public_write_enabled": false,
+    "token_input_enabled": false,
+    "secrets_exposed": false,
+    "service_role_used": false,
+    "browser_direct_supabase_calls": false,
+    "browser_persistence_enabled": false,
+    "email_sending_enabled": false,
+    "automation_enabled": false,
+    "deploy_controls_enabled": false,
+    "launch_automation_enabled": false,
+    "update_enabled": false,
+    "delete_enabled": false,
+    "approve_enabled": false,
+    "execute_enabled": false,
+    "deploy_merge_push_controls_enabled": false,
+    "auth_required_for_public_view": false
+  },
+  "sections": []
+}
