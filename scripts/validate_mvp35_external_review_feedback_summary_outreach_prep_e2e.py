@@ -42,9 +42,17 @@ def self_check_direct_validator():
         "MVP35_NO_EMAIL_SENDING_CHECK",
         "MVP35_NO_AUTOMATED_OUTREACH_CHECK",
         "MVP35_NO_CONTACT_AUTOMATION_CHECK",
+        "MVP35_NO_PUBLIC_WRITES_CHECK",
+        "MVP35_NO_TOKEN_INPUT_CHECK",
+        "MVP35_NO_SECRETS_EXPOSED_CHECK",
+        "MVP35_NO_SERVICE_ROLE_CHECK",
+        "MVP35_NO_DEPLOY_CONTROLS_CHECK",
+        "MVP35_NO_LAUNCH_AUTOMATION_CHECK",
+        "MVP35_NO_UPDATE_DELETE_APPROVE_EXECUTE_CHECK",
         "MVP35_NO_BROWSER_PERSISTENCE_CHECK",
         "MVP35_NO_DIRECT_SUPABASE_CHECK",
         "MVP35_EXTERNAL_REVIEW_EXPORT_ARTIFACTS_CHECK",
+        "MVP35_NO_WHOLE_FILE_SAFETY_LABEL_SKIP",
     ]
 
     issues = []
@@ -53,6 +61,22 @@ def self_check_direct_validator():
             issues.append(f"Direct validator missing marker: {marker}")
 
     required_patterns = [
+        "public_write_enabled",
+        "token_input_enabled",
+        "secrets_exposed",
+        "service_role_used",
+        "deploy_controls_enabled",
+        "launch_automation_enabled",
+        "update_enabled",
+        "delete_enabled",
+        "approve_enabled",
+        "execute_enabled",
+        "deploy_merge_push_controls_enabled",
+        "email_sending_enabled",
+        "automated_outreach_enabled",
+        "contact_automation_enabled",
+        "browser_persistence_enabled",
+        "browser_direct_supabase_calls",
         "localStorage.setItem",
         "sessionStorage.setItem",
         "document.cookie =",

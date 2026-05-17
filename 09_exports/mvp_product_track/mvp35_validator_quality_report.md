@@ -21,3 +21,15 @@ PASS_WITH_COPY_ONLY_OUTREACH_PREP
 - Checks no service role
 - Checks no browser Supabase
 - Checks no automation
+
+## Validator Quality Fix — Full MVP-35 Safety Contract Self-Check
+
+- MVP-35 direct validator now exposes explicit safety markers for no public writes.
+- MVP-35 direct validator now exposes explicit safety markers for no token input.
+- MVP-35 direct validator now exposes explicit safety markers for no secrets exposed.
+- MVP-35 direct validator now exposes explicit safety markers for no service-role usage.
+- MVP-35 direct validator now exposes explicit safety markers for no deploy controls and no launch automation.
+- MVP-35 direct validator now exposes explicit safety markers for no update/delete/approve/execute.
+- MVP-35 E2E validator now self-checks these direct-validator safety contracts.
+- No broad whole-file safety-label skip was added.
+- No product behavior was loosened.
