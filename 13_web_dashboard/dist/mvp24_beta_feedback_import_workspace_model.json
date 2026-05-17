@@ -1,0 +1,19 @@
+{
+  "token_in_memory_only": true,
+  "browser_direct_supabase_calls": false,
+  "calls_netlify_function_only": true,
+  "endpoint": "/api/feedback?action=import",
+  "status_endpoint": "/api/feedback?action=status",
+  "feature_flag_required": "MVP_ENABLE_FEEDBACK_PERSISTENCE",
+  "migration_apply_enabled": false,
+  "service_role_used": false,
+  "automation_enabled": false,
+  "update_delete_execute_blocked": true,
+  "update_enabled": false,
+  "delete_enabled": false,
+  "does_not_enable_feature_flag": true,
+  "does_not_apply_migration": true,
+  "does_not_store_token": true,
+  "does_not_print_token": true,
+  "actual_import_default": false
+}
