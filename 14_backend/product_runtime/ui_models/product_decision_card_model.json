@@ -1,0 +1,17 @@
+{
+  "product_decision_cards_ready": true,
+  "feedback_synthesis_workspace_ready": true,
+  "theme_clustering_ready": true,
+  "signal_strength_scoring_ready": true,
+  "read_only_synthesis_queue": true,
+  "owner_scoped_feedback_reads": true,
+  "service_role_used": false,
+  "browser_direct_supabase_calls": false,
+  "update_enabled": false,
+  "delete_enabled": false,
+  "automation_enabled": false,
+  "does_not_enable_feature_flag": true,
+  "does_not_apply_migration": true,
+  "does_not_store_token": true,
+  "does_not_print_token": true
+}

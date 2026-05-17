@@ -656,6 +656,28 @@ def _build_mvp25_authenticated_feedback_review_layer(snapshot):
         panel_id="mvp25-authenticated-feedback-review-inbox",
     )
 
+def _build_mvp26_feedback_synthesis_product_decision_layer(snapshot):
+    body = f"""
+<div class="mvp-section" data-mvp="26">
+  <div class="callout success-callout">
+    <strong style="color: var(--success);">MVP-26</strong>
+    <p class="muted">PASS_WITH_READ_ONLY_MANUAL_SYNTHESIS</p>
+    <p class="muted">FEEDBACK SYNTHESIS WORKSPACE</p>
+    <p class="muted">THEME CLUSTERING — PRODUCT DECISION CARDS — SIGNAL STRENGTH SCORING</p>
+    <p class="muted">READ ONLY SYNTHESIS QUEUE — OWNER-SCOPED FEEDBACK READS</p>
+    <p class="muted">SERVICE ROLE NOT USED — UPDATE DELETE EXECUTE BLOCKED — AUTOMATION STILL DISABLED</p>
+    <p class="muted">NEXT_STEP_BUILD_FEEDBACK_TO_REQUEST_CONVERSION_WORKSPACE — NOT_READY_FOR_REAL_AUTOMATION</p>
+  </div>
+</div>
+"""
+    return _details(
+        "MVP-26 — Feedback Synthesis + Product Decision Workflow",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp26-feedback-synthesis-product-decision-workflow",
+    )
+
 def _build_action_panel(snapshot):
     action_summary = snapshot.get("action_registry_summary", {})
     rows = _build_action_rows(action_summary.get("actions", []))
@@ -7081,6 +7103,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_mvp23_smoke_test_layer(snapshot),
         _build_mvp24_beta_feedback_import_layer(snapshot),
         _build_mvp25_authenticated_feedback_review_layer(snapshot),
+        _build_mvp26_feedback_synthesis_product_decision_layer(snapshot),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),
