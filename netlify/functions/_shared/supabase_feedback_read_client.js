@@ -1,5 +1,3 @@
-const { createClient } = require("@supabase/supabase-js");
-
 function getFeedbackReadClient(bearerToken) {
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_ANON_KEY;
@@ -12,28 +10,43 @@ function getFeedbackReadClient(bearerToken) {
     throw new Error("Missing user bearer token for feedback read");
   }
 
-  return createClient(url, key, {
-    global: {
-      headers: {
-        Authorization: `Bearer ${bearerToken}`
-      }
+  return {
+    url,
+    key,
+    bearerToken
+  };
+}
+
+async function runFeedbackReadQuery(client, query) {
+  const response = await fetch(query.url, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${client.bearerToken}`,
+      apikey: client.key,
+      Accept: "application/json"
     }
   });
+
+  if (!response.ok) {
+    const body = await response.text().catch(() => "");
+    return {
+      success: false,
+      status: response.status,
+      error: body || "FEEDBACK_READ_ERROR"
+    };
+  }
+
+  const data = await response.json();
+  return { success: true, data };
 }
 
 async function listFeedbackPackets(bearerToken) {
   try {
     const client = getFeedbackReadClient(bearerToken);
-    const { data, error } = await client
-      .from("external_feedback_packets")
-      .select("*")
-      .order("created_at", { ascending: false });
-
-    if (error) {
-      console.error("List feedback read error", error);
-      return { success: false, status: 500, error: "FEEDBACK_LIST_ERROR" };
-    }
-    return { success: true, data: data };
+    const query = new URL("/rest/v1/external_feedback_packets", client.url);
+    query.searchParams.set("select", "*");
+    query.searchParams.set("order", "created_at.desc");
+    return await runFeedbackReadQuery(client, query);
   } catch (err) {
     console.error("List feedback unexpected error", err);
     return { success: false, status: 500, error: "FEEDBACK_LIST_ERROR" };
@@ -46,17 +59,21 @@ async function getFeedbackPacket(bearerToken, feedbackId) {
       return { success: false, status: 400, error: "MISSING_FEEDBACK_ID" };
     }
     const client = getFeedbackReadClient(bearerToken);
-    const { data, error } = await client
-      .from("external_feedback_packets")
-      .select("*")
-      .eq("id", feedbackId)
-      .single();
+    const query = new URL("/rest/v1/external_feedback_packets", client.url);
+    query.searchParams.set("select", "*");
+    query.searchParams.set("id", `eq.${feedbackId}`);
+    query.searchParams.set("limit", "1");
+    const result = await runFeedbackReadQuery(client, query);
 
-    if (error) {
-      console.error("Get feedback read error", error);
+    if (!result.success) {
+      console.error("Get feedback read error", result.error);
       return { success: false, status: 404, error: "FEEDBACK_NOT_FOUND" };
     }
-    return { success: true, data: data };
+    const row = Array.isArray(result.data) ? result.data[0] : result.data;
+    if (!row) {
+      return { success: false, status: 404, error: "FEEDBACK_NOT_FOUND" };
+    }
+    return { success: true, data: row };
   } catch (err) {
     console.error("Get feedback unexpected error", err);
     return { success: false, status: 500, error: "FEEDBACK_GET_ERROR" };
