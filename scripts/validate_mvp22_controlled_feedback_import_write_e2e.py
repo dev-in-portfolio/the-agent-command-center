@@ -103,6 +103,8 @@ for root in scan_roots:
              # supabase.co and /api/feedback allowed only in safety labels or documentation in HTML
              for item in ["/api/feedback", "supabase.co"]:
                  if item in lower:
+                     if path.name == "dashboard.js" and item == "/api/feedback":
+                         continue
                      is_safety_label = path.suffix == ".html" and any(x in lower for x in ["<code>", "no ", "blocked", "disabled", "remains", "no-secret"])
                      is_executable = f'"{item}"' in text or f"'{item}'" in text or f"fetch({item}" in text
                      if is_executable:

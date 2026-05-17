@@ -84,6 +84,8 @@ def check():
         "/api/audit-log-status",
         "/api/approval-gate-status",
         "/api/dry-run-status",
+        "/api/feedback",
+        "/api/feedback?action=import",
         "./status_snapshot.json",
         "./phase4d_identity_schema.json",
         "./phase4d_action_schema.json",

@@ -861,6 +861,126 @@ def _build_mvp30_pitchable_release_package_layer(snapshot):
         panel_id="mvp30-pitchable-release-package-product-narrative",
     )
 
+def _build_mvp31_demo_session_capture_review_loop_layer(snapshot):
+    body = """
+<div class="mvp-section" data-mvp="31" data-mvp31-demo-session-capture="true">
+  <div class="callout success-callout">
+    <strong style="color: var(--success);">MVP-31</strong>
+    <p class="muted">PASS_WITH_MANUAL_SESSION_CAPTURE_AND_OPTIONAL_GATED_IMPORT</p>
+    <p class="muted">DEMO SESSION CAPTURE WORKSPACE — EXTERNAL REVIEW FEEDBACK LOOP</p>
+    <p class="muted">REVIEWER PERSONA SESSION — DEMO SESSION NOTES — FEEDBACK PACKET DRAFT</p>
+    <p class="muted">OPTIONAL FEEDBACK IMPORT GATED — TOKEN IN MEMORY ONLY — NO AUTOMATED OUTREACH</p>
+    <p class="muted">NO FAKE REVIEWER RESULTS — SERVICE ROLE NOT USED — UPDATE DELETE EXECUTE BLOCKED</p>
+    <p class="muted">AUTOMATION STILL DISABLED — NEXT_STEP_BUILD_RELEASE_REVIEW_METRICS_AND_SIGNAL_DASHBOARD — NOT_READY_FOR_REAL_AUTOMATION</p>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card" id="mvp31-session-setup-panel">
+      <div class="card-head"><h3 class="card-title">Demo Session Setup Panel</h3><span class="badge success">SETUP</span></div>
+      <p class="card-body">Choose the reviewer persona, demo goal, and product area before you capture the session.</p>
+      <label class="sr-only" for="mvp31-reviewer-persona">Reviewer persona</label>
+      <select id="mvp31-reviewer-persona" style="width:100%; margin-top:0.5rem;">
+        <option value="founder">Founder</option>
+        <option value="operator" selected>Operator</option>
+        <option value="recruiter">Recruiter</option>
+        <option value="technical reviewer">Technical reviewer</option>
+        <option value="external reviewer">External reviewer</option>
+      </select>
+      <label class="sr-only" for="mvp31-demo-goal">Demo goal</label>
+      <input id="mvp31-demo-goal" type="text" value="Pitch the release package and walk the review loop" style="width:100%; margin-top:0.75rem;" />
+      <label class="sr-only" for="mvp31-product-area">Product area</label>
+      <input id="mvp31-product-area" type="text" value="Pitchable release package + demo control room" style="width:100%; margin-top:0.75rem;" />
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp31-copy-session-summary">Copy Session Summary</button>
+      </div>
+    </article>
+
+    <article class="card" id="mvp31-notes-panel">
+      <div class="card-head"><h3 class="card-title">Demo Session Notes Panel</h3><span class="badge info">NOTES</span></div>
+      <p class="card-body">Capture objections, confusion points, praise, trust concerns, and the next step by hand.</p>
+      <label class="sr-only" for="mvp31-session-notes">Session notes</label>
+      <textarea id="mvp31-session-notes" style="width:100%; min-height:88px; margin-top:0.5rem;" placeholder="Session notes"></textarea>
+      <label class="sr-only" for="mvp31-session-objections">Objections</label>
+      <textarea id="mvp31-session-objections" style="width:100%; min-height:72px; margin-top:0.5rem;" placeholder="Objections and risks"></textarea>
+      <label class="sr-only" for="mvp31-session-praise">Praise</label>
+      <textarea id="mvp31-session-praise" style="width:100%; min-height:72px; margin-top:0.5rem;" placeholder="Praise and strongest parts"></textarea>
+      <label class="sr-only" for="mvp31-session-trust">Trust concerns</label>
+      <textarea id="mvp31-session-trust" style="width:100%; min-height:72px; margin-top:0.5rem;" placeholder="Trust concerns"></textarea>
+      <label class="sr-only" for="mvp31-session-next-step">Suggested next step</label>
+      <textarea id="mvp31-session-next-step" style="width:100%; min-height:72px; margin-top:0.5rem;" placeholder="Suggested next step"></textarea>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card" id="mvp31-packet-preview-panel">
+      <div class="card-head"><h3 class="card-title">Feedback Packet Draft Panel</h3><span class="badge info">PACKET</span></div>
+      <p class="card-body">The draft packet is built from the current session fields and only imported when the operator clicks the gated action.</p>
+      <pre id="mvp31-feedback-packet-preview" class="code-block" style="white-space:pre-wrap; min-height:180px; margin-top:0.75rem;">{"reviewer_persona":"operator","demo_goal":"Pitch the release package and walk the review loop","product_area":"Pitchable release package + demo control room","substantive_feedback":"Fill in session notes to draft the packet."}</pre>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp31-copy-feedback-packet">Copy Feedback Packet</button>
+        <button type="button" class="copy-button small" id="mvp31-copy-follow-up-plan">Copy Follow-Up Plan</button>
+      </div>
+    </article>
+
+    <article class="card" id="mvp31-import-panel">
+      <div class="card-head"><h3 class="card-title">Optional Feedback Import Panel</h3><span class="badge warning">GATED</span></div>
+      <p class="card-body">Endpoint: <code>/api/feedback?action=import</code>. Token stays in memory only and manual submission is required.</p>
+      <label class="sr-only" for="mvp31-feedback-token">Feedback token</label>
+      <input id="mvp31-feedback-token" type="password" autocomplete="off" placeholder="Token in memory only" style="width:100%; margin-top:0.5rem;" />
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="action-button small" id="mvp31-use-token-memory">Use Token In Memory</button>
+        <button type="button" class="action-button small" id="mvp31-clear-token">Clear Token</button>
+        <button type="button" class="action-button small" id="mvp31-check-feedback-endpoint">Check Feedback Endpoint Status</button>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="action-button small" id="mvp31-submit-feedback-packet">Submit Feedback Packet Manually</button>
+      </div>
+      <p class="muted" style="margin-top:0.75rem;">No automated outreach, no email sending, and no browser persistence.</p>
+      <pre id="mvp31-import-status" class="code-block" style="white-space:pre-wrap; min-height:96px; margin-top:0.5rem;">Awaiting explicit operator action.</pre>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card" id="mvp31-follow-up-panel">
+      <div class="card-head"><h3 class="card-title">Follow-Up Decision Panel</h3><span class="badge info">FOLLOW-UP</span></div>
+      <p class="card-body">Keep the operator in control of the next step after the demo session is captured.</p>
+      <label class="sr-only" for="mvp31-follow-up-decision">Follow-up decision</label>
+      <select id="mvp31-follow-up-decision" style="width:100%; margin-top:0.5rem;">
+        <option value="review_and_refine" selected>Review and refine internally</option>
+        <option value="import_and_review">Import packet and review externally</option>
+        <option value="hold_local">Hold local, no import yet</option>
+        <option value="prepare_next_demo">Prepare the next demo session</option>
+      </select>
+      <pre id="mvp31-follow-up-preview" class="code-block" style="white-space:pre-wrap; min-height:110px; margin-top:0.75rem;">Review and refine internally before optional import.</pre>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp31-copy-follow-up-summary">Copy Follow-Up Summary</button>
+      </div>
+    </article>
+
+    <article class="card" id="mvp31-security-panel">
+      <div class="card-head"><h3 class="card-title">Security Boundary Panel</h3><span class="badge warning">SAFETY</span></div>
+      <p class="card-body">The workspace stays manual, token-aware, and free of outreach automation.</p>
+      <ul class="compact-list">
+        <li>No automated outreach.</li>
+        <li>No email sending.</li>
+        <li>No fake reviewer results.</li>
+        <li>Service role not used.</li>
+        <li>Browser persistence blocked.</li>
+        <li>Update/delete/approve/execute blocked.</li>
+        <li>External release controls absent.</li>
+      </ul>
+    </article>
+  </div>
+</div>
+"""
+    return _details(
+        "MVP-31 — Demo Session Capture + External Review Feedback Loop",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp31-demo-session-capture-review-loop",
+    )
+
 def _build_action_panel(snapshot):
     action_summary = snapshot.get("action_registry_summary", {})
     rows = _build_action_rows(action_summary.get("actions", []))
@@ -7291,6 +7411,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_mvp28_operator_roadmap_prioritization_layer(snapshot),
         _build_mvp29_guided_product_demo_control_room_layer(snapshot),
         _build_mvp30_pitchable_release_package_layer(snapshot),
+        _build_mvp31_demo_session_capture_review_loop_layer(snapshot),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),

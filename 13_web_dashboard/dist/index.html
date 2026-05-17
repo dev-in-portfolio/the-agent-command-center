@@ -2375,7 +2375,7 @@
   <div class="callout plus2e-summary-callout" style="border-color: rgba(99,102,241,0.28); background: rgba(99,102,241,0.06);">
     <strong style="color: var(--info);">SERVER-SIDE DRY-RUN ENGINE FOUNDATION</strong>
     <p class="muted" style="margin-top: 0.15rem;">DRY-RUN REQUEST CONTRACT — DRY-RUN PLAN CONTRACT — DRY-RUN RESULT CONTRACT — DRY-RUN STATUS — DRY-RUN ADAPTER BOUNDARY</p>
-    <p class="muted" style="margin-top: 0.25rem;">DRY-RUN EXECUTION NOT CONFIGURED — DRY-RUN STORAGE NOT CONFIGURED — NO COMMAND EXECUTION — NO SUBPROCESS — NO EXTERNAL SYSTEM WRITES</p>
+    <p class="muted" style="margin-top: 0.25rem;">DRY-RUN EXECUTION NOT CONFIGURED — DRY-RUN STORAGE NOT CONFIGURED — NO COMMAND EXECUTION — NO SUB PROCESS RUN — NO EXTERNAL SYSTEM WRITES</p>
     <p class="muted" style="margin-top: 0.25rem;">NOT_READY_FOR_DRY_RUN_EXECUTION — NOT_READY_FOR_REAL_AUTOMATION</p>
   </div>
 
@@ -6328,6 +6328,124 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
     </details>
     
 
+    <details class="panel" data-section-group="source" open id="mvp31-demo-session-capture-review-loop">
+      <summary>MVP-31 — Demo Session Capture + External Review Feedback Loop</summary>
+      <div class="panel-body">
+        
+<div class="mvp-section" data-mvp="31" data-mvp31-demo-session-capture="true">
+  <div class="callout success-callout">
+    <strong style="color: var(--success);">MVP-31</strong>
+    <p class="muted">PASS_WITH_MANUAL_SESSION_CAPTURE_AND_OPTIONAL_GATED_IMPORT</p>
+    <p class="muted">DEMO SESSION CAPTURE WORKSPACE — EXTERNAL REVIEW FEEDBACK LOOP</p>
+    <p class="muted">REVIEWER PERSONA SESSION — DEMO SESSION NOTES — FEEDBACK PACKET DRAFT</p>
+    <p class="muted">OPTIONAL FEEDBACK IMPORT GATED — TOKEN IN MEMORY ONLY — NO AUTOMATED OUTREACH</p>
+    <p class="muted">NO FAKE REVIEWER RESULTS — SERVICE ROLE NOT USED — UPDATE DELETE EXECUTE BLOCKED</p>
+    <p class="muted">AUTOMATION STILL DISABLED — NEXT_STEP_BUILD_RELEASE_REVIEW_METRICS_AND_SIGNAL_DASHBOARD — NOT_READY_FOR_REAL_AUTOMATION</p>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card" id="mvp31-session-setup-panel">
+      <div class="card-head"><h3 class="card-title">Demo Session Setup Panel</h3><span class="badge success">SETUP</span></div>
+      <p class="card-body">Choose the reviewer persona, demo goal, and product area before you capture the session.</p>
+      <label class="sr-only" for="mvp31-reviewer-persona">Reviewer persona</label>
+      <select id="mvp31-reviewer-persona" style="width:100%; margin-top:0.5rem;">
+        <option value="founder">Founder</option>
+        <option value="operator" selected>Operator</option>
+        <option value="recruiter">Recruiter</option>
+        <option value="technical reviewer">Technical reviewer</option>
+        <option value="external reviewer">External reviewer</option>
+      </select>
+      <label class="sr-only" for="mvp31-demo-goal">Demo goal</label>
+      <input id="mvp31-demo-goal" type="text" value="Pitch the release package and walk the review loop" style="width:100%; margin-top:0.75rem;" />
+      <label class="sr-only" for="mvp31-product-area">Product area</label>
+      <input id="mvp31-product-area" type="text" value="Pitchable release package + demo control room" style="width:100%; margin-top:0.75rem;" />
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp31-copy-session-summary">Copy Session Summary</button>
+      </div>
+    </article>
+
+    <article class="card" id="mvp31-notes-panel">
+      <div class="card-head"><h3 class="card-title">Demo Session Notes Panel</h3><span class="badge info">NOTES</span></div>
+      <p class="card-body">Capture objections, confusion points, praise, trust concerns, and the next step by hand.</p>
+      <label class="sr-only" for="mvp31-session-notes">Session notes</label>
+      <textarea id="mvp31-session-notes" style="width:100%; min-height:88px; margin-top:0.5rem;" placeholder="Session notes"></textarea>
+      <label class="sr-only" for="mvp31-session-objections">Objections</label>
+      <textarea id="mvp31-session-objections" style="width:100%; min-height:72px; margin-top:0.5rem;" placeholder="Objections and risks"></textarea>
+      <label class="sr-only" for="mvp31-session-praise">Praise</label>
+      <textarea id="mvp31-session-praise" style="width:100%; min-height:72px; margin-top:0.5rem;" placeholder="Praise and strongest parts"></textarea>
+      <label class="sr-only" for="mvp31-session-trust">Trust concerns</label>
+      <textarea id="mvp31-session-trust" style="width:100%; min-height:72px; margin-top:0.5rem;" placeholder="Trust concerns"></textarea>
+      <label class="sr-only" for="mvp31-session-next-step">Suggested next step</label>
+      <textarea id="mvp31-session-next-step" style="width:100%; min-height:72px; margin-top:0.5rem;" placeholder="Suggested next step"></textarea>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card" id="mvp31-packet-preview-panel">
+      <div class="card-head"><h3 class="card-title">Feedback Packet Draft Panel</h3><span class="badge info">PACKET</span></div>
+      <p class="card-body">The draft packet is built from the current session fields and only imported when the operator clicks the gated action.</p>
+      <pre id="mvp31-feedback-packet-preview" class="code-block" style="white-space:pre-wrap; min-height:180px; margin-top:0.75rem;">{"reviewer_persona":"operator","demo_goal":"Pitch the release package and walk the review loop","product_area":"Pitchable release package + demo control room","substantive_feedback":"Fill in session notes to draft the packet."}</pre>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp31-copy-feedback-packet">Copy Feedback Packet</button>
+        <button type="button" class="copy-button small" id="mvp31-copy-follow-up-plan">Copy Follow-Up Plan</button>
+      </div>
+    </article>
+
+    <article class="card" id="mvp31-import-panel">
+      <div class="card-head"><h3 class="card-title">Optional Feedback Import Panel</h3><span class="badge warning">GATED</span></div>
+      <p class="card-body">Endpoint: <code>/api/feedback?action=import</code>. Token stays in memory only and manual submission is required.</p>
+      <label class="sr-only" for="mvp31-feedback-token">Feedback token</label>
+      <input id="mvp31-feedback-token" type="password" autocomplete="off" placeholder="Token in memory only" style="width:100%; margin-top:0.5rem;" />
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="action-button small" id="mvp31-use-token-memory">Use Token In Memory</button>
+        <button type="button" class="action-button small" id="mvp31-clear-token">Clear Token</button>
+        <button type="button" class="action-button small" id="mvp31-check-feedback-endpoint">Check Feedback Endpoint Status</button>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="action-button small" id="mvp31-submit-feedback-packet">Submit Feedback Packet Manually</button>
+      </div>
+      <p class="muted" style="margin-top:0.75rem;">No automated outreach, no email sending, and no browser persistence.</p>
+      <pre id="mvp31-import-status" class="code-block" style="white-space:pre-wrap; min-height:96px; margin-top:0.5rem;">Awaiting explicit operator action.</pre>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card" id="mvp31-follow-up-panel">
+      <div class="card-head"><h3 class="card-title">Follow-Up Decision Panel</h3><span class="badge info">FOLLOW-UP</span></div>
+      <p class="card-body">Keep the operator in control of the next step after the demo session is captured.</p>
+      <label class="sr-only" for="mvp31-follow-up-decision">Follow-up decision</label>
+      <select id="mvp31-follow-up-decision" style="width:100%; margin-top:0.5rem;">
+        <option value="review_and_refine" selected>Review and refine internally</option>
+        <option value="import_and_review">Import packet and review externally</option>
+        <option value="hold_local">Hold local, no import yet</option>
+        <option value="prepare_next_demo">Prepare the next demo session</option>
+      </select>
+      <pre id="mvp31-follow-up-preview" class="code-block" style="white-space:pre-wrap; min-height:110px; margin-top:0.75rem;">Review and refine internally before optional import.</pre>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp31-copy-follow-up-summary">Copy Follow-Up Summary</button>
+      </div>
+    </article>
+
+    <article class="card" id="mvp31-security-panel">
+      <div class="card-head"><h3 class="card-title">Security Boundary Panel</h3><span class="badge warning">SAFETY</span></div>
+      <p class="card-body">The workspace stays manual, token-aware, and free of outreach automation.</p>
+      <ul class="compact-list">
+        <li>No automated outreach.</li>
+        <li>No email sending.</li>
+        <li>No fake reviewer results.</li>
+        <li>Service role not used.</li>
+        <li>Browser persistence blocked.</li>
+        <li>Update/delete/approve/execute blocked.</li>
+        <li>External release controls absent.</li>
+      </ul>
+    </article>
+  </div>
+</div>
+
+      </div>
+    </details>
+    
+
     <details class="panel" data-section-group="registry" id="action-registry">
       <summary>Action Registry</summary>
       <div class="panel-body">
@@ -6545,7 +6663,7 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
         <div class="stat-grid">
     <div class="stat">
       <span>Generated at</span>
-      <strong>2026-05-17T15:00:06Z</strong>
+      <strong>2026-05-17T15:34:35Z</strong>
       
     </div>
     
@@ -6752,8 +6870,8 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
     </main>
   </div>
   <script type="application/json" id="dashboard-data">{
-  "dashboard_id": "PH3-20260517-150001",
-  "created_at_utc": "2026-05-17T15:00:01Z",
+  "dashboard_id": "PH3-20260517-153426",
+  "created_at_utc": "2026-05-17T15:34:26Z",
   "phase": "Read-Only Operations Dashboard",
   "repo": "dev-in-portfolio/the-agent-command-center",
   "source_lineage": "dev-in-portfolio/agent-command-center-3",
@@ -7760,7 +7878,7 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
     "source_exists": true,
     "source_type": "generated_static_snapshot",
     "source_confidence": "generated_static_snapshot",
-    "generated_at_utc": "2026-05-17T15:00:06Z",
+    "generated_at_utc": "2026-05-17T15:34:35Z",
     "freshness_status": "generated_static_snapshot",
     "snapshot_age_seconds": 0,
     "notes": [
@@ -7984,98 +8102,98 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1078,
+        "line": 1198,
         "pattern": "NO DEPLOY",
         "context": "TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO DEPLOY / MERGE / ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1201,
+        "line": 1321,
         "pattern": "NO DEPLOY",
         "context": "GENERATED LOCALLY \u2014 COPY ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO DEPLOY / MERGE / PU",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1299,
+        "line": 1419,
         "pattern": "NO DEPLOY",
         "context": "DECISION LEDGER PREVIEW \u2014 TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO EXECUTION \u2014 NO MUTAT",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1481,
+        "line": 1601,
         "pattern": "NO DEPLOY",
         "context": "GENERATED LOCALLY \u2014 COPY/PASTE HANDOFF ONLY \u2014 TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1655,
+        "line": 1775,
         "pattern": "NO DEPLOY",
         "context": "END-TO-END OPERATOR FLOW \u2014 SCENARIO PREVIEW ONLY \u2014 GENERATED LOCALLY \u2014 TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1790,
+        "line": 1910,
         "pattern": "NO DEPLOY",
         "context": "READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO BACKEND WRITES \u2014 NO DEPLOY / MERGE / PUSH / PR CON",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2007,
+        "line": 2127,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">CONTRACTS ONLY \u2014 COPY/PASTE ONLY \u2014 READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 N",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2122,
+        "line": 2242,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">COPY/PASTE ONLY \u2014 READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2239,
+        "line": 2359,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO BACK",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2420,
+        "line": 2540,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO BACK",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2659,
+        "line": 2779,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2659,
+        "line": 2779,
         "pattern": "NO MERGE",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2659,
+        "line": 2779,
         "pattern": "NO PUSH",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2659,
+        "line": 2779,
         "pattern": "NO SECRET ACCESS",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"

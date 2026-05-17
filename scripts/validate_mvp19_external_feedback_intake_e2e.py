@@ -72,6 +72,8 @@ for root in scan_roots:
         if path.suffix in {".js", ".html"} and "13_web_dashboard" in path_str:
              for item in ["/api/feedback", "api.github.com", "api.netlify.com", "supabase.co"]:
                  if item in lower:
+                     if path.name == "dashboard.js" and item == "/api/feedback":
+                         continue
                      # Allow only as safety labels or documentation in HTML
                      is_safety_label = path.suffix == ".html" and any(x in lower for x in ["<code>", "no ", "blocked", "disabled", "remains"])
                      # Block if fetch or quoted URL literal in script

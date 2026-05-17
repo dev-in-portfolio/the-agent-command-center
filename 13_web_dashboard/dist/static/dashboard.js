@@ -6579,9 +6579,199 @@
     updatePlus2EUI();
   }
 
+  function initMvp31() {
+    var shell = document.querySelector("[data-mvp31-demo-session-capture]");
+    if (!shell) return;
+
+    var persona = shell.querySelector("#mvp31-reviewer-persona");
+    var demoGoal = shell.querySelector("#mvp31-demo-goal");
+    var productArea = shell.querySelector("#mvp31-product-area");
+    var sessionNotes = shell.querySelector("#mvp31-session-notes");
+    var objections = shell.querySelector("#mvp31-session-objections");
+    var praise = shell.querySelector("#mvp31-session-praise");
+    var trust = shell.querySelector("#mvp31-session-trust");
+    var nextStep = shell.querySelector("#mvp31-session-next-step");
+    var followUpDecision = shell.querySelector("#mvp31-follow-up-decision");
+    var tokenInput = shell.querySelector("#mvp31-feedback-token");
+    var packetPreview = shell.querySelector("#mvp31-feedback-packet-preview");
+    var followUpPreview = shell.querySelector("#mvp31-follow-up-preview");
+    var status = shell.querySelector("#mvp31-import-status");
+    var tokenMemory = "";
+
+    function currentText(node) {
+      return node ? node.value.trim() : "";
+    }
+
+    function buildSessionSummary() {
+      return [
+        "MVP-31 demo session summary",
+        "Reviewer persona: " + currentText(persona),
+        "Demo goal: " + currentText(demoGoal),
+        "Product area: " + currentText(productArea),
+        "Notes: " + currentText(sessionNotes),
+        "Objections: " + currentText(objections),
+        "Praise: " + currentText(praise),
+        "Trust concerns: " + currentText(trust),
+        "Suggested next step: " + currentText(nextStep),
+      ].join("\n");
+    }
+
+    function buildFollowUpPlan() {
+      var decision = followUpDecision ? followUpDecision.value : "review_and_refine";
+      var lines = {
+        review_and_refine: [
+          "Review the captured notes internally.",
+          "Refine the release narrative.",
+          "Delay optional import until the packet is clean."
+        ],
+        import_and_review: [
+          "Use the gated import only with explicit operator action.",
+          "Review the imported packet in the external loop.",
+          "Keep outreach manual."
+        ],
+        hold_local: [
+          "Keep the packet local only.",
+          "No import yet.",
+          "Revisit after the next demo pass."
+        ],
+        prepare_next_demo: [
+          "Prepare the next demo session.",
+          "Update the storyline and notes.",
+          "Keep the loop manual and safe."
+        ],
+      }[decision] || ["Review the session manually."];
+      return ["MVP-31 follow-up plan", "Decision: " + decision].concat(lines).join("\n");
+    }
+
+    function buildPacket() {
+      return {
+        mvp: 31,
+        packet_type: "demo_session_capture_review_loop",
+        reviewer_persona: currentText(persona),
+        demo_goal: currentText(demoGoal),
+        product_area: currentText(productArea),
+        session_notes: currentText(sessionNotes),
+        objections: currentText(objections),
+        praise: currentText(praise),
+        trust_concerns: currentText(trust),
+        suggested_next_step: currentText(nextStep),
+        follow_up_decision: followUpDecision ? followUpDecision.value : "review_and_refine",
+        substantive_feedback: buildSessionSummary(),
+        source: "mvp31_demo_session_capture_workspace",
+        token_in_memory_only: true,
+      };
+    }
+
+    function updatePreviews() {
+      if (packetPreview) packetPreview.textContent = JSON.stringify(buildPacket(), null, 2);
+      if (followUpPreview) followUpPreview.textContent = buildFollowUpPlan();
+    }
+
+    function setStatus(message) {
+      if (status) status.textContent = message;
+    }
+
+    function loadTokenIntoMemory() {
+      tokenMemory = tokenInput ? tokenInput.value.trim() : "";
+      if (tokenInput) tokenInput.value = "";
+      setStatus(tokenMemory ? "Token loaded into memory only." : "No token loaded.");
+    }
+
+    function clearTokenMemory() {
+      tokenMemory = "";
+      if (tokenInput) tokenInput.value = "";
+      setStatus("Token cleared from memory.");
+    }
+
+    function checkEndpointStatus() {
+      if (location.hostname === "127.0.0.1" || location.hostname === "localhost") {
+        setStatus("Local preview is static. Check /api/feedback on the deployed site or Netlify preview.");
+        return;
+      }
+      fetch("/api/feedback")
+        .then(function (res) {
+          return res.text().then(function (text) {
+            return { status: res.status, text: text };
+          });
+        })
+        .then(function (result) {
+          setStatus("Feedback endpoint status: " + result.status + "\n" + result.text);
+        })
+        .catch(function (err) {
+          setStatus("Feedback endpoint check failed: " + err.message);
+        });
+    }
+
+    function submitPacket() {
+      if (!tokenMemory) {
+        setStatus("Load a token into memory first, then submit manually.");
+        return;
+      }
+      if (location.hostname === "127.0.0.1" || location.hostname === "localhost") {
+        setStatus("Local preview is static. Manual feedback import is only available on the deployed site or Netlify preview.");
+        return;
+      }
+      fetch("/api/feedback?action=import", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + tokenMemory,
+        },
+        body: JSON.stringify(buildPacket()),
+      })
+        .then(function (res) {
+          return res.text().then(function (text) {
+            return { status: res.status, text: text };
+          });
+        })
+        .then(function (result) {
+          setStatus("Manual feedback import finished: " + result.status + "\n" + result.text);
+        })
+        .catch(function (err) {
+          setStatus("Manual feedback import failed: " + err.message);
+        });
+    }
+
+    function bindDynamicCopy(buttonId, getter, message) {
+      var button = shell.querySelector("#" + buttonId);
+      if (!button) return;
+      button.addEventListener("click", function () {
+        copyRenderedText(getter(), message);
+      });
+    }
+
+    [persona, demoGoal, productArea, sessionNotes, objections, praise, trust, nextStep].forEach(function (node) {
+      if (node) node.addEventListener("input", updatePreviews);
+    });
+    if (followUpDecision) followUpDecision.addEventListener("change", updatePreviews);
+
+    bindDynamicCopy("mvp31-copy-session-summary", buildSessionSummary, "MVP-31 session summary copied.");
+    bindDynamicCopy("mvp31-copy-feedback-packet", function () { return JSON.stringify(buildPacket(), null, 2); }, "MVP-31 feedback packet copied.");
+    bindDynamicCopy("mvp31-copy-follow-up-plan", buildFollowUpPlan, "MVP-31 follow-up plan copied.");
+    bindDynamicCopy("mvp31-copy-follow-up-summary", buildFollowUpPlan, "MVP-31 follow-up summary copied.");
+
+    var useTokenButton = shell.querySelector("#mvp31-use-token-memory");
+    var clearTokenButton = shell.querySelector("#mvp31-clear-token");
+    var statusButton = shell.querySelector("#mvp31-check-feedback-endpoint");
+    var submitButton = shell.querySelector("#mvp31-submit-feedback-packet");
+
+    if (useTokenButton) useTokenButton.addEventListener("click", loadTokenIntoMemory);
+    if (clearTokenButton) clearTokenButton.addEventListener("click", clearTokenMemory);
+    if (statusButton) statusButton.addEventListener("click", checkEndpointStatus);
+    if (submitButton) submitButton.addEventListener("click", submitPacket);
+
+    updatePreviews();
+  }
+
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initPlus2E);
   } else {
     initPlus2E();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initMvp31);
+  } else {
+    initMvp31();
   }
 })();
