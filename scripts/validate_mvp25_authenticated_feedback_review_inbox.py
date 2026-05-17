@@ -100,6 +100,33 @@ def main():
     assert_contains(endpoint, "getAuthContext", "auth context")
     assert_contains(endpoint, "importFeedbackPacket", "previous import behavior preserved")
 
+    # Deep Feedback Endpoint Checks
+    assert_contains(endpoint, 'action === "list"', "list action string")
+    assert_contains(endpoint, 'action === "get"', "get action string")
+    assert_contains(endpoint, "listFeedbackPackets", "listFeedbackPackets function")
+    assert_contains(endpoint, "getFeedbackPacket", "getFeedbackPacket function")
+    assert_contains(endpoint, "importFeedbackPacket", "importFeedbackPacket function")
+    assert_contains(endpoint, "METHOD_NOT_ALLOWED", "METHOD_NOT_ALLOWED string")
+    assert_contains(endpoint, "INVALID_ACTION", "INVALID_ACTION string")
+    assert_contains(endpoint, "WRITE_ACTION_NOT_ALLOWED", "WRITE_ACTION_NOT_ALLOWED string")
+    assert_contains(endpoint, "FEEDBACK_PERSISTENCE_DISABLED", "FEEDBACK_PERSISTENCE_DISABLED string")
+
+    # Deep Read Client Checks
+    assert_contains(client_code, "getFeedbackReadClient", "getFeedbackReadClient function")
+    assert_contains(client_code, "bearerToken", "bearerToken string")
+    assert_contains(client_code, "SUPABASE_URL", "SUPABASE_URL string")
+    assert_contains(client_code, "SUPABASE_ANON_KEY", "SUPABASE_ANON_KEY string")
+    assert_contains(client_code, "listFeedbackPackets", "listFeedbackPackets function")
+    assert_contains(client_code, "getFeedbackPacket", "getFeedbackPacket function")
+    assert_contains(client_code, "external_feedback_packets", "external_feedback_packets table")
+    assert_contains(client_code, "Authorization", "Authorization header")
+
+    forbidden_client = ["SUPABASE_SERVICE_ROLE_KEY", "service_role", 'method: "PATCH"', 'method: "PUT"', 'method: "DELETE"', "/rpc/"]
+    for f in forbidden_client:
+        if f in client_code:
+            fail(f"Forbidden string in read client: {f}")
+
+
     scan_roots = [ROOT / "13_web_dashboard", UI_MODEL_DIR, REPORT_DIR, SCRIPT_DIR, ROOT / "netlify" / "functions"]
     runtime_forbidden = [
         "localStorage.setItem",
