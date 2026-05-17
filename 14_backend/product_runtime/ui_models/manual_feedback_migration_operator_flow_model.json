@@ -1,0 +1,27 @@
+{
+  "model_id": "manual-feedback-migration-operator-flow-model",
+  "model_version": "1.0",
+  "purpose": "manual operator flow for applying feedback migrations in a reviewed environment",
+  "automatic_migration_apply_enabled": false,
+  "operator_confirmation_required": true,
+  "required_files": [
+    "003_feedback_persistence_schema.sql",
+    "004_feedback_persistence_rls_policies.sql"
+  ],
+  "required_manual_steps": [
+    "review migration SQL",
+    "apply migration using approved Supabase process outside app runtime",
+    "verify table exists",
+    "verify RLS enabled",
+    "verify owner-scoped select policy",
+    "verify owner-scoped insert policy",
+    "verify no update/delete policies",
+    "verify no anonymous writes"
+  ],
+  "blocked_actions": [
+    "app_runtime_migration_apply",
+    "automatic_migration_apply",
+    "browser_migration_apply",
+    "service_role_exposure"
+  ]
+}
