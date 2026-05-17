@@ -1,0 +1,36 @@
+{
+  "mvp": "36",
+  "product": "Operator Roadmap Sync Review",
+  "status": "operator_review_only",
+  "capabilities": [
+    "central review panel for roadmap sync decisions",
+    "review external signal priority map",
+    "review roadmap update recommendations",
+    "review request draft candidates",
+    "review decision sync audit packet",
+    "approve or reject sync recommendations (copy-controlled)"
+  ],
+  "posture": {
+    "operator_roadmap_sync_review_ready": true,
+    "operator_review_only": true,
+    "automatic_roadmap_updates_enabled": false,
+    "automatic_request_creation_enabled": false,
+    "live_write_enabled": false,
+    "public_write_enabled": false,
+    "token_input_enabled": false,
+    "secrets_exposed": false,
+    "service_role_used": false,
+    "browser_direct_supabase_calls": false,
+    "browser_persistence_enabled": false,
+    "email_sending_enabled": false,
+    "automated_outreach_enabled": false,
+    "automation_enabled": false,
+    "deploy_controls_enabled": false,
+    "launch_automation_enabled": false,
+    "update_enabled": false,
+    "delete_enabled": false,
+    "approve_enabled": false,
+    "execute_enabled": false,
+    "deploy_merge_push_controls_enabled": false
+  }
+}

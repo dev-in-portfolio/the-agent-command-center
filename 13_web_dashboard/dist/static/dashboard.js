@@ -7129,3 +7129,29 @@
     initMvp35();
   }
 })();
+
+(function() {
+  function initMvp36() {
+    const buildDecisionSync = () => "Review-to-Roadmap Decision Sync\n\nExternal Signal Priority Map\nRoadmap Update Recommendations\nReview Signal Request Drafts\nDecision Sync Audit Packet\nOperator Roadmap Sync Review\n\nOPERATOR REVIEW ONLY";
+    const buildSignalPriority = () => "External Signal Priority Map\n\nInvestor Signals\nRecruiter Signals\nTechnical Reviewer Signals\nPriority Impact Assessment\n\nOPERATOR REVIEW ONLY";
+    const buildRoadmapRecommendations = () => "Roadmap Update Recommendations\n\nPriority Shift Recommendations\nNew Roadmap Candidates\nOutdated Item Flags\n\nOPERATOR REVIEW ONLY";
+    const buildRequestDrafts = () => "Review Signal Request Drafts\n\nInvestor Signal Drafts\nRecruiter Signal Drafts\nTechnical Reviewer Signal Drafts\n\nOPERATOR REVIEW ONLY";
+    const buildAuditPacket = () => "Decision Sync Audit Packet\n\nDecision Change Log\nChange Rationale\nPending Operator Approvals\n\nOPERATOR REVIEW ONLY";
+    const buildOperatorReview = () => "Operator Roadmap Sync Review\n\nSignal Priority Map Review\nRoadmap Recommendations Review\nRequest Draft Candidates Review\nDecision Sync Audit Packet Review\n\nOPERATOR REVIEW ONLY";
+    const buildCopyBank = () => "Review-to-Roadmap Copy Bank\n\nDecision Sync Copy\nSignal Priority Copy\nRoadmap Recommendations Copy\nRequest Drafts Copy\nAudit Packet Copy\nOperator Review Copy\n\nOPERATOR REVIEW ONLY";
+
+    bindDynamicCopy("mvp36-copy-decision-sync", buildDecisionSync, "MVP-36 decision sync copied.");
+    bindDynamicCopy("mvp36-copy-signal-priority", buildSignalPriority, "MVP-36 signal priority map copied.");
+    bindDynamicCopy("mvp36-copy-roadmap-recommendations", buildRoadmapRecommendations, "MVP-36 roadmap recommendations copied.");
+    bindDynamicCopy("mvp36-copy-request-drafts", buildRequestDrafts, "MVP-36 request drafts copied.");
+    bindDynamicCopy("mvp36-copy-audit-packet", buildAuditPacket, "MVP-36 audit packet copied.");
+    bindDynamicCopy("mvp36-copy-operator-review", buildOperatorReview, "MVP-36 operator review packet copied.");
+    bindDynamicCopy("mvp36-copy-copy-bank", buildCopyBank, "MVP-36 copy bank copied.");
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initMvp36);
+  } else {
+    initMvp36();
+  }
+})();
