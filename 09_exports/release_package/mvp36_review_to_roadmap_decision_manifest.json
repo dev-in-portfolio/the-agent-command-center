@@ -1,0 +1,14 @@
+{
+  "mvp": "36",
+  "product": "Review-to-Roadmap Decision Sync",
+  "status": "operator_review_only",
+  "exports": [
+    "mvp36_review_to_roadmap_decision_sync.md",
+    "mvp36_external_signal_priority_map.md",
+    "mvp36_roadmap_update_recommendations.md",
+    "mvp36_review_signal_request_drafts.md",
+    "mvp36_decision_sync_audit_packet.md",
+    "mvp36_operator_roadmap_sync_review_packet.md",
+    "mvp36_review_to_roadmap_copy_bank.md"
+  ]
+}

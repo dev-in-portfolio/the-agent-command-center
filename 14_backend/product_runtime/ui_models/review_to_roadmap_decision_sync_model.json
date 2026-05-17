@@ -1,0 +1,40 @@
+{
+  "mvp": "36",
+  "product": "Review-to-Roadmap Decision Sync",
+  "status": "operator_review_only",
+  "capabilities": [
+    "map external review signals to roadmap priorities",
+    "generate roadmap update recommendations",
+    "draft request candidates from review signals",
+    "produce decision sync audit packet",
+    "operator review panel for roadmap sync"
+  ],
+  "posture": {
+    "review_to_roadmap_decision_sync_ready": true,
+    "external_signal_priority_mapping_ready": true,
+    "roadmap_update_recommendation_ready": true,
+    "review_signal_request_draft_ready": true,
+    "decision_sync_audit_packet_ready": true,
+    "operator_roadmap_sync_review_ready": true,
+    "operator_review_only": true,
+    "automatic_roadmap_updates_enabled": false,
+    "automatic_request_creation_enabled": false,
+    "live_write_enabled": false,
+    "public_write_enabled": false,
+    "token_input_enabled": false,
+    "secrets_exposed": false,
+    "service_role_used": false,
+    "browser_direct_supabase_calls": false,
+    "browser_persistence_enabled": false,
+    "email_sending_enabled": false,
+    "automated_outreach_enabled": false,
+    "automation_enabled": false,
+    "deploy_controls_enabled": false,
+    "launch_automation_enabled": false,
+    "update_enabled": false,
+    "delete_enabled": false,
+    "approve_enabled": false,
+    "execute_enabled": false,
+    "deploy_merge_push_controls_enabled": false
+  }
+}
