@@ -656,6 +656,8 @@ allowed_prefixes = [
         "scripts/validate_mvp22_controlled_feedback_import_write_e2e.py",
         "scripts/validate_mvp23_feedback_import_smoke_test.py",
         "scripts/validate_mvp23_feedback_import_smoke_test_e2e.py",
+        "scripts/validate_mvp24_beta_feedback_import_workspace.py",
+        "scripts/validate_mvp24_beta_feedback_import_workspace_e2e.py",
         "scripts/mvp23_feedback_import_smoke_test.py",
         "scripts/mvp23_verify_feedback_migration_files.py",
         "13_web_dashboard/",
