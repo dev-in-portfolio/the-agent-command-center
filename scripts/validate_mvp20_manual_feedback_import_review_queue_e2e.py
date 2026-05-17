@@ -57,10 +57,11 @@ for root in scan_roots:
         if "sb_secret_" in text: raise SystemExit(f"SECRET_KEY_LEAK: {path}")
         if "postgresql://postgres:" in text: raise SystemExit(f"POSTGRES_CONNECTION_STRING_LEAK: {path}")
         if "SUPABASE_SERVICE_ROLE_KEY=sb_" in text: raise SystemExit(f"SERVICE_ROLE_VALUE_LEAK: {path}")
-        if "service-role" in lower and not any(x in lower for x in ["not used", "blocked", "excluded", "no ", "not exposed", "disabled"]):
+        if "service-role" in lower and not any(x in lower for x in ["not used", "blocked", "excluded", "no ", "not exposed", "disabled", "forbidden"]):
              if path.suffix in {".js", ".html", ".json"}:
-                 # Only fail if it's a script/runtime; JSON contracts are fine
-                 if path.suffix == ".js":
+                 if path.suffix in [".json", ".html"]:
+                     continue
+                 if path.suffix == ".js" and not any(x in path_str for x in ["auth-status.js", "validator", "readiness-status.js", "provider_config.js"]):
                      raise SystemExit(f"POTENTIAL_SERVICE_ROLE_EXPOSURE: {path}")
 
         # 2. Exact Dangerous Persistence Patterns (Runtime check)

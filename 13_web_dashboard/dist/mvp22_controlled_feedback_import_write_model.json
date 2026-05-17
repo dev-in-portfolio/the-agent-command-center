@@ -1,0 +1,31 @@
+{
+  "model_id": "mvp22-controlled-feedback-import-write",
+  "model_version": "1.0",
+  "implementation_summary": {
+    "status": "CONTROLLED_FEEDBACK_IMPORT_WRITE_IMPLEMENTED",
+    "endpoint": "FEEDBACK_IMPORT_ENDPOINT_READY",
+    "validation": "PAYLOAD_VALIDATION_ENFORCED",
+    "rls": "OWNER_SCOPED_INSERT_DESIGNED"
+  },
+  "write_gate": {
+    "flag": "MVP_ENABLE_FEEDBACK_PERSISTENCE",
+    "status": "FEATURE_FLAG_DISABLED_BY_DEFAULT"
+  },
+  "security_boundaries": {
+    "no_service_role": true,
+    "no_migration_apply": true,
+    "update_delete_execute_blocked": true
+  },
+  "current_recommendation": [
+    "CONTROLLED_FEEDBACK_IMPORT_WRITE_IMPLEMENTED",
+    "FEEDBACK_IMPORT_ENDPOINT_READY",
+    "PAYLOAD_VALIDATION_ENFORCED",
+    "OWNER_SCOPED_INSERT_DESIGNED",
+    "FEATURE_FLAG_DISABLED_BY_DEFAULT",
+    "SERVICE_ROLE_NOT_USED",
+    "NO_MIGRATION_APPLY",
+    "UPDATE_DELETE_EXECUTE_BLOCKED",
+    "NOT_READY_FOR_REAL_AUTOMATION",
+    "NEXT_STEP_MANUALLY_APPLY_FEEDBACK_MIGRATION_AND_RUN_TOKEN_GATED_IMPORT_SMOKE_TEST"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "model_id": "feedback-write-gate-model",
+  "model_version": "1.0",
+  "flag_name": "MVP_ENABLE_FEEDBACK_PERSISTENCE",
+  "default_enabled": false,
+  "write_attempt_when_disabled": "blocked",
+  "disabled_response_code": "FEEDBACK_PERSISTENCE_DISABLED",
+  "production_enablement_requires_separate_review": true,
+  "operator_smoke_test_optional": true
+}

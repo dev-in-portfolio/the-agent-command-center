@@ -1,0 +1,30 @@
+{
+  "model_id": "controlled-feedback-import-write-model",
+  "model_version": "1.0",
+  "purpose": "controlled authenticated feedback import write",
+  "endpoint": "/api/feedback?action=import",
+  "method": "POST",
+  "implementation_enabled": true,
+  "production_write_enabled_by_default": false,
+  "feature_flag_required": "MVP_ENABLE_FEEDBACK_PERSISTENCE",
+  "default_feature_flag_state": false,
+  "bearer_token_required": true,
+  "browser_direct_supabase_calls": false,
+  "browser_calls_netlify_only": true,
+  "service_role_used": false,
+  "migration_apply_enabled": false,
+  "allowed_action": [
+    "import_feedback_packet"
+  ],
+  "blocked_actions": [
+    "update_feedback",
+    "delete_feedback",
+    "approve_feedback",
+    "execute_feedback",
+    "automate_feedback",
+    "deploy",
+    "merge",
+    "push",
+    "create_pr"
+  ]
+}

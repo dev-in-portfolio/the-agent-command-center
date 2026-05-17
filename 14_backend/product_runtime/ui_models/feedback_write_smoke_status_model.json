@@ -1,0 +1,16 @@
+{
+  "model_id": "feedback-write-smoke-status-model",
+  "model_version": "1.0",
+  "purpose": "smoke readiness/status only",
+  "actual_insert_performed_by_default": false,
+  "token_required_for_actual_import": true,
+  "write_flag_required_for_actual_import": true,
+  "safe_status_endpoint_allowed": true,
+  "no_secret_output": true,
+  "no_token_output": true,
+  "live_test_status": [
+    "NOT_RUN_BY_DEFAULT",
+    "FLAG_DISABLED_BY_DEFAULT",
+    "TOKEN_REQUIRED_FOR_MANUAL_TEST"
+  ]
+}
