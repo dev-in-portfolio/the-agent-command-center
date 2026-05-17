@@ -1,0 +1,34 @@
+{
+  "mvp": "34",
+  "model": "mvp34_public_release_candidate_manifest",
+  "version": "1.0.0",
+  "posture": {
+    "public_write_enabled": false,
+    "token_input_enabled": false,
+    "secrets_exposed": false,
+    "service_role_used": false,
+    "browser_direct_supabase_calls": false,
+    "browser_persistence_enabled": false,
+    "email_sending_enabled": false,
+    "automation_enabled": false,
+    "deploy_controls_enabled": false,
+    "launch_automation_enabled": false,
+    "update_enabled": false,
+    "delete_enabled": false,
+    "approve_enabled": false,
+    "execute_enabled": false,
+    "deploy_merge_push_controls_enabled": false,
+    "auth_required_for_public_view": false
+  },
+  "exports": [
+    "mvp34_public_release_candidate_review_portal.md",
+    "mvp34_investor_review_path.md",
+    "mvp34_recruiter_review_path.md",
+    "mvp34_founder_operator_review_path.md",
+    "mvp34_public_safe_pitch_packet.md",
+    "mvp34_release_candidate_artifact_index.md",
+    "mvp34_public_safe_demo_script.md",
+    "mvp34_review_questions_prep_guide.md",
+    "mvp34_external_review_instruction_packet.md"
+  ]
+}

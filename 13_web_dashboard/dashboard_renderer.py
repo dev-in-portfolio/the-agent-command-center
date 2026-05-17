@@ -1247,6 +1247,165 @@ def _build_mvp33_product_launch_readiness_final_pitch_packet_layer(snapshot):
         panel_id="mvp33-product-launch-readiness-final-pitch-packet",
     )
 
+def _build_mvp34_public_release_candidate_review_portal_layer(snapshot):
+    body = """
+<div class="mvp-section" data-mvp="34" data-mvp34-review-portal="true">
+  <div class="callout success-callout">
+    <strong style="color: var(--success);">MVP-34</strong>
+    <p class="muted">PASS_WITH_PUBLIC_SAFE_REVIEW_ROOM</p>
+    <p class="muted">PUBLIC RELEASE CANDIDATE REVIEW PORTAL — INVESTOR RECRUITER REVIEW ROOM</p>
+    <p class="muted">EXTERNAL REVIEWER PATHS — PUBLIC SAFE PITCH PACKET — RELEASE CANDIDATE ARTIFACT INDEX</p>
+    <p class="muted">PUBLIC SAFE DEMO SCRIPT — REVIEW QUESTIONS PREP GUIDE — EXTERNAL REVIEW INSTRUCTIONS</p>
+    <p class="muted">SAFE PUBLIC REVIEW ONLY — NO PUBLIC WRITES — NO TOKEN INPUT — NO SECRETS EXPOSED</p>
+    <p class="muted">NO DEPLOY CONTROLS — NO LAUNCH AUTOMATION — SERVICE ROLE NOT USED</p>
+    <p class="muted">UPDATE DELETE EXECUTE BLOCKED — AUTOMATION STILL DISABLED</p>
+    <p class="muted">NEXT_STEP_REVIEW_RELEASE_CANDIDATE_PORTAL_AND_PREPARE_PUBLIC_PITCH — NOT_READY_FOR_REAL_AUTOMATION</p>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card" id="mvp34-review-portal-panel">
+      <div class="card-head"><h3 class="card-title">Public Release Candidate Review Portal</h3><span class="badge success">PORTAL</span></div>
+      <p class="card-body">Central portal for public release candidate review, combining scorecard, pitch packet, artifact index, and external reviewer paths.</p>
+      <ul class="compact-list">
+        <li>Release Candidate Scorecard Ready</li>
+        <li>Public Safe Pitch Packet Ready</li>
+        <li>Release Candidate Artifact Index Ready</li>
+        <li>Public Safe Demo Script Ready</li>
+        <li>Review Questions Prep Guide Ready</li>
+        <li>External Review Instructions Ready</li>
+      </ul>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp34-copy-portal">Copy Review Portal Summary</button>
+      </div>
+    </article>
+
+    <article class="card" id="mvp34-investor-recruiter-review-room-panel">
+      <div class="card-head"><h3 class="card-title">Investor Recruiter Review Room</h3><span class="badge info">ROOM</span></div>
+      <p class="card-body">Role-tailored review room with dedicated paths for investor, recruiter, and founder audiences.</p>
+      <ul class="compact-list">
+        <li>Investor Review Path Ready</li>
+        <li>Recruiter Review Path Ready</li>
+        <li>Founder Review Path Ready</li>
+      </ul>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp34-copy-investor-path">Copy Investor Path</button>
+        <button type="button" class="copy-button small" id="mvp34-copy-recruiter-path">Copy Recruiter Path</button>
+        <button type="button" class="copy-button small" id="mvp34-copy-founder-path">Copy Founder Path</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card" id="mvp34-external-reviewer-paths-panel">
+      <div class="card-head"><h3 class="card-title">External Reviewer Paths</h3><span class="badge info">PATHS</span></div>
+      <p class="card-body">Curated external reviewer entry points for technical review, product review, and investor evaluation.</p>
+      <ul class="compact-list">
+        <li>Technical Reviewer Entry Point</li>
+        <li>Product Reviewer Entry Point</li>
+        <li>Investor Evaluation Entry Point</li>
+        <li>Partner Review Entry Point</li>
+      </ul>
+    </article>
+
+    <article class="card" id="mvp34-public-safe-pitch-packet-panel">
+      <div class="card-head"><h3 class="card-title">Public Safe Pitch Packet</h3><span class="badge warning">PITCH</span></div>
+      <p class="card-body">Safe-for-public pitch packet with product narrative, capability map, demo walkthrough, architecture, and safety summary.</p>
+      <ul class="compact-list">
+        <li>Public Product Narrative</li>
+        <li>Public Capability Map</li>
+        <li>Public Demo Walkthrough</li>
+        <li>Public Architecture Summary</li>
+        <li>Public Safety Boundary Summary</li>
+      </ul>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp34-copy-pitch-packet">Copy Pitch Packet</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card" id="mvp34-artifact-index-panel">
+      <div class="card-head"><h3 class="card-title">Release Candidate Artifact Index</h3><span class="badge info">ARTIFACTS</span></div>
+      <p class="card-body">Index of all release candidate artifacts including reports, pitch packets, demo scripts, and review materials.</p>
+      <ul class="compact-list">
+        <li>Release Reports Indexed</li>
+        <li>Pitch Packet Versions Indexed</li>
+        <li>Demo Script Versions Indexed</li>
+        <li>Review Prep Materials Indexed</li>
+      </ul>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp34-copy-artifact-index">Copy Artifact Index</button>
+      </div>
+    </article>
+
+    <article class="card" id="mvp34-public-safe-demo-script-panel">
+      <div class="card-head"><h3 class="card-title">Public Safe Demo Script</h3><span class="badge info">DEMO</span></div>
+      <p class="card-body">Safe-for-public demo script with role-based walkthrough and safety-first presentation notes.</p>
+      <ul class="compact-list">
+        <li>Investor Demo Script</li>
+        <li>Recruiter Demo Script</li>
+        <li>Technical Reviewer Demo Script</li>
+        <li>Partner Demo Script</li>
+      </ul>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp34-copy-demo-script">Copy Demo Script</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card" id="mvp34-review-questions-prep-panel">
+      <div class="card-head"><h3 class="card-title">Review Questions Prep Guide</h3><span class="badge info">PREP</span></div>
+      <p class="card-body">Prep guide with expected questions, recommended answers, and safety notes for each reviewer persona.</p>
+      <ul class="compact-list">
+        <li>Investor Q&A Prep</li>
+        <li>Recruiter Q&A Prep</li>
+        <li>Technical Reviewer Q&A Prep</li>
+        <li>Partner Q&A Prep</li>
+      </ul>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp34-copy-review-questions">Copy Review Questions Prep</button>
+      </div>
+    </article>
+
+    <article class="card" id="mvp34-external-review-instructions-panel">
+      <div class="card-head"><h3 class="card-title">External Review Instructions</h3><span class="badge info">INSTRUCTIONS</span></div>
+      <p class="card-body">Step-by-step external review instructions for each reviewer persona to follow during review.</p>
+      <ul class="compact-list">
+        <li>Investor Review Instructions</li>
+        <li>Recruiter Review Instructions</li>
+        <li>Technical Reviewer Instructions</li>
+        <li>Partner Review Instructions</li>
+      </ul>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp34-copy-review-instructions">Copy Review Instructions</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card" id="mvp34-security-boundary-panel">
+      <div class="card-head"><h3 class="card-title">Security Boundary Panel</h3><span class="badge warning">SAFETY</span></div>
+      <p class="card-body">Public release candidate review portal — safe review only.</p>
+      <ul class="compact-list">
+        <li>NO PUBLIC WRITES</li>
+        <li>NO TOKEN INPUT</li>
+        <li>NO SECRETS EXPOSED</li>
+        <li>NO DEPLOY CONTROLS</li>
+        <li>NO LAUNCH AUTOMATION</li>
+      </ul>
+    </article>
+  </div>
+</div>
+"""
+    return _details(
+        "MVP-34 — Public Release Candidate Review Portal",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp34-public-release-candidate-review-portal",
+    )
+
 def _build_action_panel(snapshot):
     action_summary = snapshot.get("action_registry_summary", {})
     rows = _build_action_rows(action_summary.get("actions", []))
@@ -7680,6 +7839,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_mvp31_demo_session_capture_review_loop_layer(snapshot),
         _build_mvp32_release_review_metrics_signal_dashboard_layer(snapshot),
         _build_mvp33_product_launch_readiness_final_pitch_packet_layer(snapshot),
+        _build_mvp34_public_release_candidate_review_portal_layer(snapshot),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),
