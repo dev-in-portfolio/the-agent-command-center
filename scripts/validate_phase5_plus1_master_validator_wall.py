@@ -732,6 +732,7 @@ allowed_prefixes = [
         "scripts/validate_mvp26_feedback_synthesis_product_decision_e2e.py",
         "scripts/validate_mvp27_feedback_to_request_conversion.py",
         "scripts/validate_mvp27_feedback_to_request_conversion_e2e.py",
+        "scripts/_validator_runner.py",
         "scripts/mvp23_feedback_import_smoke_test.py",
         "scripts/mvp23_verify_feedback_migration_files.py",
         "13_web_dashboard/",
