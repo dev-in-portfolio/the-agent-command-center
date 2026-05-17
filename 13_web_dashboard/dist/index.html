@@ -199,13 +199,15 @@
           <button type="button" class="toggle-button" disabled aria-disabled="true">DISABLED — SCHEMA PREVIEW ONLY</button>
           <button type="button" class="toggle-button" disabled aria-disabled="true">DISABLED — SCHEMA PREVIEW ONLY</button>
           <button type="button" class="toggle-button" disabled aria-disabled="true">DISABLED — SCHEMA PREVIEW ONLY</button>
-        </div>
-      </article>
-      <article class="card">
-        <div class="card-head">
-          <h3 class="card-title">Identity & Permissions Preview</h3>
-          <span class="badge disabled">DISABLED</span>
-        </div>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp37-copy-request-draft-handoff">Copy Request Draft Handoff</button>
+        <button type="button" class="copy-button small" id="mvp37-copy-stakeholder-summary">Copy Stakeholder Summary</button>
+        <button type="button" class="copy-button small" id="mvp37-copy-operator-review">Copy Operator Review</button>
+        <button type="button" class="copy-button small" id="mvp37-copy-copy-bank">Copy Copy Bank</button>
+      </div>
+    </article>
+  </div>
         <p class="card-body">Recommended provider, roles, and permission boundaries are documented only.</p>
         <div class="button-row">
           <button type="button" class="section-button" id="load-phase4d-identity-schema-button">Load identity schema</button>
@@ -7176,7 +7178,99 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
     
       </div>
     </details>
-    
+
+    <details class="panel" data-section-group="source" open id="mvp37-release-candidate-decision-log-handoff">
+      <summary>MVP-37 — Release Candidate Decision Log + Handoff</summary>
+      <div class="panel-body">
+        
+<div class="mvp-section" data-mvp="37" data-mvp37-decision-log-handoff="true">
+  <div class="callout success-callout">
+    <strong style="color: var(--success);">MVP-37</strong>
+    <p class="muted">PASS_WITH_OPERATOR_REVIEW_ONLY_HANDOFF</p>
+    <p class="muted">RELEASE CANDIDATE DECISION LOG — DECISION RATIONALE TRAIL — ROADMAP SYNC HANDOFF PACKET</p>
+    <p class="muted">REQUEST DRAFT HANDOFF — STAKEHOLDER HANDOFF SUMMARY — OPERATOR RELEASE HANDOFF REVIEW</p>
+    <p class="muted">RELEASE CANDIDATE HANDOFF COPY BANK</p>
+    <p class="muted">OPERATOR REVIEW ONLY — NO AUTOMATIC RELEASE APPROVAL — NO AUTOMATIC ROADMAP UPDATES</p>
+    <p class="muted">NO LIVE WRITES — NO PUBLIC WRITES — NO TOKEN INPUT — NO SECRETS EXPOSED — SERVICE ROLE NOT USED</p>
+    <p class="muted">UPDATE DELETE EXECUTE BLOCKED — AUTOMATION STILL DISABLED</p>
+    <p class="muted">NEXT_STEP_BUILD_FINAL_RELEASE_REVIEW_ROOM_AND_DEMO_SCRIPT_LOCK — NOT_READY_FOR_REAL_AUTOMATION</p>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card" id="mvp37-decision-log-panel">
+      <div class="card-head"><h3 class="card-title">Release Candidate Decision Log</h3><span class="badge success">READY</span></div>
+      <p>Capture of operator-reviewed release candidate decisions with rationale trail and summative decision report.</p>
+      <ul class="action-list">
+        <li><span class="badge pass">done</span> Decision log capture</li>
+        <li><span class="badge pass">done</span> Decision rationale trail</li>
+        <li><span class="badge pass">done</span> Handoff packet packaging</li>
+      </ul>
+      <div class="table-wrap">
+        <table class="data-table">
+          <caption>Phase 1 decision log entries</caption>
+          <thead>
+            <tr><th scope="col">Entry</th><th scope="col">Decision</th><th scope="col">Rationale</th><th scope="col">Review status</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>DL-001</code></td><td>Release candidate decision log + handoff build</td><td>MVP-36 roadmap sync outputs need handoff packaging</td><td><span class="badge pass">REVIEWED</span></td></tr>
+            <tr><td><code>DL-002</code></td><td>Operator review-only posture maintained</td><td>Real automation gated until final release review room</td><td><span class="badge pass">REVIEWED</span></td></tr>
+            <tr><td><code>DL-003</code></td><td>Next step: build final release review room + demo script lock</td><td>System is complete through handoff — next milestone is formal release review</td><td><span class="badge pass">REVIEWED</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp37-copy-decision-log">Copy Decision Log</button>
+        <button type="button" class="copy-button small" id="mvp37-copy-rationale-trail">Copy Rationale Trail</button>
+        <button type="button" class="copy-button small" id="mvp37-copy-handoff-packet">Copy Handoff Packet</button>
+      </div>
+    </article>
+
+    <article class="card" id="mvp37-handoff-summary-panel">
+      <div class="card-head"><h3 class="card-title">Handoff Summary Dashboard</h3><span class="badge warning">OPERATOR REVIEW</span></div>
+      <p>Stakeholder-facing handoff summary and operator review packet for the MVP-37 release candidate.</p>
+      <ul class="action-list">
+        <li><span class="badge pass">done</span> Stakeholder handoff summary</li>
+        <li><span class="badge pass">done</span> Operator release handoff review packet</li>
+        <li><span class="badge pass">done</span> Release candidate handoff copy bank</li>
+      </ul>
+      <div class="table-wrap">
+        <table class="data-table">
+          <caption>Handoff artifacts</caption>
+          <thead>
+            <tr><th scope="col">Artifact</th><th scope="col">Status</th><th scope="col">Audience</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Stakeholder handoff summary</td><td><span class="badge pass">READY</span></td><td>Stakeholders</td></tr>
+            <tr><td>Operator release handoff review packet</td><td><span class="badge pass">READY</span></td><td>Operator</td></tr>
+            <tr><td>Release candidate handoff copy bank</td><td><span class="badge pass">READY</span></td><td>All</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+  </div>
+
+  <h4>Posture audit</h4>
+  <div class="table-wrap">
+    <table class="data-table">
+      <caption>MVP-37 safety posture audit</caption>
+      <thead>
+        <tr><th scope="col">Control</th><th scope="col">Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Automatic release approval</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Release execution</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Automatic roadmap updates</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Automatic request creation</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Live writes</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Token input</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Deploy/merge/push controls</td><td><span class="badge pass">FALSE</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+      </div>
+    </details>
 
     <details class="panel" data-section-group="reports" id="reports-library">
       <summary>Reports Library</summary>

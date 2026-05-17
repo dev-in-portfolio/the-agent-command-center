@@ -7155,3 +7155,29 @@
     initMvp36();
   }
 })();
+
+(function() {
+  function initMvp37() {
+    const buildDecisionLog = () => "Release Candidate Decision Log\n\nDecision Log Entries\nDecision Rationale Trail\nRoadmap Sync Handoff Packet\nRequest Draft Handoff\nStakeholder Handoff Summary\nOperator Release Handoff Review\n\nOPERATOR REVIEW ONLY";
+    const buildRationaleTrail = () => "Decision Rationale Trail\n\nDL-001: Release candidate decision log + handoff build\nRationale: MVP-36 roadmap sync outputs need handoff packaging\n\nDL-002: Operator review-only posture maintained\nRationale: Real automation gated until final release review room\n\nDL-003: Next step: build final release review room + demo script lock\nRationale: System is complete through handoff";
+    const buildHandoffPacket = () => "Roadmap Sync Handoff Packet\n\nDecision Summary\nRoadmap Update Recommendations\nHandoff Instructions\n\nOPERATOR REVIEW ONLY";
+    const buildRequestDraftHandoff = () => "Request Draft Handoff\n\nDraft Candidates\nSignal-to-Draft Mapping\nOperator Handoff Notes\n\nOPERATOR REVIEW ONLY";
+    const buildStakeholderSummary = () => "Stakeholder Handoff Summary\n\nExecutive Summary\nDecision Context\nKey Changes\nPending Items\n\nOPERATOR REVIEW ONLY";
+    const buildOperatorReview = () => "Operator Release Handoff Review\n\nDecision Log Review\nRationale Trail Review\nHandoff Packet Review\nRequest Draft Handoff Review\nStakeholder Summary Review\n\nOPERATOR REVIEW ONLY";
+    const buildCopyBank = () => "Release Candidate Copy Bank\n\nDecision Log Copy\nRationale Trail Copy\nHandoff Packet Copy\nStakeholder Summary Copy\nOperator Review Copy\n\nOPERATOR REVIEW ONLY";
+
+    bindDynamicCopy("mvp37-copy-decision-log", buildDecisionLog, "MVP-37 decision log copied.");
+    bindDynamicCopy("mvp37-copy-rationale-trail", buildRationaleTrail, "MVP-37 rationale trail copied.");
+    bindDynamicCopy("mvp37-copy-handoff-packet", buildHandoffPacket, "MVP-37 handoff packet copied.");
+    bindDynamicCopy("mvp37-copy-request-draft-handoff", buildRequestDraftHandoff, "MVP-37 request draft handoff copied.");
+    bindDynamicCopy("mvp37-copy-stakeholder-summary", buildStakeholderSummary, "MVP-37 stakeholder summary copied.");
+    bindDynamicCopy("mvp37-copy-operator-review", buildOperatorReview, "MVP-37 operator review copied.");
+    bindDynamicCopy("mvp37-copy-copy-bank", buildCopyBank, "MVP-37 copy bank copied.");
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initMvp37);
+  } else {
+    initMvp37();
+  }
+})();
