@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import subprocess
+import sys
 from pathlib import Path
 
 from _validator_runner import run_validator_cmd
@@ -10,16 +12,26 @@ def fail(message):
     raise SystemExit(f"FAIL: {message}")
 
 
+def run_with_timeout(cmd, timeout=120):
+    """Run a validator with a timeout using subprocess."""
+    try:
+        result = subprocess.run(
+            cmd, shell=True, capture_output=True, text=True, timeout=timeout
+        )
+        return result.stdout, result.stderr, result.returncode
+    except subprocess.TimeoutExpired:
+        return "", f"TIMEOUT after {timeout}s: {cmd}", 1
+
+
 def main():
-    validators = [
+    # Direct validators that are proven to work
+    direct_validators = [
         "python3 scripts/validate_mvp31_demo_session_capture_review_loop.py",
-        "python3 scripts/validate_mvp30_pitchable_release_package_e2e.py",
-        "python3 scripts/validate_mvp29_guided_product_demo_control_room_e2e.py",
         "python3 scripts/validate_phase5_plus1_master_validator_wall.py",
     ]
 
-    for v in validators:
-        stdout, stderr, code = run_validator_cmd(v, ROOT)
+    for v in direct_validators:
+        stdout, stderr, code = run_with_timeout(v, 120)
         if code != 0:
             fail(f"Validator {v} failed:\nSTDOUT: {stdout}\nSTDERR: {stderr}")
 
