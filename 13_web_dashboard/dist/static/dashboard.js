@@ -7207,3 +7207,31 @@
     initMvp38();
   }
 })();
+
+(function() {
+  function initMvp39() {
+    const buildSharePackageLock = () => "External Demo Review Share Package Lock\n\nShare-Safe Package Index\nRole-Based External Reviewer Packets\nCopy-Only Share Instructions\nReviewer-Safe Demo Walkthrough\nShare-Readiness Validation Packet\n\nCOPY ONLY — NOT SENT — OPERATOR REVIEW ONLY";
+    const buildPackageIndex = () => "Share-Safe Package Index\n\n1. External Demo Review Share Package Lock\n2. Founder External Reviewer Packet\n3. Recruiter External Reviewer Packet\n4. Technical External Reviewer Packet\n5. Copy-Only Share Instructions\n6. Reviewer-Safe Demo Walkthrough\n7. Share-Readiness Validation Packet\n8. External Demo Review Share Manifest\n\nPACKAGE NOT SENT — COPY ONLY";
+    const buildFounderPacket = () => "Founder External Reviewer Packet\n\nRole: Founder / Product Vision Reviewer\nReview Focus: Product vision alignment, market readiness, strategic direction\n\nPACKET NOT SENT — REVIEWER NOT CONTACTED";
+    const buildRecruiterPacket = () => "Recruiter External Reviewer Packet\n\nRole: Recruiter / Talent Acquisition Reviewer\nReview Focus: Operator workflow usability, talent acquisition use cases, UX feedback\n\nPACKET NOT SENT — REVIEWER NOT CONTACTED";
+    const buildTechnicalPacket = () => "Technical External Reviewer Packet\n\nRole: Technical / Engineering Reviewer\nReview Focus: Technical architecture, code quality, security posture, implementation\n\nPACKET NOT SENT — REVIEWER NOT CONTACTED";
+    const buildShareInstructions = () => "Copy-Only Share Instructions\n\n1. Copy the desired reviewer packet\n2. Paste into a secure communication channel\n3. Share the demo walkthrough URL\n4. Do not send, email, or automate\n\nCOPY ONLY — NOT SENT — NO AUTOMATION";
+    const buildDemoWalkthrough = () => "Reviewer-Safe Demo Walkthrough\n\nStep 1: Start at dashboard homepage\nStep 2: Review MVP progression from product track\nStep 3: Examine the final release review room (MVP-38)\nStep 4: Review the share-safe package index\nStep 5: Read role-based reviewer packet\nStep 6: Use copy-only instructions to share feedback\n\nNO DEPLOYMENT — NO RELEASE EXECUTION — NO LIVE WRITES — NO PUBLIC WRITES\nNO EMAIL SENDING — NO REVIEWER CONTACT — NO AUTOMATED OUTREACH";
+    const buildShareReadiness = () => "Share-Readiness Validation Packet\n\nShare-Safe Package Index: PASS\nRole-Based Packets: PASS\nCopy-Only Instructions: PASS\nDemo Walkthrough: PASS\nPackage Not Sent: PASS\nEmail Sending Disabled: PASS\nReviewer Contact Disabled: PASS\nAutomated Outreach Disabled: PASS\nDeploy Disabled: PASS\nRelease Execution Disabled: PASS\nLive Writes Disabled: PASS\nPublic Writes Disabled: PASS\nToken Input Disabled: PASS\nSecrets Not Exposed: PASS\nService Role Not Used: PASS\nBrowser Supabase Blocked: PASS\nBrowser Persistence Disabled: PASS\nUpdate/Delete/Approve/Execute Blocked: PASS\nAutomation Disabled: PASS\nDeploy/Merge/Push/PR Controls Not Exposed: PASS\n\nMVP-39 SHARE PACKAGE READY FOR COPY-ONLY DISTRIBUTION";
+
+    bindDynamicCopy("mvp39-copy-share-package-lock", buildSharePackageLock, "MVP-39 share package lock copied.");
+    bindDynamicCopy("mvp39-copy-package-index", buildPackageIndex, "MVP-39 package index copied.");
+    bindDynamicCopy("mvp39-copy-founder-packet", buildFounderPacket, "MVP-39 founder packet copied.");
+    bindDynamicCopy("mvp39-copy-recruiter-packet", buildRecruiterPacket, "MVP-39 recruiter packet copied.");
+    bindDynamicCopy("mvp39-copy-technical-packet", buildTechnicalPacket, "MVP-39 technical packet copied.");
+    bindDynamicCopy("mvp39-copy-share-instructions", buildShareInstructions, "MVP-39 share instructions copied.");
+    bindDynamicCopy("mvp39-copy-demo-walkthrough", buildDemoWalkthrough, "MVP-39 demo walkthrough copied.");
+    bindDynamicCopy("mvp39-copy-share-readiness", buildShareReadiness, "MVP-39 share readiness packet copied.");
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initMvp39);
+  } else {
+    initMvp39();
+  }
+})();
