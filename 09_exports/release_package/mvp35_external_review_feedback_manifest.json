@@ -1,0 +1,34 @@
+{
+  "mvp": "35",
+  "model": "mvp35_external_review_feedback_manifest",
+  "version": "1.0.0",
+  "posture": {
+    "email_sending_enabled": false,
+    "automated_outreach_enabled": false,
+    "contact_automation_enabled": false,
+    "public_write_enabled": false,
+    "token_input_enabled": false,
+    "secrets_exposed": false,
+    "service_role_used": false,
+    "browser_direct_supabase_calls": false,
+    "browser_persistence_enabled": false,
+    "automation_enabled": false,
+    "deploy_controls_enabled": false,
+    "launch_automation_enabled": false,
+    "update_enabled": false,
+    "delete_enabled": false,
+    "approve_enabled": false,
+    "execute_enabled": false,
+    "deploy_merge_push_controls_enabled": false
+  },
+  "exports": [
+    "mvp35_external_review_feedback_summary.md",
+    "mvp35_reviewer_response_matrix.md",
+    "mvp35_feedback_themes_questions_objections.md",
+    "mvp35_outreach_prep_draft_workspace.md",
+    "mvp35_follow_up_response_packet.md",
+    "mvp35_external_reviewer_reply_guide.md",
+    "mvp35_operator_follow_up_decision_packet.md",
+    "mvp35_outreach_prep_copy_bank.md"
+  ]
+}
