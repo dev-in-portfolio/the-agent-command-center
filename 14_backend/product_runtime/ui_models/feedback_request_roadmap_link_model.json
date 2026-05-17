@@ -1,0 +1,20 @@
+{
+  "model_id": "feedback-request-roadmap-link-model",
+  "model_version": "1.0",
+  "feedback_signals_to_roadmap_ready": true,
+  "links": [
+    "feedback signal -> product decision card",
+    "product decision card -> roadmap lane",
+    "roadmap lane -> priority scoring",
+    "manual roadmap review"
+  ],
+  "copyable_summary": true,
+  "token_in_memory_only": true,
+  "service_role_used": false,
+  "browser_direct_supabase_calls": false,
+  "update_enabled": false,
+  "delete_enabled": false,
+  "approve_enabled": false,
+  "execute_enabled": false,
+  "automation_enabled": false
+}

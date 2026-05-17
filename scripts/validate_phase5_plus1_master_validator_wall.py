@@ -83,6 +83,7 @@ def js_safety_check(path):
         "./mvp25_authenticated_feedback_review_inbox_model.json",
         "./mvp26_feedback_synthesis_product_decision_model.json",
         "./mvp27_feedback_to_request_conversion_model.json",
+        "./mvp28_operator_roadmap_prioritization_model.json",
         "/api/request-read-smoke-status",
         "/api/request-write-smoke-status",
         "/api/lifecycle-event-smoke-status",
@@ -339,6 +340,15 @@ report_requirements = [
     (ROOT / "09_exports" / "mvp_product_track" / "mvp27_next_product_step_report.md", "NEXT_STEP_BUILD_OPERATOR_ROADMAP_PRIORITIZATION_BOARD"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp27_validator_quality_report.md", "REQUEST_WRITES_SERVER_GATED"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp27_validator_wall_review.md", "NO_DIRECT_BROWSER_SUPABASE_ALLOWANCE"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp28_acceptance_report.md", "PASS_WITH_READ_ONLY_ROADMAP_WORKFLOW"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp28_operator_roadmap_report.md", "OPERATOR_ROADMAP_PRIORITIZATION_BOARD_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp28_priority_scoring_report.md", "PRIORITY_SCORING_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp28_roadmap_lanes_report.md", "PRODUCT_DECISION_LANES_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp28_feedback_request_link_report.md", "FEEDBACK_SIGNALS_TO_ROADMAP_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp28_security_boundary_report.md", "SERVICE_ROLE_NOT_USED"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp28_next_product_step_report.md", "NEXT_STEP_BUILD_GUIDED_PRODUCT_DEMO_CONTROL_ROOM"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp28_validator_quality_report.md", "IMPACT_EFFORT_CONFIDENCE_MATRIX_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp28_validator_wall_review.md", "NO ROADMAP AUTO-WRITE ALLOWANCE"),
 ]
 for path, marker in report_requirements:
     check(path.exists(), f"missing report: {path.relative_to(ROOT)}")
@@ -653,6 +663,15 @@ for marker in [
     "REQUEST WRITES SERVER GATED",
     "NEXT_STEP_BUILD_OPERATOR_ROADMAP_PRIORITIZATION_BOARD",
     "PASS_WITH_OPTIONAL_SERVER_GATED_REQUEST_CREATE",
+    "MVP-28",
+    "OPERATOR ROADMAP PRIORITIZATION BOARD",
+    "FEEDBACK SIGNALS TO ROADMAP",
+    "PRODUCT DECISION LANES",
+    "PRIORITY SCORING",
+    "IMPACT EFFORT CONFIDENCE MATRIX",
+    "READ ONLY ROADMAP WORKFLOW",
+    "NEXT_STEP_BUILD_GUIDED_PRODUCT_DEMO_CONTROL_ROOM",
+    "PASS_WITH_READ_ONLY_ROADMAP_WORKFLOW",
 ]:
     check(marker in index, f"index.html missing required marker: {marker}")
 
@@ -732,6 +751,8 @@ allowed_prefixes = [
         "scripts/validate_mvp26_feedback_synthesis_product_decision_e2e.py",
         "scripts/validate_mvp27_feedback_to_request_conversion.py",
         "scripts/validate_mvp27_feedback_to_request_conversion_e2e.py",
+        "scripts/validate_mvp28_operator_roadmap_prioritization.py",
+        "scripts/validate_mvp28_operator_roadmap_prioritization_e2e.py",
         "scripts/_validator_runner.py",
         "scripts/mvp23_feedback_import_smoke_test.py",
         "scripts/mvp23_verify_feedback_migration_files.py",

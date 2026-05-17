@@ -1,0 +1,20 @@
+{
+  "model_id": "roadmap-lane-model",
+  "model_version": "1.0",
+  "product_decision_lanes_ready": true,
+  "lane_types": [
+    "feedback signals",
+    "decision ready",
+    "scored priorities",
+    "roadmap candidates",
+    "manual operator review"
+  ],
+  "read_only_roadmap_workflow": true,
+  "service_role_used": false,
+  "browser_direct_supabase_calls": false,
+  "update_enabled": false,
+  "delete_enabled": false,
+  "approve_enabled": false,
+  "execute_enabled": false,
+  "automation_enabled": false
+}
