@@ -17,7 +17,7 @@ PASS
 - MVP-23 direct validator no longer allows dangerous runtime patterns because a file contains safety-label text.
 - MVP-23 E2E validator no longer treats "blocked," "disabled," "no," or similar wording as proof of safety.
 - Dashboard/browser runtime scans now distinguish harmless visible labels from executable JavaScript calls.
-- Executable /api/feedback calls from dashboard/browser runtime remain blocked.
+- Executable /api/feedback calls from dashboard/browser runtime remain blocked (DASHBOARD_EXECUTABLE_API_FEEDBACK_CALL_BLOCKED).
 - Direct browser Supabase calls remain blocked.
 - Validator files may contain forbidden pattern strings only as test patterns.
 - Product/runtime files may not contain dangerous executable patterns.

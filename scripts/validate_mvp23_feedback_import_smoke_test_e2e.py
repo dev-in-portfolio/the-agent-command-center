@@ -26,6 +26,7 @@ def main():
     # SAFETY_LABEL_TEXT_DOES_NOT_SUPPRESS_RUNTIME_SCAN
     # NO_WHOLE_FILE_SAFETY_LABEL_SKIP
     # EXACT_EXECUTABLE_PATTERN_SCAN
+    # DASHBOARD_EXECUTABLE_API_FEEDBACK_CALL_BLOCKED
     # DASHBOARD_EXECUTABLE_FEEDBACK_CALL_BLOCKED
     # DASHBOARD_DIRECT_SUPABASE_CALL_BLOCKED
     validators = [
@@ -95,7 +96,25 @@ for root in scan_roots:
                      is_js_call = path.suffix == ".js"
                      is_html_exec = path.suffix == ".html" and (f'"{item}"' in text or f"'{item}'" in text or f"fetch({item}" in text)
                      if is_js_call or is_html_exec:
+                         executable_feedback_patterns = [
+                             'fetch("/api/feedback',
+                             "fetch('/api/feedback",
+                             "fetch(`/api/feedback",
+                             'axios.post("/api/feedback',
+                             "axios.post('/api/feedback",
+                             'axios.get("/api/feedback',
+                             "axios.get('/api/feedback",
+                             "XMLHttpRequest",
+                         ]
+                         for ep in executable_feedback_patterns:
+                             if ep in text:
+                                 # DASHBOARD_EXECUTABLE_API_FEEDBACK_CALL_BLOCKED
+                                 # DASHBOARD_EXECUTABLE_FEEDBACK_CALL_BLOCKED
+                                 # DASHBOARD_DIRECT_SUPABASE_CALL_BLOCKED
+                                 raise SystemExit(f"FORBIDDEN_NETWORK_PATTERN {ep}: {path}")
+
                          if f"fetch({item}" in text or f'fetch("{item}"' in text or f"fetch('{item}'" in text:
+                              # DASHBOARD_EXECUTABLE_API_FEEDBACK_CALL_BLOCKED
                               # DASHBOARD_EXECUTABLE_FEEDBACK_CALL_BLOCKED
                               # DASHBOARD_DIRECT_SUPABASE_CALL_BLOCKED
                               raise SystemExit(f"FORBIDDEN_NETWORK_PATTERN {item}: {path}")

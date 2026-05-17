@@ -154,7 +154,25 @@ def main():
                         if is_js_call or is_html_exec:
                             # Special case: allow safety labels in visible HTML text but block execution
                             if pattern in ["/api/feedback", "supabase.co"]:
+                                executable_feedback_patterns = [
+                                    'fetch("/api/feedback',
+                                    "fetch('/api/feedback",
+                                    "fetch(`/api/feedback",
+                                    'axios.post("/api/feedback',
+                                    "axios.post('/api/feedback",
+                                    'axios.get("/api/feedback',
+                                    "axios.get('/api/feedback",
+                                    "XMLHttpRequest",
+                                ]
+                                for ep in executable_feedback_patterns:
+                                    if ep in content:
+                                        # DASHBOARD_EXECUTABLE_API_FEEDBACK_CALL_BLOCKED
+                                        # DASHBOARD_EXECUTABLE_FEEDBACK_CALL_BLOCKED
+                                        # DASHBOARD_DIRECT_SUPABASE_CALL_BLOCKED
+                                        fail(f"Forbidden executable pattern in dashboard runtime: {ep} in {path}")
+
                                 if f"fetch({pattern}" in content or f'fetch("{pattern}"' in content or f"fetch('{pattern}'" in content:
+                                     # DASHBOARD_EXECUTABLE_API_FEEDBACK_CALL_BLOCKED
                                      # DASHBOARD_EXECUTABLE_FEEDBACK_CALL_BLOCKED
                                      # DASHBOARD_DIRECT_SUPABASE_CALL_BLOCKED
                                      fail(f"Forbidden executable pattern in dashboard runtime: {pattern} in {path}")
