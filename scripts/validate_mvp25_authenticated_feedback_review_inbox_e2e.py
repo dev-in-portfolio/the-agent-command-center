@@ -72,6 +72,19 @@ def main():
         "api.netlify.com",
         "service_role_used",
         "browser_direct_supabase_calls",
+        "DASHBOARD_DIRECT_SUPABASE_FETCH_BLOCKED",
+        "DASHBOARD_SUPABASE_CREATE_CLIENT_BLOCKED",
+        "EXACT_SUPABASE_EXECUTABLE_PATTERN_SCAN",
+        "SUPABASE_LABEL_TEXT_DOES_NOT_SUPPRESS_SCAN",
+        'fetch("https://',
+        "fetch('https://",
+        "fetch(`https://",
+        "supabase.co",
+        "axios.get(",
+        "axios.post(",
+        "XMLHttpRequest",
+        "createClient(",
+        "supabase.createClient",
     ]
     for d in required_direct:
         if d not in direct:

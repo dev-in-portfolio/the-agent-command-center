@@ -127,6 +127,10 @@ def main():
             fail(f"Forbidden string in read client: {f}")
 
 
+    # EXACT_SUPABASE_EXECUTABLE_PATTERN_SCAN
+    # DASHBOARD_DIRECT_SUPABASE_FETCH_BLOCKED
+    # DASHBOARD_SUPABASE_CREATE_CLIENT_BLOCKED
+    # SUPABASE_LABEL_TEXT_DOES_NOT_SUPPRESS_SCAN
     scan_roots = [ROOT / "13_web_dashboard", UI_MODEL_DIR, REPORT_DIR, SCRIPT_DIR, ROOT / "netlify" / "functions"]
     runtime_forbidden = [
         "localStorage.setItem",
@@ -137,13 +141,19 @@ def main():
         "indexedDB.open",
         "api.github.com",
         "api.netlify.com",
-        "supabase.co",
         "child_process",
         "execSync",
         "spawn(",
         "os.system",
         "eval(",
         "Function(",
+    ]
+    supabase_fetch_prefixes = [
+        'fetch("https://',
+        "fetch('https://",
+        "fetch(`https://",
+        "axios.get(",
+        "axios.post(",
     ]
 
     for root in scan_roots:
@@ -168,11 +178,19 @@ def main():
                         is_js_call = path.suffix == ".js"
                         is_html_exec = path.suffix == ".html" and (f'"{pattern}"' in content or f"'{pattern}'" in content or f"fetch({pattern}" in content)
                         if is_js_call or is_html_exec:
-                            if pattern in ["/api/feedback", "supabase.co"]:
-                                if "createClient(" in content or "supabase.createClient" in content:
-                                     fail(f"Forbidden direct Supabase client in dashboard runtime: {path}")
-                                continue
                             fail(f"Forbidden runtime pattern in dashboard: {pattern} in {path}")
+
+                has_supabase_domain = "supabase.co" in content
+                has_create_client = "createClient(" in content or "supabase.createClient" in content
+                has_xhr = "XMLHttpRequest" in content
+                has_supabase_executable_fetch = any(prefix in content for prefix in supabase_fetch_prefixes)
+
+                if has_create_client:
+                    fail(f"Forbidden dashboard Supabase executable pattern createClient in {path}")
+                if has_supabase_domain and has_supabase_executable_fetch:
+                    fail(f"Forbidden dashboard Supabase executable pattern {path}")
+                if has_supabase_domain and has_xhr:
+                    fail(f"Forbidden dashboard Supabase executable pattern XMLHttpRequest in {path}")
 
             if path.suffix == ".json" and ("mvp25" in path_str or "feedback" in path_str):
                 try:
