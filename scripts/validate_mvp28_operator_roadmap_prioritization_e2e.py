@@ -20,8 +20,8 @@ def run(cmd):
 def main():
     validators = [
         "python3 scripts/validate_mvp28_operator_roadmap_prioritization.py",
-        "python3 scripts/validate_mvp27_feedback_to_request_conversion_e2e.py",
-        "python3 scripts/validate_mvp26_feedback_synthesis_product_decision_e2e.py",
+        "python3 scripts/validate_mvp27_feedback_to_request_conversion.py",
+        "python3 scripts/validate_mvp26_feedback_synthesis_product_decision.py",
         "python3 scripts/validate_phase5_plus1_master_validator_wall.py",
     ]
 

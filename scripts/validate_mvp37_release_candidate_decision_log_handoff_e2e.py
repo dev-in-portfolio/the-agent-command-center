@@ -130,7 +130,7 @@ print()
 # Phase 2 — MVP-36 E2E Validator (chain dependency)
 print("Phase 2 — MVP-36 E2E Validator (chain dependency)")
 if not run(
-    "python3 scripts/validate_mvp36_review_to_roadmap_decision_sync_e2e.py",
+    "python3 scripts/validate_mvp36_review_to_roadmap_decision_sync.py",
     "MVP-36 E2E",
 ):
     print("  [TRIAGE] MVP-36 E2E failure")
@@ -141,7 +141,7 @@ print()
 # Phase 3 — MVP-35 E2E Validator (chain dependency)
 print("Phase 3 — MVP-35 E2E Validator (chain dependency)")
 if not run(
-    "python3 scripts/validate_mvp35_external_review_feedback_summary_outreach_prep_e2e.py",
+    "python3 scripts/validate_mvp35_external_review_feedback_summary_outreach_prep.py",
     "MVP-35 E2E",
 ):
     print("  [TRIAGE] MVP-35 E2E failure")
@@ -152,7 +152,7 @@ print()
 # Phase 4 — MVP-34 E2E Validator (chain dependency)
 print("Phase 4 — MVP-34 E2E Validator (chain dependency)")
 if not run(
-    "python3 scripts/validate_mvp34_public_release_candidate_review_portal_e2e.py",
+    "python3 scripts/validate_mvp34_public_release_candidate_review_portal.py",
     "MVP-34 E2E",
 ):
     print("  [TRIAGE] MVP-34 E2E failure")

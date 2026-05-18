@@ -553,6 +553,7 @@ mvp46_report_requirements = [
     (ROOT / "09_exports" / "mvp_product_track" / "mvp46_acceptance_report.md", "APPROVAL_GATE_STORAGE_READY"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp46_validator_wall_review.md", "PASS"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp46_validation_stewardship_report.md", "TIER 1 and TIER 2"),
+    (ROOT / "09_exports" / "mvp_product_track" / "validator_runtime_optimization_after_mvp46_report.md", "VALIDATOR_RUNTIME_OPTIMIZATION_AFTER_MVP46_COMPLETE"),
 ]
 for path, marker in mvp46_report_requirements:
     check(path.exists(), f"missing MVP-46 report: {path.relative_to(ROOT)}")
@@ -1427,6 +1428,7 @@ allowed_prefixes = [
         "scripts/validate_mvp45_immutable_audit_event_ledger_e2e.py",
         "scripts/validate_mvp46_approval_gate_storage.py",
         "scripts/validate_mvp46_approval_gate_storage_e2e.py",
+        "scripts/validate_e2e_runtime_no_nested_e2e.py",
         "scripts/validate_live_dashboard_usability_after_mvp41.py",
         "scripts/validation_helpers_control_scan.py",
         "scripts/test_validation_helpers_control_scan.py",

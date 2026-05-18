@@ -13,8 +13,8 @@ def fail(message):
 def main():
     validators = [
         "python3 scripts/validate_mvp30_pitchable_release_package.py",
-        "python3 scripts/validate_mvp29_guided_product_demo_control_room_e2e.py",
-        "python3 scripts/validate_mvp28_operator_roadmap_prioritization_e2e.py",
+        "python3 scripts/validate_mvp29_guided_product_demo_control_room.py",
+        "python3 scripts/validate_mvp28_operator_roadmap_prioritization.py",
         "python3 scripts/validate_phase5_plus1_master_validator_wall.py",
     ]
 

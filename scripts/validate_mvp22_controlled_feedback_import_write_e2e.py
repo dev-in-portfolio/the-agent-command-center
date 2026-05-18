@@ -43,7 +43,7 @@ def main():
     # import_idx
     validators = [
         "python3 scripts/validate_mvp22_controlled_feedback_import_write.py",
-        "python3 scripts/validate_mvp21_safe_feedback_persistence_readiness_e2e.py",
+        "python3 scripts/validate_mvp21_safe_feedback_persistence_readiness.py",
         "python3 scripts/validate_phase5_plus1_master_validator_wall.py",
     ]
 
