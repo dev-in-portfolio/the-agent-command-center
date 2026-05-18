@@ -7229,9 +7229,29 @@
     bindDynamicCopy("mvp39-copy-share-readiness", buildShareReadiness, "MVP-39 share readiness packet copied.");
   }
 
+  function initMvp40() {
+    const buildCaptureReadinessLock = () => "Reviewer Response Capture Readiness Lock\n\nReviewer Response Schema Proposal\nCapture Safety Requirements\nOperator Response Review Queue Readiness\nResponse-to-Feedback Mapping Readiness\nResponse Triage Readiness Rules\nFuture Capture Implementation Checklist\n\nOPERATOR REVIEW ONLY — READINESS ONLY — FUTURE IMPLEMENTATION ONLY";
+    const buildResponseSchema = () => "Reviewer Response Schema Proposal\n\nProposed Fields\n- reviewer_role\n- reviewer_name_or_alias\n- response_category\n- response_summary\n- response_priority\n- operator_notes\n\nNO PUBLIC ENDPOINT — NO REVIEWER RESPONSE WRITES";
+    const buildCaptureSafety = () => "Capture Safety Requirements\n\nNo public endpoint\nNo public response submission\nNo reviewer response writes\nNo response capture enabled\nNo response persistence enabled\nNo email sending\nNo reviewer contact\nNo automated outreach\n\nNO PUBLIC WRITES — NO LIVE WRITES — NO TOKEN INPUT";
+    const buildQueueReadiness = () => "Operator Response Review Queue Readiness\n\nAwaiting review\nNeeds clarification\nTriaged\nMapped to feedback\nArchived readiness-only item\n\nOPERATOR REVIEW ONLY";
+    const buildResponseMapping = () => "Response-to-Feedback Mapping Readiness\n\nresponse_category\nfeedback_theme\nfeedback_signal\nroadmap_destination\noperator_notes\n\nREADINESS ONLY";
+    const buildTriageRules = () => "Response Triage Readiness Rules\n\nHigh-priority security feedback first\nHigh-priority product blockers second\nWorkflow feedback next\nLow-priority feedback last\nNeeds-operator-follow-up items remain operator reviewed\n\nFUTURE IMPLEMENTATION ONLY";
+    const buildFutureChecklist = () => "Future Capture Implementation Checklist\n\nDefine intake schema\nDefine queue states\nDefine triage rules\nDefine mapping path\nDefine operator review workflow\nImplement guarded capture endpoint later\n\nNOT_READY_FOR_REAL_AUTOMATION";
+
+    bindDynamicCopy("mvp40-copy-capture-readiness-lock", buildCaptureReadinessLock, "MVP-40 capture readiness lock copied.");
+    bindDynamicCopy("mvp40-copy-response-schema", buildResponseSchema, "MVP-40 response schema proposal copied.");
+    bindDynamicCopy("mvp40-copy-capture-safety", buildCaptureSafety, "MVP-40 capture safety requirements copied.");
+    bindDynamicCopy("mvp40-copy-queue-readiness", buildQueueReadiness, "MVP-40 queue readiness copied.");
+    bindDynamicCopy("mvp40-copy-response-mapping", buildResponseMapping, "MVP-40 response mapping copied.");
+    bindDynamicCopy("mvp40-copy-triage-rules", buildTriageRules, "MVP-40 triage rules copied.");
+    bindDynamicCopy("mvp40-copy-future-checklist", buildFutureChecklist, "MVP-40 future capture checklist copied.");
+  }
+
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initMvp39);
+    document.addEventListener("DOMContentLoaded", initMvp40);
   } else {
     initMvp39();
+    initMvp40();
   }
 })();

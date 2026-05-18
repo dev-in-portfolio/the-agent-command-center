@@ -199,15 +199,13 @@
           <button type="button" class="toggle-button" disabled aria-disabled="true">DISABLED — SCHEMA PREVIEW ONLY</button>
           <button type="button" class="toggle-button" disabled aria-disabled="true">DISABLED — SCHEMA PREVIEW ONLY</button>
           <button type="button" class="toggle-button" disabled aria-disabled="true">DISABLED — SCHEMA PREVIEW ONLY</button>
-      </div>
-      <div class="button-row" style="margin-top:0.75rem;">
-        <button type="button" class="copy-button small" id="mvp37-copy-request-draft-handoff">Copy Request Draft Handoff</button>
-        <button type="button" class="copy-button small" id="mvp37-copy-stakeholder-summary">Copy Stakeholder Summary</button>
-        <button type="button" class="copy-button small" id="mvp37-copy-operator-review">Copy Operator Review</button>
-        <button type="button" class="copy-button small" id="mvp37-copy-copy-bank">Copy Copy Bank</button>
-      </div>
-    </article>
-  </div>
+        </div>
+      </article>
+      <article class="card">
+        <div class="card-head">
+          <h3 class="card-title">Identity & Permissions Preview</h3>
+          <span class="badge disabled">DISABLED</span>
+        </div>
         <p class="card-body">Recommended provider, roles, and permission boundaries are documented only.</p>
         <div class="button-row">
           <button type="button" class="section-button" id="load-phase4d-identity-schema-button">Load identity schema</button>
@@ -6723,8 +6721,9 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
     <p class="muted">PUBLIC SAFE DEMO SCRIPT — REVIEW QUESTIONS PREP GUIDE — EXTERNAL REVIEW INSTRUCTIONS</p>
     <p class="muted">SAFE PUBLIC REVIEW ONLY — NO PUBLIC WRITES — NO TOKEN INPUT — NO SECRETS EXPOSED</p>
     <p class="muted">NO DEPLOY CONTROLS — NO LAUNCH AUTOMATION — SERVICE ROLE NOT USED</p>
-    <p class="muted">NO EMAIL SENDING — UPDATE DELETE EXECUTE BLOCKED — AUTOMATION STILL DISABLED</p>
+    <p class="muted">UPDATE DELETE EXECUTE BLOCKED — AUTOMATION STILL DISABLED</p>
     <p class="muted">NEXT_STEP_BUILD_EXTERNAL_REVIEW_FEEDBACK_SUMMARY_AND_OUTREACH_PREP — NOT_READY_FOR_REAL_AUTOMATION</p>
+    <p class="muted">NEXT_STEP_REVIEW_RELEASE_CANDIDATE_PORTAL_AND_PREPARE_PUBLIC_PITCH — NOT_READY_FOR_REAL_AUTOMATION</p>
   </div>
 
   <div class="plus2e-preview-grid">
@@ -6866,7 +6865,7 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
       </div>
     </details>
     
-    <details class="panel" data-section-group="source" open id="mvp35-external-review-feedback-summary-outreach-prep">
+<details class="panel" data-section-group="source" open id="mvp35-external-review-feedback-summary-outreach-prep">
       <summary>MVP-35 — External Review Feedback Summary + Outreach-Prep Workspace</summary>
       <div class="panel-body">
         
@@ -7002,8 +7001,7 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
 
       </div>
     </details>
-
-    <details class="panel" data-section-group="source" open id="mvp36-review-to-roadmap-decision-sync">
+<details class="panel" data-section-group="source" open id="mvp36-review-to-roadmap-decision-sync">
       <summary>MVP-36 — Review-to-Roadmap Decision Sync</summary>
       <div class="panel-body">
         
@@ -7125,61 +7123,7 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
 
       </div>
     </details>
-
-    <details class="panel" data-section-group="registry" id="action-registry">
-      <summary>Action Registry</summary>
-      <div class="panel-body">
-        <div class="stat-grid">
-    <div class="stat">
-      <span>Total actions</span>
-      <strong>12</strong>
-      
-    </div>
-    
-    <div class="stat">
-      <span>Safe</span>
-      <strong>6</strong>
-      <span class="mini-status"><span class="badge pass">PASS</span></span>
-    </div>
-    
-    <div class="stat">
-      <span>Controlled</span>
-      <strong>6</strong>
-      <span class="mini-status"><span class="badge warning">WARNING</span></span>
-    </div>
-    
-    <div class="stat">
-      <span>Locked</span>
-      <strong>0</strong>
-      <span class="mini-status"><span class="badge locked">LOCKED</span></span>
-    </div>
-    </div>
-    <div class="table-tools">
-      <label for="action-search" class="sr-only">Filter actions</label>
-      <input id="action-search" class="table-filter" type="search" placeholder="Search action rows" data-search-target="action-table" aria-label="Search action registry">
-      <div class="button-row">
-        <button type="button" class="toggle-button" data-action-filter="all">All</button>
-        <button type="button" class="toggle-button" data-action-filter="safe">SAFE</button>
-        <button type="button" class="toggle-button" data-action-filter="controlled">CONTROLLED</button>
-        <button type="button" class="toggle-button" data-action-filter="locked">LOCKED</button>
-        <button type="button" class="toggle-button" data-sort-table="action-table" data-sort-key="risk">Sort by risk</button>
-      </div>
-    </div>
-    
-    <div class="table-wrap">
-      <table class="data-table" id="action-table" data-table-id="action-table">
-        <caption>Action registry details</caption>
-        <thead>
-          <tr><th scope="col">Action ID</th><th scope="col">Label</th><th scope="col">Category</th><th scope="col">Risk</th><th scope="col">Writes files</th><th scope="col">Runs commands</th><th scope="col">Dashboard allowed</th><th scope="col">Reason</th></tr>
-        </thead>
-        <tbody><tr data-action-category="controlled" data-action-risk="low" data-action-dashboard-allowed="true" data-search-text="generate_session_report Generate operator session report controlled low dashboard can display only"><th scope="row"><code>generate_session_report</code></th><td>Generate operator session report</td><td><span class="badge warning">CONTROLLED</span></td><td><span class="badge pass">LOW</span></td><td>Yes</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="safe" data-action-risk="none" data-action-dashboard-allowed="true" data-search-text="inspect_artifact_package Inspect artifact packages safe none dashboard can display only"><th scope="row"><code>inspect_artifact_package</code></th><td>Inspect artifact packages</td><td><span class="badge pass">SAFE</span></td><td><span class="badge pass">NONE</span></td><td>No</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="safe" data-action-risk="none" data-action-dashboard-allowed="true" data-search-text="list_artifacts List artifact packages safe none dashboard can display only"><th scope="row"><code>list_artifacts</code></th><td>List artifact packages</td><td><span class="badge pass">SAFE</span></td><td><span class="badge pass">NONE</span></td><td>No</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="controlled" data-action-risk="low" data-action-dashboard-allowed="true" data-search-text="prepare_branch_review Prepare branch review packet controlled low dashboard can display only"><th scope="row"><code>prepare_branch_review</code></th><td>Prepare branch review packet</td><td><span class="badge warning">CONTROLLED</span></td><td><span class="badge pass">LOW</span></td><td>Yes</td><td>Yes</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="controlled" data-action-risk="low" data-action-dashboard-allowed="true" data-search-text="prepare_command_packet Prepare command packet controlled low dashboard can display only"><th scope="row"><code>prepare_command_packet</code></th><td>Prepare command packet</td><td><span class="badge warning">CONTROLLED</span></td><td><span class="badge pass">LOW</span></td><td>Yes</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="controlled" data-action-risk="low" data-action-dashboard-allowed="true" data-search-text="review_packet_approval Review packet approval controlled low dashboard can display only"><th scope="row"><code>review_packet_approval</code></th><td>Review packet approval</td><td><span class="badge warning">CONTROLLED</span></td><td><span class="badge pass">LOW</span></td><td>Yes</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="controlled" data-action-risk="low" data-action-dashboard-allowed="true" data-search-text="run_validator_wall Run validator wall controlled low dashboard can display only"><th scope="row"><code>run_validator_wall</code></th><td>Run validator wall</td><td><span class="badge warning">CONTROLLED</span></td><td><span class="badge pass">LOW</span></td><td>No</td><td>Yes</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="controlled" data-action-risk="none" data-action-dashboard-allowed="true" data-search-text="show_approval_ledger Show approval ledger controlled none dashboard can display only"><th scope="row"><code>show_approval_ledger</code></th><td>Show approval ledger</td><td><span class="badge warning">CONTROLLED</span></td><td><span class="badge pass">NONE</span></td><td>No</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="safe" data-action-risk="none" data-action-dashboard-allowed="true" data-search-text="show_locked_actions Show locked actions safe none dashboard can display only"><th scope="row"><code>show_locked_actions</code></th><td>Show locked actions</td><td><span class="badge pass">SAFE</span></td><td><span class="badge pass">NONE</span></td><td>No</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="safe" data-action-risk="none" data-action-dashboard-allowed="true" data-search-text="show_session_state Show current session state safe none dashboard can display only"><th scope="row"><code>show_session_state</code></th><td>Show current session state</td><td><span class="badge pass">SAFE</span></td><td><span class="badge pass">NONE</span></td><td>No</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="safe" data-action-risk="none" data-action-dashboard-allowed="true" data-search-text="show_status Show system status safe none dashboard can display only"><th scope="row"><code>show_status</code></th><td>Show system status</td><td><span class="badge pass">SAFE</span></td><td><span class="badge pass">NONE</span></td><td>No</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="safe" data-action-risk="none" data-action-dashboard-allowed="true" data-search-text="show_summaries Show latest trial / gauntlet summaries safe none dashboard can display only"><th scope="row"><code>show_summaries</code></th><td>Show latest trial / gauntlet summaries</td><td><span class="badge pass">SAFE</span></td><td><span class="badge pass">NONE</span></td><td>No</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr></tbody>
-      </table>
-    </div>
-    
-      </div>
-    </details>
-
-    <details class="panel" data-section-group="source" open id="mvp37-release-candidate-decision-log-handoff">
+<details class="panel" data-section-group="source" open id="mvp37-release-candidate-decision-log-handoff">
       <summary>MVP-37 — Release Candidate Decision Log + Handoff</summary>
       <div class="panel-body">
         
@@ -7271,8 +7215,7 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
 
       </div>
     </details>
-
-    <details class="panel" data-section-group="source" open id="mvp38-final-release-review-room-demo-script-lock">
+<details class="panel" data-section-group="source" open id="mvp38-final-release-review-room-demo-script-lock">
       <summary>MVP-38 — Final Release Review Room + Demo Script Lock</summary>
       <div class="panel-body">
         
@@ -7376,8 +7319,7 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
 
       </div>
     </details>
-
-    <details class="panel" data-section-group="source" open id="mvp39-external-demo-review-share-package-lock">
+<details class="panel" data-section-group="source" open id="mvp39-external-demo-review-share-package-lock">
       <summary>MVP-39 — External Demo Review Share Package Lock</summary>
       <div class="panel-body">
         
@@ -7496,6 +7438,180 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
 
       </div>
     </details>
+
+    <details class="panel" data-section-group="source" open id="mvp40-reviewer-response-capture-readiness-lock">
+      <summary>MVP-40 — Reviewer Response Capture Readiness Lock</summary>
+      <div class="panel-body">
+        
+<div class="mvp-section" data-mvp="40" data-mvp40-reviewer-response-capture-readiness-lock="true">
+  <div class="callout success-callout">
+    <strong style="color: var(--success);">MVP-40</strong>
+    <p class="muted">REVIEWER RESPONSE CAPTURE READINESS LOCK</p>
+    <p class="muted">REVIEWER RESPONSE SCHEMA PROPOSAL — CAPTURE SAFETY REQUIREMENTS — OPERATOR RESPONSE REVIEW QUEUE READINESS</p>
+    <p class="muted">RESPONSE TO FEEDBACK MAPPING READINESS — RESPONSE TRIAGE READINESS RULES — FUTURE CAPTURE IMPLEMENTATION CHECKLIST</p>
+    <p class="muted">OPERATOR REVIEW ONLY — READINESS ONLY — FUTURE IMPLEMENTATION ONLY</p>
+    <p class="muted">NO PUBLIC ENDPOINT — NO PUBLIC RESPONSE SUBMISSION — NO REVIEWER RESPONSE WRITES</p>
+    <p class="muted">NO RESPONSE CAPTURE ENABLED — NO RESPONSE PERSISTENCE ENABLED — NO EMAIL SENDING — NO REVIEWER CONTACT</p>
+    <p class="muted">NO AUTOMATED OUTREACH — NO LIVE WRITES — NO PUBLIC WRITES — NO TOKEN INPUT — NO SECRETS EXPOSED</p>
+    <p class="muted">SERVICE ROLE NOT USED — UPDATE DELETE EXECUTE BLOCKED — AUTOMATION STILL DISABLED</p>
+    <p class="muted">NEXT_STEP_BUILD_CONTROLLED_REVIEWER_RESPONSE_INTAKE_BLUEPRINT — NOT_READY_FOR_REAL_AUTOMATION</p>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card" id="mvp40-readiness-lock-panel">
+      <div class="card-head"><h3 class="card-title">Reviewer Response Capture Readiness Lock</h3><span class="badge success">READINESS</span></div>
+      <p class="card-body">Readiness-only model for a future reviewer response capture workflow.</p>
+      <ul class="action-list">
+        <li><span class="badge pass">done</span> Reviewer response capture readiness lock</li>
+        <li><span class="badge pass">done</span> Reviewer response schema proposal</li>
+        <li><span class="badge pass">done</span> Capture safety requirements</li>
+        <li><span class="badge pass">done</span> Operator response review queue readiness</li>
+        <li><span class="badge pass">done</span> Response-to-feedback mapping readiness</li>
+        <li><span class="badge pass">done</span> Response triage readiness rules</li>
+        <li><span class="badge pass">done</span> Future capture implementation checklist</li>
+      </ul>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp40-copy-capture-readiness-lock">Copy Capture Readiness Lock</button>
+        <button type="button" class="copy-button small" id="mvp40-copy-response-schema">Copy Response Schema Proposal</button>
+        <button type="button" class="copy-button small" id="mvp40-copy-capture-safety">Copy Capture Safety Requirements</button>
+      </div>
+    </article>
+
+    <article class="card" id="mvp40-response-queue-panel">
+      <div class="card-head"><h3 class="card-title">Operator Response Review Queue Readiness</h3><span class="badge warning">QUEUE</span></div>
+      <p class="card-body">Queue structure is readiness-only and operator reviewed. No capture or persistence path exists yet.</p>
+      <ul class="compact-list">
+        <li>Awaiting review</li>
+        <li>Needs clarification</li>
+        <li>Triaged</li>
+        <li>Mapped to feedback</li>
+        <li>Archived readiness-only item</li>
+      </ul>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp40-copy-queue-readiness">Copy Operator Review Queue Readiness</button>
+        <button type="button" class="copy-button small" id="mvp40-copy-response-mapping">Copy Response-to-Feedback Mapping</button>
+        <button type="button" class="copy-button small" id="mvp40-copy-triage-rules">Copy Response Triage Rules</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card" id="mvp40-implementation-checklist-panel">
+      <div class="card-head"><h3 class="card-title">Future Capture Implementation Checklist</h3><span class="badge info">CHECKLIST</span></div>
+      <p class="card-body">Future implementation work is documented as a checklist only.</p>
+      <ul class="compact-list">
+        <li>Define intake schema</li>
+        <li>Define queue states</li>
+        <li>Define triage rules</li>
+        <li>Define mapping path</li>
+        <li>Define operator review workflow</li>
+        <li>Implement guarded capture endpoint later</li>
+      </ul>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp40-copy-future-checklist">Copy Future Capture Checklist</button>
+      </div>
+    </article>
+
+    <article class="card" id="mvp40-safety-panel">
+      <div class="card-head"><h3 class="card-title">Capture Safety Requirements</h3><span class="badge warning">SAFETY</span></div>
+      <p class="card-body">No public endpoint, no public response submission, and no reviewer response writes are enabled in this build.</p>
+      <ul class="compact-list">
+        <li>NO PUBLIC ENDPOINT</li>
+        <li>NO PUBLIC RESPONSE SUBMISSION</li>
+        <li>NO REVIEWER RESPONSE WRITES</li>
+        <li>NO RESPONSE CAPTURE ENABLED</li>
+        <li>NO RESPONSE PERSISTENCE ENABLED</li>
+        <li>NO EMAIL SENDING</li>
+        <li>NO REVIEWER CONTACT</li>
+        <li>NO AUTOMATED OUTREACH</li>
+      </ul>
+    </article>
+  </div>
+
+  <div class="table-wrap">
+    <table class="data-table">
+      <caption>MVP-40 safety posture audit</caption>
+      <thead>
+        <tr><th scope="col">Control</th><th scope="col">Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Public endpoint</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Public response submission</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Reviewer response writes</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Response capture</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Response persistence</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Email sending</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Reviewer contact</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Automated outreach</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Live writes</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Public writes</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Token input</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Service role used</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Update/delete/approve/execute</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Automation enabled</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Deploy/merge/push controls</td><td><span class="badge pass">FALSE</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+      </div>
+    </details>
+    
+
+    <details class="panel" data-section-group="registry" id="action-registry">
+      <summary>Action Registry</summary>
+      <div class="panel-body">
+        <div class="stat-grid">
+    <div class="stat">
+      <span>Total actions</span>
+      <strong>12</strong>
+      
+    </div>
+    
+    <div class="stat">
+      <span>Safe</span>
+      <strong>6</strong>
+      <span class="mini-status"><span class="badge pass">PASS</span></span>
+    </div>
+    
+    <div class="stat">
+      <span>Controlled</span>
+      <strong>6</strong>
+      <span class="mini-status"><span class="badge warning">WARNING</span></span>
+    </div>
+    
+    <div class="stat">
+      <span>Locked</span>
+      <strong>0</strong>
+      <span class="mini-status"><span class="badge locked">LOCKED</span></span>
+    </div>
+    </div>
+    <div class="table-tools">
+      <label for="action-search" class="sr-only">Filter actions</label>
+      <input id="action-search" class="table-filter" type="search" placeholder="Search action rows" data-search-target="action-table" aria-label="Search action registry">
+      <div class="button-row">
+        <button type="button" class="toggle-button" data-action-filter="all">All</button>
+        <button type="button" class="toggle-button" data-action-filter="safe">SAFE</button>
+        <button type="button" class="toggle-button" data-action-filter="controlled">CONTROLLED</button>
+        <button type="button" class="toggle-button" data-action-filter="locked">LOCKED</button>
+        <button type="button" class="toggle-button" data-sort-table="action-table" data-sort-key="risk">Sort by risk</button>
+      </div>
+    </div>
+    
+    <div class="table-wrap">
+      <table class="data-table" id="action-table" data-table-id="action-table">
+        <caption>Action registry details</caption>
+        <thead>
+          <tr><th scope="col">Action ID</th><th scope="col">Label</th><th scope="col">Category</th><th scope="col">Risk</th><th scope="col">Writes files</th><th scope="col">Runs commands</th><th scope="col">Dashboard allowed</th><th scope="col">Reason</th></tr>
+        </thead>
+        <tbody><tr data-action-category="controlled" data-action-risk="low" data-action-dashboard-allowed="true" data-search-text="generate_session_report Generate operator session report controlled low dashboard can display only"><th scope="row"><code>generate_session_report</code></th><td>Generate operator session report</td><td><span class="badge warning">CONTROLLED</span></td><td><span class="badge pass">LOW</span></td><td>Yes</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="safe" data-action-risk="none" data-action-dashboard-allowed="true" data-search-text="inspect_artifact_package Inspect artifact packages safe none dashboard can display only"><th scope="row"><code>inspect_artifact_package</code></th><td>Inspect artifact packages</td><td><span class="badge pass">SAFE</span></td><td><span class="badge pass">NONE</span></td><td>No</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="safe" data-action-risk="none" data-action-dashboard-allowed="true" data-search-text="list_artifacts List artifact packages safe none dashboard can display only"><th scope="row"><code>list_artifacts</code></th><td>List artifact packages</td><td><span class="badge pass">SAFE</span></td><td><span class="badge pass">NONE</span></td><td>No</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="controlled" data-action-risk="low" data-action-dashboard-allowed="true" data-search-text="prepare_branch_review Prepare branch review packet controlled low dashboard can display only"><th scope="row"><code>prepare_branch_review</code></th><td>Prepare branch review packet</td><td><span class="badge warning">CONTROLLED</span></td><td><span class="badge pass">LOW</span></td><td>Yes</td><td>Yes</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="controlled" data-action-risk="low" data-action-dashboard-allowed="true" data-search-text="prepare_command_packet Prepare command packet controlled low dashboard can display only"><th scope="row"><code>prepare_command_packet</code></th><td>Prepare command packet</td><td><span class="badge warning">CONTROLLED</span></td><td><span class="badge pass">LOW</span></td><td>Yes</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="controlled" data-action-risk="low" data-action-dashboard-allowed="true" data-search-text="review_packet_approval Review packet approval controlled low dashboard can display only"><th scope="row"><code>review_packet_approval</code></th><td>Review packet approval</td><td><span class="badge warning">CONTROLLED</span></td><td><span class="badge pass">LOW</span></td><td>Yes</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="controlled" data-action-risk="low" data-action-dashboard-allowed="true" data-search-text="run_validator_wall Run validator wall controlled low dashboard can display only"><th scope="row"><code>run_validator_wall</code></th><td>Run validator wall</td><td><span class="badge warning">CONTROLLED</span></td><td><span class="badge pass">LOW</span></td><td>No</td><td>Yes</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="controlled" data-action-risk="none" data-action-dashboard-allowed="true" data-search-text="show_approval_ledger Show approval ledger controlled none dashboard can display only"><th scope="row"><code>show_approval_ledger</code></th><td>Show approval ledger</td><td><span class="badge warning">CONTROLLED</span></td><td><span class="badge pass">NONE</span></td><td>No</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="safe" data-action-risk="none" data-action-dashboard-allowed="true" data-search-text="show_locked_actions Show locked actions safe none dashboard can display only"><th scope="row"><code>show_locked_actions</code></th><td>Show locked actions</td><td><span class="badge pass">SAFE</span></td><td><span class="badge pass">NONE</span></td><td>No</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="safe" data-action-risk="none" data-action-dashboard-allowed="true" data-search-text="show_session_state Show current session state safe none dashboard can display only"><th scope="row"><code>show_session_state</code></th><td>Show current session state</td><td><span class="badge pass">SAFE</span></td><td><span class="badge pass">NONE</span></td><td>No</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="safe" data-action-risk="none" data-action-dashboard-allowed="true" data-search-text="show_status Show system status safe none dashboard can display only"><th scope="row"><code>show_status</code></th><td>Show system status</td><td><span class="badge pass">SAFE</span></td><td><span class="badge pass">NONE</span></td><td>No</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr><tr data-action-category="safe" data-action-risk="none" data-action-dashboard-allowed="true" data-search-text="show_summaries Show latest trial / gauntlet summaries safe none dashboard can display only"><th scope="row"><code>show_summaries</code></th><td>Show latest trial / gauntlet summaries</td><td><span class="badge pass">SAFE</span></td><td><span class="badge pass">NONE</span></td><td>No</td><td>No</td><td><span class="badge pass">PASS</span></td><td>dashboard can display only</td></tr></tbody>
+      </table>
+    </div>
+    
+      </div>
+    </details>
+    
 
     <details class="panel" data-section-group="reports" id="reports-library">
       <summary>Reports Library</summary>
@@ -7660,7 +7776,7 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
         <div class="stat-grid">
     <div class="stat">
       <span>Generated at</span>
-      <strong>2026-05-17T18:57:00Z</strong>
+      <strong>2026-05-18T00:20:37Z</strong>
       
     </div>
     
@@ -7840,7 +7956,7 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
     
     <div class="stat">
       <span>Phase 2 sessions</span>
-      <strong>10320</strong>
+      <strong>0</strong>
       
     </div>
     
@@ -7855,7 +7971,7 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
       <strong>true</strong>
       <span class="mini-status"><span class="badge pass">PASS</span></span>
     </div>
-    </div><p class="muted">Phase 3 build report: <code>09_exports/interface_phase_3/interface_phase_3_static_build_report.md</code></p><div class="split"><div><h4>Phase 1 session paths</h4><p class="muted">None detected.</p></div><div><h4>Phase 2 session paths</h4><ul class="compact-list"><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-003552-941813.json</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-003553-105151.json</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-003553-250918.json</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-003553-595299.json</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-005008-088668.json</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-005008-322806.json</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-005008-568779.json</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-005009-191712.json</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-005146-028915.json</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-005146-196918.json</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-005146-345295.json</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-005146-678025.json</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-005559-505434.json</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-005559-687069.json</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-005559-898613.json</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-005600-518669.json</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-010659-402818.json</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-010659-789477.json</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-010700-237154.json</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-010701-420946.json</li></ul></div></div><h4>Phase 1 session reports</h4><p class="muted">None detected.</p><h4>Phase 2 session reports</h4><ul class="compact-list"><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-011229-842899.md</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-011229-999276.md</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-011230-166341.md</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-011230-551231.md</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-011317-052899.md</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-011317-218441.md</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-011317-376546.md</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-011317-737442.md</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-011319-347636.md</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-011319-496309.md</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-011319-659043.md</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-011319-989166.md</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-011337-112531.md</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-011337-262997.md</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-011337-592139.md</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-011337-642118.md</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-011409-460897.md</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-012528-432498.md</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-012528-665210.md</li><li>09_exports/interface_phase_2/sessions/session_TUI-20260512-012528-888786.md</li></ul>
+    </div><p class="muted">Phase 3 build report: <code>09_exports/interface_phase_3/interface_phase_3_static_build_report.md</code></p><div class="split"><div><h4>Phase 1 session paths</h4><p class="muted">None detected.</p></div><div><h4>Phase 2 session paths</h4><p class="muted">None detected.</p></div></div><h4>Phase 1 session reports</h4><p class="muted">None detected.</p><h4>Phase 2 session reports</h4><p class="muted">None detected.</p>
       </div>
     </details>
     
@@ -7867,8 +7983,8 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
     </main>
   </div>
   <script type="application/json" id="dashboard-data">{
-  "dashboard_id": "PH3-20260517-185654",
-  "created_at_utc": "2026-05-17T18:56:54Z",
+  "dashboard_id": "PH3-20260518-002037",
+  "created_at_utc": "2026-05-18T00:20:37Z",
   "phase": "Read-Only Operations Dashboard",
   "repo": "dev-in-portfolio/the-agent-command-center",
   "source_lineage": "dev-in-portfolio/agent-command-center-3",
@@ -8370,57 +8486,15 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
     "source_type": "module",
     "source_confidence": "direct_module_read",
     "phase_1_session_count": 0,
-    "phase_2_session_count": 10320,
+    "phase_2_session_count": 0,
     "phase_1_sessions": [],
-    "phase_2_sessions": [
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-003552-941813.json",
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-003553-105151.json",
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-003553-250918.json",
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-003553-595299.json",
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-005008-088668.json",
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-005008-322806.json",
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-005008-568779.json",
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-005009-191712.json",
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-005146-028915.json",
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-005146-196918.json",
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-005146-345295.json",
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-005146-678025.json",
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-005559-505434.json",
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-005559-687069.json",
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-005559-898613.json",
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-005600-518669.json",
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-010659-402818.json",
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-010659-789477.json",
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-010700-237154.json",
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-010701-420946.json"
-    ],
+    "phase_2_sessions": [],
     "phase_1_session_reports": [],
-    "phase_2_session_reports": [
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011229-842899.md",
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011229-999276.md",
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011230-166341.md",
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011230-551231.md",
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011317-052899.md",
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011317-218441.md",
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011317-376546.md",
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011317-737442.md",
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011319-347636.md",
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011319-496309.md",
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011319-659043.md",
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011319-989166.md",
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011337-112531.md",
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011337-262997.md",
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011337-592139.md",
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011337-642118.md",
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-011409-460897.md",
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-012528-432498.md",
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-012528-665210.md",
-      "09_exports/interface_phase_2/sessions/session_TUI-20260512-012528-888786.md"
-    ],
+    "phase_2_session_reports": [],
     "phase_3_build_report": "09_exports/interface_phase_3/interface_phase_3_static_build_report.md",
     "phase_3_note": "no live session mutation unless build report is written",
     "session_logs_read_only": true,
-    "summary": "0 phase 1 sessions, 10320 phase 2 sessions."
+    "summary": "0 phase 1 sessions, 0 phase 2 sessions."
   },
   "validator_status": {
     "source_file_path": "09_exports/interface_phase_3/interface_phase_3_acceptance_report.md",
@@ -8875,7 +8949,7 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
     "source_exists": true,
     "source_type": "generated_static_snapshot",
     "source_confidence": "generated_static_snapshot",
-    "generated_at_utc": "2026-05-17T18:57:00Z",
+    "generated_at_utc": "2026-05-18T00:20:37Z",
     "freshness_status": "generated_static_snapshot",
     "snapshot_age_seconds": 0,
     "notes": [
@@ -9078,140 +9152,140 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
     "allowed_label_findings": [
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 513,
+        "line": 514,
         "pattern": "NO DEPLOY",
         "context": "<span>NO DEPLOY CONTROLS<\/span>",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 514,
+        "line": 515,
         "pattern": "NO MERGE",
         "context": "<span>NO MERGE CONTROLS<\/span>",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 515,
+        "line": 516,
         "pattern": "NO SECRET ACCESS",
         "context": "<span>NO SECRET ACCESS<\/span>",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1134,
+        "line": 1135,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\">SAFE LAUNCH REVIEW ONLY \u2014 NO FAKE LAUNCH STATUS \u2014 NO DEPLOY CONTROLS<\/p>",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1260,
+        "line": 1261,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\">NO DEPLOY CONTROLS \u2014 NO LAUNCH AUTOMATION \u2014 SERVICE ROLE NOT USED<\/p>",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1394,
+        "line": 1396,
         "pattern": "NO DEPLOY",
         "context": "<li>NO DEPLOY CONTROLS<\/li>",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1623,
+        "line": 1764,
         "pattern": "NO DEPLOY",
         "context": "TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO DEPLOY / MERGE / ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1746,
+        "line": 1887,
         "pattern": "NO DEPLOY",
         "context": "GENERATED LOCALLY \u2014 COPY ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO DEPLOY / MERGE / PU",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1844,
+        "line": 1985,
         "pattern": "NO DEPLOY",
         "context": "DECISION LEDGER PREVIEW \u2014 TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO EXECUTION \u2014 NO MUTAT",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2026,
+        "line": 2167,
         "pattern": "NO DEPLOY",
         "context": "GENERATED LOCALLY \u2014 COPY/PASTE HANDOFF ONLY \u2014 TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2200,
+        "line": 2341,
         "pattern": "NO DEPLOY",
         "context": "END-TO-END OPERATOR FLOW \u2014 SCENARIO PREVIEW ONLY \u2014 GENERATED LOCALLY \u2014 TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2335,
+        "line": 2476,
         "pattern": "NO DEPLOY",
         "context": "READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO BACKEND WRITES \u2014 NO DEPLOY / MERGE / PUSH / PR CON",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2552,
+        "line": 2693,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">CONTRACTS ONLY \u2014 COPY/PASTE ONLY \u2014 READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 N",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2667,
+        "line": 2808,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">COPY/PASTE ONLY \u2014 READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2784,
+        "line": 2925,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO BACK",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2965,
+        "line": 3106,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO BACK",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 3204,
+        "line": 3345,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 3204,
+        "line": 3345,
         "pattern": "NO MERGE",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 3204,
+        "line": 3345,
         "pattern": "NO PUSH",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 3204,
+        "line": 3345,
         "pattern": "NO SECRET ACCESS",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
@@ -9312,6 +9386,13 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
         "line": 76,
         "pattern": "NO COMMAND PACKET EXECUTION",
         "context": "\"NO COMMAND PACKET EXECUTION\",",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/static/dashboard.js",
+        "line": 7219,
+        "pattern": "NO DEPLOY",
+        "context": "const buildDemoWalkthrough = () => \"Reviewer-Safe Demo Walkthrough\\n\\nStep 1: Start at dashboard homepage\\nStep 2: Revie",
         "reason": "allowed safety text"
       }
     ],

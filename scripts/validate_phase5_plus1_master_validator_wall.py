@@ -1007,6 +1007,8 @@ allowed_prefixes = [
         "scripts/validate_mvp38_final_release_review_room_demo_script_lock_e2e.py",
         "scripts/validate_mvp39_external_demo_review_share_package_lock.py",
         "scripts/validate_mvp39_external_demo_review_share_package_lock_e2e.py",
+        "scripts/validate_mvp40_reviewer_response_capture_readiness_lock.py",
+        "scripts/validate_mvp40_reviewer_response_capture_readiness_lock_e2e.py",
         "scripts/_validator_runner.py",
         "scripts/mvp23_feedback_import_smoke_test.py",
         "scripts/mvp23_verify_feedback_migration_files.py",
