@@ -70,9 +70,9 @@ def main():
         "13_web_dashboard/",
         "09_exports/mvp_product_track/",
         "scripts/validate_mvp5_migration_readiness_authenticated_reads.py",
-        "scripts/validate_mvp5_migration_readiness_authenticated_reads_e2e.py",
+        "scripts/validate_mvp5_migration_readiness_authenticated_reads.py",
         "scripts/validate_mvp4_supabase_auth_rls_request_api.py",
-        "scripts/validate_mvp4_supabase_auth_rls_request_api_e2e.py",
+        "scripts/validate_mvp4_supabase_auth_rls_request_api.py",
         "scripts/validate_phase5_plus1_master_validator_wall.py",
     ]
     forbidden_prefixes = [

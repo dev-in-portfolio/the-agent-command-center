@@ -30,7 +30,7 @@ def main():
     # DASHBOARD_DIRECT_SUPABASE_CALL_BLOCKED
     validators = [
         "python3 scripts/validate_mvp23_feedback_import_smoke_test.py",
-        "python3 scripts/validate_mvp22_controlled_feedback_import_write_e2e.py",
+        "python3 scripts/validate_mvp22_controlled_feedback_import_write.py",
         "python3 scripts/mvp23_verify_feedback_migration_files.py",
         "python3 scripts/validate_phase5_plus1_master_validator_wall.py",
     ]

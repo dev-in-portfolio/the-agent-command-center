@@ -36,7 +36,7 @@ else:
 
 print()
 print('Phase 2 — MVP-40 E2E Validator (chain dependency)')
-r2 = run_script('validate_mvp40_reviewer_response_capture_readiness_lock_e2e.py')
+r2 = run_script('validate_mvp40_reviewer_response_capture_readiness_lock.py')
 if 'MVP40_REVIEWER_RESPONSE_CAPTURE_READINESS_LOCK_E2E_VALIDATION_PASS' in r2:
     print('  [PASS] MVP-40 E2E')
 else:
@@ -45,7 +45,7 @@ else:
 
 print()
 print('Phase 3 — MVP-39 E2E Validator (chain dependency)')
-r3 = run_script('validate_mvp39_external_demo_review_share_package_lock_e2e.py')
+r3 = run_script('validate_mvp39_external_demo_review_share_package_lock.py')
 if 'MVP39_EXTERNAL_DEMO_REVIEW_SHARE_PACKAGE_LOCK_E2E_VALIDATION_PASS' in r3:
     print('  [PASS] MVP-39 E2E')
 else:

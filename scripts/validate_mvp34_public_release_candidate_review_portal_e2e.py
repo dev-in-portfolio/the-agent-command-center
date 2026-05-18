@@ -125,7 +125,7 @@ print()
 # Phase 2 — MVP-33 E2E Validator (chain dependency)
 print("Phase 2 — MVP-33 E2E Validator (chain dependency)")
 if not run(
-    "python3 scripts/validate_mvp33_product_launch_readiness_final_pitch_packet_e2e.py",
+    "python3 scripts/validate_mvp33_product_launch_readiness_final_pitch_packet.py",
     "MVP-33 E2E",
 ):
     print("  [TRIAGE] MVP-33 E2E failure — may be stale historical assumption or product regression")
@@ -136,7 +136,7 @@ print()
 # Phase 3 — MVP-32 E2E Validator (chain dependency)
 print("Phase 3 — MVP-32 E2E Validator (chain dependency)")
 if not run(
-    "python3 scripts/validate_mvp32_release_review_metrics_signal_dashboard_e2e.py",
+    "python3 scripts/validate_mvp32_release_review_metrics_signal_dashboard.py",
     "MVP-32 E2E",
 ):
     print("  [TRIAGE] MVP-32 E2E failure — may be stale historical assumption or product regression")

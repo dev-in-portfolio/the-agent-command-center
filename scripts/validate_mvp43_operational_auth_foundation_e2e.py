@@ -25,9 +25,14 @@ def run_step(name, script_name):
 
 def main():
     print("MVP-43 E2E Validation")
+    
+    # Direct validators (Flat model)
     run_step("MVP-43 Direct Validator", "validate_mvp43_operational_auth_foundation.py")
-    run_step("MVP-42 E2E Validator (chain dependency)", "validate_mvp42_operator_controlled_response_import_dry_run_e2e.py")
-    run_step("MVP-41 E2E Validator (chain dependency)", "validate_mvp41_controlled_reviewer_response_intake_blueprint_e2e.py")
+    run_step("MVP-42 Direct Validator", "validate_mvp42_operator_controlled_response_import_dry_run.py")
+    run_step("MVP-41 Direct Validator", "validate_mvp41_controlled_reviewer_response_intake_blueprint.py")
+    run_step("MVP-40 Direct Validator", "validate_mvp40_reviewer_response_capture_readiness_lock.py")
+    
+    # Core system checks
     run_step("Live Dashboard Usability Validator", "validate_live_dashboard_usability_after_mvp41.py")
     run_step("Live-Page Context-Aware Scan", "validate_live_page_context_aware_control_scan.py")
     run_step("Validation Helper Test", "test_validation_helpers_control_scan.py")

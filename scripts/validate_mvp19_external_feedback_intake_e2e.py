@@ -19,7 +19,7 @@ def run(cmd):
 def main():
     validators = [
         "python3 scripts/validate_mvp19_external_feedback_intake.py",
-        "python3 scripts/validate_mvp18_share_ready_external_review_portal_e2e.py",
+        "python3 scripts/validate_mvp18_share_ready_external_review_portal.py",
         "python3 scripts/validate_phase5_plus1_master_validator_wall.py",
     ]
 
