@@ -1259,3 +1259,59 @@ pre.code-block {
   white-space: pre-wrap;
   word-break: break-word;
 }
+
+/* Dashboard Tabs */
+.dashboard-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--stroke);
+  width: 100%;
+}
+
+.tab-btn {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid transparent;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  cursor: pointer;
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  margin-bottom: -1px;
+}
+
+.tab-btn:hover {
+  background: var(--card-elevated);
+  color: var(--text);
+}
+
+.tab-btn.active {
+  background: var(--panel);
+  color: var(--accent);
+  border: 1px solid var(--stroke);
+  border-bottom-color: var(--panel);
+}
+
+.tab-pane {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media print {
+  .dashboard-tabs { display: none !important; }
+  .tab-pane { display: block !important; }
+}
+
+@media (max-width: 768px) {
+  .dashboard-tabs { gap: 0.25rem; }
+  .tab-btn { padding: 0.4rem 0.6rem; font-size: 0.85rem; }
+}
