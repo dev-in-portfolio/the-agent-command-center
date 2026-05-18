@@ -1801,6 +1801,82 @@ def _build_mvp42_operator_controlled_response_import_dry_run_layer(snapshot):
 
 
 
+
+def _build_mvp45_immutable_audit_event_ledger_layer(snapshot):
+    body = f'''
+<div class="plus1-readiness-layer">
+  <div class="plus1-preview-grid">
+    <article class="card mvp45-audit-ledger" id="mvp45-audit-ledger-overview">
+      <div class="card-head"><h3 class="card-title">IMMUTABLE AUDIT EVENT LEDGER</h3><span class="badge info">MVP-45</span></div>
+      <p class="card-body">Blueprint and readiness layer for the immutable audit event ledger.</p>
+      {{_list([
+          "AUDIT EVENT DATA MODEL: READY",
+          "APPEND ONLY LEDGER CONTRACT: READY",
+          "AUDIT EVENT TAXONOMY: READY",
+          "ACTOR ACTION RESOURCE SCHEMA: READY",
+          "BEFORE AFTER SNAPSHOT BLUEPRINT: READY",
+          "AUDIT INTEGRITY TAMPER RESISTANCE PLAN: READY",
+          "AUDIT RETENTION EXPORT BLUEPRINT: READY",
+      ])}}
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small">Copy Audit Ledger Summary</button>
+        <button type="button" class="copy-button small">Copy Audit Event Data Model</button>
+        <button type="button" class="copy-button small">Copy Append-Only Ledger Contract</button>
+        <button type="button" class="copy-button small">Copy Audit Event Taxonomy</button>
+        <button type="button" class="copy-button small">Copy Actor Action Resource Schema</button>
+        <button type="button" class="copy-button small">Copy Before/After Snapshot Blueprint</button>
+        <button type="button" class="copy-button small">Copy Integrity Plan</button>
+        <button type="button" class="copy-button small">Copy Retention Export Blueprint</button>
+        <button type="button" class="copy-button small">Copy MVP-45 Validation Checklist</button>
+      </div>
+    </article>
+
+    <article class="card plus1-safety-summary" id="mvp45-safety-summary">
+      <div class="card-head"><h3 class="card-title">Safety Summary</h3><span class="badge pass">SECURE</span></div>
+      <div class="stat-grid">
+        {{_stat("Mode", "AUDIT LEDGER FOUNDATION ONLY", _badge("SCHEMA READINESS ONLY", "info"))}}
+        {{_stat("Role", "REVIEW ONLY", _badge("FUTURE IMPLEMENTATION ONLY", "warning"))}}
+        {{_stat("Audit", "NO REAL AUDIT EVENT WRITES", _badge("DISABLED", "disabled"))}}
+        {{_stat("Persistence", "NO REAL AUDIT PERSISTENCE", _badge("DISABLED", "disabled"))}}
+        {{_stat("Writes", "NO DATABASE WRITES", _badge("DISABLED", "disabled"))}}
+        {{_stat("Writes", "NO SUPABASE WRITES", _badge("DISABLED", "disabled"))}}
+        {{_stat("Writes", "NO PUBLIC WRITES", _badge("DISABLED", "disabled"))}}
+        {{_stat("Logging", "NO LIVE AUDIT LOGGING", _badge("DISABLED", "disabled"))}}
+        {{_stat("Mutation", "NO AUDIT EVENT MUTATION", _badge("BLOCKED", "locked"))}}
+        {{_stat("Deletion", "NO AUDIT EVENT DELETION", _badge("BLOCKED", "locked"))}}
+        {{_stat("Execution", "NO COMMAND EXECUTION", _badge("BLOCKED", "locked"))}}
+        {{_stat("Execution", "NO APPROVAL EXECUTION", _badge("BLOCKED", "locked"))}}
+        {{_stat("Controls", "NO DEPLOY CONTROLS", _badge("BLOCKED", "locked"))}}
+        {{_stat("Controls", "NO MERGE CONTROLS", _badge("BLOCKED", "locked"))}}
+        {{_stat("Controls", "NO PUSH CONTROLS", _badge("BLOCKED", "locked"))}}
+        {{_stat("Controls", "NO PR CONTROLS", _badge("BLOCKED", "locked"))}}
+        {{_stat("Mutation", "NO GITHUB MUTATION", _badge("BLOCKED", "locked"))}}
+        {{_stat("Mutation", "NO NETLIFY MUTATION", _badge("BLOCKED", "locked"))}}
+        {{_stat("Automation", "AUTOMATION DISABLED", _badge("NOT_READY_FOR_REAL_AUTOMATION", "disabled"))}}
+        {{_stat("Role", "SERVICE ROLE NOT USED", _badge("BLOCKED", "disabled"))}}
+        {{_stat("Role", "SERVICE ROLE NOT IN BROWSER", _badge("BLOCKED", "disabled"))}}
+        {{_stat("Token", "NO TOKEN INPUT", _badge("DISABLED", "disabled"))}}
+        {{_stat("Persistence", "NO BROWSER PERSISTENCE", _badge("DISABLED", "disabled"))}}
+        {{_stat("Migration", "NO MIGRATION APPLY", _badge("DISABLED", "disabled"))}}
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Next Planned Step</p>
+        <ul class="compact-list" style="margin-top:0.25rem;">
+          <li>NEXT_STEP_BUILD_APPROVAL_GATE_STORAGE</li>
+        </ul>
+      </div>
+    </article>
+  </div>
+</div>
+'''
+    return _details(
+        "MVP-45 — Immutable Audit Event Ledger",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp45-immutable-audit-event-ledger",
+    )
+
 def _build_mvp44_persistent_request_storage_foundation_layer(snapshot):
     body = f'''
 <div class="plus1-readiness-layer">
@@ -8646,7 +8722,10 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_mvp42_operator_controlled_response_import_dry_run_layer(snapshot),
                 _build_mvp42_operator_controlled_response_import_dry_run_layer(snapshot),
         _build_mvp43_operational_auth_foundation_layer(snapshot),
+                _build_mvp42_operator_controlled_response_import_dry_run_layer(snapshot),
+        _build_mvp43_operational_auth_foundation_layer(snapshot),
         _build_mvp44_persistent_request_storage_foundation_layer(snapshot),
+        _build_mvp45_immutable_audit_event_ledger_layer(snapshot),
     ]
     # Replace any 'open_by_default=True' with False in archive_sections if possible, 
     # but since they are already rendered strings, we can use JS or just let details be closed.

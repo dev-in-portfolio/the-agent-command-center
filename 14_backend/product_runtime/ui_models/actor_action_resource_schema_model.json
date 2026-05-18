@@ -1,0 +1,8 @@
+{
+  "phase": "MVP-45",
+  "name": "ACTOR ACTION RESOURCE SCHEMA",
+  "status": "ACTOR_ACTION_RESOURCE_SCHEMA_READY",
+  "readiness_only": "true",
+  "review_only": "true",
+  "future_implementation_only": "true"
+}
