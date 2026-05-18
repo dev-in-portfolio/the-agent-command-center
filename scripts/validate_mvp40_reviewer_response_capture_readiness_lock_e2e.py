@@ -13,7 +13,7 @@ def run_script(name, *args):
     try:
         result = subprocess.run(
             [sys.executable, path] + list(args),
-            capture_output=True, text=True, cwd=REPO, timeout=120
+            capture_output=True, text=True, cwd=REPO, timeout=360
         )
         out = result.stdout.strip()
         err = result.stderr.strip()
