@@ -451,6 +451,51 @@ for path, marker in report_requirements:
     if path.exists():
         check(marker in path.read_text(encoding="utf-8", errors="replace"), f"report missing marker: {path.name}")
 
+mvp41_model_requirements = [
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "controlled_reviewer_response_intake_blueprint_model.json",
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "intake_route_design_proposal_model.json",
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "manual_reviewer_response_import_path_model.json",
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "operator_approval_gate_blueprint_model.json",
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "reviewer_response_validation_rules_model.json",
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "response_normalization_mapping_blueprint_model.json",
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "controlled_intake_implementation_checklist_model.json",
+    ROOT / "13_web_dashboard" / "dist" / "mvp41_controlled_reviewer_response_intake_blueprint_model.json",
+]
+for path in mvp41_model_requirements:
+    check(path.exists(), f"missing MVP-41 model: {path.relative_to(ROOT)}")
+
+mvp41_release_requirements = [
+    ROOT / "09_exports" / "release_package" / "mvp41_controlled_reviewer_response_intake_blueprint.md",
+    ROOT / "09_exports" / "release_package" / "mvp41_intake_route_design_proposal.md",
+    ROOT / "09_exports" / "release_package" / "mvp41_manual_reviewer_response_import_path.md",
+    ROOT / "09_exports" / "release_package" / "mvp41_operator_approval_gate_blueprint.md",
+    ROOT / "09_exports" / "release_package" / "mvp41_reviewer_response_validation_rules.md",
+    ROOT / "09_exports" / "release_package" / "mvp41_response_normalization_mapping_blueprint.md",
+    ROOT / "09_exports" / "release_package" / "mvp41_controlled_intake_implementation_checklist.md",
+    ROOT / "09_exports" / "release_package" / "mvp41_controlled_reviewer_response_intake_manifest.json",
+]
+for path in mvp41_release_requirements:
+    check(path.exists(), f"missing MVP-41 release artifact: {path.relative_to(ROOT)}")
+
+mvp41_report_requirements = [
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp41_controlled_reviewer_response_intake_blueprint_report.md", "CONTROLLED_REVIEWER_RESPONSE_INTAKE_BLUEPRINT_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp41_intake_route_design_proposal_report.md", "INTAKE_ROUTE_DESIGN_PROPOSAL_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp41_manual_reviewer_response_import_path_report.md", "MANUAL_REVIEWER_RESPONSE_IMPORT_PATH_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp41_operator_approval_gate_blueprint_report.md", "OPERATOR_APPROVAL_GATE_BLUEPRINT_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp41_reviewer_response_validation_rules_report.md", "REVIEWER_RESPONSE_VALIDATION_RULES_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp41_response_normalization_mapping_blueprint_report.md", "RESPONSE_NORMALIZATION_MAPPING_BLUEPRINT_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp41_controlled_intake_implementation_checklist_report.md", "CONTROLLED_INTAKE_IMPLEMENTATION_CHECKLIST_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp41_security_boundary_report.md", "PASS"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp41_next_product_step_report.md", "NEXT_STEP_BUILD_OPERATOR_CONTROLLED_RESPONSE_IMPORT_DRY_RUN"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp41_validator_quality_report.md", "PASS"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp41_acceptance_report.md", "CONTROLLED_REVIEWER_RESPONSE_INTAKE_BLUEPRINT_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp41_validator_wall_review.md", "PASS"),
+]
+for path, marker in mvp41_report_requirements:
+    check(path.exists(), f"missing MVP-41 report: {path.relative_to(ROOT)}")
+    if path.exists():
+        check(marker in path.read_text(encoding="utf-8", errors="replace"), f"MVP-41 report missing marker: {path.name}")
+
 index = (DIST / "index.html").read_text(encoding="utf-8", errors="replace")
 for marker in [
     "Original Phase 5A",
@@ -902,6 +947,61 @@ for marker in [
     "NO REVIEWER CONTACT",
     "NEXT_STEP_BUILD_REVIEWER_RESPONSE_CAPTURE_READINESS_LOCK",
     "PASS_WITH_COPY_ONLY_SHARE_PACKAGE_LOCK",
+    "MVP-40",
+    "REVIEWER RESPONSE CAPTURE READINESS LOCK",
+    "REVIEWER RESPONSE SCHEMA PROPOSAL",
+    "CAPTURE SAFETY REQUIREMENTS",
+    "OPERATOR RESPONSE REVIEW QUEUE READINESS",
+    "RESPONSE TO FEEDBACK MAPPING READINESS",
+    "RESPONSE TRIAGE READINESS RULES",
+    "FUTURE CAPTURE IMPLEMENTATION CHECKLIST",
+    "OPERATOR REVIEW ONLY",
+    "READINESS ONLY",
+    "FUTURE IMPLEMENTATION ONLY",
+    "NO PUBLIC ENDPOINT",
+    "NO PUBLIC RESPONSE SUBMISSION",
+    "NO REVIEWER RESPONSE WRITES",
+    "NO RESPONSE CAPTURE ENABLED",
+    "NO RESPONSE PERSISTENCE ENABLED",
+    "NO AUTOMATIC IMPORT",
+    "NO EMAIL SENDING",
+    "NO REVIEWER CONTACT",
+    "NO AUTOMATED OUTREACH",
+    "NO LIVE WRITES",
+    "NO PUBLIC WRITES",
+    "NO TOKEN INPUT",
+    "SERVICE ROLE NOT USED",
+    "UPDATE DELETE EXECUTE BLOCKED",
+    "NOT_READY_FOR_REAL_AUTOMATION",
+    "NEXT_STEP_BUILD_CONTROLLED_REVIEWER_RESPONSE_INTAKE_BLUEPRINT",
+    "MVP-41",
+    "CONTROLLED REVIEWER RESPONSE INTAKE BLUEPRINT",
+    "INTAKE ROUTE DESIGN PROPOSAL",
+    "MANUAL REVIEWER RESPONSE IMPORT PATH",
+    "OPERATOR APPROVAL GATE BLUEPRINT",
+    "REVIEWER RESPONSE VALIDATION RULES",
+    "RESPONSE NORMALIZATION MAPPING BLUEPRINT",
+    "CONTROLLED INTAKE IMPLEMENTATION CHECKLIST",
+    "OPERATOR REVIEW ONLY",
+    "BLUEPRINT ONLY",
+    "FUTURE IMPLEMENTATION ONLY",
+    "NO PUBLIC ENDPOINT",
+    "NO LIVE INTAKE",
+    "NO PUBLIC RESPONSE SUBMISSION",
+    "NO REVIEWER RESPONSE WRITES",
+    "NO RESPONSE CAPTURE ENABLED",
+    "NO RESPONSE PERSISTENCE ENABLED",
+    "NO AUTOMATIC IMPORT",
+    "NO EMAIL SENDING",
+    "NO REVIEWER CONTACT",
+    "NO AUTOMATED OUTREACH",
+    "NO LIVE WRITES",
+    "NO PUBLIC WRITES",
+    "NO TOKEN INPUT",
+    "SERVICE ROLE NOT USED",
+    "UPDATE DELETE EXECUTE BLOCKED",
+    "NOT_READY_FOR_REAL_AUTOMATION",
+    "NEXT_STEP_BUILD_OPERATOR_CONTROLLED_RESPONSE_IMPORT_DRY_RUN",
 ]:
     check(marker in index, f"index.html missing required marker: {marker}")
 
@@ -1009,6 +1109,8 @@ allowed_prefixes = [
         "scripts/validate_mvp39_external_demo_review_share_package_lock_e2e.py",
         "scripts/validate_mvp40_reviewer_response_capture_readiness_lock.py",
         "scripts/validate_mvp40_reviewer_response_capture_readiness_lock_e2e.py",
+        "scripts/validate_mvp41_controlled_reviewer_response_intake_blueprint.py",
+        "scripts/validate_mvp41_controlled_reviewer_response_intake_blueprint_e2e.py",
         "scripts/_validator_runner.py",
         "scripts/mvp23_feedback_import_smoke_test.py",
         "scripts/mvp23_verify_feedback_migration_files.py",
