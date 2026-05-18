@@ -1,0 +1,8 @@
+{
+  "phase": "MVP-46",
+  "name": "APPROVAL PERMISSION BOUNDARY CONTRACT",
+  "status": "APPROVAL_PERMISSION_BOUNDARY_CONTRACT_READY",
+  "readiness_only": "true",
+  "review_only": "true",
+  "future_implementation_only": "true"
+}
