@@ -1,0 +1,8 @@
+{
+  "phase": "MVP-44",
+  "name": "REQUEST STORAGE DATA MODEL",
+  "status": "REQUEST_STORAGE_DATA_MODEL_READY",
+  "readiness_only": "true",
+  "review_only": "true",
+  "future_implementation_only": "true"
+}
