@@ -71,7 +71,7 @@ def main():
     for line in lines:
         if "fetch(" in line:
              # Allow specific backend status fetches
-             if any(x in line for x in ['/api/health', '/api/status', '/api/backend-manifest', '/api/feedback', '/api/feedback?action=import', './status_snapshot.json', './phase4d_identity_schema.json', './phase4d_action_schema.json', './phase4d_audit_schema.json', './phase4d_approval_schema.json', './phase4d_risk_model.json']):
+             if any(x in line for x in ['/api/health', '/api/status', '/api/backend-manifest', './status_snapshot.json', './phase4d_identity_schema.json', './phase4d_action_schema.json', './phase4d_audit_schema.json', './phase4d_approval_schema.json', './phase4d_risk_model.json']):
                  continue
              _fail(f"dashboard.js contains unauthorized fetch: {line.strip()}")
 

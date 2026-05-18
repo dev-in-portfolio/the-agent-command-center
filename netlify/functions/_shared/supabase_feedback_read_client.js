@@ -28,10 +28,11 @@ async function runFeedbackReadQuery(client, query) {
   });
 
   if (!response.ok) {
+    const body = await response.text().catch(() => "");
     return {
       success: false,
       status: response.status,
-      error: "SUPABASE_READ_FAILED"
+      error: body || "FEEDBACK_READ_ERROR"
     };
   }
 
@@ -47,6 +48,7 @@ async function listFeedbackPackets(bearerToken) {
     query.searchParams.set("order", "created_at.desc");
     return await runFeedbackReadQuery(client, query);
   } catch (err) {
+    console.error("List feedback unexpected error", err);
     return { success: false, status: 500, error: "FEEDBACK_LIST_ERROR" };
   }
 }
@@ -64,6 +66,7 @@ async function getFeedbackPacket(bearerToken, feedbackId) {
     const result = await runFeedbackReadQuery(client, query);
 
     if (!result.success) {
+      console.error("Get feedback read error", result.error);
       return { success: false, status: 404, error: "FEEDBACK_NOT_FOUND" };
     }
     const row = Array.isArray(result.data) ? result.data[0] : result.data;
@@ -72,6 +75,7 @@ async function getFeedbackPacket(bearerToken, feedbackId) {
     }
     return { success: true, data: row };
   } catch (err) {
+    console.error("Get feedback unexpected error", err);
     return { success: false, status: 500, error: "FEEDBACK_GET_ERROR" };
   }
 }

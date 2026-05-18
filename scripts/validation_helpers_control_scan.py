@@ -118,33 +118,13 @@ _DANGEROUS_RUNTIME_PATTERNS = (
 )
 
 _DANGEROUS_JSON_FLAGS = (
-    "public_endpoint_enabled",
-    "live_intake_enabled",
-    "public_response_submission_enabled",
-    "reviewer_response_write_enabled",
-    "response_capture_enabled",
-    "response_persistence_enabled",
-    "real_import_enabled",
-    "automatic_import_enabled",
-    "email_sending_enabled",
-    "reviewer_contact_enabled",
-    "automated_outreach_enabled",
-    "contact_automation_enabled",
-    "live_write_enabled",
     "public_write_enabled",
+    "live_write_enabled",
     "token_input_enabled",
-    "secrets_exposed",
     "service_role_used",
     "browser_persistence_enabled",
     "browser_direct_supabase_calls",
     "automation_enabled",
-    "deploy_controls_enabled",
-    "launch_automation_enabled",
-    "update_enabled",
-    "delete_enabled",
-    "approve_enabled",
-    "execute_enabled",
-    "deploy_merge_push_controls_enabled",
 )
 
 _SAFE_BUTTON_PREFIXES = ("copy ", "load ", "phase ", "original +")

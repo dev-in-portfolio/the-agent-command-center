@@ -92,6 +92,9 @@ RELEASE_REQUIREMENTS = [
 ]
 
 REPORT_REQUIREMENTS = [
+    ("09_exports/mvp_product_track/mvp42_scope_drift_audit_report.md", "MVP42_SCOPE_DRIFT_AUDIT_COMPLETE"),
+    ("09_exports/mvp_product_track/mvp42_scope_drift_audit_report.md", "BACKEND_RUNTIME_DRIFT_REMOVED_FROM_MVP42"),
+    ("09_exports/mvp_product_track/mvp42_scope_drift_audit_report.md", "MVP42_DRY_RUN_SCOPE_RESTORED"),
     ("09_exports/mvp_product_track/mvp42_operator_controlled_response_import_dry_run_report.md", "OPERATOR_CONTROLLED_RESPONSE_IMPORT_DRY_RUN_READY"),
     ("09_exports/mvp_product_track/mvp42_dry_run_response_import_packet_report.md", "DRY_RUN_RESPONSE_IMPORT_PACKET_READY"),
     ("09_exports/mvp_product_track/mvp42_operator_import_preview_queue_report.md", "OPERATOR_IMPORT_PREVIEW_QUEUE_READY"),

@@ -440,53 +440,6 @@ def _original_plus2e_dry_run_model():
     except Exception:
         return {}
 
-def _mvp42_operator_controlled_response_import_dry_run_model():
-    return {
-        "mvp": 42,
-        "title": "Operator Controlled Response Import Dry Run",
-        "summary": "Dry-run only preview of a future operator-controlled response import workflow.",
-        "operator_controlled_response_import_dry_run_ready": True,
-        "dry_run_response_import_packet_ready": True,
-        "operator_import_preview_queue_ready": True,
-        "dry_run_validation_result_ready": True,
-        "response_normalization_preview_ready": True,
-        "response_to_feedback_conversion_preview_ready": True,
-        "dry_run_audit_rollback_blueprint_ready": True,
-        "operator_review_only": True,
-        "dry_run_only": True,
-        "preview_only": True,
-        "future_implementation_only": True,
-        "public_endpoint_enabled": False,
-        "live_intake_enabled": False,
-        "public_response_submission_enabled": False,
-        "reviewer_response_write_enabled": False,
-        "response_capture_enabled": False,
-        "response_persistence_enabled": False,
-        "real_import_enabled": False,
-        "automatic_import_enabled": False,
-        "email_sending_enabled": False,
-        "reviewer_contact_enabled": False,
-        "automated_outreach_enabled": False,
-        "contact_automation_enabled": False,
-        "live_write_enabled": False,
-        "public_write_enabled": False,
-        "token_input_enabled": False,
-        "secrets_exposed": False,
-        "service_role_used": False,
-        "browser_direct_supabase_calls": False,
-        "browser_persistence_enabled": False,
-        "automation_enabled": False,
-        "deploy_controls_enabled": False,
-        "launch_automation_enabled": False,
-        "update_enabled": False,
-        "delete_enabled": False,
-        "approve_enabled": False,
-        "execute_enabled": False,
-        "deploy_merge_push_controls_enabled": False,
-        "next_step": "NEXT_STEP_BUILD_OPERATOR_RESPONSE_IMPORT_REVIEW_QUEUE_DRY_RUN",
-        "posture": "dry-run-only",
-    }
-
 def _build_outputs(snapshot, validation_result, safety_result):
     DIST_DIR.mkdir(parents=True, exist_ok=True)
     dist_static_dir = DIST_DIR / "static"
@@ -509,7 +462,6 @@ def _build_outputs(snapshot, validation_result, safety_result):
     snapshot["mvp4_auth_rls_request_api_model"] = build_mvp4_supabase_auth_rls_request_api_model()
     snapshot["mvp5_migration_readiness_reads_model"] = build_mvp5_supabase_migration_readiness_reads_model()
     snapshot["mvp6_controlled_migration_reads_model"] = build_mvp6_controlled_migration_authenticated_reads_model()
-    snapshot["mvp42_operator_controlled_response_import_dry_run_model"] = _mvp42_operator_controlled_response_import_dry_run_model()
     _write_text(DIST_DIR / "original_plus1b_contract_schemas.json", json.dumps(_original_plus1b_contract_pack(), indent=2, sort_keys=False))
     _write_text(DIST_DIR / "original_plus1c_readiness_qa_model.json", json.dumps(_original_plus1c_readiness_qa_model(), indent=2, sort_keys=False))
     _write_text(DIST_DIR / "original_plus1d_backend_boundary_model.json", json.dumps(_original_plus1d_backend_boundary_model(), indent=2, sort_keys=False))
@@ -525,7 +477,6 @@ def _build_outputs(snapshot, validation_result, safety_result):
     _write_text(DIST_DIR / "mvp4_auth_rls_request_api_model.json", json.dumps(snapshot["mvp4_auth_rls_request_api_model"], indent=2, sort_keys=False))
     _write_text(DIST_DIR / "mvp5_migration_readiness_reads_model.json", json.dumps(snapshot["mvp5_migration_readiness_reads_model"], indent=2, sort_keys=False))
     _write_text(DIST_DIR / "mvp6_controlled_migration_reads_model.json", json.dumps(snapshot["mvp6_controlled_migration_reads_model"], indent=2, sort_keys=False))
-    _write_text(DIST_DIR / "mvp42_operator_controlled_response_import_dry_run_model.json", json.dumps(snapshot["mvp42_operator_controlled_response_import_dry_run_model"], indent=2, sort_keys=False))
     _write_text(DIST_DIR / "index.html", render_html(snapshot))
     _write_text(DIST_DIR / "print.html", render_print_html(snapshot))
     _write_text(DIST_DIR / "dashboard_data.json", json.dumps(snapshot, indent=2, sort_keys=False))
