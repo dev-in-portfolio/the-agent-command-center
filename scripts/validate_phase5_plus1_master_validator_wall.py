@@ -490,6 +490,7 @@ mvp41_report_requirements = [
     (ROOT / "09_exports" / "mvp_product_track" / "mvp41_validator_quality_report.md", "PASS"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp41_acceptance_report.md", "CONTROLLED_REVIEWER_RESPONSE_INTAKE_BLUEPRINT_READY"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp41_validator_wall_review.md", "PASS"),
+    (ROOT / "09_exports" / "mvp_product_track" / "live_dashboard_dynamic_latest_status_fix_report.md", "LIVE_DASHBOARD_DYNAMIC_LATEST_STATUS_FIX_COMPLETE"),
     (ROOT / "09_exports" / "mvp_product_track" / "live_dashboard_usability_refactor_after_mvp41_report.md", "LIVE_DASHBOARD_USABILITY_REFACTOR_AFTER_MVP41_COMPLETE"),
 ]
 for path, marker in mvp41_report_requirements:
@@ -1491,6 +1492,7 @@ allowed_prefixes = [
         "scripts/validate_mvp47_server_side_dry_run_engine_e2e.py",
         "scripts/validate_e2e_runtime_no_nested_e2e.py",
         "scripts/validate_live_dashboard_usability_after_mvp41.py",
+        "scripts/validate_live_dashboard_dynamic_latest_status.py",
         "scripts/validation_helpers_control_scan.py",
         "scripts/test_validation_helpers_control_scan.py",
         "scripts/validate_live_page_context_aware_control_scan.py",

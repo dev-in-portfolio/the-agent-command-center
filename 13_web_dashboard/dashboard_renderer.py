@@ -8544,8 +8544,75 @@ def _build_mvp23_smoke_test_layer(snapshot):
     )
 
 
+
+def _get_latest_production_verified_mvp():
+    import glob
+    import os
+    
+    report_dir = PROJECT_ROOT / "09_exports" / "mvp_product_track"
+    reports = glob.glob(str(report_dir / "mvp*_production_verification_report.md"))
+    
+    max_mvp = 0
+    for r in reports:
+        filename = os.path.basename(r)
+        match = re.search(r'mvp(\d+)', filename)
+        if match:
+            num = int(match.group(1))
+            if num > max_mvp:
+                max_mvp = num
+    
+    if max_mvp == 0:
+        return None
+        
+    return {
+        "number": max_mvp,
+        "label": f"MVP-{max_mvp}",
+        "report_path": f"09_exports/mvp_product_track/mvp{max_mvp}_production_verification_report.md"
+    }
+
+def _get_mvp_title(mvp_number):
+    report_path = PROJECT_ROOT / "09_exports" / "mvp_product_track" / f"mvp{mvp_number}_production_verification_report.md"
+    if report_path.exists():
+        text = report_path.read_text(encoding="utf-8", errors="replace")
+        lines = text.splitlines()
+        if lines:
+            title = lines[0].replace("# ", "").replace(" — Production Verification Report", "").strip()
+            return title
+    return f"MVP-{mvp_number}"
+
+def _build_latest_verified_mvp_layer(snapshot, latest_mvp):
+    if not latest_mvp:
+        return "<p>No production verified milestones found.</p>"
+    
+    mvp_num = latest_mvp["number"]
+    
+    # Try to find a specific builder
+    # We will look for builders by name in the global scope if possible, 
+    # but for safety in this script we'll use a direct check for the ones we know exist.
+    
+    if mvp_num == 41: return _build_mvp41_controlled_reviewer_response_intake_blueprint_layer(snapshot)
+    if mvp_num == 42: return _build_mvp42_operator_controlled_response_import_dry_run_layer(snapshot)
+    if mvp_num == 43: return _build_mvp43_operational_auth_foundation_layer(snapshot)
+    if mvp_num == 44: return _build_mvp44_persistent_request_storage_foundation_layer(snapshot)
+    if mvp_num == 45: return _build_mvp45_immutable_audit_event_ledger_layer(snapshot)
+    if mvp_num == 46: return _build_mvp46_approval_gate_storage_layer(snapshot)
+    if mvp_num == 47: return _build_mvp47_server_side_dry_run_engine_layer(snapshot)
+
+    # Fallback generic summary
+    title = _get_mvp_title(mvp_num)
+    return f'''
+<div class="card">
+  <div class="card-head"><h3 class="card-title">{title}</h3><span class="badge pass">PRODUCTION VERIFIED</span></div>
+  <p class="card-body">This milestone has been production verified. Full details are available in the construction record.</p>
+  <div class="button-row">
+    <a href="./{latest_mvp["report_path"]}" target="_blank" class="action-button small">View Verification Report</a>
+  </div>
+</div>
+'''
+
 def _build_welcome_page():
-    return '''
+    latest_mvp = _get_latest_production_verified_mvp()
+    return f'''
 <div class="tab-pane active" id="view-welcome">
   <div class="landing-shell">
     <div class="landing-head">
@@ -8554,12 +8621,12 @@ def _build_welcome_page():
     </div>
     <div class="landing-cards">
       <div class="card">
-        <div class="card-head"><h3 class="card-title">Latest production verified MVP</h3><span class="badge pass">MVP-41</span></div>
+        <div class="card-head"><h3 class="card-title">Latest production verified MVP</h3><span class="badge pass">{latest_mvp["label"] if latest_mvp else "N/A"}</span></div>
         <p class="card-body">Current product state: review/demo dashboard</p>
       </div>
       <div class="card">
-        <div class="card-head"><h3 class="card-title">Pending Release</h3><span class="badge warning">MVP-42</span></div>
-        <p class="card-body">MVP-42 status: pending branch / not production merged</p>
+        <div class="card-head"><h3 class="card-title">Latest Milestone</h3><span class="badge info">OPERATIONAL</span></div>
+        <p class="card-body">System is in active development toward a fully operational command center.</p>
       </div>
       <div class="card">
         <div class="card-head"><h3 class="card-title">Safety Status</h3><span class="badge pass">SECURE</span></div>
@@ -8624,7 +8691,8 @@ def _build_orientation_page():
 '''
 
 def _build_status_page(snapshot):
-    return '''
+    latest_mvp = _get_latest_production_verified_mvp()
+    return f'''
 <div class="tab-pane" id="view-status" style="display: none;">
   <div class="landing-shell">
     <div class="landing-head">
@@ -8634,10 +8702,10 @@ def _build_status_page(snapshot):
       <div class="card">
         <div class="card-head"><h3 class="card-title">Production State</h3></div>
         <ul class="compact-list">
-          <li>Latest verified milestone: MVP-41</li>
+          <li>Latest verified milestone: {latest_mvp['label'] if latest_mvp else 'N/A'}</li>
           <li>Current production branch: master</li>
           <li>Current production role: read-only review dashboard</li>
-          <li>Next pending branch: MVP-42 (not merged)</li>
+          <li>Next milestone: {latest_mvp['number'] + 1 if latest_mvp else 'N/A'} (In Progress)</li>
         </ul>
       </div>
       <div class="card">
@@ -8741,7 +8809,8 @@ def _build_safety_page(snapshot):
 '''
 
 def _build_roadmap_page():
-    return '''
+    latest_mvp = _get_latest_production_verified_mvp()
+    return f'''
 <div class="tab-pane" id="view-roadmap" style="display: none;">
   <div class="landing-shell">
     <div class="landing-head">
@@ -8751,15 +8820,15 @@ def _build_roadmap_page():
       <div class="card">
         <div class="card-head"><h3 class="card-title">Completed</h3><span class="badge pass">DONE</span></div>
         <ul class="compact-list">
-          <li>Completed through MVP-41</li>
+          <li>Completed through {latest_mvp['label'] if latest_mvp else 'N/A'}</li>
           <li>Validation stabilization completed</li>
           <li>Dashboard Usability Refactor completed</li>
         </ul>
       </div>
       <div class="card">
         <div class="card-head"><h3 class="card-title">Next Planned</h3><span class="badge info">UPCOMING</span></div>
-        <p class="card-body" style="margin-bottom: 0.5rem;"><strong>MVP-42 — Operator-Controlled Response Import Dry Run</strong></p>
-        <p class="card-body muted">MVP-42 is pending (branch exists, not merged to master).</p>
+        <p class="card-body" style="margin-bottom: 0.5rem;"><strong>MVP-{latest_mvp["number"] + 1 if latest_mvp else "X"}</strong></p>
+        <p class="card-body muted">Next operational milestone in progress.</p>
       </div>
     </div>
   </div>
@@ -8805,7 +8874,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
     # Latest MVP view
     latest_mvp_view = f'''<div class="tab-pane" id="view-latest-mvp" style="display: none;">
       <h2 style="margin-bottom:1rem;">Latest Verified MVP</h2>
-      {_build_mvp41_controlled_reviewer_response_intake_blueprint_layer(snapshot)}
+      {_build_latest_verified_mvp_layer(snapshot, _get_latest_production_verified_mvp())}
     </div>'''
     
     # Archive view

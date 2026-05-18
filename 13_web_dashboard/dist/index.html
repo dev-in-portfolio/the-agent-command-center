@@ -72,12 +72,12 @@
     </div>
     <div class="landing-cards">
       <div class="card">
-        <div class="card-head"><h3 class="card-title">Latest production verified MVP</h3><span class="badge pass">MVP-41</span></div>
+        <div class="card-head"><h3 class="card-title">Latest production verified MVP</h3><span class="badge pass">MVP-47</span></div>
         <p class="card-body">Current product state: review/demo dashboard</p>
       </div>
       <div class="card">
-        <div class="card-head"><h3 class="card-title">Pending Release</h3><span class="badge warning">MVP-42</span></div>
-        <p class="card-body">MVP-42 status: pending branch / not production merged</p>
+        <div class="card-head"><h3 class="card-title">Latest Milestone</h3><span class="badge info">OPERATIONAL</span></div>
+        <p class="card-body">System is in active development toward a fully operational command center.</p>
       </div>
       <div class="card">
         <div class="card-head"><h3 class="card-title">Safety Status</h3><span class="badge pass">SECURE</span></div>
@@ -146,10 +146,10 @@
       <div class="card">
         <div class="card-head"><h3 class="card-title">Production State</h3></div>
         <ul class="compact-list">
-          <li>Latest verified milestone: MVP-41</li>
+          <li>Latest verified milestone: MVP-47</li>
           <li>Current production branch: master</li>
           <li>Current production role: read-only review dashboard</li>
-          <li>Next pending branch: MVP-42 (not merged)</li>
+          <li>Next milestone: 48 (In Progress)</li>
         </ul>
       </div>
       <div class="card">
@@ -254,15 +254,15 @@
       <div class="card">
         <div class="card-head"><h3 class="card-title">Completed</h3><span class="badge pass">DONE</span></div>
         <ul class="compact-list">
-          <li>Completed through MVP-41</li>
+          <li>Completed through MVP-47</li>
           <li>Validation stabilization completed</li>
           <li>Dashboard Usability Refactor completed</li>
         </ul>
       </div>
       <div class="card">
         <div class="card-head"><h3 class="card-title">Next Planned</h3><span class="badge info">UPCOMING</span></div>
-        <p class="card-body" style="margin-bottom: 0.5rem;"><strong>MVP-42 — Operator-Controlled Response Import Dry Run</strong></p>
-        <p class="card-body muted">MVP-42 is pending (branch exists, not merged to master).</p>
+        <p class="card-body" style="margin-bottom: 0.5rem;"><strong>MVP-48</strong></p>
+        <p class="card-body muted">Next operational milestone in progress.</p>
       </div>
     </div>
   </div>
@@ -270,121 +270,73 @@
 \n<div class="tab-pane" id="view-latest-mvp" style="display: none;">
       <h2 style="margin-bottom:1rem;">Latest Verified MVP</h2>
       
-    <details class="panel" data-section-group="source" open id="mvp41-controlled-reviewer-response-intake-blueprint">
-      <summary>MVP-41 — Controlled Reviewer Response Intake Blueprint</summary>
+    <details class="panel" data-section-group="source" open id="mvp47-server-side-dry-run-engine">
+      <summary>MVP-47 — Server-Side Dry-Run Engine</summary>
       <div class="panel-body">
         
-<div class="mvp-section" data-mvp="41" data-mvp41-controlled-reviewer-response-intake-blueprint="true">
-  <div class="callout success-callout">
-    <strong style="color: var(--success);">MVP-41</strong>
-    <p class="muted">CONTROLLED REVIEWER RESPONSE INTAKE BLUEPRINT</p>
-    <p class="muted">INTAKE ROUTE DESIGN PROPOSAL — MANUAL REVIEWER RESPONSE IMPORT PATH — OPERATOR APPROVAL GATE BLUEPRINT</p>
-    <p class="muted">REVIEWER RESPONSE VALIDATION RULES — RESPONSE NORMALIZATION MAPPING BLUEPRINT — CONTROLLED INTAKE IMPLEMENTATION CHECKLIST</p>
-    <p class="muted">OPERATOR REVIEW ONLY — BLUEPRINT ONLY — FUTURE IMPLEMENTATION ONLY</p>
-    <p class="muted">NO PUBLIC ENDPOINT — NO LIVE INTAKE — NO PUBLIC RESPONSE SUBMISSION — NO REVIEWER RESPONSE WRITES</p>
-    <p class="muted">NO RESPONSE CAPTURE ENABLED — NO RESPONSE PERSISTENCE ENABLED — NO AUTOMATIC IMPORT — NO EMAIL SENDING</p>
-    <p class="muted">NO REVIEWER CONTACT — NO AUTOMATED OUTREACH — NO LIVE WRITES — NO PUBLIC WRITES — NO TOKEN INPUT — NO SECRETS EXPOSED</p>
-    <p class="muted">SERVICE ROLE NOT USED — UPDATE DELETE EXECUTE BLOCKED — AUTOMATION STILL DISABLED</p>
-    <p class="muted">NEXT_STEP_BUILD_OPERATOR_CONTROLLED_RESPONSE_IMPORT_DRY_RUN — NOT_READY_FOR_REAL_AUTOMATION</p>
-  </div>
-
-  <div class="plus2e-preview-grid">
-    <article class="card" id="mvp41-blueprint-panel">
-      <div class="card-head"><h3 class="card-title">Controlled Reviewer Response Intake Blueprint</h3><span class="badge success">BLUEPRINT</span></div>
-      <p class="card-body">Blueprint-only model for a future controlled reviewer response intake workflow.</p>
-      <ul class="action-list">
-        <li><span class="badge pass">done</span> Controlled reviewer response intake blueprint</li>
-        <li><span class="badge pass">done</span> Intake route design proposal</li>
-        <li><span class="badge pass">done</span> Manual reviewer response import path</li>
-        <li><span class="badge pass">done</span> Operator approval gate blueprint</li>
-        <li><span class="badge pass">done</span> Reviewer response validation rules</li>
-        <li><span class="badge pass">done</span> Response normalization mapping blueprint</li>
-        <li><span class="badge pass">done</span> Controlled intake implementation checklist</li>
-      </ul>
+<div class="plus1-readiness-layer">
+  <div class="plus1-preview-grid">
+    <article class="card mvp47-dry-run-engine" id="mvp47-dry-run-engine-overview">
+      <div class="card-head"><h3 class="card-title">SERVER SIDE DRY RUN ENGINE</h3><span class="badge info">MVP-47</span></div>
+      <p class="card-body">Blueprint and readiness layer for the server-side dry-run engine.</p>
+      {_list([
+          "ACTION PLAN INPUT SCHEMA: READY",
+          "PREFLIGHT VALIDATION SCHEMA: READY",
+          "SIMULATED EXECUTION RESULT SCHEMA: READY",
+          "RISK DEPENDENCY REPORT: READY",
+          "ROLLBACK PREVIEW: READY",
+          "APPROVAL BOUND DRY RUN CONTRACT: READY",
+          "DRY RUN EVIDENCE PACKET: READY",
+      ])}
       <div class="button-row" style="margin-top:0.75rem;">
-        <button type="button" class="copy-button small" id="mvp41-copy-intake-blueprint">Copy Intake Blueprint</button>
-        <button type="button" class="copy-button small" id="mvp41-copy-route-design">Copy Route Design Proposal</button>
-        <button type="button" class="copy-button small" id="mvp41-copy-manual-import">Copy Manual Import Path</button>
+        <button type="button" class="copy-button small">Copy Dry-Run Engine Summary</button>
+        <button type="button" class="copy-button small">Copy Action Plan Input Schema</button>
+        <button type="button" class="copy-button small">Copy Preflight Validation Schema</button>
+        <button type="button" class="copy-button small">Copy Simulated Result Schema</button>
+        <button type="button" class="copy-button small">Copy Risk Dependency Report</button>
+        <button type="button" class="copy-button small">Copy Rollback Preview</button>
+        <button type="button" class="copy-button small">Copy Approval-Bound Dry-Run Contract</button>
+        <button type="button" class="copy-button small">Copy Evidence Packet</button>
+        <button type="button" class="copy-button small">Copy MVP-47 Validation Checklist</button>
       </div>
     </article>
 
-    <article class="card" id="mvp41-governance-panel">
-      <div class="card-head"><h3 class="card-title">Operator Approval Gate Blueprint</h3><span class="badge warning">GATE</span></div>
-      <p class="card-body">Operator approval gating is blueprint-only and not connected to any live intake or mutation path.</p>
-      <ul class="compact-list">
-        <li>Manual intake review</li>
-        <li>Operator approval required</li>
-        <li>Response validation before mapping</li>
-        <li>Normalization before operator handoff</li>
-        <li>Dry-run implementation only</li>
-      </ul>
-      <div class="button-row" style="margin-top:0.75rem;">
-        <button type="button" class="copy-button small" id="mvp41-copy-approval-gate">Copy Approval Gate Blueprint</button>
-        <button type="button" class="copy-button small" id="mvp41-copy-validation-rules">Copy Validation Rules</button>
-        <button type="button" class="copy-button small" id="mvp41-copy-normalization-mapping">Copy Normalization Mapping</button>
+    <article class="card plus1-safety-summary" id="mvp47-safety-summary">
+      <div class="card-head"><h3 class="card-title">Safety Summary</h3><span class="badge pass">SECURE</span></div>
+      <div class="stat-grid">
+        {_stat("Mode", "DRY RUN ENGINE FOUNDATION ONLY", _badge("SCHEMA READINESS ONLY", "info"))}
+        {_stat("Role", "REVIEW ONLY", _badge("FUTURE IMPLEMENTATION ONLY", "warning"))}
+        {_stat("Execution", "NO REAL COMMAND EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Execution", "NO REAL ACTION EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Execution", "NO REAL EXTERNAL DRY RUN", _badge("BLOCKED", "locked"))}
+        {_stat("Approval", "NO APPROVAL EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Writes", "NO DATABASE WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Writes", "NO SUPABASE WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Writes", "NO PUBLIC WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Mutation", "NO LIVE REQUEST MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Audit", "NO AUDIT EVENT WRITES", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO EXTERNAL API MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO GITHUB MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO NETLIFY MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO DEPLOY CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO MERGE CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO PUSH CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO PR CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Queue", "NO ACTION QUEUE", _badge("DISABLED", "disabled"))}
+        {_stat("Automation", "AUTOMATION DISABLED", _badge("NOT_READY_FOR_REAL_AUTOMATION", "disabled"))}
+        {_stat("Role", "SERVICE ROLE NOT USED", _badge("BLOCKED", "disabled"))}
+        {_stat("Role", "SERVICE ROLE NOT IN BROWSER", _badge("BLOCKED", "disabled"))}
+        {_stat("Token", "NO TOKEN INPUT", _badge("DISABLED", "disabled"))}
+        {_stat("Persistence", "NO BROWSER PERSISTENCE", _badge("DISABLED", "disabled"))}
+        {_stat("Migration", "NO MIGRATION APPLY", _badge("DISABLED", "disabled"))}
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Next Planned Step</p>
+        <ul class="compact-list" style="margin-top:0.25rem;">
+          <li>NEXT_STEP_BUILD_CONTROLLED_ACTION_QUEUE</li>
+        </ul>
       </div>
     </article>
-  </div>
-
-  <div class="plus2e-preview-grid">
-    <article class="card" id="mvp41-implementation-checklist-panel">
-      <div class="card-head"><h3 class="card-title">Controlled Intake Implementation Checklist</h3><span class="badge info">CHECKLIST</span></div>
-      <p class="card-body">Implementation work is documented as a checklist only.</p>
-      <ul class="compact-list">
-        <li>Define intake route design</li>
-        <li>Define manual import path</li>
-        <li>Define approval gate workflow</li>
-        <li>Define response validation rules</li>
-        <li>Define normalization mapping</li>
-        <li>Implement dry-run intake later</li>
-      </ul>
-      <div class="button-row" style="margin-top:0.75rem;">
-        <button type="button" class="copy-button small" id="mvp41-copy-implementation-checklist">Copy Implementation Checklist</button>
-      </div>
-    </article>
-
-    <article class="card" id="mvp41-safety-panel">
-      <div class="card-head"><h3 class="card-title">Blueprint Safety Requirements</h3><span class="badge warning">SAFETY</span></div>
-      <p class="card-body">No public endpoint, no live intake, and no response persistence are enabled in this build.</p>
-      <ul class="compact-list">
-        <li>NO PUBLIC ENDPOINT</li>
-        <li>NO LIVE INTAKE</li>
-        <li>NO PUBLIC RESPONSE SUBMISSION</li>
-        <li>NO REVIEWER RESPONSE WRITES</li>
-        <li>NO RESPONSE CAPTURE ENABLED</li>
-        <li>NO RESPONSE PERSISTENCE ENABLED</li>
-        <li>NO AUTOMATIC IMPORT</li>
-        <li>NO EMAIL SENDING</li>
-      </ul>
-    </article>
-  </div>
-
-  <div class="table-wrap">
-    <table class="data-table">
-      <caption>MVP-41 safety posture audit</caption>
-      <thead>
-        <tr><th scope="col">Control</th><th scope="col">Value</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>Public endpoint</td><td><span class="badge pass">FALSE</span></td></tr>
-        <tr><td>Live intake</td><td><span class="badge pass">FALSE</span></td></tr>
-        <tr><td>Public response submission</td><td><span class="badge pass">FALSE</span></td></tr>
-        <tr><td>Reviewer response writes</td><td><span class="badge pass">FALSE</span></td></tr>
-        <tr><td>Response capture</td><td><span class="badge pass">FALSE</span></td></tr>
-        <tr><td>Response persistence</td><td><span class="badge pass">FALSE</span></td></tr>
-        <tr><td>Automatic import</td><td><span class="badge pass">FALSE</span></td></tr>
-        <tr><td>Email sending</td><td><span class="badge pass">FALSE</span></td></tr>
-        <tr><td>Reviewer contact</td><td><span class="badge pass">FALSE</span></td></tr>
-        <tr><td>Automated outreach</td><td><span class="badge pass">FALSE</span></td></tr>
-        <tr><td>Live writes</td><td><span class="badge pass">FALSE</span></td></tr>
-        <tr><td>Public writes</td><td><span class="badge pass">FALSE</span></td></tr>
-        <tr><td>Token input</td><td><span class="badge pass">FALSE</span></td></tr>
-        <tr><td>Service role used</td><td><span class="badge pass">FALSE</span></td></tr>
-        <tr><td>Update/delete/approve/execute</td><td><span class="badge pass">FALSE</span></td></tr>
-        <tr><td>Automation enabled</td><td><span class="badge pass">FALSE</span></td></tr>
-        <tr><td>Deploy/merge/push controls</td><td><span class="badge pass">FALSE</span></td></tr>
-      </tbody>
-    </table>
   </div>
 </div>
 
@@ -9241,7 +9193,7 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
         <div class="stat-grid">
     <div class="stat">
       <span>Generated at</span>
-      <strong>2026-05-18T22:57:07Z</strong>
+      <strong>2026-05-18T23:51:45Z</strong>
       
     </div>
     
@@ -9444,8 +9396,8 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
     </main>
   </div>
   <script type="application/json" id="dashboard-data">{
-  "dashboard_id": "PH3-20260518-225707",
-  "created_at_utc": "2026-05-18T22:57:07Z",
+  "dashboard_id": "PH3-20260518-235145",
+  "created_at_utc": "2026-05-18T23:51:45Z",
   "phase": "Read-Only Operations Dashboard",
   "repo": "dev-in-portfolio/the-agent-command-center",
   "source_lineage": "dev-in-portfolio/agent-command-center-3",
@@ -10410,7 +10362,7 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
     "source_exists": true,
     "source_type": "generated_static_snapshot",
     "source_confidence": "generated_static_snapshot",
-    "generated_at_utc": "2026-05-18T22:57:07Z",
+    "generated_at_utc": "2026-05-18T23:51:45Z",
     "freshness_status": "generated_static_snapshot",
     "snapshot_age_seconds": 0,
     "notes": [
@@ -10858,14 +10810,14 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 8619,
+        "line": 8686,
         "pattern": "NO DEPLOY",
         "context": "<li><strong>\"Safety-denial language\"<\/strong> means phrases like NO DEPLOY CONTROLS or NO PUBLIC WRITES are warnings/gua",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 8736,
+        "line": 8804,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"card-body\">Difference between safety-denial language and enabled runtime behavior: A button that says \"NO DEPL",
         "reason": "allowed safety text"
