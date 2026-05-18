@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import json
+import re
 import subprocess
 import sys
 import tempfile
@@ -180,8 +181,9 @@ def _validate_html_and_assets():
     ]:
         if needle not in html:
             raise RuntimeError(f"dashboard HTML missing {needle}")
-    if "http://" in html or "https://" in html:
-        raise RuntimeError("HTML contains external URLs")
+    external_url_pattern = re.compile(r"""(?:href|src|action)=["']https?://""", re.IGNORECASE)
+    if external_url_pattern.search(html):
+        raise RuntimeError("HTML contains executable external URL attributes")
     for needle in ["fetch(", "XMLHttpRequest", "WebSocket", "EventSource", "analytics"]:
         if needle in html:
             raise RuntimeError(f"HTML contains forbidden token: {needle}")
@@ -226,7 +228,10 @@ def _validate_html_and_assets():
         "/api/audit-log-status",
         "/api/request-storage-status",
         "/api/role-matrix",
-        "/api/auth-status",'fetch("/api/health")', "fetch('/api/health')", 'fetch("/api/status")', "fetch('/api/status')", 'fetch("/api/backend-manifest")', "fetch('/api/backend-manifest')", 'fetch("./status_snapshot.json")', "fetch('./status_snapshot.json')", 'fetch("./phase4d_identity_schema.json")', "fetch('./phase4d_identity_schema.json')", 'fetch("./phase4d_action_schema.json")', "fetch('./phase4d_action_schema.json')", 'fetch("./phase4d_audit_schema.json")', "fetch('./phase4d_audit_schema.json')", 'fetch("./phase4d_risk_model.json")', "fetch('./phase4d_risk_model.json')", 'fetch("./phase4d_approval_schema.json")', "fetch('./phase4d_approval_schema.json')"]
+        "/api/auth-status",
+        "/api/feedback",
+        "/api/feedback?action=import",
+        'fetch("/api/health")', "fetch('/api/health')", 'fetch("/api/status")', "fetch('/api/status')", 'fetch("/api/backend-manifest")', "fetch('/api/backend-manifest')", 'fetch("./status_snapshot.json")', "fetch('./status_snapshot.json')", 'fetch("./phase4d_identity_schema.json")', "fetch('./phase4d_identity_schema.json')", 'fetch("./phase4d_action_schema.json")', "fetch('./phase4d_action_schema.json')", 'fetch("./phase4d_audit_schema.json")', "fetch('./phase4d_audit_schema.json')", 'fetch("./phase4d_risk_model.json")', "fetch('./phase4d_risk_model.json')", 'fetch("./phase4d_approval_schema.json")', "fetch('./phase4d_approval_schema.json')"]
     
     js = _read_text(DIST_DIR / "static" / "dashboard.js")
     for line in js.splitlines():

@@ -449,6 +449,7 @@ def _build_landing_screen(snapshot):
         ("MVP-21 Safe Feedback Persistence", "mvp21-safe-feedback-persistence"),
         ("MVP-22 Controlled Feedback Write", "mvp22-controlled-feedback-write"),
         ("MVP-23 Token-Gated Smoke Test", "mvp23-token-gated-smoke-test"),
+        ("MVP-42 Operator Controlled Response Import Dry Run", "mvp42-operator-controlled-response-import-dry-run"),
         ("Artifacts", "artifact-packages"),
         ("Source Info", "source-transparency"),
         ("Audit / Session", "session-audit"),
@@ -1669,6 +1670,130 @@ def _build_mvp41_controlled_reviewer_response_intake_blueprint_layer(snapshot):
         "source",
         open_by_default=True,
         panel_id="mvp41-controlled-reviewer-response-intake-blueprint",
+    )
+
+def _build_mvp42_operator_controlled_response_import_dry_run_layer(snapshot):
+    model = snapshot.get("mvp42_operator_controlled_response_import_dry_run_model", {})
+    body = f"""
+<div class="mvp-section" data-mvp="42" data-mvp42-operator-controlled-response-import-dry-run="true">
+  <div class="callout success-callout">
+    <strong style="color: var(--success);">MVP-42</strong>
+    <p class="muted">OPERATOR CONTROLLED RESPONSE IMPORT DRY RUN</p>
+    <p class="muted">DRY RUN RESPONSE IMPORT PACKET — OPERATOR IMPORT PREVIEW QUEUE — DRY RUN VALIDATION RESULT</p>
+    <p class="muted">RESPONSE NORMALIZATION PREVIEW — RESPONSE TO FEEDBACK CONVERSION PREVIEW — DRY RUN AUDIT ROLLBACK BLUEPRINT</p>
+    <p class="muted">OPERATOR REVIEW ONLY — DRY RUN ONLY — PREVIEW ONLY — FUTURE IMPLEMENTATION ONLY</p>
+    <p class="muted">NO PUBLIC ENDPOINT — NO LIVE INTAKE — NO PUBLIC RESPONSE SUBMISSION — NO REVIEWER RESPONSE WRITES</p>
+    <p class="muted">NO RESPONSE CAPTURE ENABLED — NO RESPONSE PERSISTENCE ENABLED — NO REAL IMPORT — NO AUTOMATIC IMPORT</p>
+    <p class="muted">NO EMAIL SENDING — NO REVIEWER CONTACT — NO AUTOMATED OUTREACH — NO LIVE WRITES — NO PUBLIC WRITES</p>
+    <p class="muted">NO TOKEN INPUT — NO SECRETS EXPOSED — SERVICE ROLE NOT USED — UPDATE DELETE EXECUTE BLOCKED</p>
+    <p class="muted">AUTOMATION STILL DISABLED — NEXT_STEP_BUILD_OPERATOR_RESPONSE_IMPORT_REVIEW_QUEUE_DRY_RUN — NOT_READY_FOR_REAL_AUTOMATION</p>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card" id="mvp42-dry-run-import-panel">
+      <div class="card-head"><h3 class="card-title">Operator Controlled Response Import Dry Run</h3><span class="badge success">DRY RUN</span></div>
+      <p class="card-body">Dry-run only model for a future operator-controlled response import workflow.</p>
+      <ul class="action-list">
+        <li><span class="badge pass">done</span> Operator controlled response import dry run</li>
+        <li><span class="badge pass">done</span> Dry run response import packet</li>
+        <li><span class="badge pass">done</span> Operator import preview queue</li>
+        <li><span class="badge pass">done</span> Dry run validation result</li>
+        <li><span class="badge pass">done</span> Response normalization preview</li>
+        <li><span class="badge pass">done</span> Response-to-feedback conversion preview</li>
+        <li><span class="badge pass">done</span> Dry run audit rollback blueprint</li>
+      </ul>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp42-copy-import-dry-run">Copy Import Dry Run</button>
+        <button type="button" class="copy-button small" id="mvp42-copy-import-packet">Copy Import Packet</button>
+        <button type="button" class="copy-button small" id="mvp42-copy-preview-queue">Copy Preview Queue</button>
+      </div>
+    </article>
+
+    <article class="card" id="mvp42-validation-panel">
+      <div class="card-head"><h3 class="card-title">Dry Run Validation Result</h3><span class="badge warning">PREVIEW</span></div>
+      <p class="card-body">Validation result is preview-only and operator reviewed. No live intake or mutation path exists.</p>
+      <ul class="compact-list">
+        <li>Dry-run validation result</li>
+        <li>Response normalization preview</li>
+        <li>Response-to-feedback conversion preview</li>
+        <li>Audit and rollback blueprint</li>
+        <li>Future implementation only</li>
+      </ul>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp42-copy-validation-results">Copy Validation Results</button>
+        <button type="button" class="copy-button small" id="mvp42-copy-normalization-preview">Copy Normalization Preview</button>
+        <button type="button" class="copy-button small" id="mvp42-copy-feedback-preview">Copy Feedback Conversion Preview</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card" id="mvp42-safety-panel">
+      <div class="card-head"><h3 class="card-title">Dry Run Safety Requirements</h3><span class="badge warning">SAFETY</span></div>
+      <p class="card-body">No public endpoint, no live intake, no response persistence, and no automation are enabled in this build.</p>
+      <ul class="compact-list">
+        <li>NO PUBLIC ENDPOINT</li>
+        <li>NO LIVE INTAKE</li>
+        <li>NO PUBLIC RESPONSE SUBMISSION</li>
+        <li>NO REVIEWER RESPONSE WRITES</li>
+        <li>NO RESPONSE CAPTURE ENABLED</li>
+        <li>NO RESPONSE PERSISTENCE ENABLED</li>
+        <li>NO REAL IMPORT</li>
+        <li>NO AUTOMATIC IMPORT</li>
+        <li>NO EMAIL SENDING</li>
+        <li>NO REVIEWER CONTACT</li>
+        <li>NO AUTOMATED OUTREACH</li>
+        <li>NO LIVE WRITES</li>
+        <li>NO PUBLIC WRITES</li>
+        <li>NO TOKEN INPUT</li>
+        <li>NO SECRETS EXPOSED</li>
+        <li>SERVICE ROLE NOT USED</li>
+        <li>UPDATE DELETE EXECUTE BLOCKED</li>
+        <li>AUTOMATION STILL DISABLED</li>
+      </ul>
+    </article>
+
+    <article class="card" id="mvp42-posture-panel">
+      <div class="card-head"><h3 class="card-title">Dry Run Posture Model</h3><span class="badge info">MODEL</span></div>
+      <p class="card-body">The static posture model records the dry-run-only contract for future import review queue work.</p>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr><th scope="col">Field</th><th scope="col">Value</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>operator_controlled_response_import_dry_run_ready</td><td>{_status_badge('PASS' if model.get('operator_controlled_response_import_dry_run_ready') is True else 'FAIL')}</td></tr>
+            <tr><td>dry_run_response_import_packet_ready</td><td>{_status_badge('PASS' if model.get('dry_run_response_import_packet_ready') is True else 'FAIL')}</td></tr>
+            <tr><td>operator_import_preview_queue_ready</td><td>{_status_badge('PASS' if model.get('operator_import_preview_queue_ready') is True else 'FAIL')}</td></tr>
+            <tr><td>dry_run_validation_result_ready</td><td>{_status_badge('PASS' if model.get('dry_run_validation_result_ready') is True else 'FAIL')}</td></tr>
+            <tr><td>response_normalization_preview_ready</td><td>{_status_badge('PASS' if model.get('response_normalization_preview_ready') is True else 'FAIL')}</td></tr>
+            <tr><td>response_to_feedback_conversion_preview_ready</td><td>{_status_badge('PASS' if model.get('response_to_feedback_conversion_preview_ready') is True else 'FAIL')}</td></tr>
+            <tr><td>dry_run_audit_rollback_blueprint_ready</td><td>{_status_badge('PASS' if model.get('dry_run_audit_rollback_blueprint_ready') is True else 'FAIL')}</td></tr>
+            <tr><td>operator_review_only</td><td>{_bool_badge(model.get('operator_review_only'))}</td></tr>
+            <tr><td>dry_run_only</td><td>{_bool_badge(model.get('dry_run_only'))}</td></tr>
+            <tr><td>preview_only</td><td>{_bool_badge(model.get('preview_only'))}</td></tr>
+            <tr><td>future_implementation_only</td><td>{_bool_badge(model.get('future_implementation_only'))}</td></tr>
+            <tr><td>public_endpoint_enabled</td><td>{_bool_badge(model.get('public_endpoint_enabled') is False)}</td></tr>
+            <tr><td>live_intake_enabled</td><td>{_bool_badge(model.get('live_intake_enabled') is False)}</td></tr>
+            <tr><td>response_persistence_enabled</td><td>{_bool_badge(model.get('response_persistence_enabled') is False)}</td></tr>
+            <tr><td>real_import_enabled</td><td>{_bool_badge(model.get('real_import_enabled') is False)}</td></tr>
+            <tr><td>automation_enabled</td><td>{_bool_badge(model.get('automation_enabled') is False)}</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp42-copy-audit-rollback-blueprint">Copy Audit Rollback Blueprint</button>
+      </div>
+    </article>
+  </div>
+</div>
+"""
+    return _details(
+        "MVP-42 — Operator-Controlled Response Import Dry Run",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp42-operator-controlled-response-import-dry-run",
     )
 
 def _build_action_panel(snapshot):
@@ -8112,6 +8237,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _load_prebuilt_section("mvp39-external-demo-review-share-package-lock"),
         _build_mvp40_reviewer_response_capture_readiness_lock_layer(snapshot),
         _build_mvp41_controlled_reviewer_response_intake_blueprint_layer(snapshot),
+        _build_mvp42_operator_controlled_response_import_dry_run_layer(snapshot),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),

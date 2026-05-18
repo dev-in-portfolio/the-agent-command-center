@@ -4,7 +4,7 @@
  * Strictly gated by feature flag.
  */
 
-const { getAuthContext } = require("./_shared/auth_context");
+const { getAuthContext, getBearerTokenFromHeaders, normalizeBearerToken } = require("./_shared/auth_context");
 const { validateFeedbackPayload } = require("./_shared/feedback_payload_validator");
 const { importFeedbackPacket } = require("./_shared/supabase_feedback_write_client");
 const { listFeedbackPackets, getFeedbackPacket } = require("./_shared/supabase_feedback_read_client");
@@ -15,7 +15,9 @@ const MVP_ENABLE_FEEDBACK_PERSISTENCE = process['env'].MVP_ENABLE_FEEDBACK_PERSI
 exports.handler = async (event, context) => {
   const method = event.httpMethod;
   const params = event.queryStringParameters || {};
-  const bearerToken = event.headers.authorization || event.headers.Authorization;
+  const headers = event && event.headers ? event.headers : {};
+  const authHeader = getBearerTokenFromHeaders(headers);
+  const bearerToken = normalizeBearerToken(authHeader);
 
   // 1. Handle POST Import (Gated)
   if (method === "POST") {
@@ -100,20 +102,18 @@ exports.handler = async (event, context) => {
         return safeErrorResponse("AUTHENTICATION_REQUIRED", "AUTHENTICATION_REQUIRED", 401);
       }
       
-      const token = bearerToken.replace("Bearer ", "").replace("bearer ", "");
-      
       if (action === "list") {
-        const result = await listFeedbackPackets(token);
+        const result = await listFeedbackPackets(bearerToken);
         if (!result.success) {
-          return { statusCode: result.status || 500, body: JSON.stringify({ error: result.error }) };
+          return safeErrorResponse(result.error, "SUPABASE_READ_FAILED", result.status || 500);
         }
         return { statusCode: 200, body: JSON.stringify({ status: "SUCCESS", data: result.data }) };
       }
       
       if (action === "get") {
-        const result = await getFeedbackPacket(token, params.id);
+        const result = await getFeedbackPacket(bearerToken, params.id);
         if (!result.success) {
-          return { statusCode: result.status || 500, body: JSON.stringify({ error: result.error }) };
+          return safeErrorResponse(result.error, "SUPABASE_READ_FAILED", result.status || 500);
         }
         return { statusCode: 200, body: JSON.stringify({ status: "SUCCESS", data: result.data }) };
       }

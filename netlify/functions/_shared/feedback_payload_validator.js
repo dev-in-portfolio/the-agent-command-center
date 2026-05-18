@@ -3,8 +3,6 @@
  * Enforces strict schema for imported feedback packets.
  */
 
-const { safeError } = require("./safe_error");
-
 function validateFeedbackPayload(payload) {
   if (!payload || typeof payload !== "object") {
     throw new Error("INVALID_PAYLOAD_FORMAT");

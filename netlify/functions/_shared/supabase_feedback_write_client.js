@@ -18,6 +18,7 @@ const SUPABASE_ANON_KEY = process['env'].SUPABASE_ANON_KEY;
 async function importFeedbackPacket(bearerToken, sanitizedPayload, authContext) {
   if (!bearerToken) throw new Error("MISSING_BEARER_TOKEN");
   if (!authContext || !authContext.user) throw new Error("UNAUTHORIZED_CONTEXT");
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) throw new Error("SUPABASE_REQUEST_API_DISABLED");
 
   // Map payload to table schema (from 003 migration)
   // owner_user_id is derived from auth, not client payload
@@ -30,7 +31,7 @@ async function importFeedbackPacket(bearerToken, sanitizedPayload, authContext) 
     method: "POST",
     headers: {
       "apikey": SUPABASE_ANON_KEY,
-      "Authorization": `Bearer ${bearerToken.replace('Bearer ', '')}`,
+      "Authorization": `Bearer ${bearerToken.replace(/^Bearer\s+/i, "")}`,
       "Content-Type": "application/json",
       "Prefer": "return=representation"
     },
@@ -38,8 +39,7 @@ async function importFeedbackPacket(bearerToken, sanitizedPayload, authContext) 
   });
 
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(`SUPABASE_FEEDBACK_IMPORT_FAILED: ${error.message || response.statusText}`);
+    throw new Error("SUPABASE_CREATE_FAILED");
   }
 
   const result = await response.json();
