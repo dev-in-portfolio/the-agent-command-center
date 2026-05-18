@@ -1,5 +1,6 @@
 import html
 import json
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
@@ -1259,6 +1260,7 @@ def _build_mvp34_public_release_candidate_review_portal_layer(snapshot):
     <p class="muted">SAFE PUBLIC REVIEW ONLY — NO PUBLIC WRITES — NO TOKEN INPUT — NO SECRETS EXPOSED</p>
     <p class="muted">NO DEPLOY CONTROLS — NO LAUNCH AUTOMATION — SERVICE ROLE NOT USED</p>
     <p class="muted">UPDATE DELETE EXECUTE BLOCKED — AUTOMATION STILL DISABLED</p>
+    <p class="muted">NEXT_STEP_BUILD_EXTERNAL_REVIEW_FEEDBACK_SUMMARY_AND_OUTREACH_PREP — NOT_READY_FOR_REAL_AUTOMATION</p>
     <p class="muted">NEXT_STEP_REVIEW_RELEASE_CANDIDATE_PORTAL_AND_PREPARE_PUBLIC_PITCH — NOT_READY_FOR_REAL_AUTOMATION</p>
   </div>
 
@@ -1404,6 +1406,145 @@ def _build_mvp34_public_release_candidate_review_portal_layer(snapshot):
         "source",
         open_by_default=True,
         panel_id="mvp34-public-release-candidate-review-portal",
+    )
+
+
+def _load_prebuilt_section(section_id):
+    index_path = PHASE4D_DIST_DIR / "index.html"
+    if not index_path.exists():
+        return ""
+    text = index_path.read_text(encoding="utf-8", errors="replace")
+    marker = f'<details class="panel" data-section-group="source" open id="{section_id}">'
+    start = text.find(marker)
+    if start < 0:
+        return ""
+    end = text.find("</details>", start)
+    if end < 0:
+        return ""
+    end += len("</details>")
+    return text[start:end]
+
+
+def _build_mvp40_reviewer_response_capture_readiness_lock_layer(snapshot):
+    body = f"""
+<div class="mvp-section" data-mvp="40" data-mvp40-reviewer-response-capture-readiness-lock="true">
+  <div class="callout success-callout">
+    <strong style="color: var(--success);">MVP-40</strong>
+    <p class="muted">REVIEWER RESPONSE CAPTURE READINESS LOCK</p>
+    <p class="muted">REVIEWER RESPONSE SCHEMA PROPOSAL — CAPTURE SAFETY REQUIREMENTS — OPERATOR RESPONSE REVIEW QUEUE READINESS</p>
+    <p class="muted">RESPONSE TO FEEDBACK MAPPING READINESS — RESPONSE TRIAGE READINESS RULES — FUTURE CAPTURE IMPLEMENTATION CHECKLIST</p>
+    <p class="muted">OPERATOR REVIEW ONLY — READINESS ONLY — FUTURE IMPLEMENTATION ONLY</p>
+    <p class="muted">NO PUBLIC ENDPOINT — NO PUBLIC RESPONSE SUBMISSION — NO REVIEWER RESPONSE WRITES</p>
+    <p class="muted">NO RESPONSE CAPTURE ENABLED — NO RESPONSE PERSISTENCE ENABLED — NO EMAIL SENDING — NO REVIEWER CONTACT</p>
+    <p class="muted">NO AUTOMATED OUTREACH — NO LIVE WRITES — NO PUBLIC WRITES — NO TOKEN INPUT — NO SECRETS EXPOSED</p>
+    <p class="muted">SERVICE ROLE NOT USED — UPDATE DELETE EXECUTE BLOCKED — AUTOMATION STILL DISABLED</p>
+    <p class="muted">NEXT_STEP_BUILD_CONTROLLED_REVIEWER_RESPONSE_INTAKE_BLUEPRINT — NOT_READY_FOR_REAL_AUTOMATION</p>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card" id="mvp40-readiness-lock-panel">
+      <div class="card-head"><h3 class="card-title">Reviewer Response Capture Readiness Lock</h3><span class="badge success">READINESS</span></div>
+      <p class="card-body">Readiness-only model for a future reviewer response capture workflow.</p>
+      <ul class="action-list">
+        <li><span class="badge pass">done</span> Reviewer response capture readiness lock</li>
+        <li><span class="badge pass">done</span> Reviewer response schema proposal</li>
+        <li><span class="badge pass">done</span> Capture safety requirements</li>
+        <li><span class="badge pass">done</span> Operator response review queue readiness</li>
+        <li><span class="badge pass">done</span> Response-to-feedback mapping readiness</li>
+        <li><span class="badge pass">done</span> Response triage readiness rules</li>
+        <li><span class="badge pass">done</span> Future capture implementation checklist</li>
+      </ul>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp40-copy-capture-readiness-lock">Copy Capture Readiness Lock</button>
+        <button type="button" class="copy-button small" id="mvp40-copy-response-schema">Copy Response Schema Proposal</button>
+        <button type="button" class="copy-button small" id="mvp40-copy-capture-safety">Copy Capture Safety Requirements</button>
+      </div>
+    </article>
+
+    <article class="card" id="mvp40-response-queue-panel">
+      <div class="card-head"><h3 class="card-title">Operator Response Review Queue Readiness</h3><span class="badge warning">QUEUE</span></div>
+      <p class="card-body">Queue structure is readiness-only and operator reviewed. No capture or persistence path exists yet.</p>
+      <ul class="compact-list">
+        <li>Awaiting review</li>
+        <li>Needs clarification</li>
+        <li>Triaged</li>
+        <li>Mapped to feedback</li>
+        <li>Archived readiness-only item</li>
+      </ul>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp40-copy-queue-readiness">Copy Operator Review Queue Readiness</button>
+        <button type="button" class="copy-button small" id="mvp40-copy-response-mapping">Copy Response-to-Feedback Mapping</button>
+        <button type="button" class="copy-button small" id="mvp40-copy-triage-rules">Copy Response Triage Rules</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card" id="mvp40-implementation-checklist-panel">
+      <div class="card-head"><h3 class="card-title">Future Capture Implementation Checklist</h3><span class="badge info">CHECKLIST</span></div>
+      <p class="card-body">Future implementation work is documented as a checklist only.</p>
+      <ul class="compact-list">
+        <li>Define intake schema</li>
+        <li>Define queue states</li>
+        <li>Define triage rules</li>
+        <li>Define mapping path</li>
+        <li>Define operator review workflow</li>
+        <li>Implement guarded capture endpoint later</li>
+      </ul>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp40-copy-future-checklist">Copy Future Capture Checklist</button>
+      </div>
+    </article>
+
+    <article class="card" id="mvp40-safety-panel">
+      <div class="card-head"><h3 class="card-title">Capture Safety Requirements</h3><span class="badge warning">SAFETY</span></div>
+      <p class="card-body">No public endpoint, no public response submission, and no reviewer response writes are enabled in this build.</p>
+      <ul class="compact-list">
+        <li>NO PUBLIC ENDPOINT</li>
+        <li>NO PUBLIC RESPONSE SUBMISSION</li>
+        <li>NO REVIEWER RESPONSE WRITES</li>
+        <li>NO RESPONSE CAPTURE ENABLED</li>
+        <li>NO RESPONSE PERSISTENCE ENABLED</li>
+        <li>NO EMAIL SENDING</li>
+        <li>NO REVIEWER CONTACT</li>
+        <li>NO AUTOMATED OUTREACH</li>
+      </ul>
+    </article>
+  </div>
+
+  <div class="table-wrap">
+    <table class="data-table">
+      <caption>MVP-40 safety posture audit</caption>
+      <thead>
+        <tr><th scope="col">Control</th><th scope="col">Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Public endpoint</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Public response submission</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Reviewer response writes</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Response capture</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Response persistence</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Email sending</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Reviewer contact</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Automated outreach</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Live writes</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Public writes</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Token input</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Service role used</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Update/delete/approve/execute</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Automation enabled</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Deploy/merge/push controls</td><td><span class="badge pass">FALSE</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+"""
+    return _details(
+        "MVP-40 — Reviewer Response Capture Readiness Lock",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp40-reviewer-response-capture-readiness-lock",
     )
 
 def _build_action_panel(snapshot):
@@ -7840,6 +7981,12 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_mvp32_release_review_metrics_signal_dashboard_layer(snapshot),
         _build_mvp33_product_launch_readiness_final_pitch_packet_layer(snapshot),
         _build_mvp34_public_release_candidate_review_portal_layer(snapshot),
+        _load_prebuilt_section("mvp35-external-review-feedback-summary-outreach-prep"),
+        _load_prebuilt_section("mvp36-review-to-roadmap-decision-sync"),
+        _load_prebuilt_section("mvp37-release-candidate-decision-log-handoff"),
+        _load_prebuilt_section("mvp38-final-release-review-room-demo-script-lock"),
+        _load_prebuilt_section("mvp39-external-demo-review-share-package-lock"),
+        _build_mvp40_reviewer_response_capture_readiness_lock_layer(snapshot),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),
