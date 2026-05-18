@@ -1547,6 +1547,130 @@ def _build_mvp40_reviewer_response_capture_readiness_lock_layer(snapshot):
         panel_id="mvp40-reviewer-response-capture-readiness-lock",
     )
 
+def _build_mvp41_controlled_reviewer_response_intake_blueprint_layer(snapshot):
+    body = f"""
+<div class="mvp-section" data-mvp="41" data-mvp41-controlled-reviewer-response-intake-blueprint="true">
+  <div class="callout success-callout">
+    <strong style="color: var(--success);">MVP-41</strong>
+    <p class="muted">CONTROLLED REVIEWER RESPONSE INTAKE BLUEPRINT</p>
+    <p class="muted">INTAKE ROUTE DESIGN PROPOSAL — MANUAL REVIEWER RESPONSE IMPORT PATH — OPERATOR APPROVAL GATE BLUEPRINT</p>
+    <p class="muted">REVIEWER RESPONSE VALIDATION RULES — RESPONSE NORMALIZATION MAPPING BLUEPRINT — CONTROLLED INTAKE IMPLEMENTATION CHECKLIST</p>
+    <p class="muted">OPERATOR REVIEW ONLY — BLUEPRINT ONLY — FUTURE IMPLEMENTATION ONLY</p>
+    <p class="muted">NO PUBLIC ENDPOINT — NO LIVE INTAKE — NO PUBLIC RESPONSE SUBMISSION — NO REVIEWER RESPONSE WRITES</p>
+    <p class="muted">NO RESPONSE CAPTURE ENABLED — NO RESPONSE PERSISTENCE ENABLED — NO AUTOMATIC IMPORT — NO EMAIL SENDING</p>
+    <p class="muted">NO REVIEWER CONTACT — NO AUTOMATED OUTREACH — NO LIVE WRITES — NO PUBLIC WRITES — NO TOKEN INPUT — NO SECRETS EXPOSED</p>
+    <p class="muted">SERVICE ROLE NOT USED — UPDATE DELETE EXECUTE BLOCKED — AUTOMATION STILL DISABLED</p>
+    <p class="muted">NEXT_STEP_BUILD_OPERATOR_CONTROLLED_RESPONSE_IMPORT_DRY_RUN — NOT_READY_FOR_REAL_AUTOMATION</p>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card" id="mvp41-blueprint-panel">
+      <div class="card-head"><h3 class="card-title">Controlled Reviewer Response Intake Blueprint</h3><span class="badge success">BLUEPRINT</span></div>
+      <p class="card-body">Blueprint-only model for a future controlled reviewer response intake workflow.</p>
+      <ul class="action-list">
+        <li><span class="badge pass">done</span> Controlled reviewer response intake blueprint</li>
+        <li><span class="badge pass">done</span> Intake route design proposal</li>
+        <li><span class="badge pass">done</span> Manual reviewer response import path</li>
+        <li><span class="badge pass">done</span> Operator approval gate blueprint</li>
+        <li><span class="badge pass">done</span> Reviewer response validation rules</li>
+        <li><span class="badge pass">done</span> Response normalization mapping blueprint</li>
+        <li><span class="badge pass">done</span> Controlled intake implementation checklist</li>
+      </ul>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp41-copy-intake-blueprint">Copy Intake Blueprint</button>
+        <button type="button" class="copy-button small" id="mvp41-copy-route-design">Copy Route Design Proposal</button>
+        <button type="button" class="copy-button small" id="mvp41-copy-manual-import">Copy Manual Import Path</button>
+      </div>
+    </article>
+
+    <article class="card" id="mvp41-governance-panel">
+      <div class="card-head"><h3 class="card-title">Operator Approval Gate Blueprint</h3><span class="badge warning">GATE</span></div>
+      <p class="card-body">Operator approval gating is blueprint-only and not connected to any live intake or mutation path.</p>
+      <ul class="compact-list">
+        <li>Manual intake review</li>
+        <li>Operator approval required</li>
+        <li>Response validation before mapping</li>
+        <li>Normalization before operator handoff</li>
+        <li>Dry-run implementation only</li>
+      </ul>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp41-copy-approval-gate">Copy Approval Gate Blueprint</button>
+        <button type="button" class="copy-button small" id="mvp41-copy-validation-rules">Copy Validation Rules</button>
+        <button type="button" class="copy-button small" id="mvp41-copy-normalization-mapping">Copy Normalization Mapping</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card" id="mvp41-implementation-checklist-panel">
+      <div class="card-head"><h3 class="card-title">Controlled Intake Implementation Checklist</h3><span class="badge info">CHECKLIST</span></div>
+      <p class="card-body">Implementation work is documented as a checklist only.</p>
+      <ul class="compact-list">
+        <li>Define intake route design</li>
+        <li>Define manual import path</li>
+        <li>Define approval gate workflow</li>
+        <li>Define response validation rules</li>
+        <li>Define normalization mapping</li>
+        <li>Implement dry-run intake later</li>
+      </ul>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp41-copy-implementation-checklist">Copy Implementation Checklist</button>
+      </div>
+    </article>
+
+    <article class="card" id="mvp41-safety-panel">
+      <div class="card-head"><h3 class="card-title">Blueprint Safety Requirements</h3><span class="badge warning">SAFETY</span></div>
+      <p class="card-body">No public endpoint, no live intake, and no response persistence are enabled in this build.</p>
+      <ul class="compact-list">
+        <li>NO PUBLIC ENDPOINT</li>
+        <li>NO LIVE INTAKE</li>
+        <li>NO PUBLIC RESPONSE SUBMISSION</li>
+        <li>NO REVIEWER RESPONSE WRITES</li>
+        <li>NO RESPONSE CAPTURE ENABLED</li>
+        <li>NO RESPONSE PERSISTENCE ENABLED</li>
+        <li>NO AUTOMATIC IMPORT</li>
+        <li>NO EMAIL SENDING</li>
+      </ul>
+    </article>
+  </div>
+
+  <div class="table-wrap">
+    <table class="data-table">
+      <caption>MVP-41 safety posture audit</caption>
+      <thead>
+        <tr><th scope="col">Control</th><th scope="col">Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Public endpoint</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Live intake</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Public response submission</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Reviewer response writes</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Response capture</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Response persistence</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Automatic import</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Email sending</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Reviewer contact</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Automated outreach</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Live writes</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Public writes</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Token input</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Service role used</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Update/delete/approve/execute</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Automation enabled</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Deploy/merge/push controls</td><td><span class="badge pass">FALSE</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+"""
+    return _details(
+        "MVP-41 — Controlled Reviewer Response Intake Blueprint",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp41-controlled-reviewer-response-intake-blueprint",
+    )
+
 def _build_action_panel(snapshot):
     action_summary = snapshot.get("action_registry_summary", {})
     rows = _build_action_rows(action_summary.get("actions", []))
@@ -7987,6 +8111,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _load_prebuilt_section("mvp38-final-release-review-room-demo-script-lock"),
         _load_prebuilt_section("mvp39-external-demo-review-share-package-lock"),
         _build_mvp40_reviewer_response_capture_readiness_lock_layer(snapshot),
+        _build_mvp41_controlled_reviewer_response_intake_blueprint_layer(snapshot),
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),

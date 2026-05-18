@@ -7247,11 +7247,31 @@
     bindDynamicCopy("mvp40-copy-future-checklist", buildFutureChecklist, "MVP-40 future capture checklist copied.");
   }
 
+  function initMvp41() {
+    const buildIntakeBlueprint = () => "Controlled Reviewer Response Intake Blueprint\n\nIntake Route Design Proposal\nManual Reviewer Response Import Path\nOperator Approval Gate Blueprint\nReviewer Response Validation Rules\nResponse Normalization Mapping Blueprint\nControlled Intake Implementation Checklist\n\nOPERATOR REVIEW ONLY — BLUEPRINT ONLY — FUTURE IMPLEMENTATION ONLY";
+    const buildRouteDesign = () => "Intake Route Design Proposal\n\nProposed Path\n- reviewed intake route\n- manual operator handoff\n- validation before normalization\n- operator approval gate\n- dry-run import later\n\nNO PUBLIC ENDPOINT — NO LIVE INTAKE";
+    const buildManualImport = () => "Manual Reviewer Response Import Path\n\nManual review steps\n1. Review imported response packet\n2. Validate required fields\n3. Confirm operator approval gate\n4. Normalize for downstream feedback mapping later\n\nNO AUTOMATIC IMPORT — NO RESPONSE PERSISTENCE";
+    const buildApprovalGate = () => "Operator Approval Gate Blueprint\n\nManual intake review\nOperator approval required\nResponse validation before mapping\nNormalization before operator handoff\nDry-run implementation only";
+    const buildValidationRules = () => "Reviewer Response Validation Rules\n\nRequired fields\n- reviewer_role\n- reviewer_name_or_alias\n- response_category\n- response_summary\n- response_priority\n- operator_notes\n\nNO REVIEWER RESPONSE WRITES";
+    const buildNormalizationMapping = () => "Response Normalization Mapping Blueprint\n\nresponse_category\nnormalized_theme\nnormalized_priority\noperator_notes\nworkflow_destination\n\nBLUEPRINT ONLY";
+    const buildImplementationChecklist = () => "Controlled Intake Implementation Checklist\n\nDefine intake route design\nDefine manual import path\nDefine approval gate workflow\nDefine response validation rules\nDefine normalization mapping\nImplement dry-run intake later\n\nNOT_READY_FOR_REAL_AUTOMATION";
+
+    bindDynamicCopy("mvp41-copy-intake-blueprint", buildIntakeBlueprint, "MVP-41 intake blueprint copied.");
+    bindDynamicCopy("mvp41-copy-route-design", buildRouteDesign, "MVP-41 route design proposal copied.");
+    bindDynamicCopy("mvp41-copy-manual-import", buildManualImport, "MVP-41 manual import path copied.");
+    bindDynamicCopy("mvp41-copy-approval-gate", buildApprovalGate, "MVP-41 approval gate blueprint copied.");
+    bindDynamicCopy("mvp41-copy-validation-rules", buildValidationRules, "MVP-41 validation rules copied.");
+    bindDynamicCopy("mvp41-copy-normalization-mapping", buildNormalizationMapping, "MVP-41 normalization mapping copied.");
+    bindDynamicCopy("mvp41-copy-implementation-checklist", buildImplementationChecklist, "MVP-41 implementation checklist copied.");
+  }
+
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initMvp39);
     document.addEventListener("DOMContentLoaded", initMvp40);
+    document.addEventListener("DOMContentLoaded", initMvp41);
   } else {
     initMvp39();
     initMvp40();
+    initMvp41();
   }
 })();
