@@ -1799,6 +1799,80 @@ def _build_mvp42_operator_controlled_response_import_dry_run_layer(snapshot):
         panel_id="mvp42-operator-controlled-response-import-dry-run",
     )
 
+
+def _build_mvp43_operational_auth_foundation_layer(snapshot):
+    body = f'''
+<div class="plus1-readiness-layer">
+  <div class="plus1-preview-grid">
+    <article class="card mvp43-auth-foundation" id="mvp43-auth-foundation-overview">
+      <div class="card-head"><h3 class="card-title">OPERATIONAL AUTH FOUNDATION</h3><span class="badge info">MVP-43</span></div>
+      <p class="card-body">Blueprint and readiness layer for the operational auth foundation.</p>
+      {{_list([
+          "OPERATOR IDENTITY MODEL: READY",
+          "ROLE PERMISSION MATRIX: READY",
+          "SESSION VALIDATION BLUEPRINT: READY",
+          "AUTH BOUNDARY CONTRACT: READY",
+          "SERVER SIDE AUTH VERIFICATION PLAN: READY",
+          "BROWSER AUTH SAFETY POSTURE: READY",
+      ])}}
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small">Copy Auth Foundation Summary</button>
+        <button type="button" class="copy-button small">Copy Identity Model</button>
+        <button type="button" class="copy-button small">Copy Role Permission Matrix</button>
+        <button type="button" class="copy-button small">Copy Session Validation Blueprint</button>
+        <button type="button" class="copy-button small">Copy Auth Boundary Contract</button>
+        <button type="button" class="copy-button small">Copy Server-Side Auth Verification Plan</button>
+        <button type="button" class="copy-button small">Copy Browser Auth Safety Posture</button>
+        <button type="button" class="copy-button small">Copy MVP-43 Validation Checklist</button>
+      </div>
+    </article>
+
+    <article class="card plus1-safety-summary" id="mvp43-safety-summary">
+      <div class="card-head"><h3 class="card-title">Safety Summary</h3><span class="badge pass">SECURE</span></div>
+      <div class="stat-grid">
+        {{_stat("Mode", "AUTH FOUNDATION ONLY", _badge("READINESS ONLY", "info"))}}
+        {{_stat("Role", "REVIEW ONLY", _badge("FUTURE IMPLEMENTATION ONLY", "warning"))}}
+        {{_stat("Login", "NO REAL LOGIN ENABLED", _badge("DISABLED", "disabled"))}}
+        {{_stat("Token Input", "NO TOKEN INPUT", _badge("DISABLED", "disabled"))}}
+        {{_stat("Persistence", "NO BROWSER TOKEN PERSISTENCE", _badge("DISABLED", "disabled"))}}
+        {{_stat("Storage", "NO LOCAL STORAGE TOKEN", _badge("DISABLED", "disabled"))}}
+        {{_stat("Storage", "NO SESSION STORAGE TOKEN", _badge("DISABLED", "disabled"))}}
+        {{_stat("Storage", "NO COOKIE TOKEN", _badge("DISABLED", "disabled"))}}
+        {{_stat("Role", "SERVICE ROLE NOT USED", _badge("BLOCKED", "disabled"))}}
+        {{_stat("Role", "SERVICE ROLE NOT IN BROWSER", _badge("BLOCKED", "disabled"))}}
+        {{_stat("Writes", "NO BACKEND WRITES", _badge("BLOCKED", "locked"))}}
+        {{_stat("Writes", "NO PUBLIC WRITES", _badge("BLOCKED", "locked"))}}
+        {{_stat("Intake", "NO LIVE INTAKE", _badge("BLOCKED", "locked"))}}
+        {{_stat("Writes", "NO REVIEWER RESPONSE WRITES", _badge("BLOCKED", "locked"))}}
+        {{_stat("Execution", "NO COMMAND EXECUTION", _badge("BLOCKED", "locked"))}}
+        {{_stat("Controls", "NO DEPLOY CONTROLS", _badge("BLOCKED", "locked"))}}
+        {{_stat("Controls", "NO MERGE CONTROLS", _badge("BLOCKED", "locked"))}}
+        {{_stat("Controls", "NO PUSH CONTROLS", _badge("BLOCKED", "locked"))}}
+        {{_stat("Controls", "NO PR CONTROLS", _badge("BLOCKED", "locked"))}}
+        {{_stat("Mutation", "NO GITHUB MUTATION", _badge("BLOCKED", "locked"))}}
+        {{_stat("Mutation", "NO NETLIFY MUTATION", _badge("BLOCKED", "locked"))}}
+        {{_stat("Writes", "NO SUPABASE WRITES", _badge("BLOCKED", "locked"))}}
+        {{_stat("Execution", "NO APPROVAL EXECUTION", _badge("BLOCKED", "locked"))}}
+        {{_stat("Automation", "AUTOMATION DISABLED", _badge("NOT_READY_FOR_REAL_AUTOMATION", "disabled"))}}
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Next Planned Step</p>
+        <ul class="compact-list" style="margin-top:0.25rem;">
+          <li>NEXT_STEP_BUILD_PERSISTENT_REQUEST_STORAGE_FOUNDATION</li>
+        </ul>
+      </div>
+    </article>
+  </div>
+</div>
+'''
+    return _details(
+        "MVP-43 — Operational Auth Foundation",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp43-operational-auth-foundation",
+    )
+
 def _build_action_panel(snapshot):
     action_summary = snapshot.get("action_registry_summary", {})
     rows = _build_action_rows(action_summary.get("actions", []))
@@ -8493,7 +8567,9 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _load_prebuilt_section("mvp39-external-demo-review-share-package-lock"),
         _build_mvp40_reviewer_response_capture_readiness_lock_layer(snapshot),
         _build_mvp41_controlled_reviewer_response_intake_blueprint_layer(snapshot),
+                _build_mvp41_controlled_reviewer_response_intake_blueprint_layer(snapshot),
         _build_mvp42_operator_controlled_response_import_dry_run_layer(snapshot),
+        _build_mvp43_operational_auth_foundation_layer(snapshot),
     ]
     # Replace any 'open_by_default=True' with False in archive_sections if possible, 
     # but since they are already rendered strings, we can use JS or just let details be closed.

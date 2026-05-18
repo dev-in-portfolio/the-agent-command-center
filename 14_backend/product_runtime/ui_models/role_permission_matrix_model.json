@@ -1,0 +1,8 @@
+{
+  "phase": "MVP-43",
+  "name": "ROLE PERMISSION MATRIX",
+  "status": "ROLE_PERMISSION_MATRIX_READY",
+  "readiness_only": "true",
+  "review_only": "true",
+  "future_implementation_only": "true"
+}

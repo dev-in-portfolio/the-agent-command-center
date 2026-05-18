@@ -1,0 +1,8 @@
+{
+  "phase": "MVP-43",
+  "name": "BROWSER AUTH SAFETY POSTURE",
+  "status": "BROWSER_AUTH_SAFETY_POSTURE_READY",
+  "readiness_only": "true",
+  "review_only": "true",
+  "future_implementation_only": "true"
+}
