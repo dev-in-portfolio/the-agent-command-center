@@ -1,0 +1,8 @@
+{
+  "phase": "MVP-47",
+  "name": "APPROVAL BOUND DRY RUN CONTRACT",
+  "status": "APPROVAL_BOUND_DRY_RUN_CONTRACT_READY",
+  "readiness_only": "true",
+  "review_only": "true",
+  "future_implementation_only": "true"
+}

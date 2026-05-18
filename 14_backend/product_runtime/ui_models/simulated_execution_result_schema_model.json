@@ -1,0 +1,8 @@
+{
+  "phase": "MVP-47",
+  "name": "SIMULATED EXECUTION RESULT SCHEMA",
+  "status": "SIMULATED_EXECUTION_RESULT_SCHEMA_READY",
+  "readiness_only": "true",
+  "review_only": "true",
+  "future_implementation_only": "true"
+}

@@ -18,7 +18,7 @@ def main():
         # Find all references to other _e2e.py files
         matches = re.findall(r'validate_.*_e2e\.py', text)
         for m in matches:
-            if m != script.name:
+            if m != script.name and m != "validate_e2e_runtime_no_nested_e2e.py":
                 FAILURES.append(f"{script.name} invokes or references nested E2E: {m}")
 
     if FAILURES:

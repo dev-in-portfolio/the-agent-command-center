@@ -1,0 +1,8 @@
+{
+  "phase": "MVP-47",
+  "name": "ACTION PLAN INPUT SCHEMA",
+  "status": "ACTION_PLAN_INPUT_SCHEMA_READY",
+  "readiness_only": "true",
+  "review_only": "true",
+  "future_implementation_only": "true"
+}
