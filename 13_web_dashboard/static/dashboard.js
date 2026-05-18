@@ -7295,3 +7295,55 @@
     initMvp42();
   }
 })();
+
+window.switchTab = function(tabId) {
+  document.querySelectorAll('.tab-pane').forEach(function(el) {
+    el.style.display = 'none';
+    el.classList.remove('active');
+  });
+  document.querySelectorAll('.tab-btn').forEach(function(el) {
+    el.classList.remove('active');
+  });
+  
+  var target = document.getElementById(tabId);
+  if (target) {
+    target.style.display = 'block';
+    target.classList.add('active');
+  }
+  
+  var btn = document.querySelector('.tab-btn[onclick*="' + tabId + '"]');
+  if (btn) {
+    btn.classList.add('active');
+  }
+  
+  window.scrollTo(0, 0);
+};
+
+window.filterArchive = function(filterValue) {
+  var archiveContent = document.getElementById('archive-content');
+  if (!archiveContent) return;
+  
+  var details = archiveContent.querySelectorAll('details.panel');
+  details.forEach(function(el) {
+    var title = el.querySelector('summary').textContent.toLowerCase();
+    var show = false;
+    if (filterValue === 'all') {
+      show = true;
+    } else if (filterValue === 'original') {
+      if (title.indexOf('phase 5') !== -1 || title.indexOf('plus') !== -1) show = true;
+    } else if (filterValue === 'mvp1-10') {
+      for(var i=1; i<=10; i++) if(title.indexOf('mvp-' + i + ' ') !== -1) show = true;
+    } else if (filterValue === 'mvp11-20') {
+      for(var i=11; i<=20; i++) if(title.indexOf('mvp-' + i + ' ') !== -1) show = true;
+    } else if (filterValue === 'mvp21-30') {
+      for(var i=21; i<=30; i++) if(title.indexOf('mvp-' + i + ' ') !== -1) show = true;
+    } else if (filterValue === 'mvp31-40') {
+      for(var i=31; i<=40; i++) if(title.indexOf('mvp-' + i + ' ') !== -1) show = true;
+    }
+    
+    // Always show safety boundary in all
+    if (el.id === 'safety-boundary' && filterValue === 'all') show = true;
+    
+    el.style.display = show ? 'block' : 'none';
+  });
+};

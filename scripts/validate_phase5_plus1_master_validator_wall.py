@@ -490,6 +490,7 @@ mvp41_report_requirements = [
     (ROOT / "09_exports" / "mvp_product_track" / "mvp41_validator_quality_report.md", "PASS"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp41_acceptance_report.md", "CONTROLLED_REVIEWER_RESPONSE_INTAKE_BLUEPRINT_READY"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp41_validator_wall_review.md", "PASS"),
+    (ROOT / "09_exports" / "mvp_product_track" / "live_dashboard_usability_refactor_after_mvp41_report.md", "LIVE_DASHBOARD_USABILITY_REFACTOR_AFTER_MVP41_COMPLETE"),
 ]
 for path, marker in mvp41_report_requirements:
     check(path.exists(), f"missing MVP-41 report: {path.relative_to(ROOT)}")
@@ -1188,6 +1189,7 @@ allowed_prefixes = [
         "scripts/validate_mvp41_controlled_reviewer_response_intake_blueprint_e2e.py",
         "scripts/validate_mvp42_operator_controlled_response_import_dry_run.py",
         "scripts/validate_mvp42_operator_controlled_response_import_dry_run_e2e.py",
+        "scripts/validate_live_dashboard_usability_after_mvp41.py",
         "scripts/validation_helpers_control_scan.py",
         "scripts/test_validation_helpers_control_scan.py",
         "scripts/validate_live_page_context_aware_control_scan.py",

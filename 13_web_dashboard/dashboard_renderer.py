@@ -1415,8 +1415,11 @@ def _load_prebuilt_section(section_id):
     if not index_path.exists():
         return ""
     text = index_path.read_text(encoding="utf-8", errors="replace")
-    marker = f'<details class="panel" data-section-group="source" open id="{section_id}">'
-    start = text.find(marker)
+    marker_open = f'<details class="panel" data-section-group="source" open id="{section_id}">'
+    marker_closed = f'<details class="panel" data-section-group="source" id="{section_id}">'
+    start = text.find(marker_open)
+    if start < 0:
+        start = text.find(marker_closed)
     if start < 0:
         return ""
     end = text.find("</details>", start)
@@ -8160,23 +8163,276 @@ def _build_mvp23_smoke_test_layer(snapshot):
         panel_id="mvp23-token-gated-smoke-test",
     )
 
+
+def _build_welcome_page():
+    return '''
+<div class="tab-pane active" id="view-welcome">
+  <div class="landing-shell">
+    <div class="landing-head">
+      <h2>Welcome to The Agent Command Center</h2>
+      <p class="lede">Read-only production dashboard for reviewing product status, safety boundaries, demo readiness, and release progress.</p>
+    </div>
+    <div class="landing-cards">
+      <div class="card">
+        <div class="card-head"><h3 class="card-title">Latest production verified MVP</h3><span class="badge pass">MVP-41</span></div>
+        <p class="card-body">Current product state: review/demo dashboard</p>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3 class="card-title">Pending Release</h3><span class="badge warning">MVP-42</span></div>
+        <p class="card-body">MVP-42 status: pending branch / not production merged</p>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3 class="card-title">Safety Status</h3><span class="badge pass">SECURE</span></div>
+        <ul class="compact-list">
+          <li>Automation: disabled</li>
+          <li>Public writes: disabled</li>
+          <li>Secrets: not exposed</li>
+          <li>Backend actions: disabled</li>
+          <li>Reviewer response capture: not live</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3 class="card-title">Dashboard mode</h3><span class="badge info">READ-ONLY</span></div>
+        <p class="card-body">read-only / copy-only / audit-visible</p>
+      </div>
+    </div>
+    <div class="landing-actions" style="margin-top: 2rem;">
+      <h3>Start here:</h3>
+      <ul class="compact-list" style="font-size: 1.05rem; gap: 0.75rem;">
+        <li>Use <strong><a href="#" onclick="switchTab('view-status')">Current Status</a></strong> if you want the quick answer.</li>
+        <li>Use <strong><a href="#" onclick="switchTab('view-orientation')">What the hell am I looking at?</a></strong> if this page looks insane.</li>
+        <li>Use <strong><a href="#" onclick="switchTab('view-demo')">External Review / Demo</a></strong> if you are showing this to someone else.</li>
+        <li>Use <strong><a href="#" onclick="switchTab('view-archive')">Archive / Full Audit Trail</a></strong> only if you want the full construction record.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+'''
+
+def _build_orientation_page():
+    return '''
+<div class="tab-pane" id="view-orientation" style="display: none;">
+  <div class="landing-shell">
+    <div class="landing-head">
+      <h2>What the hell am I looking at?</h2>
+      <p class="lede">A brief explanation of why this page exists and how to read it.</p>
+    </div>
+    <div class="landing-actions">
+      <ul class="compact-list" style="font-size: 1.05rem; gap: 0.75rem;">
+        <li>This is not a normal marketing site.</li>
+        <li>This is a live product/audit dashboard.</li>
+        <li>It shows the project’s evolution from static safety review into a controlled demo/review system.</li>
+        <li>Most buttons are copy/read-only helpers.</li>
+        <li>The scary words like deploy, merge, push, token, write, approve, execute appear because the dashboard is explicitly proving those actions are disabled.</li>
+        <li>The dashboard is intentionally transparent, but the default view now separates human-friendly review from internal audit details.</li>
+        <li>Historical sections are preserved in Archive.</li>
+        <li>Developer/validator details are separated in Developer View.</li>
+        <li>Nothing on the page should execute commands, mutate GitHub/Netlify, expose secrets, or write backend data.</li>
+      </ul>
+      <h3 style="margin-top: 1.5rem;">Translation guide</h3>
+      <ul class="compact-list" style="font-size: 1.05rem; gap: 0.75rem;">
+        <li><strong>"PASS"</strong> means the static check/report is present.</li>
+        <li><strong>"DISABLED"</strong> means a capability is intentionally unavailable.</li>
+        <li><strong>"READY"</strong> means an artifact is ready for review/copying, not necessarily live automation.</li>
+        <li><strong>"NOT_READY_FOR_REAL_AUTOMATION"</strong> means exactly what it says.</li>
+        <li><strong>"Copy"</strong> buttons copy text locally; they do not send data anywhere.</li>
+        <li><strong>"Safety-denial language"</strong> means phrases like NO DEPLOY CONTROLS or NO PUBLIC WRITES are warnings/guards, not enabled actions.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+'''
+
+def _build_status_page(snapshot):
+    return '''
+<div class="tab-pane" id="view-status" style="display: none;">
+  <div class="landing-shell">
+    <div class="landing-head">
+      <h2>Current Status</h2>
+    </div>
+    <div class="landing-cards">
+      <div class="card">
+        <div class="card-head"><h3 class="card-title">Production State</h3></div>
+        <ul class="compact-list">
+          <li>Latest verified milestone: MVP-41</li>
+          <li>Current production branch: master</li>
+          <li>Current production role: read-only review dashboard</li>
+          <li>Next pending branch: MVP-42 (not merged)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3 class="card-title">Current safety posture</h3><span class="badge warning">STRICT</span></div>
+        <ul class="compact-list">
+          <li>no public endpoint</li>
+          <li>no live intake</li>
+          <li>no public writes</li>
+          <li>no reviewer response writes</li>
+          <li>no response persistence</li>
+          <li>no token input</li>
+          <li>no service role in browser</li>
+          <li>no email sending</li>
+          <li>no reviewer contact automation</li>
+          <li>no deploy/merge/push controls</li>
+          <li>automation disabled</li>
+        </ul>
+      </div>
+    </div>
+    <div class="landing-actions" style="margin-top: 2rem;">
+      <h3>What should I look at first?</h3>
+      <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+        <button class="action-button" onclick="switchTab('view-demo')">External Review / Demo</button>
+        <button class="action-button" onclick="switchTab('view-safety')">Safety Posture</button>
+        <button class="action-button" onclick="switchTab('view-latest-mvp')">Latest Verified MVP</button>
+        <button class="action-button" onclick="switchTab('view-archive')">Archive</button>
+      </div>
+    </div>
+  </div>
+</div>
+'''
+
+def _build_demo_page():
+    return '''
+<div class="tab-pane" id="view-demo" style="display: none;">
+  <div class="landing-shell">
+    <div class="landing-head">
+      <h2>External Review / Demo</h2>
+    </div>
+    <div class="landing-actions">
+      <h3>What the system is</h3>
+      <p>A transparent, verifiable command center that safely models and previews automation without executing it prematurely.</p>
+      <h3>What problem it solves</h3>
+      <p>AI agent automation usually lacks transparency, auditability, and safety boundaries. This dashboard proves we can build safely.</p>
+      <h3>What is safe to demo today</h3>
+      <p>The static dashboard shell, the generated artifacts, and the safety boundary verifications. It proves the system constraints hold.</p>
+      <h3>What is intentionally disabled</h3>
+      <p>Live writes, external API mutation, production deploy controls, automated email sending.</p>
+      <h3>What artifacts are ready to review</h3>
+      <p>MVP-41 Blueprints, architecture documents, safety logic rules, UI schemas.</p>
+      <h3 style="margin-top: 1.5rem;">Suggested reviewer path:</h3>
+      <ol style="color: var(--text-secondary); font-size: 1.05rem;">
+        <li>Read Welcome</li>
+        <li>Open Current Status</li>
+        <li>Review Latest Verified MVP</li>
+        <li>Review Safety Posture</li>
+        <li>Use Archive only if technical detail is needed</li>
+      </ol>
+    </div>
+  </div>
+</div>
+'''
+
+def _build_safety_page(snapshot):
+    return f'''
+<div class="tab-pane" id="view-safety" style="display: none;">
+  <div class="landing-shell">
+    <div class="landing-head">
+      <h2>Safety Posture</h2>
+      <p class="lede">Strict enforcement of security boundaries to prevent runaway automation.</p>
+    </div>
+    <div class="landing-cards">
+      <div class="card" style="grid-column: 1 / -1;">
+        <div class="card-head"><h3 class="card-title">Runtime Boundaries</h3></div>
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap:1rem;">
+          {{_stat("Public endpoint", "disabled", _badge("DISABLED", "disabled"))}}
+          {{_stat("Live intake", "disabled", _badge("DISABLED", "disabled"))}}
+          {{_stat("Public writes", "disabled", _badge("DISABLED", "disabled"))}}
+          {{_stat("Reviewer response writes", "disabled", _badge("DISABLED", "disabled"))}}
+          {{_stat("Response persistence", "disabled", _badge("DISABLED", "disabled"))}}
+          {{_stat("Email sending", "disabled", _badge("DISABLED", "disabled"))}}
+          {{_stat("Reviewer contact", "disabled", _badge("DISABLED", "disabled"))}}
+          {{_stat("Token input", "disabled", _badge("DISABLED", "disabled"))}}
+          {{_stat("Browser secret storage", "disabled", _badge("DISABLED", "disabled"))}}
+          {{_stat("Service role in browser", "disabled", _badge("DISABLED", "disabled"))}}
+          {{_stat("GitHub mutation", "disabled", _badge("DISABLED", "disabled"))}}
+          {{_stat("Netlify mutation", "disabled", _badge("DISABLED", "disabled"))}}
+          {{_stat("Deploy/merge/push controls", "disabled", _badge("DISABLED", "disabled"))}}
+          {{_stat("Automation", "disabled", _badge("DISABLED", "disabled"))}}
+        </div>
+      </div>
+      <div class="card" style="grid-column: 1 / -1;">
+        <div class="card-head"><h3 class="card-title">Context-Aware Safeties</h3></div>
+        <p class="card-body" style="margin-bottom: 0.5rem;">Why scary terms appear: The dashboard explicitly prints words like "deploy" or "execute" to prove they are blocked.</p>
+        <p class="card-body" style="margin-bottom: 0.5rem;">What the context-aware validator does: It ensures that any dangerous words are safely prefixed (e.g. NO_PUBLIC_WRITES) rather than used as active labels.</p>
+        <p class="card-body">Difference between safety-denial language and enabled runtime behavior: A button that says "NO DEPLOY CONTROLS" is inert documentation, not a hidden feature.</p>
+      </div>
+    </div>
+  </div>
+</div>
+'''
+
+def _build_roadmap_page():
+    return '''
+<div class="tab-pane" id="view-roadmap" style="display: none;">
+  <div class="landing-shell">
+    <div class="landing-head">
+      <h2>Roadmap / Next Step</h2>
+    </div>
+    <div class="landing-cards">
+      <div class="card">
+        <div class="card-head"><h3 class="card-title">Completed</h3><span class="badge pass">DONE</span></div>
+        <ul class="compact-list">
+          <li>Completed through MVP-41</li>
+          <li>Validation stabilization completed</li>
+          <li>Dashboard Usability Refactor completed</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3 class="card-title">Next Planned</h3><span class="badge info">UPCOMING</span></div>
+        <p class="card-body" style="margin-bottom: 0.5rem;"><strong>MVP-42 — Operator-Controlled Response Import Dry Run</strong></p>
+        <p class="card-body muted">MVP-42 is pending (branch exists, not merged to master).</p>
+      </div>
+    </div>
+  </div>
+</div>
+'''
+
 def render_html(snapshot, compact_view=False, print_mode=False):
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
-    header = f"""
+    
+    tabs = '''
+    <nav class="dashboard-tabs">
+      <button class="tab-btn active" onclick="switchTab('view-welcome')">Welcome</button>
+      <button class="tab-btn" onclick="switchTab('view-status')">Current Status</button>
+      <button class="tab-btn" onclick="switchTab('view-orientation')">Orientation</button>
+      <button class="tab-btn" onclick="switchTab('view-latest-mvp')">Latest MVP</button>
+      <button class="tab-btn" onclick="switchTab('view-demo')">Demo</button>
+      <button class="tab-btn" onclick="switchTab('view-safety')">Safety Posture</button>
+      <button class="tab-btn" onclick="switchTab('view-roadmap')">Roadmap</button>
+      <button class="tab-btn" onclick="switchTab('view-archive')">Archive</button>
+      <button class="tab-btn" onclick="switchTab('view-developer')">Developer View</button>
+    </nav>
+    '''
+
+    header = f'''
     <header class="hero dashboard-shell">
-      <div class="hero-copy">
+      <div class="hero-copy" style="width: 100%;">
         <h1>The Agent Command Center</h1>
-        <p class="lede">A read-only production dashboard for reviewing system status, safety boundaries, static schemas, and operator workflow readiness. Includes Original Phase 5A client-side operator workflow shell, Phase 5B request packet builder, Phase 5C review board, Phase 5D handoff composer, Phase 5E runbook simulator, Original +1 controlled automation readiness layer, and Original +1B operator console contract layer.</p>
-        <p class="muted" style="margin-top: 0.5rem; font-size: 0.85rem;">Production-hosted. Static/inert. No command execution. No deploy, merge, push, or mutation controls.</p>
+        {tabs if not print_mode else ''}
       </div>
     </header>
-    """
+    '''
 
     toolbar = _build_toolbar(snapshot) if not print_mode else ""
-    sections = [
+    
+    # Core views
+    welcome_view = _build_welcome_page()
+    orientation_view = _build_orientation_page()
+    status_view = _build_status_page(snapshot)
+    demo_view = _build_demo_page()
+    safety_view = _build_safety_page(snapshot)
+    roadmap_view = _build_roadmap_page()
+    
+    # Latest MVP view
+    latest_mvp_view = f'''<div class="tab-pane" id="view-latest-mvp" style="display: none;">
+      <h2 style="margin-bottom:1rem;">Latest Verified MVP</h2>
+      {_build_mvp41_controlled_reviewer_response_intake_blueprint_layer(snapshot)}
+    </div>'''
+    
+    # Archive view
+    archive_sections = [
         _build_safety_banner(),
         _build_landing_screen(snapshot),
-        _details("Safety Boundary Summary", _build_safety_boundary(snapshot), "source", open_by_default=True, panel_id="safety-boundary"),
+        _details("Safety Boundary Summary", _build_safety_boundary(snapshot), "source", open_by_default=False, panel_id="safety-boundary"),
         _build_roadmap_panel(),
         _build_phase4d_preview_panel(),
         _build_status_snapshot_panel(snapshot),
@@ -8238,6 +8494,29 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_mvp40_reviewer_response_capture_readiness_lock_layer(snapshot),
         _build_mvp41_controlled_reviewer_response_intake_blueprint_layer(snapshot),
         _build_mvp42_operator_controlled_response_import_dry_run_layer(snapshot),
+    ]
+    # Replace any 'open_by_default=True' with False in archive_sections if possible, 
+    # but since they are already rendered strings, we can use JS or just let details be closed.
+    # We will use CSS/JS to close them, or replace 'open' with '' in the HTML string for the archive tab.
+    archive_html = "\\n".join(archive_sections).replace(' open ', ' ').replace('<details class="panel" open>', '<details class="panel">')
+    archive_view = f'''<div class="tab-pane" id="view-archive" style="display: none;">
+      <h2 style="margin-bottom:1rem;">Archive / Full Audit Trail</h2>
+      <div style="margin-bottom:1rem;">
+         <label>Filter Archive: </label>
+         <select id="archive-filter" onchange="filterArchive(this.value)" style="padding:0.3rem; border-radius:4px; border:1px solid var(--stroke); background:var(--card); color:var(--text);">
+           <option value="all">All</option>
+           <option value="original">Original Phases</option>
+           <option value="mvp1-10">MVP 1-10</option>
+           <option value="mvp11-20">MVP 11-20</option>
+           <option value="mvp21-30">MVP 21-30</option>
+           <option value="mvp31-40">MVP 31-40</option>
+         </select>
+      </div>
+      <div id="archive-content">{archive_html}</div>
+    </div>'''
+    
+    # Developer view
+    dev_sections = [
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),
@@ -8246,26 +8525,42 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_compare_panel(snapshot),
         _build_branch_review_panel(snapshot),
         _build_approval_panel(snapshot),
-        _build_session_panel(snapshot),
-        _build_footer(),
+        _build_session_panel(snapshot)
     ]
+    dev_html = "\\n".join(dev_sections).replace(' open ', ' ').replace('<details class="panel" open>', '<details class="panel">')
+    dev_view = f'''<div class="tab-pane" id="view-developer" style="display: none;">
+      <h2 style="margin-bottom:1rem;">Developer / Validator View</h2>
+      <div class="callout" style="margin-bottom:1.5rem; border-color:var(--warning);"><p class="muted">Developer view contains internal build/audit details and is not the recommended starting point for external reviewers.</p></div>
+      {dev_html}
+    </div>'''
+    
+    if print_mode:
+        all_sections = [
+            welcome_view, orientation_view, status_view, demo_view, safety_view, roadmap_view, latest_mvp_view, archive_view, dev_view, _build_footer()
+        ]
+        sections_out = "\\n".join(all_sections)
+    else:
+        sections_out = "\\n".join([
+            welcome_view, orientation_view, status_view, demo_view, safety_view, roadmap_view, latest_mvp_view, archive_view, dev_view, _build_footer()
+        ])
+    
     body_class = "dashboard-body print-view" if print_mode else "dashboard-body"
     if compact_view:
         body_class += " compact-view"
-    data_json = json.dumps(snapshot, indent=2, sort_keys=False).replace("</", "<\\/")
+        
+    data_json = json.dumps(snapshot, indent=2, sort_keys=False).replace("</", "<\/")
     replacements = {
         "{{TITLE}}": "The Agent Command Center - Read-Only Operations Dashboard",
         "{{BODY_CLASS}}": body_class,
         "{{HEADER}}": header,
         "{{TOOLBAR}}": toolbar,
-        "{{SECTIONS}}": "\n".join(sections),
+        "{{SECTIONS}}": sections_out,
         "{{DASHBOARD_DATA_JSON}}": data_json,
         "{{SCRIPTS}}": "" if print_mode else '<script src="./static/dashboard.js"></script>',
     }
     for key, value in replacements.items():
         template = template.replace(key, value)
     return template
-
 
 def render_print_html(snapshot):
     return render_html(snapshot, compact_view=False, print_mode=True)

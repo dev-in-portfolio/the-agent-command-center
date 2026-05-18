@@ -13,7 +13,7 @@
  * AUTHORIZATION_REQUIRED
  */
 
-const { getAuthContext } = require("./_shared/auth_context");
+const { getAuthContext, getBearerTokenFromHeaders, normalizeBearerToken } = require("./_shared/auth_context");
 const { 
   listMyRequests, 
   getMyRequest, 
@@ -32,7 +32,8 @@ const MVP_ENABLE_REQUEST_API_WRITES = process['env'].MVP_ENABLE_REQUEST_API_WRIT
 exports.handler = async (event, context) => {
   const method = event.httpMethod;
   const params = event.queryStringParameters || {};
-  const bearerToken = event.headers.authorization || event.headers.Authorization;
+  const headers = event && event.headers ? event.headers : {};
+  const bearerToken = normalizeBearerToken(getBearerTokenFromHeaders(headers));
 
   // 1. Check if API is enabled
   if (!MVP_ENABLE_SUPABASE_REQUEST_API) {
