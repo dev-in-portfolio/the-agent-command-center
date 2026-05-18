@@ -1800,6 +1800,81 @@ def _build_mvp42_operator_controlled_response_import_dry_run_layer(snapshot):
     )
 
 
+
+def _build_mvp44_persistent_request_storage_foundation_layer(snapshot):
+    body = f'''
+<div class="plus1-readiness-layer">
+  <div class="plus1-preview-grid">
+    <article class="card mvp44-storage-foundation" id="mvp44-storage-foundation-overview">
+      <div class="card-head"><h3 class="card-title">PERSISTENT REQUEST STORAGE FOUNDATION</h3><span class="badge info">MVP-44</span></div>
+      <p class="card-body">Blueprint and readiness layer for the persistent request storage foundation.</p>
+      {{_list([
+          "REQUEST STORAGE DATA MODEL: READY",
+          "REQUEST LIFECYCLE STATE MODEL: READY",
+          "REQUEST METADATA SCHEMA: READY",
+          "STORAGE BOUNDARY CONTRACT: READY",
+          "SERVER SIDE STORAGE ACCESS PLAN: READY",
+          "REQUEST RETRIEVAL READINESS PLAN: READY",
+          "STORAGE MIGRATION BLUEPRINT: READY",
+      ])}}
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small">Copy Storage Foundation Summary</button>
+        <button type="button" class="copy-button small">Copy Request Data Model</button>
+        <button type="button" class="copy-button small">Copy Lifecycle State Model</button>
+        <button type="button" class="copy-button small">Copy Metadata Schema</button>
+        <button type="button" class="copy-button small">Copy Storage Boundary Contract</button>
+        <button type="button" class="copy-button small">Copy Server-Side Storage Access Plan</button>
+        <button type="button" class="copy-button small">Copy Retrieval Readiness Plan</button>
+        <button type="button" class="copy-button small">Copy Migration Blueprint</button>
+        <button type="button" class="copy-button small">Copy MVP-44 Validation Checklist</button>
+      </div>
+    </article>
+
+    <article class="card plus1-safety-summary" id="mvp44-safety-summary">
+      <div class="card-head"><h3 class="card-title">Safety Summary</h3><span class="badge pass">SECURE</span></div>
+      <div class="stat-grid">
+        {{_stat("Mode", "STORAGE FOUNDATION ONLY", _badge("SCHEMA READINESS ONLY", "info"))}}
+        {{_stat("Role", "REVIEW ONLY", _badge("FUTURE IMPLEMENTATION ONLY", "warning"))}}
+        {{_stat("Writes", "NO REAL DATABASE WRITES", _badge("DISABLED", "disabled"))}}
+        {{_stat("Writes", "NO SUPABASE WRITES", _badge("DISABLED", "disabled"))}}
+        {{_stat("Writes", "NO PUBLIC WRITES", _badge("DISABLED", "disabled"))}}
+        {{_stat("Request", "NO LIVE REQUEST CREATION", _badge("DISABLED", "disabled"))}}
+        {{_stat("Intake", "NO LIVE INTAKE", _badge("DISABLED", "disabled"))}}
+        {{_stat("Endpoint", "NO PUBLIC ENDPOINT", _badge("DISABLED", "disabled"))}}
+        {{_stat("Migration", "NO MIGRATION APPLY", _badge("DISABLED", "disabled"))}}
+        {{_stat("Persistence", "NO REAL PERSISTENCE", _badge("DISABLED", "disabled"))}}
+        {{_stat("Execution", "NO COMMAND EXECUTION", _badge("BLOCKED", "locked"))}}
+        {{_stat("Execution", "NO APPROVAL EXECUTION", _badge("BLOCKED", "locked"))}}
+        {{_stat("Controls", "NO DEPLOY CONTROLS", _badge("BLOCKED", "locked"))}}
+        {{_stat("Controls", "NO MERGE CONTROLS", _badge("BLOCKED", "locked"))}}
+        {{_stat("Controls", "NO PUSH CONTROLS", _badge("BLOCKED", "locked"))}}
+        {{_stat("Controls", "NO PR CONTROLS", _badge("BLOCKED", "locked"))}}
+        {{_stat("Mutation", "NO GITHUB MUTATION", _badge("BLOCKED", "locked"))}}
+        {{_stat("Mutation", "NO NETLIFY MUTATION", _badge("BLOCKED", "locked"))}}
+        {{_stat("Automation", "AUTOMATION DISABLED", _badge("NOT_READY_FOR_REAL_AUTOMATION", "disabled"))}}
+        {{_stat("Role", "SERVICE ROLE NOT USED", _badge("BLOCKED", "disabled"))}}
+        {{_stat("Role", "SERVICE ROLE NOT IN BROWSER", _badge("BLOCKED", "disabled"))}}
+        {{_stat("Token", "NO TOKEN INPUT", _badge("DISABLED", "disabled"))}}
+        {{_stat("Persistence", "NO BROWSER PERSISTENCE", _badge("DISABLED", "disabled"))}}
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Next Planned Step</p>
+        <ul class="compact-list" style="margin-top:0.25rem;">
+          <li>NEXT_STEP_BUILD_IMMUTABLE_AUDIT_EVENT_LEDGER</li>
+        </ul>
+      </div>
+    </article>
+  </div>
+</div>
+'''
+    return _details(
+        "MVP-44 — Persistent Request Storage Foundation",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp44-persistent-request-storage-foundation",
+    )
+
 def _build_mvp43_operational_auth_foundation_layer(snapshot):
     body = f'''
 <div class="plus1-readiness-layer">
@@ -8569,7 +8644,9 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_mvp41_controlled_reviewer_response_intake_blueprint_layer(snapshot),
                 _build_mvp41_controlled_reviewer_response_intake_blueprint_layer(snapshot),
         _build_mvp42_operator_controlled_response_import_dry_run_layer(snapshot),
+                _build_mvp42_operator_controlled_response_import_dry_run_layer(snapshot),
         _build_mvp43_operational_auth_foundation_layer(snapshot),
+        _build_mvp44_persistent_request_storage_foundation_layer(snapshot),
     ]
     # Replace any 'open_by_default=True' with False in archive_sections if possible, 
     # but since they are already rendered strings, we can use JS or just let details be closed.
