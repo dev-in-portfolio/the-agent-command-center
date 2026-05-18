@@ -1,0 +1,8 @@
+{
+  "phase": "MVP-45",
+  "name": "AUDIT EVENT TAXONOMY",
+  "status": "AUDIT_EVENT_TAXONOMY_READY",
+  "readiness_only": "true",
+  "review_only": "true",
+  "future_implementation_only": "true"
+}
