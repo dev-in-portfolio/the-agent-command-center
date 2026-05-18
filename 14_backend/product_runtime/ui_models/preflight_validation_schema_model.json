@@ -1,0 +1,8 @@
+{
+  "phase": "MVP-47",
+  "name": "PREFLIGHT VALIDATION SCHEMA",
+  "status": "PREFLIGHT_VALIDATION_SCHEMA_READY",
+  "readiness_only": "true",
+  "review_only": "true",
+  "future_implementation_only": "true"
+}
