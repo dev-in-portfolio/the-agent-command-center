@@ -11,16 +11,356 @@
   <div class="page-shell">
     
     <header class="hero dashboard-shell">
-      <div class="hero-copy">
+      <div class="hero-copy" style="width: 100%;">
         <h1>The Agent Command Center</h1>
-        <p class="lede">A read-only production dashboard for reviewing system status, safety boundaries, static schemas, and operator workflow readiness. Includes Original Phase 5A client-side operator workflow shell, Phase 5B request packet builder, Phase 5C review board, Phase 5D handoff composer, Phase 5E runbook simulator, Original +1 controlled automation readiness layer, and Original +1B operator console contract layer.</p>
-        <p class="muted" style="margin-top: 0.5rem; font-size: 0.85rem;">Production-hosted. Static/inert. No command execution. No deploy, merge, push, or mutation controls.</p>
+        
       </div>
     </header>
     
     
     <main id="dashboard-main" class="dashboard" tabindex="-1">
       
+<div class="tab-pane active" id="view-welcome">
+  <div class="landing-shell">
+    <div class="landing-head">
+      <h2>Welcome to The Agent Command Center</h2>
+      <p class="lede">Read-only production dashboard for reviewing product status, safety boundaries, demo readiness, and release progress.</p>
+    </div>
+    <div class="landing-cards">
+      <div class="card">
+        <div class="card-head"><h3 class="card-title">Latest production verified MVP</h3><span class="badge pass">MVP-41</span></div>
+        <p class="card-body">Current product state: review/demo dashboard</p>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3 class="card-title">Pending Release</h3><span class="badge warning">MVP-42</span></div>
+        <p class="card-body">MVP-42 status: pending branch / not production merged</p>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3 class="card-title">Safety Status</h3><span class="badge pass">SECURE</span></div>
+        <ul class="compact-list">
+          <li>Automation: disabled</li>
+          <li>Public writes: disabled</li>
+          <li>Secrets: not exposed</li>
+          <li>Backend actions: disabled</li>
+          <li>Reviewer response capture: not live</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3 class="card-title">Dashboard mode</h3><span class="badge info">READ-ONLY</span></div>
+        <p class="card-body">read-only / copy-only / audit-visible</p>
+      </div>
+    </div>
+    <div class="landing-actions" style="margin-top: 2rem;">
+      <h3>Start here:</h3>
+      <ul class="compact-list" style="font-size: 1.05rem; gap: 0.75rem;">
+        <li>Use <strong><a href="#" onclick="switchTab('view-status')">Current Status</a></strong> if you want the quick answer.</li>
+        <li>Use <strong><a href="#" onclick="switchTab('view-orientation')">What the hell am I looking at?</a></strong> if this page looks insane.</li>
+        <li>Use <strong><a href="#" onclick="switchTab('view-demo')">External Review / Demo</a></strong> if you are showing this to someone else.</li>
+        <li>Use <strong><a href="#" onclick="switchTab('view-archive')">Archive / Full Audit Trail</a></strong> only if you want the full construction record.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+\n
+<div class="tab-pane" id="view-orientation" style="display: none;">
+  <div class="landing-shell">
+    <div class="landing-head">
+      <h2>What the hell am I looking at?</h2>
+      <p class="lede">A brief explanation of why this page exists and how to read it.</p>
+    </div>
+    <div class="landing-actions">
+      <ul class="compact-list" style="font-size: 1.05rem; gap: 0.75rem;">
+        <li>This is not a normal marketing site.</li>
+        <li>This is a live product/audit dashboard.</li>
+        <li>It shows the project’s evolution from static safety review into a controlled demo/review system.</li>
+        <li>Most buttons are copy/read-only helpers.</li>
+        <li>The scary words like deploy, merge, push, token, write, approve, execute appear because the dashboard is explicitly proving those actions are disabled.</li>
+        <li>The dashboard is intentionally transparent, but the default view now separates human-friendly review from internal audit details.</li>
+        <li>Historical sections are preserved in Archive.</li>
+        <li>Developer/validator details are separated in Developer View.</li>
+        <li>Nothing on the page should execute commands, mutate GitHub/Netlify, expose secrets, or write backend data.</li>
+      </ul>
+      <h3 style="margin-top: 1.5rem;">Translation guide</h3>
+      <ul class="compact-list" style="font-size: 1.05rem; gap: 0.75rem;">
+        <li><strong>"PASS"</strong> means the static check/report is present.</li>
+        <li><strong>"DISABLED"</strong> means a capability is intentionally unavailable.</li>
+        <li><strong>"READY"</strong> means an artifact is ready for review/copying, not necessarily live automation.</li>
+        <li><strong>"NOT_READY_FOR_REAL_AUTOMATION"</strong> means exactly what it says.</li>
+        <li><strong>"Copy"</strong> buttons copy text locally; they do not send data anywhere.</li>
+        <li><strong>"Safety-denial language"</strong> means phrases like NO DEPLOY CONTROLS or NO PUBLIC WRITES are warnings/guards, not enabled actions.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+\n
+<div class="tab-pane" id="view-status" style="display: none;">
+  <div class="landing-shell">
+    <div class="landing-head">
+      <h2>Current Status</h2>
+    </div>
+    <div class="landing-cards">
+      <div class="card">
+        <div class="card-head"><h3 class="card-title">Production State</h3></div>
+        <ul class="compact-list">
+          <li>Latest verified milestone: MVP-41</li>
+          <li>Current production branch: master</li>
+          <li>Current production role: read-only review dashboard</li>
+          <li>Next pending branch: MVP-42 (not merged)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3 class="card-title">Current safety posture</h3><span class="badge warning">STRICT</span></div>
+        <ul class="compact-list">
+          <li>no public endpoint</li>
+          <li>no live intake</li>
+          <li>no public writes</li>
+          <li>no reviewer response writes</li>
+          <li>no response persistence</li>
+          <li>no token input</li>
+          <li>no service role in browser</li>
+          <li>no email sending</li>
+          <li>no reviewer contact automation</li>
+          <li>no deploy/merge/push controls</li>
+          <li>automation disabled</li>
+        </ul>
+      </div>
+    </div>
+    <div class="landing-actions" style="margin-top: 2rem;">
+      <h3>What should I look at first?</h3>
+      <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+        <button class="action-button" onclick="switchTab('view-demo')">External Review / Demo</button>
+        <button class="action-button" onclick="switchTab('view-safety')">Safety Posture</button>
+        <button class="action-button" onclick="switchTab('view-latest-mvp')">Latest Verified MVP</button>
+        <button class="action-button" onclick="switchTab('view-archive')">Archive</button>
+      </div>
+    </div>
+  </div>
+</div>
+\n
+<div class="tab-pane" id="view-demo" style="display: none;">
+  <div class="landing-shell">
+    <div class="landing-head">
+      <h2>External Review / Demo</h2>
+    </div>
+    <div class="landing-actions">
+      <h3>What the system is</h3>
+      <p>A transparent, verifiable command center that safely models and previews automation without executing it prematurely.</p>
+      <h3>What problem it solves</h3>
+      <p>AI agent automation usually lacks transparency, auditability, and safety boundaries. This dashboard proves we can build safely.</p>
+      <h3>What is safe to demo today</h3>
+      <p>The static dashboard shell, the generated artifacts, and the safety boundary verifications. It proves the system constraints hold.</p>
+      <h3>What is intentionally disabled</h3>
+      <p>Live writes, external API mutation, production deploy controls, automated email sending.</p>
+      <h3>What artifacts are ready to review</h3>
+      <p>MVP-41 Blueprints, architecture documents, safety logic rules, UI schemas.</p>
+      <h3 style="margin-top: 1.5rem;">Suggested reviewer path:</h3>
+      <ol style="color: var(--text-secondary); font-size: 1.05rem;">
+        <li>Read Welcome</li>
+        <li>Open Current Status</li>
+        <li>Review Latest Verified MVP</li>
+        <li>Review Safety Posture</li>
+        <li>Use Archive only if technical detail is needed</li>
+      </ol>
+    </div>
+  </div>
+</div>
+\n
+<div class="tab-pane" id="view-safety" style="display: none;">
+  <div class="landing-shell">
+    <div class="landing-head">
+      <h2>Safety Posture</h2>
+      <p class="lede">Strict enforcement of security boundaries to prevent runaway automation.</p>
+    </div>
+    <div class="landing-cards">
+      <div class="card" style="grid-column: 1 / -1;">
+        <div class="card-head"><h3 class="card-title">Runtime Boundaries</h3></div>
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap:1rem;">
+          {_stat("Public endpoint", "disabled", _badge("DISABLED", "disabled"))}
+          {_stat("Live intake", "disabled", _badge("DISABLED", "disabled"))}
+          {_stat("Public writes", "disabled", _badge("DISABLED", "disabled"))}
+          {_stat("Reviewer response writes", "disabled", _badge("DISABLED", "disabled"))}
+          {_stat("Response persistence", "disabled", _badge("DISABLED", "disabled"))}
+          {_stat("Email sending", "disabled", _badge("DISABLED", "disabled"))}
+          {_stat("Reviewer contact", "disabled", _badge("DISABLED", "disabled"))}
+          {_stat("Token input", "disabled", _badge("DISABLED", "disabled"))}
+          {_stat("Browser secret storage", "disabled", _badge("DISABLED", "disabled"))}
+          {_stat("Service role in browser", "disabled", _badge("DISABLED", "disabled"))}
+          {_stat("GitHub mutation", "disabled", _badge("DISABLED", "disabled"))}
+          {_stat("Netlify mutation", "disabled", _badge("DISABLED", "disabled"))}
+          {_stat("Deploy/merge/push controls", "disabled", _badge("DISABLED", "disabled"))}
+          {_stat("Automation", "disabled", _badge("DISABLED", "disabled"))}
+        </div>
+      </div>
+      <div class="card" style="grid-column: 1 / -1;">
+        <div class="card-head"><h3 class="card-title">Context-Aware Safeties</h3></div>
+        <p class="card-body" style="margin-bottom: 0.5rem;">Why scary terms appear: The dashboard explicitly prints words like "deploy" or "execute" to prove they are blocked.</p>
+        <p class="card-body" style="margin-bottom: 0.5rem;">What the context-aware validator does: It ensures that any dangerous words are safely prefixed (e.g. NO_PUBLIC_WRITES) rather than used as active labels.</p>
+        <p class="card-body">Difference between safety-denial language and enabled runtime behavior: A button that says "NO DEPLOY CONTROLS" is inert documentation, not a hidden feature.</p>
+      </div>
+    </div>
+  </div>
+</div>
+\n
+<div class="tab-pane" id="view-roadmap" style="display: none;">
+  <div class="landing-shell">
+    <div class="landing-head">
+      <h2>Roadmap / Next Step</h2>
+    </div>
+    <div class="landing-cards">
+      <div class="card">
+        <div class="card-head"><h3 class="card-title">Completed</h3><span class="badge pass">DONE</span></div>
+        <ul class="compact-list">
+          <li>Completed through MVP-41</li>
+          <li>Validation stabilization completed</li>
+          <li>Dashboard Usability Refactor completed</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3 class="card-title">Next Planned</h3><span class="badge info">UPCOMING</span></div>
+        <p class="card-body" style="margin-bottom: 0.5rem;"><strong>MVP-42 — Operator-Controlled Response Import Dry Run</strong></p>
+        <p class="card-body muted">MVP-42 is pending (branch exists, not merged to master).</p>
+      </div>
+    </div>
+  </div>
+</div>
+\n<div class="tab-pane" id="view-latest-mvp" style="display: none;">
+      <h2 style="margin-bottom:1rem;">Latest Verified MVP</h2>
+      
+    <details class="panel" data-section-group="source" open id="mvp41-controlled-reviewer-response-intake-blueprint">
+      <summary>MVP-41 — Controlled Reviewer Response Intake Blueprint</summary>
+      <div class="panel-body">
+        
+<div class="mvp-section" data-mvp="41" data-mvp41-controlled-reviewer-response-intake-blueprint="true">
+  <div class="callout success-callout">
+    <strong style="color: var(--success);">MVP-41</strong>
+    <p class="muted">CONTROLLED REVIEWER RESPONSE INTAKE BLUEPRINT</p>
+    <p class="muted">INTAKE ROUTE DESIGN PROPOSAL — MANUAL REVIEWER RESPONSE IMPORT PATH — OPERATOR APPROVAL GATE BLUEPRINT</p>
+    <p class="muted">REVIEWER RESPONSE VALIDATION RULES — RESPONSE NORMALIZATION MAPPING BLUEPRINT — CONTROLLED INTAKE IMPLEMENTATION CHECKLIST</p>
+    <p class="muted">OPERATOR REVIEW ONLY — BLUEPRINT ONLY — FUTURE IMPLEMENTATION ONLY</p>
+    <p class="muted">NO PUBLIC ENDPOINT — NO LIVE INTAKE — NO PUBLIC RESPONSE SUBMISSION — NO REVIEWER RESPONSE WRITES</p>
+    <p class="muted">NO RESPONSE CAPTURE ENABLED — NO RESPONSE PERSISTENCE ENABLED — NO AUTOMATIC IMPORT — NO EMAIL SENDING</p>
+    <p class="muted">NO REVIEWER CONTACT — NO AUTOMATED OUTREACH — NO LIVE WRITES — NO PUBLIC WRITES — NO TOKEN INPUT — NO SECRETS EXPOSED</p>
+    <p class="muted">SERVICE ROLE NOT USED — UPDATE DELETE EXECUTE BLOCKED — AUTOMATION STILL DISABLED</p>
+    <p class="muted">NEXT_STEP_BUILD_OPERATOR_CONTROLLED_RESPONSE_IMPORT_DRY_RUN — NOT_READY_FOR_REAL_AUTOMATION</p>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card" id="mvp41-blueprint-panel">
+      <div class="card-head"><h3 class="card-title">Controlled Reviewer Response Intake Blueprint</h3><span class="badge success">BLUEPRINT</span></div>
+      <p class="card-body">Blueprint-only model for a future controlled reviewer response intake workflow.</p>
+      <ul class="action-list">
+        <li><span class="badge pass">done</span> Controlled reviewer response intake blueprint</li>
+        <li><span class="badge pass">done</span> Intake route design proposal</li>
+        <li><span class="badge pass">done</span> Manual reviewer response import path</li>
+        <li><span class="badge pass">done</span> Operator approval gate blueprint</li>
+        <li><span class="badge pass">done</span> Reviewer response validation rules</li>
+        <li><span class="badge pass">done</span> Response normalization mapping blueprint</li>
+        <li><span class="badge pass">done</span> Controlled intake implementation checklist</li>
+      </ul>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp41-copy-intake-blueprint">Copy Intake Blueprint</button>
+        <button type="button" class="copy-button small" id="mvp41-copy-route-design">Copy Route Design Proposal</button>
+        <button type="button" class="copy-button small" id="mvp41-copy-manual-import">Copy Manual Import Path</button>
+      </div>
+    </article>
+
+    <article class="card" id="mvp41-governance-panel">
+      <div class="card-head"><h3 class="card-title">Operator Approval Gate Blueprint</h3><span class="badge warning">GATE</span></div>
+      <p class="card-body">Operator approval gating is blueprint-only and not connected to any live intake or mutation path.</p>
+      <ul class="compact-list">
+        <li>Manual intake review</li>
+        <li>Operator approval required</li>
+        <li>Response validation before mapping</li>
+        <li>Normalization before operator handoff</li>
+        <li>Dry-run implementation only</li>
+      </ul>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp41-copy-approval-gate">Copy Approval Gate Blueprint</button>
+        <button type="button" class="copy-button small" id="mvp41-copy-validation-rules">Copy Validation Rules</button>
+        <button type="button" class="copy-button small" id="mvp41-copy-normalization-mapping">Copy Normalization Mapping</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card" id="mvp41-implementation-checklist-panel">
+      <div class="card-head"><h3 class="card-title">Controlled Intake Implementation Checklist</h3><span class="badge info">CHECKLIST</span></div>
+      <p class="card-body">Implementation work is documented as a checklist only.</p>
+      <ul class="compact-list">
+        <li>Define intake route design</li>
+        <li>Define manual import path</li>
+        <li>Define approval gate workflow</li>
+        <li>Define response validation rules</li>
+        <li>Define normalization mapping</li>
+        <li>Implement dry-run intake later</li>
+      </ul>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp41-copy-implementation-checklist">Copy Implementation Checklist</button>
+      </div>
+    </article>
+
+    <article class="card" id="mvp41-safety-panel">
+      <div class="card-head"><h3 class="card-title">Blueprint Safety Requirements</h3><span class="badge warning">SAFETY</span></div>
+      <p class="card-body">No public endpoint, no live intake, and no response persistence are enabled in this build.</p>
+      <ul class="compact-list">
+        <li>NO PUBLIC ENDPOINT</li>
+        <li>NO LIVE INTAKE</li>
+        <li>NO PUBLIC RESPONSE SUBMISSION</li>
+        <li>NO REVIEWER RESPONSE WRITES</li>
+        <li>NO RESPONSE CAPTURE ENABLED</li>
+        <li>NO RESPONSE PERSISTENCE ENABLED</li>
+        <li>NO AUTOMATIC IMPORT</li>
+        <li>NO EMAIL SENDING</li>
+      </ul>
+    </article>
+  </div>
+
+  <div class="table-wrap">
+    <table class="data-table">
+      <caption>MVP-41 safety posture audit</caption>
+      <thead>
+        <tr><th scope="col">Control</th><th scope="col">Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Public endpoint</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Live intake</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Public response submission</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Reviewer response writes</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Response capture</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Response persistence</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Automatic import</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Email sending</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Reviewer contact</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Automated outreach</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Live writes</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Public writes</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Token input</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Service role used</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Update/delete/approve/execute</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Automation enabled</td><td><span class="badge pass">FALSE</span></td></tr>
+        <tr><td>Deploy/merge/push controls</td><td><span class="badge pass">FALSE</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+      </div>
+    </details>
+    
+    </div>\n<div class="tab-pane" id="view-archive" style="display: none;">
+      <h2 style="margin-bottom:1rem;">Archive / Full Audit Trail</h2>
+      <div style="margin-bottom:1rem;">
+         <label>Filter Archive: </label>
+         <select id="archive-filter" onchange="filterArchive(this.value)" style="padding:0.3rem; border-radius:4px; border:1px solid var(--stroke); background:var(--card); color:var(--text);">
+           <option value="all">All</option>
+           <option value="original">Original Phases</option>
+           <option value="mvp1-10">MVP 1-10</option>
+           <option value="mvp11-20">MVP 11-20</option>
+           <option value="mvp21-30">MVP 21-30</option>
+           <option value="mvp31-40">MVP 31-40</option>
+         </select>
+      </div>
+      <div id="archive-content">
     <section class="safety-banner sticky-status" aria-label="Read-Only Operations Dashboard safety banner">
       <strong>READ-ONLY DASHBOARD</strong>
       <span>BACKEND ACTIONS DISABLED</span>
@@ -29,8 +369,7 @@
       <span>NO MERGE CONTROLS</span>
       <span>NO SECRET ACCESS</span>
     </section>
-    
-<section class="landing-shell" aria-label="Dashboard landing screen"><div class="landing-head"><p class="eyebrow">Command Center Overview</p><h2>Production Presentation & Safety Review</h2><p class="lede">Review the core project roadmap, safety boundaries, static schema previews, readiness QA, and backend boundary blueprints. Technical audits and raw session data are available in the sections below.</p></div><div class="landing-cards">
+    \n<section class="landing-shell" aria-label="Dashboard landing screen"><div class="landing-head"><p class="eyebrow">Command Center Overview</p><h2>Production Presentation & Safety Review</h2><p class="lede">Review the core project roadmap, safety boundaries, static schema previews, readiness QA, and backend boundary blueprints. Technical audits and raw session data are available in the sections below.</p></div><div class="landing-cards">
     <article class="card">
       <div class="card-head">
         <h3 class="card-title">Phase 1 status</h3>
@@ -75,9 +414,8 @@
       <p class="card-body">Ready for backend architecture blueprint review. Future backend integration remains a later phase.</p>
       
     </article>
-    </div><div class="landing-actions"><h3>Jump to section</h3><div class="section-grid"><button type="button" class="section-button" data-open-panel="roadmap-reanchor" aria-controls="roadmap-reanchor">Roadmap Re-Anchor</button><button type="button" class="section-button" data-open-panel="safety-boundary" aria-controls="safety-boundary">Safety Boundary</button><button type="button" class="section-button" data-open-panel="phase4d-strategic-preview" aria-controls="phase4d-strategic-preview">Phase 4D Preview</button><button type="button" class="section-button" data-open-panel="action-registry" aria-controls="action-registry">Action Registry</button><button type="button" class="section-button" data-open-panel="reports-library" aria-controls="reports-library">Reports Library</button><button type="button" class="section-button" data-open-panel="validator-command-center" aria-controls="validator-command-center">Validator Center</button><button type="button" class="section-button" data-open-panel="status-snapshot-panel" aria-controls="status-snapshot-panel">Status Snapshot</button><button type="button" class="section-button" data-open-panel="backend-status-panel" aria-controls="backend-status-panel">Backend Status</button><button type="button" class="section-button" data-open-panel="phase5a-workflow-shell" aria-controls="phase5a-workflow-shell">Phase 5A Workflow Shell</button><button type="button" class="section-button" data-open-panel="phase5b-packet-builder" aria-controls="phase5b-packet-builder">Phase 5B Packet Builder</button><button type="button" class="section-button" data-open-panel="phase5c-review-board" aria-controls="phase5c-review-board">Phase 5C Review Board</button><button type="button" class="section-button" data-open-panel="phase5d-handoff-composer" aria-controls="phase5d-handoff-composer">Phase 5D Handoff Composer</button><button type="button" class="section-button" data-open-panel="phase5e-runbook-simulator" aria-controls="phase5e-runbook-simulator">Phase 5E Runbook Simulator</button><button type="button" class="section-button" data-open-panel="plus1-controlled-automation-readiness-layer" aria-controls="plus1-controlled-automation-readiness-layer">Original +1 Readiness Layer</button><button type="button" class="section-button" data-open-panel="plus1b-operator-console-contract-layer" aria-controls="plus1b-operator-console-contract-layer">Original +1B Contract Layer</button><button type="button" class="section-button" data-open-panel="plus1c-readiness-scoring-contract-qa" aria-controls="plus1c-readiness-scoring-contract-qa">Original +1C Readiness QA Layer</button><button type="button" class="section-button" data-open-panel="plus1d-backend-boundary-blueprint" aria-controls="plus1d-backend-boundary-blueprint">Original +1D Blueprint Layer</button><button type="button" class="section-button" data-open-panel="plus1e-backend-implementation-gate" aria-controls="plus1e-backend-implementation-gate">Original +1E Implementation Gate</button><button type="button" class="section-button" data-open-panel="plus2a-backend-auth-foundation" aria-controls="plus2a-backend-auth-foundation">Original +2A Auth Foundation</button><button type="button" class="section-button" data-open-panel="plus2b-persistent-request-storage" aria-controls="plus2b-persistent-request-storage">Original +2B Request Storage</button><button type="button" class="section-button" data-open-panel="plus2c-immutable-audit-log" aria-controls="plus2c-immutable-audit-log">Original +2C Audit Log</button><button type="button" class="section-button" data-open-panel="plus2d-approval-gate-storage" aria-controls="plus2d-approval-gate-storage">Original +2D Approval Gate</button><button type="button" class="section-button" data-open-panel="plus2e-server-side-dry-run-engine" aria-controls="plus2e-server-side-dry-run-engine">Original +2E Dry-Run Engine</button><button type="button" class="section-button" data-open-panel="mvp1-request-lifecycle-runtime" aria-controls="mvp1-request-lifecycle-runtime">MVP-1 Request Lifecycle Runtime</button><button type="button" class="section-button" data-open-panel="mvp2-local-durable-request-persistence" aria-controls="mvp2-local-durable-request-persistence">MVP-2 Local Durable Persistence</button><button type="button" class="section-button" data-open-panel="mvp3-supabase-provider" aria-controls="mvp3-supabase-provider">MVP-3 Supabase Provider</button><button type="button" class="section-button" data-open-panel="mvp4-supabase-auth-rls" aria-controls="mvp4-supabase-auth-rls">MVP-4 Supabase Auth + RLS</button><button type="button" class="section-button" data-open-panel="mvp5-supabase-migration-readiness-authenticated-reads" aria-controls="mvp5-supabase-migration-readiness-authenticated-reads">MVP-5 Migration Readiness</button><button type="button" class="section-button" data-open-panel="mvp6-controlled-migration-authenticated-reads" aria-controls="mvp6-controlled-migration-authenticated-reads">MVP-6 Controlled Migration Apply</button><button type="button" class="section-button" data-open-panel="mvp7-real-authenticated-supabase-request-reads" aria-controls="mvp7-real-authenticated-supabase-request-reads">MVP-7 Real Authenticated Reads</button><button type="button" class="section-button" data-open-panel="mvp8-controlled-authenticated-request-create" aria-controls="mvp8-controlled-authenticated-request-create">MVP-8 Controlled Request Create</button><button type="button" class="section-button" data-open-panel="mvp9-request-detail-lifecycle-timeline" aria-controls="mvp9-request-detail-lifecycle-timeline">MVP-9 Request Detail + Lifecycle</button><button type="button" class="section-button" data-open-panel="mvp10-operator-workspace-ui" aria-controls="mvp10-operator-workspace-ui">MVP-10 Operator Workspace</button><button type="button" class="section-button" data-open-panel="mvp11-token-aware-workspace-polish" aria-controls="mvp11-token-aware-workspace-polish">MVP-11 Workspace Polish</button><button type="button" class="section-button" data-open-panel="mvp12-controlled-lifecycle-event-creation" aria-controls="mvp12-controlled-lifecycle-event-creation">MVP-12 Lifecycle Event Creation</button><button type="button" class="section-button" data-open-panel="mvp13-request-activity-safe-errors" aria-controls="mvp13-request-activity-safe-errors">MVP-13 Activity Feed + Safe Errors</button><button type="button" class="section-button" data-open-panel="mvp14-manual-live-workspace-test-harness" aria-controls="mvp14-manual-live-workspace-test-harness">MVP-14 Manual Live Test Harness</button><button type="button" class="section-button" data-open-panel="mvp15-live-test-demo-pitch" aria-controls="mvp15-live-test-demo-pitch">MVP-15 Live Test + Demo Pitch</button><button type="button" class="section-button" data-open-panel="mvp16-live-results-demo-package" aria-controls="mvp16-live-results-demo-package">MVP-16 Live Results + Demo Package</button><button type="button" class="section-button" data-open-panel="mvp17-external-demo-package" aria-controls="mvp17-external-demo-package">MVP-17 External Demo Package</button><button type="button" class="section-button" data-open-panel="mvp18-share-ready-external-review" aria-controls="mvp18-share-ready-external-review">MVP-18 External Review Portal</button><button type="button" class="section-button" data-open-panel="mvp19-external-feedback" aria-controls="mvp19-external-feedback">MVP-19 External Feedback Intake</button><button type="button" class="section-button" data-open-panel="mvp20-manual-feedback-review" aria-controls="mvp20-manual-feedback-review">MVP-20 Manual Feedback Review</button><button type="button" class="section-button" data-open-panel="mvp21-safe-feedback-persistence" aria-controls="mvp21-safe-feedback-persistence">MVP-21 Safe Feedback Persistence</button><button type="button" class="section-button" data-open-panel="mvp22-controlled-feedback-write" aria-controls="mvp22-controlled-feedback-write">MVP-22 Controlled Feedback Write</button><button type="button" class="section-button" data-open-panel="mvp23-token-gated-smoke-test" aria-controls="mvp23-token-gated-smoke-test">MVP-23 Token-Gated Smoke Test</button><button type="button" class="section-button" data-open-panel="artifact-packages" aria-controls="artifact-packages">Artifacts</button><button type="button" class="section-button" data-open-panel="source-transparency" aria-controls="source-transparency">Source Info</button><button type="button" class="section-button" data-open-panel="session-audit" aria-controls="session-audit">Audit / Session</button></div></div></section>
-
-    <details class="panel" data-section-group="source" open id="safety-boundary">
+    </div><div class="landing-actions"><h3>Jump to section</h3><div class="section-grid"><button type="button" class="section-button" data-open-panel="roadmap-reanchor" aria-controls="roadmap-reanchor">Roadmap Re-Anchor</button><button type="button" class="section-button" data-open-panel="safety-boundary" aria-controls="safety-boundary">Safety Boundary</button><button type="button" class="section-button" data-open-panel="phase4d-strategic-preview" aria-controls="phase4d-strategic-preview">Phase 4D Preview</button><button type="button" class="section-button" data-open-panel="action-registry" aria-controls="action-registry">Action Registry</button><button type="button" class="section-button" data-open-panel="reports-library" aria-controls="reports-library">Reports Library</button><button type="button" class="section-button" data-open-panel="validator-command-center" aria-controls="validator-command-center">Validator Center</button><button type="button" class="section-button" data-open-panel="status-snapshot-panel" aria-controls="status-snapshot-panel">Status Snapshot</button><button type="button" class="section-button" data-open-panel="backend-status-panel" aria-controls="backend-status-panel">Backend Status</button><button type="button" class="section-button" data-open-panel="phase5a-workflow-shell" aria-controls="phase5a-workflow-shell">Phase 5A Workflow Shell</button><button type="button" class="section-button" data-open-panel="phase5b-packet-builder" aria-controls="phase5b-packet-builder">Phase 5B Packet Builder</button><button type="button" class="section-button" data-open-panel="phase5c-review-board" aria-controls="phase5c-review-board">Phase 5C Review Board</button><button type="button" class="section-button" data-open-panel="phase5d-handoff-composer" aria-controls="phase5d-handoff-composer">Phase 5D Handoff Composer</button><button type="button" class="section-button" data-open-panel="phase5e-runbook-simulator" aria-controls="phase5e-runbook-simulator">Phase 5E Runbook Simulator</button><button type="button" class="section-button" data-open-panel="plus1-controlled-automation-readiness-layer" aria-controls="plus1-controlled-automation-readiness-layer">Original +1 Readiness Layer</button><button type="button" class="section-button" data-open-panel="plus1b-operator-console-contract-layer" aria-controls="plus1b-operator-console-contract-layer">Original +1B Contract Layer</button><button type="button" class="section-button" data-open-panel="plus1c-readiness-scoring-contract-qa" aria-controls="plus1c-readiness-scoring-contract-qa">Original +1C Readiness QA Layer</button><button type="button" class="section-button" data-open-panel="plus1d-backend-boundary-blueprint" aria-controls="plus1d-backend-boundary-blueprint">Original +1D Blueprint Layer</button><button type="button" class="section-button" data-open-panel="plus1e-backend-implementation-gate" aria-controls="plus1e-backend-implementation-gate">Original +1E Implementation Gate</button><button type="button" class="section-button" data-open-panel="plus2a-backend-auth-foundation" aria-controls="plus2a-backend-auth-foundation">Original +2A Auth Foundation</button><button type="button" class="section-button" data-open-panel="plus2b-persistent-request-storage" aria-controls="plus2b-persistent-request-storage">Original +2B Request Storage</button><button type="button" class="section-button" data-open-panel="plus2c-immutable-audit-log" aria-controls="plus2c-immutable-audit-log">Original +2C Audit Log</button><button type="button" class="section-button" data-open-panel="plus2d-approval-gate-storage" aria-controls="plus2d-approval-gate-storage">Original +2D Approval Gate</button><button type="button" class="section-button" data-open-panel="plus2e-server-side-dry-run-engine" aria-controls="plus2e-server-side-dry-run-engine">Original +2E Dry-Run Engine</button><button type="button" class="section-button" data-open-panel="mvp1-request-lifecycle-runtime" aria-controls="mvp1-request-lifecycle-runtime">MVP-1 Request Lifecycle Runtime</button><button type="button" class="section-button" data-open-panel="mvp2-local-durable-request-persistence" aria-controls="mvp2-local-durable-request-persistence">MVP-2 Local Durable Persistence</button><button type="button" class="section-button" data-open-panel="mvp3-supabase-provider" aria-controls="mvp3-supabase-provider">MVP-3 Supabase Provider</button><button type="button" class="section-button" data-open-panel="mvp4-supabase-auth-rls" aria-controls="mvp4-supabase-auth-rls">MVP-4 Supabase Auth + RLS</button><button type="button" class="section-button" data-open-panel="mvp5-supabase-migration-readiness-authenticated-reads" aria-controls="mvp5-supabase-migration-readiness-authenticated-reads">MVP-5 Migration Readiness</button><button type="button" class="section-button" data-open-panel="mvp6-controlled-migration-authenticated-reads" aria-controls="mvp6-controlled-migration-authenticated-reads">MVP-6 Controlled Migration Apply</button><button type="button" class="section-button" data-open-panel="mvp7-real-authenticated-supabase-request-reads" aria-controls="mvp7-real-authenticated-supabase-request-reads">MVP-7 Real Authenticated Reads</button><button type="button" class="section-button" data-open-panel="mvp8-controlled-authenticated-request-create" aria-controls="mvp8-controlled-authenticated-request-create">MVP-8 Controlled Request Create</button><button type="button" class="section-button" data-open-panel="mvp9-request-detail-lifecycle-timeline" aria-controls="mvp9-request-detail-lifecycle-timeline">MVP-9 Request Detail + Lifecycle</button><button type="button" class="section-button" data-open-panel="mvp10-operator-workspace-ui" aria-controls="mvp10-operator-workspace-ui">MVP-10 Operator Workspace</button><button type="button" class="section-button" data-open-panel="mvp11-token-aware-workspace-polish" aria-controls="mvp11-token-aware-workspace-polish">MVP-11 Workspace Polish</button><button type="button" class="section-button" data-open-panel="mvp12-controlled-lifecycle-event-creation" aria-controls="mvp12-controlled-lifecycle-event-creation">MVP-12 Lifecycle Event Creation</button><button type="button" class="section-button" data-open-panel="mvp13-request-activity-safe-errors" aria-controls="mvp13-request-activity-safe-errors">MVP-13 Activity Feed + Safe Errors</button><button type="button" class="section-button" data-open-panel="mvp14-manual-live-workspace-test-harness" aria-controls="mvp14-manual-live-workspace-test-harness">MVP-14 Manual Live Test Harness</button><button type="button" class="section-button" data-open-panel="mvp15-live-test-demo-pitch" aria-controls="mvp15-live-test-demo-pitch">MVP-15 Live Test + Demo Pitch</button><button type="button" class="section-button" data-open-panel="mvp16-live-results-demo-package" aria-controls="mvp16-live-results-demo-package">MVP-16 Live Results + Demo Package</button><button type="button" class="section-button" data-open-panel="mvp17-external-demo-package" aria-controls="mvp17-external-demo-package">MVP-17 External Demo Package</button><button type="button" class="section-button" data-open-panel="mvp18-share-ready-external-review" aria-controls="mvp18-share-ready-external-review">MVP-18 External Review Portal</button><button type="button" class="section-button" data-open-panel="mvp19-external-feedback" aria-controls="mvp19-external-feedback">MVP-19 External Feedback Intake</button><button type="button" class="section-button" data-open-panel="mvp20-manual-feedback-review" aria-controls="mvp20-manual-feedback-review">MVP-20 Manual Feedback Review</button><button type="button" class="section-button" data-open-panel="mvp21-safe-feedback-persistence" aria-controls="mvp21-safe-feedback-persistence">MVP-21 Safe Feedback Persistence</button><button type="button" class="section-button" data-open-panel="mvp22-controlled-feedback-write" aria-controls="mvp22-controlled-feedback-write">MVP-22 Controlled Feedback Write</button><button type="button" class="section-button" data-open-panel="mvp23-token-gated-smoke-test" aria-controls="mvp23-token-gated-smoke-test">MVP-23 Token-Gated Smoke Test</button><button type="button" class="section-button" data-open-panel="artifact-packages" aria-controls="artifact-packages">Artifacts</button><button type="button" class="section-button" data-open-panel="source-transparency" aria-controls="source-transparency">Source Info</button><button type="button" class="section-button" data-open-panel="session-audit" aria-controls="session-audit">Audit / Session</button></div></div></section>\n
+    <details class="panel" data-section-group="source" id="safety-boundary">
       <summary>Safety Boundary Summary</summary>
       <div class="panel-body">
         
@@ -93,9 +431,8 @@
     
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="roadmap-reanchor">
+    \n
+    <details class="panel" data-section-group="source" id="roadmap-reanchor">
       <summary>Roadmap Re-Anchor</summary>
       <div class="panel-body">
         
@@ -119,9 +456,8 @@
     
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="audit" open id="phase4d-strategic-preview">
+    \n
+    <details class="panel" data-section-group="audit" id="phase4d-strategic-preview">
       <summary>Phase 4D Strategic Preview</summary>
       <div class="panel-body">
         <div class="stat-grid">
@@ -251,9 +587,8 @@
     
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="audit" open id="status-snapshot-panel">
+    \n
+    <details class="panel" data-section-group="audit" id="status-snapshot-panel">
       <summary>Static Status Snapshot</summary>
       <div class="panel-body">
         
@@ -275,9 +610,8 @@
     
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="audit" open id="backend-status-panel">
+    \n
+    <details class="panel" data-section-group="audit" id="backend-status-panel">
       <summary>Backend Status</summary>
       <div class="panel-body">
         
@@ -299,9 +633,8 @@
     
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="phase5a-workflow-shell">
+    \n
+    <details class="panel" data-section-group="source" id="phase5a-workflow-shell">
       <summary>Original Phase 5A — Client-Side Operator Workflow Shell</summary>
       <div class="panel-body">
         
@@ -419,9 +752,8 @@
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="phase5b-packet-builder">
+    \n
+    <details class="panel" data-section-group="source" id="phase5b-packet-builder">
       <summary>Original Phase 5B — Client-Side Operator Request Packet Builder</summary>
       <div class="panel-body">
         
@@ -514,9 +846,8 @@
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="phase5c-review-board">
+    \n
+    <details class="panel" data-section-group="source" id="phase5c-review-board">
       <summary>Original Phase 5C — Client-Side Operator Review Board &amp; Decision Ledger</summary>
       <div class="panel-body">
         
@@ -693,9 +1024,8 @@
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="phase5d-handoff-composer">
+    \n
+    <details class="panel" data-section-group="source" id="phase5d-handoff-composer">
       <summary>Original Phase 5D — Client-Side Operator Handoff Composer</summary>
       <div class="panel-body">
         
@@ -864,9 +1194,8 @@
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="phase5e-runbook-simulator">
+    \n
+    <details class="panel" data-section-group="source" id="phase5e-runbook-simulator">
       <summary>Original Phase 5E — Client-Side End-to-End Operator Runbook &amp; Scenario Simulator</summary>
       <div class="panel-body">
         
@@ -996,9 +1325,8 @@
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="plus1-controlled-automation-readiness-layer">
+    \n
+    <details class="panel" data-section-group="source" id="plus1-controlled-automation-readiness-layer">
       <summary>Original +1 — Controlled Automation Readiness Layer</summary>
       <div class="panel-body">
         
@@ -1210,9 +1538,8 @@
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="plus1b-operator-console-contract-layer">
+    \n
+    <details class="panel" data-section-group="source" id="plus1b-operator-console-contract-layer">
       <summary>Original +1B — Operator Console Consolidation &amp; Automation Contract Layer</summary>
       <div class="panel-body">
         
@@ -1322,9 +1649,8 @@
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="plus1c-readiness-scoring-contract-qa">
+    \n
+    <details class="panel" data-section-group="source" id="plus1c-readiness-scoring-contract-qa">
       <summary>Original +1C — Readiness Scoring, Contract QA &amp; No-Go Decision Layer</summary>
       <div class="panel-body">
         
@@ -1436,9 +1762,8 @@
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="plus1d-backend-boundary-blueprint">
+    \n
+    <details class="panel" data-section-group="source" id="plus1d-backend-boundary-blueprint">
       <summary>Original +1D — Backend Boundary Blueprint &amp; Real Automation Dependency Map</summary>
       <div class="panel-body">
         
@@ -1614,9 +1939,8 @@
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="plus1e-backend-implementation-gate">
+    \n
+    <details class="panel" data-section-group="source" id="plus1e-backend-implementation-gate">
       <summary>Original +1E — Backend Implementation Gate &amp; Build Ticket Generator</summary>
       <div class="panel-body">
         
@@ -1775,9 +2099,8 @@
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="plus2a-backend-auth-foundation">
+    \n
+    <details class="panel" data-section-group="source" id="plus2a-backend-auth-foundation">
       <summary>Original +2A — Backend Auth Foundation</summary>
       <div class="panel-body">
         
@@ -1905,9 +2228,8 @@
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="plus2b-persistent-request-storage">
+    \n
+    <details class="panel" data-section-group="source" id="plus2b-persistent-request-storage">
       <summary>Original +2B — Persistent Request Storage Foundation</summary>
       <div class="panel-body">
         
@@ -2027,9 +2349,8 @@
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="plus2c-immutable-audit-log">
+    \n
+    <details class="panel" data-section-group="source" id="plus2c-immutable-audit-log">
       <summary>Original +2C — Immutable Audit Log Foundation</summary>
       <div class="panel-body">
         
@@ -2174,9 +2495,8 @@
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="plus2d-approval-gate-storage">
+    \n
+    <details class="panel" data-section-group="source" id="plus2d-approval-gate-storage">
       <summary>Original +2D — Approval Gate Storage Foundation</summary>
       <div class="panel-body">
         
@@ -2333,9 +2653,8 @@
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="plus2e-server-side-dry-run-engine">
+    \n
+    <details class="panel" data-section-group="source" id="plus2e-server-side-dry-run-engine">
       <summary>Original +2E — Server-Side Dry-Run Engine Foundation</summary>
       <div class="panel-body">
         
@@ -2497,9 +2816,8 @@
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="mvp1-request-lifecycle-runtime">
+    \n
+    <details class="panel" data-section-group="source" id="mvp1-request-lifecycle-runtime">
       <summary>MVP-1 — Request Lifecycle Runtime + Persistence Scaffold</summary>
       <div class="panel-body">
         
@@ -2932,9 +3250,8 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-1 valid
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="mvp2-local-durable-request-persistence">
+    \n
+    <details class="panel" data-section-group="source" id="mvp2-local-durable-request-persistence">
       <summary>MVP-2 — Local Durable Request Persistence Runtime</summary>
       <div class="panel-body">
         
@@ -3146,9 +3463,8 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-2 valid
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="mvp3-supabase-provider-request-api-scaffold">
+    \n
+    <details class="panel" data-section-group="source" id="mvp3-supabase-provider-request-api-scaffold">
       <summary>MVP-3 — Supabase Provider + Request API Scaffold</summary>
       <div class="panel-body">
         
@@ -3497,9 +3813,8 @@ then_build_mvp4_authenticated_request_api">Copy MVP-3 validation checklist</butt
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="mvp4-supabase-auth-rls-authenticated-request-api">
+    \n
+    <details class="panel" data-section-group="source" id="mvp4-supabase-auth-rls-authenticated-request-api">
       <summary>MVP-4 — Supabase Auth + RLS + Authenticated Request API</summary>
       <div class="panel-body">
         
@@ -3775,9 +4090,8 @@ then enable writes only after RLS review">Copy MVP-4 validation checklist</butto
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="mvp5-supabase-migration-readiness-authenticated-reads">
+    \n
+    <details class="panel" data-section-group="source" id="mvp5-supabase-migration-readiness-authenticated-reads">
       <summary>MVP-5 — Supabase Migration Readiness + Authenticated Reads</summary>
       <div class="panel-body">
         
@@ -4029,9 +4343,8 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-5 valid
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="mvp6-controlled-migration-authenticated-reads">
+    \n
+    <details class="panel" data-section-group="source" id="mvp6-controlled-migration-authenticated-reads">
       <summary>MVP-6 — Controlled Supabase Migration + Authenticated Reads</summary>
       <div class="panel-body">
         
@@ -4302,9 +4615,8 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-6 valid
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="mvp7-real-authenticated-supabase-request-reads">
+    \n
+    <details class="panel" data-section-group="source" id="mvp7-real-authenticated-supabase-request-reads">
       <summary>MVP-7 — Real Authenticated Supabase Request Reads</summary>
       <div class="panel-body">
         
@@ -4428,9 +4740,8 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-7 valid
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="mvp8-controlled-authenticated-request-create">
+    \n
+    <details class="panel" data-section-group="source" id="mvp8-controlled-authenticated-request-create">
       <summary>MVP-8 — Controlled Authenticated Request Create Writes</summary>
       <div class="panel-body">
         
@@ -4545,9 +4856,8 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-8 valid
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="mvp9-request-detail-lifecycle-timeline">
+    \n
+    <details class="panel" data-section-group="source" id="mvp9-request-detail-lifecycle-timeline">
       <summary>MVP-9 — Request Detail UI + Lifecycle Timeline</summary>
       <div class="panel-body">
         
@@ -4680,9 +4990,8 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-9 valid
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="mvp10-operator-workspace-ui">
+    \n
+    <details class="panel" data-section-group="source" id="mvp10-operator-workspace-ui">
       <summary>MVP-10 — Operator Request Workspace UI</summary>
       <div class="panel-body">
         
@@ -4784,9 +5093,8 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-10 vali
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="mvp11-token-aware-workspace-polish">
+    \n
+    <details class="panel" data-section-group="source" id="mvp11-token-aware-workspace-polish">
       <summary>MVP-11 — Token-Aware Workspace + Request Workflow Polish</summary>
       <div class="panel-body">
         
@@ -4889,9 +5197,8 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-11 vali
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="mvp12-controlled-lifecycle-event-creation">
+    \n
+    <details class="panel" data-section-group="source" id="mvp12-controlled-lifecycle-event-creation">
       <summary>MVP-12 — Controlled Lifecycle Event Creation + Timeline Refresh</summary>
       <div class="panel-body">
         
@@ -5008,9 +5315,8 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-12 vali
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="mvp13-request-activity-safe-errors">
+    \n
+    <details class="panel" data-section-group="source" id="mvp13-request-activity-safe-errors">
       <summary>MVP-13 — Request Activity Feed + Safe Error UX</summary>
       <div class="panel-body">
         
@@ -5127,9 +5433,8 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-13 vali
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="mvp14-manual-live-workspace-test-harness">
+    \n
+    <details class="panel" data-section-group="source" id="mvp14-manual-live-workspace-test-harness">
       <summary>MVP-14 — Manual Live Workspace Test Harness + Demo Readiness</summary>
       <div class="panel-body">
         
@@ -5255,9 +5560,8 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-14 vali
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="mvp15-live-test-demo-pitch">
+    \n
+    <details class="panel" data-section-group="source" id="mvp15-live-test-demo-pitch">
       <summary>MVP-15 — Live Test Execution + Demo Pitch Flow</summary>
       <div class="panel-body">
         
@@ -5356,9 +5660,8 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-15 vali
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="mvp16-live-results-demo-package">
+    \n
+    <details class="panel" data-section-group="source" id="mvp16-live-results-demo-package">
       <summary>MVP-16 — Live Test Results + Demo Pitch Package</summary>
       <div class="panel-body">
         
@@ -5452,9 +5755,8 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-16 vali
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="mvp17-external-demo-package">
+    \n
+    <details class="panel" data-section-group="source" id="mvp17-external-demo-package">
       <summary>MVP-17 — External Demo Package + Pitch Assets</summary>
       <div class="panel-body">
         
@@ -5546,9 +5848,8 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-17 vali
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="mvp18-share-ready-external-review">
+    \n
+    <details class="panel" data-section-group="source" id="mvp18-share-ready-external-review">
       <summary>MVP-18 — Share-Ready External Review Portal + Demo Package QA</summary>
       <div class="panel-body">
         
@@ -5639,9 +5940,8 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-18 vali
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="mvp19-external-feedback">
+    \n
+    <details class="panel" data-section-group="source" id="mvp19-external-feedback">
       <summary>MVP-19 — External Feedback Intake + Reviewer Response Capture</summary>
       <div class="panel-body">
         
@@ -5736,9 +6036,8 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-19 vali
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="mvp20-manual-feedback-review">
+    \n
+    <details class="panel" data-section-group="source" id="mvp20-manual-feedback-review">
       <summary>MVP-20 — Manual Feedback Import + Review Queue</summary>
       <div class="panel-body">
         
@@ -5834,9 +6133,8 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-20 vali
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="mvp21-safe-feedback-persistence">
+    \n
+    <details class="panel" data-section-group="source" id="mvp21-safe-feedback-persistence">
       <summary>MVP-21 — Safe Feedback Persistence Readiness</summary>
       <div class="panel-body">
         
@@ -5932,9 +6230,8 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-21 vali
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="mvp22-controlled-feedback-write">
+    \n
+    <details class="panel" data-section-group="source" id="mvp22-controlled-feedback-write">
       <summary>MVP-22 — Controlled Feedback Import Write</summary>
       <div class="panel-body">
         
@@ -6010,9 +6307,8 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-22 vali
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="mvp23-token-gated-smoke-test">
+    \n
+    <details class="panel" data-section-group="source" id="mvp23-token-gated-smoke-test">
       <summary>MVP-23 — Token-Gated Feedback Import Smoke Test</summary>
       <div class="panel-body">
         
@@ -6091,9 +6387,8 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-23 vali
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="mvp24-beta-feedback-import-workspace">
+    \n
+    <details class="panel" data-section-group="source" id="mvp24-beta-feedback-import-workspace">
       <summary>MVP-24 — Reviewed Beta Feedback Import Workspace</summary>
       <div class="panel-body">
         
@@ -6111,9 +6406,8 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-23 vali
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="mvp25-authenticated-feedback-review-inbox">
+    \n
+    <details class="panel" data-section-group="source" id="mvp25-authenticated-feedback-review-inbox">
       <summary>MVP-25 — Authenticated Feedback Review Inbox</summary>
       <div class="panel-body">
         
@@ -6130,9 +6424,8 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-23 vali
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="mvp26-feedback-synthesis-product-decision-workflow">
+    \n
+    <details class="panel" data-section-group="source" id="mvp26-feedback-synthesis-product-decision-workflow">
       <summary>MVP-26 — Feedback Synthesis + Product Decision Workflow</summary>
       <div class="panel-body">
         
@@ -6150,9 +6443,8 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-23 vali
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="mvp27-feedback-to-request-conversion-workspace">
+    \n
+    <details class="panel" data-section-group="source" id="mvp27-feedback-to-request-conversion-workspace">
       <summary>MVP-27 — Feedback-to-Request Conversion Workspace</summary>
       <div class="panel-body">
         
@@ -6170,9 +6462,8 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-23 vali
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="mvp28-operator-roadmap-prioritization-board">
+    \n
+    <details class="panel" data-section-group="source" id="mvp28-operator-roadmap-prioritization-board">
       <summary>MVP-28 — Operator Roadmap + Prioritization Board</summary>
       <div class="panel-body">
         
@@ -6191,9 +6482,8 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-23 vali
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="mvp29-guided-product-demo-control-room">
+    \n
+    <details class="panel" data-section-group="source" id="mvp29-guided-product-demo-control-room">
       <summary>MVP-29 — Guided Product Demo Control Room</summary>
       <div class="panel-body">
         
@@ -6212,9 +6502,8 @@ python3 scripts/validate_phase5_plus1_master_validator_wall.py">Copy MVP-23 vali
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="mvp30-pitchable-release-package-product-narrative">
+    \n
+    <details class="panel" data-section-group="source" id="mvp30-pitchable-release-package-product-narrative">
       <summary>MVP-30 — Pitchable Release Package + Product Narrative</summary>
       <div class="panel-body">
         
@@ -6294,9 +6583,8 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="mvp31-demo-session-capture-review-loop">
+    \n
+    <details class="panel" data-section-group="source" id="mvp31-demo-session-capture-review-loop">
       <summary>MVP-31 — Demo Session Capture + External Review Feedback Loop</summary>
       <div class="panel-body">
         
@@ -6412,9 +6700,8 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="mvp32-release-review-metrics-signal-dashboard">
+    \n
+    <details class="panel" data-section-group="source" id="mvp32-release-review-metrics-signal-dashboard">
       <summary>MVP-32 — Release Review Metrics + Signal Dashboard</summary>
       <div class="panel-body">
         
@@ -6552,9 +6839,8 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="mvp33-product-launch-readiness-final-pitch-packet">
+    \n
+    <details class="panel" data-section-group="source" id="mvp33-product-launch-readiness-final-pitch-packet">
       <summary>MVP-33 — Product Launch Readiness + Final Pitch Packet</summary>
       <div class="panel-body">
         
@@ -6674,9 +6960,8 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="mvp34-public-release-candidate-review-portal">
+    \n
+    <details class="panel" data-section-group="source" id="mvp34-public-release-candidate-review-portal">
       <summary>MVP-34 — Public Release Candidate Review Portal</summary>
       <div class="panel-body">
         
@@ -6832,8 +7117,7 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
 
       </div>
     </details>
-    
-<details class="panel" data-section-group="source" open id="mvp35-external-review-feedback-summary-outreach-prep">
+    \n<details class="panel" data-section-group="source" id="mvp35-external-review-feedback-summary-outreach-prep">
       <summary>MVP-35 — External Review Feedback Summary + Outreach-Prep Workspace</summary>
       <div class="panel-body">
         
@@ -6968,8 +7252,7 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
 </div>
 
       </div>
-    </details>
-<details class="panel" data-section-group="source" open id="mvp36-review-to-roadmap-decision-sync">
+    </details>\n<details class="panel" data-section-group="source" id="mvp36-review-to-roadmap-decision-sync">
       <summary>MVP-36 — Review-to-Roadmap Decision Sync</summary>
       <div class="panel-body">
         
@@ -7090,8 +7373,7 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
 </div>
 
       </div>
-    </details>
-<details class="panel" data-section-group="source" open id="mvp37-release-candidate-decision-log-handoff">
+    </details>\n<details class="panel" data-section-group="source" id="mvp37-release-candidate-decision-log-handoff">
       <summary>MVP-37 — Release Candidate Decision Log + Handoff</summary>
       <div class="panel-body">
         
@@ -7182,8 +7464,7 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
 </div>
 
       </div>
-    </details>
-<details class="panel" data-section-group="source" open id="mvp38-final-release-review-room-demo-script-lock">
+    </details>\n<details class="panel" data-section-group="source" id="mvp38-final-release-review-room-demo-script-lock">
       <summary>MVP-38 — Final Release Review Room + Demo Script Lock</summary>
       <div class="panel-body">
         
@@ -7286,8 +7567,7 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
 </div>
 
       </div>
-    </details>
-<details class="panel" data-section-group="source" open id="mvp39-external-demo-review-share-package-lock">
+    </details>\n<details class="panel" data-section-group="source" id="mvp39-external-demo-review-share-package-lock">
       <summary>MVP-39 — External Demo Review Share Package Lock</summary>
       <div class="panel-body">
         
@@ -7405,9 +7685,8 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
 </div>
 
       </div>
-    </details>
-
-    <details class="panel" data-section-group="source" open id="mvp40-reviewer-response-capture-readiness-lock">
+    </details>\n
+    <details class="panel" data-section-group="source" id="mvp40-reviewer-response-capture-readiness-lock">
       <summary>MVP-40 — Reviewer Response Capture Readiness Lock</summary>
       <div class="panel-body">
         
@@ -7525,130 +7804,11 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
 
       </div>
     </details>
-    
-
-    <details class="panel" data-section-group="source" open id="mvp41-controlled-reviewer-response-intake-blueprint">
-      <summary>MVP-41 — Controlled Reviewer Response Intake Blueprint</summary>
-      <div class="panel-body">
-        
-<div class="mvp-section" data-mvp="41" data-mvp41-controlled-reviewer-response-intake-blueprint="true">
-  <div class="callout success-callout">
-    <strong style="color: var(--success);">MVP-41</strong>
-    <p class="muted">CONTROLLED REVIEWER RESPONSE INTAKE BLUEPRINT</p>
-    <p class="muted">INTAKE ROUTE DESIGN PROPOSAL — MANUAL REVIEWER RESPONSE IMPORT PATH — OPERATOR APPROVAL GATE BLUEPRINT</p>
-    <p class="muted">REVIEWER RESPONSE VALIDATION RULES — RESPONSE NORMALIZATION MAPPING BLUEPRINT — CONTROLLED INTAKE IMPLEMENTATION CHECKLIST</p>
-    <p class="muted">OPERATOR REVIEW ONLY — BLUEPRINT ONLY — FUTURE IMPLEMENTATION ONLY</p>
-    <p class="muted">NO PUBLIC ENDPOINT — NO LIVE INTAKE — NO PUBLIC RESPONSE SUBMISSION — NO REVIEWER RESPONSE WRITES</p>
-    <p class="muted">NO RESPONSE CAPTURE ENABLED — NO RESPONSE PERSISTENCE ENABLED — NO AUTOMATIC IMPORT — NO EMAIL SENDING</p>
-    <p class="muted">NO REVIEWER CONTACT — NO AUTOMATED OUTREACH — NO LIVE WRITES — NO PUBLIC WRITES — NO TOKEN INPUT — NO SECRETS EXPOSED</p>
-    <p class="muted">SERVICE ROLE NOT USED — UPDATE DELETE EXECUTE BLOCKED — AUTOMATION STILL DISABLED</p>
-    <p class="muted">NEXT_STEP_BUILD_OPERATOR_CONTROLLED_RESPONSE_IMPORT_DRY_RUN — NOT_READY_FOR_REAL_AUTOMATION</p>
-  </div>
-
-  <div class="plus2e-preview-grid">
-    <article class="card" id="mvp41-blueprint-panel">
-      <div class="card-head"><h3 class="card-title">Controlled Reviewer Response Intake Blueprint</h3><span class="badge success">BLUEPRINT</span></div>
-      <p class="card-body">Blueprint-only model for a future controlled reviewer response intake workflow.</p>
-      <ul class="action-list">
-        <li><span class="badge pass">done</span> Controlled reviewer response intake blueprint</li>
-        <li><span class="badge pass">done</span> Intake route design proposal</li>
-        <li><span class="badge pass">done</span> Manual reviewer response import path</li>
-        <li><span class="badge pass">done</span> Operator approval gate blueprint</li>
-        <li><span class="badge pass">done</span> Reviewer response validation rules</li>
-        <li><span class="badge pass">done</span> Response normalization mapping blueprint</li>
-        <li><span class="badge pass">done</span> Controlled intake implementation checklist</li>
-      </ul>
-      <div class="button-row" style="margin-top:0.75rem;">
-        <button type="button" class="copy-button small" id="mvp41-copy-intake-blueprint">Copy Intake Blueprint</button>
-        <button type="button" class="copy-button small" id="mvp41-copy-route-design">Copy Route Design Proposal</button>
-        <button type="button" class="copy-button small" id="mvp41-copy-manual-import">Copy Manual Import Path</button>
-      </div>
-    </article>
-
-    <article class="card" id="mvp41-governance-panel">
-      <div class="card-head"><h3 class="card-title">Operator Approval Gate Blueprint</h3><span class="badge warning">GATE</span></div>
-      <p class="card-body">Operator approval gating is blueprint-only and not connected to any live intake or mutation path.</p>
-      <ul class="compact-list">
-        <li>Manual intake review</li>
-        <li>Operator approval required</li>
-        <li>Response validation before mapping</li>
-        <li>Normalization before operator handoff</li>
-        <li>Dry-run implementation only</li>
-      </ul>
-      <div class="button-row" style="margin-top:0.75rem;">
-        <button type="button" class="copy-button small" id="mvp41-copy-approval-gate">Copy Approval Gate Blueprint</button>
-        <button type="button" class="copy-button small" id="mvp41-copy-validation-rules">Copy Validation Rules</button>
-        <button type="button" class="copy-button small" id="mvp41-copy-normalization-mapping">Copy Normalization Mapping</button>
-      </div>
-    </article>
-  </div>
-
-  <div class="plus2e-preview-grid">
-    <article class="card" id="mvp41-implementation-checklist-panel">
-      <div class="card-head"><h3 class="card-title">Controlled Intake Implementation Checklist</h3><span class="badge info">CHECKLIST</span></div>
-      <p class="card-body">Implementation work is documented as a checklist only.</p>
-      <ul class="compact-list">
-        <li>Define intake route design</li>
-        <li>Define manual import path</li>
-        <li>Define approval gate workflow</li>
-        <li>Define response validation rules</li>
-        <li>Define normalization mapping</li>
-        <li>Implement dry-run intake later</li>
-      </ul>
-      <div class="button-row" style="margin-top:0.75rem;">
-        <button type="button" class="copy-button small" id="mvp41-copy-implementation-checklist">Copy Implementation Checklist</button>
-      </div>
-    </article>
-
-    <article class="card" id="mvp41-safety-panel">
-      <div class="card-head"><h3 class="card-title">Blueprint Safety Requirements</h3><span class="badge warning">SAFETY</span></div>
-      <p class="card-body">No public endpoint, no live intake, and no response persistence are enabled in this build.</p>
-      <ul class="compact-list">
-        <li>NO PUBLIC ENDPOINT</li>
-        <li>NO LIVE INTAKE</li>
-        <li>NO PUBLIC RESPONSE SUBMISSION</li>
-        <li>NO REVIEWER RESPONSE WRITES</li>
-        <li>NO RESPONSE CAPTURE ENABLED</li>
-        <li>NO RESPONSE PERSISTENCE ENABLED</li>
-        <li>NO AUTOMATIC IMPORT</li>
-        <li>NO EMAIL SENDING</li>
-      </ul>
-    </article>
-  </div>
-
-  <div class="table-wrap">
-    <table class="data-table">
-      <caption>MVP-41 safety posture audit</caption>
-      <thead>
-        <tr><th scope="col">Control</th><th scope="col">Value</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>Public endpoint</td><td><span class="badge pass">FALSE</span></td></tr>
-        <tr><td>Live intake</td><td><span class="badge pass">FALSE</span></td></tr>
-        <tr><td>Public response submission</td><td><span class="badge pass">FALSE</span></td></tr>
-        <tr><td>Reviewer response writes</td><td><span class="badge pass">FALSE</span></td></tr>
-        <tr><td>Response capture</td><td><span class="badge pass">FALSE</span></td></tr>
-        <tr><td>Response persistence</td><td><span class="badge pass">FALSE</span></td></tr>
-        <tr><td>Automatic import</td><td><span class="badge pass">FALSE</span></td></tr>
-        <tr><td>Email sending</td><td><span class="badge pass">FALSE</span></td></tr>
-        <tr><td>Reviewer contact</td><td><span class="badge pass">FALSE</span></td></tr>
-        <tr><td>Automated outreach</td><td><span class="badge pass">FALSE</span></td></tr>
-        <tr><td>Live writes</td><td><span class="badge pass">FALSE</span></td></tr>
-        <tr><td>Public writes</td><td><span class="badge pass">FALSE</span></td></tr>
-        <tr><td>Token input</td><td><span class="badge pass">FALSE</span></td></tr>
-        <tr><td>Service role used</td><td><span class="badge pass">FALSE</span></td></tr>
-        <tr><td>Update/delete/approve/execute</td><td><span class="badge pass">FALSE</span></td></tr>
-        <tr><td>Automation enabled</td><td><span class="badge pass">FALSE</span></td></tr>
-        <tr><td>Deploy/merge/push controls</td><td><span class="badge pass">FALSE</span></td></tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-      </div>
-    </details>
-    
-
+    </div>
+    </div>\n<div class="tab-pane" id="view-developer" style="display: none;">
+      <h2 style="margin-bottom:1rem;">Developer / Validator View</h2>
+      <div class="callout" style="margin-bottom:1.5rem; border-color:var(--warning);"><p class="muted">Developer view contains internal build/audit details and is not the recommended starting point for external reviewers.</p></div>
+      
     <details class="panel" data-section-group="registry" id="action-registry">
       <summary>Action Registry</summary>
       <div class="panel-body">
@@ -7701,8 +7861,7 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
     
       </div>
     </details>
-    
-
+    \n
     <details class="panel" data-section-group="reports" id="reports-library">
       <summary>Reports Library</summary>
       <div class="panel-body">
@@ -7731,8 +7890,7 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
     
       </div>
     </details>
-    
-
+    \n
     <details class="panel" data-section-group="audit" id="validator-command-center">
       <summary>Validator Command Center</summary>
       <div class="panel-body">
@@ -7803,8 +7961,7 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
     
       </div>
     </details>
-    
-
+    \n
     <details class="panel" data-section-group="registry" id="artifact-packages">
       <summary>Artifact Deep Dive</summary>
       <div class="panel-body">
@@ -7858,15 +8015,14 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
     
       </div>
     </details>
-    
-
+    \n
     <details class="panel" data-section-group="source" id="source-transparency">
       <summary>Source Transparency</summary>
       <div class="panel-body">
         <div class="stat-grid">
     <div class="stat">
       <span>Generated at</span>
-      <strong>2026-05-18T00:49:06Z</strong>
+      <strong>2026-05-18T18:09:27Z</strong>
       
     </div>
     
@@ -7900,8 +8056,7 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
     
       </div>
     </details>
-    
-
+    \n
     <details class="panel" data-section-group="source" id="compare-phases">
       <summary>Compare Phases</summary>
       <div class="panel-body">
@@ -7918,8 +8073,7 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
     
       </div>
     </details>
-    
-
+    \n
     <details class="panel" data-section-group="audit" id="branch-review">
       <summary>Branch Review</summary>
       <div class="panel-body">
@@ -7994,8 +8148,7 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
     
       </div>
     </details>
-    
-
+    \n
     <details class="panel" data-section-group="audit" id="approval-ledger">
       <summary>Approval Ledger</summary>
       <div class="panel-body">
@@ -8032,8 +8185,7 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
     </div><ul class="compact-list"><li><code>2026-05-11T23:28:02.607534+00:00</code> - PKT-VALIDATOR_WALL-20260511-232801 - reviewed - execution_performed=False</li><li><code>2026-05-11T23:28:02.831996+00:00</code> - PKT-VALIDATOR_WALL-20260511-232801 - rejected_by_operator - execution_performed=False</li><li><code>2026-05-11T23:28:03.056675+00:00</code> - PKT-VALIDATOR_WALL-20260511-232801 - approved_by_operator - execution_performed=False</li><li><code>2026-05-11T23:28:03.278304+00:00</code> - PKT-VALIDATOR_WALL-20260511-232801 - rejected_by_operator - execution_performed=False</li><li><code>2026-05-11T23:28:14.071126+00:00</code> - PKT-VALIDATOR_WALL-20260511-232812 - reviewed - execution_performed=False</li><li><code>2026-05-11T23:28:14.309064+00:00</code> - PKT-VALIDATOR_WALL-20260511-232812 - rejected_by_operator - execution_performed=False</li><li><code>2026-05-11T23:28:14.555990+00:00</code> - PKT-VALIDATOR_WALL-20260511-232812 - approved_by_operator - execution_performed=False</li><li><code>2026-05-11T23:28:14.801194+00:00</code> - PKT-VALIDATOR_WALL-20260511-232812 - rejected_by_operator - execution_performed=False</li></ul>
       </div>
     </details>
-    
-
+    \n
     <details class="panel" data-section-group="audit" id="session-audit">
       <summary>Audit / Session Data</summary>
       <div class="panel-body">
@@ -8065,7 +8217,7 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
       </div>
     </details>
     
-
+    </div>\n
     <footer class="footer">
       <p>Generated statically. Static files. Backend integration is planned for a later phase and is intentionally not included in this static dashboard build. No secrets used. No commands executed except dashboard build/validation.</p>
     </footer>
@@ -8073,8 +8225,8 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
     </main>
   </div>
   <script type="application/json" id="dashboard-data">{
-  "dashboard_id": "PH3-20260518-004905",
-  "created_at_utc": "2026-05-18T00:49:05Z",
+  "dashboard_id": "PH3-20260518-180926",
+  "created_at_utc": "2026-05-18T18:09:26Z",
   "phase": "Read-Only Operations Dashboard",
   "repo": "dev-in-portfolio/the-agent-command-center",
   "source_lineage": "dev-in-portfolio/agent-command-center-3",
@@ -9039,7 +9191,7 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
     "source_exists": true,
     "source_type": "generated_static_snapshot",
     "source_confidence": "generated_static_snapshot",
-    "generated_at_utc": "2026-05-18T00:49:06Z",
+    "generated_at_utc": "2026-05-18T18:09:27Z",
     "freshness_status": "generated_static_snapshot",
     "snapshot_age_seconds": 0,
     "notes": [
@@ -9284,100 +9436,114 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1888,
+        "line": 1891,
         "pattern": "NO DEPLOY",
         "context": "TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO DEPLOY / MERGE / ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2011,
+        "line": 2014,
         "pattern": "NO DEPLOY",
         "context": "GENERATED LOCALLY \u2014 COPY ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO DEPLOY / MERGE / PU",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2109,
+        "line": 2112,
         "pattern": "NO DEPLOY",
         "context": "DECISION LEDGER PREVIEW \u2014 TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO EXECUTION \u2014 NO MUTAT",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2291,
+        "line": 2294,
         "pattern": "NO DEPLOY",
         "context": "GENERATED LOCALLY \u2014 COPY/PASTE HANDOFF ONLY \u2014 TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2465,
+        "line": 2468,
         "pattern": "NO DEPLOY",
         "context": "END-TO-END OPERATOR FLOW \u2014 SCENARIO PREVIEW ONLY \u2014 GENERATED LOCALLY \u2014 TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2600,
+        "line": 2603,
         "pattern": "NO DEPLOY",
         "context": "READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO BACKEND WRITES \u2014 NO DEPLOY / MERGE / PUSH / PR CON",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2817,
+        "line": 2820,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">CONTRACTS ONLY \u2014 COPY/PASTE ONLY \u2014 READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 N",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2932,
+        "line": 2935,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">COPY/PASTE ONLY \u2014 READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 3049,
+        "line": 3052,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO BACK",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 3230,
+        "line": 3233,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO BACK",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 3469,
+        "line": 3472,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 3469,
+        "line": 3472,
         "pattern": "NO MERGE",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 3469,
+        "line": 3472,
         "pattern": "NO PUSH",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 3469,
+        "line": 3472,
         "pattern": "NO SECRET ACCESS",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_renderer.py",
+        "line": 8114,
+        "pattern": "NO DEPLOY",
+        "context": "<li><strong>\"Safety-denial language\"<\/strong> means phrases like NO DEPLOY CONTROLS or NO PUBLIC WRITES are warnings/gua",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_renderer.py",
+        "line": 8231,
+        "pattern": "NO DEPLOY",
+        "context": "<p class=\"card-body\">Difference between safety-denial language and enabled runtime behavior: A button that says \"NO DEPL",
         "reason": "allowed safety text"
       },
       {
