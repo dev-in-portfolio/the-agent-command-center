@@ -497,6 +497,51 @@ for path, marker in mvp41_report_requirements:
     if path.exists():
         check(marker in path.read_text(encoding="utf-8", errors="replace"), f"MVP-41 report missing marker: {path.name}")
 
+mvp42_model_requirements = [
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "operator_controlled_response_import_dry_run_model.json",
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "dry_run_response_import_packet_model.json",
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "operator_import_preview_queue_model.json",
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "dry_run_validation_result_model.json",
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "response_normalization_preview_model.json",
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "response_to_feedback_conversion_preview_model.json",
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "dry_run_audit_rollback_blueprint_model.json",
+    ROOT / "13_web_dashboard" / "dist" / "mvp42_operator_controlled_response_import_dry_run_model.json",
+]
+for path in mvp42_model_requirements:
+    check(path.exists(), f"missing MVP-42 model: {path.relative_to(ROOT)}")
+
+mvp42_release_requirements = [
+    ROOT / "09_exports" / "release_package" / "mvp42_operator_controlled_response_import_dry_run.md",
+    ROOT / "09_exports" / "release_package" / "mvp42_dry_run_response_import_packet.md",
+    ROOT / "09_exports" / "release_package" / "mvp42_operator_import_preview_queue.md",
+    ROOT / "09_exports" / "release_package" / "mvp42_dry_run_validation_results.md",
+    ROOT / "09_exports" / "release_package" / "mvp42_response_normalization_preview.md",
+    ROOT / "09_exports" / "release_package" / "mvp42_response_to_feedback_conversion_preview.md",
+    ROOT / "09_exports" / "release_package" / "mvp42_dry_run_audit_rollback_blueprint.md",
+    ROOT / "09_exports" / "release_package" / "mvp42_operator_controlled_response_import_dry_run_manifest.json",
+]
+for path in mvp42_release_requirements:
+    check(path.exists(), f"missing MVP-42 release artifact: {path.relative_to(ROOT)}")
+
+mvp42_report_requirements = [
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp42_operator_controlled_response_import_dry_run_report.md", "OPERATOR_CONTROLLED_RESPONSE_IMPORT_DRY_RUN_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp42_dry_run_response_import_packet_report.md", "DRY_RUN_RESPONSE_IMPORT_PACKET_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp42_operator_import_preview_queue_report.md", "OPERATOR_IMPORT_PREVIEW_QUEUE_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp42_dry_run_validation_result_report.md", "DRY_RUN_VALIDATION_RESULT_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp42_response_normalization_preview_report.md", "RESPONSE_NORMALIZATION_PREVIEW_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp42_response_to_feedback_conversion_preview_report.md", "RESPONSE_TO_FEEDBACK_CONVERSION_PREVIEW_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp42_dry_run_audit_rollback_blueprint_report.md", "DRY_RUN_AUDIT_ROLLBACK_BLUEPRINT_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp42_security_boundary_report.md", "PASS"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp42_next_product_step_report.md", "NEXT_STEP_BUILD_OPERATOR_RESPONSE_IMPORT_REVIEW_QUEUE_DRY_RUN"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp42_validator_quality_report.md", "PASS"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp42_acceptance_report.md", "OPERATOR_CONTROLLED_RESPONSE_IMPORT_DRY_RUN_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp42_validator_wall_review.md", "PASS"),
+]
+for path, marker in mvp42_report_requirements:
+    check(path.exists(), f"missing MVP-42 report: {path.relative_to(ROOT)}")
+    if path.exists():
+        check(marker in path.read_text(encoding="utf-8", errors="replace"), f"MVP-42 report missing marker: {path.name}")
+
 index = (DIST / "index.html").read_text(encoding="utf-8", errors="replace")
 for marker in [
     "Original Phase 5A",
@@ -971,6 +1016,7 @@ for marker in [
     "NO LIVE WRITES",
     "NO PUBLIC WRITES",
     "NO TOKEN INPUT",
+    "NO SECRETS EXPOSED",
     "SERVICE ROLE NOT USED",
     "UPDATE DELETE EXECUTE BLOCKED",
     "NOT_READY_FOR_REAL_AUTOMATION",
@@ -1003,6 +1049,35 @@ for marker in [
     "UPDATE DELETE EXECUTE BLOCKED",
     "NOT_READY_FOR_REAL_AUTOMATION",
     "NEXT_STEP_BUILD_OPERATOR_CONTROLLED_RESPONSE_IMPORT_DRY_RUN",
+    "MVP-42",
+    "OPERATOR CONTROLLED RESPONSE IMPORT DRY RUN",
+    "DRY RUN RESPONSE IMPORT PACKET",
+    "OPERATOR IMPORT PREVIEW QUEUE",
+    "DRY RUN VALIDATION RESULT",
+    "RESPONSE NORMALIZATION PREVIEW",
+    "RESPONSE TO FEEDBACK CONVERSION PREVIEW",
+    "DRY RUN AUDIT ROLLBACK BLUEPRINT",
+    "OPERATOR REVIEW ONLY",
+    "DRY RUN ONLY",
+    "PREVIEW ONLY",
+    "FUTURE IMPLEMENTATION ONLY",
+    "NO PUBLIC RESPONSE SUBMISSION",
+    "NO REVIEWER RESPONSE WRITES",
+    "NO RESPONSE CAPTURE ENABLED",
+    "NO RESPONSE PERSISTENCE ENABLED",
+    "NO REAL IMPORT",
+    "NO AUTOMATIC IMPORT",
+    "NO EMAIL SENDING",
+    "NO REVIEWER CONTACT",
+    "NO AUTOMATED OUTREACH",
+    "NO LIVE WRITES",
+    "NO PUBLIC WRITES",
+    "NO SECRETS EXPOSED",
+    "NO TOKEN INPUT",
+    "SERVICE ROLE NOT USED",
+    "UPDATE DELETE EXECUTE BLOCKED",
+    "AUTOMATION STILL DISABLED",
+    "NEXT_STEP_BUILD_OPERATOR_RESPONSE_IMPORT_REVIEW_QUEUE_DRY_RUN",
 ]:
     check(marker in index, f"index.html missing required marker: {marker}")
 
@@ -1112,9 +1187,12 @@ allowed_prefixes = [
         "scripts/validate_mvp40_reviewer_response_capture_readiness_lock_e2e.py",
         "scripts/validate_mvp41_controlled_reviewer_response_intake_blueprint.py",
         "scripts/validate_mvp41_controlled_reviewer_response_intake_blueprint_e2e.py",
+        "scripts/validate_mvp42_operator_controlled_response_import_dry_run.py",
+        "scripts/validate_mvp42_operator_controlled_response_import_dry_run_e2e.py",
         "scripts/validate_live_dashboard_usability_after_mvp41.py",
         "scripts/validation_helpers_control_scan.py",
-        "scripts/test_validation_helpers_control_scan.py",        "scripts/validate_live_page_context_aware_control_scan.py",
+        "scripts/test_validation_helpers_control_scan.py",
+        "scripts/validate_live_page_context_aware_control_scan.py",
         "scripts/_validator_runner.py",
         "scripts/mvp23_feedback_import_smoke_test.py",
         "scripts/mvp23_verify_feedback_migration_files.py",

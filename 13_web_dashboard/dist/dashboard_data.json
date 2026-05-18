@@ -1,6 +1,6 @@
 {
-  "dashboard_id": "PH3-20260518-180926",
-  "created_at_utc": "2026-05-18T18:09:26Z",
+  "dashboard_id": "PH3-20260518-184609",
+  "created_at_utc": "2026-05-18T18:46:09Z",
   "phase": "Read-Only Operations Dashboard",
   "repo": "dev-in-portfolio/the-agent-command-center",
   "source_lineage": "dev-in-portfolio/agent-command-center-3",
@@ -965,7 +965,7 @@
     "source_exists": true,
     "source_type": "generated_static_snapshot",
     "source_confidence": "generated_static_snapshot",
-    "generated_at_utc": "2026-05-18T18:09:27Z",
+    "generated_at_utc": "2026-05-18T18:46:10Z",
     "freshness_status": "generated_static_snapshot",
     "snapshot_age_seconds": 0,
     "notes": [
@@ -1168,154 +1168,154 @@
     "allowed_label_findings": [
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 514,
+        "line": 515,
         "pattern": "NO DEPLOY",
         "context": "<span>NO DEPLOY CONTROLS</span>",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 515,
+        "line": 516,
         "pattern": "NO MERGE",
         "context": "<span>NO MERGE CONTROLS</span>",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 516,
+        "line": 517,
         "pattern": "NO SECRET ACCESS",
         "context": "<span>NO SECRET ACCESS</span>",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1135,
+        "line": 1136,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\">SAFE LAUNCH REVIEW ONLY \u2014 NO FAKE LAUNCH STATUS \u2014 NO DEPLOY CONTROLS</p>",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1261,
+        "line": 1262,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\">NO DEPLOY CONTROLS \u2014 NO LAUNCH AUTOMATION \u2014 SERVICE ROLE NOT USED</p>",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1396,
+        "line": 1397,
         "pattern": "NO DEPLOY",
         "context": "<li>NO DEPLOY CONTROLS</li>",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1891,
+        "line": 2016,
         "pattern": "NO DEPLOY",
         "context": "TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO DEPLOY / MERGE / ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2014,
+        "line": 2139,
         "pattern": "NO DEPLOY",
         "context": "GENERATED LOCALLY \u2014 COPY ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO DEPLOY / MERGE / PU",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2112,
+        "line": 2237,
         "pattern": "NO DEPLOY",
         "context": "DECISION LEDGER PREVIEW \u2014 TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO EXECUTION \u2014 NO MUTAT",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2294,
+        "line": 2419,
         "pattern": "NO DEPLOY",
         "context": "GENERATED LOCALLY \u2014 COPY/PASTE HANDOFF ONLY \u2014 TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2468,
+        "line": 2593,
         "pattern": "NO DEPLOY",
         "context": "END-TO-END OPERATOR FLOW \u2014 SCENARIO PREVIEW ONLY \u2014 GENERATED LOCALLY \u2014 TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2603,
+        "line": 2728,
         "pattern": "NO DEPLOY",
         "context": "READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO BACKEND WRITES \u2014 NO DEPLOY / MERGE / PUSH / PR CON",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2820,
+        "line": 2945,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">CONTRACTS ONLY \u2014 COPY/PASTE ONLY \u2014 READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 N",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2935,
+        "line": 3060,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">COPY/PASTE ONLY \u2014 READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 3052,
+        "line": 3177,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO BACK",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 3233,
+        "line": 3358,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO BACK",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 3472,
+        "line": 3597,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 3472,
+        "line": 3597,
         "pattern": "NO MERGE",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 3472,
+        "line": 3597,
         "pattern": "NO PUSH",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 3472,
+        "line": 3597,
         "pattern": "NO SECRET ACCESS",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 8114,
+        "line": 8239,
         "pattern": "NO DEPLOY",
         "context": "<li><strong>\"Safety-denial language\"</strong> means phrases like NO DEPLOY CONTROLS or NO PUBLIC WRITES are warnings/gua",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 8231,
+        "line": 8356,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"card-body\">Difference between safety-denial language and enabled runtime behavior: A button that says \"NO DEPL",
         "reason": "allowed safety text"
