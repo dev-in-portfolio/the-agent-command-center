@@ -8951,6 +8951,80 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
       </div>
     </details>
     \n
+    <details class="panel" data-section-group="source" id="mvp46-approval-gate-storage">
+      <summary>MVP-46 — Approval Gate Storage</summary>
+      <div class="panel-body">
+        
+<div class="plus1-readiness-layer">
+  <div class="plus1-preview-grid">
+    <article class="card mvp46-approval-storage" id="mvp46-approval-storage-overview">
+      <div class="card-head"><h3 class="card-title">APPROVAL GATE STORAGE</h3><span class="badge info">MVP-46</span></div>
+      <p class="card-body">Blueprint and readiness layer for the approval gate storage.</p>
+      {_list([
+          "APPROVAL REQUEST SCHEMA: READY",
+          "APPROVAL DECISION SCHEMA: READY",
+          "APPROVAL SCOPE EXPIRATION MODEL: READY",
+          "APPROVAL REVOCATION MODEL: READY",
+          "APPROVAL AUDIT LINKAGE BLUEPRINT: READY",
+          "APPROVAL PERMISSION BOUNDARY CONTRACT: READY",
+          "APPROVAL STORAGE READINESS CHECKLIST: READY",
+      ])}
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small">Copy Approval Gate Summary</button>
+        <button type="button" class="copy-button small">Copy Approval Request Schema</button>
+        <button type="button" class="copy-button small">Copy Approval Decision Schema</button>
+        <button type="button" class="copy-button small">Copy Scope Expiration Model</button>
+        <button type="button" class="copy-button small">Copy Revocation Model</button>
+        <button type="button" class="copy-button small">Copy Audit Linkage Blueprint</button>
+        <button type="button" class="copy-button small">Copy Permission Boundary Contract</button>
+        <button type="button" class="copy-button small">Copy Storage Readiness Checklist</button>
+        <button type="button" class="copy-button small">Copy MVP-46 Validation Checklist</button>
+      </div>
+    </article>
+
+    <article class="card plus1-safety-summary" id="mvp46-safety-summary">
+      <div class="card-head"><h3 class="card-title">Safety Summary</h3><span class="badge pass">SECURE</span></div>
+      <div class="stat-grid">
+        {_stat("Mode", "APPROVAL GATE STORAGE FOUNDATION ONLY", _badge("SCHEMA READINESS ONLY", "info"))}
+        {_stat("Role", "REVIEW ONLY", _badge("FUTURE IMPLEMENTATION ONLY", "warning"))}
+        {_stat("Approval", "NO REAL APPROVAL DECISIONS", _badge("DISABLED", "disabled"))}
+        {_stat("Storage", "NO REAL APPROVAL STORAGE", _badge("DISABLED", "disabled"))}
+        {_stat("Execution", "NO APPROVAL EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Execution", "NO COMMAND EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Writes", "NO DATABASE WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Writes", "NO SUPABASE WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Writes", "NO PUBLIC WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Workflow", "NO LIVE APPROVAL WORKFLOW", _badge("DISABLED", "disabled"))}
+        {_stat("Mutation", "NO APPROVAL MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Deletion", "NO APPROVAL DELETION", _badge("BLOCKED", "locked"))}
+        {_stat("Audit", "NO AUDIT EVENT WRITES", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO REQUEST STATUS MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO DEPLOY CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO MERGE CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO PUSH CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO PR CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO GITHUB MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO NETLIFY MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Automation", "AUTOMATION DISABLED", _badge("NOT_READY_FOR_REAL_AUTOMATION", "disabled"))}
+        {_stat("Role", "SERVICE ROLE NOT USED", _badge("BLOCKED", "disabled"))}
+        {_stat("Role", "SERVICE ROLE NOT IN BROWSER", _badge("BLOCKED", "disabled"))}
+        {_stat("Token", "NO TOKEN INPUT", _badge("DISABLED", "disabled"))}
+        {_stat("Persistence", "NO BROWSER PERSISTENCE", _badge("DISABLED", "disabled"))}
+        {_stat("Migration", "NO MIGRATION APPLY", _badge("DISABLED", "disabled"))}
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Next Planned Step</p>
+        <ul class="compact-list" style="margin-top:0.25rem;">
+          <li>NEXT_STEP_BUILD_SERVER_SIDE_DRY_RUN_ENGINE</li>
+        </ul>
+      </div>
+    </article>
+  </div>
+</div>
+
+      </div>
+    </details>
+    \n
     <details class="panel" data-section-group="source" id="mvp47-server-side-dry-run-engine">
       <summary>MVP-47 — Server-Side Dry-Run Engine</summary>
       <div class="panel-body">
@@ -9015,6 +9089,83 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
         <p class="muted" style="margin:0;">Next Planned Step</p>
         <ul class="compact-list" style="margin-top:0.25rem;">
           <li>NEXT_STEP_BUILD_CONTROLLED_ACTION_QUEUE</li>
+        </ul>
+      </div>
+    </article>
+  </div>
+</div>
+
+      </div>
+    </details>
+    \n
+    <details class="panel" data-section-group="source" id="mvp48-controlled-action-queue">
+      <summary>MVP-48 — Controlled Action Queue</summary>
+      <div class="panel-body">
+        
+<div class="plus1-readiness-layer">
+  <div class="plus1-preview-grid">
+    <article class="card mvp48-action-queue" id="mvp48-action-queue-overview">
+      <div class="card-head"><h3 class="card-title">CONTROLLED ACTION QUEUE</h3><span class="badge info">MVP-48</span></div>
+      <p class="card-body">Blueprint and readiness layer for the controlled action queue.</p>
+      {_list([
+          "ACTION QUEUE DATA MODEL: READY",
+          "QUEUED ACTION LIFECYCLE SCHEMA: READY",
+          "QUEUE ADMISSION GATE CONTRACT: READY",
+          "QUEUE PRIORITY SCHEDULING MODEL: READY",
+          "QUEUE HOLD RELEASE CANCEL SCHEMA: READY",
+          "QUEUE DEPENDENCY PRECONDITION MODEL: READY",
+          "QUEUE AUDIT LINKAGE BLUEPRINT: READY",
+          "QUEUE OPERATOR REVIEW PACKET: READY",
+      ])}
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small">Copy Action Queue Summary</button>
+        <button type="button" class="copy-button small">Copy Action Queue Data Model</button>
+        <button type="button" class="copy-button small">Copy Queued Action Lifecycle Schema</button>
+        <button type="button" class="copy-button small">Copy Admission Gate Contract</button>
+        <button type="button" class="copy-button small">Copy Priority Scheduling Model</button>
+        <button type="button" class="copy-button small">Copy Hold Release Cancel Schema</button>
+        <button type="button" class="copy-button small">Copy Dependency Precondition Model</button>
+        <button type="button" class="copy-button small">Copy Audit Linkage Blueprint</button>
+        <button type="button" class="copy-button small">Copy Operator Review Packet</button>
+        <button type="button" class="copy-button small">Copy MVP-48 Validation Checklist</button>
+      </div>
+    </article>
+
+    <article class="card plus1-safety-summary" id="mvp48-safety-summary">
+      <div class="card-head"><h3 class="card-title">Safety Summary</h3><span class="badge pass">SECURE</span></div>
+      <div class="stat-grid">
+        {_stat("Mode", "ACTION QUEUE FOUNDATION ONLY", _badge("SCHEMA READINESS ONLY", "info"))}
+        {_stat("Role", "REVIEW ONLY", _badge("FUTURE IMPLEMENTATION ONLY", "warning"))}
+        {_stat("Execution", "NO REAL ACTION EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Execution", "NO REAL COMMAND EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Queue", "NO QUEUE WORKER PROCESSING", _badge("DISABLED", "disabled"))}
+        {_stat("Queue", "NO AUTOMATIC DISPATCH", _badge("DISABLED", "disabled"))}
+        {_stat("Queue", "NO SCHEDULED ACTION EXECUTION", _badge("DISABLED", "disabled"))}
+        {_stat("Queue", "NO RETRY EXECUTION", _badge("DISABLED", "disabled"))}
+        {_stat("Approval", "NO APPROVAL EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Writes", "NO DATABASE WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Writes", "NO SUPABASE WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Writes", "NO PUBLIC WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Mutation", "NO LIVE REQUEST MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Audit", "NO AUDIT EVENT WRITES", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO EXTERNAL API MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO GITHUB MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO NETLIFY MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO DEPLOY CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO MERGE CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO PUSH CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO PR CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Automation", "AUTOMATION DISABLED", _badge("NOT_READY_FOR_REAL_AUTOMATION", "disabled"))}
+        {_stat("Role", "SERVICE ROLE NOT USED", _badge("BLOCKED", "disabled"))}
+        {_stat("Role", "SERVICE ROLE NOT IN BROWSER", _badge("BLOCKED", "disabled"))}
+        {_stat("Token", "NO TOKEN INPUT", _badge("DISABLED", "disabled"))}
+        {_stat("Persistence", "NO BROWSER PERSISTENCE", _badge("DISABLED", "disabled"))}
+        {_stat("Migration", "NO MIGRATION APPLY", _badge("DISABLED", "disabled"))}
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Next Planned Step</p>
+        <ul class="compact-list" style="margin-top:0.25rem;">
+          <li>NEXT_STEP_BUILD_HUMAN_APPROVED_INTERNAL_EXECUTION</li>
         </ul>
       </div>
     </article>
@@ -9241,7 +9392,7 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
         <div class="stat-grid">
     <div class="stat">
       <span>Generated at</span>
-      <strong>2026-05-18T22:57:07Z</strong>
+      <strong>2026-05-18T23:24:25Z</strong>
       
     </div>
     
@@ -9444,8 +9595,8 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
     </main>
   </div>
   <script type="application/json" id="dashboard-data">{
-  "dashboard_id": "PH3-20260518-225707",
-  "created_at_utc": "2026-05-18T22:57:07Z",
+  "dashboard_id": "PH3-20260518-232425",
+  "created_at_utc": "2026-05-18T23:24:25Z",
   "phase": "Read-Only Operations Dashboard",
   "repo": "dev-in-portfolio/the-agent-command-center",
   "source_lineage": "dev-in-portfolio/agent-command-center-3",
@@ -10410,7 +10561,7 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
     "source_exists": true,
     "source_type": "generated_static_snapshot",
     "source_confidence": "generated_static_snapshot",
-    "generated_at_utc": "2026-05-18T22:57:07Z",
+    "generated_at_utc": "2026-05-18T23:24:25Z",
     "freshness_status": "generated_static_snapshot",
     "snapshot_age_seconds": 0,
     "notes": [
@@ -10655,217 +10806,238 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1853,
+        "line": 1859,
         "pattern": "NO DEPLOY",
         "context": "{{_stat(\"Controls\", \"NO DEPLOY CONTROLS\", _badge(\"BLOCKED\", \"locked\"))}}",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1854,
+        "line": 1860,
         "pattern": "NO MERGE",
         "context": "{{_stat(\"Controls\", \"NO MERGE CONTROLS\", _badge(\"BLOCKED\", \"locked\"))}}",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1855,
+        "line": 1861,
         "pattern": "NO PUSH",
         "context": "{{_stat(\"Controls\", \"NO PUSH CONTROLS\", _badge(\"BLOCKED\", \"locked\"))}}",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1929,
+        "line": 1934,
         "pattern": "NO DEPLOY",
         "context": "{{_stat(\"Controls\", \"NO DEPLOY CONTROLS\", _badge(\"BLOCKED\", \"locked\"))}}",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1930,
+        "line": 1935,
         "pattern": "NO MERGE",
         "context": "{{_stat(\"Controls\", \"NO MERGE CONTROLS\", _badge(\"BLOCKED\", \"locked\"))}}",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 1931,
+        "line": 1936,
         "pattern": "NO PUSH",
         "context": "{{_stat(\"Controls\", \"NO PUSH CONTROLS\", _badge(\"BLOCKED\", \"locked\"))}}",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2004,
+        "line": 2010,
         "pattern": "NO DEPLOY",
         "context": "{{_stat(\"Controls\", \"NO DEPLOY CONTROLS\", _badge(\"BLOCKED\", \"locked\"))}}",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2005,
+        "line": 2011,
         "pattern": "NO MERGE",
         "context": "{{_stat(\"Controls\", \"NO MERGE CONTROLS\", _badge(\"BLOCKED\", \"locked\"))}}",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2006,
+        "line": 2012,
         "pattern": "NO PUSH",
         "context": "{{_stat(\"Controls\", \"NO PUSH CONTROLS\", _badge(\"BLOCKED\", \"locked\"))}}",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2079,
+        "line": 2085,
         "pattern": "NO DEPLOY",
         "context": "{{_stat(\"Controls\", \"NO DEPLOY CONTROLS\", _badge(\"BLOCKED\", \"locked\"))}}",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2080,
+        "line": 2086,
         "pattern": "NO MERGE",
         "context": "{{_stat(\"Controls\", \"NO MERGE CONTROLS\", _badge(\"BLOCKED\", \"locked\"))}}",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2081,
+        "line": 2087,
         "pattern": "NO PUSH",
         "context": "{{_stat(\"Controls\", \"NO PUSH CONTROLS\", _badge(\"BLOCKED\", \"locked\"))}}",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2154,
+        "line": 2160,
         "pattern": "NO DEPLOY",
         "context": "{{_stat(\"Controls\", \"NO DEPLOY CONTROLS\", _badge(\"BLOCKED\", \"locked\"))}}",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2155,
+        "line": 2161,
         "pattern": "NO MERGE",
         "context": "{{_stat(\"Controls\", \"NO MERGE CONTROLS\", _badge(\"BLOCKED\", \"locked\"))}}",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2156,
+        "line": 2162,
         "pattern": "NO PUSH",
         "context": "{{_stat(\"Controls\", \"NO PUSH CONTROLS\", _badge(\"BLOCKED\", \"locked\"))}}",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2396,
+        "line": 2235,
+        "pattern": "NO DEPLOY",
+        "context": "{{_stat(\"Controls\", \"NO DEPLOY CONTROLS\", _badge(\"BLOCKED\", \"locked\"))}}",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_renderer.py",
+        "line": 2236,
+        "pattern": "NO MERGE",
+        "context": "{{_stat(\"Controls\", \"NO MERGE CONTROLS\", _badge(\"BLOCKED\", \"locked\"))}}",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_renderer.py",
+        "line": 2237,
+        "pattern": "NO PUSH",
+        "context": "{{_stat(\"Controls\", \"NO PUSH CONTROLS\", _badge(\"BLOCKED\", \"locked\"))}}",
+        "reason": "allowed safety text"
+      },
+      {
+        "file": "13_web_dashboard/dashboard_renderer.py",
+        "line": 2477,
         "pattern": "NO DEPLOY",
         "context": "TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO DEPLOY / MERGE / ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2519,
+        "line": 2600,
         "pattern": "NO DEPLOY",
         "context": "GENERATED LOCALLY \u2014 COPY ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO DEPLOY / MERGE / PU",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2617,
+        "line": 2698,
         "pattern": "NO DEPLOY",
         "context": "DECISION LEDGER PREVIEW \u2014 TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO EXECUTION \u2014 NO MUTAT",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2799,
+        "line": 2880,
         "pattern": "NO DEPLOY",
         "context": "GENERATED LOCALLY \u2014 COPY/PASTE HANDOFF ONLY \u2014 TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2973,
+        "line": 3054,
         "pattern": "NO DEPLOY",
         "context": "END-TO-END OPERATOR FLOW \u2014 SCENARIO PREVIEW ONLY \u2014 GENERATED LOCALLY \u2014 TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 3108,
+        "line": 3189,
         "pattern": "NO DEPLOY",
         "context": "READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO BACKEND WRITES \u2014 NO DEPLOY / MERGE / PUSH / PR CON",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 3325,
+        "line": 3406,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">CONTRACTS ONLY \u2014 COPY/PASTE ONLY \u2014 READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 N",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 3440,
+        "line": 3521,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">COPY/PASTE ONLY \u2014 READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 3557,
+        "line": 3638,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO BACK",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 3738,
+        "line": 3819,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO BACK",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 3977,
+        "line": 4058,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 3977,
+        "line": 4058,
         "pattern": "NO MERGE",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 3977,
+        "line": 4058,
         "pattern": "NO PUSH",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 3977,
+        "line": 4058,
         "pattern": "NO SECRET ACCESS",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 8619,
+        "line": 8700,
         "pattern": "NO DEPLOY",
         "context": "<li><strong>\"Safety-denial language\"<\/strong> means phrases like NO DEPLOY CONTROLS or NO PUBLIC WRITES are warnings/gua",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 8736,
+        "line": 8817,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"card-body\">Difference between safety-denial language and enabled runtime behavior: A button that says \"NO DEPL",
         "reason": "allowed safety text"

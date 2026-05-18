@@ -1,0 +1,8 @@
+{
+  "phase": "MVP-48",
+  "name": "QUEUED ACTION LIFECYCLE SCHEMA",
+  "status": "QUEUED_ACTION_LIFECYCLE_SCHEMA_READY",
+  "readiness_only": "true",
+  "review_only": "true",
+  "future_implementation_only": "true"
+}
