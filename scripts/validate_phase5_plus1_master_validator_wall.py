@@ -537,6 +537,26 @@ mvp42_report_requirements = [
     (ROOT / "09_exports" / "mvp_product_track" / "mvp42_acceptance_report.md", "OPERATOR_CONTROLLED_RESPONSE_IMPORT_DRY_RUN_READY"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp42_validator_wall_review.md", "PASS"),
 ]
+
+mvp43_report_requirements = [
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp43_operational_auth_foundation_report.md", "OPERATIONAL_AUTH_FOUNDATION_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp43_operator_identity_model_report.md", "OPERATOR_IDENTITY_MODEL_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp43_role_permission_matrix_report.md", "ROLE_PERMISSION_MATRIX_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp43_session_validation_blueprint_report.md", "SESSION_VALIDATION_BLUEPRINT_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp43_auth_boundary_contract_report.md", "AUTH_BOUNDARY_CONTRACT_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp43_server_side_auth_verification_plan_report.md", "SERVER_SIDE_AUTH_VERIFICATION_PLAN_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp43_browser_auth_safety_posture_report.md", "BROWSER_AUTH_SAFETY_POSTURE_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp43_security_boundary_report.md", "PASS"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp43_next_product_step_report.md", "NEXT_STEP_BUILD_PERSISTENT_REQUEST_STORAGE_FOUNDATION"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp43_validator_quality_report.md", "PASS"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp43_acceptance_report.md", "OPERATIONAL_AUTH_FOUNDATION_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp43_validator_wall_review.md", "PASS"),
+]
+for path, marker in mvp43_report_requirements:
+    check(path.exists(), f"missing MVP-43 report: {path.relative_to(ROOT)}")
+    if path.exists():
+        check(marker in path.read_text(encoding="utf-8", errors="replace"), f"MVP-43 report missing marker: {path.name}")
+
 for path, marker in mvp42_report_requirements:
     check(path.exists(), f"missing MVP-42 report: {path.relative_to(ROOT)}")
     if path.exists():
@@ -1078,6 +1098,42 @@ for marker in [
     "UPDATE DELETE EXECUTE BLOCKED",
     "AUTOMATION STILL DISABLED",
     "NEXT_STEP_BUILD_OPERATOR_RESPONSE_IMPORT_REVIEW_QUEUE_DRY_RUN",
+    "MVP-43",
+    "OPERATIONAL AUTH FOUNDATION",
+    "OPERATOR IDENTITY MODEL",
+    "ROLE PERMISSION MATRIX",
+    "SESSION VALIDATION BLUEPRINT",
+    "AUTH BOUNDARY CONTRACT",
+    "SERVER SIDE AUTH VERIFICATION PLAN",
+    "BROWSER AUTH SAFETY POSTURE",
+    "AUTH FOUNDATION ONLY",
+    "READINESS ONLY",
+    "REVIEW ONLY",
+    "FUTURE IMPLEMENTATION ONLY",
+    "NO REAL LOGIN ENABLED",
+    "NO TOKEN INPUT",
+    "NO BROWSER TOKEN PERSISTENCE",
+    "NO LOCAL STORAGE TOKEN",
+    "NO SESSION STORAGE TOKEN",
+    "NO COOKIE TOKEN",
+    "SERVICE ROLE NOT USED",
+    "SERVICE ROLE NOT IN BROWSER",
+    "NO BACKEND WRITES",
+    "NO PUBLIC WRITES",
+    "NO LIVE INTAKE",
+    "NO REVIEWER RESPONSE WRITES",
+    "NO COMMAND EXECUTION",
+    "NO DEPLOY CONTROLS",
+    "NO MERGE CONTROLS",
+    "NO PUSH CONTROLS",
+    "NO PR CONTROLS",
+    "NO GITHUB MUTATION",
+    "NO NETLIFY MUTATION",
+    "NO SUPABASE WRITES",
+    "NO APPROVAL EXECUTION",
+    "AUTOMATION DISABLED",
+    "NEXT_STEP_BUILD_PERSISTENT_REQUEST_STORAGE_FOUNDATION",
+    "NOT_READY_FOR_REAL_AUTOMATION",
 ]:
     check(marker in index, f"index.html missing required marker: {marker}")
 
@@ -1189,6 +1245,8 @@ allowed_prefixes = [
         "scripts/validate_mvp41_controlled_reviewer_response_intake_blueprint_e2e.py",
         "scripts/validate_mvp42_operator_controlled_response_import_dry_run.py",
         "scripts/validate_mvp42_operator_controlled_response_import_dry_run_e2e.py",
+        "scripts/validate_mvp43_operational_auth_foundation.py",
+        "scripts/validate_mvp43_operational_auth_foundation_e2e.py",
         "scripts/validate_live_dashboard_usability_after_mvp41.py",
         "scripts/validation_helpers_control_scan.py",
         "scripts/test_validation_helpers_control_scan.py",

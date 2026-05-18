@@ -1,0 +1,8 @@
+{
+  "phase": "MVP-43",
+  "name": "OPERATOR IDENTITY MODEL",
+  "status": "OPERATOR_IDENTITY_MODEL_READY",
+  "readiness_only": "true",
+  "review_only": "true",
+  "future_implementation_only": "true"
+}
