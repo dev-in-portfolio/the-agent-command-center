@@ -11,7 +11,7 @@
     <header class="topbar">
       <div class="brand"><strong>System Story</strong><span>Read-only command-center narrative</span></div>
       <nav class="nav-links" aria-label="Demo navigation">
-        <a href="./index.html">Home</a><a href="./presentation.html">Presentation</a><a href="./system-scale.html">System Scale</a><a href="./agent-hierarchy.html">Hierarchy</a><a href="./validator-safety-map.html">Validator Map</a><a href="../index.html">Live Dashboard</a>
+        <a href="./index.html">Home</a><a href="./presentation.html">Presentation</a><a href="./simulator.html">Simulator</a><a href="./agent-registry.html">Agent Registry</a><a href="./system-scale.html">System Scale</a><a href="./agent-hierarchy.html">Hierarchy</a><a href="./validator-safety-map.html">Validator Map</a><a href="../index.html">Live Dashboard</a>
       </nav>
     </header>
 
@@ -51,7 +51,7 @@
         </article>
         <article class="page-card">
           <h3>Visible system scale</h3>
-          <p>The repo exposes verified counts for reports, validators, artifacts, and layers. It does not expose a canonical agent registry, so the exact agent count stays unknown rather than fabricated.</p>
+          <p>The repo exposes verified counts for reports, validators, artifacts, layers, and the canonical registry export. The exact agent count is 47,979 and the exact department count is 1,777, both derived from <code>09_exports/org_chart_export.json</code>.</p>
         </article>
         <article class="page-card">
           <h3>Operational domains instead of departments</h3>
@@ -61,9 +61,13 @@
           <h3>Validators and safety gates</h3>
           <p>Validators prove the markers, the latest status, the wall, and the package boundaries. They do not turn the system into a live execution engine.</p>
         </article>
+        <article class="page-card">
+          <h3>Registry traceability</h3>
+          <p>The published registry page and traceability HTML show how the counts were derived from project artifacts without inventing new runtime data.</p>
+        </article>
       </div>
     </section>
-    <div class="footer">This story is mirrored in the repo under `09_exports/stakeholder_presentation_after_mvp50/system_story.md`.</div>
+    <div class="footer">This story is mirrored in the repo under `09_exports/stakeholder_presentation_after_mvp50/system_story.md` and backed by the static registry export.</div>
   </div>
   <script src="./assets/demo.js"></script>
 </body>

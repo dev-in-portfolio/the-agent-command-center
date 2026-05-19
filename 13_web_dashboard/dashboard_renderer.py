@@ -8933,6 +8933,11 @@ def _build_welcome_page():
           <div class="card-extra"><a class="section-button" href="./demo/simulator.html">Open Static Simulator</a></div>
         </article>
         <article class="card">
+          <div class="card-head"><h3 class="card-title">Agent Registry</h3><span class="badge info">OPEN</span></div>
+          <p class="card-body">Open the canonical static registry with exact agent and department counts at <code>./demo/agent-registry.html</code>.</p>
+          <div class="card-extra"><a class="section-button" href="./demo/agent-registry.html">Open Agent Registry</a></div>
+        </article>
+        <article class="card">
           <div class="card-head"><h3 class="card-title">Original Full Audit Dashboard</h3><span class="badge info">OPEN</span></div>
           <p class="card-body">Open the archive for the full audit trail and construction record.</p>
           <div class="card-extra">{_open_section_button("Open Full Audit / Archive", "view-archive")}</div>

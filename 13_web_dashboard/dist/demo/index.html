@@ -19,6 +19,7 @@
         <a href="./simulator.html">Simulator</a>
         <a href="./system-story.html">System Story</a>
         <a href="./system-scale.html">System Scale</a>
+        <a href="./agent-registry.html">Agent Registry</a>
         <a href="./validator-safety-map.html">Validator Map</a>
         <a href="../index.html">Launch Live Dashboard</a>
       </nav>
@@ -66,8 +67,13 @@
             </div>
             <div class="metric">
               <span class="smallcaps">Agent count</span>
-              <strong>UNKNOWN</strong>
-              <small>UNKNOWN_NOT_CURRENTLY_DECLARED</small>
+              <strong>47,979</strong>
+              <small>Derived from `09_exports/org_chart_export.json`</small>
+            </div>
+            <div class="metric">
+              <span class="smallcaps">Department count</span>
+              <strong>1,777</strong>
+              <small>Derived from `09_exports/org_chart_export.json`</small>
             </div>
           </div>
           <div class="callout">
@@ -109,8 +115,13 @@
         </article>
         <article class="page-card">
           <h3>Agent / Department Hierarchy</h3>
-          <p>The seven-level hierarchy, the 11 operational domains, and the places where canonical registries still do not exist.</p>
+          <p>The seven-level hierarchy, the 11 operational domains, and the canonical registry that now exposes exact counts.</p>
           <a class="button" href="./agent-hierarchy.html">Open</a>
+        </article>
+        <article class="page-card">
+          <h3>Agent Registry</h3>
+          <p>Source-traceable exact counts, family breakdowns, and the publishable registry view.</p>
+          <a class="button" href="./agent-registry.html">Open</a>
         </article>
         <article class="page-card">
           <h3>Operating Model</h3>
@@ -151,7 +162,7 @@
           <p class="eyebrow">System scale snapshot</p>
           <h2>Verified counts from the repo</h2>
         </div>
-        <p>Every exact count below comes from manifests, file counts, or dashboard data. Exact agent and department counts are not canonically declared.</p>
+        <p>Every exact count below comes from manifests, file counts, dashboard data, or the canonical export graph. Exact agent and department counts are now declared from project artifacts.</p>
       </div>
       <div class="card-grid">
         <article class="card"><h3>Readiness layers</h3><p>8 layers, verified through MVP-50.</p></article>
@@ -165,6 +176,7 @@
         <article class="card"><h3>Demo package files</h3><p>16 files in the external demo package.</p></article>
         <article class="card"><h3>Viewable demo pages</h3><p>12 HTML pages in this hub.</p></article>
         <article class="card"><h3>Operational domains</h3><p>11 documented domains instead of a fake department registry.</p></article>
+        <article class="card"><h3>Agent registry</h3><p>47,979 team-member agents and 1,777 departments derived from `org_chart_export.json`.</p></article>
         <article class="card"><h3>Disabled capability categories</h3><p>13 categories in the presentation manifest.</p></article>
       </div>
     </section>
@@ -184,6 +196,8 @@
             <li>Roadmap complete through MVP-50.</li>
             <li>Runtime activation has not started.</li>
             <li>Validators, safety gates, and review materials are visible.</li>
+            <li>Exact agent count: 47,979.</li>
+            <li>Exact department count: 1,777.</li>
           </ul>
         </article>
         <article class="card">
@@ -198,9 +212,9 @@
         <article class="card">
           <h3>Exact counts we refuse to fake</h3>
           <ul class="list">
-            <li>Exact agent count: UNKNOWN_NOT_CURRENTLY_DECLARED.</li>
-            <li>Exact department count: UNKNOWN_NOT_CURRENTLY_DECLARED.</li>
-            <li>Formal registries are recommended for the next docs pass.</li>
+            <li>Exact agent count: 47,979.</li>
+            <li>Exact department count: 1,777.</li>
+            <li>Formal registries are published in `agent-registry.html` and the static data files.</li>
           </ul>
         </article>
       </div>

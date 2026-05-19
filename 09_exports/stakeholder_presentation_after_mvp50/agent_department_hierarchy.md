@@ -1,7 +1,7 @@
 # Agent / Department Hierarchy
 
 ## Known Declared Agents and Components
-The repo does not contain a canonical agent registry. The closest explicit component registry in the live dashboard is the action registry, which contains 12 documented actions.
+The repo now contains a canonical agent registry generated from the export graph. The closest explicit component registry in the live dashboard is the action registry, which contains 12 documented actions.
 
 ## Known Departments / Operating Areas
 Departments are currently represented as operational domains, not formal named departments.
@@ -53,14 +53,18 @@ Runtime activation is intentionally absent from the current build. A future acti
 - 8 readiness layers are production-verified through MVP-50
 - 12 dashboard action registry items are documented in the live dashboard snapshot
 - 13 disabled capability categories are captured in the presentation manifest
+- 175 families are present in the canonical export graph
+- 1,777 departments are present in the canonical export graph
+- 5,331 units are present in the canonical export graph
+- 47,979 agents are present in the canonical export graph
 
 ## What Is Not Yet Canonically Declared
-- Exact agent count: UNKNOWN_NOT_CURRENTLY_DECLARED
-- Exact department count: UNKNOWN_NOT_CURRENTLY_DECLARED
+- Exact agent count: 47,979
+- Exact department count: 1,777
 
 ## Recommended Registry Structure
-- `agent_registry.json`
-- `department_registry.json`
-- `system_hierarchy.json`
+- `09_exports/system_registry/agent_registry.json`
+- `09_exports/system_registry/department_registry.json`
+- `09_exports/system_registry/system_hierarchy.json`
 
-That registry set would let future demos state exact operating-unit counts without prose-based inference.
+That registry set lets future demos state exact operating-unit counts with source traceability instead of prose-based inference.
