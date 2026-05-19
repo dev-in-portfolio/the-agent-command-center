@@ -610,6 +610,58 @@ for path, marker in mvp49_report_requirements:
     if path.exists():
         check(marker in path.read_text(encoding="utf-8", errors="replace"), f"MVP-49 report missing marker: {path.name}")
 
+mvp50_model_requirements = [
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "monitoring_stack_readiness_model.json",
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "alert_definition_model.json",
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "incident_console_model.json",
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "rollback_automation_model.json",
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "incident_triage_model.json",
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "runbook_automation_model.json",
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "rollback_verification_model.json",
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "monitoring_dashboard_model.json",
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "incident_response_timeline_model.json",
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "rollback_scope_analysis_model.json",
+]
+for path in mvp50_model_requirements:
+    check(path.exists(), f"missing MVP-50 model: {path.relative_to(ROOT)}")
+
+mvp50_release_requirements = [
+    ROOT / "09_exports" / "release_package" / "mvp50_monitoring_stack_readiness.md",
+    ROOT / "09_exports" / "release_package" / "mvp50_alert_definition.md",
+    ROOT / "09_exports" / "release_package" / "mvp50_incident_console.md",
+    ROOT / "09_exports" / "release_package" / "mvp50_rollback_automation.md",
+    ROOT / "09_exports" / "release_package" / "mvp50_incident_triage.md",
+    ROOT / "09_exports" / "release_package" / "mvp50_runbook_automation.md",
+    ROOT / "09_exports" / "release_package" / "mvp50_rollback_verification.md",
+    ROOT / "09_exports" / "release_package" / "mvp50_monitoring_dashboard.md",
+    ROOT / "09_exports" / "release_package" / "mvp50_incident_response_timeline.md",
+    ROOT / "09_exports" / "release_package" / "mvp50_rollback_scope_analysis.md",
+    ROOT / "09_exports" / "release_package" / "mvp50_monitoring_stack_rollback_incident_console_manifest.json",
+]
+for path in mvp50_release_requirements:
+    check(path.exists(), f"missing MVP-50 release artifact: {path.relative_to(ROOT)}")
+
+mvp50_report_requirements = [
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_monitoring_stack_rollback_incident_console_report.md", "MVP-50"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_alert_definition_report.md", "ALERT_DEFINITION_SCHEMA_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_incident_console_report.md", "INCIDENT_CONSOLE_MODEL_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_rollback_automation_report.md", "ROLLBACK_AUTOMATION_DEFINITION_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_incident_triage_report.md", "INCIDENT_TRIAGE_CLASSIFICATION_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_runbook_automation_report.md", "RUNBOOK_AUTOMATION_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_rollback_verification_report.md", "ROLLBACK_VERIFICATION_CHECKLIST_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_monitoring_dashboard_report.md", "MONITORING_DASHBOARD_LAYOUT_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_incident_response_timeline_report.md", "INCIDENT_RESPONSE_TIMELINE_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_rollback_scope_analysis_report.md", "ROLLBACK_SCOPE_ANALYSIS_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_security_boundary_report.md", "NO_REAL_RUNTIME_MONITORING"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_validator_quality_report.md", "PASS"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_acceptance_report.md", "MONITORING_STACK_READINESS_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_validation_stewardship_report.md", "MONITORING_STACK_VALIDATION_READY"),
+]
+for path, marker in mvp50_report_requirements:
+    check(path.exists(), f"missing MVP-50 report: {path.relative_to(ROOT)}")
+    if path.exists():
+        check(marker in path.read_text(encoding="utf-8", errors="replace"), f"MVP-50 report missing marker: {path.name}")
+
 mvp47_report_requirements = [
     (ROOT / "09_exports" / "mvp_product_track" / "mvp47_server_side_dry_run_engine_report.md", "SERVER_SIDE_DRY_RUN_ENGINE_READY"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp47_action_plan_input_schema_report.md", "ACTION_PLAN_INPUT_SCHEMA_READY"),
@@ -1289,7 +1341,7 @@ for marker in [
     "NO TOKEN INPUT",
     "NO BROWSER PERSISTENCE",
     "NO MIGRATION APPLY",
-    "NEXT_STEP_BUILD_HUMAN_APPROVED_INTERNAL_EXECUTION",
+    "NEXT_STEP_BUILD_MONITORING_ROLLBACK_INCIDENT_CONSOLE",
     "NOT_READY_FOR_REAL_AUTOMATION",
     "MVP-47",
     "SERVER SIDE DRY RUN ENGINE",

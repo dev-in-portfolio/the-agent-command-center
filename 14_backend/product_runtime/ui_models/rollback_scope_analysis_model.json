@@ -1,0 +1,33 @@
+{
+  "model_id": "rollback_scope_analysis",
+  "mvp": "MVP-50",
+  "domain": "Rollback Scope Analysis",
+  "title": "Rollback Scope Analysis",
+  "description": "Schema readiness for rollback scope analysis, covering affected services, dependency impact, data migration reversal, and rollback risk assessment.",
+  "fields": [
+    { "name": "affected_services_schema", "type": "array", "purpose": "Schema for listing services affected by a rollback" },
+    { "name": "dependency_impact_schema", "type": "object", "purpose": "Schema for analyzing downstream dependency impact of rollback" },
+    { "name": "data_migration_reversal_schema", "type": "object", "purpose": "Schema for assessing data migration reversal requirements" },
+    { "name": "rollback_risk_assessment_schema", "type": "object", "purpose": "Schema for scoring rollback risk based on scope factors" },
+    { "name": "rollback_cost_estimate_schema", "type": "object", "purpose": "Schema for estimating time and resource cost of rollback" }
+  ],
+  "status": "rollback_scope_analysis_ready",
+  "rollback_scope_analysis_ready": true,
+  "affected_services_schema_ready": true,
+  "dependency_impact_schema_ready": true,
+  "data_migration_reversal_schema_ready": true,
+  "rollback_risk_assessment_schema_ready": true,
+  "rollback_cost_estimate_schema_ready": true,
+  "schema_readiness_only": true,
+  "review_only": true,
+  "future_implementation_only": true,
+  "safety_notes": "Schema readiness only. No real scope analysis execution, no dependency mapping, no risk scoring. Scope analysis remains non-functional.",
+  "real_scope_analysis_enabled": false,
+  "real_dependency_mapping_enabled": false,
+  "autonomous_scope_analysis_enabled": false,
+  "service_role_used": false,
+  "service_role_in_browser": false,
+  "token_input_enabled": false,
+  "browser_persistence_enabled": false,
+  "migration_apply_enabled": false
+}

@@ -1,0 +1,33 @@
+{
+  "model_id": "monitoring_dashboard",
+  "mvp": "MVP-50",
+  "domain": "Monitoring Dashboard Layout",
+  "title": "Monitoring Dashboard Layout",
+  "description": "Schema readiness for monitoring dashboard layouts, covering widget placement, metric visualization, time range controls, and dashboard configuration.",
+  "fields": [
+    { "name": "widget_placement_schema", "type": "object", "purpose": "Schema for widget grid placement and sizing on the dashboard" },
+    { "name": "metric_visualization_schema", "type": "object", "purpose": "Schema for metric visualization types and configuration" },
+    { "name": "time_range_control_schema", "type": "object", "purpose": "Schema for time range selection and refresh interval controls" },
+    { "name": "dashboard_config_schema", "type": "object", "purpose": "Schema for dashboard-level configuration and defaults" },
+    { "name": "widget_data_source_schema", "type": "object", "purpose": "Schema for widget data source bindings and query parameters" }
+  ],
+  "status": "monitoring_dashboard_ready",
+  "monitoring_dashboard_ready": true,
+  "widget_placement_schema_ready": true,
+  "metric_visualization_schema_ready": true,
+  "time_range_control_schema_ready": true,
+  "dashboard_config_schema_ready": true,
+  "widget_data_source_schema_ready": true,
+  "schema_readiness_only": true,
+  "review_only": true,
+  "future_implementation_only": true,
+  "safety_notes": "Schema readiness only. No real dashboard rendering, no metric data display, no live dashboard interaction. Dashboard remains non-functional.",
+  "real_dashboard_rendering_enabled": false,
+  "real_metric_data_display_enabled": false,
+  "autonomous_dashboard_enabled": false,
+  "service_role_used": false,
+  "service_role_in_browser": false,
+  "token_input_enabled": false,
+  "browser_persistence_enabled": false,
+  "migration_apply_enabled": false
+}
