@@ -375,7 +375,7 @@ def _render_overview_cards(snapshot):
     safety_scan = snapshot.get("phase_3_safety_scan", {})
     safety = snapshot.get("safety_status", {})
     next_action = snapshot.get("recommended_next_action", "unknown")
-    next_action = "Ready for static hosting review after merge. Backend integration remains a later phase."
+    next_action = "Ready for static hosting review after merge. Backend/Supabase readiness architecture exists. Live backend runtime is disabled."
     merge_ready_status = "PASS" if "ready_for_merge_review" in next_action else "INFO"
     cards = [
         _card("Phase 1 status", phase1.get("detected_verdict", "unknown"), phase1.get("summary", "Phase 1 backend source of truth is present.")),
@@ -389,6 +389,12 @@ def _render_overview_cards(snapshot):
             "Open the browser-viewable premium demo hub with the stakeholder presentation, system story, scale inventory, and safety map.",
             extra='<a class="section-button" href="./demo/">View Stakeholder Demo Hub</a>',
         ),
+        _card(
+            "Runnable Static Simulator",
+            "INFO",
+            "Run the browser-viewable static sandbox simulator for the command-center pipeline.",
+            extra='<a class="section-button" href="./demo/simulator.html">Open Simulator</a>',
+        ),
     ]
     return '<section class="cards-grid">' + "".join(cards) + "</section>"
 
@@ -399,7 +405,7 @@ def _build_landing_screen(snapshot):
     phase3 = snapshot.get("phase_3_status", {})
     safety_scan = snapshot.get("phase_3_safety_scan", {})
     next_action = snapshot.get("recommended_next_action", "unknown")
-    next_action = "Ready for backend architecture blueprint review. Future backend integration remains a later phase."
+    next_action = "Next phase: stakeholder demo review / runtime activation planning. Backend/Supabase readiness architecture exists. Live backend runtime is disabled."
     merge_ready_status = "PASS" if "ready_for_merge_review" in next_action else "INFO"
     cards = [
         _card("Phase 1 status", phase1.get("detected_verdict", "unknown"), phase1.get("summary", "Phase 1 backend source of truth is present.")),
@@ -407,6 +413,18 @@ def _build_landing_screen(snapshot):
         _card("Phase 3 status", phase3.get("detected_verdict", "unknown"), phase3.get("summary", "Read-Only Operations Dashboard build and exports are available.")),
         _card("Safety status", safety_scan.get("status", "unknown"), "Production-hosted dashboard with deployment, merge, push, secret access, and command execution disabled."),
         _card("Roadmap status", merge_ready_status, next_action),
+        _card(
+            "Premium Stakeholder Demo",
+            "INFO",
+            "Open the browser-viewable premium demo hub with the stakeholder presentation, system story, scale inventory, and safety map.",
+            extra='<a class="section-button" href="./demo/">View Stakeholder Demo Hub</a>',
+        ),
+        _card(
+            "Runnable Static Simulator",
+            "INFO",
+            "Run the browser-viewable static sandbox simulator for the command-center pipeline.",
+            extra='<a class="section-button" href="./demo/simulator.html">Open Simulator</a>',
+        ),
     ]
     buttons = [
         ("Roadmap Re-Anchor", "roadmap-reanchor"),
@@ -503,7 +521,7 @@ def _build_toolbar(snapshot):
         {_copy_button("Copy summary", summary, aria="Copy dashboard summary")}
       </div>
       <div class="toolbar-group toolbar-note">
-        <span class="muted">Current build: static preview. Hosting readiness: static hosting ready. Backend integration: planned, disabled in this build. Controls: read-only display.</span>
+        <span class="muted">Current build: static preview. Hosting readiness: static hosting ready. Backend/Supabase readiness architecture exists. Live backend runtime is disabled. Controls: read-only display.</span>
       </div>
       <div class="toolbar-status" aria-live="polite">
         <span id="copy-status" class="muted">Local UI ready.</span>
@@ -1818,7 +1836,7 @@ def _build_mvp48_controlled_action_queue_layer(snapshot):
     <article class="card mvp48-action-queue" id="mvp48-action-queue-overview">
       <div class="card-head"><h3 class="card-title">CONTROLLED ACTION QUEUE</h3><span class="badge info">MVP-48</span></div>
       <p class="card-body">Blueprint and readiness layer for the controlled action queue.</p>
-      {{_list([
+      {_list([
           "ACTION QUEUE DATA MODEL: READY",
           "QUEUED ACTION LIFECYCLE SCHEMA: READY",
           "QUEUE ADMISSION GATE CONTRACT: READY",
@@ -1827,7 +1845,7 @@ def _build_mvp48_controlled_action_queue_layer(snapshot):
           "QUEUE DEPENDENCY PRECONDITION MODEL: READY",
           "QUEUE AUDIT LINKAGE BLUEPRINT: READY",
           "QUEUE OPERATOR REVIEW PACKET: READY",
-      ])}}
+      ])}
       <div class="button-row" style="margin-top:0.75rem;">
         <button type="button" class="copy-button small">Copy Action Queue Summary</button>
         <button type="button" class="copy-button small">Copy Action Queue Data Model</button>
@@ -1845,33 +1863,33 @@ def _build_mvp48_controlled_action_queue_layer(snapshot):
     <article class="card plus1-safety-summary" id="mvp48-safety-summary">
       <div class="card-head"><h3 class="card-title">Safety Summary</h3><span class="badge pass">SECURE</span></div>
       <div class="stat-grid">
-        {{_stat("Mode", "ACTION QUEUE FOUNDATION ONLY", _badge("SCHEMA READINESS ONLY", "info"))}}
-        {{_stat("Role", "REVIEW ONLY", _badge("FUTURE IMPLEMENTATION ONLY", "warning"))}}
-        {{_stat("Execution", "NO REAL ACTION EXECUTION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Execution", "NO REAL COMMAND EXECUTION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Queue", "NO QUEUE WORKER PROCESSING", _badge("DISABLED", "disabled"))}}
-        {{_stat("Queue", "NO AUTOMATIC DISPATCH", _badge("DISABLED", "disabled"))}}
-        {{_stat("Queue", "NO SCHEDULED ACTION EXECUTION", _badge("DISABLED", "disabled"))}}
-        {{_stat("Queue", "NO RETRY EXECUTION", _badge("DISABLED", "disabled"))}}
-        {{_stat("Approval", "NO APPROVAL EXECUTION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Writes", "NO DATABASE WRITES", _badge("DISABLED", "disabled"))}}
-        {{_stat("Writes", "NO SUPABASE WRITES", _badge("DISABLED", "disabled"))}}
-        {{_stat("Writes", "NO PUBLIC WRITES", _badge("DISABLED", "disabled"))}}
-        {{_stat("Mutation", "NO LIVE REQUEST MUTATION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Audit", "NO AUDIT EVENT WRITES", _badge("BLOCKED", "locked"))}}
-        {{_stat("Mutation", "NO EXTERNAL API MUTATION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Mutation", "NO GITHUB MUTATION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Mutation", "NO NETLIFY MUTATION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Controls", "NO DEPLOY CONTROLS", _badge("BLOCKED", "locked"))}}
-        {{_stat("Controls", "NO MERGE CONTROLS", _badge("BLOCKED", "locked"))}}
-        {{_stat("Controls", "NO PUSH CONTROLS", _badge("BLOCKED", "locked"))}}
-        {{_stat("Controls", "NO PR CONTROLS", _badge("BLOCKED", "locked"))}}
-        {{_stat("Automation", "AUTOMATION DISABLED", _badge("NOT_READY_FOR_REAL_AUTOMATION", "disabled"))}}
-        {{_stat("Role", "SERVICE ROLE NOT USED", _badge("BLOCKED", "disabled"))}}
-        {{_stat("Role", "SERVICE ROLE NOT IN BROWSER", _badge("BLOCKED", "disabled"))}}
-        {{_stat("Token", "NO TOKEN INPUT", _badge("DISABLED", "disabled"))}}
-        {{_stat("Persistence", "NO BROWSER PERSISTENCE", _badge("DISABLED", "disabled"))}}
-        {{_stat("Migration", "NO MIGRATION APPLY", _badge("DISABLED", "disabled"))}}
+        {_stat("Mode", "ACTION QUEUE FOUNDATION ONLY", _badge("SCHEMA READINESS ONLY", "info"))}
+        {_stat("Role", "REVIEW ONLY", _badge("FUTURE IMPLEMENTATION ONLY", "warning"))}
+        {_stat("Execution", "NO REAL ACTION EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Execution", "NO REAL COMMAND EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Queue", "NO QUEUE WORKER PROCESSING", _badge("DISABLED", "disabled"))}
+        {_stat("Queue", "NO AUTOMATIC DISPATCH", _badge("DISABLED", "disabled"))}
+        {_stat("Queue", "NO SCHEDULED ACTION EXECUTION", _badge("DISABLED", "disabled"))}
+        {_stat("Queue", "NO RETRY EXECUTION", _badge("DISABLED", "disabled"))}
+        {_stat("Approval", "NO APPROVAL EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Writes", "NO DATABASE WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Writes", "NO SUPABASE WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Writes", "NO PUBLIC WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Mutation", "NO LIVE REQUEST MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Audit", "NO AUDIT EVENT WRITES", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO EXTERNAL API MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO GITHUB MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO NETLIFY MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO DEPLOY CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO MERGE CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO PUSH CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO PR CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Automation", "AUTOMATION DISABLED", _badge("NOT_READY_FOR_REAL_AUTOMATION", "disabled"))}
+        {_stat("Role", "SERVICE ROLE NOT USED", _badge("BLOCKED", "disabled"))}
+        {_stat("Role", "SERVICE ROLE NOT IN BROWSER", _badge("BLOCKED", "disabled"))}
+        {_stat("Token", "NO TOKEN INPUT", _badge("DISABLED", "disabled"))}
+        {_stat("Persistence", "NO BROWSER PERSISTENCE", _badge("DISABLED", "disabled"))}
+        {_stat("Migration", "NO MIGRATION APPLY", _badge("DISABLED", "disabled"))}
       </div>
       <div class="callout" style="margin-top:0.75rem;">
         <p class="muted" style="margin:0;">Next Planned Step</p>
@@ -1898,7 +1916,7 @@ def _build_mvp49_human_approved_internal_execution_layer(snapshot):
     <article class="card mvp49-human-execution" id="mvp49-human-execution-overview">
       <div class="card-head"><h3 class="card-title">HUMAN APPROVED INTERNAL EXECUTION</h3><span class="badge info">MVP-49</span></div>
       <p class="card-body">Blueprint and readiness layer for human-approved internal execution.</p>
-      {{_list([
+      {_list([
           "OPERATOR ATTESTATION SCHEMA: READY",
           "EXECUTION ELIGIBILITY GATE: READY",
           "APPROVAL EXECUTION BINDING: READY",
@@ -1906,7 +1924,7 @@ def _build_mvp49_human_approved_internal_execution_layer(snapshot):
           "EXECUTION RESULT RECEIPT SCHEMA: READY",
           "ROLLBACK HANDOFF PACKET: READY",
           "POST EXECUTION VERIFICATION CHECKLIST: READY",
-      ])}}
+      ])}
       <div class="button-row" style="margin-top:0.75rem;">
         <button type="button" class="copy-button small">Copy Human Execution Summary</button>
         <button type="button" class="copy-button small">Copy Operator Attestation Schema</button>
@@ -1923,34 +1941,34 @@ def _build_mvp49_human_approved_internal_execution_layer(snapshot):
     <article class="card plus1-safety-summary" id="mvp49-safety-summary">
       <div class="card-head"><h3 class="card-title">Safety Summary</h3><span class="badge pass">SECURE</span></div>
       <div class="stat-grid">
-        {{_stat("Mode", "HUMAN EXECUTION READINESS ONLY", _badge("SCHEMA READINESS ONLY", "info"))}}
-        {{_stat("Role", "REVIEW ONLY", _badge("FUTURE IMPLEMENTATION ONLY", "warning"))}}
-        {{_stat("Execution", "NO REAL COMMAND EXECUTION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Execution", "NO REAL ACTION EXECUTION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Execution", "NO AUTONOMOUS EXECUTION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Queue", "NO QUEUE WORKER PROCESSING", _badge("DISABLED", "disabled"))}}
-        {{_stat("Queue", "NO AUTOMATIC DISPATCH", _badge("DISABLED", "disabled"))}}
-        {{_stat("Queue", "NO SCHEDULED EXECUTION", _badge("DISABLED", "disabled"))}}
-        {{_stat("Queue", "NO RETRY EXECUTION", _badge("DISABLED", "disabled"))}}
-        {{_stat("Approval", "NO APPROVAL EXECUTION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Writes", "NO DATABASE WRITES", _badge("DISABLED", "disabled"))}}
-        {{_stat("Writes", "NO SUPABASE WRITES", _badge("DISABLED", "disabled"))}}
-        {{_stat("Writes", "NO PUBLIC WRITES", _badge("DISABLED", "disabled"))}}
-        {{_stat("Mutation", "NO LIVE REQUEST MUTATION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Audit", "NO AUDIT EVENT WRITES", _badge("BLOCKED", "locked"))}}
-        {{_stat("Mutation", "NO EXTERNAL API MUTATION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Mutation", "NO GITHUB MUTATION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Mutation", "NO NETLIFY MUTATION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Controls", "NO DEPLOY CONTROLS", _badge("BLOCKED", "locked"))}}
-        {{_stat("Controls", "NO MERGE CONTROLS", _badge("BLOCKED", "locked"))}}
-        {{_stat("Controls", "NO PUSH CONTROLS", _badge("BLOCKED", "locked"))}}
-        {{_stat("Controls", "NO PR CONTROLS", _badge("BLOCKED", "locked"))}}
-        {{_stat("Automation", "AUTOMATION DISABLED", _badge("NOT_READY_FOR_REAL_AUTOMATION", "disabled"))}}
-        {{_stat("Role", "SERVICE ROLE NOT USED", _badge("BLOCKED", "disabled"))}}
-        {{_stat("Role", "SERVICE ROLE NOT IN BROWSER", _badge("BLOCKED", "disabled"))}}
-        {{_stat("Token", "NO TOKEN INPUT", _badge("DISABLED", "disabled"))}}
-        {{_stat("Persistence", "NO BROWSER PERSISTENCE", _badge("DISABLED", "disabled"))}}
-        {{_stat("Migration", "NO MIGRATION APPLY", _badge("DISABLED", "disabled"))}}
+        {_stat("Mode", "HUMAN EXECUTION READINESS ONLY", _badge("SCHEMA READINESS ONLY", "info"))}
+        {_stat("Role", "REVIEW ONLY", _badge("FUTURE IMPLEMENTATION ONLY", "warning"))}
+        {_stat("Execution", "NO REAL COMMAND EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Execution", "NO REAL ACTION EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Execution", "NO AUTONOMOUS EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Queue", "NO QUEUE WORKER PROCESSING", _badge("DISABLED", "disabled"))}
+        {_stat("Queue", "NO AUTOMATIC DISPATCH", _badge("DISABLED", "disabled"))}
+        {_stat("Queue", "NO SCHEDULED EXECUTION", _badge("DISABLED", "disabled"))}
+        {_stat("Queue", "NO RETRY EXECUTION", _badge("DISABLED", "disabled"))}
+        {_stat("Approval", "NO APPROVAL EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Writes", "NO DATABASE WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Writes", "NO SUPABASE WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Writes", "NO PUBLIC WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Mutation", "NO LIVE REQUEST MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Audit", "NO AUDIT EVENT WRITES", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO EXTERNAL API MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO GITHUB MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO NETLIFY MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO DEPLOY CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO MERGE CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO PUSH CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO PR CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Automation", "AUTOMATION DISABLED", _badge("NOT_READY_FOR_REAL_AUTOMATION", "disabled"))}
+        {_stat("Role", "SERVICE ROLE NOT USED", _badge("BLOCKED", "disabled"))}
+        {_stat("Role", "SERVICE ROLE NOT IN BROWSER", _badge("BLOCKED", "disabled"))}
+        {_stat("Token", "NO TOKEN INPUT", _badge("DISABLED", "disabled"))}
+        {_stat("Persistence", "NO BROWSER PERSISTENCE", _badge("DISABLED", "disabled"))}
+        {_stat("Migration", "NO MIGRATION APPLY", _badge("DISABLED", "disabled"))}
       </div>
       <div class="callout" style="margin-top:0.75rem;">
         <p class="muted" style="margin:0;">Next Planned Step</p>
@@ -1977,7 +1995,7 @@ def _build_mvp50_monitoring_rollback_incident_console_layer(snapshot):
     <article class="card mvp50-readiness-layer" id="mvp50-readiness-overview">
       <div class="card-head"><h3 class="card-title">MONITORING / ROLLBACK / INCIDENT CONSOLE</h3><span class="badge info">MVP-50</span></div>
       <p class="card-body">Blueprint and readiness layer for the monitoring, rollback, and incident console domain.</p>
-      {{_list([
+      {_list([
           "MONITORING CONSOLE: READY",
           "HEALTH SIGNAL SCHEMA: READY",
           "INCIDENT RECORD SCHEMA: READY",
@@ -1986,7 +2004,7 @@ def _build_mvp50_monitoring_rollback_incident_console_layer(snapshot):
           "OPERATOR INCIDENT REVIEW PACKET: READY",
           "INCIDENT SEVERITY ESCALATION MATRIX: READY",
           "POST-INCIDENT AUDIT PACKET: READY",
-      ])}}
+      ])}
       <div class="button-row" style="margin-top:0.75rem;">
         <button type="button" class="copy-button small">Copy Monitoring Console Model</button>
         <button type="button" class="copy-button small">Copy Health Signal Schema</button>
@@ -2003,38 +2021,38 @@ def _build_mvp50_monitoring_rollback_incident_console_layer(snapshot):
     <article class="card plus1-safety-summary" id="mvp50-safety-summary">
       <div class="card-head"><h3 class="card-title">Safety Summary</h3><span class="badge pass">SECURE</span></div>
       <div class="stat-grid">
-        {{_stat("Mode", "READINESS ONLY", _badge("SCHEMA READINESS ONLY", "info"))}}
-        {{_stat("Mode", "MONITORING INCIDENT READINESS ONLY", _badge("SCHEMA READINESS ONLY", "info"))}}
-        {{_stat("Role", "REVIEW ONLY", _badge("FUTURE IMPLEMENTATION ONLY", "warning"))}}
-        {{_stat("Daemon", "NO REAL MONITORING DAEMON", _badge("BLOCKED", "locked"))}}
-        {{_stat("Worker", "NO BACKGROUND WORKER", _badge("BLOCKED", "locked"))}}
-        {{_stat("Alerting", "NO ALERT SENDING", _badge("BLOCKED", "locked"))}}
-        {{_stat("Notify", "NO INCIDENT NOTIFICATION SENDING", _badge("BLOCKED", "locked"))}}
-        {{_stat("Mutation", "NO INCIDENT MUTATION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Rollback", "NO REAL ROLLBACK EXECUTION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Mutation", "NO ROLLBACK MUTATION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Execution", "NO AUTONOMOUS EXECUTION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Execution", "NO REAL COMMAND EXECUTION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Execution", "NO REAL ACTION EXECUTION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Queue", "NO QUEUE WORKER PROCESSING", _badge("BLOCKED", "locked"))}}
-        {{_stat("Approval", "NO APPROVAL EXECUTION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Automation", "AUTOMATION DISABLED", _badge("NOT_READY_FOR_REAL_AUTOMATION", "disabled"))}}
-        {{_stat("Writes", "NO DATABASE WRITES", _badge("DISABLED", "disabled"))}}
-        {{_stat("Writes", "NO SUPABASE WRITES", _badge("DISABLED", "disabled"))}}
-        {{_stat("Writes", "NO PUBLIC WRITES", _badge("DISABLED", "disabled"))}}
-        {{_stat("Writes", "NO AUDIT EVENT WRITES", _badge("DISABLED", "disabled"))}}
-        {{_stat("Mutation", "NO REQUEST STATUS MUTATION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Mutation", "NO GITHUB MUTATION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Mutation", "NO NETLIFY MUTATION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Controls", "NO DEPLOY CONTROLS", _badge("BLOCKED", "locked"))}}
-        {{_stat("Controls", "NO MERGE CONTROLS", _badge("BLOCKED", "locked"))}}
-        {{_stat("Controls", "NO PUSH CONTROLS", _badge("BLOCKED", "locked"))}}
-        {{_stat("Controls", "NO PR CONTROLS", _badge("BLOCKED", "locked"))}}
-        {{_stat("Service", "SERVICE ROLE NOT USED", _badge("DISABLED", "disabled"))}}
-        {{_stat("Service", "SERVICE ROLE NOT IN BROWSER", _badge("DISABLED", "disabled"))}}
-        {{_stat("Auth", "NO TOKEN INPUT", _badge("DISABLED", "disabled"))}}
-        {{_stat("Auth", "NO BROWSER PERSISTENCE", _badge("DISABLED", "disabled"))}}
-        {{_stat("Migration", "NO MIGRATION APPLY", _badge("DISABLED", "disabled"))}}
+        {_stat("Mode", "READINESS ONLY", _badge("SCHEMA READINESS ONLY", "info"))}
+        {_stat("Mode", "MONITORING INCIDENT READINESS ONLY", _badge("SCHEMA READINESS ONLY", "info"))}
+        {_stat("Role", "REVIEW ONLY", _badge("FUTURE IMPLEMENTATION ONLY", "warning"))}
+        {_stat("Daemon", "NO REAL MONITORING DAEMON", _badge("BLOCKED", "locked"))}
+        {_stat("Worker", "NO BACKGROUND WORKER", _badge("BLOCKED", "locked"))}
+        {_stat("Alerting", "NO ALERT SENDING", _badge("BLOCKED", "locked"))}
+        {_stat("Notify", "NO INCIDENT NOTIFICATION SENDING", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO INCIDENT MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Rollback", "NO REAL ROLLBACK EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO ROLLBACK MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Execution", "NO AUTONOMOUS EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Execution", "NO REAL COMMAND EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Execution", "NO REAL ACTION EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Queue", "NO QUEUE WORKER PROCESSING", _badge("BLOCKED", "locked"))}
+        {_stat("Approval", "NO APPROVAL EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Automation", "AUTOMATION DISABLED", _badge("NOT_READY_FOR_REAL_AUTOMATION", "disabled"))}
+        {_stat("Writes", "NO DATABASE WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Writes", "NO SUPABASE WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Writes", "NO PUBLIC WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Writes", "NO AUDIT EVENT WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Mutation", "NO REQUEST STATUS MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO GITHUB MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO NETLIFY MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO DEPLOY CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO MERGE CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO PUSH CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO PR CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Service", "SERVICE ROLE NOT USED", _badge("DISABLED", "disabled"))}
+        {_stat("Service", "SERVICE ROLE NOT IN BROWSER", _badge("DISABLED", "disabled"))}
+        {_stat("Auth", "NO TOKEN INPUT", _badge("DISABLED", "disabled"))}
+        {_stat("Auth", "NO BROWSER PERSISTENCE", _badge("DISABLED", "disabled"))}
+        {_stat("Migration", "NO MIGRATION APPLY", _badge("DISABLED", "disabled"))}
       </div>
       <div class="callout" style="margin-top:0.75rem;">
         <p class="muted" style="margin:0;">Next Planned Step</p>
@@ -2061,7 +2079,7 @@ def _build_mvp47_server_side_dry_run_engine_layer(snapshot):
     <article class="card mvp47-dry-run-engine" id="mvp47-dry-run-engine-overview">
       <div class="card-head"><h3 class="card-title">SERVER SIDE DRY RUN ENGINE</h3><span class="badge info">MVP-47</span></div>
       <p class="card-body">Blueprint and readiness layer for the server-side dry-run engine.</p>
-      {{_list([
+      {_list([
           "ACTION PLAN INPUT SCHEMA: READY",
           "PREFLIGHT VALIDATION SCHEMA: READY",
           "SIMULATED EXECUTION RESULT SCHEMA: READY",
@@ -2069,7 +2087,7 @@ def _build_mvp47_server_side_dry_run_engine_layer(snapshot):
           "ROLLBACK PREVIEW: READY",
           "APPROVAL BOUND DRY RUN CONTRACT: READY",
           "DRY RUN EVIDENCE PACKET: READY",
-      ])}}
+      ])}
       <div class="button-row" style="margin-top:0.75rem;">
         <button type="button" class="copy-button small">Copy Dry-Run Engine Summary</button>
         <button type="button" class="copy-button small">Copy Action Plan Input Schema</button>
@@ -2086,31 +2104,31 @@ def _build_mvp47_server_side_dry_run_engine_layer(snapshot):
     <article class="card plus1-safety-summary" id="mvp47-safety-summary">
       <div class="card-head"><h3 class="card-title">Safety Summary</h3><span class="badge pass">SECURE</span></div>
       <div class="stat-grid">
-        {{_stat("Mode", "DRY RUN ENGINE FOUNDATION ONLY", _badge("SCHEMA READINESS ONLY", "info"))}}
-        {{_stat("Role", "REVIEW ONLY", _badge("FUTURE IMPLEMENTATION ONLY", "warning"))}}
-        {{_stat("Execution", "NO REAL COMMAND EXECUTION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Execution", "NO REAL ACTION EXECUTION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Execution", "NO REAL EXTERNAL DRY RUN", _badge("BLOCKED", "locked"))}}
-        {{_stat("Approval", "NO APPROVAL EXECUTION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Writes", "NO DATABASE WRITES", _badge("DISABLED", "disabled"))}}
-        {{_stat("Writes", "NO SUPABASE WRITES", _badge("DISABLED", "disabled"))}}
-        {{_stat("Writes", "NO PUBLIC WRITES", _badge("DISABLED", "disabled"))}}
-        {{_stat("Mutation", "NO LIVE REQUEST MUTATION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Audit", "NO AUDIT EVENT WRITES", _badge("BLOCKED", "locked"))}}
-        {{_stat("Mutation", "NO EXTERNAL API MUTATION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Mutation", "NO GITHUB MUTATION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Mutation", "NO NETLIFY MUTATION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Controls", "NO DEPLOY CONTROLS", _badge("BLOCKED", "locked"))}}
-        {{_stat("Controls", "NO MERGE CONTROLS", _badge("BLOCKED", "locked"))}}
-        {{_stat("Controls", "NO PUSH CONTROLS", _badge("BLOCKED", "locked"))}}
-        {{_stat("Controls", "NO PR CONTROLS", _badge("BLOCKED", "locked"))}}
-        {{_stat("Queue", "NO ACTION QUEUE", _badge("DISABLED", "disabled"))}}
-        {{_stat("Automation", "AUTOMATION DISABLED", _badge("NOT_READY_FOR_REAL_AUTOMATION", "disabled"))}}
-        {{_stat("Role", "SERVICE ROLE NOT USED", _badge("BLOCKED", "disabled"))}}
-        {{_stat("Role", "SERVICE ROLE NOT IN BROWSER", _badge("BLOCKED", "disabled"))}}
-        {{_stat("Token", "NO TOKEN INPUT", _badge("DISABLED", "disabled"))}}
-        {{_stat("Persistence", "NO BROWSER PERSISTENCE", _badge("DISABLED", "disabled"))}}
-        {{_stat("Migration", "NO MIGRATION APPLY", _badge("DISABLED", "disabled"))}}
+        {_stat("Mode", "DRY RUN ENGINE FOUNDATION ONLY", _badge("SCHEMA READINESS ONLY", "info"))}
+        {_stat("Role", "REVIEW ONLY", _badge("FUTURE IMPLEMENTATION ONLY", "warning"))}
+        {_stat("Execution", "NO REAL COMMAND EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Execution", "NO REAL ACTION EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Execution", "NO REAL EXTERNAL DRY RUN", _badge("BLOCKED", "locked"))}
+        {_stat("Approval", "NO APPROVAL EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Writes", "NO DATABASE WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Writes", "NO SUPABASE WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Writes", "NO PUBLIC WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Mutation", "NO LIVE REQUEST MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Audit", "NO AUDIT EVENT WRITES", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO EXTERNAL API MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO GITHUB MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO NETLIFY MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO DEPLOY CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO MERGE CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO PUSH CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO PR CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Queue", "NO ACTION QUEUE", _badge("DISABLED", "disabled"))}
+        {_stat("Automation", "AUTOMATION DISABLED", _badge("NOT_READY_FOR_REAL_AUTOMATION", "disabled"))}
+        {_stat("Role", "SERVICE ROLE NOT USED", _badge("BLOCKED", "disabled"))}
+        {_stat("Role", "SERVICE ROLE NOT IN BROWSER", _badge("BLOCKED", "disabled"))}
+        {_stat("Token", "NO TOKEN INPUT", _badge("DISABLED", "disabled"))}
+        {_stat("Persistence", "NO BROWSER PERSISTENCE", _badge("DISABLED", "disabled"))}
+        {_stat("Migration", "NO MIGRATION APPLY", _badge("DISABLED", "disabled"))}
       </div>
       <div class="callout" style="margin-top:0.75rem;">
         <p class="muted" style="margin:0;">Next Planned Step</p>
@@ -2137,7 +2155,7 @@ def _build_mvp46_approval_gate_storage_layer(snapshot):
     <article class="card mvp46-approval-storage" id="mvp46-approval-storage-overview">
       <div class="card-head"><h3 class="card-title">APPROVAL GATE STORAGE</h3><span class="badge info">MVP-46</span></div>
       <p class="card-body">Blueprint and readiness layer for the approval gate storage.</p>
-      {{_list([
+      {_list([
           "APPROVAL REQUEST SCHEMA: READY",
           "APPROVAL DECISION SCHEMA: READY",
           "APPROVAL SCOPE EXPIRATION MODEL: READY",
@@ -2145,7 +2163,7 @@ def _build_mvp46_approval_gate_storage_layer(snapshot):
           "APPROVAL AUDIT LINKAGE BLUEPRINT: READY",
           "APPROVAL PERMISSION BOUNDARY CONTRACT: READY",
           "APPROVAL STORAGE READINESS CHECKLIST: READY",
-      ])}}
+      ])}
       <div class="button-row" style="margin-top:0.75rem;">
         <button type="button" class="copy-button small">Copy Approval Gate Summary</button>
         <button type="button" class="copy-button small">Copy Approval Request Schema</button>
@@ -2162,32 +2180,32 @@ def _build_mvp46_approval_gate_storage_layer(snapshot):
     <article class="card plus1-safety-summary" id="mvp46-safety-summary">
       <div class="card-head"><h3 class="card-title">Safety Summary</h3><span class="badge pass">SECURE</span></div>
       <div class="stat-grid">
-        {{_stat("Mode", "APPROVAL GATE STORAGE FOUNDATION ONLY", _badge("SCHEMA READINESS ONLY", "info"))}}
-        {{_stat("Role", "REVIEW ONLY", _badge("FUTURE IMPLEMENTATION ONLY", "warning"))}}
-        {{_stat("Approval", "NO REAL APPROVAL DECISIONS", _badge("DISABLED", "disabled"))}}
-        {{_stat("Storage", "NO REAL APPROVAL STORAGE", _badge("DISABLED", "disabled"))}}
-        {{_stat("Execution", "NO APPROVAL EXECUTION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Execution", "NO COMMAND EXECUTION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Writes", "NO DATABASE WRITES", _badge("DISABLED", "disabled"))}}
-        {{_stat("Writes", "NO SUPABASE WRITES", _badge("DISABLED", "disabled"))}}
-        {{_stat("Writes", "NO PUBLIC WRITES", _badge("DISABLED", "disabled"))}}
-        {{_stat("Workflow", "NO LIVE APPROVAL WORKFLOW", _badge("DISABLED", "disabled"))}}
-        {{_stat("Mutation", "NO APPROVAL MUTATION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Deletion", "NO APPROVAL DELETION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Audit", "NO AUDIT EVENT WRITES", _badge("BLOCKED", "locked"))}}
-        {{_stat("Mutation", "NO REQUEST STATUS MUTATION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Controls", "NO DEPLOY CONTROLS", _badge("BLOCKED", "locked"))}}
-        {{_stat("Controls", "NO MERGE CONTROLS", _badge("BLOCKED", "locked"))}}
-        {{_stat("Controls", "NO PUSH CONTROLS", _badge("BLOCKED", "locked"))}}
-        {{_stat("Controls", "NO PR CONTROLS", _badge("BLOCKED", "locked"))}}
-        {{_stat("Mutation", "NO GITHUB MUTATION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Mutation", "NO NETLIFY MUTATION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Automation", "AUTOMATION DISABLED", _badge("NOT_READY_FOR_REAL_AUTOMATION", "disabled"))}}
-        {{_stat("Role", "SERVICE ROLE NOT USED", _badge("BLOCKED", "disabled"))}}
-        {{_stat("Role", "SERVICE ROLE NOT IN BROWSER", _badge("BLOCKED", "disabled"))}}
-        {{_stat("Token", "NO TOKEN INPUT", _badge("DISABLED", "disabled"))}}
-        {{_stat("Persistence", "NO BROWSER PERSISTENCE", _badge("DISABLED", "disabled"))}}
-        {{_stat("Migration", "NO MIGRATION APPLY", _badge("DISABLED", "disabled"))}}
+        {_stat("Mode", "APPROVAL GATE STORAGE FOUNDATION ONLY", _badge("SCHEMA READINESS ONLY", "info"))}
+        {_stat("Role", "REVIEW ONLY", _badge("FUTURE IMPLEMENTATION ONLY", "warning"))}
+        {_stat("Approval", "NO REAL APPROVAL DECISIONS", _badge("DISABLED", "disabled"))}
+        {_stat("Storage", "NO REAL APPROVAL STORAGE", _badge("DISABLED", "disabled"))}
+        {_stat("Execution", "NO APPROVAL EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Execution", "NO COMMAND EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Writes", "NO DATABASE WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Writes", "NO SUPABASE WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Writes", "NO PUBLIC WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Workflow", "NO LIVE APPROVAL WORKFLOW", _badge("DISABLED", "disabled"))}
+        {_stat("Mutation", "NO APPROVAL MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Deletion", "NO APPROVAL DELETION", _badge("BLOCKED", "locked"))}
+        {_stat("Audit", "NO AUDIT EVENT WRITES", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO REQUEST STATUS MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO DEPLOY CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO MERGE CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO PUSH CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO PR CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO GITHUB MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO NETLIFY MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Automation", "AUTOMATION DISABLED", _badge("NOT_READY_FOR_REAL_AUTOMATION", "disabled"))}
+        {_stat("Role", "SERVICE ROLE NOT USED", _badge("BLOCKED", "disabled"))}
+        {_stat("Role", "SERVICE ROLE NOT IN BROWSER", _badge("BLOCKED", "disabled"))}
+        {_stat("Token", "NO TOKEN INPUT", _badge("DISABLED", "disabled"))}
+        {_stat("Persistence", "NO BROWSER PERSISTENCE", _badge("DISABLED", "disabled"))}
+        {_stat("Migration", "NO MIGRATION APPLY", _badge("DISABLED", "disabled"))}
       </div>
       <div class="callout" style="margin-top:0.75rem;">
         <p class="muted" style="margin:0;">Next Planned Step</p>
@@ -2214,7 +2232,7 @@ def _build_mvp45_immutable_audit_event_ledger_layer(snapshot):
     <article class="card mvp45-audit-ledger" id="mvp45-audit-ledger-overview">
       <div class="card-head"><h3 class="card-title">IMMUTABLE AUDIT EVENT LEDGER</h3><span class="badge info">MVP-45</span></div>
       <p class="card-body">Blueprint and readiness layer for the immutable audit event ledger.</p>
-      {{_list([
+      {_list([
           "AUDIT EVENT DATA MODEL: READY",
           "APPEND ONLY LEDGER CONTRACT: READY",
           "AUDIT EVENT TAXONOMY: READY",
@@ -2222,7 +2240,7 @@ def _build_mvp45_immutable_audit_event_ledger_layer(snapshot):
           "BEFORE AFTER SNAPSHOT BLUEPRINT: READY",
           "AUDIT INTEGRITY TAMPER RESISTANCE PLAN: READY",
           "AUDIT RETENTION EXPORT BLUEPRINT: READY",
-      ])}}
+      ])}
       <div class="button-row" style="margin-top:0.75rem;">
         <button type="button" class="copy-button small">Copy Audit Ledger Summary</button>
         <button type="button" class="copy-button small">Copy Audit Event Data Model</button>
@@ -2239,30 +2257,30 @@ def _build_mvp45_immutable_audit_event_ledger_layer(snapshot):
     <article class="card plus1-safety-summary" id="mvp45-safety-summary">
       <div class="card-head"><h3 class="card-title">Safety Summary</h3><span class="badge pass">SECURE</span></div>
       <div class="stat-grid">
-        {{_stat("Mode", "AUDIT LEDGER FOUNDATION ONLY", _badge("SCHEMA READINESS ONLY", "info"))}}
-        {{_stat("Role", "REVIEW ONLY", _badge("FUTURE IMPLEMENTATION ONLY", "warning"))}}
-        {{_stat("Audit", "NO REAL AUDIT EVENT WRITES", _badge("DISABLED", "disabled"))}}
-        {{_stat("Persistence", "NO REAL AUDIT PERSISTENCE", _badge("DISABLED", "disabled"))}}
-        {{_stat("Writes", "NO DATABASE WRITES", _badge("DISABLED", "disabled"))}}
-        {{_stat("Writes", "NO SUPABASE WRITES", _badge("DISABLED", "disabled"))}}
-        {{_stat("Writes", "NO PUBLIC WRITES", _badge("DISABLED", "disabled"))}}
-        {{_stat("Logging", "NO LIVE AUDIT LOGGING", _badge("DISABLED", "disabled"))}}
-        {{_stat("Mutation", "NO AUDIT EVENT MUTATION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Deletion", "NO AUDIT EVENT DELETION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Execution", "NO COMMAND EXECUTION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Execution", "NO APPROVAL EXECUTION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Controls", "NO DEPLOY CONTROLS", _badge("BLOCKED", "locked"))}}
-        {{_stat("Controls", "NO MERGE CONTROLS", _badge("BLOCKED", "locked"))}}
-        {{_stat("Controls", "NO PUSH CONTROLS", _badge("BLOCKED", "locked"))}}
-        {{_stat("Controls", "NO PR CONTROLS", _badge("BLOCKED", "locked"))}}
-        {{_stat("Mutation", "NO GITHUB MUTATION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Mutation", "NO NETLIFY MUTATION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Automation", "AUTOMATION DISABLED", _badge("NOT_READY_FOR_REAL_AUTOMATION", "disabled"))}}
-        {{_stat("Role", "SERVICE ROLE NOT USED", _badge("BLOCKED", "disabled"))}}
-        {{_stat("Role", "SERVICE ROLE NOT IN BROWSER", _badge("BLOCKED", "disabled"))}}
-        {{_stat("Token", "NO TOKEN INPUT", _badge("DISABLED", "disabled"))}}
-        {{_stat("Persistence", "NO BROWSER PERSISTENCE", _badge("DISABLED", "disabled"))}}
-        {{_stat("Migration", "NO MIGRATION APPLY", _badge("DISABLED", "disabled"))}}
+        {_stat("Mode", "AUDIT LEDGER FOUNDATION ONLY", _badge("SCHEMA READINESS ONLY", "info"))}
+        {_stat("Role", "REVIEW ONLY", _badge("FUTURE IMPLEMENTATION ONLY", "warning"))}
+        {_stat("Audit", "NO REAL AUDIT EVENT WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Persistence", "NO REAL AUDIT PERSISTENCE", _badge("DISABLED", "disabled"))}
+        {_stat("Writes", "NO DATABASE WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Writes", "NO SUPABASE WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Writes", "NO PUBLIC WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Logging", "NO LIVE AUDIT LOGGING", _badge("DISABLED", "disabled"))}
+        {_stat("Mutation", "NO AUDIT EVENT MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Deletion", "NO AUDIT EVENT DELETION", _badge("BLOCKED", "locked"))}
+        {_stat("Execution", "NO COMMAND EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Execution", "NO APPROVAL EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO DEPLOY CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO MERGE CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO PUSH CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO PR CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO GITHUB MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO NETLIFY MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Automation", "AUTOMATION DISABLED", _badge("NOT_READY_FOR_REAL_AUTOMATION", "disabled"))}
+        {_stat("Role", "SERVICE ROLE NOT USED", _badge("BLOCKED", "disabled"))}
+        {_stat("Role", "SERVICE ROLE NOT IN BROWSER", _badge("BLOCKED", "disabled"))}
+        {_stat("Token", "NO TOKEN INPUT", _badge("DISABLED", "disabled"))}
+        {_stat("Persistence", "NO BROWSER PERSISTENCE", _badge("DISABLED", "disabled"))}
+        {_stat("Migration", "NO MIGRATION APPLY", _badge("DISABLED", "disabled"))}
       </div>
       <div class="callout" style="margin-top:0.75rem;">
         <p class="muted" style="margin:0;">Next Planned Step</p>
@@ -2289,7 +2307,7 @@ def _build_mvp44_persistent_request_storage_foundation_layer(snapshot):
     <article class="card mvp44-storage-foundation" id="mvp44-storage-foundation-overview">
       <div class="card-head"><h3 class="card-title">PERSISTENT REQUEST STORAGE FOUNDATION</h3><span class="badge info">MVP-44</span></div>
       <p class="card-body">Blueprint and readiness layer for the persistent request storage foundation.</p>
-      {{_list([
+      {_list([
           "REQUEST STORAGE DATA MODEL: READY",
           "REQUEST LIFECYCLE STATE MODEL: READY",
           "REQUEST METADATA SCHEMA: READY",
@@ -2297,7 +2315,7 @@ def _build_mvp44_persistent_request_storage_foundation_layer(snapshot):
           "SERVER SIDE STORAGE ACCESS PLAN: READY",
           "REQUEST RETRIEVAL READINESS PLAN: READY",
           "STORAGE MIGRATION BLUEPRINT: READY",
-      ])}}
+      ])}
       <div class="button-row" style="margin-top:0.75rem;">
         <button type="button" class="copy-button small">Copy Storage Foundation Summary</button>
         <button type="button" class="copy-button small">Copy Request Data Model</button>
@@ -2314,29 +2332,29 @@ def _build_mvp44_persistent_request_storage_foundation_layer(snapshot):
     <article class="card plus1-safety-summary" id="mvp44-safety-summary">
       <div class="card-head"><h3 class="card-title">Safety Summary</h3><span class="badge pass">SECURE</span></div>
       <div class="stat-grid">
-        {{_stat("Mode", "STORAGE FOUNDATION ONLY", _badge("SCHEMA READINESS ONLY", "info"))}}
-        {{_stat("Role", "REVIEW ONLY", _badge("FUTURE IMPLEMENTATION ONLY", "warning"))}}
-        {{_stat("Writes", "NO REAL DATABASE WRITES", _badge("DISABLED", "disabled"))}}
-        {{_stat("Writes", "NO SUPABASE WRITES", _badge("DISABLED", "disabled"))}}
-        {{_stat("Writes", "NO PUBLIC WRITES", _badge("DISABLED", "disabled"))}}
-        {{_stat("Request", "NO LIVE REQUEST CREATION", _badge("DISABLED", "disabled"))}}
-        {{_stat("Intake", "NO LIVE INTAKE", _badge("DISABLED", "disabled"))}}
-        {{_stat("Endpoint", "NO PUBLIC ENDPOINT", _badge("DISABLED", "disabled"))}}
-        {{_stat("Migration", "NO MIGRATION APPLY", _badge("DISABLED", "disabled"))}}
-        {{_stat("Persistence", "NO REAL PERSISTENCE", _badge("DISABLED", "disabled"))}}
-        {{_stat("Execution", "NO COMMAND EXECUTION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Execution", "NO APPROVAL EXECUTION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Controls", "NO DEPLOY CONTROLS", _badge("BLOCKED", "locked"))}}
-        {{_stat("Controls", "NO MERGE CONTROLS", _badge("BLOCKED", "locked"))}}
-        {{_stat("Controls", "NO PUSH CONTROLS", _badge("BLOCKED", "locked"))}}
-        {{_stat("Controls", "NO PR CONTROLS", _badge("BLOCKED", "locked"))}}
-        {{_stat("Mutation", "NO GITHUB MUTATION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Mutation", "NO NETLIFY MUTATION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Automation", "AUTOMATION DISABLED", _badge("NOT_READY_FOR_REAL_AUTOMATION", "disabled"))}}
-        {{_stat("Role", "SERVICE ROLE NOT USED", _badge("BLOCKED", "disabled"))}}
-        {{_stat("Role", "SERVICE ROLE NOT IN BROWSER", _badge("BLOCKED", "disabled"))}}
-        {{_stat("Token", "NO TOKEN INPUT", _badge("DISABLED", "disabled"))}}
-        {{_stat("Persistence", "NO BROWSER PERSISTENCE", _badge("DISABLED", "disabled"))}}
+        {_stat("Mode", "STORAGE FOUNDATION ONLY", _badge("SCHEMA READINESS ONLY", "info"))}
+        {_stat("Role", "REVIEW ONLY", _badge("FUTURE IMPLEMENTATION ONLY", "warning"))}
+        {_stat("Writes", "NO REAL DATABASE WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Writes", "NO SUPABASE WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Writes", "NO PUBLIC WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Request", "NO LIVE REQUEST CREATION", _badge("DISABLED", "disabled"))}
+        {_stat("Intake", "NO LIVE INTAKE", _badge("DISABLED", "disabled"))}
+        {_stat("Endpoint", "NO PUBLIC ENDPOINT", _badge("DISABLED", "disabled"))}
+        {_stat("Migration", "NO MIGRATION APPLY", _badge("DISABLED", "disabled"))}
+        {_stat("Persistence", "NO REAL PERSISTENCE", _badge("DISABLED", "disabled"))}
+        {_stat("Execution", "NO COMMAND EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Execution", "NO APPROVAL EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO DEPLOY CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO MERGE CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO PUSH CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO PR CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO GITHUB MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO NETLIFY MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Automation", "AUTOMATION DISABLED", _badge("NOT_READY_FOR_REAL_AUTOMATION", "disabled"))}
+        {_stat("Role", "SERVICE ROLE NOT USED", _badge("BLOCKED", "disabled"))}
+        {_stat("Role", "SERVICE ROLE NOT IN BROWSER", _badge("BLOCKED", "disabled"))}
+        {_stat("Token", "NO TOKEN INPUT", _badge("DISABLED", "disabled"))}
+        {_stat("Persistence", "NO BROWSER PERSISTENCE", _badge("DISABLED", "disabled"))}
       </div>
       <div class="callout" style="margin-top:0.75rem;">
         <p class="muted" style="margin:0;">Next Planned Step</p>
@@ -2363,14 +2381,14 @@ def _build_mvp43_operational_auth_foundation_layer(snapshot):
     <article class="card mvp43-auth-foundation" id="mvp43-auth-foundation-overview">
       <div class="card-head"><h3 class="card-title">OPERATIONAL AUTH FOUNDATION</h3><span class="badge info">MVP-43</span></div>
       <p class="card-body">Blueprint and readiness layer for the operational auth foundation.</p>
-      {{_list([
+      {_list([
           "OPERATOR IDENTITY MODEL: READY",
           "ROLE PERMISSION MATRIX: READY",
           "SESSION VALIDATION BLUEPRINT: READY",
           "AUTH BOUNDARY CONTRACT: READY",
           "SERVER SIDE AUTH VERIFICATION PLAN: READY",
           "BROWSER AUTH SAFETY POSTURE: READY",
-      ])}}
+      ])}
       <div class="button-row" style="margin-top:0.75rem;">
         <button type="button" class="copy-button small">Copy Auth Foundation Summary</button>
         <button type="button" class="copy-button small">Copy Identity Model</button>
@@ -2386,30 +2404,30 @@ def _build_mvp43_operational_auth_foundation_layer(snapshot):
     <article class="card plus1-safety-summary" id="mvp43-safety-summary">
       <div class="card-head"><h3 class="card-title">Safety Summary</h3><span class="badge pass">SECURE</span></div>
       <div class="stat-grid">
-        {{_stat("Mode", "AUTH FOUNDATION ONLY", _badge("READINESS ONLY", "info"))}}
-        {{_stat("Role", "REVIEW ONLY", _badge("FUTURE IMPLEMENTATION ONLY", "warning"))}}
-        {{_stat("Login", "NO REAL LOGIN ENABLED", _badge("DISABLED", "disabled"))}}
-        {{_stat("Token Input", "NO TOKEN INPUT", _badge("DISABLED", "disabled"))}}
-        {{_stat("Persistence", "NO BROWSER TOKEN PERSISTENCE", _badge("DISABLED", "disabled"))}}
-        {{_stat("Storage", "NO LOCAL STORAGE TOKEN", _badge("DISABLED", "disabled"))}}
-        {{_stat("Storage", "NO SESSION STORAGE TOKEN", _badge("DISABLED", "disabled"))}}
-        {{_stat("Storage", "NO COOKIE TOKEN", _badge("DISABLED", "disabled"))}}
-        {{_stat("Role", "SERVICE ROLE NOT USED", _badge("BLOCKED", "disabled"))}}
-        {{_stat("Role", "SERVICE ROLE NOT IN BROWSER", _badge("BLOCKED", "disabled"))}}
-        {{_stat("Writes", "NO BACKEND WRITES", _badge("BLOCKED", "locked"))}}
-        {{_stat("Writes", "NO PUBLIC WRITES", _badge("BLOCKED", "locked"))}}
-        {{_stat("Intake", "NO LIVE INTAKE", _badge("BLOCKED", "locked"))}}
-        {{_stat("Writes", "NO REVIEWER RESPONSE WRITES", _badge("BLOCKED", "locked"))}}
-        {{_stat("Execution", "NO COMMAND EXECUTION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Controls", "NO DEPLOY CONTROLS", _badge("BLOCKED", "locked"))}}
-        {{_stat("Controls", "NO MERGE CONTROLS", _badge("BLOCKED", "locked"))}}
-        {{_stat("Controls", "NO PUSH CONTROLS", _badge("BLOCKED", "locked"))}}
-        {{_stat("Controls", "NO PR CONTROLS", _badge("BLOCKED", "locked"))}}
-        {{_stat("Mutation", "NO GITHUB MUTATION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Mutation", "NO NETLIFY MUTATION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Writes", "NO SUPABASE WRITES", _badge("BLOCKED", "locked"))}}
-        {{_stat("Execution", "NO APPROVAL EXECUTION", _badge("BLOCKED", "locked"))}}
-        {{_stat("Automation", "AUTOMATION DISABLED", _badge("NOT_READY_FOR_REAL_AUTOMATION", "disabled"))}}
+        {_stat("Mode", "AUTH FOUNDATION ONLY", _badge("READINESS ONLY", "info"))}
+        {_stat("Role", "REVIEW ONLY", _badge("FUTURE IMPLEMENTATION ONLY", "warning"))}
+        {_stat("Login", "NO REAL LOGIN ENABLED", _badge("DISABLED", "disabled"))}
+        {_stat("Token Input", "NO TOKEN INPUT", _badge("DISABLED", "disabled"))}
+        {_stat("Persistence", "NO BROWSER TOKEN PERSISTENCE", _badge("DISABLED", "disabled"))}
+        {_stat("Storage", "NO LOCAL STORAGE TOKEN", _badge("DISABLED", "disabled"))}
+        {_stat("Storage", "NO SESSION STORAGE TOKEN", _badge("DISABLED", "disabled"))}
+        {_stat("Storage", "NO COOKIE TOKEN", _badge("DISABLED", "disabled"))}
+        {_stat("Role", "SERVICE ROLE NOT USED", _badge("BLOCKED", "disabled"))}
+        {_stat("Role", "SERVICE ROLE NOT IN BROWSER", _badge("BLOCKED", "disabled"))}
+        {_stat("Writes", "BACKEND/SUPABASE WRITES DISABLED", _badge("BLOCKED", "locked"))}
+        {_stat("Writes", "NO PUBLIC WRITES", _badge("BLOCKED", "locked"))}
+        {_stat("Intake", "NO LIVE INTAKE", _badge("BLOCKED", "locked"))}
+        {_stat("Writes", "NO REVIEWER RESPONSE WRITES", _badge("BLOCKED", "locked"))}
+        {_stat("Execution", "NO COMMAND EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO DEPLOY CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO MERGE CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO PUSH CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO PR CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO GITHUB MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO NETLIFY MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Writes", "NO SUPABASE WRITES", _badge("BLOCKED", "locked"))}
+        {_stat("Execution", "NO APPROVAL EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Automation", "AUTOMATION DISABLED", _badge("NOT_READY_FOR_REAL_AUTOMATION", "disabled"))}
       </div>
       <div class="callout" style="margin-top:0.75rem;">
         <p class="muted" style="margin:0;">Next Planned Step</p>
@@ -2643,7 +2661,7 @@ def _build_phase5a_workflow_shell():
   <div class="callout" style="border-color: rgba(245,158,11,0.4); background: rgba(245,158,11,0.05);">
     <strong style="color: var(--warning);">CLIENT-SIDE WORKFLOW SHELL</strong>
     <p class="muted" style="margin-top: 0.25rem;">
-      TEMPORARY IN-BROWSER STATE ONLY — NO PERSISTENCE — NO BACKEND WRITES — NO EXECUTION — NO MUTATION — NO DEPLOY / MERGE / PUSH / PR CONTROLS
+      TEMPORARY IN-BROWSER STATE ONLY — NO PERSISTENCE — BACKEND/SUPABASE WRITES DISABLED — NO EXECUTION — NO MUTATION — NO DEPLOY / MERGE / PUSH / PR CONTROLS
     </p>
   </div>
 
@@ -2679,7 +2697,7 @@ def _build_phase5a_workflow_shell():
         <button type="button" class="section-button" id="phase5a-create-draft-button">Create draft</button>
         <button type="button" class="toggle-button" id="phase5a-reset-button">Reset local workflow</button>
       </div>
-      <p class="muted" style="margin-top:0.5rem;font-size:0.75rem;">DISABLED — PLANNING ONLY. No persistence. No backend writes.</p>
+      <p class="muted" style="margin-top:0.5rem;font-size:0.75rem;">DISABLED — PLANNING ONLY. No persistence. Backend/Supabase writes remain disabled.</p>
     </article>
 
     <article class="card" id="phase5a-risk-panel">
@@ -2766,7 +2784,7 @@ def _build_phase5b_request_packet_builder():
   <div class="callout" style="border-color: rgba(245,158,11,0.4); background: rgba(245,158,11,0.05);">
     <strong style="color: var(--warning);">CLIENT-SIDE REQUEST PACKET BUILDER</strong>
     <p class="muted" style="margin-top: 0.25rem;">
-      GENERATED LOCALLY — COPY ONLY — NO PERSISTENCE — NO BACKEND WRITES — NO EXECUTION — NO MUTATION — NO DEPLOY / MERGE / PUSH / PR CONTROLS
+      GENERATED LOCALLY — COPY ONLY — NO PERSISTENCE — BACKEND/SUPABASE WRITES DISABLED — NO EXECUTION — NO MUTATION — NO DEPLOY / MERGE / PUSH / PR CONTROLS
     </p>
   </div>
 
@@ -2864,7 +2882,7 @@ def _build_phase5c_review_board():
   <div class="callout" style="border-color: rgba(245,158,11,0.4); background: rgba(245,158,11,0.05);">
     <strong style="color: var(--warning);">CLIENT-SIDE REVIEW BOARD</strong>
     <p class="muted" style="margin-top: 0.25rem;">
-      DECISION LEDGER PREVIEW — TEMPORARY IN-BROWSER STATE ONLY — NO PERSISTENCE — NO BACKEND WRITES — NO EXECUTION — NO MUTATION — NO DEPLOY / MERGE / PUSH / PR CONTROLS
+      DECISION LEDGER PREVIEW — TEMPORARY IN-BROWSER STATE ONLY — NO PERSISTENCE — BACKEND/SUPABASE WRITES DISABLED — NO EXECUTION — NO MUTATION — NO DEPLOY / MERGE / PUSH / PR CONTROLS
     </p>
   </div>
 
@@ -3046,7 +3064,7 @@ def _build_phase5d_handoff_composer():
   <div class="callout" style="border-color: rgba(245,158,11,0.4); background: rgba(245,158,11,0.05);">
     <strong style="color: var(--warning);">CLIENT-SIDE HANDOFF COMPOSER</strong>
     <p class="muted" style="margin-top: 0.25rem;">
-      GENERATED LOCALLY — COPY/PASTE HANDOFF ONLY — TEMPORARY IN-BROWSER STATE ONLY — NO PERSISTENCE — NO BACKEND WRITES — NO EXECUTION — NO MUTATION — NO DEPLOY / MERGE / PUSH / PR CONTROLS
+      GENERATED LOCALLY — COPY/PASTE HANDOFF ONLY — TEMPORARY IN-BROWSER STATE ONLY — NO PERSISTENCE — BACKEND/SUPABASE WRITES DISABLED — NO EXECUTION — NO MUTATION — NO DEPLOY / MERGE / PUSH / PR CONTROLS
     </p>
   </div>
 
@@ -3220,7 +3238,7 @@ def _build_phase5e_runbook_simulator():
   <div class="callout" style="border-color: rgba(59,130,246,0.4); background: rgba(59,130,246,0.05);">
     <strong style="color: var(--accent);">CLIENT-SIDE RUNBOOK SIMULATOR</strong>
     <p class="muted" style="margin-top: 0.25rem;">
-      END-TO-END OPERATOR FLOW — SCENARIO PREVIEW ONLY — GENERATED LOCALLY — TEMPORARY IN-BROWSER STATE ONLY — NO PERSISTENCE — NO BACKEND WRITES — NO EXECUTION — NO MUTATION — NO DEPLOY / MERGE / PUSH / PR CONTROLS
+      END-TO-END OPERATOR FLOW — SCENARIO PREVIEW ONLY — GENERATED LOCALLY — TEMPORARY IN-BROWSER STATE ONLY — NO PERSISTENCE — BACKEND/SUPABASE WRITES DISABLED — NO EXECUTION — NO MUTATION — NO DEPLOY / MERGE / PUSH / PR CONTROLS
     </p>
   </div>
   <p class="muted" style="margin-top: 0.25rem;">
@@ -3355,7 +3373,7 @@ def _build_plus1_controlled_automation_readiness_layer():
   <div class="callout" style="border-color: rgba(14,165,233,0.4); background: rgba(14,165,233,0.05);">
     <strong style="color: var(--accent);">CONTROLLED AUTOMATION READINESS</strong>
     <p class="muted" style="margin-top: 0.25rem;">
-      READINESS ONLY — NO LIVE AUTOMATION — NO EXECUTION — NO MUTATION — NO BACKEND WRITES — NO DEPLOY / MERGE / PUSH / PR CONTROLS — FUTURE AUTH / STORAGE / APPROVAL REQUIRED
+      READINESS ONLY — NO LIVE AUTOMATION — NO EXECUTION — NO MUTATION — BACKEND/SUPABASE WRITES DISABLED — NO DEPLOY / MERGE / PUSH / PR CONTROLS — FUTURE AUTH / STORAGE / APPROVAL REQUIRED
     </p>
   </div>
   <p class="muted" style="margin-top: 0.25rem;">
@@ -3572,7 +3590,7 @@ def _build_plus1b_operator_console_contract_layer():
   <div class="callout" style="border-color: rgba(139,92,246,0.42); background: rgba(139,92,246,0.06);">
     <strong style="color: var(--accent-2);">OPERATOR CONSOLE CONSOLIDATION</strong>
     <p class="muted" style="margin-top: 0.15rem;">AUTOMATION CONTRACT LAYER</p>
-    <p class="muted" style="margin-top: 0.25rem;">CONTRACTS ONLY — COPY/PASTE ONLY — READINESS ONLY — NO LIVE AUTOMATION — NO EXECUTION — NO MUTATION — NO BACKEND WRITES — NO DEPLOY / MERGE / PUSH / PR CONTROLS</p>
+    <p class="muted" style="margin-top: 0.25rem;">CONTRACTS ONLY — COPY/PASTE ONLY — READINESS ONLY — NO LIVE AUTOMATION — NO EXECUTION — NO MUTATION — BACKEND/SUPABASE WRITES DISABLED — NO DEPLOY / MERGE / PUSH / PR CONTROLS</p>
   </div>
   <p class="muted" style="margin-top: 0.25rem;">Original +1B — Operator Console Consolidation &amp; Automation Contract Layer. This layer consolidates the Phase 5A-5E workflow and the Original +1 readiness shell into one coherent operator console without enabling live automation.</p>
 
@@ -3593,7 +3611,7 @@ def _build_plus1b_operator_console_contract_layer():
       <div class="card-head"><h3 class="card-title">Master Cockpit Summary Panel</h3><span class="badge warning">COCKPIT</span></div>
       <p class="card-body">Summarises the readiness posture and the missing dependencies before any future real automation could be built.</p>
       <div class="stat-grid" id="plus1b-master-cockpit-grid" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));"></div>
-      <div class="callout" style="margin-top:0.75rem;"><p class="muted" id="plus1b-master-cockpit-note">The console remains readiness-only. Nothing executes, nothing mutates, and no backend dependency is live yet.</p></div>
+      <div class="callout" style="margin-top:0.75rem;"><p class="muted" id="plus1b-master-cockpit-note">The console remains readiness-only. Nothing executes, nothing mutates, and backend/Supabase readiness exists; live backend runtime is disabled.</p></div>
     </article>
   </div>
 
@@ -3687,7 +3705,7 @@ def _build_plus1c_readiness_scoring_contract_qa_layer():
   <div class="callout plus1c-summary-callout" style="border-color: rgba(56,189,248,0.36); background: rgba(56,189,248,0.06);">
     <strong style="color: var(--accent);">READINESS SCORING</strong>
     <p class="muted" style="margin-top: 0.15rem;">CONTRACT QA — NO-GO DECISION LAYER — LOCAL ANALYSIS ONLY</p>
-    <p class="muted" style="margin-top: 0.25rem;">COPY/PASTE ONLY — READINESS ONLY — NO LIVE AUTOMATION — NO EXECUTION — NO MUTATION — NO BACKEND WRITES — NO DEPLOY / MERGE / PUSH / PR CONTROLS</p>
+    <p class="muted" style="margin-top: 0.25rem;">COPY/PASTE ONLY — READINESS ONLY — NO LIVE AUTOMATION — NO EXECUTION — NO MUTATION — BACKEND/SUPABASE WRITES DISABLED — NO DEPLOY / MERGE / PUSH / PR CONTROLS</p>
   </div>
 
   <div class="plus1c-preview-grid">
@@ -3804,7 +3822,7 @@ def _build_plus1d_backend_boundary_blueprint_layer():
   <div class="callout plus1d-summary-callout" style="border-color: rgba(34,197,94,0.28); background: rgba(34,197,94,0.06);">
     <strong style="color: var(--success);">BACKEND BOUNDARY BLUEPRINT</strong>
     <p class="muted" style="margin-top: 0.15rem;">REAL AUTOMATION DEPENDENCY MAP — BLUEPRINT ONLY — FUTURE IMPLEMENTATION ONLY</p>
-    <p class="muted" style="margin-top: 0.25rem;">READINESS ONLY — NO LIVE AUTOMATION — NO EXECUTION — NO MUTATION — NO BACKEND WRITES — NO DEPLOY / MERGE / PUSH / PR CONTROLS</p>
+    <p class="muted" style="margin-top: 0.25rem;">READINESS ONLY — NO LIVE AUTOMATION — NO EXECUTION — NO MUTATION — BACKEND/SUPABASE WRITES DISABLED — NO DEPLOY / MERGE / PUSH / PR CONTROLS</p>
     <p class="muted" style="margin-top: 0.25rem;">READY_FOR_BACKEND_ARCHITECTURE_REVIEW_ONLY — NOT_READY_FOR_REAL_AUTOMATION</p>
   </div>
 
@@ -3816,7 +3834,7 @@ def _build_plus1d_backend_boundary_blueprint_layer():
         <table class="data-table" id="plus1d-backend-boundary-overview-table">
           <caption>Backend boundary overview</caption>
           <thead><tr><th scope="col">Boundary</th><th scope="col">Value</th><th scope="col">Status</th></tr></thead>
-          <tbody id="plus1d-backend-boundary-overview-body"><tr><td colspan="3" class="empty">No backend boundary overview loaded yet.</td></tr></tbody>
+          <tbody id="plus1d-backend-boundary-overview-body"><tr><td colspan="3" class="empty">Backend boundary overview not loaded yet.</td></tr></tbody>
         </table>
       </div>
     </article>
@@ -3828,7 +3846,7 @@ def _build_plus1d_backend_boundary_blueprint_layer():
         <table class="data-table" id="plus1d-endpoint-map-table">
           <caption>Future backend endpoint contracts</caption>
           <thead><tr><th scope="col">Method</th><th scope="col">Endpoint</th><th scope="col">Purpose</th><th scope="col">Current status</th><th scope="col">Auth</th><th scope="col">Role</th><th scope="col">Writes data</th><th scope="col">Mutates external system</th><th scope="col">Human approval</th><th scope="col">Audit event</th><th scope="col">Implementation allowed</th></tr></thead>
-          <tbody id="plus1d-endpoint-map-body"><tr><td colspan="11" class="empty">No backend endpoint contract map loaded yet.</td></tr></tbody>
+          <tbody id="plus1d-endpoint-map-body"><tr><td colspan="11" class="empty">Backend endpoint contract map not loaded yet.</td></tr></tbody>
         </table>
       </div>
     </article>
@@ -3985,7 +4003,7 @@ def _build_plus1e_backend_implementation_gate_layer():
   <div class="callout plus1e-summary-callout" style="border-color: rgba(59,130,246,0.28); background: rgba(59,130,246,0.06);">
     <strong style="color: var(--info);">BACKEND IMPLEMENTATION GATE</strong>
     <p class="muted" style="margin-top: 0.15rem;">BUILD TICKET GENERATOR — IMPLEMENTATION PLANNING ONLY — COPYABLE CODEX PROMPTS</p>
-    <p class="muted" style="margin-top: 0.25rem;">READINESS ONLY — NO LIVE AUTOMATION — NO EXECUTION — NO MUTATION — NO BACKEND WRITES — NO DEPLOY / MERGE / PUSH / PR CONTROLS</p>
+    <p class="muted" style="margin-top: 0.25rem;">READINESS ONLY — NO LIVE AUTOMATION — NO EXECUTION — NO MUTATION — BACKEND/SUPABASE WRITES DISABLED — NO DEPLOY / MERGE / PUSH / PR CONTROLS</p>
     <p class="muted" style="margin-top: 0.25rem;">READY_FOR_BACKEND_IMPLEMENTATION_PLANNING_ONLY — NOT_READY_FOR_REAL_AUTOMATION — PLAN_PLUS2A_NEXT — DO_NOT_ENABLE_REAL_AUTOMATION</p>
   </div>
 
@@ -4117,7 +4135,7 @@ def _build_plus1e_backend_implementation_gate_layer():
       <div class="callout" style="margin-top:0.75rem;">
         <p class="muted">Current recommendation: READY_FOR_BACKEND_IMPLEMENTATION_PLANNING_ONLY. Final recommendation: NOT_READY_FOR_REAL_AUTOMATION. Planning only stays in force until future backend dependencies exist.</p>
       </div>
-      <pre class="code-block" id="plus1e-readiness-summary-preview" style="max-height:280px;overflow:auto;white-space:pre-wrap;word-break:break-word;margin-top:0.75rem;">No backend build readiness summary loaded yet.</pre>
+      <pre class="code-block" id="plus1e-readiness-summary-preview" style="max-height:280px;overflow:auto;white-space:pre-wrap;word-break:break-word;margin-top:0.75rem;">Backend build readiness summary not loaded yet.</pre>
       <div class="button-row" style="margin-top:0.75rem;">
         <button type="button" class="copy-button small" id="plus1e-copy-readiness-summary">Copy backend build readiness summary</button>
       </div>
@@ -4130,7 +4148,7 @@ def _build_plus1e_backend_implementation_gate_layer():
       <button type="button" class="copy-button small" id="plus1e-copy-full-roadmap">Copy full backend implementation roadmap</button>
       <button type="button" class="copy-button small" id="plus1e-copy-dependency-map">Copy dependency prerequisite map</button>
     </div>
-    <pre class="code-block" id="plus1e-roadmap-preview" style="max-height:420px;overflow:auto;white-space:pre-wrap;word-break:break-word;">No backend build roadmap loaded yet.</pre>
+    <pre class="code-block" id="plus1e-roadmap-preview" style="max-height:420px;overflow:auto;white-space:pre-wrap;word-break:break-word;">Backend build roadmap not loaded yet.</pre>
   </article>
 </div>
 """
@@ -4146,7 +4164,7 @@ def _build_plus1e_backend_implementation_gate_layer():
 def _build_footer():
     return """
     <footer class="footer">
-      <p>Generated statically. Static files. Backend integration is planned for a later phase and is intentionally not included in this static dashboard build. No secrets used. No commands executed except dashboard build/validation.</p>
+      <p>Generated statically. Static files. Backend/Supabase readiness architecture exists, but live backend runtime remains disabled until a separate runtime activation phase is explicitly approved. No secrets used. No commands executed except dashboard build/validation.</p>
     </footer>
     """
 
@@ -4383,7 +4401,7 @@ def _build_plus2a_backend_auth_foundation_layer():
     <strong style="color: var(--pass);">BACKEND AUTH FOUNDATION</strong>
     <p class="muted" style="margin-top: 0.15rem;">READ-ONLY AUTH STATUS — ROLE / PERMISSION MATRIX — DEMO IDENTITY MODEL</p>
     <p class="muted" style="margin-top: 0.25rem;">AUTH FOUNDATION ONLY — NO LIVE AUTH PROVIDER — NO SESSION COOKIES — NO TOKENS — NO SECRETS</p>
-    <p class="muted" style="margin-top: 0.25rem;">NO EXECUTION — NO MUTATION — NO BACKEND WRITES</p>
+    <p class="muted" style="margin-top: 0.25rem;">NO EXECUTION — NO MUTATION — BACKEND/SUPABASE WRITES DISABLED</p>
     <p class="muted" style="margin-top: 0.25rem;">NOT_READY_FOR_REAL_AUTOMATION — READY_FOR_AUTH_FOUNDATION_REVIEW_ONLY</p>
   </div>
 
@@ -8164,7 +8182,7 @@ def _build_mvp19_external_feedback_layer(snapshot):
     <strong style="color: var(--accent);">MVP-19</strong>
     <p class="muted" style="margin-top: 0.15rem;">EXTERNAL FEEDBACK INTAKE — REVIEWER RESPONSE CAPTURE — STATIC FEEDBACK PACKET ONLY</p>
     <p class="muted" style="margin-top: 0.25rem;">REVIEWER PERSONA ROUTING — FEEDBACK REVIEW QUEUE — FEEDBACK SYNTHESIS READINESS</p>
-    <p class="muted" style="margin-top: 0.25rem;">NO BACKEND FEEDBACK SUBMISSION — NO BROWSER PERSISTENCE — SERVICE ROLE NOT USED</p>
+    <p class="muted" style="margin-top: 0.25rem;">BACKEND/SUPABASE FEEDBACK SUBMISSION DISABLED — NO BROWSER PERSISTENCE — SERVICE ROLE NOT USED</p>
     <p class="muted" style="margin-top: 0.25rem;">APPROVAL EXECUTION AUTOMATION BLOCKED — NO SECRET DISCLOSURE — NO MIGRATION APPLY</p>
     <p class="muted" style="margin-top: 0.25rem;">NEXT_STEP_RUN_EXTERNAL_REVIEW_ROUND_OR_ADD_MANUAL_FEEDBACK_IMPORT_QUEUE — NOT_READY_FOR_REAL_AUTOMATION</p>
   </div>
@@ -8224,7 +8242,7 @@ def _build_mvp19_external_feedback_layer(snapshot):
     <article class="card mvp19-safety" id="mvp19-safety-panel">
       <div class="card-head"><h3 class="card-title">Security Boundary Panel</h3><span class="badge warning">SAFETY</span></div>
       {_list([
-          "no backend submission: PASS",
+          "backend submission disabled: PASS",
           "no browser persistence: PASS",
           "no secrets collected: PASS",
           "service role not used: PASS",
@@ -8305,7 +8323,7 @@ def _build_mvp20_manual_feedback_layer(snapshot):
     <strong style="color: var(--accent);">MVP-20</strong>
     <p class="muted" style="margin-top: 0.15rem;">MANUAL FEEDBACK IMPORT — REVIEW QUEUE READY — MANUAL SYNTHESIS WORKSPACE</p>
     <p class="muted" style="margin-top: 0.25rem;">REVIEW TO PRODUCT DECISION — STATIC MEMORY ONLY WORKFLOW — NO BROWSER PERSISTENCE</p>
-    <p class="muted" style="margin-top: 0.25rem;">NO BACKEND FEEDBACK SUBMISSION — SERVICE ROLE NOT USED — AUTOMATION STILL DISABLED</p>
+    <p class="muted" style="margin-top: 0.25rem;">BACKEND/SUPABASE FEEDBACK SUBMISSION DISABLED — SERVICE ROLE NOT USED — AUTOMATION STILL DISABLED</p>
     <p class="muted" style="margin-top: 0.25rem;">NEXT_STEP_RUN_EXTERNAL_FEEDBACK_ROUND_OR_ADD_SAFE_FEEDBACK_PERSISTENCE — NOT_READY_FOR_REAL_AUTOMATION</p>
   </div>
 
@@ -8357,7 +8375,7 @@ def _build_mvp20_manual_feedback_layer(snapshot):
       <div class="card-head"><h3 class="card-title">Security Boundary Panel</h3><span class="badge warning">SAFETY</span></div>
       {_list([
           "static memory-only: PASS",
-          "no backend submission: PASS",
+          "backend submission disabled: PASS",
           "no browser persistence: PASS",
           "service role not used: PASS",
           "automation disabled: PASS"
@@ -8958,13 +8976,14 @@ def _build_status_page(snapshot):
           <li>Latest verified milestone: {latest_mvp['label'] if latest_mvp else 'N/A'}</li>
           <li>Current production branch: master</li>
           <li>Current production role: read-only review dashboard</li>
-          <li>Next milestone: {latest_mvp['number'] + 1 if latest_mvp else 'N/A'} (In Progress)</li>
+          <li>Next phase: stakeholder demo review / runtime activation planning</li>
+          <li>MVP-51 not started</li>
         </ul>
       </div>
       <div class="card">
         <div class="card-head"><h3 class="card-title">Current safety posture</h3><span class="badge warning">STRICT</span></div>
         <ul class="compact-list">
-          <li>no public endpoint</li>
+          <li>public endpoints disabled</li>
           <li>no live intake</li>
           <li>no public writes</li>
           <li>no reviewer response writes</li>
@@ -9034,20 +9053,20 @@ def _build_safety_page(snapshot):
       <div class="card" style="grid-column: 1 / -1;">
         <div class="card-head"><h3 class="card-title">Runtime Boundaries</h3></div>
         <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap:1rem;">
-          {{_stat("Public endpoint", "disabled", _badge("DISABLED", "disabled"))}}
-          {{_stat("Live intake", "disabled", _badge("DISABLED", "disabled"))}}
-          {{_stat("Public writes", "disabled", _badge("DISABLED", "disabled"))}}
-          {{_stat("Reviewer response writes", "disabled", _badge("DISABLED", "disabled"))}}
-          {{_stat("Response persistence", "disabled", _badge("DISABLED", "disabled"))}}
-          {{_stat("Email sending", "disabled", _badge("DISABLED", "disabled"))}}
-          {{_stat("Reviewer contact", "disabled", _badge("DISABLED", "disabled"))}}
-          {{_stat("Token input", "disabled", _badge("DISABLED", "disabled"))}}
-          {{_stat("Browser secret storage", "disabled", _badge("DISABLED", "disabled"))}}
-          {{_stat("Service role in browser", "disabled", _badge("DISABLED", "disabled"))}}
-          {{_stat("GitHub mutation", "disabled", _badge("DISABLED", "disabled"))}}
-          {{_stat("Netlify mutation", "disabled", _badge("DISABLED", "disabled"))}}
-          {{_stat("Deploy/merge/push controls", "disabled", _badge("DISABLED", "disabled"))}}
-          {{_stat("Automation", "disabled", _badge("DISABLED", "disabled"))}}
+          {_stat("Public endpoint", "disabled", _badge("DISABLED", "disabled"))}
+          {_stat("Live intake", "disabled", _badge("DISABLED", "disabled"))}
+          {_stat("Public writes", "disabled", _badge("DISABLED", "disabled"))}
+          {_stat("Reviewer response writes", "disabled", _badge("DISABLED", "disabled"))}
+          {_stat("Response persistence", "disabled", _badge("DISABLED", "disabled"))}
+          {_stat("Email sending", "disabled", _badge("DISABLED", "disabled"))}
+          {_stat("Reviewer contact", "disabled", _badge("DISABLED", "disabled"))}
+          {_stat("Token input", "disabled", _badge("DISABLED", "disabled"))}
+          {_stat("Browser secret storage", "disabled", _badge("DISABLED", "disabled"))}
+          {_stat("Service role in browser", "disabled", _badge("DISABLED", "disabled"))}
+          {_stat("GitHub mutation", "disabled", _badge("DISABLED", "disabled"))}
+          {_stat("Netlify mutation", "disabled", _badge("DISABLED", "disabled"))}
+          {_stat("Deploy/merge/push controls", "disabled", _badge("DISABLED", "disabled"))}
+          {_stat("Automation", "disabled", _badge("DISABLED", "disabled"))}
         </div>
       </div>
       <div class="card" style="grid-column: 1 / -1;">
@@ -9219,7 +9238,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
     # Replace any 'open_by_default=True' with False in archive_sections if possible, 
     # but since they are already rendered strings, we can use JS or just let details be closed.
     # We will use CSS/JS to close them, or replace 'open' with '' in the HTML string for the archive tab.
-    archive_html = "\\n".join(archive_sections).replace(' open ', ' ').replace('<details class="panel" open>', '<details class="panel">')
+    archive_html = "\n".join(archive_sections).replace(' open ', ' ').replace('<details class="panel" open>', '<details class="panel">')
     archive_view = f'''<div class="tab-pane" id="view-archive" style="display: none;">
       <h2 style="margin-bottom:1rem;">Archive / Full Audit Trail</h2>
       <div style="margin-bottom:1rem;">
@@ -9248,7 +9267,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_approval_panel(snapshot),
         _build_session_panel(snapshot)
     ]
-    dev_html = "\\n".join(dev_sections).replace(' open ', ' ').replace('<details class="panel" open>', '<details class="panel">')
+    dev_html = "\n".join(dev_sections).replace(' open ', ' ').replace('<details class="panel" open>', '<details class="panel">')
     dev_view = f'''<div class="tab-pane" id="view-developer" style="display: none;">
       <h2 style="margin-bottom:1rem;">Developer / Validator View</h2>
       <div class="callout" style="margin-bottom:1.5rem; border-color:var(--warning);"><p class="muted">Developer view contains internal build/audit details and is not the recommended starting point for external reviewers.</p></div>
@@ -9259,9 +9278,9 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         all_sections = [
             welcome_view, orientation_view, status_view, demo_view, safety_view, roadmap_view, latest_mvp_view, archive_view, dev_view, _build_footer()
         ]
-        sections_out = "\\n".join(all_sections)
+        sections_out = "\n".join(all_sections)
     else:
-        sections_out = "\\n".join([
+        sections_out = "\n".join([
             welcome_view, orientation_view, status_view, demo_view, safety_view, roadmap_view, latest_mvp_view, archive_view, dev_view, _build_footer()
         ])
     

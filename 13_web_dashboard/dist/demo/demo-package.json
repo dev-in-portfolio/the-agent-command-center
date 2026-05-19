@@ -7,6 +7,7 @@
   "viewable_pages": [
     "index.html",
     "presentation.html",
+    "simulator.html",
     "system-story.html",
     "system-scale.html",
     "agent-hierarchy.html",
@@ -31,5 +32,13 @@
     "merge_controls_from_app",
     "push_controls_from_app",
     "automation"
-  ]
+  ],
+  "simulator_page": "simulator.html",
+  "simulator_type": "static_in_memory_sandbox",
+  "backend_runtime_enabled": false,
+  "supabase_writes_enabled": false,
+  "public_writes_enabled": false,
+  "command_execution_enabled": false,
+  "action_execution_enabled": false,
+  "automation_enabled": false
 }
