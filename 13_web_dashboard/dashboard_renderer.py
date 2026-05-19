@@ -1998,20 +1998,37 @@ def _build_mvp50_monitoring_rollback_incident_console_layer(snapshot):
       <div class="card-head"><h3 class="card-title">Safety Summary</h3><span class="badge pass">SECURE</span></div>
       <div class="stat-grid">
         {{_stat("Mode", "READINESS ONLY", _badge("SCHEMA READINESS ONLY", "info"))}}
+        {{_stat("Mode", "MONITORING INCIDENT READINESS ONLY", _badge("SCHEMA READINESS ONLY", "info"))}}
         {{_stat("Role", "REVIEW ONLY", _badge("FUTURE IMPLEMENTATION ONLY", "warning"))}}
-        {{_stat("Monitoring", "NO REAL MONITORING", _badge("BLOCKED", "locked"))}}
-        {{_stat("Alerting", "NO REAL ALERT DISPATCH", _badge("BLOCKED", "locked"))}}
-        {{_stat("Rollback", "NO REAL ROLLBACK", _badge("BLOCKED", "locked"))}}
-        {{_stat("Incident", "NO REAL INCIDENT RESPONSE", _badge("BLOCKED", "locked"))}}
+        {{_stat("Daemon", "NO REAL MONITORING DAEMON", _badge("BLOCKED", "locked"))}}
+        {{_stat("Worker", "NO BACKGROUND WORKER", _badge("BLOCKED", "locked"))}}
+        {{_stat("Alerting", "NO ALERT SENDING", _badge("BLOCKED", "locked"))}}
+        {{_stat("Notify", "NO INCIDENT NOTIFICATION SENDING", _badge("BLOCKED", "locked"))}}
+        {{_stat("Mutation", "NO INCIDENT MUTATION", _badge("BLOCKED", "locked"))}}
+        {{_stat("Rollback", "NO REAL ROLLBACK EXECUTION", _badge("BLOCKED", "locked"))}}
+        {{_stat("Mutation", "NO ROLLBACK MUTATION", _badge("BLOCKED", "locked"))}}
+        {{_stat("Execution", "NO AUTONOMOUS EXECUTION", _badge("BLOCKED", "locked"))}}
+        {{_stat("Execution", "NO REAL COMMAND EXECUTION", _badge("BLOCKED", "locked"))}}
+        {{_stat("Execution", "NO REAL ACTION EXECUTION", _badge("BLOCKED", "locked"))}}
+        {{_stat("Queue", "NO QUEUE WORKER PROCESSING", _badge("BLOCKED", "locked"))}}
+        {{_stat("Approval", "NO APPROVAL EXECUTION", _badge("BLOCKED", "locked"))}}
         {{_stat("Automation", "AUTOMATION DISABLED", _badge("NOT_READY_FOR_REAL_AUTOMATION", "disabled"))}}
         {{_stat("Writes", "NO DATABASE WRITES", _badge("DISABLED", "disabled"))}}
         {{_stat("Writes", "NO SUPABASE WRITES", _badge("DISABLED", "disabled"))}}
         {{_stat("Writes", "NO PUBLIC WRITES", _badge("DISABLED", "disabled"))}}
+        {{_stat("Writes", "NO AUDIT EVENT WRITES", _badge("DISABLED", "disabled"))}}
+        {{_stat("Mutation", "NO REQUEST STATUS MUTATION", _badge("BLOCKED", "locked"))}}
         {{_stat("Mutation", "NO GITHUB MUTATION", _badge("BLOCKED", "locked"))}}
         {{_stat("Mutation", "NO NETLIFY MUTATION", _badge("BLOCKED", "locked"))}}
         {{_stat("Controls", "NO DEPLOY CONTROLS", _badge("BLOCKED", "locked"))}}
         {{_stat("Controls", "NO MERGE CONTROLS", _badge("BLOCKED", "locked"))}}
         {{_stat("Controls", "NO PUSH CONTROLS", _badge("BLOCKED", "locked"))}}
+        {{_stat("Controls", "NO PR CONTROLS", _badge("BLOCKED", "locked"))}}
+        {{_stat("Service", "SERVICE ROLE NOT USED", _badge("DISABLED", "disabled"))}}
+        {{_stat("Service", "SERVICE ROLE NOT IN BROWSER", _badge("DISABLED", "disabled"))}}
+        {{_stat("Auth", "NO TOKEN INPUT", _badge("DISABLED", "disabled"))}}
+        {{_stat("Auth", "NO BROWSER PERSISTENCE", _badge("DISABLED", "disabled"))}}
+        {{_stat("Migration", "NO MIGRATION APPLY", _badge("DISABLED", "disabled"))}}
       </div>
       <div class="callout" style="margin-top:0.75rem;">
         <p class="muted" style="margin:0;">Next Planned Step</p>

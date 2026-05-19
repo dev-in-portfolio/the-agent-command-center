@@ -649,9 +649,9 @@ mvp50_report_requirements = [
     (ROOT / "09_exports" / "mvp_product_track" / "mvp50_operator_incident_review_packet_report.md", "OPERATOR_INCIDENT_REVIEW_PACKET_READY"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp50_incident_severity_escalation_matrix_report.md", "INCIDENT_SEVERITY_ESCALATION_MATRIX_READY"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp50_post_incident_audit_packet_report.md", "POST_INCIDENT_AUDIT_PACKET_READY"),
-    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_security_boundary_report.md", "NO_REAL_RUNTIME_MONITORING"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_security_boundary_report.md", "NO_REAL_MONITORING_DAEMON"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp50_validator_quality_report.md", "PASS"),
-    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_acceptance_report.md", "READINESS_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_acceptance_report.md", "MONITORING_ROLLBACK_INCIDENT_CONSOLE_READY"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp50_validation_stewardship_report.md", "VALIDATION_READY"),
 ]
 for path, marker in mvp50_report_requirements:

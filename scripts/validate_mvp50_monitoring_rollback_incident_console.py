@@ -1,17 +1,30 @@
 #!/usr/bin/env python3
 # MVP50_DIRECT_VALIDATOR_FULL_SAFETY_CONTRACT
-# MVP50_NO_REAL_MONITORING_CHECK
-# MVP50_NO_REAL_ALERT_DISPATCH_CHECK
-# MVP50_NO_REAL_ROLLBACK_CHECK
-# MVP50_NO_REAL_INCIDENT_RESPONSE_CHECK
+# MVP50_NO_REAL_MONITORING_DAEMON_CHECK
+# MVP50_NO_BACKGROUND_WORKER_CHECK
+# MVP50_NO_ALERT_SENDING_CHECK
+# MVP50_NO_INCIDENT_NOTIFICATION_SENDING_CHECK
+# MVP50_NO_INCIDENT_MUTATION_CHECK
+# MVP50_NO_REAL_ROLLBACK_EXECUTION_CHECK
+# MVP50_NO_ROLLBACK_MUTATION_CHECK
 # MVP50_NO_EXTERNAL_API_MUTATION_CHECK
 # MVP50_NO_GITHUB_NETLIFY_MUTATION_CHECK
 # MVP50_NO_DEPLOY_MERGE_PUSH_PR_CONTROLS_CHECK
-# MVP50_NO_PUBLIC_WRITES_CHECK
-# MVP50_NO_DATABASE_WRITES_CHECK
-# MVP50_NO_SUPABASE_WRITES_CHECK
+# MVP50_NO_AUTONOMOUS_EXECUTION_CHECK
+# MVP50_NO_REAL_COMMAND_ACTION_EXECUTION_CHECK
+# MVP50_NO_QUEUE_WORKER_PROCESSING_CHECK
+# MVP50_NO_APPROVAL_EXECUTION_CHECK
+# MVP50_NO_PUBLIC_DATABASE_SUPABASE_WRITES_CHECK
+# MVP50_NO_AUDIT_EVENT_WRITES_CHECK
+# MVP50_NO_REQUEST_STATUS_MUTATION_CHECK
 # MVP50_NO_AUTOMATION_CHECK
+# MVP50_NO_SERVICE_ROLE_CHECK
+# MVP50_NO_SERVICE_ROLE_IN_BROWSER_CHECK
+# MVP50_NO_TOKEN_INPUT_CHECK
+# MVP50_NO_BROWSER_PERSISTENCE_CHECK
 # MVP50_NO_MIGRATION_APPLY_CHECK
+# MVP50_MONITORING_ROLLBACK_INCIDENT_CONSOLE_EXPORT_ARTIFACTS_CHECK
+# MVP50_NO_WHOLE_FILE_SAFETY_LABEL_SKIP
 
 import json
 import os
@@ -113,22 +126,38 @@ def main():
             "SCHEMA READINESS ONLY",
             "REVIEW ONLY",
             "FUTURE IMPLEMENTATION ONLY",
-            "NO REAL MONITORING",
-            "NO REAL ALERT DISPATCH",
-            "NO REAL ROLLBACK",
-            "NO REAL INCIDENT RESPONSE",
+            "NO REAL MONITORING DAEMON",
+            "NO BACKGROUND WORKER",
+            "NO ALERT SENDING",
+            "NO INCIDENT NOTIFICATION SENDING",
+            "NO INCIDENT MUTATION",
+            "NO REAL ROLLBACK EXECUTION",
+            "NO ROLLBACK MUTATION",
             "NO EXTERNAL API MUTATION",
             "NO GITHUB MUTATION",
             "NO NETLIFY MUTATION",
             "NO DEPLOY CONTROLS",
             "NO MERGE CONTROLS",
             "NO PUSH CONTROLS",
+            "NO PR CONTROLS",
+            "NO AUTONOMOUS EXECUTION",
+            "NO REAL COMMAND EXECUTION",
+            "NO REAL ACTION EXECUTION",
+            "NO QUEUE WORKER PROCESSING",
+            "NO APPROVAL EXECUTION",
             "NO PUBLIC WRITES",
             "NO DATABASE WRITES",
             "NO SUPABASE WRITES",
+            "NO AUDIT EVENT WRITES",
+            "NO REQUEST STATUS MUTATION",
             "AUTOMATION DISABLED",
-            "NOT_READY_FOR_REAL_AUTOMATION",
+            "SERVICE ROLE NOT USED",
+            "SERVICE ROLE NOT IN BROWSER",
+            "NO TOKEN INPUT",
+            "NO BROWSER PERSISTENCE",
+            "NO MIGRATION APPLY",
             "READINESS_ROADMAP_COMPLETE_PENDING_REVIEW",
+            "NOT_READY_FOR_REAL_AUTOMATION",
         ]
         for m in markers:
             check(m in text, f"missing dashboard marker: {m}")
@@ -137,8 +166,8 @@ def main():
     if acc_report.exists():
         text = acc_report.read_text(encoding="utf-8")
         acc_markers = [
-            "READINESS_READY",
-            "PASS_WITH_READINESS_ONLY",
+            "MONITORING_ROLLBACK_INCIDENT_CONSOLE_READY",
+            "PASS_WITH_MONITORING_INCIDENT_READINESS_ONLY",
         ]
         for m in acc_markers:
             check(m in text, f"missing acceptance marker: {m}")
@@ -146,15 +175,44 @@ def main():
     model_json = ROOT / "14_backend/product_runtime/ui_models/monitoring_rollback_incident_console_model.json"
     if model_json.exists():
         data = json.loads(model_json.read_text(encoding="utf-8"))
+        check(data.get("monitoring_rollback_incident_console_ready") == True, "expected true")
+        check(data.get("monitoring_console_ready") == True, "expected true")
+        check(data.get("health_signal_schema_ready") == True, "expected true")
+        check(data.get("incident_record_schema_ready") == True, "expected true")
+        check(data.get("rollback_plan_registry_ready") == True, "expected true")
+        check(data.get("rollback_readiness_checklist_ready") == True, "expected true")
+        check(data.get("operator_incident_review_packet_ready") == True, "expected true")
+        check(data.get("incident_severity_escalation_matrix_ready") == True, "expected true")
+        check(data.get("post_incident_audit_packet_ready") == True, "expected true")
+        check(data.get("monitoring_incident_readiness_only") == True, "expected true")
         check(data.get("schema_readiness_only") == True, "expected true")
-        check(data.get("real_monitoring_enabled") == False, "expected false")
-        check(data.get("real_alert_dispatch_enabled") == False, "expected false")
-        check(data.get("real_metrics_collection_enabled") == False, "expected false")
-        check(data.get("real_log_aggregation_enabled") == False, "expected false")
-        check(data.get("autonomous_observability_enabled") == False, "expected false")
-        check(data.get("external_monitoring_api_mutation_enabled") == False, "expected false")
-        check(data.get("dashboard_write_enabled") == False, "expected false")
-        check(data.get("health_check_execution_enabled") == False, "expected false")
+        check(data.get("review_only") == True, "expected true")
+        check(data.get("future_implementation_only") == True, "expected true")
+        check(data.get("real_monitoring_daemon_enabled") == False, "expected false")
+        check(data.get("background_worker_enabled") == False, "expected false")
+        check(data.get("alert_sending_enabled") == False, "expected false")
+        check(data.get("incident_notification_sending_enabled") == False, "expected false")
+        check(data.get("incident_mutation_enabled") == False, "expected false")
+        check(data.get("real_rollback_execution_enabled") == False, "expected false")
+        check(data.get("rollback_mutation_enabled") == False, "expected false")
+        check(data.get("external_api_mutation_enabled") == False, "expected false")
+        check(data.get("github_mutation_enabled") == False, "expected false")
+        check(data.get("netlify_mutation_enabled") == False, "expected false")
+        check(data.get("deploy_controls_enabled") == False, "expected false")
+        check(data.get("merge_controls_enabled") == False, "expected false")
+        check(data.get("push_controls_enabled") == False, "expected false")
+        check(data.get("pr_controls_enabled") == False, "expected false")
+        check(data.get("autonomous_execution_enabled") == False, "expected false")
+        check(data.get("real_command_execution_enabled") == False, "expected false")
+        check(data.get("real_action_execution_enabled") == False, "expected false")
+        check(data.get("queue_worker_processing_enabled") == False, "expected false")
+        check(data.get("approval_execution_enabled") == False, "expected false")
+        check(data.get("public_write_enabled") == False, "expected false")
+        check(data.get("database_write_enabled") == False, "expected false")
+        check(data.get("supabase_write_enabled") == False, "expected false")
+        check(data.get("audit_event_write_enabled") == False, "expected false")
+        check(data.get("request_status_mutation_enabled") == False, "expected false")
+        check(data.get("automation_enabled") == False, "expected false")
         check(data.get("service_role_used") == False, "expected false")
         check(data.get("service_role_in_browser") == False, "expected false")
         check(data.get("token_input_enabled") == False, "expected false")

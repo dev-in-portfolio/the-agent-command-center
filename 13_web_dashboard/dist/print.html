@@ -9198,20 +9198,37 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
       <div class="card-head"><h3 class="card-title">Safety Summary</h3><span class="badge pass">SECURE</span></div>
       <div class="stat-grid">
         {_stat("Mode", "READINESS ONLY", _badge("SCHEMA READINESS ONLY", "info"))}
+        {_stat("Mode", "MONITORING INCIDENT READINESS ONLY", _badge("SCHEMA READINESS ONLY", "info"))}
         {_stat("Role", "REVIEW ONLY", _badge("FUTURE IMPLEMENTATION ONLY", "warning"))}
-        {_stat("Monitoring", "NO REAL MONITORING", _badge("BLOCKED", "locked"))}
-        {_stat("Alerting", "NO REAL ALERT DISPATCH", _badge("BLOCKED", "locked"))}
-        {_stat("Rollback", "NO REAL ROLLBACK", _badge("BLOCKED", "locked"))}
-        {_stat("Incident", "NO REAL INCIDENT RESPONSE", _badge("BLOCKED", "locked"))}
+        {_stat("Daemon", "NO REAL MONITORING DAEMON", _badge("BLOCKED", "locked"))}
+        {_stat("Worker", "NO BACKGROUND WORKER", _badge("BLOCKED", "locked"))}
+        {_stat("Alerting", "NO ALERT SENDING", _badge("BLOCKED", "locked"))}
+        {_stat("Notify", "NO INCIDENT NOTIFICATION SENDING", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO INCIDENT MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Rollback", "NO REAL ROLLBACK EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO ROLLBACK MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Execution", "NO AUTONOMOUS EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Execution", "NO REAL COMMAND EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Execution", "NO REAL ACTION EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Queue", "NO QUEUE WORKER PROCESSING", _badge("BLOCKED", "locked"))}
+        {_stat("Approval", "NO APPROVAL EXECUTION", _badge("BLOCKED", "locked"))}
         {_stat("Automation", "AUTOMATION DISABLED", _badge("NOT_READY_FOR_REAL_AUTOMATION", "disabled"))}
         {_stat("Writes", "NO DATABASE WRITES", _badge("DISABLED", "disabled"))}
         {_stat("Writes", "NO SUPABASE WRITES", _badge("DISABLED", "disabled"))}
         {_stat("Writes", "NO PUBLIC WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Writes", "NO AUDIT EVENT WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Mutation", "NO REQUEST STATUS MUTATION", _badge("BLOCKED", "locked"))}
         {_stat("Mutation", "NO GITHUB MUTATION", _badge("BLOCKED", "locked"))}
         {_stat("Mutation", "NO NETLIFY MUTATION", _badge("BLOCKED", "locked"))}
         {_stat("Controls", "NO DEPLOY CONTROLS", _badge("BLOCKED", "locked"))}
         {_stat("Controls", "NO MERGE CONTROLS", _badge("BLOCKED", "locked"))}
         {_stat("Controls", "NO PUSH CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO PR CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Service", "SERVICE ROLE NOT USED", _badge("DISABLED", "disabled"))}
+        {_stat("Service", "SERVICE ROLE NOT IN BROWSER", _badge("DISABLED", "disabled"))}
+        {_stat("Auth", "NO TOKEN INPUT", _badge("DISABLED", "disabled"))}
+        {_stat("Auth", "NO BROWSER PERSISTENCE", _badge("DISABLED", "disabled"))}
+        {_stat("Migration", "NO MIGRATION APPLY", _badge("DISABLED", "disabled"))}
       </div>
       <div class="callout" style="margin-top:0.75rem;">
         <p class="muted" style="margin:0;">Next Planned Step</p>
@@ -9443,7 +9460,7 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
         <div class="stat-grid">
     <div class="stat">
       <span>Generated at</span>
-      <strong>2026-05-19T03:00:05Z</strong>
+      <strong>2026-05-19T03:08:38Z</strong>
       
     </div>
     
@@ -9646,8 +9663,8 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
     </main>
   </div>
   <script type="application/json" id="dashboard-data">{
-  "dashboard_id": "PH3-20260519-030005",
-  "created_at_utc": "2026-05-19T03:00:05Z",
+  "dashboard_id": "PH3-20260519-030838",
+  "created_at_utc": "2026-05-19T03:08:38Z",
   "phase": "Read-Only Operations Dashboard",
   "repo": "dev-in-portfolio/the-agent-command-center",
   "source_lineage": "dev-in-portfolio/agent-command-center-3",
@@ -10612,7 +10629,7 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
     "source_exists": true,
     "source_type": "generated_static_snapshot",
     "source_confidence": "generated_static_snapshot",
-    "generated_at_utc": "2026-05-19T03:00:05Z",
+    "generated_at_utc": "2026-05-19T03:08:38Z",
     "freshness_status": "generated_static_snapshot",
     "snapshot_age_seconds": 0,
     "notes": [
@@ -10899,238 +10916,238 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2012,
+        "line": 2023,
         "pattern": "NO DEPLOY",
         "context": "{{_stat(\"Controls\", \"NO DEPLOY CONTROLS\", _badge(\"BLOCKED\", \"locked\"))}}",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2013,
+        "line": 2024,
         "pattern": "NO MERGE",
         "context": "{{_stat(\"Controls\", \"NO MERGE CONTROLS\", _badge(\"BLOCKED\", \"locked\"))}}",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2014,
+        "line": 2025,
         "pattern": "NO PUSH",
         "context": "{{_stat(\"Controls\", \"NO PUSH CONTROLS\", _badge(\"BLOCKED\", \"locked\"))}}",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2080,
+        "line": 2097,
         "pattern": "NO DEPLOY",
         "context": "{{_stat(\"Controls\", \"NO DEPLOY CONTROLS\", _badge(\"BLOCKED\", \"locked\"))}}",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2081,
+        "line": 2098,
         "pattern": "NO MERGE",
         "context": "{{_stat(\"Controls\", \"NO MERGE CONTROLS\", _badge(\"BLOCKED\", \"locked\"))}}",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2082,
+        "line": 2099,
         "pattern": "NO PUSH",
         "context": "{{_stat(\"Controls\", \"NO PUSH CONTROLS\", _badge(\"BLOCKED\", \"locked\"))}}",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2156,
+        "line": 2173,
         "pattern": "NO DEPLOY",
         "context": "{{_stat(\"Controls\", \"NO DEPLOY CONTROLS\", _badge(\"BLOCKED\", \"locked\"))}}",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2157,
+        "line": 2174,
         "pattern": "NO MERGE",
         "context": "{{_stat(\"Controls\", \"NO MERGE CONTROLS\", _badge(\"BLOCKED\", \"locked\"))}}",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2158,
+        "line": 2175,
         "pattern": "NO PUSH",
         "context": "{{_stat(\"Controls\", \"NO PUSH CONTROLS\", _badge(\"BLOCKED\", \"locked\"))}}",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2231,
+        "line": 2248,
         "pattern": "NO DEPLOY",
         "context": "{{_stat(\"Controls\", \"NO DEPLOY CONTROLS\", _badge(\"BLOCKED\", \"locked\"))}}",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2232,
+        "line": 2249,
         "pattern": "NO MERGE",
         "context": "{{_stat(\"Controls\", \"NO MERGE CONTROLS\", _badge(\"BLOCKED\", \"locked\"))}}",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2233,
+        "line": 2250,
         "pattern": "NO PUSH",
         "context": "{{_stat(\"Controls\", \"NO PUSH CONTROLS\", _badge(\"BLOCKED\", \"locked\"))}}",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2306,
+        "line": 2323,
         "pattern": "NO DEPLOY",
         "context": "{{_stat(\"Controls\", \"NO DEPLOY CONTROLS\", _badge(\"BLOCKED\", \"locked\"))}}",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2307,
+        "line": 2324,
         "pattern": "NO MERGE",
         "context": "{{_stat(\"Controls\", \"NO MERGE CONTROLS\", _badge(\"BLOCKED\", \"locked\"))}}",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2308,
+        "line": 2325,
         "pattern": "NO PUSH",
         "context": "{{_stat(\"Controls\", \"NO PUSH CONTROLS\", _badge(\"BLOCKED\", \"locked\"))}}",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2381,
+        "line": 2398,
         "pattern": "NO DEPLOY",
         "context": "{{_stat(\"Controls\", \"NO DEPLOY CONTROLS\", _badge(\"BLOCKED\", \"locked\"))}}",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2382,
+        "line": 2399,
         "pattern": "NO MERGE",
         "context": "{{_stat(\"Controls\", \"NO MERGE CONTROLS\", _badge(\"BLOCKED\", \"locked\"))}}",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2383,
+        "line": 2400,
         "pattern": "NO PUSH",
         "context": "{{_stat(\"Controls\", \"NO PUSH CONTROLS\", _badge(\"BLOCKED\", \"locked\"))}}",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2623,
+        "line": 2640,
         "pattern": "NO DEPLOY",
         "context": "TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO DEPLOY / MERGE / ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2746,
+        "line": 2763,
         "pattern": "NO DEPLOY",
         "context": "GENERATED LOCALLY \u2014 COPY ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO DEPLOY / MERGE / PU",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 2844,
+        "line": 2861,
         "pattern": "NO DEPLOY",
         "context": "DECISION LEDGER PREVIEW \u2014 TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO EXECUTION \u2014 NO MUTAT",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 3026,
+        "line": 3043,
         "pattern": "NO DEPLOY",
         "context": "GENERATED LOCALLY \u2014 COPY/PASTE HANDOFF ONLY \u2014 TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE \u2014 NO BACKEND WRITES \u2014 NO ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 3200,
+        "line": 3217,
         "pattern": "NO DEPLOY",
         "context": "END-TO-END OPERATOR FLOW \u2014 SCENARIO PREVIEW ONLY \u2014 GENERATED LOCALLY \u2014 TEMPORARY IN-BROWSER STATE ONLY \u2014 NO PERSISTENCE ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 3335,
+        "line": 3352,
         "pattern": "NO DEPLOY",
         "context": "READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO BACKEND WRITES \u2014 NO DEPLOY / MERGE / PUSH / PR CON",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 3552,
+        "line": 3569,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">CONTRACTS ONLY \u2014 COPY/PASTE ONLY \u2014 READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 N",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 3667,
+        "line": 3684,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">COPY/PASTE ONLY \u2014 READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO ",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 3784,
+        "line": 3801,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO BACK",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 3965,
+        "line": 3982,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"muted\" style=\"margin-top: 0.25rem;\">READINESS ONLY \u2014 NO LIVE AUTOMATION \u2014 NO EXECUTION \u2014 NO MUTATION \u2014 NO BACK",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 4204,
+        "line": 4221,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 4204,
+        "line": 4221,
         "pattern": "NO MERGE",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 4204,
+        "line": 4221,
         "pattern": "NO PUSH",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 4204,
+        "line": 4221,
         "pattern": "NO SECRET ACCESS",
         "context": "<p class=\"card-body\">DISABLED MOCK. SCHEMA PREVIEW ONLY. NO EXECUTION. NO MUTATION. NO DEPLOY. NO MERGE. NO PUSH. NO SEC",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 8916,
+        "line": 8933,
         "pattern": "NO DEPLOY",
         "context": "<li><strong>\"Safety-denial language\"<\/strong> means phrases like NO DEPLOY CONTROLS or NO PUBLIC WRITES are warnings/gua",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 9034,
+        "line": 9051,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"card-body\">Difference between safety-denial language and enabled runtime behavior: A button that says \"NO DEPL",
         "reason": "allowed safety text"
