@@ -375,7 +375,7 @@ def _render_overview_cards(snapshot):
     safety_scan = snapshot.get("phase_3_safety_scan", {})
     safety = snapshot.get("safety_status", {})
     next_action = snapshot.get("recommended_next_action", "unknown")
-    next_action = "Ready for static hosting review after merge. Backend integration remains a later phase."
+    next_action = "Ready for static hosting review after merge. Backend/Supabase readiness architecture exists; live backend runtime remains disabled."
     merge_ready_status = "PASS" if "ready_for_merge_review" in next_action else "INFO"
     cards = [
         _card("Phase 1 status", phase1.get("detected_verdict", "unknown"), phase1.get("summary", "Phase 1 backend source of truth is present.")),
@@ -399,7 +399,7 @@ def _build_landing_screen(snapshot):
     phase3 = snapshot.get("phase_3_status", {})
     safety_scan = snapshot.get("phase_3_safety_scan", {})
     next_action = snapshot.get("recommended_next_action", "unknown")
-    next_action = "Ready for backend architecture blueprint review. Future backend integration remains a later phase."
+    next_action = "Ready for backend architecture blueprint review. Backend/Supabase readiness architecture exists; live backend runtime remains disabled."
     merge_ready_status = "PASS" if "ready_for_merge_review" in next_action else "INFO"
     cards = [
         _card("Phase 1 status", phase1.get("detected_verdict", "unknown"), phase1.get("summary", "Phase 1 backend source of truth is present.")),
@@ -407,6 +407,12 @@ def _build_landing_screen(snapshot):
         _card("Phase 3 status", phase3.get("detected_verdict", "unknown"), phase3.get("summary", "Read-Only Operations Dashboard build and exports are available.")),
         _card("Safety status", safety_scan.get("status", "unknown"), "Production-hosted dashboard with deployment, merge, push, secret access, and command execution disabled."),
         _card("Roadmap status", merge_ready_status, next_action),
+        _card(
+            "Premium Stakeholder Demo",
+            "INFO",
+            "Open the browser-viewable premium demo hub with the stakeholder presentation, system story, scale inventory, and safety map.",
+            extra='<a class="section-button" href="./demo/">View Stakeholder Demo Hub</a>',
+        ),
     ]
     buttons = [
         ("Roadmap Re-Anchor", "roadmap-reanchor"),
@@ -503,7 +509,7 @@ def _build_toolbar(snapshot):
         {_copy_button("Copy summary", summary, aria="Copy dashboard summary")}
       </div>
       <div class="toolbar-group toolbar-note">
-        <span class="muted">Current build: static preview. Hosting readiness: static hosting ready. Backend integration: planned, disabled in this build. Controls: read-only display.</span>
+        <span class="muted">Current build: static preview. Hosting readiness: static hosting ready. Backend/Supabase readiness architecture exists. Live backend runtime is disabled. Controls: read-only display.</span>
       </div>
       <div class="toolbar-status" aria-live="polite">
         <span id="copy-status" class="muted">Local UI ready.</span>
@@ -3593,7 +3599,7 @@ def _build_plus1b_operator_console_contract_layer():
       <div class="card-head"><h3 class="card-title">Master Cockpit Summary Panel</h3><span class="badge warning">COCKPIT</span></div>
       <p class="card-body">Summarises the readiness posture and the missing dependencies before any future real automation could be built.</p>
       <div class="stat-grid" id="plus1b-master-cockpit-grid" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));"></div>
-      <div class="callout" style="margin-top:0.75rem;"><p class="muted" id="plus1b-master-cockpit-note">The console remains readiness-only. Nothing executes, nothing mutates, and no backend dependency is live yet.</p></div>
+      <div class="callout" style="margin-top:0.75rem;"><p class="muted" id="plus1b-master-cockpit-note">The console remains readiness-only. Backend/Supabase readiness architecture exists, but live backend runtime is disabled.</p></div>
     </article>
   </div>
 
@@ -4146,7 +4152,7 @@ def _build_plus1e_backend_implementation_gate_layer():
 def _build_footer():
     return """
     <footer class="footer">
-      <p>Generated statically. Static files. Backend integration is planned for a later phase and is intentionally not included in this static dashboard build. No secrets used. No commands executed except dashboard build/validation.</p>
+      <p>Generated statically. Static files. Backend/Supabase readiness architecture exists, but live backend runtime is disabled. Public writes are disabled. Supabase writes are disabled. Public endpoints are disabled. service-role usage is not exposed to the browser. Command execution, action execution, and runtime mutation flows remain disabled until a separate runtime activation phase is explicitly approved. No secrets used. No commands executed except dashboard build/validation.</p>
     </footer>
     """
 
@@ -4181,7 +4187,7 @@ def _build_status_snapshot_panel(snapshot):
 def _build_backend_status_panel(snapshot):
     body = """
     <div class="stat-grid">
-      <div class="stat"><span>Backend integration</span><strong>Phase 4A read-only foundation</strong></div>
+      <div class="stat"><span>Backend/Supabase readiness</span><strong>Phase 4A read-only foundation</strong></div>
       <div class="stat"><span>Backend actions</span><strong>Disabled</strong></div>
       <div class="stat"><span>Command execution</span><strong>Disabled</strong></div>
       <div class="stat"><span>GitHub mutation</span><strong>Disabled</strong></div>
@@ -8224,7 +8230,7 @@ def _build_mvp19_external_feedback_layer(snapshot):
     <article class="card mvp19-safety" id="mvp19-safety-panel">
       <div class="card-head"><h3 class="card-title">Security Boundary Panel</h3><span class="badge warning">SAFETY</span></div>
       {_list([
-          "no backend submission: PASS",
+          "backend submission disabled: PASS",
           "no browser persistence: PASS",
           "no secrets collected: PASS",
           "service role not used: PASS",
@@ -8357,7 +8363,7 @@ def _build_mvp20_manual_feedback_layer(snapshot):
       <div class="card-head"><h3 class="card-title">Security Boundary Panel</h3><span class="badge warning">SAFETY</span></div>
       {_list([
           "static memory-only: PASS",
-          "no backend submission: PASS",
+          "backend submission disabled: PASS",
           "no browser persistence: PASS",
           "service role not used: PASS",
           "automation disabled: PASS"
@@ -9219,7 +9225,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
     # Replace any 'open_by_default=True' with False in archive_sections if possible, 
     # but since they are already rendered strings, we can use JS or just let details be closed.
     # We will use CSS/JS to close them, or replace 'open' with '' in the HTML string for the archive tab.
-    archive_html = "\\n".join(archive_sections).replace(' open ', ' ').replace('<details class="panel" open>', '<details class="panel">')
+    archive_html = "\n".join(archive_sections).replace(' open ', ' ').replace('<details class="panel" open>', '<details class="panel">')
     archive_view = f'''<div class="tab-pane" id="view-archive" style="display: none;">
       <h2 style="margin-bottom:1rem;">Archive / Full Audit Trail</h2>
       <div style="margin-bottom:1rem;">
@@ -9248,7 +9254,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_approval_panel(snapshot),
         _build_session_panel(snapshot)
     ]
-    dev_html = "\\n".join(dev_sections).replace(' open ', ' ').replace('<details class="panel" open>', '<details class="panel">')
+    dev_html = "\n".join(dev_sections).replace(' open ', ' ').replace('<details class="panel" open>', '<details class="panel">')
     dev_view = f'''<div class="tab-pane" id="view-developer" style="display: none;">
       <h2 style="margin-bottom:1rem;">Developer / Validator View</h2>
       <div class="callout" style="margin-bottom:1.5rem; border-color:var(--warning);"><p class="muted">Developer view contains internal build/audit details and is not the recommended starting point for external reviewers.</p></div>
@@ -9259,9 +9265,9 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         all_sections = [
             welcome_view, orientation_view, status_view, demo_view, safety_view, roadmap_view, latest_mvp_view, archive_view, dev_view, _build_footer()
         ]
-        sections_out = "\\n".join(all_sections)
+        sections_out = "\n".join(all_sections)
     else:
-        sections_out = "\\n".join([
+        sections_out = "\n".join([
             welcome_view, orientation_view, status_view, demo_view, safety_view, roadmap_view, latest_mvp_view, archive_view, dev_view, _build_footer()
         ])
     
