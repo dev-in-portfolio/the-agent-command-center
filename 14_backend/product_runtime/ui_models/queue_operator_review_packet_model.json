@@ -1,0 +1,8 @@
+{
+  "phase": "MVP-48",
+  "name": "QUEUE OPERATOR REVIEW PACKET",
+  "status": "QUEUE_OPERATOR_REVIEW_PACKET_READY",
+  "readiness_only": "true",
+  "review_only": "true",
+  "future_implementation_only": "true"
+}
