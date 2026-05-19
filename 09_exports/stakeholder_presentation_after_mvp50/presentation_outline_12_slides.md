@@ -31,6 +31,8 @@
   - 8 readiness layers are schema-defined, validator-proven, and production-verified
   - Live at the-agent-command-center-dashboard.netlify.app
   - Publicly accessible — no authentication required to view
+  - System scale is visible and honest: 67 production verification reports, 582 product-track files, 280 validators, and UNKNOWN_NOT_CURRENTLY_DECLARED for exact agent and department counts
+  - Operational domains are used instead of a fake department registry
 - **Visual suggestion**: Screenshot of dashboard with key sections labeled
 - **Speaker note**: "This is what reviewers and stakeholders see. It is a single-page dashboard with all readiness layers visible."
 
@@ -57,6 +59,7 @@
   - MVP-48: Controlled Action Queue
   - MVP-49: Human-Approved Internal Execution
   - MVP-50: Monitoring / Rollback / Incident Console
+  - Each layer sits below the command hierarchy: product layer, readiness roadmap, operational domain, model/artifact, validator gate, human review, future runtime activation
 - **Visual suggestion**: Table or layered stack diagram
 - **Speaker note**: "These 8 layers form the complete readiness architecture. Each one proves a critical capability exists in design, schema, and validation — without enabling real execution."
 
@@ -94,6 +97,7 @@
   - Validators pass or fail based on exact content
   - Production verification reports include validator output
   - Validator outputs are committed and version-controlled
+  - The validator wall includes the dynamic latest-status check, the master wall, the stakeholder presentation validator, and the premium demo validator
   - Anyone can clone and run: `python3 scripts/validate_*.py`
 - **Visual suggestion**: Terminal screenshot showing validator pass output
 - **Speaker note**: "Everything you see on the dashboard is checked by a validator. If a marker is missing, the validator fails. This gives you machine-checkable confidence."

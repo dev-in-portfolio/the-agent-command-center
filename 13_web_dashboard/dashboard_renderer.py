@@ -383,6 +383,12 @@ def _render_overview_cards(snapshot):
         _card("Phase 3 build status", phase3.get("detected_verdict", "unknown"), phase3.get("summary", "Read-Only Operations Dashboard build and exports are available.")),
         _card("Safety status", "LOCKED", safety_scan.get("status", "PASS")),
         _card("Merge readiness", merge_ready_status, next_action),
+        _card(
+            "Premium Stakeholder Demo",
+            "INFO",
+            "Open the browser-viewable premium demo hub with the stakeholder presentation, system story, scale inventory, and safety map.",
+            extra='<a class="section-button" href="./demo/">View Stakeholder Demo Hub</a>',
+        ),
     ]
     return '<section class="cards-grid">' + "".join(cards) + "</section>"
 

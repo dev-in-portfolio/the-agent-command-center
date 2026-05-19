@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Technical Appendix - The Agent Command Center</title>
+  <link rel="stylesheet" href="./assets/demo.css">
+</head>
+<body>
+  <div class="demo-shell">
+    <header class="topbar">
+      <div class="brand"><strong>Technical Appendix</strong><span>For reviewers who want the mechanics</span></div>
+      <nav class="nav-links" aria-label="Demo navigation">
+        <a href="./index.html">Home</a><a href="./validator-safety-map.html">Validator Map</a><a href="./review.html">Review</a><a href="../index.html">Live Dashboard</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <p class="eyebrow">Architecture summary</p>
+          <h1 class="title">Static, version-controlled, and intentionally read-only.</h1>
+          <p class="lead">The technical appendix explains how the dashboard is assembled, how the validators work, what they prove, and what still needs a separate runtime activation phase.</p>
+        </div>
+        <div class="callout">
+          <p class="kicker">Known limitations</p>
+          <p>Validators prove content and boundary markers, not live runtime behavior.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="page-grid">
+        <article class="page-card">
+          <h3>Architecture summary</h3>
+          <p>Static HTML/CSS/JS in the Netlify publish directory, with markdown source docs in the repo and validators in Python.</p>
+        </article>
+        <article class="page-card">
+          <h3>Validator strategy</h3>
+          <p>Milestone validators, package validators, a dynamic latest-status check, and a master wall keep the release story consistent.</p>
+        </article>
+        <article class="page-card">
+          <h3>Flat E2E strategy</h3>
+          <p>Independent validators avoid nested chains and make failures easier to isolate.</p>
+        </article>
+        <article class="page-card">
+          <h3>Dynamic latest-status strategy</h3>
+          <p>The live dashboard must still report MVP-50 as the latest verified milestone.</p>
+        </article>
+        <article class="page-card">
+          <h3>Safety-denial marker strategy</h3>
+          <p>The system uses explicit markers such as NOT_READY_FOR_REAL_AUTOMATION to keep runtime intent unambiguous.</p>
+        </article>
+        <article class="page-card">
+          <h3>Future runtime activation gates</h3>
+          <p>Security review, approval gates, monitoring, rollback planning, and change-management sign-off remain required before any runtime phase.</p>
+        </article>
+      </div>
+    </section>
+    <div class="footer">This appendix is mirrored in `technical_reviewer_appendix.md`.</div>
+  </div>
+  <script src="./assets/demo.js"></script>
+</body>
+</html>

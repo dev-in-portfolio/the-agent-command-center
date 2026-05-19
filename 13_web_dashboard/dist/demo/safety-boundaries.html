@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Safety Boundaries - The Agent Command Center</title>
+  <link rel="stylesheet" href="./assets/demo.css">
+</head>
+<body>
+  <div class="demo-shell">
+    <header class="topbar">
+      <div class="brand"><strong>Safety Boundaries</strong><span>Disabled runtime by design</span></div>
+      <nav class="nav-links" aria-label="Demo navigation">
+        <a href="./index.html">Home</a><a href="./system-story.html">System Story</a><a href="./validator-safety-map.html">Validator Map</a><a href="./technical-appendix.html">Technical Appendix</a><a href="../index.html">Live Dashboard</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <p class="eyebrow">Safety wall</p>
+          <h1 class="title">The current build is deliberately non-executing.</h1>
+          <p class="lead">The safety posture is explicit. These capabilities are not active, and the demo does not hide that fact.</p>
+        </div>
+        <div class="callout">
+          <p class="kicker">Non-negotiables</p>
+          <p>Runtime activation requires separate approval and a separate phase.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="card-grid">
+        <article class="card"><h3>No runtime activation</h3><p>The demo is read-only and does not start live execution.</p></article>
+        <article class="card"><h3>No command execution</h3><p>There are no command execution paths in the browser demo.</p></article>
+        <article class="card"><h3>No action execution</h3><p>Actions are described, not run.</p></article>
+        <article class="card"><h3>No public writes</h3><p>The site does not expose write paths for public data.</p></article>
+        <article class="card"><h3>No database or Supabase writes</h3><p>Data mutation remains disabled.</p></article>
+        <article class="card"><h3>No alert sending</h3><p>Alerting is not active in this phase.</p></article>
+        <article class="card"><h3>No rollback execution</h3><p>Rollback remains a future runtime responsibility.</p></article>
+        <article class="card"><h3>No incident mutation</h3><p>Incidents are reviewed, not modified by runtime logic.</p></article>
+        <article class="card"><h3>No deploy / merge / push controls in app</h3><p>The app cannot publish or mutate the repo.</p></article>
+        <article class="card"><h3>No automation</h3><p>Automation is intentionally not enabled.</p></article>
+        <article class="card"><h3>No endpoints</h3><p>The browser demo is pure static HTML/CSS/JS.</p></article>
+        <article class="card"><h3>No Netlify functions</h3><p>There are no serverless functions in the demo hub.</p></article>
+      </div>
+    </section>
+    <div class="footer">The same safety posture is reiterated in the source package and validators.</div>
+  </div>
+  <script src="./assets/demo.js"></script>
+</body>
+</html>

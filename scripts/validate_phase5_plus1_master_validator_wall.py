@@ -1658,6 +1658,7 @@ allowed_prefixes = [
          "scripts/validate_e2e_runtime_no_nested_e2e.py",
         "scripts/validate_live_dashboard_usability_after_mvp41.py",
         "scripts/validate_live_dashboard_dynamic_latest_status.py",
+        "scripts/validate_premium_demo_experience_after_mvp50.py",
         "scripts/validation_helpers_control_scan.py",
         "scripts/test_validation_helpers_control_scan.py",
         "scripts/validate_stakeholder_presentation_after_mvp50.py",
