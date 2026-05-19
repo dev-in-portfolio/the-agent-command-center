@@ -561,6 +561,55 @@ for path, marker in mvp48_report_requirements:
     if path.exists():
         check(marker in path.read_text(encoding="utf-8", errors="replace"), f"MVP-48 report missing marker: {path.name}")
 
+mvp49_model_requirements = [
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "human_approved_internal_execution_model.json",
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "operator_attestation_schema_model.json",
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "execution_eligibility_gate_model.json",
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "approval_execution_binding_model.json",
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "pre_execution_lock_checklist_model.json",
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "execution_result_receipt_schema_model.json",
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "rollback_handoff_packet_model.json",
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "post_execution_verification_checklist_model.json",
+    ROOT / "13_web_dashboard" / "dist" / "mvp49_human_approved_internal_execution_model.json",
+]
+for path in mvp49_model_requirements:
+    check(path.exists(), f"missing MVP-49 model: {path.relative_to(ROOT)}")
+
+mvp49_release_requirements = [
+    ROOT / "09_exports" / "release_package" / "mvp49_human_approved_internal_execution.md",
+    ROOT / "09_exports" / "release_package" / "mvp49_operator_attestation_schema.md",
+    ROOT / "09_exports" / "release_package" / "mvp49_execution_eligibility_gate.md",
+    ROOT / "09_exports" / "release_package" / "mvp49_approval_execution_binding.md",
+    ROOT / "09_exports" / "release_package" / "mvp49_pre_execution_lock_checklist.md",
+    ROOT / "09_exports" / "release_package" / "mvp49_execution_result_receipt_schema.md",
+    ROOT / "09_exports" / "release_package" / "mvp49_rollback_handoff_packet.md",
+    ROOT / "09_exports" / "release_package" / "mvp49_post_execution_verification_checklist.md",
+    ROOT / "09_exports" / "release_package" / "mvp49_human_approved_internal_execution_manifest.json",
+]
+for path in mvp49_release_requirements:
+    check(path.exists(), f"missing MVP-49 release artifact: {path.relative_to(ROOT)}")
+
+mvp49_report_requirements = [
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp49_human_approved_internal_execution_report.md", "HUMAN_APPROVED_INTERNAL_EXECUTION_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp49_operator_attestation_schema_report.md", "OPERATOR_ATTESTATION_SCHEMA_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp49_execution_eligibility_gate_report.md", "EXECUTION_ELIGIBILITY_GATE_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp49_approval_execution_binding_report.md", "APPROVAL_EXECUTION_BINDING_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp49_pre_execution_lock_checklist_report.md", "PRE_EXECUTION_LOCK_CHECKLIST_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp49_execution_result_receipt_schema_report.md", "EXECUTION_RESULT_RECEIPT_SCHEMA_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp49_rollback_handoff_packet_report.md", "ROLLBACK_HANDOFF_PACKET_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp49_post_execution_verification_checklist_report.md", "POST_EXECUTION_VERIFICATION_CHECKLIST_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp49_security_boundary_report.md", "NO_REAL_COMMAND_EXECUTION"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp49_next_product_step_report.md", "NEXT_STEP_BUILD_MONITORING_ROLLBACK_INCIDENT_CONSOLE"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp49_validator_quality_report.md", "PASS"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp49_acceptance_report.md", "HUMAN_APPROVED_INTERNAL_EXECUTION_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp49_validator_wall_review.md", "PASS"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp49_validation_stewardship_report.md", "OPTIMIZED"),
+]
+for path, marker in mvp49_report_requirements:
+    check(path.exists(), f"missing MVP-49 report: {path.relative_to(ROOT)}")
+    if path.exists():
+        check(marker in path.read_text(encoding="utf-8", errors="replace"), f"MVP-49 report missing marker: {path.name}")
+
 mvp47_report_requirements = [
     (ROOT / "09_exports" / "mvp_product_track" / "mvp47_server_side_dry_run_engine_report.md", "SERVER_SIDE_DRY_RUN_ENGINE_READY"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp47_action_plan_input_schema_report.md", "ACTION_PLAN_INPUT_SCHEMA_READY"),
@@ -1549,9 +1598,11 @@ allowed_prefixes = [
         "scripts/validate_mvp46_approval_gate_storage_e2e.py",
         "scripts/validate_mvp47_server_side_dry_run_engine.py",
         "scripts/validate_mvp47_server_side_dry_run_engine_e2e.py",
-        "scripts/validate_mvp48_controlled_action_queue.py",
-        "scripts/validate_mvp48_controlled_action_queue_e2e.py",
-        "scripts/validate_e2e_runtime_no_nested_e2e.py",
+         "scripts/validate_mvp48_controlled_action_queue.py",
+         "scripts/validate_mvp48_controlled_action_queue_e2e.py",
+         "scripts/validate_mvp49_human_approved_internal_execution.py",
+         "scripts/validate_mvp49_human_approved_internal_execution_e2e.py",
+         "scripts/validate_e2e_runtime_no_nested_e2e.py",
         "scripts/validate_live_dashboard_usability_after_mvp41.py",
         "scripts/validate_live_dashboard_dynamic_latest_status.py",
         "scripts/validation_helpers_control_scan.py",
