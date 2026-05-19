@@ -1885,6 +1885,85 @@ def _build_mvp48_controlled_action_queue_layer(snapshot):
         panel_id="mvp48-controlled-action-queue",
     )
 
+def _build_mvp49_human_approved_internal_execution_layer(snapshot):
+    body = f'''
+<div class="plus1-readiness-layer">
+  <div class="plus1-preview-grid">
+    <article class="card mvp49-human-execution" id="mvp49-human-execution-overview">
+      <div class="card-head"><h3 class="card-title">HUMAN APPROVED INTERNAL EXECUTION</h3><span class="badge info">MVP-49</span></div>
+      <p class="card-body">Blueprint and readiness layer for human-approved internal execution.</p>
+      {{_list([
+          "OPERATOR ATTESTATION SCHEMA: READY",
+          "EXECUTION ELIGIBILITY GATE: READY",
+          "APPROVAL EXECUTION BINDING: READY",
+          "PRE EXECUTION LOCK CHECKLIST: READY",
+          "EXECUTION RESULT RECEIPT SCHEMA: READY",
+          "ROLLBACK HANDOFF PACKET: READY",
+          "POST EXECUTION VERIFICATION CHECKLIST: READY",
+      ])}}
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small">Copy Human Execution Summary</button>
+        <button type="button" class="copy-button small">Copy Operator Attestation Schema</button>
+        <button type="button" class="copy-button small">Copy Execution Eligibility Gate</button>
+        <button type="button" class="copy-button small">Copy Approval Execution Binding</button>
+        <button type="button" class="copy-button small">Copy Pre-Execution Lock Checklist</button>
+        <button type="button" class="copy-button small">Copy Execution Result Receipt Schema</button>
+        <button type="button" class="copy-button small">Copy Rollback Handoff Packet</button>
+        <button type="button" class="copy-button small">Copy Post-Execution Verification Checklist</button>
+        <button type="button" class="copy-button small">Copy MVP-49 Validation Checklist</button>
+      </div>
+    </article>
+
+    <article class="card plus1-safety-summary" id="mvp49-safety-summary">
+      <div class="card-head"><h3 class="card-title">Safety Summary</h3><span class="badge pass">SECURE</span></div>
+      <div class="stat-grid">
+        {{_stat("Mode", "HUMAN EXECUTION READINESS ONLY", _badge("SCHEMA READINESS ONLY", "info"))}}
+        {{_stat("Role", "REVIEW ONLY", _badge("FUTURE IMPLEMENTATION ONLY", "warning"))}}
+        {{_stat("Execution", "NO REAL COMMAND EXECUTION", _badge("BLOCKED", "locked"))}}
+        {{_stat("Execution", "NO REAL ACTION EXECUTION", _badge("BLOCKED", "locked"))}}
+        {{_stat("Execution", "NO AUTONOMOUS EXECUTION", _badge("BLOCKED", "locked"))}}
+        {{_stat("Queue", "NO QUEUE WORKER PROCESSING", _badge("DISABLED", "disabled"))}}
+        {{_stat("Queue", "NO AUTOMATIC DISPATCH", _badge("DISABLED", "disabled"))}}
+        {{_stat("Queue", "NO SCHEDULED EXECUTION", _badge("DISABLED", "disabled"))}}
+        {{_stat("Queue", "NO RETRY EXECUTION", _badge("DISABLED", "disabled"))}}
+        {{_stat("Approval", "NO APPROVAL EXECUTION", _badge("BLOCKED", "locked"))}}
+        {{_stat("Writes", "NO DATABASE WRITES", _badge("DISABLED", "disabled"))}}
+        {{_stat("Writes", "NO SUPABASE WRITES", _badge("DISABLED", "disabled"))}}
+        {{_stat("Writes", "NO PUBLIC WRITES", _badge("DISABLED", "disabled"))}}
+        {{_stat("Mutation", "NO LIVE REQUEST MUTATION", _badge("BLOCKED", "locked"))}}
+        {{_stat("Audit", "NO AUDIT EVENT WRITES", _badge("BLOCKED", "locked"))}}
+        {{_stat("Mutation", "NO EXTERNAL API MUTATION", _badge("BLOCKED", "locked"))}}
+        {{_stat("Mutation", "NO GITHUB MUTATION", _badge("BLOCKED", "locked"))}}
+        {{_stat("Mutation", "NO NETLIFY MUTATION", _badge("BLOCKED", "locked"))}}
+        {{_stat("Controls", "NO DEPLOY CONTROLS", _badge("BLOCKED", "locked"))}}
+        {{_stat("Controls", "NO MERGE CONTROLS", _badge("BLOCKED", "locked"))}}
+        {{_stat("Controls", "NO PUSH CONTROLS", _badge("BLOCKED", "locked"))}}
+        {{_stat("Controls", "NO PR CONTROLS", _badge("BLOCKED", "locked"))}}
+        {{_stat("Automation", "AUTOMATION DISABLED", _badge("NOT_READY_FOR_REAL_AUTOMATION", "disabled"))}}
+        {{_stat("Role", "SERVICE ROLE NOT USED", _badge("BLOCKED", "disabled"))}}
+        {{_stat("Role", "SERVICE ROLE NOT IN BROWSER", _badge("BLOCKED", "disabled"))}}
+        {{_stat("Token", "NO TOKEN INPUT", _badge("DISABLED", "disabled"))}}
+        {{_stat("Persistence", "NO BROWSER PERSISTENCE", _badge("DISABLED", "disabled"))}}
+        {{_stat("Migration", "NO MIGRATION APPLY", _badge("DISABLED", "disabled"))}}
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Next Planned Step</p>
+        <ul class="compact-list" style="margin-top:0.25rem;">
+          <li>NEXT_STEP_BUILD_MONITORING_ROLLBACK_INCIDENT_CONSOLE</li>
+        </ul>
+      </div>
+    </article>
+  </div>
+</div>
+'''
+    return _details(
+        "MVP-49 — Human-Approved Internal Execution",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp49-human-approved-internal-execution",
+    )
+
 def _build_mvp47_server_side_dry_run_engine_layer(snapshot):
     body = f'''
 <div class="plus1-readiness-layer">
@@ -8678,6 +8757,8 @@ def _build_latest_verified_mvp_layer(snapshot, latest_mvp):
     if mvp_num == 45: return _build_mvp45_immutable_audit_event_ledger_layer(snapshot)
     if mvp_num == 46: return _build_mvp46_approval_gate_storage_layer(snapshot)
     if mvp_num == 47: return _build_mvp47_server_side_dry_run_engine_layer(snapshot)
+    if mvp_num == 48: return _build_mvp48_controlled_action_queue_layer(snapshot)
+    if mvp_num == 49: return _build_mvp49_human_approved_internal_execution_layer(snapshot)
 
     # Fallback generic summary
     title = _get_mvp_title(mvp_num)
@@ -9037,6 +9118,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
                 _build_mvp46_approval_gate_storage_layer(snapshot),
         _build_mvp47_server_side_dry_run_engine_layer(snapshot),
         _build_mvp48_controlled_action_queue_layer(snapshot),
+        _build_mvp49_human_approved_internal_execution_layer(snapshot),
     ]
     # Replace any 'open_by_default=True' with False in archive_sections if possible, 
     # but since they are already rendered strings, we can use JS or just let details be closed.
