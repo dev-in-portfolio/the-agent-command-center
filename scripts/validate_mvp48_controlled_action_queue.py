@@ -153,7 +153,7 @@ def main():
             "NO TOKEN INPUT",
             "NO BROWSER PERSISTENCE",
             "NO MIGRATION APPLY",
-            "NEXT_STEP_BUILD_HUMAN_APPROVED_INTERNAL_EXECUTION",
+            "NEXT_STEP_BUILD_MONITORING_ROLLBACK_INCIDENT_CONSOLE",
             "NOT_READY_FOR_REAL_AUTOMATION"
         ]
         for m in markers:

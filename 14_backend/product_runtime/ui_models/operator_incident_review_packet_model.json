@@ -1,0 +1,32 @@
+{
+  "model_id": "operator_incident_review_packet_model",
+  "mvp": "MVP-50",
+  "domain": "Operator Incident Review Packet",
+  "title": "Operator Incident Review Packet Model",
+  "description": "Operator Incident Review Packet aggregating all data needed for operator review of an incident and any follow-up actions.",
+  "fields": [
+    { "name": "packet_id", "type": "string", "purpose": "Unique review packet identifier" },
+    { "name": "incident_ref", "type": "string", "purpose": "Reference to the incident record under review" },
+    { "name": "review_notes", "type": "array", "purpose": "Operator-entered notes during review" },
+    { "name": "decision", "type": "string", "purpose": "Review decision: escalate | resolved | needs_follow_up | acknowledged" }
+  ],
+  "status": "operator_incident_review_packet_ready",
+  "operator_incident_review_packet_flag": true,
+  "schema_readiness_only": true,
+  "review_only": true,
+  "future_implementation_only": true,
+  "safety_notes": "Schema readiness only. No runtime execution.",
+  "real_monitoring_enabled": false,
+  "real_alert_dispatch_enabled": false,
+  "real_metrics_collection_enabled": false,
+  "real_log_aggregation_enabled": false,
+  "autonomous_observability_enabled": false,
+  "external_monitoring_api_mutation_enabled": false,
+  "dashboard_write_enabled": false,
+  "health_check_execution_enabled": false,
+  "service_role_used": false,
+  "service_role_in_browser": false,
+  "token_input_enabled": false,
+  "browser_persistence_enabled": false,
+  "migration_apply_enabled": false
+}
