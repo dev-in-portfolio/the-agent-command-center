@@ -166,7 +166,9 @@ allowed_prefixes = [
     "13_web_dashboard/dist/demo/",
     "09_exports/mvp_product_track/premium_demo_system_scale_discovery_report.md",
     "09_exports/mvp_product_track/premium_demo_experience_after_mvp50_report.md",
+    "09_exports/mvp_product_track/live_site_demo_rendering_rescue_after_mvp50_report.md",
     "scripts/validate_premium_demo_experience_after_mvp50.py",
+    "scripts/validate_live_site_demo_rendering_rescue_after_mvp50.py",
     "09_exports/stakeholder_presentation_after_mvp50/",
     "scripts/validate_phase5_plus1_master_validator_wall.py",
 ]
