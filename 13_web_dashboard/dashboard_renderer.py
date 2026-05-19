@@ -9080,8 +9080,12 @@ def _build_roadmap_page():
       </div>
       <div class="card">
         <div class="card-head"><h3 class="card-title">Next Planned</h3><span class="badge info">UPCOMING</span></div>
-        <p class="card-body" style="margin-bottom: 0.5rem;"><strong>MVP-{latest_mvp["number"] + 1 if latest_mvp else "X"}</strong></p>
-        <p class="card-body muted">Next operational milestone in progress.</p>
+        <p class="card-body" style="margin-bottom: 0.5rem;"><strong>Next phase</strong></p>
+        <ul class="compact-list">
+          <li>stakeholder review / demo verification</li>
+          <li>runtime activation planning is separate and has not started</li>
+          <li>MVP-51 not started</li>
+        </ul>
       </div>
     </div>
   </div>
