@@ -1,6 +1,6 @@
 {
-  "dashboard_id": "PH3-20260518-225707",
-  "created_at_utc": "2026-05-18T22:57:07Z",
+  "dashboard_id": "PH3-20260518-235145",
+  "created_at_utc": "2026-05-18T23:51:45Z",
   "phase": "Read-Only Operations Dashboard",
   "repo": "dev-in-portfolio/the-agent-command-center",
   "source_lineage": "dev-in-portfolio/agent-command-center-3",
@@ -965,7 +965,7 @@
     "source_exists": true,
     "source_type": "generated_static_snapshot",
     "source_confidence": "generated_static_snapshot",
-    "generated_at_utc": "2026-05-18T22:57:07Z",
+    "generated_at_utc": "2026-05-18T23:51:45Z",
     "freshness_status": "generated_static_snapshot",
     "snapshot_age_seconds": 0,
     "notes": [
@@ -1413,14 +1413,14 @@
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 8619,
+        "line": 8686,
         "pattern": "NO DEPLOY",
         "context": "<li><strong>\"Safety-denial language\"</strong> means phrases like NO DEPLOY CONTROLS or NO PUBLIC WRITES are warnings/gua",
         "reason": "allowed safety text"
       },
       {
         "file": "13_web_dashboard/dashboard_renderer.py",
-        "line": 8736,
+        "line": 8804,
         "pattern": "NO DEPLOY",
         "context": "<p class=\"card-body\">Difference between safety-denial language and enabled runtime behavior: A button that says \"NO DEPL",
         "reason": "allowed safety text"
