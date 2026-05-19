@@ -1,0 +1,52 @@
+{
+  "package_name": "stakeholder_presentation_after_mvp50",
+  "source_package": "external_demo_package_after_mvp50",
+  "live_site": "https://the-agent-command-center-dashboard.netlify.app/",
+  "source_branch": "release/stakeholder-presentation-after-mvp50",
+  "base_mvp": "MVP-50",
+  "production_verified_through": "MVP-50",
+  "runtime_activation_started": false,
+  "presentation_slide_count": 12,
+  "files": [
+    "README.md",
+    "presentation_outline_12_slides.md",
+    "slide_by_slide_script.md",
+    "presenter_notes.md",
+    "screen_share_runbook.md",
+    "executive_opening_statement.md",
+    "plain_english_product_story.md",
+    "technical_reviewer_appendix.md",
+    "safety_and_non_activation_disclaimer.md",
+    "demo_objection_responses.md",
+    "post_demo_followup_email_template.md",
+    "post_demo_review_questions.md",
+    "demo_success_scorecard.md",
+    "presentation_manifest.json"
+  ],
+  "readiness_layers": [
+    {"mvp": "MVP-43", "name": "Operational Auth Foundation", "production_verified": true},
+    {"mvp": "MVP-44", "name": "Persistent Request Storage Foundation", "production_verified": true},
+    {"mvp": "MVP-45", "name": "Immutable Audit Event Ledger", "production_verified": true},
+    {"mvp": "MVP-46", "name": "Approval Gate Storage", "production_verified": true},
+    {"mvp": "MVP-47", "name": "Server-Side Dry-Run Engine", "production_verified": true},
+    {"mvp": "MVP-48", "name": "Controlled Action Queue", "production_verified": true},
+    {"mvp": "MVP-49", "name": "Human-Approved Internal Execution", "production_verified": true},
+    {"mvp": "MVP-50", "name": "Monitoring / Rollback / Incident Console", "production_verified": true}
+  ],
+  "disabled_capabilities": [
+    "command_execution",
+    "action_execution",
+    "public_writes",
+    "database_writes",
+    "supabase_writes",
+    "alert_sending",
+    "rollback_execution",
+    "incident_mutation",
+    "deploy_controls_from_app",
+    "automation",
+    "queue_processing",
+    "api_endpoints",
+    "netlify_functions"
+  ],
+  "recommended_next_phase": "Stakeholder review and feedback. If approved, begin runtime activation planning as a separate phase."
+}
