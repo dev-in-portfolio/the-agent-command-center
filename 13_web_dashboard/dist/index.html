@@ -72,7 +72,7 @@
     </div>
     <div class="landing-cards">
       <div class="card">
-        <div class="card-head"><h3 class="card-title">Latest production verified MVP</h3><span class="badge pass">MVP-47</span></div>
+        <div class="card-head"><h3 class="card-title">Latest production verified MVP</h3><span class="badge pass">MVP-48</span></div>
         <p class="card-body">Current product state: review/demo dashboard</p>
       </div>
       <div class="card">
@@ -146,10 +146,10 @@
       <div class="card">
         <div class="card-head"><h3 class="card-title">Production State</h3></div>
         <ul class="compact-list">
-          <li>Latest verified milestone: MVP-47</li>
+          <li>Latest verified milestone: MVP-48</li>
           <li>Current production branch: master</li>
           <li>Current production role: read-only review dashboard</li>
-          <li>Next milestone: 48 (In Progress)</li>
+          <li>Next milestone: 49 (In Progress)</li>
         </ul>
       </div>
       <div class="card">
@@ -254,14 +254,14 @@
       <div class="card">
         <div class="card-head"><h3 class="card-title">Completed</h3><span class="badge pass">DONE</span></div>
         <ul class="compact-list">
-          <li>Completed through MVP-47</li>
+          <li>Completed through MVP-48</li>
           <li>Validation stabilization completed</li>
           <li>Dashboard Usability Refactor completed</li>
         </ul>
       </div>
       <div class="card">
         <div class="card-head"><h3 class="card-title">Next Planned</h3><span class="badge info">UPCOMING</span></div>
-        <p class="card-body" style="margin-bottom: 0.5rem;"><strong>MVP-48</strong></p>
+        <p class="card-body" style="margin-bottom: 0.5rem;"><strong>MVP-49</strong></p>
         <p class="card-body muted">Next operational milestone in progress.</p>
       </div>
     </div>
@@ -270,79 +270,14 @@
 \n<div class="tab-pane" id="view-latest-mvp" style="display: none;">
       <h2 style="margin-bottom:1rem;">Latest Verified MVP</h2>
       
-    <details class="panel" data-section-group="source" open id="mvp47-server-side-dry-run-engine">
-      <summary>MVP-47 — Server-Side Dry-Run Engine</summary>
-      <div class="panel-body">
-        
-<div class="plus1-readiness-layer">
-  <div class="plus1-preview-grid">
-    <article class="card mvp47-dry-run-engine" id="mvp47-dry-run-engine-overview">
-      <div class="card-head"><h3 class="card-title">SERVER SIDE DRY RUN ENGINE</h3><span class="badge info">MVP-47</span></div>
-      <p class="card-body">Blueprint and readiness layer for the server-side dry-run engine.</p>
-      {_list([
-          "ACTION PLAN INPUT SCHEMA: READY",
-          "PREFLIGHT VALIDATION SCHEMA: READY",
-          "SIMULATED EXECUTION RESULT SCHEMA: READY",
-          "RISK DEPENDENCY REPORT: READY",
-          "ROLLBACK PREVIEW: READY",
-          "APPROVAL BOUND DRY RUN CONTRACT: READY",
-          "DRY RUN EVIDENCE PACKET: READY",
-      ])}
-      <div class="button-row" style="margin-top:0.75rem;">
-        <button type="button" class="copy-button small">Copy Dry-Run Engine Summary</button>
-        <button type="button" class="copy-button small">Copy Action Plan Input Schema</button>
-        <button type="button" class="copy-button small">Copy Preflight Validation Schema</button>
-        <button type="button" class="copy-button small">Copy Simulated Result Schema</button>
-        <button type="button" class="copy-button small">Copy Risk Dependency Report</button>
-        <button type="button" class="copy-button small">Copy Rollback Preview</button>
-        <button type="button" class="copy-button small">Copy Approval-Bound Dry-Run Contract</button>
-        <button type="button" class="copy-button small">Copy Evidence Packet</button>
-        <button type="button" class="copy-button small">Copy MVP-47 Validation Checklist</button>
-      </div>
-    </article>
-
-    <article class="card plus1-safety-summary" id="mvp47-safety-summary">
-      <div class="card-head"><h3 class="card-title">Safety Summary</h3><span class="badge pass">SECURE</span></div>
-      <div class="stat-grid">
-        {_stat("Mode", "DRY RUN ENGINE FOUNDATION ONLY", _badge("SCHEMA READINESS ONLY", "info"))}
-        {_stat("Role", "REVIEW ONLY", _badge("FUTURE IMPLEMENTATION ONLY", "warning"))}
-        {_stat("Execution", "NO REAL COMMAND EXECUTION", _badge("BLOCKED", "locked"))}
-        {_stat("Execution", "NO REAL ACTION EXECUTION", _badge("BLOCKED", "locked"))}
-        {_stat("Execution", "NO REAL EXTERNAL DRY RUN", _badge("BLOCKED", "locked"))}
-        {_stat("Approval", "NO APPROVAL EXECUTION", _badge("BLOCKED", "locked"))}
-        {_stat("Writes", "NO DATABASE WRITES", _badge("DISABLED", "disabled"))}
-        {_stat("Writes", "NO SUPABASE WRITES", _badge("DISABLED", "disabled"))}
-        {_stat("Writes", "NO PUBLIC WRITES", _badge("DISABLED", "disabled"))}
-        {_stat("Mutation", "NO LIVE REQUEST MUTATION", _badge("BLOCKED", "locked"))}
-        {_stat("Audit", "NO AUDIT EVENT WRITES", _badge("BLOCKED", "locked"))}
-        {_stat("Mutation", "NO EXTERNAL API MUTATION", _badge("BLOCKED", "locked"))}
-        {_stat("Mutation", "NO GITHUB MUTATION", _badge("BLOCKED", "locked"))}
-        {_stat("Mutation", "NO NETLIFY MUTATION", _badge("BLOCKED", "locked"))}
-        {_stat("Controls", "NO DEPLOY CONTROLS", _badge("BLOCKED", "locked"))}
-        {_stat("Controls", "NO MERGE CONTROLS", _badge("BLOCKED", "locked"))}
-        {_stat("Controls", "NO PUSH CONTROLS", _badge("BLOCKED", "locked"))}
-        {_stat("Controls", "NO PR CONTROLS", _badge("BLOCKED", "locked"))}
-        {_stat("Queue", "NO ACTION QUEUE", _badge("DISABLED", "disabled"))}
-        {_stat("Automation", "AUTOMATION DISABLED", _badge("NOT_READY_FOR_REAL_AUTOMATION", "disabled"))}
-        {_stat("Role", "SERVICE ROLE NOT USED", _badge("BLOCKED", "disabled"))}
-        {_stat("Role", "SERVICE ROLE NOT IN BROWSER", _badge("BLOCKED", "disabled"))}
-        {_stat("Token", "NO TOKEN INPUT", _badge("DISABLED", "disabled"))}
-        {_stat("Persistence", "NO BROWSER PERSISTENCE", _badge("DISABLED", "disabled"))}
-        {_stat("Migration", "NO MIGRATION APPLY", _badge("DISABLED", "disabled"))}
-      </div>
-      <div class="callout" style="margin-top:0.75rem;">
-        <p class="muted" style="margin:0;">Next Planned Step</p>
-        <ul class="compact-list" style="margin-top:0.25rem;">
-          <li>NEXT_STEP_BUILD_CONTROLLED_ACTION_QUEUE</li>
-        </ul>
-      </div>
-    </article>
+<div class="card">
+  <div class="card-head"><h3 class="card-title">MVP-48</h3><span class="badge pass">PRODUCTION VERIFIED</span></div>
+  <p class="card-body">This milestone has been production verified. Full details are available in the construction record.</p>
+  <div class="button-row">
+    <a href="./09_exports/mvp_product_track/mvp48_production_verification_report.md" target="_blank" class="action-button small">View Verification Report</a>
   </div>
 </div>
 
-      </div>
-    </details>
-    
     </div>\n<div class="tab-pane" id="view-archive" style="display: none;">
       <h2 style="margin-bottom:1rem;">Archive / Full Audit Trail</h2>
       <div style="margin-bottom:1rem;">
@@ -9344,7 +9279,7 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
         <div class="stat-grid">
     <div class="stat">
       <span>Generated at</span>
-      <strong>2026-05-19T01:31:33Z</strong>
+      <strong>2026-05-19T01:44:02Z</strong>
       
     </div>
     
@@ -9547,8 +9482,8 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
     </main>
   </div>
   <script type="application/json" id="dashboard-data">{
-  "dashboard_id": "PH3-20260519-013133",
-  "created_at_utc": "2026-05-19T01:31:33Z",
+  "dashboard_id": "PH3-20260519-014401",
+  "created_at_utc": "2026-05-19T01:44:01Z",
   "phase": "Read-Only Operations Dashboard",
   "repo": "dev-in-portfolio/the-agent-command-center",
   "source_lineage": "dev-in-portfolio/agent-command-center-3",
@@ -10513,7 +10448,7 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
     "source_exists": true,
     "source_type": "generated_static_snapshot",
     "source_confidence": "generated_static_snapshot",
-    "generated_at_utc": "2026-05-19T01:31:33Z",
+    "generated_at_utc": "2026-05-19T01:44:02Z",
     "freshness_status": "generated_static_snapshot",
     "snapshot_age_seconds": 0,
     "notes": [
