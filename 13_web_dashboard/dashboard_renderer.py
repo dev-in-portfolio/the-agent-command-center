@@ -8888,7 +8888,7 @@ def _build_welcome_page():
   <div class="landing-shell">
     <div class="landing-head">
       <h2>Welcome to The Agent Command Center</h2>
-      <p class="lede">Read-only production dashboard for reviewing product status, safety boundaries, demo readiness, and release progress.</p>
+      <p class="lede">Read-only production dashboard for reviewing product status, safety boundaries, demo readiness, and release progress. The Agent Command Center includes backend/Supabase readiness architecture, but the live demo runs in static read-only mode. Supabase writes, public endpoints, service-role usage, command execution, and runtime mutation flows remain disabled until a separate runtime activation phase is explicitly approved.</p>
     </div>
     <div class="landing-cards">
       <div class="card">
@@ -8914,13 +8914,48 @@ def _build_welcome_page():
         <p class="card-body">read-only / copy-only / audit-visible</p>
       </div>
     </div>
+    <div class="landing-actions">
+      <h3>Command Center Launchpad</h3>
+      <div class="landing-cards">
+        <article class="card">
+          <div class="card-head"><h3 class="card-title">Current Status / Readiness Overview</h3><span class="badge info">OPEN</span></div>
+          <p class="card-body">Open the quick production summary and current release posture.</p>
+          <div class="card-extra">{_open_section_button("Current Status / Readiness Overview", "view-status")}</div>
+        </article>
+        <article class="card">
+          <div class="card-head"><h3 class="card-title">Premium Stakeholder Demo</h3><span class="badge info">OPEN</span></div>
+          <p class="card-body">Open the polished browser-viewable stakeholder demo hub.</p>
+          <div class="card-extra"><a class="section-button" href="./demo/">Open Premium Demo Hub</a></div>
+        </article>
+        <article class="card">
+          <div class="card-head"><h3 class="card-title">Runnable Static Simulator</h3><span class="badge info">OPEN</span></div>
+          <p class="card-body">Open the safe in-memory pipeline simulator for the command center.</p>
+          <div class="card-extra"><a class="section-button" href="./demo/simulator.html">Open Static Simulator</a></div>
+        </article>
+        <article class="card">
+          <div class="card-head"><h3 class="card-title">Original Full Audit Dashboard</h3><span class="badge info">OPEN</span></div>
+          <p class="card-body">Open the archive for the full audit trail and construction record.</p>
+          <div class="card-extra">{_open_section_button("Open Full Audit / Archive", "view-archive")}</div>
+        </article>
+        <article class="card">
+          <div class="card-head"><h3 class="card-title">Safety Posture</h3><span class="badge info">OPEN</span></div>
+          <p class="card-body">Review the disabled runtime boundaries and the current safety posture.</p>
+          <div class="card-extra">{_open_section_button("Safety Posture", "view-safety")}</div>
+        </article>
+        <article class="card">
+          <div class="card-head"><h3 class="card-title">Latest Verified MVP</h3><span class="badge pass">MVP-50</span></div>
+          <p class="card-body">Latest verified milestone: {latest_mvp["label"] if latest_mvp else "N/A"}. MVP-51 not started.</p>
+          <div class="card-extra">{_open_section_button("Latest Verified MVP", "view-latest-mvp")}</div>
+        </article>
+      </div>
+    </div>
     <div class="landing-actions" style="margin-top: 2rem;">
       <h3>Start here:</h3>
       <ul class="compact-list" style="font-size: 1.05rem; gap: 0.75rem;">
-        <li>Use <strong><a href="#" onclick="switchTab('view-status')">Current Status</a></strong> if you want the quick answer.</li>
+        <li>Use <strong><a href="#" onclick="switchTab('view-status')">Current Status / Readiness Overview</a></strong> if you want the quick answer.</li>
         <li>Use <strong><a href="#" onclick="switchTab('view-orientation')">What the hell am I looking at?</a></strong> if this page looks insane.</li>
         <li>Use <strong><a href="#" onclick="switchTab('view-demo')">External Review / Demo</a></strong> if you are showing this to someone else.</li>
-        <li>Use <strong><a href="#" onclick="switchTab('view-archive')">Archive / Full Audit Trail</a></strong> only if you want the full construction record.</li>
+        <li>Use <strong><a href="#" onclick="switchTab('view-archive')">Original Full Audit Dashboard</a></strong> only if you want the full construction record.</li>
       </ul>
     </div>
   </div>
@@ -8967,7 +9002,7 @@ def _build_status_page(snapshot):
 <div class="tab-pane" id="view-status" style="display: none;">
   <div class="landing-shell">
     <div class="landing-head">
-      <h2>Current Status</h2>
+      <h2>Current Status / Readiness Overview</h2>
     </div>
     <div class="landing-cards">
       <div class="card">
@@ -8995,15 +9030,18 @@ def _build_status_page(snapshot):
           <li>no deploy/merge/push controls</li>
           <li>automation disabled</li>
         </ul>
+        <p class="card-body">Backend/Supabase readiness architecture exists. Live backend runtime is disabled. Supabase writes are disabled. Public writes are disabled. Service role is not exposed to the browser. Runtime activation has not started.</p>
       </div>
     </div>
     <div class="landing-actions" style="margin-top: 2rem;">
       <h3>What should I look at first?</h3>
       <div style="display:flex; gap:1rem; flex-wrap:wrap;">
         <button class="action-button" onclick="switchTab('view-demo')">External Review / Demo</button>
+        <a class="action-button" href="./demo/">Open Premium Demo Hub</a>
+        <a class="action-button" href="./demo/simulator.html">Open Static Simulator</a>
         <button class="action-button" onclick="switchTab('view-safety')">Safety Posture</button>
         <button class="action-button" onclick="switchTab('view-latest-mvp')">Latest Verified MVP</button>
-        <button class="action-button" onclick="switchTab('view-archive')">Archive</button>
+        <button class="action-button" onclick="switchTab('view-archive')">Original Full Audit Dashboard</button>
       </div>
     </div>
   </div>
@@ -9016,26 +9054,59 @@ def _build_demo_page():
   <div class="landing-shell">
     <div class="landing-head">
       <h2>External Review / Demo</h2>
+      <p class="lede">A useful demo directory for the browser-viewable stakeholder package. The Agent Command Center includes backend/Supabase readiness architecture, but the live demo runs in static read-only mode. Supabase writes, public endpoints, service-role usage, command execution, and runtime mutation flows remain disabled until a separate runtime activation phase is explicitly approved.</p>
     </div>
-    <div class="landing-actions">
-      <h3>What the system is</h3>
-      <p>A transparent, verifiable command center that safely models and previews automation without executing it prematurely.</p>
-      <h3>What problem it solves</h3>
-      <p>AI agent automation usually lacks transparency, auditability, and safety boundaries. This dashboard proves we can build safely.</p>
-      <h3>What is safe to demo today</h3>
-      <p>The static dashboard shell, the generated artifacts, and the safety boundary verifications. It proves the system constraints hold.</p>
-      <h3>What is intentionally disabled</h3>
-      <p>Live writes, external API mutation, production deploy controls, automated email sending.</p>
-      <h3>What artifacts are ready to review</h3>
-      <p>MVP-41 Blueprints, architecture documents, safety logic rules, UI schemas.</p>
-      <h3 style="margin-top: 1.5rem;">Suggested reviewer path:</h3>
-      <ol style="color: var(--text-secondary); font-size: 1.05rem;">
-        <li>Read Welcome</li>
-        <li>Open Current Status</li>
-        <li>Review Latest Verified MVP</li>
-        <li>Review Safety Posture</li>
-        <li>Use Archive only if technical detail is needed</li>
-      </ol>
+    <div class="landing-cards">
+      <article class="card">
+        <div class="card-head"><h3 class="card-title">Premium Demo Hub</h3><span class="badge info">OPEN</span></div>
+        <p class="card-body">The polished stakeholder demo hub, built for screen-share and review.</p>
+        <div class="card-extra"><a class="section-button" href="./index.html">Open Premium Demo Hub</a></div>
+      </article>
+      <article class="card">
+        <div class="card-head"><h3 class="card-title">Runnable Static Simulator</h3><span class="badge info">OPEN</span></div>
+        <p class="card-body">Run a safe simulated request through Auth → Storage → Audit → Approval → Dry Run → Queue → Human Review → Monitoring Readiness.</p>
+        <div class="card-extra"><a class="section-button" href="./simulator.html">Open Static Simulator</a></div>
+      </article>
+      <article class="card">
+        <div class="card-head"><h3 class="card-title">Presentation Mode</h3><span class="badge info">OPEN</span></div>
+        <p class="card-body">Executive presentation storyline for guided review.</p>
+        <div class="card-extra"><a class="section-button" href="./presentation.html">Open Presentation</a></div>
+      </article>
+      <article class="card">
+        <div class="card-head"><h3 class="card-title">System Story</h3><span class="badge info">OPEN</span></div>
+        <p class="card-body">Plain-English explanation of the system and why runtime remains disabled.</p>
+        <div class="card-extra"><a class="section-button" href="./system-story.html">Open System Story</a></div>
+      </article>
+      <article class="card">
+        <div class="card-head"><h3 class="card-title">System Scale</h3><span class="badge info">OPEN</span></div>
+        <p class="card-body">Repo-derived counts and honest UNKNOWN labels where canonical registries do not exist.</p>
+        <div class="card-extra"><a class="section-button" href="./system-scale.html">Open System Scale</a></div>
+      </article>
+      <article class="card">
+        <div class="card-head"><h3 class="card-title">Agent / Department Hierarchy</h3><span class="badge info">OPEN</span></div>
+        <p class="card-body">Seven-level hierarchy, operational domains, and the places where registries remain undeclared.</p>
+        <div class="card-extra"><a class="section-button" href="./agent-hierarchy.html">Open Hierarchy</a></div>
+      </article>
+      <article class="card">
+        <div class="card-head"><h3 class="card-title">Operating Model</h3><span class="badge info">OPEN</span></div>
+        <p class="card-body">The request flow from identity through audit, approval, dry-run, queueing, human review, and go / no-go.</p>
+        <div class="card-extra"><a class="section-button" href="./operating-model.html">Open Operating Model</a></div>
+      </article>
+      <article class="card">
+        <div class="card-head"><h3 class="card-title">Validator and Safety Gate Map</h3><span class="badge info">OPEN</span></div>
+        <p class="card-body">The flat E2E validator pattern, the master wall, and the markers that keep runtime off.</p>
+        <div class="card-extra"><a class="section-button" href="./validator-safety-map.html">Open Validator Map</a></div>
+      </article>
+      <article class="card">
+        <div class="card-head"><h3 class="card-title">Review / Scorecard</h3><span class="badge info">OPEN</span></div>
+        <p class="card-body">Executive questions, technical checks, safety criteria, and the demo success scorecard.</p>
+        <div class="card-extra"><a class="section-button" href="./review.html">Open Review</a></div>
+      </article>
+      <article class="card">
+        <div class="card-head"><h3 class="card-title">Launch Live Dashboard</h3><span class="badge info">OPEN</span></div>
+        <p class="card-body">Return to the production dashboard root without leaving the publish directory.</p>
+        <div class="card-extra"><a class="section-button" href="../index.html">Launch Live Dashboard</a></div>
+      </article>
     </div>
   </div>
 </div>
@@ -9117,13 +9188,13 @@ def render_html(snapshot, compact_view=False, print_mode=False):
     tabs = '''
     <nav class="dashboard-tabs">
       <button class="tab-btn active" onclick="switchTab('view-welcome')">Welcome</button>
-      <button class="tab-btn" onclick="switchTab('view-status')">Current Status</button>
+      <button class="tab-btn" onclick="switchTab('view-status')">Current Status / Readiness Overview</button>
       <button class="tab-btn" onclick="switchTab('view-orientation')">Orientation</button>
-      <button class="tab-btn" onclick="switchTab('view-latest-mvp')">Latest MVP</button>
-      <button class="tab-btn" onclick="switchTab('view-demo')">Demo</button>
+      <button class="tab-btn" onclick="switchTab('view-latest-mvp')">Latest Verified MVP</button>
+      <button class="tab-btn" onclick="switchTab('view-demo')">External Review / Demo</button>
       <button class="tab-btn" onclick="switchTab('view-safety')">Safety Posture</button>
       <button class="tab-btn" onclick="switchTab('view-roadmap')">Roadmap</button>
-      <button class="tab-btn" onclick="switchTab('view-archive')">Archive</button>
+      <button class="tab-btn" onclick="switchTab('view-archive')">Original Full Audit Dashboard</button>
       <button class="tab-btn" onclick="switchTab('view-developer')">Developer View</button>
     </nav>
     '''
