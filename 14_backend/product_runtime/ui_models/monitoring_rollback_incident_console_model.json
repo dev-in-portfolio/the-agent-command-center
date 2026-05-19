@@ -1,0 +1,33 @@
+{
+  "model_id": "monitoring_rollback_incident_console_model",
+  "mvp": "MVP-50",
+  "domain": "Monitoring / Rollback / Incident Console Readiness",
+  "title": "Monitoring Rollback Incident Console Model",
+  "description": "Umbrella model for the full Monitoring / Rollback / Incident Console readiness layer. Tracks aggregate readiness across all sub-components.",
+  "fields": [
+    { "name": "component_readiness", "type": "object", "purpose": "Keyed readiness status per sub-component (monitoring, rollback, incident)" },
+    { "name": "console_state", "type": "string", "purpose": "Current console state: readiness_only | review_only | active" },
+    { "name": "rollback_plan_registry_ref", "type": "string", "purpose": "Reference to the active rollback plan registry model ID" },
+    { "name": "incident_record_ref", "type": "string", "purpose": "Reference to the active incident record schema model ID" }
+  ],
+  "status": "readiness_ready",
+  "readiness_flag": true,
+  "readiness_only": true,
+  "schema_readiness_only": true,
+  "review_only": true,
+  "future_implementation_only": true,
+  "safety_notes": "Schema readiness only. No runtime execution.",
+  "real_monitoring_enabled": false,
+  "real_alert_dispatch_enabled": false,
+  "real_metrics_collection_enabled": false,
+  "real_log_aggregation_enabled": false,
+  "autonomous_observability_enabled": false,
+  "external_monitoring_api_mutation_enabled": false,
+  "dashboard_write_enabled": false,
+  "health_check_execution_enabled": false,
+  "service_role_used": false,
+  "service_role_in_browser": false,
+  "token_input_enabled": false,
+  "browser_persistence_enabled": false,
+  "migration_apply_enabled": false
+}

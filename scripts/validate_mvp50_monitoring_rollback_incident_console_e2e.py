@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""E2E Validation for MVP-50 Monitoring Stack: Rollback & Incident Console (Optimized Flat Model)"""
+"""E2E Validation for MVP-50 Monitoring / Rollback / Incident Console (Optimized Flat Model)"""
 
 from pathlib import Path
 import subprocess
@@ -26,7 +26,7 @@ def run_step(name, script_name):
 def main():
     print("MVP-50 E2E Validation")
 
-    run_step("MVP-50 Direct Validator", "validate_mvp50_monitoring_stack_rollback_incident_console.py")
+    run_step("MVP-50 Direct Validator", "validate_mvp50_monitoring_rollback_incident_console.py")
     run_step("MVP-49 Direct Validator", "validate_mvp49_human_approved_internal_execution.py")
     run_step("MVP-48 Direct Validator", "validate_mvp48_controlled_action_queue.py")
     run_step("MVP-47 Direct Validator", "validate_mvp47_server_side_dry_run_engine.py")
@@ -42,7 +42,7 @@ def main():
     run_step("E2E Runtime No-Nested Guard", "validate_e2e_runtime_no_nested_e2e.py")
     run_step("Master Validator Wall", "validate_phase5_plus1_master_validator_wall.py")
 
-    print("MVP50_MONITORING_STACK_ROLLBACK_INCIDENT_CONSOLE_E2E_VALIDATION_PASS")
+    print("MVP50_MONITORING_ROLLBACK_INCIDENT_CONSOLE_E2E_VALIDATION_PASS")
 
 if __name__ == "__main__":
     main()

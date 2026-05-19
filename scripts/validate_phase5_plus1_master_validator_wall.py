@@ -611,51 +611,48 @@ for path, marker in mvp49_report_requirements:
         check(marker in path.read_text(encoding="utf-8", errors="replace"), f"MVP-49 report missing marker: {path.name}")
 
 mvp50_model_requirements = [
-    ROOT / "14_backend" / "product_runtime" / "ui_models" / "monitoring_stack_readiness_model.json",
-    ROOT / "14_backend" / "product_runtime" / "ui_models" / "alert_definition_model.json",
-    ROOT / "14_backend" / "product_runtime" / "ui_models" / "incident_console_model.json",
-    ROOT / "14_backend" / "product_runtime" / "ui_models" / "rollback_automation_model.json",
-    ROOT / "14_backend" / "product_runtime" / "ui_models" / "incident_triage_model.json",
-    ROOT / "14_backend" / "product_runtime" / "ui_models" / "runbook_automation_model.json",
-    ROOT / "14_backend" / "product_runtime" / "ui_models" / "rollback_verification_model.json",
-    ROOT / "14_backend" / "product_runtime" / "ui_models" / "monitoring_dashboard_model.json",
-    ROOT / "14_backend" / "product_runtime" / "ui_models" / "incident_response_timeline_model.json",
-    ROOT / "14_backend" / "product_runtime" / "ui_models" / "rollback_scope_analysis_model.json",
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "monitoring_rollback_incident_console_model.json",
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "monitoring_console_model.json",
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "health_signal_schema_model.json",
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "incident_record_schema_model.json",
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "rollback_plan_registry_model.json",
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "rollback_readiness_checklist_model.json",
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "operator_incident_review_packet_model.json",
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "incident_severity_escalation_matrix_model.json",
+    ROOT / "14_backend" / "product_runtime" / "ui_models" / "post_incident_audit_packet_model.json",
 ]
 for path in mvp50_model_requirements:
     check(path.exists(), f"missing MVP-50 model: {path.relative_to(ROOT)}")
 
 mvp50_release_requirements = [
-    ROOT / "09_exports" / "release_package" / "mvp50_monitoring_stack_readiness.md",
-    ROOT / "09_exports" / "release_package" / "mvp50_alert_definition.md",
-    ROOT / "09_exports" / "release_package" / "mvp50_incident_console.md",
-    ROOT / "09_exports" / "release_package" / "mvp50_rollback_automation.md",
-    ROOT / "09_exports" / "release_package" / "mvp50_incident_triage.md",
-    ROOT / "09_exports" / "release_package" / "mvp50_runbook_automation.md",
-    ROOT / "09_exports" / "release_package" / "mvp50_rollback_verification.md",
-    ROOT / "09_exports" / "release_package" / "mvp50_monitoring_dashboard.md",
-    ROOT / "09_exports" / "release_package" / "mvp50_incident_response_timeline.md",
-    ROOT / "09_exports" / "release_package" / "mvp50_rollback_scope_analysis.md",
-    ROOT / "09_exports" / "release_package" / "mvp50_monitoring_stack_rollback_incident_console_manifest.json",
+    ROOT / "09_exports" / "release_package" / "mvp50_monitoring_rollback_incident_console_manifest.json",
+    ROOT / "09_exports" / "release_package" / "mvp50_monitoring_rollback_incident_console.md",
+    ROOT / "09_exports" / "release_package" / "mvp50_monitoring_console.md",
+    ROOT / "09_exports" / "release_package" / "mvp50_health_signal_schema.md",
+    ROOT / "09_exports" / "release_package" / "mvp50_incident_record_schema.md",
+    ROOT / "09_exports" / "release_package" / "mvp50_rollback_plan_registry.md",
+    ROOT / "09_exports" / "release_package" / "mvp50_rollback_readiness_checklist.md",
+    ROOT / "09_exports" / "release_package" / "mvp50_operator_incident_review_packet.md",
+    ROOT / "09_exports" / "release_package" / "mvp50_incident_severity_escalation_matrix.md",
+    ROOT / "09_exports" / "release_package" / "mvp50_post_incident_audit_packet.md",
 ]
 for path in mvp50_release_requirements:
     check(path.exists(), f"missing MVP-50 release artifact: {path.relative_to(ROOT)}")
 
 mvp50_report_requirements = [
-    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_monitoring_stack_rollback_incident_console_report.md", "MVP-50"),
-    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_alert_definition_report.md", "ALERT_DEFINITION_SCHEMA_READY"),
-    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_incident_console_report.md", "INCIDENT_CONSOLE_MODEL_READY"),
-    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_rollback_automation_report.md", "ROLLBACK_AUTOMATION_DEFINITION_READY"),
-    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_incident_triage_report.md", "INCIDENT_TRIAGE_CLASSIFICATION_READY"),
-    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_runbook_automation_report.md", "RUNBOOK_AUTOMATION_READY"),
-    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_rollback_verification_report.md", "ROLLBACK_VERIFICATION_CHECKLIST_READY"),
-    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_monitoring_dashboard_report.md", "MONITORING_DASHBOARD_LAYOUT_READY"),
-    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_incident_response_timeline_report.md", "INCIDENT_RESPONSE_TIMELINE_READY"),
-    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_rollback_scope_analysis_report.md", "ROLLBACK_SCOPE_ANALYSIS_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_monitoring_rollback_incident_console_report.md", "MVP-50"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_monitoring_console_report.md", "MONITORING_CONSOLE_MODEL_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_health_signal_schema_report.md", "HEALTH_SIGNAL_SCHEMA_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_incident_record_schema_report.md", "INCIDENT_RECORD_SCHEMA_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_rollback_plan_registry_report.md", "ROLLBACK_PLAN_REGISTRY_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_rollback_readiness_checklist_report.md", "ROLLBACK_READINESS_CHECKLIST_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_operator_incident_review_packet_report.md", "OPERATOR_INCIDENT_REVIEW_PACKET_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_incident_severity_escalation_matrix_report.md", "INCIDENT_SEVERITY_ESCALATION_MATRIX_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_post_incident_audit_packet_report.md", "POST_INCIDENT_AUDIT_PACKET_READY"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp50_security_boundary_report.md", "NO_REAL_RUNTIME_MONITORING"),
     (ROOT / "09_exports" / "mvp_product_track" / "mvp50_validator_quality_report.md", "PASS"),
-    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_acceptance_report.md", "MONITORING_STACK_READINESS_READY"),
-    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_validation_stewardship_report.md", "MONITORING_STACK_VALIDATION_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_acceptance_report.md", "READINESS_READY"),
+    (ROOT / "09_exports" / "mvp_product_track" / "mvp50_validation_stewardship_report.md", "VALIDATION_READY"),
 ]
 for path, marker in mvp50_report_requirements:
     check(path.exists(), f"missing MVP-50 report: {path.relative_to(ROOT)}")
@@ -1654,6 +1651,10 @@ allowed_prefixes = [
          "scripts/validate_mvp48_controlled_action_queue_e2e.py",
          "scripts/validate_mvp49_human_approved_internal_execution.py",
          "scripts/validate_mvp49_human_approved_internal_execution_e2e.py",
+         "scripts/validate_mvp50_monitoring_stack_rollback_incident_console.py",
+         "scripts/validate_mvp50_monitoring_stack_rollback_incident_console_e2e.py",
+         "scripts/validate_mvp50_monitoring_rollback_incident_console.py",
+         "scripts/validate_mvp50_monitoring_rollback_incident_console_e2e.py",
          "scripts/validate_e2e_runtime_no_nested_e2e.py",
         "scripts/validate_live_dashboard_usability_after_mvp41.py",
         "scripts/validate_live_dashboard_dynamic_latest_status.py",

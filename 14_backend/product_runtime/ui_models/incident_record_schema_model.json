@@ -1,0 +1,33 @@
+{
+  "model_id": "incident_record_schema_model",
+  "mvp": "MVP-50",
+  "domain": "Incident Record Schema",
+  "title": "Incident Record Schema Model",
+  "description": "Incident Record Schema defining the canonical structure for all incident records in the system.",
+  "fields": [
+    { "name": "incident_id", "type": "string", "purpose": "Unique incident identifier" },
+    { "name": "severity", "type": "string", "purpose": "Incident severity level: critical | high | medium | low" },
+    { "name": "status", "type": "string", "purpose": "Incident lifecycle status: detected | acknowledged | investigating | resolved | closed" },
+    { "name": "detected_at", "type": "string", "purpose": "ISO 8601 timestamp of detection" },
+    { "name": "signal_refs", "type": "array", "purpose": "References to associated health signal IDs" }
+  ],
+  "status": "incident_record_schema_ready",
+  "incident_record_schema_flag": true,
+  "schema_readiness_only": true,
+  "review_only": true,
+  "future_implementation_only": true,
+  "safety_notes": "Schema readiness only. No runtime execution.",
+  "real_monitoring_enabled": false,
+  "real_alert_dispatch_enabled": false,
+  "real_metrics_collection_enabled": false,
+  "real_log_aggregation_enabled": false,
+  "autonomous_observability_enabled": false,
+  "external_monitoring_api_mutation_enabled": false,
+  "dashboard_write_enabled": false,
+  "health_check_execution_enabled": false,
+  "service_role_used": false,
+  "service_role_in_browser": false,
+  "token_input_enabled": false,
+  "browser_persistence_enabled": false,
+  "migration_apply_enabled": false
+}

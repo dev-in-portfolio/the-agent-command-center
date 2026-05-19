@@ -1964,36 +1964,32 @@ def _build_mvp49_human_approved_internal_execution_layer(snapshot):
         panel_id="mvp49-human-approved-internal-execution",
     )
 
-def _build_mvp50_monitoring_stack_rollback_incident_console_layer(snapshot):
+def _build_mvp50_monitoring_rollback_incident_console_layer(snapshot):
     body = f'''
 <div class="plus1-readiness-layer">
   <div class="plus1-preview-grid">
-    <article class="card mvp50-monitoring-stack" id="mvp50-monitoring-stack-overview">
-      <div class="card-head"><h3 class="card-title">MONITORING STACK: ROLLBACK & INCIDENT CONSOLE</h3><span class="badge info">MVP-50</span></div>
-      <p class="card-body">Blueprint and readiness layer for the monitoring stack, rollback automation, and incident console.</p>
+    <article class="card mvp50-readiness-layer" id="mvp50-readiness-overview">
+      <div class="card-head"><h3 class="card-title">MONITORING / ROLLBACK / INCIDENT CONSOLE</h3><span class="badge info">MVP-50</span></div>
+      <p class="card-body">Blueprint and readiness layer for the monitoring, rollback, and incident console domain.</p>
       {{_list([
-          "MONITORING STACK READINESS: READY",
-          "ALERT DEFINITION: READY",
-          "INCIDENT CONSOLE: READY",
-          "ROLLBACK AUTOMATION: READY",
-          "INCIDENT TRIAGE: READY",
-          "RUNBOOK AUTOMATION: READY",
-          "ROLLBACK VERIFICATION: READY",
-          "MONITORING DASHBOARD: READY",
-          "INCIDENT RESPONSE TIMELINE: READY",
-          "ROLLBACK SCOPE ANALYSIS: READY",
+          "MONITORING CONSOLE: READY",
+          "HEALTH SIGNAL SCHEMA: READY",
+          "INCIDENT RECORD SCHEMA: READY",
+          "ROLLBACK PLAN REGISTRY: READY",
+          "ROLLBACK READINESS CHECKLIST: READY",
+          "OPERATOR INCIDENT REVIEW PACKET: READY",
+          "INCIDENT SEVERITY ESCALATION MATRIX: READY",
+          "POST-INCIDENT AUDIT PACKET: READY",
       ])}}
       <div class="button-row" style="margin-top:0.75rem;">
-        <button type="button" class="copy-button small">Copy Monitoring Stack Summary</button>
-        <button type="button" class="copy-button small">Copy Alert Definition Schema</button>
-        <button type="button" class="copy-button small">Copy Incident Console Model</button>
-        <button type="button" class="copy-button small">Copy Rollback Automation Model</button>
-        <button type="button" class="copy-button small">Copy Incident Triage Model</button>
-        <button type="button" class="copy-button small">Copy Runbook Automation Model</button>
-        <button type="button" class="copy-button small">Copy Rollback Verification Checklist</button>
-        <button type="button" class="copy-button small">Copy Monitoring Dashboard Model</button>
-        <button type="button" class="copy-button small">Copy Incident Response Timeline</button>
-        <button type="button" class="copy-button small">Copy Rollback Scope Analysis</button>
+        <button type="button" class="copy-button small">Copy Monitoring Console Model</button>
+        <button type="button" class="copy-button small">Copy Health Signal Schema</button>
+        <button type="button" class="copy-button small">Copy Incident Record Schema</button>
+        <button type="button" class="copy-button small">Copy Rollback Plan Registry</button>
+        <button type="button" class="copy-button small">Copy Rollback Readiness Checklist</button>
+        <button type="button" class="copy-button small">Copy Operator Incident Review Packet</button>
+        <button type="button" class="copy-button small">Copy Incident Severity Escalation Matrix</button>
+        <button type="button" class="copy-button small">Copy Post-Incident Audit Packet</button>
         <button type="button" class="copy-button small">Copy MVP-50 Validation Checklist</button>
       </div>
     </article>
@@ -2001,13 +1997,12 @@ def _build_mvp50_monitoring_stack_rollback_incident_console_layer(snapshot):
     <article class="card plus1-safety-summary" id="mvp50-safety-summary">
       <div class="card-head"><h3 class="card-title">Safety Summary</h3><span class="badge pass">SECURE</span></div>
       <div class="stat-grid">
-        {{_stat("Mode", "MONITORING READINESS ONLY", _badge("SCHEMA READINESS ONLY", "info"))}}
+        {{_stat("Mode", "READINESS ONLY", _badge("SCHEMA READINESS ONLY", "info"))}}
         {{_stat("Role", "REVIEW ONLY", _badge("FUTURE IMPLEMENTATION ONLY", "warning"))}}
         {{_stat("Monitoring", "NO REAL MONITORING", _badge("BLOCKED", "locked"))}}
         {{_stat("Alerting", "NO REAL ALERT DISPATCH", _badge("BLOCKED", "locked"))}}
         {{_stat("Rollback", "NO REAL ROLLBACK", _badge("BLOCKED", "locked"))}}
         {{_stat("Incident", "NO REAL INCIDENT RESPONSE", _badge("BLOCKED", "locked"))}}
-        {{_stat("Runbook", "NO REAL RUNBOOK EXECUTION", _badge("BLOCKED", "locked"))}}
         {{_stat("Automation", "AUTOMATION DISABLED", _badge("NOT_READY_FOR_REAL_AUTOMATION", "disabled"))}}
         {{_stat("Writes", "NO DATABASE WRITES", _badge("DISABLED", "disabled"))}}
         {{_stat("Writes", "NO SUPABASE WRITES", _badge("DISABLED", "disabled"))}}
@@ -2021,7 +2016,7 @@ def _build_mvp50_monitoring_stack_rollback_incident_console_layer(snapshot):
       <div class="callout" style="margin-top:0.75rem;">
         <p class="muted" style="margin:0;">Next Planned Step</p>
         <ul class="compact-list" style="margin-top:0.25rem;">
-          <li>NEXT_STEP_BUILD_REQUEST_API_READINESS</li>
+          <li>READINESS_ROADMAP_COMPLETE_PENDING_REVIEW</li>
         </ul>
       </div>
     </article>
@@ -2029,11 +2024,11 @@ def _build_mvp50_monitoring_stack_rollback_incident_console_layer(snapshot):
 </div>
 '''
     return _details(
-        "MVP-50 — Monitoring Stack: Rollback & Incident Console",
+        "MVP-50 — Monitoring / Rollback / Incident Console",
         body,
         "source",
         open_by_default=True,
-        panel_id="mvp50-monitoring-stack-rollback-incident-console",
+        panel_id="mvp50-monitoring-rollback-incident-console",
     )
 
 def _build_mvp47_server_side_dry_run_engine_layer(snapshot):
@@ -8831,7 +8826,7 @@ def _build_latest_verified_mvp_layer(snapshot, latest_mvp):
     if mvp_num == 47: return _build_mvp47_server_side_dry_run_engine_layer(snapshot)
     if mvp_num == 48: return _build_mvp48_controlled_action_queue_layer(snapshot)
     if mvp_num == 49: return _build_mvp49_human_approved_internal_execution_layer(snapshot)
-    if mvp_num == 50: return _build_mvp50_monitoring_stack_rollback_incident_console_layer(snapshot)
+    if mvp_num == 50: return _build_mvp50_monitoring_rollback_incident_console_layer(snapshot)
 
     # Fallback generic summary
     title = _get_mvp_title(mvp_num)
@@ -9192,7 +9187,7 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_mvp47_server_side_dry_run_engine_layer(snapshot),
         _build_mvp48_controlled_action_queue_layer(snapshot),
         _build_mvp49_human_approved_internal_execution_layer(snapshot),
-        _build_mvp50_monitoring_stack_rollback_incident_console_layer(snapshot),
+        _build_mvp50_monitoring_rollback_incident_console_layer(snapshot),
     ]
     # Replace any 'open_by_default=True' with False in archive_sections if possible, 
     # but since they are already rendered strings, we can use JS or just let details be closed.
