@@ -15,12 +15,14 @@
 | Safety boundary markers | 13 | DERIVED_FROM_MANIFEST | `demo_package_manifest.json` safety boundaries |
 | Disabled capability categories | 13 | DERIVED_FROM_MANIFEST | `presentation_manifest.json` disabled capabilities |
 | Operational domains | 11 | DERIVED_FROM_DOC | documented hierarchy domains in `agent_department_hierarchy.md` |
-| Exact agent count | UNKNOWN_NOT_CURRENTLY_DECLARED | UNKNOWN_NOT_CURRENTLY_DECLARED | No canonical agent registry exists in the repo |
-| Exact department count | UNKNOWN_NOT_CURRENTLY_DECLARED | UNKNOWN_NOT_CURRENTLY_DECLARED | No canonical department registry exists in the repo |
+| Exact family count | 175 | DERIVED_FROM_PROJECT_ARTIFACTS | `09_exports/org_chart_export.json` |
+| Exact department count | 1,777 | DERIVED_FROM_PROJECT_ARTIFACTS | `09_exports/org_chart_export.json` |
+| Exact unit count | 5,331 | DERIVED_FROM_PROJECT_ARTIFACTS | `09_exports/org_chart_export.json` |
+| Exact agent count | 47,979 | DERIVED_FROM_PROJECT_ARTIFACTS | `09_exports/org_chart_export.json` |
 | Hierarchy levels | 7 | DERIVED_FROM_DOC | documented hierarchy levels in `agent_department_hierarchy.md` |
 | Action registry items | 12 | DERIVED_FROM_DASHBOARD_DATA | `13_web_dashboard/dist/dashboard_data.json` |
 
 ## Recommended Next Documentation Improvement
-Create a canonical `agent_registry.json` and `department_registry.json` so future demos can state exact operating-unit counts.
+The canonical registry has now been generated into `09_exports/system_registry/agent_registry.json`, `09_exports/system_registry/department_registry.json`, and `09_exports/system_registry/system_hierarchy.json`.
 
-Create a canonical `system_hierarchy.json` so future demos can distinguish levels, domains, and verification gates without relying on prose alone.
+The publishable traceability view lives at `13_web_dashboard/dist/demo/agent-registry.html` and `13_web_dashboard/dist/demo/data/agent_department_registry_traceability.html`.

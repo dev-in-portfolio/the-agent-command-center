@@ -31,8 +31,9 @@
   - 8 readiness layers are schema-defined, validator-proven, and production-verified
   - Live at the-agent-command-center-dashboard.netlify.app
   - Publicly accessible — no authentication required to view
-  - System scale is visible and honest: 67 production verification reports, 582 product-track files, 280 validators, and UNKNOWN_NOT_CURRENTLY_DECLARED for exact agent and department counts
-  - Operational domains are used instead of a fake department registry
+  - System scale is visible and honest: 67 production verification reports, 582 product-track files, 280 validators, 47,979 agents, and 1,777 departments
+  - Registry source: `09_exports/org_chart_export.json`
+  - Operational domains are used alongside the canonical registry instead of a fake department registry
 - **Visual suggestion**: Screenshot of dashboard with key sections labeled
 - **Speaker note**: "This is what reviewers and stakeholders see. It is a single-page dashboard with all readiness layers visible."
 

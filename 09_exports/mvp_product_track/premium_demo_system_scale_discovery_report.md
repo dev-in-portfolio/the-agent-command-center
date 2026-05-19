@@ -1,7 +1,7 @@
 # Premium Demo System Scale Discovery Report
 
 ## Discovery Summary
-This report records repo-derived counts used by the premium browser demo and the system-story layer. Exact agent and department counts are not canonically declared in the repo.
+This report records repo-derived counts used by the premium browser demo and the system-story layer. Exact agent and department counts are canonically declared in the repo from the export graph.
 
 ## Verified Counts
 - Repository files: 2,858
@@ -22,11 +22,17 @@ This report records repo-derived counts used by the premium browser demo and the
 - disabled capability categories: 13
 - safety boundary markers: 13
 
-## Unknown Canonical Counts
-- exact agent count: UNKNOWN_NOT_CURRENTLY_DECLARED
-- exact department count: UNKNOWN_NOT_CURRENTLY_DECLARED
+## Canonical Registry Counts
+- exact agent count: 47,979
+- exact department count: 1,777
+- exact family count: 175
+- exact unit count: 5,331
+- hierarchy level count: 7
+- operational domain count: 11
+- live runtime agents enabled: 0
+- runtime activation started: false
 
 ## Notes
-- The repo exposes an action registry, not a canonical agent registry.
-- Operational areas are represented as domains rather than formal departments.
-- Future documentation should add registry JSON files for exact counts.
+- The repo exposes a canonical agent registry derived from `09_exports/org_chart_export.json`.
+- Operational areas are represented as 11 domains in addition to 1,777 departments.
+- The demo now points to the published registry JSON and traceability HTML files.

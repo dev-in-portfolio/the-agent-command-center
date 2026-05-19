@@ -32,15 +32,23 @@ The repo exposes verified counts from manifests and file inventory, including:
 - 19 stakeholder presentation source files
 - 16 external demo package files
 - 13 disabled capability categories
+- 175 families in the export graph
+- 1,777 departments in the export graph
+- 5,331 units in the export graph
+- 47,979 agents in the export graph
 
 ## Agent and Department Counts
-The current repo does not expose a canonical agent registry. The demo package therefore reports only verified counts from available manifests/files and recommends creating a formal agent registry in the next documentation pass.
+The repo now exposes a canonical registry generated from the export graph, so the demo package can report exact counts with source traceability instead of guessing.
 
-Exact agent count: UNKNOWN_NOT_CURRENTLY_DECLARED
+Exact agent count: 47,979
 
-The current repo does not expose a canonical department registry. Operational areas are represented as domains instead of formal departments.
+Exact department count: 1,777
 
-Exact department count: UNKNOWN_NOT_CURRENTLY_DECLARED
+Registry source: `09_exports/org_chart_export.json`
+
+Live runtime agents enabled: 0
+
+Runtime activation not started
 
 ## What Remains Disabled
 - no runtime activation
