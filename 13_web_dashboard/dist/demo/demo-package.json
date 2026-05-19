@@ -1,0 +1,35 @@
+{
+  "package_name": "viewable_demo_hub_after_mvp50",
+  "source_package": "stakeholder_presentation_after_mvp50",
+  "live_site": "https://the-agent-command-center-dashboard.netlify.app/",
+  "production_verified_through": "MVP-50",
+  "runtime_activation_started": false,
+  "viewable_pages": [
+    "index.html",
+    "presentation.html",
+    "system-story.html",
+    "system-scale.html",
+    "agent-hierarchy.html",
+    "operating-model.html",
+    "validator-safety-map.html",
+    "safety-boundaries.html",
+    "technical-appendix.html",
+    "objections.html",
+    "review.html"
+  ],
+  "disabled_capabilities": [
+    "runtime_activation",
+    "command_execution",
+    "action_execution",
+    "public_writes",
+    "database_writes",
+    "supabase_writes",
+    "alert_sending",
+    "incident_mutation",
+    "rollback_execution",
+    "deploy_controls_from_app",
+    "merge_controls_from_app",
+    "push_controls_from_app",
+    "automation"
+  ]
+}

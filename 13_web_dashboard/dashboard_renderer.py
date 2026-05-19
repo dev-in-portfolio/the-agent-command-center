@@ -383,6 +383,12 @@ def _render_overview_cards(snapshot):
         _card("Phase 3 build status", phase3.get("detected_verdict", "unknown"), phase3.get("summary", "Read-Only Operations Dashboard build and exports are available.")),
         _card("Safety status", "LOCKED", safety_scan.get("status", "PASS")),
         _card("Merge readiness", merge_ready_status, next_action),
+        _card(
+            "Premium Stakeholder Demo",
+            "INFO",
+            "Open the browser-viewable premium demo hub with the stakeholder presentation, system story, scale inventory, and safety map.",
+            extra='<a class="section-button" href="./demo/">View Stakeholder Demo Hub</a>',
+        ),
     ]
     return '<section class="cards-grid">' + "".join(cards) + "</section>"
 
@@ -9074,8 +9080,12 @@ def _build_roadmap_page():
       </div>
       <div class="card">
         <div class="card-head"><h3 class="card-title">Next Planned</h3><span class="badge info">UPCOMING</span></div>
-        <p class="card-body" style="margin-bottom: 0.5rem;"><strong>MVP-{latest_mvp["number"] + 1 if latest_mvp else "X"}</strong></p>
-        <p class="card-body muted">Next operational milestone in progress.</p>
+        <p class="card-body" style="margin-bottom: 0.5rem;"><strong>Next phase</strong></p>
+        <ul class="compact-list">
+          <li>stakeholder review / demo verification</li>
+          <li>runtime activation planning is separate and has not started</li>
+          <li>MVP-51 not started</li>
+        </ul>
       </div>
     </div>
   </div>

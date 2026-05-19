@@ -21,6 +21,11 @@
     "post_demo_followup_email_template.md",
     "post_demo_review_questions.md",
     "demo_success_scorecard.md",
+    "system_story.md",
+    "system_scale_inventory.md",
+    "agent_department_hierarchy.md",
+    "command_center_operating_model.md",
+    "validator_and_safety_gate_map.md",
     "presentation_manifest.json"
   ],
   "readiness_layers": [

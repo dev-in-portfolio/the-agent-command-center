@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>System Scale - The Agent Command Center</title>
+  <link rel="stylesheet" href="./assets/demo.css">
+</head>
+<body>
+  <div class="demo-shell">
+    <header class="topbar">
+      <div class="brand"><strong>System Scale</strong><span>Repo-derived counts with honest labels</span></div>
+      <nav class="nav-links" aria-label="Demo navigation">
+        <a href="./index.html">Home</a><a href="./system-story.html">System Story</a><a href="./agent-hierarchy.html">Hierarchy</a><a href="./validator-safety-map.html">Validator Map</a><a href="../index.html">Live Dashboard</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <p class="eyebrow">Scale snapshot</p>
+          <h1 class="title">The repo is large enough to prove a real program, but small enough to audit.</h1>
+          <p class="lead">Every exact count shown below comes from a manifest, a file count, or dashboard data. When the repo does not expose a canonical registry, the demo says so explicitly instead of inventing a number.</p>
+        </div>
+        <div class="callout">
+          <p class="kicker">Exact counts we will not fake</p>
+          <p>Agent count: UNKNOWN_NOT_CURRENTLY_DECLARED. Department count: UNKNOWN_NOT_CURRENTLY_DECLARED. That is the honest current state of the repository.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Category</th><th>Count</th><th>Count Type</th><th>Source / Method</th></tr></thead>
+          <tbody>
+            <tr><th>MVP readiness layers completed</th><td>8</td><td>DERIVED_FROM_MANIFEST</td><td>presentation manifest</td></tr>
+            <tr><th>Production verification reports</th><td>67</td><td>DERIVED_FROM_FILE_COUNT</td><td>find `09_exports -name '*production_verification_report.md'`</td></tr>
+            <tr><th>MVP product-track files</th><td>582</td><td>DERIVED_FROM_FILE_COUNT</td><td>find `09_exports/mvp_product_track -type f`</td></tr>
+            <tr><th>Release package artifacts</th><td>177</td><td>DERIVED_FROM_FILE_COUNT</td><td>find `09_exports/release_package -type f`</td></tr>
+            <tr><th>UI model JSON files</th><td>226</td><td>DERIVED_FROM_FILE_COUNT</td><td>find `14_backend/product_runtime/ui_models -type f`</td></tr>
+            <tr><th>Validator scripts</th><td>280</td><td>DERIVED_FROM_FILE_COUNT</td><td>find `scripts -name 'validate_*.py'`</td></tr>
+            <tr><th>Dashboard static artifacts</th><td>70</td><td>DERIVED_FROM_FILE_COUNT</td><td>find `13_web_dashboard/dist -type f`</td></tr>
+            <tr><th>Demo package files</th><td>16</td><td>DERIVED_FROM_MANIFEST</td><td>demo package manifest</td></tr>
+            <tr><th>Stakeholder presentation files</th><td>19</td><td>DERIVED_FROM_MANIFEST</td><td>presentation manifest</td></tr>
+            <tr><th>Viewable demo pages</th><td>11</td><td>DERIVED_FROM_FILE_COUNT</td><td>browser pages in `dist/demo/`</td></tr>
+            <tr><th>Safety boundary markers</th><td>13</td><td>DERIVED_FROM_MANIFEST</td><td>demo package manifest</td></tr>
+            <tr><th>Disabled capability categories</th><td>13</td><td>DERIVED_FROM_MANIFEST</td><td>presentation manifest</td></tr>
+            <tr><th>Operational domains</th><td>11</td><td>DERIVED_FROM_DOC</td><td>hierarchy doc</td></tr>
+            <tr><th>Exact agent count</th><td>UNKNOWN_NOT_CURRENTLY_DECLARED</td><td>UNKNOWN_NOT_CURRENTLY_DECLARED</td><td>No canonical agent registry</td></tr>
+            <tr><th>Exact department count</th><td>UNKNOWN_NOT_CURRENTLY_DECLARED</td><td>UNKNOWN_NOT_CURRENTLY_DECLARED</td><td>No canonical department registry</td></tr>
+            <tr><th>Hierarchy levels</th><td>7</td><td>DERIVED_FROM_DOC</td><td>command center hierarchy doc</td></tr>
+            <tr><th>Action registry items</th><td>12</td><td>DERIVED_FROM_DASHBOARD_DATA</td><td>dashboard_data.json</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="card-grid">
+        <article class="card"><h3>Verified scale is enough to matter</h3><p>The repository has a meaningful surface area: reports, validators, dashboard artifacts, and structured manifests across multiple layers.</p></article>
+        <article class="card"><h3>Unknown counts stay unknown</h3><p>When a canonical registry is missing, the demo uses UNKNOWN_NOT_CURRENTLY_DECLARED instead of false precision.</p></article>
+        <article class="card"><h3>Recommended next docs step</h3><p>Add `agent_registry.json`, `department_registry.json`, and `system_hierarchy.json` for exact operating-unit counts in the next pass.</p></article>
+      </div>
+    </section>
+    <div class="footer">This scale inventory is mirrored in the repo under `system_scale_inventory.md`.</div>
+  </div>
+  <script src="./assets/demo.js"></script>
+</body>
+</html>

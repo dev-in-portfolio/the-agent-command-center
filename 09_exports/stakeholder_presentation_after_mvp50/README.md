@@ -14,7 +14,8 @@ This package is the presentation layer built on top of the external demo package
 2. Use slide_by_slide_script.md for spoken delivery
 3. Follow screen_share_runbook.md during live demo
 4. Use presenter_notes.md for preparation
-5. Distribute post_demo_followup_email_template.md after the session
+5. Review system_story.md, system_scale_inventory.md, agent_department_hierarchy.md, command_center_operating_model.md, and validator_and_safety_gate_map.md for the system-story layer
+6. Distribute post_demo_followup_email_template.md after the session
 
 ## Safety Note
 This system is a read-only readiness dashboard. Real execution, public writes, automation, alert sending, rollback execution, and incident mutation remain disabled. Runtime activation has not started.
@@ -27,3 +28,4 @@ Runtime activation is explicitly separated and has not started. A separate plann
 2. Use the materials to deliver a guided stakeholder screen-share
 3. Collect feedback using the review questions and scorecard
 4. If approved, begin runtime activation planning as a separate phase
+5. If a browser-viewable demo is needed, open the premium demo hub at `/demo/`

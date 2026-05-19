@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agent / Department Hierarchy - The Agent Command Center</title>
+  <link rel="stylesheet" href="./assets/demo.css">
+</head>
+<body>
+  <div class="demo-shell">
+    <header class="topbar">
+      <div class="brand"><strong>Agent / Department Hierarchy</strong><span>Known layers and honest unknowns</span></div>
+      <nav class="nav-links" aria-label="Demo navigation">
+        <a href="./index.html">Home</a><a href="./system-story.html">System Story</a><a href="./system-scale.html">System Scale</a><a href="./operating-model.html">Operating Model</a><a href="../index.html">Live Dashboard</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <p class="eyebrow">Hierarchy</p>
+          <h1 class="title">The repo has a command hierarchy, not a fake agent census.</h1>
+          <p class="lead">The hierarchy is explicit about what is known, what is operationally modeled, and what is still not canonically declared. That keeps the story defensible.</p>
+        </div>
+        <div class="callout">
+          <p class="kicker">Canonical counts</p>
+          <p>Exact agent count: UNKNOWN_NOT_CURRENTLY_DECLARED. Exact department count: UNKNOWN_NOT_CURRENTLY_DECLARED.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="card-grid">
+        <article class="card"><h3>Level 1 - Product / Command Center Layer</h3><p>The overall product framing and stakeholder surface.</p></article>
+        <article class="card"><h3>Level 2 - Readiness Layer Roadmap</h3><p>MVP-43 through MVP-50 prove readiness layer by layer.</p></article>
+        <article class="card"><h3>Level 3 - Operational Domains</h3><p>11 operational domains stand in for formal departments.</p></article>
+        <article class="card"><h3>Level 4 - Model / Artifact Layer</h3><p>Manifests, reports, dashboards, and JSON models.</p></article>
+        <article class="card"><h3>Level 5 - Validator Gate Layer</h3><p>Flat E2E validators, the wall, and package-specific checks.</p></article>
+        <article class="card"><h3>Level 6 - Human Review Layer</h3><p>Stakeholder review, technical review, and executive review.</p></article>
+        <article class="card"><h3>Level 7 - Future Runtime Activation Layer</h3><p>Intentionally separate and not started.</p></article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head"><div><p class="eyebrow">Operational domains</p><h2>What the system currently models</h2></div></div>
+      <div class="page-grid">
+        <article class="page-card"><h3>Auth / identity</h3><p>Defines how access would work in a future runtime.</p></article>
+        <article class="page-card"><h3>Request storage</h3><p>Defines how requests would be persisted.</p></article>
+        <article class="page-card"><h3>Audit ledger</h3><p>Defines how events would be recorded.</p></article>
+        <article class="page-card"><h3>Approval gate</h3><p>Defines how requests would be approved.</p></article>
+        <article class="page-card"><h3>Dry-run</h3><p>Defines how previews happen before any action.</p></article>
+        <article class="page-card"><h3>Controlled action queue</h3><p>Defines ordered handling of requests.</p></article>
+        <article class="page-card"><h3>Human-approved execution</h3><p>Defines the next safety gate, not enabled runtime.</p></article>
+        <article class="page-card"><h3>Monitoring / rollback / incident</h3><p>Defines the observability layer for future runtime.</p></article>
+        <article class="page-card"><h3>Stakeholder review</h3><p>Defines the demo and presentation layer.</p></article>
+        <article class="page-card"><h3>Validator / quality gates</h3><p>Defines machine-checkable proof surfaces.</p></article>
+        <article class="page-card"><h3>Safety boundary</h3><p>Defines the hard stop around runtime activation.</p></article>
+      </div>
+    </section>
+    <div class="footer">This hierarchy is mirrored in `agent_department_hierarchy.md` and the browser demo keeps the unknown counts explicit.</div>
+  </div>
+  <script src="./assets/demo.js"></script>
+</body>
+</html>
