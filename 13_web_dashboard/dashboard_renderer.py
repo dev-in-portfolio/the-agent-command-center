@@ -521,7 +521,7 @@ def _build_toolbar(snapshot):
         {_copy_button("Copy summary", summary, aria="Copy dashboard summary")}
       </div>
       <div class="toolbar-group toolbar-note">
-        <span class="muted">Current build: static preview. Hosting readiness: static hosting ready. Backend/Supabase readiness architecture exists. Live backend runtime is disabled. Controls: read-only display.</span>
+        <span class="muted">Current build: static preview. Hosting readiness: static hosting ready. Backend/Supabase readiness architecture exists. Live backend runtime disabled. Controls: read-only display.</span>
       </div>
       <div class="toolbar-status" aria-live="polite">
         <span id="copy-status" class="muted">Local UI ready.</span>
@@ -8924,12 +8924,12 @@ def _build_welcome_page():
         </article>
         <article class="card">
           <div class="card-head"><h3 class="card-title">Premium Stakeholder Demo</h3><span class="badge info">OPEN</span></div>
-          <p class="card-body">Open the polished browser-viewable stakeholder demo hub.</p>
+          <p class="card-body">Open the polished browser-viewable stakeholder demo hub at <code>./demo/</code>.</p>
           <div class="card-extra"><a class="section-button" href="./demo/">Open Premium Demo Hub</a></div>
         </article>
         <article class="card">
           <div class="card-head"><h3 class="card-title">Runnable Static Simulator</h3><span class="badge info">OPEN</span></div>
-          <p class="card-body">Open the safe in-memory pipeline simulator for the command center.</p>
+          <p class="card-body">Open the safe in-memory pipeline simulator for the command center at <code>./demo/simulator.html</code>.</p>
           <div class="card-extra"><a class="section-button" href="./demo/simulator.html">Open Static Simulator</a></div>
         </article>
         <article class="card">
