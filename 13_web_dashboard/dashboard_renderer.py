@@ -9064,7 +9064,7 @@ def _build_demo_page():
       </article>
       <article class="card">
         <div class="card-head"><h3 class="card-title">Runnable Static Simulator</h3><span class="badge info">OPEN</span></div>
-        <p class="card-body">Run a safe simulated request through Auth → Storage → Audit → Approval → Dry Run → Queue → Human Review → Monitoring Readiness.</p>
+        <p class="card-body">Run a safe simulated request through Auth → Storage → Audit → Approval → Dry Run → Queue → Human Review → Monitoring Readiness at <code>./simulator.html</code>.</p>
         <div class="card-extra"><a class="section-button" href="./simulator.html">Open Static Simulator</a></div>
       </article>
       <article class="card">
