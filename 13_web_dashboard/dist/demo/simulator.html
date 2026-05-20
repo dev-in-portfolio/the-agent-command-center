@@ -9,6 +9,7 @@
     .sim-shell {
       display: grid;
       gap: 24px;
+      min-width: 0;
     }
     .sim-hero {
       border: 1px solid rgba(255,255,255,0.08);
@@ -22,7 +23,7 @@
     }
     .sim-hero-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.85fr);
+      grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
       gap: 24px;
       align-items: start;
     }
@@ -37,10 +38,11 @@
       color: rgba(226,232,240,0.88);
       font-size: 1.05rem;
       line-height: 1.7;
+      overflow-wrap: anywhere;
     }
     .stage-grid {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
       gap: 14px;
     }
     .stage-card {
@@ -48,6 +50,7 @@
       display: grid;
       gap: 10px;
       align-content: start;
+      min-width: 0;
     }
     .stage-card.active {
       border-color: rgba(96,165,250,0.45);
@@ -69,7 +72,7 @@
     }
     .scenario-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
       gap: 14px;
     }
     .scenario-button {
@@ -82,6 +85,9 @@
       padding: 16px;
       cursor: pointer;
       transition: transform 120ms ease, border-color 120ms ease, background 120ms ease;
+      min-width: 0;
+      overflow-wrap: anywhere;
+      white-space: normal;
     }
     .scenario-button:hover,
     .scenario-button:focus-visible {
@@ -122,7 +128,7 @@
     }
     .summary-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
       gap: 14px;
     }
     .progress-track {
@@ -138,6 +144,18 @@
     @media (max-width: 1100px) {
       .sim-hero-grid, .stage-grid, .summary-grid, .scenario-grid {
         grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 900px) {
+      .sim-hero,
+      .sim-panel {
+        max-width: 100%;
+        min-width: 0;
+      }
+      .control-row .button,
+      .control-row button,
+      .scenario-button {
+        width: 100%;
       }
     }
   </style>
@@ -551,7 +569,7 @@
         lines.push(`- Proof note: ${proof}`);
         lines.push("");
       });
-      return lines.join("\n").trim();
+      return lines.join(String.fromCharCode(10)).trim();
     }
 
     function buildMockLogLines() {
