@@ -11,7 +11,15 @@
     <header class="topbar">
       <div class="brand"><strong>Agent Registry</strong><span>Exact counts derived from project artifacts</span></div>
       <nav class="nav-links" aria-label="Demo navigation">
-        <a href="./index.html">Home</a><a href="./presentation.html">Presentation</a><a href="./simulator.html">Simulator</a><a href="./system-story.html">System Story</a><a href="./system-scale.html">System Scale</a><a href="./agent-hierarchy.html">Hierarchy</a><a href="./validator-safety-map.html">Validator Map</a><a href="../index.html">Live Dashboard</a>
+        <a href="./index.html">Home</a>
+        <a href="./index.html">Demo Hub</a>
+        <a href="./simulator.html">Simulator</a>
+        <a href="./system-scale.html">System Scale</a>
+        <a href="./agent-hierarchy.html">Agent / Department Hierarchy</a>
+        <a href="./safety-boundaries.html">Safety Boundaries</a>
+        <a href="./review.html">Review</a>
+        <a href="../full-audit-dashboard.html">Full Audit Dashboard</a>
+        <a href="../index.html">Launch Live Dashboard</a>
       </nav>
     </header>
     <section class="hero">
@@ -19,7 +27,7 @@
         <div>
           <p class="eyebrow">Canonical registry</p>
           <h1 class="title">Exact agent and department counts are now declared from project artifacts.</h1>
-          <p class="lead">This page turns the structured export graph into a visible registry view. The source is static, read-only, and traceable. Live runtime agents remain disabled.</p>
+          <p class="lead">This page turns the structured export graph into a visible registry view. In this demo, an agent means registered command-center operating units from the static org-chart registry. These are not live autonomous processes. The source is static, read-only, and traceable. Live runtime agents remain disabled.</p>
           <div class="badge-row">
             <span class="badge success">Exact agent count: 47,979</span>
             <span class="badge success">Exact department count: 1,777</span>
@@ -34,7 +42,26 @@
         <div class="callout">
           <p class="kicker">Registry source</p>
           <p>Registry source: generated from project artifacts. Generated from <code>09_exports/org_chart_export.json</code>. Traceability: <a href="./data/agent_department_registry_traceability.html">open static traceability page</a>.</p>
+          <p style="margin-top: 12px;">The count is a registry scale count, not a runtime execution count.</p>
+          <p style="margin-top: 12px;">Runtime activation not started.</p>
         </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="card-grid">
+        <article class="card">
+          <h3>Registered vs runtime</h3>
+          <ul class="card-list">
+            <li>Registered agents: 47,979</li>
+            <li>Live runtime agents: 0</li>
+            <li>Activation: not started</li>
+            <li>Meaning: the registry exists; automation remains disabled.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Why this matters</h3>
+          <p>The value is not that 47,979 agents are running today. The value is that the command structure, safety model, registry, simulator, and review process are visible before runtime activation.</p>
+        </article>
       </div>
     </section>
     <section class="section">
