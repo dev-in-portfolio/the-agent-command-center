@@ -1661,6 +1661,7 @@ allowed_prefixes = [
         "scripts/validate_premium_demo_experience_after_mvp50.py",
         "scripts/validate_live_site_demo_rendering_rescue_after_mvp50.py",
         "scripts/validate_post_deploy_demo_dashboard_visibility_after_mvp50.py",
+        "scripts/validate_full_live_stakeholder_demo_rescue_after_mvp50.py",
         "scripts/discover_agent_department_registry_after_mvp50.py",
         "scripts/validate_exact_agent_department_registry_after_mvp50.py",
         "scripts/validation_helpers_control_scan.py",
