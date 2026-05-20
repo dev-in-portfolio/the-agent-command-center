@@ -1,15 +1,20 @@
 (() => {
   const breadcrumbLabels = {
-    "/demo": "Demo Hub",
-    "/demo/": "Demo Hub",
-    "/demo/index.html": "Demo Hub",
-    "/demo/simulator.html": "Simulator",
+    "/demo": "Stakeholder Demo Hub",
+    "/demo/": "Stakeholder Demo Hub",
+    "/demo/index.html": "Stakeholder Demo Hub",
+    "/demo/presentation.html": "Stakeholder Presentation",
+    "/demo/simulator.html": "Command Center Sandbox Simulator",
     "/demo/system-story.html": "System Story",
     "/demo/system-scale.html": "System Scale",
+    "/demo/agent-hierarchy.html": "Agent Hierarchy",
     "/demo/agent-registry.html": "Agent Registry",
+    "/demo/operating-model.html": "Operating Model",
+    "/demo/validator-safety-map.html": "Validator Map",
     "/demo/safety-boundaries.html": "Safety Boundaries",
-    "/demo/review.html": "Review",
-    "/demo/presentation.html": "Stakeholder Presentation",
+    "/demo/technical-appendix.html": "Technical Appendix",
+    "/demo/objections.html": "Objections",
+    "/demo/review.html": "Review / Scorecard",
   };
 
   function copyStaticText(text, trigger) {
@@ -155,7 +160,7 @@
 
   function initDemoNavigation() {
     const current = window.location.pathname.replace(/\/+$/, "") || "/";
-    const currentLabel = breadcrumbLabels[current] || breadcrumbLabels[`${current}/`] || "Demo Hub";
+    const currentLabel = breadcrumbLabels[current] || breadcrumbLabels[`${current}/`] || "Stakeholder Demo Hub";
 
     const breadcrumb = document.querySelector(".breadcrumb");
     if (!breadcrumb && document.querySelector(".demo-shell")) {
@@ -171,14 +176,14 @@
 
     document.querySelectorAll("[data-menu-panel] a, .nav-links a").forEach((link) => {
       const href = link.getAttribute("href") || "";
-      const normalized = href.replace(/\/+$/, "") || "/";
-      if (
-        (current === "/demo/presentation.html" && normalized === "./presentation.html") ||
-        (current === "/demo/" && normalized === "./index.html") ||
-        (current === "/demo" && normalized === "./index.html") ||
-        (current.endsWith(normalized) && normalized !== "./presentation.html")
-      ) {
-        link.setAttribute("aria-current", "page");
+      try {
+        const resolved = new URL(href, window.location.href);
+        const resolvedPath = resolved.pathname.replace(/\/+$/, "") || "/";
+        if (resolvedPath === current) {
+          link.setAttribute("aria-current", "page");
+        }
+      } catch {
+        // Ignore malformed links in legacy pages.
       }
     });
   }
