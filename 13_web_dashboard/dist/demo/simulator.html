@@ -157,7 +157,7 @@
         <div>
           <p class="eyebrow">STATIC SANDBOX</p>
           <h1 class="sim-title">Command Center Sandbox Simulator</h1>
-          <p class="sim-lead">Run a safe simulated request through the Agent Command Center pipeline. Backend/Supabase readiness exists, live backend runtime is disabled, and this page stays local and read-only. This is a flight simulator, not the real aircraft.</p>
+          <p class="sim-lead">Run a safe simulated request through the Agent Command Center pipeline. Backend/Supabase readiness exists, live backend runtime is disabled, and this page stays local and read-only. This is a flight simulator, not the real aircraft. No backend calls. No writes. No execution. No automation.</p>
           <div class="badge-row">
             <span class="badge success">PRODUCTION VERIFIED THROUGH MVP-50</span>
             <span class="badge warning">BACKEND/SUPABASE READINESS PRESENT</span>
@@ -183,6 +183,20 @@
             <p class="kicker">What this proves</p>
             <p id="scenario-proof">The simulator is local and in-memory only. It demonstrates the readiness pipeline without sending data anywhere.</p>
           </div>
+          <ul class="list" style="margin-top: 16px;">
+            <li>STATIC SANDBOX</li>
+            <li>PRODUCTION VERIFIED THROUGH MVP-50</li>
+            <li>BACKEND/SUPABASE READINESS PRESENT</li>
+            <li>LIVE BACKEND RUNTIME DISABLED</li>
+            <li>NOT_READY_FOR_REAL_AUTOMATION</li>
+            <li>No backend calls</li>
+            <li>No writes</li>
+            <li>No execution</li>
+            <li>No automation</li>
+            <li>No Supabase mutation</li>
+            <li>No alert sending</li>
+            <li>No rollback execution</li>
+          </ul>
         </aside>
       </div>
     </section>
@@ -271,6 +285,13 @@
             <li>No command execution.</li>
             <li>No action execution.</li>
             <li>No public writes or Supabase writes.</li>
+            <li>No backend calls.</li>
+            <li>No writes.</li>
+            <li>No execution.</li>
+            <li>No automation.</li>
+            <li>No Supabase mutation.</li>
+            <li>No alert sending.</li>
+            <li>No rollback execution.</li>
             <li>No alert sending, rollback execution, or incident mutation.</li>
           </ul>
         </article>

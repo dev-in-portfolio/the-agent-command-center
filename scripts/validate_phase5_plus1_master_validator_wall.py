@@ -767,7 +767,7 @@ for path, marker in mvp42_report_requirements:
     if path.exists():
         check(marker in path.read_text(encoding="utf-8", errors="replace"), f"MVP-42 report missing marker: {path.name}")
 
-index = (DIST / "index.html").read_text(encoding="utf-8", errors="replace")
+index = (DIST / "full-audit-dashboard.html").read_text(encoding="utf-8", errors="replace")
 for marker in [
     "Original Phase 5A",
     "Original Phase 5B",

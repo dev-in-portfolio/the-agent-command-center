@@ -107,7 +107,7 @@ def main():
         except json.JSONDecodeError:
             fail("manifest JSON invalid")
 
-    index_path = ROOT / "13_web_dashboard/dist/index.html"
+    index_path = ROOT / "13_web_dashboard/dist/full-audit-dashboard.html"
     if index_path.exists():
         text = index_path.read_text(encoding="utf-8")
         scan_text(index_path, text)

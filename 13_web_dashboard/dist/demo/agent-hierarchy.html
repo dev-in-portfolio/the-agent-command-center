@@ -9,7 +9,7 @@
 <body>
   <div class="demo-shell">
     <header class="topbar">
-      <div class="brand"><strong>Agent / Department Hierarchy</strong><span>Known layers and honest unknowns</span></div>
+      <div class="brand"><strong>Agent / Department Hierarchy</strong><span>Known layers and exact declared counts</span></div>
       <nav class="nav-links" aria-label="Demo navigation">
         <a href="./index.html">Home</a><a href="./presentation.html">Presentation</a><a href="./simulator.html">Simulator</a><a href="./agent-registry.html">Agent Registry</a><a href="./system-story.html">System Story</a><a href="./system-scale.html">System Scale</a><a href="./operating-model.html">Operating Model</a><a href="../index.html">Live Dashboard</a>
       </nav>
@@ -21,10 +21,20 @@
           <p class="eyebrow">Hierarchy</p>
           <h1 class="title">The repo has a command hierarchy, not a fake agent census.</h1>
           <p class="lead">The hierarchy is explicit on what is known, what is operationally modeled, and what is canonically declared from the export graph. That keeps the story defensible.</p>
+          <div class="badge-row">
+            <span class="badge success">Exact agent count: 47,979</span>
+            <span class="badge success">Exact department count: 1,777</span>
+            <span class="badge success">Exact unit count: 5,331</span>
+            <span class="badge success">Exact family count: 175</span>
+            <span class="badge info">Hierarchy levels: 7</span>
+            <span class="badge info">Operational domains: 11</span>
+            <span class="badge warning">Live runtime agents enabled: 0</span>
+            <span class="badge warning">Runtime activation: not started</span>
+          </div>
         </div>
         <div class="callout">
           <p class="kicker">Canonical counts</p>
-          <p>Exact agent count: 47,979. Exact department count: 1,777. Source: <code>09_exports/org_chart_export.json</code>.</p>
+          <p>Exact agent count: 47,979. Exact department count: 1,777. Hierarchy levels: 7. Operational domains: 11. Source: <code>09_exports/org_chart_export.json</code>. Registry source: generated from project artifacts.</p>
         </div>
       </div>
     </section>
