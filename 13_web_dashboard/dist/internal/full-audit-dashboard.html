@@ -5,6 +5,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>The Agent Command Center - Read-Only Operations Dashboard</title>
   <link rel="stylesheet" href="./static/dashboard.css">
+    <style>
+      .site-legal-footer {
+        margin-top: 2rem;
+        padding-top: 1.25rem;
+        border-top: 1px solid rgba(148, 163, 184, 0.25);
+        color: rgba(226, 232, 240, 0.92);
+        font-size: 0.92rem;
+        line-height: 1.55;
+        overflow-wrap: anywhere;
+      }
+
+      .site-legal-footer p {
+        margin: 0 0 0.65rem;
+      }
+
+      .site-legal-footer p:last-child {
+        margin-bottom: 0;
+      }
+
+      .legal-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-top: 0.25rem;
+      }
+
+      .legal-links a {
+        color: inherit;
+      }
+
+      .legal-muted {
+        color: rgba(148, 163, 184, 0.95);
+      }
+
+      @media (max-width: 700px) {
+        .site-legal-footer {
+          font-size: 0.88rem;
+        }
+      }
+    </style>
 </head>
 <body class="dashboard-body">
   <a class="skip-link" href="#dashboard-main">Skip to dashboard content</a>
@@ -11906,8 +11946,12 @@ release_manifest.json" aria-label="Copy Release Packet Index">Copy Release Packe
     
     </div>
 
-    <footer class="footer">
-      <p>Generated statically. Static files. Backend/Supabase readiness architecture exists, but live backend runtime remains disabled until a separate runtime activation phase is explicitly approved. No secrets used. No commands executed except dashboard build/validation.</p>
+        <footer class="footer site-legal-footer">
+      <p>© 2026 Devin O’Rourke. All rights reserved.</p>
+      <p>Agent Command Center, the demo pages, registry presentation, dashboard copy, visual layout, simulator materials, validator descriptions, and stakeholder presentation materials are protected project materials. No license, sale, transfer, or permission to reuse is granted by viewing this demo.</p>
+      <p>This site is a static, read-only demonstration. It does not enable live automation, command execution, database writes, Supabase mutations, deployment actions, rollback execution, alert sending, or runtime activation.</p>
+      <p>Third-party names, platforms, and services referenced for context remain the property of their respective owners.</p>
+      <p class="legal-links"><a href="../legal.html">Legal / Copyright</a> · <a href="../index.html">Home</a> · <a href="../demo/">Demo Hub</a> · <a href="../full-audit-dashboard.html">Full Audit Dashboard</a> · <a href="../copyright.html">Copyright</a></p>
     </footer>
     
     </main>
