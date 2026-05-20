@@ -11,7 +11,15 @@
     <header class="topbar">
       <div class="brand"><strong>Operating Model</strong><span>Readiness flow, not execution flow</span></div>
       <nav class="nav-links" aria-label="Demo navigation">
-        <a href="./index.html">Home</a><a href="./system-story.html">System Story</a><a href="./agent-hierarchy.html">Hierarchy</a><a href="./validator-safety-map.html">Validator Map</a><a href="../index.html">Live Dashboard</a>
+        <a href="./index.html">Home</a>
+        <a href="./index.html">Demo Hub</a>
+        <a href="./simulator.html">Simulator</a>
+        <a href="./system-scale.html">System Scale</a>
+        <a href="./agent-registry.html">Agent Registry</a>
+        <a href="./safety-boundaries.html">Safety Boundaries</a>
+        <a href="./review.html">Review</a>
+        <a href="../full-audit-dashboard.html">Full Audit Dashboard</a>
+        <a href="../index.html">Launch Live Dashboard</a>
       </nav>
     </header>
 
@@ -20,7 +28,7 @@
         <div>
           <p class="eyebrow">Request flow</p>
           <h1 class="title">A future request would move through a controlled readiness chain.</h1>
-          <p class="lead">This is the conceptual operating model for how the command center would handle a request if runtime activation were ever separately approved. The current build stops at readiness and review.</p>
+          <p class="lead">This is the conceptual operating model for how the command center would handle a request if runtime activation were ever separately approved. The current build stops at readiness and review. In this demo, registered agents are command-center operating units from the static org-chart registry, not live autonomous processes.</p>
         </div>
         <div class="callout">
           <p class="kicker">Important note</p>
@@ -52,6 +60,31 @@
         <article class="flow-item"><h3>Monitoring / Rollback / Incident Readiness</h3><p>Operational oversight would need to be ready before live action.</p></article>
         <div class="flow-arrow">→</div>
         <article class="flow-item"><h3>Human Review / Go-No-Go</h3><p>Final decision stays with humans, not the dashboard.</p></article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">11 operational domains</p>
+          <h2>Demo-facing operating domain map</h2>
+        </div>
+        <p>Source type: demo-facing operating domain map derived from MVP-43 through MVP-50 readiness architecture.</p>
+      </div>
+      <div class="panel">
+        <ul class="scale-list">
+          <li>Authentication / identity readiness</li>
+          <li>Request storage readiness</li>
+          <li>Audit ledger readiness</li>
+          <li>Approval gate readiness</li>
+          <li>Dry-run readiness</li>
+          <li>Controlled action queue readiness</li>
+          <li>Human-approved execution readiness</li>
+          <li>Monitoring / rollback / incident readiness</li>
+          <li>Demo / stakeholder review readiness</li>
+          <li>Validator / quality gate readiness</li>
+          <li>Safety boundary readiness</li>
+        </ul>
       </div>
     </section>
 

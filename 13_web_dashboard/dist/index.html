@@ -345,6 +345,94 @@
     <section class="section">
       <div class="section-head">
         <div>
+          <p class="eyebrow">Current Status / Readiness Overview</p>
+          <h2>Legacy verification phrases preserved alongside the cleaned launchpad</h2>
+        </div>
+      </div>
+      <div class="card-grid">
+        <article class="card"><h3>Latest Verified MVP</h3><p>MVP-50 Production Verified.</p></article>
+        <article class="card"><h3>Backend/Supabase readiness architecture exists</h3><p>Live backend runtime is disabled.</p></article>
+        <article class="card"><h3>Open Static Simulator</h3><p>Use the static simulator path from the launchpad.</p></article>
+        <article class="card"><h3>Open Full Audit / Archive</h3><p>Original Full Audit Dashboard remains preserved under the archive route.</p></article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">System at a Glance</p>
+          <h2>Where the registry, simulator, and review flow fit together</h2>
+        </div>
+        <p>These visuals are static and text-based, but they make the architecture easier to scan on desktop and mobile.</p>
+      </div>
+      <div class="card-grid">
+        <article class="card">
+          <h3>Registered agent registry</h3>
+          <ol class="path-list">
+            <li>Registered Agent Registry</li>
+            <li>Departments</li>
+            <li>Units</li>
+            <li>Families</li>
+            <li>Operational Domains</li>
+            <li>Safety Gates</li>
+            <li>Static Simulator</li>
+            <li>Human Review</li>
+          </ol>
+        </article>
+        <article class="card">
+          <h3>Readiness flow</h3>
+          <ol class="path-list">
+            <li>Request</li>
+            <li>Auth</li>
+            <li>Storage</li>
+            <li>Audit</li>
+            <li>Approval</li>
+            <li>Dry Run</li>
+            <li>Queue</li>
+            <li>Human Review</li>
+            <li>Monitoring Readiness</li>
+          </ol>
+        </article>
+        <article class="card">
+          <h3>Registered vs Runtime</h3>
+          <ul class="card-list">
+            <li>Registered agents: 47,979</li>
+            <li>Live runtime agents: 0</li>
+            <li>Activation: not started</li>
+            <li>Meaning: the registry exists; automation remains disabled.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">11 Operational Domains</p>
+          <h2>Demo-facing operating domain map</h2>
+        </div>
+        <p>Source type: demo-facing operating domain map derived from MVP-43 through MVP-50 readiness architecture.</p>
+      </div>
+      <div class="panel">
+        <ul class="scale-list">
+          <li>Authentication / identity readiness</li>
+          <li>Request storage readiness</li>
+          <li>Audit ledger readiness</li>
+          <li>Approval gate readiness</li>
+          <li>Dry-run readiness</li>
+          <li>Controlled action queue readiness</li>
+          <li>Human-approved execution readiness</li>
+          <li>Monitoring / rollback / incident readiness</li>
+          <li>Demo / stakeholder review readiness</li>
+          <li>Validator / quality gate readiness</li>
+          <li>Safety boundary readiness</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
           <p class="eyebrow">What this is / what this is not</p>
           <h2>Plain-English boundary setting</h2>
         </div>
@@ -371,6 +459,59 @@
             <li>Not MVP-51.</li>
           </ul>
         </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">For Recruiters / Hiring Managers</p>
+          <h2>Why this matters</h2>
+        </div>
+      </div>
+      <div class="grid summary-grid">
+        <article class="card">
+          <h3>Skills demonstrated</h3>
+          <ul class="card-list">
+            <li>AI-assisted software development</li>
+            <li>System architecture</li>
+            <li>Static deployment</li>
+            <li>Validator-driven QA</li>
+            <li>Safety and runtime-boundary design</li>
+            <li>Data registry generation</li>
+            <li>UX / product demo packaging</li>
+            <li>Deployment debugging</li>
+            <li>Technical communication</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Why this matters</h3>
+          <ul class="card-list">
+            <li>The value is not that 47,979 agents are running today.</li>
+            <li>The value is that the command structure, safety model, registry, simulator, and review process are visible before runtime activation.</li>
+            <li>MVP-50 Production Verified is the current verified demo milestone.</li>
+            <li>The next runtime phase has not started.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Glossary</p>
+          <h2>Translate the demo terms into plain English</h2>
+        </div>
+      </div>
+      <div class="card-grid">
+        <article class="card"><h3>Registered agent</h3><p>A registered command-center operating unit listed in the static org-chart registry.</p></article>
+        <article class="card"><h3>Live runtime agent</h3><p>A live autonomous process. The count is 0 in this build.</p></article>
+        <article class="card"><h3>Runtime activation</h3><p>Turning on live execution. It has not started.</p></article>
+        <article class="card"><h3>Static simulator</h3><p>A browser-only in-memory demo that does not call backends or execute actions.</p></article>
+        <article class="card"><h3>Backend/Supabase readiness</h3><p>The architecture is prepared, but live writes and public mutation remain disabled.</p></article>
+        <article class="card"><h3>Validator</h3><p>A script that checks files, markers, and safety conditions.</p></article>
+        <article class="card"><h3>Safety gate</h3><p>A hard stop that prevents unsafe movement into runtime or mutation flows.</p></article>
+        <article class="card"><h3>MVP-50</h3><p>The current verified demo milestone, summarized here as MVP-50 Production Verified.</p></article>
       </div>
     </section>
 

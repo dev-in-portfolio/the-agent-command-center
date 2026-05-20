@@ -94,6 +94,10 @@
       border-color: rgba(96,165,250,0.58);
       background: rgba(30,41,59,0.95);
     }
+    .scenario-button[data-scenario="safeContentReview"] { border-left: 4px solid rgba(52,211,153,0.8); }
+    .scenario-button[data-scenario="highRiskDeploy"] { border-left: 4px solid rgba(248,113,113,0.8); }
+    .scenario-button[data-scenario="incidentRollback"] { border-left: 4px solid rgba(251,191,36,0.8); }
+    .scenario-button[data-scenario="approvalDenied"] { border-left: 4px solid rgba(96,165,250,0.8); }
     .scenario-button strong {
       display: block;
       margin-bottom: 4px;
@@ -118,8 +122,11 @@
     }
     .summary-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 14px;
+    }
+    .progress-track {
+      margin-top: 12px;
     }
     .status-strip {
       display: flex;
@@ -144,10 +151,13 @@
       </div>
       <nav class="nav-links" aria-label="Demo navigation">
         <a href="./index.html">Home</a>
-        <a href="./presentation.html">Presentation</a>
-        <a href="./system-story.html">System Story</a>
+        <a href="./index.html">Demo Hub</a>
+        <a href="./simulator.html">Simulator</a>
         <a href="./system-scale.html">System Scale</a>
-        <a href="./validator-safety-map.html">Validator Map</a>
+        <a href="./agent-registry.html">Agent Registry</a>
+        <a href="./safety-boundaries.html">Safety Boundaries</a>
+        <a href="./review.html">Review</a>
+        <a href="../full-audit-dashboard.html">Full Audit Dashboard</a>
         <a href="../index.html">Launch Live Dashboard</a>
       </nav>
     </header>
@@ -264,6 +274,11 @@
           <article class="card">
             <div class="card-head"><h3 class="card-title">Stage progress</h3><span class="badge ghost" id="progress-badge">0 / 8</span></div>
             <p class="card-body" id="progress-text">No stages have been run yet.</p>
+            <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="progress-fill"></div></div>
+          </article>
+          <article class="card">
+            <div class="card-head"><h3 class="card-title">Mock log</h3><span class="badge ghost">In-memory only</span></div>
+            <div class="sim-log" id="log-box" aria-live="polite"></div>
           </article>
         </div>
         <div class="report-box" id="report-box" aria-live="polite"></div>
@@ -403,8 +418,10 @@
     const summaryText = document.getElementById("summary-text");
     const progressText = document.getElementById("progress-text");
     const progressBadge = document.getElementById("progress-badge");
+    const progressFill = document.getElementById("progress-fill");
     const finalStatusBadge = document.getElementById("final-status-badge");
     const reportBox = document.getElementById("report-box");
+    const logBox = document.getElementById("log-box");
     const simStatusStrip = document.getElementById("sim-status-strip");
     const runButton = document.getElementById("run-button");
     const stepButton = document.getElementById("step-button");
@@ -510,16 +527,49 @@
       return lines.join("\n").trim();
     }
 
+    function buildMockLogLines() {
+      const scenario = SIMULATOR_SCENARIOS[selectedScenarioKey];
+      const startedAt = Date.parse("2025-05-20T12:00:00Z");
+      const activeCount = Math.max(activeStageIndex + 1, 0);
+      const lines = [
+        {
+          time: new Date(startedAt).toISOString(),
+          text: `Scenario selected: ${scenario.label}`,
+        },
+        {
+          time: new Date(startedAt + 1200).toISOString(),
+          text: "Boundary check: static sandbox only; no backend calls, no writes, no execution.",
+        },
+      ];
+      STAGE_NAMES.slice(0, activeCount).forEach((name, index) => {
+        const [status, check, result] = scenario.stages[index];
+        lines.push({
+          time: new Date(startedAt + (index + 2) * 2200).toISOString(),
+          text: `${name}: ${status} - ${result} (${check})`,
+        });
+      });
+      lines.push({
+        time: new Date(startedAt + (activeCount + 2) * 2200).toISOString(),
+        text: activeStageIndex < 0
+          ? "Ready state: use Run full simulation or Step through simulation."
+          : `Outcome: ${scenario.finalStatus}`,
+      });
+      return lines;
+    }
+
     function syncOutput() {
       const scenario = SIMULATOR_SCENARIOS[selectedScenarioKey];
       const completed = Math.max(activeStageIndex + 1, 0);
+      const progressPct = Math.round((completed / STAGE_NAMES.length) * 100);
       progressBadge.textContent = `${completed} / 8`;
+      progressFill.style.width = `${progressPct}%`;
       progressText.textContent = activeStageIndex < 0
         ? "No stages have been run yet."
         : `Stage ${Math.min(activeStageIndex + 1, 8)} of 8 is active.`;
       summaryText.textContent = activeStageIndex < 0
         ? `Selected scenario: ${scenario.label}. Use Run or Step to simulate the readiness flow.`
         : `Selected scenario: ${scenario.label}. ${scenario.finalStatus} is the current simulated outcome.`;
+      logBox.innerHTML = buildMockLogLines().map((entry) => `<div class="sim-log-line"><time>${entry.time.slice(11, 19)}Z</time><span>${entry.text}</span></div>`).join("");
       reportBox.textContent = buildReportText();
       renderStages();
     }

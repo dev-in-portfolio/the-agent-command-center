@@ -11,7 +11,15 @@
     <header class="topbar">
       <div class="brand"><strong>Agent / Department Hierarchy</strong><span>Known layers and exact declared counts</span></div>
       <nav class="nav-links" aria-label="Demo navigation">
-        <a href="./index.html">Home</a><a href="./presentation.html">Presentation</a><a href="./simulator.html">Simulator</a><a href="./agent-registry.html">Agent Registry</a><a href="./system-story.html">System Story</a><a href="./system-scale.html">System Scale</a><a href="./operating-model.html">Operating Model</a><a href="../index.html">Live Dashboard</a>
+        <a href="./index.html">Home</a>
+        <a href="./index.html">Demo Hub</a>
+        <a href="./simulator.html">Simulator</a>
+        <a href="./system-scale.html">System Scale</a>
+        <a href="./agent-registry.html">Agent Registry</a>
+        <a href="./safety-boundaries.html">Safety Boundaries</a>
+        <a href="./review.html">Review</a>
+        <a href="../full-audit-dashboard.html">Full Audit Dashboard</a>
+        <a href="../index.html">Launch Live Dashboard</a>
       </nav>
     </header>
 
@@ -20,7 +28,7 @@
         <div>
           <p class="eyebrow">Hierarchy</p>
           <h1 class="title">The repo has a command hierarchy, not a fake agent census.</h1>
-          <p class="lead">The hierarchy is explicit on what is known, what is operationally modeled, and what is canonically declared from the export graph. That keeps the story defensible.</p>
+          <p class="lead">The hierarchy is explicit on what is known, what is operationally modeled, and what is canonically declared from the export graph. In this demo, an agent means registered command-center operating units from the static org-chart registry. These are not live autonomous processes. That keeps the story defensible.</p>
           <div class="badge-row">
             <span class="badge success">Exact agent count: 47,979</span>
             <span class="badge success">Exact department count: 1,777</span>
@@ -34,8 +42,25 @@
         </div>
         <div class="callout">
           <p class="kicker">Canonical counts</p>
-          <p>Exact agent count: 47,979. Exact department count: 1,777. Hierarchy levels: 7. Operational domains: 11. Source: <code>09_exports/org_chart_export.json</code>. Registry source: generated from project artifacts.</p>
+          <p>Exact agent count: 47,979. Exact department count: 1,777. Hierarchy levels: 7. Operational domains: 11. Source file: <code>09_exports/org_chart_export.json</code>. Registry source: generated from project artifacts.</p>
         </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="card-grid">
+        <article class="card">
+          <h3>Registered vs runtime</h3>
+          <ul class="card-list">
+            <li>Registered agents: 47,979</li>
+            <li>Live runtime agents: 0</li>
+            <li>Activation: not started</li>
+            <li>Meaning: the registry exists; automation remains disabled.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Why this matters</h3>
+          <p>The command hierarchy proves the system has enough structure to audit and enough clarity to explain before any live runtime decision is made.</p>
+        </article>
       </div>
     </section>
 

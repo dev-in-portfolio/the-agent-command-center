@@ -15,20 +15,14 @@
       </div>
       <nav class="nav-links" aria-label="Demo navigation">
         <a href="./index.html">Home</a>
-        <a href="../index.html">Command Center Launchpad</a>
-        <a href="./presentation.html">Presentation</a>
+        <a href="./index.html">Demo Hub</a>
         <a href="./simulator.html">Simulator</a>
-        <a href="./system-story.html">System Story</a>
         <a href="./system-scale.html">System Scale</a>
         <a href="./agent-registry.html">Agent Registry</a>
-        <a href="./agent-hierarchy.html">Hierarchy</a>
-        <a href="./operating-model.html">Operating Model</a>
-        <a href="./validator-safety-map.html">Validator Map</a>
         <a href="./safety-boundaries.html">Safety Boundaries</a>
-        <a href="./technical-appendix.html">Technical Appendix</a>
-        <a href="./objections.html">Objections</a>
         <a href="./review.html">Review / Scorecard</a>
-        <a href="./review-qa.html">Review QA</a>
+        <a href="../full-audit-dashboard.html">Full Audit Dashboard</a>
+        <a href="../index.html">Launch Live Dashboard</a>
       </nav>
     </header>
 
@@ -190,6 +184,98 @@
         <article class="card"><h3>Operational domains</h3><p>11 documented domains instead of a fake department registry.</p></article>
         <article class="card"><h3>Agent registry</h3><p>47,979 team-member agents and 1,777 departments derived from `org_chart_export.json`.</p></article>
         <article class="card"><h3>Disabled capability categories</h3><p>13 categories in the presentation manifest.</p></article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">System at a Glance</p>
+          <h2>How the demo hangs together</h2>
+        </div>
+        <p>The diagrams are text-first and intentionally simple so the architecture stays readable on a projector or a phone.</p>
+      </div>
+      <div class="card-grid">
+        <article class="card">
+          <h3>Registered agent registry</h3>
+          <ol class="path-list">
+            <li>Registered Agent Registry</li>
+            <li>Departments</li>
+            <li>Units</li>
+            <li>Families</li>
+            <li>Operational Domains</li>
+            <li>Safety Gates</li>
+            <li>Static Simulator</li>
+            <li>Human Review</li>
+          </ol>
+        </article>
+        <article class="card">
+          <h3>Readiness flow</h3>
+          <ol class="path-list">
+            <li>Request</li>
+            <li>Auth</li>
+            <li>Storage</li>
+            <li>Audit</li>
+            <li>Approval</li>
+            <li>Dry Run</li>
+            <li>Queue</li>
+            <li>Human Review</li>
+            <li>Monitoring Readiness</li>
+          </ol>
+        </article>
+        <article class="card">
+          <h3>Registered vs Runtime</h3>
+          <ul class="card-list">
+            <li>Registered agents: 47,979</li>
+            <li>Live runtime agents: 0</li>
+            <li>Activation: not started</li>
+            <li>Meaning: the registry exists; automation remains disabled.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">11 Operational Domains</p>
+          <h2>Demo-facing operating domain map</h2>
+        </div>
+        <p>Source type: demo-facing operating domain map derived from MVP-43 through MVP-50 readiness architecture.</p>
+      </div>
+      <div class="panel">
+        <ul class="scale-list">
+          <li>Authentication / identity readiness</li>
+          <li>Request storage readiness</li>
+          <li>Audit ledger readiness</li>
+          <li>Approval gate readiness</li>
+          <li>Dry-run readiness</li>
+          <li>Controlled action queue readiness</li>
+          <li>Human-approved execution readiness</li>
+          <li>Monitoring / rollback / incident readiness</li>
+          <li>Demo / stakeholder review readiness</li>
+          <li>Validator / quality gate readiness</li>
+          <li>Safety boundary readiness</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Glossary</p>
+          <h2>Plain-English translation for the demo terms</h2>
+        </div>
+      </div>
+      <div class="card-grid">
+        <article class="card"><h3>Registered agent</h3><p>A registered command-center operating unit listed in the static org-chart registry.</p></article>
+        <article class="card"><h3>Live runtime agent</h3><p>A live autonomous process. The count is 0 in this build.</p></article>
+        <article class="card"><h3>Runtime activation</h3><p>Turning on live execution. It has not started.</p></article>
+        <article class="card"><h3>Static simulator</h3><p>A browser-only in-memory demo that does not call backends or execute actions.</p></article>
+        <article class="card"><h3>Backend/Supabase readiness</h3><p>The architecture is prepared, but live writes and public mutation remain disabled.</p></article>
+        <article class="card"><h3>Validator</h3><p>A script that checks files, markers, and safety conditions.</p></article>
+        <article class="card"><h3>Safety gate</h3><p>A hard stop that prevents unsafe movement into runtime or mutation flows.</p></article>
+        <article class="card"><h3>MVP-50</h3><p>The current verified demo milestone, summarized here as MVP-50 Production Verified.</p></article>
       </div>
     </section>
 
