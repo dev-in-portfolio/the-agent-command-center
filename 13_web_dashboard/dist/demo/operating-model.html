@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Operating Model - The Agent Command Center</title>
+  <link rel="stylesheet" href="./assets/demo.css">
+</head>
+<body>
+  <div class="demo-shell">
+    <header class="demo-topbar collapsible-topbar" data-collapsible-menu>
+      <div class="topbar-main">
+        <a class="topbar-title" href="./index.html">Operating Model</a>
+        <button
+          class="menu-toggle"
+          type="button"
+          data-action="toggle-menu"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          aria-controls="demo-menu-panel">
+          Menu
+        </button>
+      </div>
+      <nav
+        id="demo-menu-panel"
+        class="menu-panel"
+        data-menu-panel
+        hidden
+        aria-label="Demo navigation">
+        <a href="../index.html">Home</a>
+        <a href="./index.html">Demo Hub</a>
+        <a href="./presentation.html">Presentation</a>
+        <a href="./simulator.html">Simulator</a>
+        <a href="./system-story.html">System Story</a>
+        <a href="./system-scale.html">System Scale</a>
+        <a href="./agent-hierarchy.html">Agent Hierarchy</a>
+        <a href="./agent-registry.html">Agent Registry</a>
+        <a href="./operating-model.html">Operating Model</a>
+        <a href="./validator-safety-map.html">Validator Map</a>
+        <a href="./safety-boundaries.html">Safety Boundaries</a>
+        <a href="./technical-appendix.html">Technical Appendix</a>
+        <a href="./objections.html">Objections</a>
+        <a href="./review.html">Review</a>
+        <a href="../full-audit-dashboard.html">Full Audit Dashboard</a>
+        <a href="../legal.html">Legal / Copyright</a>
+      </nav>
+    </header>
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../index.html">Home</a>
+      <span aria-hidden="true">→</span>
+      <a href="./index.html">Demo Hub</a>
+      <span aria-hidden="true">→</span>
+      <span>Operating Model</span>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <p class="eyebrow">Request flow</p>
+          <h1 class="title">A future request would move through a controlled readiness chain.</h1>
+          <p class="lead">This is the conceptual operating model for how the command center would handle a request if runtime activation were ever separately approved. The current build stops at readiness and review. In this demo, registered agents are command-center operating units from the static org-chart registry, not live autonomous processes.</p>
+        </div>
+        <div class="callout">
+          <p class="kicker">Important note</p>
+          <p>This is the readiness flow, not an enabled execution flow.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="flow-grid">
+        <article class="flow-item"><h3>Input / Request</h3><p>A request enters the system as a reviewable unit.</p></article>
+        <div class="flow-arrow">→</div>
+        <article class="flow-item"><h3>Identity / Auth Boundary</h3><p>Access control and identity checks would happen here.</p></article>
+        <div class="flow-arrow">→</div>
+        <article class="flow-item"><h3>Storage / Request Record</h3><p>The request would be stored as a record before any other step.</p></article>
+        <div class="flow-arrow">→</div>
+        <article class="flow-item"><h3>Audit Ledger</h3><p>Every important action would be recorded for traceability.</p></article>
+        <div class="flow-arrow">→</div>
+        <article class="flow-item"><h3>Approval Gate</h3><p>Human approval would be required before moving on.</p></article>
+        <div class="flow-arrow">→</div>
+        <article class="flow-item"><h3>Dry-Run Preview</h3><p>The effect would be simulated without real-world mutation.</p></article>
+        <div class="flow-arrow">→</div>
+        <article class="flow-item"><h3>Controlled Action Queue</h3><p>Requests would be ordered, not executed.</p></article>
+        <div class="flow-arrow">→</div>
+        <article class="flow-item"><h3>Human Approval / Attestation</h3><p>A second human review gate would keep the process controlled.</p></article>
+        <div class="flow-arrow">→</div>
+        <article class="flow-item"><h3>Execution Readiness Check</h3><p>The system would confirm prerequisites before any runtime.</p></article>
+        <div class="flow-arrow">→</div>
+        <article class="flow-item"><h3>Monitoring / Rollback / Incident Readiness</h3><p>Operational oversight would need to be ready before live action.</p></article>
+        <div class="flow-arrow">→</div>
+        <article class="flow-item"><h3>Human Review / Go-No-Go</h3><p>Final decision stays with humans, not the dashboard.</p></article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">11 operational domains</p>
+          <h2>Demo-facing operating domain map</h2>
+        </div>
+        <p>Source type: demo-facing operating domain map derived from MVP-43 through MVP-50 readiness architecture.</p>
+      </div>
+      <div class="panel">
+        <ul class="scale-list">
+          <li>Authentication / identity readiness</li>
+          <li>Request storage readiness</li>
+          <li>Audit ledger readiness</li>
+          <li>Approval gate readiness</li>
+          <li>Dry-run readiness</li>
+          <li>Controlled action queue readiness</li>
+          <li>Human-approved execution readiness</li>
+          <li>Monitoring / rollback / incident readiness</li>
+          <li>Demo / stakeholder review readiness</li>
+          <li>Validator / quality gate readiness</li>
+          <li>Safety boundary readiness</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="card-grid">
+        <article class="card"><h3>Where auth fits</h3><p>At the front of the flow, before storage or any downstream handling.</p></article>
+        <article class="card"><h3>Where audit fits</h3><p>Across the entire flow so the chain is explainable and reviewable.</p></article>
+        <article class="card"><h3>Where runtime stays separate</h3><p>Runtime activation is a future phase with its own approval and security requirements.</p></article>
+      </div>
+    </section>
+            <footer class="footer site-legal-footer">
+      <p>© 2026 Devin O’Rourke. All rights reserved.</p>
+      <p>Agent Command Center, the demo pages, registry presentation, dashboard copy, visual layout, simulator materials, validator descriptions, and stakeholder presentation materials are protected project materials. No license, sale, transfer, or permission to reuse is granted by viewing this demo.</p>
+      <p>This site is a static, read-only demonstration. It does not enable live automation, command execution, database writes, Supabase mutations, deployment actions, rollback execution, alert sending, or runtime activation.</p>
+      <p>Third-party names, platforms, and services referenced for context remain the property of their respective owners.</p>
+      <p class="legal-links"><a href="../legal.html">Legal / Copyright</a> · <a href="../index.html">Home</a> · <a href="./index.html">Demo Hub</a> · <a href="../full-audit-dashboard.html">Full Audit Dashboard</a> · <a href="../copyright.html">Copyright</a></p>
+    </footer>
+  </div>
+  <script src="./assets/demo.js"></script>
+</body>
+</html>

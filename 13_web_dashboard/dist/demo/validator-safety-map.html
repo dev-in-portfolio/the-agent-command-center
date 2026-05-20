@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Validator & Safety Gate Map - The Agent Command Center</title>
+  <link rel="stylesheet" href="./assets/demo.css">
+</head>
+<body>
+  <div class="demo-shell">
+    <header class="demo-topbar collapsible-topbar" data-collapsible-menu>
+      <div class="topbar-main">
+        <a class="topbar-title" href="./index.html">Validator Map</a>
+        <button
+          class="menu-toggle"
+          type="button"
+          data-action="toggle-menu"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          aria-controls="demo-menu-panel">
+          Menu
+        </button>
+      </div>
+      <nav
+        id="demo-menu-panel"
+        class="menu-panel"
+        data-menu-panel
+        hidden
+        aria-label="Demo navigation">
+        <a href="../index.html">Home</a>
+        <a href="./index.html">Demo Hub</a>
+        <a href="./presentation.html">Presentation</a>
+        <a href="./simulator.html">Simulator</a>
+        <a href="./system-story.html">System Story</a>
+        <a href="./system-scale.html">System Scale</a>
+        <a href="./agent-hierarchy.html">Agent Hierarchy</a>
+        <a href="./agent-registry.html">Agent Registry</a>
+        <a href="./operating-model.html">Operating Model</a>
+        <a href="./validator-safety-map.html">Validator Map</a>
+        <a href="./safety-boundaries.html">Safety Boundaries</a>
+        <a href="./technical-appendix.html">Technical Appendix</a>
+        <a href="./objections.html">Objections</a>
+        <a href="./review.html">Review</a>
+        <a href="../full-audit-dashboard.html">Full Audit Dashboard</a>
+        <a href="../legal.html">Legal / Copyright</a>
+      </nav>
+    </header>
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../index.html">Home</a>
+      <span aria-hidden="true">→</span>
+      <a href="./index.html">Demo Hub</a>
+      <span aria-hidden="true">→</span>
+      <span>Validator Map</span>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <p class="eyebrow">Validator wall</p>
+          <h1 class="title">The system is proven by independent validators, not by claims.</h1>
+          <p class="lead">There are 280 validator scripts in the repo. They work as a flat E2E wall, with package-specific checks for the external demo, stakeholder presentation, and premium demo hub.</p>
+        </div>
+        <div class="callout">
+          <p class="kicker">What validators prove</p>
+          <p>They prove file presence, marker presence, latest-status consistency, and safety boundaries. They do not enable runtime behavior.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="card-grid">
+        <article class="card"><h3>Dynamic latest-status validator</h3><p>Confirms the live dashboard still reports MVP-50 as the latest verified milestone.</p></article>
+        <article class="card"><h3>Master validator wall</h3><p>Blocks branch changes outside the allowed surfaces and keeps the release story coherent.</p></article>
+        <article class="card"><h3>External demo validator</h3><p>Checks the external demo package and its safety markers.</p></article>
+        <article class="card"><h3>Stakeholder presentation validator</h3><p>Checks the stakeholder package files and presentation metadata.</p></article>
+        <article class="card"><h3>Premium demo validator</h3><p>Checks the browser-viewable microsite, its report, and its safety labels.</p></article>
+        <article class="card"><h3>No nested E2E chains</h3><p>Each validator is independent so failures stay local and readable.</p></article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head"><div><p class="eyebrow">Flat E2E strategy</p><h2>What the wall is doing</h2></div></div>
+      <div class="page-grid">
+        <article class="page-card"><h3>What it proves</h3><p>The wall proves the demo package still says what the repo says and that the safety markers are still present.</p></article>
+        <article class="page-card"><h3>What it does not prove</h3><p>It does not run commands, trigger automation, send alerts, or mutate live systems.</p></article>
+        <article class="page-card"><h3>Why the flat pattern matters</h3><p>It keeps validation modular and prevents nested test chains from masking failures.</p></article>
+        <article class="page-card"><h3>Future review needs</h3><p>Runtime activation would still need a separate security review and operational approval.</p></article>
+      </div>
+    </section>
+        <footer class="footer site-legal-footer">
+      <p>© 2026 Devin O’Rourke. All rights reserved.</p>
+      <p>Agent Command Center, the demo pages, registry presentation, dashboard copy, visual layout, simulator materials, validator descriptions, and stakeholder presentation materials are protected project materials. No license, sale, transfer, or permission to reuse is granted by viewing this demo.</p>
+      <p>This site is a static, read-only demonstration. It does not enable live automation, command execution, database writes, Supabase mutations, deployment actions, rollback execution, alert sending, or runtime activation.</p>
+      <p>Third-party names, platforms, and services referenced for context remain the property of their respective owners.</p>
+      <p class="legal-links"><a href="../legal.html">Legal / Copyright</a> · <a href="../index.html">Home</a> · <a href="./index.html">Demo Hub</a> · <a href="../full-audit-dashboard.html">Full Audit Dashboard</a> · <a href="../copyright.html">Copyright</a></p>
+    </footer>
+  </div>
+  <script src="./assets/demo.js"></script>
+</body>
+</html>

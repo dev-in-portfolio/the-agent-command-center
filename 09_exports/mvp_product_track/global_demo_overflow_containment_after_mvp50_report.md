@@ -1,0 +1,46 @@
+# Global Demo Overflow Containment After MVP50
+
+GLOBAL_DEMO_OVERFLOW_CONTAINMENT_AFTER_MVP50_COMPLETE
+
+- GLOBAL_BOX_SIZING_ADDED
+- PAGE_WIDTH_CONTAINMENT_ADDED
+- TEXT_WRAP_RULES_ADDED
+- CARD_OVERFLOW_CONTAINMENT_ADDED
+- FLEX_GRID_MIN_WIDTH_FIXED
+- NAV_OVERFLOW_FIXED
+- TABLE_OVERFLOW_CONTAINED
+- PRE_CODE_LOG_OVERFLOW_CONTAINED
+- MOBILE_TABLET_LAYOUT_POLISHED
+- SYSTEM_SCALE_LAYOUT_RECENTERED
+- SYSTEM_SCALE_BREADCRUMB_CORRECTED
+- COLLAPSIBLE_MENU_RECHECKED_ON_ALL_DEMO_PAGES
+- INTERNAL_LINKS_VALIDATED
+- EXACT_AGENT_COUNT_PRESERVED_47979
+- EXACT_DEPARTMENT_COUNT_PRESERVED_1777
+- NO_ENDPOINTS_ADDED
+- NO_NETLIFY_FUNCTIONS_ADDED
+- NO_DATABASE_WRITES_ADDED
+- NO_SUPABASE_WRITES_ADDED
+- NO_COMMAND_EXECUTION_ADDED
+- NO_ACTION_EXECUTION_ADDED
+- NO_AUTOMATION_ADDED
+- NO_MVP51_STARTED
+
+## Summary
+
+The shared demo layout now keeps text, cards, tables, buttons, and nav pills inside their containers on desktop, tablet, and mobile. The root launchpad was widened and made more responsive, the simulator's fixed grid widths were converted to auto-fit layouts, and the shared demo stylesheet now enforces wrapability and containment for common content blocks.
+
+## Validation
+
+- `GLOBAL_DEMO_OVERFLOW_CONTAINMENT_AFTER_MVP50_VALIDATION_PASS`
+- `GLOBAL_DEMO_COLLAPSIBLE_MENU_BREADCRUMBS_AFTER_MVP50_VALIDATION_PASS`
+- `PRESENTATION_COLLAPSE_MENU_ACTUAL_AFTER_MVP50_VALIDATION_PASS`
+- `LIVE_DASHBOARD_DYNAMIC_LATEST_STATUS_VALIDATION_PASS`
+- `MVP50_MONITORING_ROLLBACK_INCIDENT_CONSOLE_VALIDATION_PASS`
+- `PHASE5_PLUS1_MASTER_VALIDATOR_WALL_PASS`
+
+## Notes
+
+- The system-scale page still shows the exact counts: 47,979 agents and 1,777 departments.
+- The collapsible demo menu remains collapsed by default across the demo pages.
+- The root launchpad now wraps its nav links cleanly instead of forcing horizontal spill.

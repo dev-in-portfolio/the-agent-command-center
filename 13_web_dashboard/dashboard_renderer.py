@@ -375,7 +375,7 @@ def _render_overview_cards(snapshot):
     safety_scan = snapshot.get("phase_3_safety_scan", {})
     safety = snapshot.get("safety_status", {})
     next_action = snapshot.get("recommended_next_action", "unknown")
-    next_action = "Ready for static hosting review after merge. Backend integration remains a later phase."
+    next_action = "Ready for static hosting review after merge. Backend/Supabase readiness architecture exists. Live backend runtime is disabled."
     merge_ready_status = "PASS" if "ready_for_merge_review" in next_action else "INFO"
     cards = [
         _card("Phase 1 status", phase1.get("detected_verdict", "unknown"), phase1.get("summary", "Phase 1 backend source of truth is present.")),
@@ -383,6 +383,18 @@ def _render_overview_cards(snapshot):
         _card("Phase 3 build status", phase3.get("detected_verdict", "unknown"), phase3.get("summary", "Read-Only Operations Dashboard build and exports are available.")),
         _card("Safety status", "LOCKED", safety_scan.get("status", "PASS")),
         _card("Merge readiness", merge_ready_status, next_action),
+        _card(
+            "Premium Stakeholder Demo",
+            "INFO",
+            "Open the browser-viewable premium demo hub with the stakeholder presentation, system story, scale inventory, and safety map.",
+            extra='<a class="section-button" href="./demo/">View Stakeholder Demo Hub</a>',
+        ),
+        _card(
+            "Runnable Static Simulator",
+            "INFO",
+            "Run the browser-viewable static sandbox simulator for the command-center pipeline.",
+            extra='<a class="section-button" href="./demo/simulator.html">Open Simulator</a>',
+        ),
     ]
     return '<section class="cards-grid">' + "".join(cards) + "</section>"
 
@@ -393,7 +405,7 @@ def _build_landing_screen(snapshot):
     phase3 = snapshot.get("phase_3_status", {})
     safety_scan = snapshot.get("phase_3_safety_scan", {})
     next_action = snapshot.get("recommended_next_action", "unknown")
-    next_action = "Ready for backend architecture blueprint review. Future backend integration remains a later phase."
+    next_action = "Next phase: stakeholder demo review / runtime activation planning. Backend/Supabase readiness architecture exists. Live backend runtime is disabled."
     merge_ready_status = "PASS" if "ready_for_merge_review" in next_action else "INFO"
     cards = [
         _card("Phase 1 status", phase1.get("detected_verdict", "unknown"), phase1.get("summary", "Phase 1 backend source of truth is present.")),
@@ -401,6 +413,18 @@ def _build_landing_screen(snapshot):
         _card("Phase 3 status", phase3.get("detected_verdict", "unknown"), phase3.get("summary", "Read-Only Operations Dashboard build and exports are available.")),
         _card("Safety status", safety_scan.get("status", "unknown"), "Production-hosted dashboard with deployment, merge, push, secret access, and command execution disabled."),
         _card("Roadmap status", merge_ready_status, next_action),
+        _card(
+            "Premium Stakeholder Demo",
+            "INFO",
+            "Open the browser-viewable premium demo hub with the stakeholder presentation, system story, scale inventory, and safety map.",
+            extra='<a class="section-button" href="./demo/">View Stakeholder Demo Hub</a>',
+        ),
+        _card(
+            "Runnable Static Simulator",
+            "INFO",
+            "Run the browser-viewable static sandbox simulator for the command-center pipeline.",
+            extra='<a class="section-button" href="./demo/simulator.html">Open Simulator</a>',
+        ),
     ]
     buttons = [
         ("Roadmap Re-Anchor", "roadmap-reanchor"),
@@ -449,6 +473,7 @@ def _build_landing_screen(snapshot):
         ("MVP-21 Safe Feedback Persistence", "mvp21-safe-feedback-persistence"),
         ("MVP-22 Controlled Feedback Write", "mvp22-controlled-feedback-write"),
         ("MVP-23 Token-Gated Smoke Test", "mvp23-token-gated-smoke-test"),
+        ("MVP-42 Operator Controlled Response Import Dry Run", "mvp42-operator-controlled-response-import-dry-run"),
         ("Artifacts", "artifact-packages"),
         ("Source Info", "source-transparency"),
         ("Audit / Session", "session-audit"),
@@ -496,7 +521,7 @@ def _build_toolbar(snapshot):
         {_copy_button("Copy summary", summary, aria="Copy dashboard summary")}
       </div>
       <div class="toolbar-group toolbar-note">
-        <span class="muted">Current build: static preview. Hosting readiness: static hosting ready. Backend integration: planned, disabled in this build. Controls: read-only display.</span>
+        <span class="muted">Current build: static preview. Hosting readiness: static hosting ready. Backend/Supabase readiness architecture exists. Live backend runtime disabled. Controls: read-only display.</span>
       </div>
       <div class="toolbar-status" aria-live="polite">
         <span id="copy-status" class="muted">Local UI ready.</span>
@@ -1414,8 +1439,11 @@ def _load_prebuilt_section(section_id):
     if not index_path.exists():
         return ""
     text = index_path.read_text(encoding="utf-8", errors="replace")
-    marker = f'<details class="panel" data-section-group="source" open id="{section_id}">'
-    start = text.find(marker)
+    marker_open = f'<details class="panel" data-section-group="source" open id="{section_id}">'
+    marker_closed = f'<details class="panel" data-section-group="source" id="{section_id}">'
+    start = text.find(marker_open)
+    if start < 0:
+        start = text.find(marker_closed)
     if start < 0:
         return ""
     end = text.find("</details>", start)
@@ -1671,6 +1699,754 @@ def _build_mvp41_controlled_reviewer_response_intake_blueprint_layer(snapshot):
         panel_id="mvp41-controlled-reviewer-response-intake-blueprint",
     )
 
+def _build_mvp42_operator_controlled_response_import_dry_run_layer(snapshot):
+    model = snapshot.get("mvp42_operator_controlled_response_import_dry_run_model", {})
+    body = f"""
+<div class="mvp-section" data-mvp="42" data-mvp42-operator-controlled-response-import-dry-run="true">
+  <div class="callout success-callout">
+    <strong style="color: var(--success);">MVP-42</strong>
+    <p class="muted">OPERATOR CONTROLLED RESPONSE IMPORT DRY RUN</p>
+    <p class="muted">DRY RUN RESPONSE IMPORT PACKET — OPERATOR IMPORT PREVIEW QUEUE — DRY RUN VALIDATION RESULT</p>
+    <p class="muted">RESPONSE NORMALIZATION PREVIEW — RESPONSE TO FEEDBACK CONVERSION PREVIEW — DRY RUN AUDIT ROLLBACK BLUEPRINT</p>
+    <p class="muted">OPERATOR REVIEW ONLY — DRY RUN ONLY — PREVIEW ONLY — FUTURE IMPLEMENTATION ONLY</p>
+    <p class="muted">NO PUBLIC ENDPOINT — NO LIVE INTAKE — NO PUBLIC RESPONSE SUBMISSION — NO REVIEWER RESPONSE WRITES</p>
+    <p class="muted">NO RESPONSE CAPTURE ENABLED — NO RESPONSE PERSISTENCE ENABLED — NO REAL IMPORT — NO AUTOMATIC IMPORT</p>
+    <p class="muted">NO EMAIL SENDING — NO REVIEWER CONTACT — NO AUTOMATED OUTREACH — NO LIVE WRITES — NO PUBLIC WRITES</p>
+    <p class="muted">NO TOKEN INPUT — NO SECRETS EXPOSED — SERVICE ROLE NOT USED — UPDATE DELETE EXECUTE BLOCKED</p>
+    <p class="muted">AUTOMATION STILL DISABLED — NEXT_STEP_BUILD_OPERATOR_RESPONSE_IMPORT_REVIEW_QUEUE_DRY_RUN — NOT_READY_FOR_REAL_AUTOMATION</p>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card" id="mvp42-dry-run-import-panel">
+      <div class="card-head"><h3 class="card-title">Operator Controlled Response Import Dry Run</h3><span class="badge success">DRY RUN</span></div>
+      <p class="card-body">Dry-run only model for a future operator-controlled response import workflow.</p>
+      <ul class="action-list">
+        <li><span class="badge pass">done</span> Operator controlled response import dry run</li>
+        <li><span class="badge pass">done</span> Dry run response import packet</li>
+        <li><span class="badge pass">done</span> Operator import preview queue</li>
+        <li><span class="badge pass">done</span> Dry run validation result</li>
+        <li><span class="badge pass">done</span> Response normalization preview</li>
+        <li><span class="badge pass">done</span> Response-to-feedback conversion preview</li>
+        <li><span class="badge pass">done</span> Dry run audit rollback blueprint</li>
+      </ul>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp42-copy-import-dry-run">Copy Import Dry Run</button>
+        <button type="button" class="copy-button small" id="mvp42-copy-import-packet">Copy Import Packet</button>
+        <button type="button" class="copy-button small" id="mvp42-copy-preview-queue">Copy Preview Queue</button>
+      </div>
+    </article>
+
+    <article class="card" id="mvp42-validation-panel">
+      <div class="card-head"><h3 class="card-title">Dry Run Validation Result</h3><span class="badge warning">PREVIEW</span></div>
+      <p class="card-body">Validation result is preview-only and operator reviewed. No live intake or mutation path exists.</p>
+      <ul class="compact-list">
+        <li>Dry-run validation result</li>
+        <li>Response normalization preview</li>
+        <li>Response-to-feedback conversion preview</li>
+        <li>Audit and rollback blueprint</li>
+        <li>Future implementation only</li>
+      </ul>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp42-copy-validation-results">Copy Validation Results</button>
+        <button type="button" class="copy-button small" id="mvp42-copy-normalization-preview">Copy Normalization Preview</button>
+        <button type="button" class="copy-button small" id="mvp42-copy-feedback-preview">Copy Feedback Conversion Preview</button>
+      </div>
+    </article>
+  </div>
+
+  <div class="plus2e-preview-grid">
+    <article class="card" id="mvp42-safety-panel">
+      <div class="card-head"><h3 class="card-title">Dry Run Safety Requirements</h3><span class="badge warning">SAFETY</span></div>
+      <p class="card-body">No public endpoint, no live intake, no response persistence, and no automation are enabled in this build.</p>
+      <ul class="compact-list">
+        <li>NO PUBLIC ENDPOINT</li>
+        <li>NO LIVE INTAKE</li>
+        <li>NO PUBLIC RESPONSE SUBMISSION</li>
+        <li>NO REVIEWER RESPONSE WRITES</li>
+        <li>NO RESPONSE CAPTURE ENABLED</li>
+        <li>NO RESPONSE PERSISTENCE ENABLED</li>
+        <li>NO REAL IMPORT</li>
+        <li>NO AUTOMATIC IMPORT</li>
+        <li>NO EMAIL SENDING</li>
+        <li>NO REVIEWER CONTACT</li>
+        <li>NO AUTOMATED OUTREACH</li>
+        <li>NO LIVE WRITES</li>
+        <li>NO PUBLIC WRITES</li>
+        <li>NO TOKEN INPUT</li>
+        <li>NO SECRETS EXPOSED</li>
+        <li>SERVICE ROLE NOT USED</li>
+        <li>UPDATE DELETE EXECUTE BLOCKED</li>
+        <li>AUTOMATION STILL DISABLED</li>
+      </ul>
+    </article>
+
+    <article class="card" id="mvp42-posture-panel">
+      <div class="card-head"><h3 class="card-title">Dry Run Posture Model</h3><span class="badge info">MODEL</span></div>
+      <p class="card-body">The static posture model records the dry-run-only contract for future import review queue work.</p>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr><th scope="col">Field</th><th scope="col">Value</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>operator_controlled_response_import_dry_run_ready</td><td>{_status_badge('PASS' if model.get('operator_controlled_response_import_dry_run_ready') is True else 'FAIL')}</td></tr>
+            <tr><td>dry_run_response_import_packet_ready</td><td>{_status_badge('PASS' if model.get('dry_run_response_import_packet_ready') is True else 'FAIL')}</td></tr>
+            <tr><td>operator_import_preview_queue_ready</td><td>{_status_badge('PASS' if model.get('operator_import_preview_queue_ready') is True else 'FAIL')}</td></tr>
+            <tr><td>dry_run_validation_result_ready</td><td>{_status_badge('PASS' if model.get('dry_run_validation_result_ready') is True else 'FAIL')}</td></tr>
+            <tr><td>response_normalization_preview_ready</td><td>{_status_badge('PASS' if model.get('response_normalization_preview_ready') is True else 'FAIL')}</td></tr>
+            <tr><td>response_to_feedback_conversion_preview_ready</td><td>{_status_badge('PASS' if model.get('response_to_feedback_conversion_preview_ready') is True else 'FAIL')}</td></tr>
+            <tr><td>dry_run_audit_rollback_blueprint_ready</td><td>{_status_badge('PASS' if model.get('dry_run_audit_rollback_blueprint_ready') is True else 'FAIL')}</td></tr>
+            <tr><td>operator_review_only</td><td>{_bool_badge(model.get('operator_review_only'))}</td></tr>
+            <tr><td>dry_run_only</td><td>{_bool_badge(model.get('dry_run_only'))}</td></tr>
+            <tr><td>preview_only</td><td>{_bool_badge(model.get('preview_only'))}</td></tr>
+            <tr><td>future_implementation_only</td><td>{_bool_badge(model.get('future_implementation_only'))}</td></tr>
+            <tr><td>public_endpoint_enabled</td><td>{_bool_badge(model.get('public_endpoint_enabled') is False)}</td></tr>
+            <tr><td>live_intake_enabled</td><td>{_bool_badge(model.get('live_intake_enabled') is False)}</td></tr>
+            <tr><td>response_persistence_enabled</td><td>{_bool_badge(model.get('response_persistence_enabled') is False)}</td></tr>
+            <tr><td>real_import_enabled</td><td>{_bool_badge(model.get('real_import_enabled') is False)}</td></tr>
+            <tr><td>automation_enabled</td><td>{_bool_badge(model.get('automation_enabled') is False)}</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small" id="mvp42-copy-audit-rollback-blueprint">Copy Audit Rollback Blueprint</button>
+      </div>
+    </article>
+  </div>
+</div>
+"""
+    return _details(
+        "MVP-42 — Operator-Controlled Response Import Dry Run",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp42-operator-controlled-response-import-dry-run",
+    )
+
+
+
+
+
+
+
+def _build_mvp48_controlled_action_queue_layer(snapshot):
+    body = f'''
+<div class="plus1-readiness-layer">
+  <div class="plus1-preview-grid">
+    <article class="card mvp48-action-queue" id="mvp48-action-queue-overview">
+      <div class="card-head"><h3 class="card-title">CONTROLLED ACTION QUEUE</h3><span class="badge info">MVP-48</span></div>
+      <p class="card-body">Blueprint and readiness layer for the controlled action queue.</p>
+      {_list([
+          "ACTION QUEUE DATA MODEL: READY",
+          "QUEUED ACTION LIFECYCLE SCHEMA: READY",
+          "QUEUE ADMISSION GATE CONTRACT: READY",
+          "QUEUE PRIORITY SCHEDULING MODEL: READY",
+          "QUEUE HOLD RELEASE CANCEL SCHEMA: READY",
+          "QUEUE DEPENDENCY PRECONDITION MODEL: READY",
+          "QUEUE AUDIT LINKAGE BLUEPRINT: READY",
+          "QUEUE OPERATOR REVIEW PACKET: READY",
+      ])}
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small">Copy Action Queue Summary</button>
+        <button type="button" class="copy-button small">Copy Action Queue Data Model</button>
+        <button type="button" class="copy-button small">Copy Queued Action Lifecycle Schema</button>
+        <button type="button" class="copy-button small">Copy Admission Gate Contract</button>
+        <button type="button" class="copy-button small">Copy Priority Scheduling Model</button>
+        <button type="button" class="copy-button small">Copy Hold Release Cancel Schema</button>
+        <button type="button" class="copy-button small">Copy Dependency Precondition Model</button>
+        <button type="button" class="copy-button small">Copy Audit Linkage Blueprint</button>
+        <button type="button" class="copy-button small">Copy Operator Review Packet</button>
+        <button type="button" class="copy-button small">Copy MVP-48 Validation Checklist</button>
+      </div>
+    </article>
+
+    <article class="card plus1-safety-summary" id="mvp48-safety-summary">
+      <div class="card-head"><h3 class="card-title">Safety Summary</h3><span class="badge pass">SECURE</span></div>
+      <div class="stat-grid">
+        {_stat("Mode", "ACTION QUEUE FOUNDATION ONLY", _badge("SCHEMA READINESS ONLY", "info"))}
+        {_stat("Role", "REVIEW ONLY", _badge("FUTURE IMPLEMENTATION ONLY", "warning"))}
+        {_stat("Execution", "NO REAL ACTION EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Execution", "NO REAL COMMAND EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Queue", "NO QUEUE WORKER PROCESSING", _badge("DISABLED", "disabled"))}
+        {_stat("Queue", "NO AUTOMATIC DISPATCH", _badge("DISABLED", "disabled"))}
+        {_stat("Queue", "NO SCHEDULED ACTION EXECUTION", _badge("DISABLED", "disabled"))}
+        {_stat("Queue", "NO RETRY EXECUTION", _badge("DISABLED", "disabled"))}
+        {_stat("Approval", "NO APPROVAL EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Writes", "NO DATABASE WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Writes", "NO SUPABASE WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Writes", "NO PUBLIC WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Mutation", "NO LIVE REQUEST MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Audit", "NO AUDIT EVENT WRITES", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO EXTERNAL API MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO GITHUB MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO NETLIFY MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO DEPLOY CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO MERGE CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO PUSH CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO PR CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Automation", "AUTOMATION DISABLED", _badge("NOT_READY_FOR_REAL_AUTOMATION", "disabled"))}
+        {_stat("Role", "SERVICE ROLE NOT USED", _badge("BLOCKED", "disabled"))}
+        {_stat("Role", "SERVICE ROLE NOT IN BROWSER", _badge("BLOCKED", "disabled"))}
+        {_stat("Token", "NO TOKEN INPUT", _badge("DISABLED", "disabled"))}
+        {_stat("Persistence", "NO BROWSER PERSISTENCE", _badge("DISABLED", "disabled"))}
+        {_stat("Migration", "NO MIGRATION APPLY", _badge("DISABLED", "disabled"))}
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Next Planned Step</p>
+        <ul class="compact-list" style="margin-top:0.25rem;">
+          <li>NEXT_STEP_BUILD_MONITORING_ROLLBACK_INCIDENT_CONSOLE</li>
+        </ul>
+      </div>
+    </article>
+  </div>
+</div>
+'''
+    return _details(
+        "MVP-48 — Controlled Action Queue",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp48-controlled-action-queue",
+    )
+
+def _build_mvp49_human_approved_internal_execution_layer(snapshot):
+    body = f'''
+<div class="plus1-readiness-layer">
+  <div class="plus1-preview-grid">
+    <article class="card mvp49-human-execution" id="mvp49-human-execution-overview">
+      <div class="card-head"><h3 class="card-title">HUMAN APPROVED INTERNAL EXECUTION</h3><span class="badge info">MVP-49</span></div>
+      <p class="card-body">Blueprint and readiness layer for human-approved internal execution.</p>
+      {_list([
+          "OPERATOR ATTESTATION SCHEMA: READY",
+          "EXECUTION ELIGIBILITY GATE: READY",
+          "APPROVAL EXECUTION BINDING: READY",
+          "PRE EXECUTION LOCK CHECKLIST: READY",
+          "EXECUTION RESULT RECEIPT SCHEMA: READY",
+          "ROLLBACK HANDOFF PACKET: READY",
+          "POST EXECUTION VERIFICATION CHECKLIST: READY",
+      ])}
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small">Copy Human Execution Summary</button>
+        <button type="button" class="copy-button small">Copy Operator Attestation Schema</button>
+        <button type="button" class="copy-button small">Copy Execution Eligibility Gate</button>
+        <button type="button" class="copy-button small">Copy Approval Execution Binding</button>
+        <button type="button" class="copy-button small">Copy Pre-Execution Lock Checklist</button>
+        <button type="button" class="copy-button small">Copy Execution Result Receipt Schema</button>
+        <button type="button" class="copy-button small">Copy Rollback Handoff Packet</button>
+        <button type="button" class="copy-button small">Copy Post-Execution Verification Checklist</button>
+        <button type="button" class="copy-button small">Copy MVP-49 Validation Checklist</button>
+      </div>
+    </article>
+
+    <article class="card plus1-safety-summary" id="mvp49-safety-summary">
+      <div class="card-head"><h3 class="card-title">Safety Summary</h3><span class="badge pass">SECURE</span></div>
+      <div class="stat-grid">
+        {_stat("Mode", "HUMAN EXECUTION READINESS ONLY", _badge("SCHEMA READINESS ONLY", "info"))}
+        {_stat("Role", "REVIEW ONLY", _badge("FUTURE IMPLEMENTATION ONLY", "warning"))}
+        {_stat("Execution", "NO REAL COMMAND EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Execution", "NO REAL ACTION EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Execution", "NO AUTONOMOUS EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Queue", "NO QUEUE WORKER PROCESSING", _badge("DISABLED", "disabled"))}
+        {_stat("Queue", "NO AUTOMATIC DISPATCH", _badge("DISABLED", "disabled"))}
+        {_stat("Queue", "NO SCHEDULED EXECUTION", _badge("DISABLED", "disabled"))}
+        {_stat("Queue", "NO RETRY EXECUTION", _badge("DISABLED", "disabled"))}
+        {_stat("Approval", "NO APPROVAL EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Writes", "NO DATABASE WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Writes", "NO SUPABASE WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Writes", "NO PUBLIC WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Mutation", "NO LIVE REQUEST MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Audit", "NO AUDIT EVENT WRITES", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO EXTERNAL API MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO GITHUB MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO NETLIFY MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO DEPLOY CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO MERGE CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO PUSH CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO PR CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Automation", "AUTOMATION DISABLED", _badge("NOT_READY_FOR_REAL_AUTOMATION", "disabled"))}
+        {_stat("Role", "SERVICE ROLE NOT USED", _badge("BLOCKED", "disabled"))}
+        {_stat("Role", "SERVICE ROLE NOT IN BROWSER", _badge("BLOCKED", "disabled"))}
+        {_stat("Token", "NO TOKEN INPUT", _badge("DISABLED", "disabled"))}
+        {_stat("Persistence", "NO BROWSER PERSISTENCE", _badge("DISABLED", "disabled"))}
+        {_stat("Migration", "NO MIGRATION APPLY", _badge("DISABLED", "disabled"))}
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Next Planned Step</p>
+        <ul class="compact-list" style="margin-top:0.25rem;">
+          <li>NEXT_STEP_BUILD_MONITORING_ROLLBACK_INCIDENT_CONSOLE</li>
+        </ul>
+      </div>
+    </article>
+  </div>
+</div>
+'''
+    return _details(
+        "MVP-49 — Human-Approved Internal Execution",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp49-human-approved-internal-execution",
+    )
+
+def _build_mvp50_monitoring_rollback_incident_console_layer(snapshot):
+    body = f'''
+<div class="plus1-readiness-layer">
+  <div class="plus1-preview-grid">
+    <article class="card mvp50-readiness-layer" id="mvp50-readiness-overview">
+      <div class="card-head"><h3 class="card-title">MONITORING / ROLLBACK / INCIDENT CONSOLE</h3><span class="badge info">MVP-50</span></div>
+      <p class="card-body">Blueprint and readiness layer for the monitoring, rollback, and incident console domain.</p>
+      {_list([
+          "MONITORING CONSOLE: READY",
+          "HEALTH SIGNAL SCHEMA: READY",
+          "INCIDENT RECORD SCHEMA: READY",
+          "ROLLBACK PLAN REGISTRY: READY",
+          "ROLLBACK READINESS CHECKLIST: READY",
+          "OPERATOR INCIDENT REVIEW PACKET: READY",
+          "INCIDENT SEVERITY ESCALATION MATRIX: READY",
+          "POST-INCIDENT AUDIT PACKET: READY",
+      ])}
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small">Copy Monitoring Console Model</button>
+        <button type="button" class="copy-button small">Copy Health Signal Schema</button>
+        <button type="button" class="copy-button small">Copy Incident Record Schema</button>
+        <button type="button" class="copy-button small">Copy Rollback Plan Registry</button>
+        <button type="button" class="copy-button small">Copy Rollback Readiness Checklist</button>
+        <button type="button" class="copy-button small">Copy Operator Incident Review Packet</button>
+        <button type="button" class="copy-button small">Copy Incident Severity Escalation Matrix</button>
+        <button type="button" class="copy-button small">Copy Post-Incident Audit Packet</button>
+        <button type="button" class="copy-button small">Copy MVP-50 Validation Checklist</button>
+      </div>
+    </article>
+
+    <article class="card plus1-safety-summary" id="mvp50-safety-summary">
+      <div class="card-head"><h3 class="card-title">Safety Summary</h3><span class="badge pass">SECURE</span></div>
+      <div class="stat-grid">
+        {_stat("Mode", "READINESS ONLY", _badge("SCHEMA READINESS ONLY", "info"))}
+        {_stat("Mode", "MONITORING INCIDENT READINESS ONLY", _badge("SCHEMA READINESS ONLY", "info"))}
+        {_stat("Role", "REVIEW ONLY", _badge("FUTURE IMPLEMENTATION ONLY", "warning"))}
+        {_stat("Daemon", "NO REAL MONITORING DAEMON", _badge("BLOCKED", "locked"))}
+        {_stat("Worker", "NO BACKGROUND WORKER", _badge("BLOCKED", "locked"))}
+        {_stat("Alerting", "NO ALERT SENDING", _badge("BLOCKED", "locked"))}
+        {_stat("Notify", "NO INCIDENT NOTIFICATION SENDING", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO INCIDENT MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Rollback", "NO REAL ROLLBACK EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO ROLLBACK MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Execution", "NO AUTONOMOUS EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Execution", "NO REAL COMMAND EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Execution", "NO REAL ACTION EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Queue", "NO QUEUE WORKER PROCESSING", _badge("BLOCKED", "locked"))}
+        {_stat("Approval", "NO APPROVAL EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Automation", "AUTOMATION DISABLED", _badge("NOT_READY_FOR_REAL_AUTOMATION", "disabled"))}
+        {_stat("Writes", "NO DATABASE WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Writes", "NO SUPABASE WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Writes", "NO PUBLIC WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Writes", "NO AUDIT EVENT WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Mutation", "NO REQUEST STATUS MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO GITHUB MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO NETLIFY MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO DEPLOY CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO MERGE CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO PUSH CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO PR CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Service", "SERVICE ROLE NOT USED", _badge("DISABLED", "disabled"))}
+        {_stat("Service", "SERVICE ROLE NOT IN BROWSER", _badge("DISABLED", "disabled"))}
+        {_stat("Auth", "NO TOKEN INPUT", _badge("DISABLED", "disabled"))}
+        {_stat("Auth", "NO BROWSER PERSISTENCE", _badge("DISABLED", "disabled"))}
+        {_stat("Migration", "NO MIGRATION APPLY", _badge("DISABLED", "disabled"))}
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Next Planned Step</p>
+        <ul class="compact-list" style="margin-top:0.25rem;">
+          <li>READINESS_ROADMAP_COMPLETE_PENDING_REVIEW</li>
+        </ul>
+      </div>
+    </article>
+  </div>
+</div>
+'''
+    return _details(
+        "MVP-50 — Monitoring / Rollback / Incident Console",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp50-monitoring-rollback-incident-console",
+    )
+
+def _build_mvp47_server_side_dry_run_engine_layer(snapshot):
+    body = f'''
+<div class="plus1-readiness-layer">
+  <div class="plus1-preview-grid">
+    <article class="card mvp47-dry-run-engine" id="mvp47-dry-run-engine-overview">
+      <div class="card-head"><h3 class="card-title">SERVER SIDE DRY RUN ENGINE</h3><span class="badge info">MVP-47</span></div>
+      <p class="card-body">Blueprint and readiness layer for the server-side dry-run engine.</p>
+      {_list([
+          "ACTION PLAN INPUT SCHEMA: READY",
+          "PREFLIGHT VALIDATION SCHEMA: READY",
+          "SIMULATED EXECUTION RESULT SCHEMA: READY",
+          "RISK DEPENDENCY REPORT: READY",
+          "ROLLBACK PREVIEW: READY",
+          "APPROVAL BOUND DRY RUN CONTRACT: READY",
+          "DRY RUN EVIDENCE PACKET: READY",
+      ])}
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small">Copy Dry-Run Engine Summary</button>
+        <button type="button" class="copy-button small">Copy Action Plan Input Schema</button>
+        <button type="button" class="copy-button small">Copy Preflight Validation Schema</button>
+        <button type="button" class="copy-button small">Copy Simulated Result Schema</button>
+        <button type="button" class="copy-button small">Copy Risk Dependency Report</button>
+        <button type="button" class="copy-button small">Copy Rollback Preview</button>
+        <button type="button" class="copy-button small">Copy Approval-Bound Dry-Run Contract</button>
+        <button type="button" class="copy-button small">Copy Evidence Packet</button>
+        <button type="button" class="copy-button small">Copy MVP-47 Validation Checklist</button>
+      </div>
+    </article>
+
+    <article class="card plus1-safety-summary" id="mvp47-safety-summary">
+      <div class="card-head"><h3 class="card-title">Safety Summary</h3><span class="badge pass">SECURE</span></div>
+      <div class="stat-grid">
+        {_stat("Mode", "DRY RUN ENGINE FOUNDATION ONLY", _badge("SCHEMA READINESS ONLY", "info"))}
+        {_stat("Role", "REVIEW ONLY", _badge("FUTURE IMPLEMENTATION ONLY", "warning"))}
+        {_stat("Execution", "NO REAL COMMAND EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Execution", "NO REAL ACTION EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Execution", "NO REAL EXTERNAL DRY RUN", _badge("BLOCKED", "locked"))}
+        {_stat("Approval", "NO APPROVAL EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Writes", "NO DATABASE WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Writes", "NO SUPABASE WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Writes", "NO PUBLIC WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Mutation", "NO LIVE REQUEST MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Audit", "NO AUDIT EVENT WRITES", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO EXTERNAL API MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO GITHUB MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO NETLIFY MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO DEPLOY CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO MERGE CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO PUSH CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO PR CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Queue", "NO ACTION QUEUE", _badge("DISABLED", "disabled"))}
+        {_stat("Automation", "AUTOMATION DISABLED", _badge("NOT_READY_FOR_REAL_AUTOMATION", "disabled"))}
+        {_stat("Role", "SERVICE ROLE NOT USED", _badge("BLOCKED", "disabled"))}
+        {_stat("Role", "SERVICE ROLE NOT IN BROWSER", _badge("BLOCKED", "disabled"))}
+        {_stat("Token", "NO TOKEN INPUT", _badge("DISABLED", "disabled"))}
+        {_stat("Persistence", "NO BROWSER PERSISTENCE", _badge("DISABLED", "disabled"))}
+        {_stat("Migration", "NO MIGRATION APPLY", _badge("DISABLED", "disabled"))}
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Next Planned Step</p>
+        <ul class="compact-list" style="margin-top:0.25rem;">
+          <li>NEXT_STEP_BUILD_CONTROLLED_ACTION_QUEUE</li>
+        </ul>
+      </div>
+    </article>
+  </div>
+</div>
+'''
+    return _details(
+        "MVP-47 — Server-Side Dry-Run Engine",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp47-server-side-dry-run-engine",
+    )
+
+def _build_mvp46_approval_gate_storage_layer(snapshot):
+    body = f'''
+<div class="plus1-readiness-layer">
+  <div class="plus1-preview-grid">
+    <article class="card mvp46-approval-storage" id="mvp46-approval-storage-overview">
+      <div class="card-head"><h3 class="card-title">APPROVAL GATE STORAGE</h3><span class="badge info">MVP-46</span></div>
+      <p class="card-body">Blueprint and readiness layer for the approval gate storage.</p>
+      {_list([
+          "APPROVAL REQUEST SCHEMA: READY",
+          "APPROVAL DECISION SCHEMA: READY",
+          "APPROVAL SCOPE EXPIRATION MODEL: READY",
+          "APPROVAL REVOCATION MODEL: READY",
+          "APPROVAL AUDIT LINKAGE BLUEPRINT: READY",
+          "APPROVAL PERMISSION BOUNDARY CONTRACT: READY",
+          "APPROVAL STORAGE READINESS CHECKLIST: READY",
+      ])}
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small">Copy Approval Gate Summary</button>
+        <button type="button" class="copy-button small">Copy Approval Request Schema</button>
+        <button type="button" class="copy-button small">Copy Approval Decision Schema</button>
+        <button type="button" class="copy-button small">Copy Scope Expiration Model</button>
+        <button type="button" class="copy-button small">Copy Revocation Model</button>
+        <button type="button" class="copy-button small">Copy Audit Linkage Blueprint</button>
+        <button type="button" class="copy-button small">Copy Permission Boundary Contract</button>
+        <button type="button" class="copy-button small">Copy Storage Readiness Checklist</button>
+        <button type="button" class="copy-button small">Copy MVP-46 Validation Checklist</button>
+      </div>
+    </article>
+
+    <article class="card plus1-safety-summary" id="mvp46-safety-summary">
+      <div class="card-head"><h3 class="card-title">Safety Summary</h3><span class="badge pass">SECURE</span></div>
+      <div class="stat-grid">
+        {_stat("Mode", "APPROVAL GATE STORAGE FOUNDATION ONLY", _badge("SCHEMA READINESS ONLY", "info"))}
+        {_stat("Role", "REVIEW ONLY", _badge("FUTURE IMPLEMENTATION ONLY", "warning"))}
+        {_stat("Approval", "NO REAL APPROVAL DECISIONS", _badge("DISABLED", "disabled"))}
+        {_stat("Storage", "NO REAL APPROVAL STORAGE", _badge("DISABLED", "disabled"))}
+        {_stat("Execution", "NO APPROVAL EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Execution", "NO COMMAND EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Writes", "NO DATABASE WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Writes", "NO SUPABASE WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Writes", "NO PUBLIC WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Workflow", "NO LIVE APPROVAL WORKFLOW", _badge("DISABLED", "disabled"))}
+        {_stat("Mutation", "NO APPROVAL MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Deletion", "NO APPROVAL DELETION", _badge("BLOCKED", "locked"))}
+        {_stat("Audit", "NO AUDIT EVENT WRITES", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO REQUEST STATUS MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO DEPLOY CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO MERGE CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO PUSH CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO PR CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO GITHUB MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO NETLIFY MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Automation", "AUTOMATION DISABLED", _badge("NOT_READY_FOR_REAL_AUTOMATION", "disabled"))}
+        {_stat("Role", "SERVICE ROLE NOT USED", _badge("BLOCKED", "disabled"))}
+        {_stat("Role", "SERVICE ROLE NOT IN BROWSER", _badge("BLOCKED", "disabled"))}
+        {_stat("Token", "NO TOKEN INPUT", _badge("DISABLED", "disabled"))}
+        {_stat("Persistence", "NO BROWSER PERSISTENCE", _badge("DISABLED", "disabled"))}
+        {_stat("Migration", "NO MIGRATION APPLY", _badge("DISABLED", "disabled"))}
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Next Planned Step</p>
+        <ul class="compact-list" style="margin-top:0.25rem;">
+          <li>NEXT_STEP_BUILD_SERVER_SIDE_DRY_RUN_ENGINE</li>
+        </ul>
+      </div>
+    </article>
+  </div>
+</div>
+'''
+    return _details(
+        "MVP-46 — Approval Gate Storage",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp46-approval-gate-storage",
+    )
+
+def _build_mvp45_immutable_audit_event_ledger_layer(snapshot):
+    body = f'''
+<div class="plus1-readiness-layer">
+  <div class="plus1-preview-grid">
+    <article class="card mvp45-audit-ledger" id="mvp45-audit-ledger-overview">
+      <div class="card-head"><h3 class="card-title">IMMUTABLE AUDIT EVENT LEDGER</h3><span class="badge info">MVP-45</span></div>
+      <p class="card-body">Blueprint and readiness layer for the immutable audit event ledger.</p>
+      {_list([
+          "AUDIT EVENT DATA MODEL: READY",
+          "APPEND ONLY LEDGER CONTRACT: READY",
+          "AUDIT EVENT TAXONOMY: READY",
+          "ACTOR ACTION RESOURCE SCHEMA: READY",
+          "BEFORE AFTER SNAPSHOT BLUEPRINT: READY",
+          "AUDIT INTEGRITY TAMPER RESISTANCE PLAN: READY",
+          "AUDIT RETENTION EXPORT BLUEPRINT: READY",
+      ])}
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small">Copy Audit Ledger Summary</button>
+        <button type="button" class="copy-button small">Copy Audit Event Data Model</button>
+        <button type="button" class="copy-button small">Copy Append-Only Ledger Contract</button>
+        <button type="button" class="copy-button small">Copy Audit Event Taxonomy</button>
+        <button type="button" class="copy-button small">Copy Actor Action Resource Schema</button>
+        <button type="button" class="copy-button small">Copy Before/After Snapshot Blueprint</button>
+        <button type="button" class="copy-button small">Copy Integrity Plan</button>
+        <button type="button" class="copy-button small">Copy Retention Export Blueprint</button>
+        <button type="button" class="copy-button small">Copy MVP-45 Validation Checklist</button>
+      </div>
+    </article>
+
+    <article class="card plus1-safety-summary" id="mvp45-safety-summary">
+      <div class="card-head"><h3 class="card-title">Safety Summary</h3><span class="badge pass">SECURE</span></div>
+      <div class="stat-grid">
+        {_stat("Mode", "AUDIT LEDGER FOUNDATION ONLY", _badge("SCHEMA READINESS ONLY", "info"))}
+        {_stat("Role", "REVIEW ONLY", _badge("FUTURE IMPLEMENTATION ONLY", "warning"))}
+        {_stat("Audit", "NO REAL AUDIT EVENT WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Persistence", "NO REAL AUDIT PERSISTENCE", _badge("DISABLED", "disabled"))}
+        {_stat("Writes", "NO DATABASE WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Writes", "NO SUPABASE WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Writes", "NO PUBLIC WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Logging", "NO LIVE AUDIT LOGGING", _badge("DISABLED", "disabled"))}
+        {_stat("Mutation", "NO AUDIT EVENT MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Deletion", "NO AUDIT EVENT DELETION", _badge("BLOCKED", "locked"))}
+        {_stat("Execution", "NO COMMAND EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Execution", "NO APPROVAL EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO DEPLOY CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO MERGE CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO PUSH CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO PR CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO GITHUB MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO NETLIFY MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Automation", "AUTOMATION DISABLED", _badge("NOT_READY_FOR_REAL_AUTOMATION", "disabled"))}
+        {_stat("Role", "SERVICE ROLE NOT USED", _badge("BLOCKED", "disabled"))}
+        {_stat("Role", "SERVICE ROLE NOT IN BROWSER", _badge("BLOCKED", "disabled"))}
+        {_stat("Token", "NO TOKEN INPUT", _badge("DISABLED", "disabled"))}
+        {_stat("Persistence", "NO BROWSER PERSISTENCE", _badge("DISABLED", "disabled"))}
+        {_stat("Migration", "NO MIGRATION APPLY", _badge("DISABLED", "disabled"))}
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Next Planned Step</p>
+        <ul class="compact-list" style="margin-top:0.25rem;">
+          <li>NEXT_STEP_BUILD_APPROVAL_GATE_STORAGE</li>
+        </ul>
+      </div>
+    </article>
+  </div>
+</div>
+'''
+    return _details(
+        "MVP-45 — Immutable Audit Event Ledger",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp45-immutable-audit-event-ledger",
+    )
+
+def _build_mvp44_persistent_request_storage_foundation_layer(snapshot):
+    body = f'''
+<div class="plus1-readiness-layer">
+  <div class="plus1-preview-grid">
+    <article class="card mvp44-storage-foundation" id="mvp44-storage-foundation-overview">
+      <div class="card-head"><h3 class="card-title">PERSISTENT REQUEST STORAGE FOUNDATION</h3><span class="badge info">MVP-44</span></div>
+      <p class="card-body">Blueprint and readiness layer for the persistent request storage foundation.</p>
+      {_list([
+          "REQUEST STORAGE DATA MODEL: READY",
+          "REQUEST LIFECYCLE STATE MODEL: READY",
+          "REQUEST METADATA SCHEMA: READY",
+          "STORAGE BOUNDARY CONTRACT: READY",
+          "SERVER SIDE STORAGE ACCESS PLAN: READY",
+          "REQUEST RETRIEVAL READINESS PLAN: READY",
+          "STORAGE MIGRATION BLUEPRINT: READY",
+      ])}
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small">Copy Storage Foundation Summary</button>
+        <button type="button" class="copy-button small">Copy Request Data Model</button>
+        <button type="button" class="copy-button small">Copy Lifecycle State Model</button>
+        <button type="button" class="copy-button small">Copy Metadata Schema</button>
+        <button type="button" class="copy-button small">Copy Storage Boundary Contract</button>
+        <button type="button" class="copy-button small">Copy Server-Side Storage Access Plan</button>
+        <button type="button" class="copy-button small">Copy Retrieval Readiness Plan</button>
+        <button type="button" class="copy-button small">Copy Migration Blueprint</button>
+        <button type="button" class="copy-button small">Copy MVP-44 Validation Checklist</button>
+      </div>
+    </article>
+
+    <article class="card plus1-safety-summary" id="mvp44-safety-summary">
+      <div class="card-head"><h3 class="card-title">Safety Summary</h3><span class="badge pass">SECURE</span></div>
+      <div class="stat-grid">
+        {_stat("Mode", "STORAGE FOUNDATION ONLY", _badge("SCHEMA READINESS ONLY", "info"))}
+        {_stat("Role", "REVIEW ONLY", _badge("FUTURE IMPLEMENTATION ONLY", "warning"))}
+        {_stat("Writes", "NO REAL DATABASE WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Writes", "NO SUPABASE WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Writes", "NO PUBLIC WRITES", _badge("DISABLED", "disabled"))}
+        {_stat("Request", "NO LIVE REQUEST CREATION", _badge("DISABLED", "disabled"))}
+        {_stat("Intake", "NO LIVE INTAKE", _badge("DISABLED", "disabled"))}
+        {_stat("Endpoint", "NO PUBLIC ENDPOINT", _badge("DISABLED", "disabled"))}
+        {_stat("Migration", "NO MIGRATION APPLY", _badge("DISABLED", "disabled"))}
+        {_stat("Persistence", "NO REAL PERSISTENCE", _badge("DISABLED", "disabled"))}
+        {_stat("Execution", "NO COMMAND EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Execution", "NO APPROVAL EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO DEPLOY CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO MERGE CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO PUSH CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO PR CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO GITHUB MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO NETLIFY MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Automation", "AUTOMATION DISABLED", _badge("NOT_READY_FOR_REAL_AUTOMATION", "disabled"))}
+        {_stat("Role", "SERVICE ROLE NOT USED", _badge("BLOCKED", "disabled"))}
+        {_stat("Role", "SERVICE ROLE NOT IN BROWSER", _badge("BLOCKED", "disabled"))}
+        {_stat("Token", "NO TOKEN INPUT", _badge("DISABLED", "disabled"))}
+        {_stat("Persistence", "NO BROWSER PERSISTENCE", _badge("DISABLED", "disabled"))}
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Next Planned Step</p>
+        <ul class="compact-list" style="margin-top:0.25rem;">
+          <li>NEXT_STEP_BUILD_IMMUTABLE_AUDIT_EVENT_LEDGER</li>
+        </ul>
+      </div>
+    </article>
+  </div>
+</div>
+'''
+    return _details(
+        "MVP-44 — Persistent Request Storage Foundation",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp44-persistent-request-storage-foundation",
+    )
+
+def _build_mvp43_operational_auth_foundation_layer(snapshot):
+    body = f'''
+<div class="plus1-readiness-layer">
+  <div class="plus1-preview-grid">
+    <article class="card mvp43-auth-foundation" id="mvp43-auth-foundation-overview">
+      <div class="card-head"><h3 class="card-title">OPERATIONAL AUTH FOUNDATION</h3><span class="badge info">MVP-43</span></div>
+      <p class="card-body">Blueprint and readiness layer for the operational auth foundation.</p>
+      {_list([
+          "OPERATOR IDENTITY MODEL: READY",
+          "ROLE PERMISSION MATRIX: READY",
+          "SESSION VALIDATION BLUEPRINT: READY",
+          "AUTH BOUNDARY CONTRACT: READY",
+          "SERVER SIDE AUTH VERIFICATION PLAN: READY",
+          "BROWSER AUTH SAFETY POSTURE: READY",
+      ])}
+      <div class="button-row" style="margin-top:0.75rem;">
+        <button type="button" class="copy-button small">Copy Auth Foundation Summary</button>
+        <button type="button" class="copy-button small">Copy Identity Model</button>
+        <button type="button" class="copy-button small">Copy Role Permission Matrix</button>
+        <button type="button" class="copy-button small">Copy Session Validation Blueprint</button>
+        <button type="button" class="copy-button small">Copy Auth Boundary Contract</button>
+        <button type="button" class="copy-button small">Copy Server-Side Auth Verification Plan</button>
+        <button type="button" class="copy-button small">Copy Browser Auth Safety Posture</button>
+        <button type="button" class="copy-button small">Copy MVP-43 Validation Checklist</button>
+      </div>
+    </article>
+
+    <article class="card plus1-safety-summary" id="mvp43-safety-summary">
+      <div class="card-head"><h3 class="card-title">Safety Summary</h3><span class="badge pass">SECURE</span></div>
+      <div class="stat-grid">
+        {_stat("Mode", "AUTH FOUNDATION ONLY", _badge("READINESS ONLY", "info"))}
+        {_stat("Role", "REVIEW ONLY", _badge("FUTURE IMPLEMENTATION ONLY", "warning"))}
+        {_stat("Login", "NO REAL LOGIN ENABLED", _badge("DISABLED", "disabled"))}
+        {_stat("Token Input", "NO TOKEN INPUT", _badge("DISABLED", "disabled"))}
+        {_stat("Persistence", "NO BROWSER TOKEN PERSISTENCE", _badge("DISABLED", "disabled"))}
+        {_stat("Storage", "NO LOCAL STORAGE TOKEN", _badge("DISABLED", "disabled"))}
+        {_stat("Storage", "NO SESSION STORAGE TOKEN", _badge("DISABLED", "disabled"))}
+        {_stat("Storage", "NO COOKIE TOKEN", _badge("DISABLED", "disabled"))}
+        {_stat("Role", "SERVICE ROLE NOT USED", _badge("BLOCKED", "disabled"))}
+        {_stat("Role", "SERVICE ROLE NOT IN BROWSER", _badge("BLOCKED", "disabled"))}
+        {_stat("Writes", "BACKEND/SUPABASE WRITES DISABLED", _badge("BLOCKED", "locked"))}
+        {_stat("Writes", "NO PUBLIC WRITES", _badge("BLOCKED", "locked"))}
+        {_stat("Intake", "NO LIVE INTAKE", _badge("BLOCKED", "locked"))}
+        {_stat("Writes", "NO REVIEWER RESPONSE WRITES", _badge("BLOCKED", "locked"))}
+        {_stat("Execution", "NO COMMAND EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO DEPLOY CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO MERGE CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO PUSH CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Controls", "NO PR CONTROLS", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO GITHUB MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Mutation", "NO NETLIFY MUTATION", _badge("BLOCKED", "locked"))}
+        {_stat("Writes", "NO SUPABASE WRITES", _badge("BLOCKED", "locked"))}
+        {_stat("Execution", "NO APPROVAL EXECUTION", _badge("BLOCKED", "locked"))}
+        {_stat("Automation", "AUTOMATION DISABLED", _badge("NOT_READY_FOR_REAL_AUTOMATION", "disabled"))}
+      </div>
+      <div class="callout" style="margin-top:0.75rem;">
+        <p class="muted" style="margin:0;">Next Planned Step</p>
+        <ul class="compact-list" style="margin-top:0.25rem;">
+          <li>NEXT_STEP_BUILD_PERSISTENT_REQUEST_STORAGE_FOUNDATION</li>
+        </ul>
+      </div>
+    </article>
+  </div>
+</div>
+'''
+    return _details(
+        "MVP-43 — Operational Auth Foundation",
+        body,
+        "source",
+        open_by_default=True,
+        panel_id="mvp43-operational-auth-foundation",
+    )
+
 def _build_action_panel(snapshot):
     action_summary = snapshot.get("action_registry_summary", {})
     rows = _build_action_rows(action_summary.get("actions", []))
@@ -1885,7 +2661,7 @@ def _build_phase5a_workflow_shell():
   <div class="callout" style="border-color: rgba(245,158,11,0.4); background: rgba(245,158,11,0.05);">
     <strong style="color: var(--warning);">CLIENT-SIDE WORKFLOW SHELL</strong>
     <p class="muted" style="margin-top: 0.25rem;">
-      TEMPORARY IN-BROWSER STATE ONLY — NO PERSISTENCE — NO BACKEND WRITES — NO EXECUTION — NO MUTATION — NO DEPLOY / MERGE / PUSH / PR CONTROLS
+      TEMPORARY IN-BROWSER STATE ONLY — NO PERSISTENCE — BACKEND/SUPABASE WRITES DISABLED — NO EXECUTION — NO MUTATION — NO DEPLOY / MERGE / PUSH / PR CONTROLS
     </p>
   </div>
 
@@ -1921,7 +2697,7 @@ def _build_phase5a_workflow_shell():
         <button type="button" class="section-button" id="phase5a-create-draft-button">Create draft</button>
         <button type="button" class="toggle-button" id="phase5a-reset-button">Reset local workflow</button>
       </div>
-      <p class="muted" style="margin-top:0.5rem;font-size:0.75rem;">DISABLED — PLANNING ONLY. No persistence. No backend writes.</p>
+      <p class="muted" style="margin-top:0.5rem;font-size:0.75rem;">DISABLED — PLANNING ONLY. No persistence. Backend/Supabase writes remain disabled.</p>
     </article>
 
     <article class="card" id="phase5a-risk-panel">
@@ -2008,7 +2784,7 @@ def _build_phase5b_request_packet_builder():
   <div class="callout" style="border-color: rgba(245,158,11,0.4); background: rgba(245,158,11,0.05);">
     <strong style="color: var(--warning);">CLIENT-SIDE REQUEST PACKET BUILDER</strong>
     <p class="muted" style="margin-top: 0.25rem;">
-      GENERATED LOCALLY — COPY ONLY — NO PERSISTENCE — NO BACKEND WRITES — NO EXECUTION — NO MUTATION — NO DEPLOY / MERGE / PUSH / PR CONTROLS
+      GENERATED LOCALLY — COPY ONLY — NO PERSISTENCE — BACKEND/SUPABASE WRITES DISABLED — NO EXECUTION — NO MUTATION — NO DEPLOY / MERGE / PUSH / PR CONTROLS
     </p>
   </div>
 
@@ -2106,7 +2882,7 @@ def _build_phase5c_review_board():
   <div class="callout" style="border-color: rgba(245,158,11,0.4); background: rgba(245,158,11,0.05);">
     <strong style="color: var(--warning);">CLIENT-SIDE REVIEW BOARD</strong>
     <p class="muted" style="margin-top: 0.25rem;">
-      DECISION LEDGER PREVIEW — TEMPORARY IN-BROWSER STATE ONLY — NO PERSISTENCE — NO BACKEND WRITES — NO EXECUTION — NO MUTATION — NO DEPLOY / MERGE / PUSH / PR CONTROLS
+      DECISION LEDGER PREVIEW — TEMPORARY IN-BROWSER STATE ONLY — NO PERSISTENCE — BACKEND/SUPABASE WRITES DISABLED — NO EXECUTION — NO MUTATION — NO DEPLOY / MERGE / PUSH / PR CONTROLS
     </p>
   </div>
 
@@ -2288,7 +3064,7 @@ def _build_phase5d_handoff_composer():
   <div class="callout" style="border-color: rgba(245,158,11,0.4); background: rgba(245,158,11,0.05);">
     <strong style="color: var(--warning);">CLIENT-SIDE HANDOFF COMPOSER</strong>
     <p class="muted" style="margin-top: 0.25rem;">
-      GENERATED LOCALLY — COPY/PASTE HANDOFF ONLY — TEMPORARY IN-BROWSER STATE ONLY — NO PERSISTENCE — NO BACKEND WRITES — NO EXECUTION — NO MUTATION — NO DEPLOY / MERGE / PUSH / PR CONTROLS
+      GENERATED LOCALLY — COPY/PASTE HANDOFF ONLY — TEMPORARY IN-BROWSER STATE ONLY — NO PERSISTENCE — BACKEND/SUPABASE WRITES DISABLED — NO EXECUTION — NO MUTATION — NO DEPLOY / MERGE / PUSH / PR CONTROLS
     </p>
   </div>
 
@@ -2462,7 +3238,7 @@ def _build_phase5e_runbook_simulator():
   <div class="callout" style="border-color: rgba(59,130,246,0.4); background: rgba(59,130,246,0.05);">
     <strong style="color: var(--accent);">CLIENT-SIDE RUNBOOK SIMULATOR</strong>
     <p class="muted" style="margin-top: 0.25rem;">
-      END-TO-END OPERATOR FLOW — SCENARIO PREVIEW ONLY — GENERATED LOCALLY — TEMPORARY IN-BROWSER STATE ONLY — NO PERSISTENCE — NO BACKEND WRITES — NO EXECUTION — NO MUTATION — NO DEPLOY / MERGE / PUSH / PR CONTROLS
+      END-TO-END OPERATOR FLOW — SCENARIO PREVIEW ONLY — GENERATED LOCALLY — TEMPORARY IN-BROWSER STATE ONLY — NO PERSISTENCE — BACKEND/SUPABASE WRITES DISABLED — NO EXECUTION — NO MUTATION — NO DEPLOY / MERGE / PUSH / PR CONTROLS
     </p>
   </div>
   <p class="muted" style="margin-top: 0.25rem;">
@@ -2597,7 +3373,7 @@ def _build_plus1_controlled_automation_readiness_layer():
   <div class="callout" style="border-color: rgba(14,165,233,0.4); background: rgba(14,165,233,0.05);">
     <strong style="color: var(--accent);">CONTROLLED AUTOMATION READINESS</strong>
     <p class="muted" style="margin-top: 0.25rem;">
-      READINESS ONLY — NO LIVE AUTOMATION — NO EXECUTION — NO MUTATION — NO BACKEND WRITES — NO DEPLOY / MERGE / PUSH / PR CONTROLS — FUTURE AUTH / STORAGE / APPROVAL REQUIRED
+      READINESS ONLY — NO LIVE AUTOMATION — NO EXECUTION — NO MUTATION — BACKEND/SUPABASE WRITES DISABLED — NO DEPLOY / MERGE / PUSH / PR CONTROLS — FUTURE AUTH / STORAGE / APPROVAL REQUIRED
     </p>
   </div>
   <p class="muted" style="margin-top: 0.25rem;">
@@ -2814,7 +3590,7 @@ def _build_plus1b_operator_console_contract_layer():
   <div class="callout" style="border-color: rgba(139,92,246,0.42); background: rgba(139,92,246,0.06);">
     <strong style="color: var(--accent-2);">OPERATOR CONSOLE CONSOLIDATION</strong>
     <p class="muted" style="margin-top: 0.15rem;">AUTOMATION CONTRACT LAYER</p>
-    <p class="muted" style="margin-top: 0.25rem;">CONTRACTS ONLY — COPY/PASTE ONLY — READINESS ONLY — NO LIVE AUTOMATION — NO EXECUTION — NO MUTATION — NO BACKEND WRITES — NO DEPLOY / MERGE / PUSH / PR CONTROLS</p>
+    <p class="muted" style="margin-top: 0.25rem;">CONTRACTS ONLY — COPY/PASTE ONLY — READINESS ONLY — NO LIVE AUTOMATION — NO EXECUTION — NO MUTATION — BACKEND/SUPABASE WRITES DISABLED — NO DEPLOY / MERGE / PUSH / PR CONTROLS</p>
   </div>
   <p class="muted" style="margin-top: 0.25rem;">Original +1B — Operator Console Consolidation &amp; Automation Contract Layer. This layer consolidates the Phase 5A-5E workflow and the Original +1 readiness shell into one coherent operator console without enabling live automation.</p>
 
@@ -2835,7 +3611,7 @@ def _build_plus1b_operator_console_contract_layer():
       <div class="card-head"><h3 class="card-title">Master Cockpit Summary Panel</h3><span class="badge warning">COCKPIT</span></div>
       <p class="card-body">Summarises the readiness posture and the missing dependencies before any future real automation could be built.</p>
       <div class="stat-grid" id="plus1b-master-cockpit-grid" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));"></div>
-      <div class="callout" style="margin-top:0.75rem;"><p class="muted" id="plus1b-master-cockpit-note">The console remains readiness-only. Nothing executes, nothing mutates, and no backend dependency is live yet.</p></div>
+      <div class="callout" style="margin-top:0.75rem;"><p class="muted" id="plus1b-master-cockpit-note">The console remains readiness-only. Nothing executes, nothing mutates, and backend/Supabase readiness exists; live backend runtime is disabled.</p></div>
     </article>
   </div>
 
@@ -2929,7 +3705,7 @@ def _build_plus1c_readiness_scoring_contract_qa_layer():
   <div class="callout plus1c-summary-callout" style="border-color: rgba(56,189,248,0.36); background: rgba(56,189,248,0.06);">
     <strong style="color: var(--accent);">READINESS SCORING</strong>
     <p class="muted" style="margin-top: 0.15rem;">CONTRACT QA — NO-GO DECISION LAYER — LOCAL ANALYSIS ONLY</p>
-    <p class="muted" style="margin-top: 0.25rem;">COPY/PASTE ONLY — READINESS ONLY — NO LIVE AUTOMATION — NO EXECUTION — NO MUTATION — NO BACKEND WRITES — NO DEPLOY / MERGE / PUSH / PR CONTROLS</p>
+    <p class="muted" style="margin-top: 0.25rem;">COPY/PASTE ONLY — READINESS ONLY — NO LIVE AUTOMATION — NO EXECUTION — NO MUTATION — BACKEND/SUPABASE WRITES DISABLED — NO DEPLOY / MERGE / PUSH / PR CONTROLS</p>
   </div>
 
   <div class="plus1c-preview-grid">
@@ -3046,7 +3822,7 @@ def _build_plus1d_backend_boundary_blueprint_layer():
   <div class="callout plus1d-summary-callout" style="border-color: rgba(34,197,94,0.28); background: rgba(34,197,94,0.06);">
     <strong style="color: var(--success);">BACKEND BOUNDARY BLUEPRINT</strong>
     <p class="muted" style="margin-top: 0.15rem;">REAL AUTOMATION DEPENDENCY MAP — BLUEPRINT ONLY — FUTURE IMPLEMENTATION ONLY</p>
-    <p class="muted" style="margin-top: 0.25rem;">READINESS ONLY — NO LIVE AUTOMATION — NO EXECUTION — NO MUTATION — NO BACKEND WRITES — NO DEPLOY / MERGE / PUSH / PR CONTROLS</p>
+    <p class="muted" style="margin-top: 0.25rem;">READINESS ONLY — NO LIVE AUTOMATION — NO EXECUTION — NO MUTATION — BACKEND/SUPABASE WRITES DISABLED — NO DEPLOY / MERGE / PUSH / PR CONTROLS</p>
     <p class="muted" style="margin-top: 0.25rem;">READY_FOR_BACKEND_ARCHITECTURE_REVIEW_ONLY — NOT_READY_FOR_REAL_AUTOMATION</p>
   </div>
 
@@ -3058,7 +3834,7 @@ def _build_plus1d_backend_boundary_blueprint_layer():
         <table class="data-table" id="plus1d-backend-boundary-overview-table">
           <caption>Backend boundary overview</caption>
           <thead><tr><th scope="col">Boundary</th><th scope="col">Value</th><th scope="col">Status</th></tr></thead>
-          <tbody id="plus1d-backend-boundary-overview-body"><tr><td colspan="3" class="empty">No backend boundary overview loaded yet.</td></tr></tbody>
+          <tbody id="plus1d-backend-boundary-overview-body"><tr><td colspan="3" class="empty">Backend boundary overview not loaded yet.</td></tr></tbody>
         </table>
       </div>
     </article>
@@ -3070,7 +3846,7 @@ def _build_plus1d_backend_boundary_blueprint_layer():
         <table class="data-table" id="plus1d-endpoint-map-table">
           <caption>Future backend endpoint contracts</caption>
           <thead><tr><th scope="col">Method</th><th scope="col">Endpoint</th><th scope="col">Purpose</th><th scope="col">Current status</th><th scope="col">Auth</th><th scope="col">Role</th><th scope="col">Writes data</th><th scope="col">Mutates external system</th><th scope="col">Human approval</th><th scope="col">Audit event</th><th scope="col">Implementation allowed</th></tr></thead>
-          <tbody id="plus1d-endpoint-map-body"><tr><td colspan="11" class="empty">No backend endpoint contract map loaded yet.</td></tr></tbody>
+          <tbody id="plus1d-endpoint-map-body"><tr><td colspan="11" class="empty">Backend endpoint contract map not loaded yet.</td></tr></tbody>
         </table>
       </div>
     </article>
@@ -3227,7 +4003,7 @@ def _build_plus1e_backend_implementation_gate_layer():
   <div class="callout plus1e-summary-callout" style="border-color: rgba(59,130,246,0.28); background: rgba(59,130,246,0.06);">
     <strong style="color: var(--info);">BACKEND IMPLEMENTATION GATE</strong>
     <p class="muted" style="margin-top: 0.15rem;">BUILD TICKET GENERATOR — IMPLEMENTATION PLANNING ONLY — COPYABLE CODEX PROMPTS</p>
-    <p class="muted" style="margin-top: 0.25rem;">READINESS ONLY — NO LIVE AUTOMATION — NO EXECUTION — NO MUTATION — NO BACKEND WRITES — NO DEPLOY / MERGE / PUSH / PR CONTROLS</p>
+    <p class="muted" style="margin-top: 0.25rem;">READINESS ONLY — NO LIVE AUTOMATION — NO EXECUTION — NO MUTATION — BACKEND/SUPABASE WRITES DISABLED — NO DEPLOY / MERGE / PUSH / PR CONTROLS</p>
     <p class="muted" style="margin-top: 0.25rem;">READY_FOR_BACKEND_IMPLEMENTATION_PLANNING_ONLY — NOT_READY_FOR_REAL_AUTOMATION — PLAN_PLUS2A_NEXT — DO_NOT_ENABLE_REAL_AUTOMATION</p>
   </div>
 
@@ -3359,7 +4135,7 @@ def _build_plus1e_backend_implementation_gate_layer():
       <div class="callout" style="margin-top:0.75rem;">
         <p class="muted">Current recommendation: READY_FOR_BACKEND_IMPLEMENTATION_PLANNING_ONLY. Final recommendation: NOT_READY_FOR_REAL_AUTOMATION. Planning only stays in force until future backend dependencies exist.</p>
       </div>
-      <pre class="code-block" id="plus1e-readiness-summary-preview" style="max-height:280px;overflow:auto;white-space:pre-wrap;word-break:break-word;margin-top:0.75rem;">No backend build readiness summary loaded yet.</pre>
+      <pre class="code-block" id="plus1e-readiness-summary-preview" style="max-height:280px;overflow:auto;white-space:pre-wrap;word-break:break-word;margin-top:0.75rem;">Backend build readiness summary not loaded yet.</pre>
       <div class="button-row" style="margin-top:0.75rem;">
         <button type="button" class="copy-button small" id="plus1e-copy-readiness-summary">Copy backend build readiness summary</button>
       </div>
@@ -3372,7 +4148,7 @@ def _build_plus1e_backend_implementation_gate_layer():
       <button type="button" class="copy-button small" id="plus1e-copy-full-roadmap">Copy full backend implementation roadmap</button>
       <button type="button" class="copy-button small" id="plus1e-copy-dependency-map">Copy dependency prerequisite map</button>
     </div>
-    <pre class="code-block" id="plus1e-roadmap-preview" style="max-height:420px;overflow:auto;white-space:pre-wrap;word-break:break-word;">No backend build roadmap loaded yet.</pre>
+    <pre class="code-block" id="plus1e-roadmap-preview" style="max-height:420px;overflow:auto;white-space:pre-wrap;word-break:break-word;">Backend build roadmap not loaded yet.</pre>
   </article>
 </div>
 """
@@ -3388,7 +4164,7 @@ def _build_plus1e_backend_implementation_gate_layer():
 def _build_footer():
     return """
     <footer class="footer">
-      <p>Generated statically. Static files. Backend integration is planned for a later phase and is intentionally not included in this static dashboard build. No secrets used. No commands executed except dashboard build/validation.</p>
+      <p>Generated statically. Static files. Backend/Supabase readiness architecture exists, but live backend runtime remains disabled until a separate runtime activation phase is explicitly approved. No secrets used. No commands executed except dashboard build/validation.</p>
     </footer>
     """
 
@@ -3625,7 +4401,7 @@ def _build_plus2a_backend_auth_foundation_layer():
     <strong style="color: var(--pass);">BACKEND AUTH FOUNDATION</strong>
     <p class="muted" style="margin-top: 0.15rem;">READ-ONLY AUTH STATUS — ROLE / PERMISSION MATRIX — DEMO IDENTITY MODEL</p>
     <p class="muted" style="margin-top: 0.25rem;">AUTH FOUNDATION ONLY — NO LIVE AUTH PROVIDER — NO SESSION COOKIES — NO TOKENS — NO SECRETS</p>
-    <p class="muted" style="margin-top: 0.25rem;">NO EXECUTION — NO MUTATION — NO BACKEND WRITES</p>
+    <p class="muted" style="margin-top: 0.25rem;">NO EXECUTION — NO MUTATION — BACKEND/SUPABASE WRITES DISABLED</p>
     <p class="muted" style="margin-top: 0.25rem;">NOT_READY_FOR_REAL_AUTOMATION — READY_FOR_AUTH_FOUNDATION_REVIEW_ONLY</p>
   </div>
 
@@ -7406,7 +8182,7 @@ def _build_mvp19_external_feedback_layer(snapshot):
     <strong style="color: var(--accent);">MVP-19</strong>
     <p class="muted" style="margin-top: 0.15rem;">EXTERNAL FEEDBACK INTAKE — REVIEWER RESPONSE CAPTURE — STATIC FEEDBACK PACKET ONLY</p>
     <p class="muted" style="margin-top: 0.25rem;">REVIEWER PERSONA ROUTING — FEEDBACK REVIEW QUEUE — FEEDBACK SYNTHESIS READINESS</p>
-    <p class="muted" style="margin-top: 0.25rem;">NO BACKEND FEEDBACK SUBMISSION — NO BROWSER PERSISTENCE — SERVICE ROLE NOT USED</p>
+    <p class="muted" style="margin-top: 0.25rem;">BACKEND/SUPABASE FEEDBACK SUBMISSION DISABLED — NO BROWSER PERSISTENCE — SERVICE ROLE NOT USED</p>
     <p class="muted" style="margin-top: 0.25rem;">APPROVAL EXECUTION AUTOMATION BLOCKED — NO SECRET DISCLOSURE — NO MIGRATION APPLY</p>
     <p class="muted" style="margin-top: 0.25rem;">NEXT_STEP_RUN_EXTERNAL_REVIEW_ROUND_OR_ADD_MANUAL_FEEDBACK_IMPORT_QUEUE — NOT_READY_FOR_REAL_AUTOMATION</p>
   </div>
@@ -7466,7 +8242,7 @@ def _build_mvp19_external_feedback_layer(snapshot):
     <article class="card mvp19-safety" id="mvp19-safety-panel">
       <div class="card-head"><h3 class="card-title">Security Boundary Panel</h3><span class="badge warning">SAFETY</span></div>
       {_list([
-          "no backend submission: PASS",
+          "backend submission disabled: PASS",
           "no browser persistence: PASS",
           "no secrets collected: PASS",
           "service role not used: PASS",
@@ -7547,7 +8323,7 @@ def _build_mvp20_manual_feedback_layer(snapshot):
     <strong style="color: var(--accent);">MVP-20</strong>
     <p class="muted" style="margin-top: 0.15rem;">MANUAL FEEDBACK IMPORT — REVIEW QUEUE READY — MANUAL SYNTHESIS WORKSPACE</p>
     <p class="muted" style="margin-top: 0.25rem;">REVIEW TO PRODUCT DECISION — STATIC MEMORY ONLY WORKFLOW — NO BROWSER PERSISTENCE</p>
-    <p class="muted" style="margin-top: 0.25rem;">NO BACKEND FEEDBACK SUBMISSION — SERVICE ROLE NOT USED — AUTOMATION STILL DISABLED</p>
+    <p class="muted" style="margin-top: 0.25rem;">BACKEND/SUPABASE FEEDBACK SUBMISSION DISABLED — SERVICE ROLE NOT USED — AUTOMATION STILL DISABLED</p>
     <p class="muted" style="margin-top: 0.25rem;">NEXT_STEP_RUN_EXTERNAL_FEEDBACK_ROUND_OR_ADD_SAFE_FEEDBACK_PERSISTENCE — NOT_READY_FOR_REAL_AUTOMATION</p>
   </div>
 
@@ -7599,7 +8375,7 @@ def _build_mvp20_manual_feedback_layer(snapshot):
       <div class="card-head"><h3 class="card-title">Security Boundary Panel</h3><span class="badge warning">SAFETY</span></div>
       {_list([
           "static memory-only: PASS",
-          "no backend submission: PASS",
+          "backend submission disabled: PASS",
           "no browser persistence: PASS",
           "service role not used: PASS",
           "automation disabled: PASS"
@@ -8035,23 +8811,429 @@ def _build_mvp23_smoke_test_layer(snapshot):
         panel_id="mvp23-token-gated-smoke-test",
     )
 
+
+
+def _get_latest_production_verified_mvp():
+    import glob
+    import os
+    
+    report_dir = PROJECT_ROOT / "09_exports" / "mvp_product_track"
+    reports = glob.glob(str(report_dir / "mvp*_production_verification_report.md"))
+    
+    max_mvp = 0
+    for r in reports:
+        filename = os.path.basename(r)
+        match = re.search(r'mvp(\d+)', filename)
+        if match:
+            num = int(match.group(1))
+            if num > max_mvp:
+                max_mvp = num
+    
+    if max_mvp == 0:
+        return None
+        
+    return {
+        "number": max_mvp,
+        "label": f"MVP-{max_mvp}",
+        "report_path": f"09_exports/mvp_product_track/mvp{max_mvp}_production_verification_report.md"
+    }
+
+def _get_mvp_title(mvp_number):
+    report_path = PROJECT_ROOT / "09_exports" / "mvp_product_track" / f"mvp{mvp_number}_production_verification_report.md"
+    if report_path.exists():
+        text = report_path.read_text(encoding="utf-8", errors="replace")
+        lines = text.splitlines()
+        if lines:
+            title = lines[0].replace("# ", "").replace(" — Production Verification Report", "").strip()
+            return title
+    return f"MVP-{mvp_number}"
+
+def _build_latest_verified_mvp_layer(snapshot, latest_mvp):
+    if not latest_mvp:
+        return "<p>No production verified milestones found.</p>"
+    
+    mvp_num = latest_mvp["number"]
+    
+    # Try to find a specific builder
+    # We will look for builders by name in the global scope if possible, 
+    # but for safety in this script we'll use a direct check for the ones we know exist.
+    
+    if mvp_num == 41: return _build_mvp41_controlled_reviewer_response_intake_blueprint_layer(snapshot)
+    if mvp_num == 42: return _build_mvp42_operator_controlled_response_import_dry_run_layer(snapshot)
+    if mvp_num == 43: return _build_mvp43_operational_auth_foundation_layer(snapshot)
+    if mvp_num == 44: return _build_mvp44_persistent_request_storage_foundation_layer(snapshot)
+    if mvp_num == 45: return _build_mvp45_immutable_audit_event_ledger_layer(snapshot)
+    if mvp_num == 46: return _build_mvp46_approval_gate_storage_layer(snapshot)
+    if mvp_num == 47: return _build_mvp47_server_side_dry_run_engine_layer(snapshot)
+    if mvp_num == 48: return _build_mvp48_controlled_action_queue_layer(snapshot)
+    if mvp_num == 49: return _build_mvp49_human_approved_internal_execution_layer(snapshot)
+    if mvp_num == 50: return _build_mvp50_monitoring_rollback_incident_console_layer(snapshot)
+
+    # Fallback generic summary
+    title = _get_mvp_title(mvp_num)
+    return f'''
+<div class="card">
+  <div class="card-head"><h3 class="card-title">{title}</h3><span class="badge pass">PRODUCTION VERIFIED</span></div>
+  <p class="card-body">This milestone has been production verified. Full details are available in the construction record.</p>
+  <div class="button-row">
+    <a href="./{latest_mvp["report_path"]}" target="_blank" class="action-button small">View Verification Report</a>
+  </div>
+</div>
+'''
+
+def _build_welcome_page():
+    latest_mvp = _get_latest_production_verified_mvp()
+    return f'''
+<div class="tab-pane active" id="view-welcome">
+  <div class="landing-shell">
+    <div class="landing-head">
+      <h2>Welcome to The Agent Command Center</h2>
+      <p class="lede">Read-only production dashboard for reviewing product status, safety boundaries, demo readiness, and release progress. The Agent Command Center includes backend/Supabase readiness architecture, but the live demo runs in static read-only mode. Supabase writes, public endpoints, service-role usage, command execution, and runtime mutation flows remain disabled until a separate runtime activation phase is explicitly approved.</p>
+    </div>
+    <div class="landing-cards">
+      <div class="card">
+        <div class="card-head"><h3 class="card-title">Latest production verified MVP</h3><span class="badge pass">{latest_mvp["label"] if latest_mvp else "N/A"}</span></div>
+        <p class="card-body">Current product state: review/demo dashboard</p>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3 class="card-title">Latest Milestone</h3><span class="badge info">OPERATIONAL</span></div>
+        <p class="card-body">System is in active development toward a fully operational command center.</p>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3 class="card-title">Safety Status</h3><span class="badge pass">SECURE</span></div>
+        <ul class="compact-list">
+          <li>Automation: disabled</li>
+          <li>Public writes: disabled</li>
+          <li>Secrets: not exposed</li>
+          <li>Backend actions: disabled</li>
+          <li>Reviewer response capture: not live</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3 class="card-title">Dashboard mode</h3><span class="badge info">READ-ONLY</span></div>
+        <p class="card-body">read-only / copy-only / audit-visible</p>
+      </div>
+    </div>
+    <div class="landing-actions">
+      <h3>Command Center Launchpad</h3>
+      <div class="landing-cards">
+        <article class="card">
+          <div class="card-head"><h3 class="card-title">Current Status / Readiness Overview</h3><span class="badge info">OPEN</span></div>
+          <p class="card-body">Open the quick production summary and current release posture.</p>
+          <div class="card-extra">{_open_section_button("Current Status / Readiness Overview", "view-status")}</div>
+        </article>
+        <article class="card">
+          <div class="card-head"><h3 class="card-title">Premium Stakeholder Demo</h3><span class="badge info">OPEN</span></div>
+          <p class="card-body">Open the polished browser-viewable stakeholder demo hub at <code>./demo/</code>.</p>
+          <div class="card-extra"><a class="section-button" href="./demo/">Open Premium Demo Hub</a></div>
+        </article>
+        <article class="card">
+          <div class="card-head"><h3 class="card-title">Runnable Static Simulator</h3><span class="badge info">OPEN</span></div>
+          <p class="card-body">Open the safe in-memory pipeline simulator for the command center at <code>./demo/simulator.html</code>.</p>
+          <div class="card-extra"><a class="section-button" href="./demo/simulator.html">Open Static Simulator</a></div>
+        </article>
+        <article class="card">
+          <div class="card-head"><h3 class="card-title">Agent Registry</h3><span class="badge info">OPEN</span></div>
+          <p class="card-body">Open the canonical static registry with exact agent and department counts at <code>./demo/agent-registry.html</code>.</p>
+          <div class="card-extra"><a class="section-button" href="./demo/agent-registry.html">Open Agent Registry</a></div>
+        </article>
+        <article class="card">
+          <div class="card-head"><h3 class="card-title">Original Full Audit Dashboard</h3><span class="badge info">OPEN</span></div>
+          <p class="card-body">Open the archive for the full audit trail and construction record.</p>
+          <div class="card-extra">{_open_section_button("Open Full Audit / Archive", "view-archive")}</div>
+        </article>
+        <article class="card">
+          <div class="card-head"><h3 class="card-title">Safety Posture</h3><span class="badge info">OPEN</span></div>
+          <p class="card-body">Review the disabled runtime boundaries and the current safety posture.</p>
+          <div class="card-extra">{_open_section_button("Safety Posture", "view-safety")}</div>
+        </article>
+        <article class="card">
+          <div class="card-head"><h3 class="card-title">Latest Verified MVP</h3><span class="badge pass">MVP-50</span></div>
+          <p class="card-body">Latest verified milestone: {latest_mvp["label"] if latest_mvp else "N/A"}. MVP-51 not started.</p>
+          <div class="card-extra">{_open_section_button("Latest Verified MVP", "view-latest-mvp")}</div>
+        </article>
+      </div>
+    </div>
+    <div class="landing-actions" style="margin-top: 2rem;">
+      <h3>Start here:</h3>
+      <ul class="compact-list" style="font-size: 1.05rem; gap: 0.75rem;">
+        <li>Use <strong><a href="#" onclick="switchTab('view-status')">Current Status / Readiness Overview</a></strong> if you want the quick answer.</li>
+        <li>Use <strong><a href="#" onclick="switchTab('view-orientation')">What the hell am I looking at?</a></strong> if this page looks insane.</li>
+        <li>Use <strong><a href="#" onclick="switchTab('view-demo')">External Review / Demo</a></strong> if you are showing this to someone else.</li>
+        <li>Use <strong><a href="#" onclick="switchTab('view-archive')">Original Full Audit Dashboard</a></strong> only if you want the full construction record.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+'''
+
+def _build_orientation_page():
+    return '''
+<div class="tab-pane" id="view-orientation" style="display: none;">
+  <div class="landing-shell">
+    <div class="landing-head">
+      <h2>What the hell am I looking at?</h2>
+      <p class="lede">A brief explanation of why this page exists and how to read it.</p>
+    </div>
+    <div class="landing-actions">
+      <ul class="compact-list" style="font-size: 1.05rem; gap: 0.75rem;">
+        <li>This is not a normal marketing site.</li>
+        <li>This is a live product/audit dashboard.</li>
+        <li>It shows the project’s evolution from static safety review into a controlled demo/review system.</li>
+        <li>Most buttons are copy/read-only helpers.</li>
+        <li>The scary words like deploy, merge, push, token, write, approve, execute appear because the dashboard is explicitly proving those actions are disabled.</li>
+        <li>The dashboard is intentionally transparent, but the default view now separates human-friendly review from internal audit details.</li>
+        <li>Historical sections are preserved in Archive.</li>
+        <li>Developer/validator details are separated in Developer View.</li>
+        <li>Nothing on the page should execute commands, mutate GitHub/Netlify, expose secrets, or write backend data.</li>
+      </ul>
+      <h3 style="margin-top: 1.5rem;">Translation guide</h3>
+      <ul class="compact-list" style="font-size: 1.05rem; gap: 0.75rem;">
+        <li><strong>"PASS"</strong> means the static check/report is present.</li>
+        <li><strong>"DISABLED"</strong> means a capability is intentionally unavailable.</li>
+        <li><strong>"READY"</strong> means an artifact is ready for review/copying, not necessarily live automation.</li>
+        <li><strong>"NOT_READY_FOR_REAL_AUTOMATION"</strong> means exactly what it says.</li>
+        <li><strong>"Copy"</strong> buttons copy text locally; they do not send data anywhere.</li>
+        <li><strong>"Safety-denial language"</strong> means phrases like NO DEPLOY CONTROLS or NO PUBLIC WRITES are warnings/guards, not enabled actions.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+'''
+
+def _build_status_page(snapshot):
+    latest_mvp = _get_latest_production_verified_mvp()
+    return f'''
+<div class="tab-pane" id="view-status" style="display: none;">
+  <div class="landing-shell">
+    <div class="landing-head">
+      <h2>Current Status / Readiness Overview</h2>
+    </div>
+    <div class="landing-cards">
+      <div class="card">
+        <div class="card-head"><h3 class="card-title">Production State</h3></div>
+        <ul class="compact-list">
+          <li>Latest verified milestone: {latest_mvp['label'] if latest_mvp else 'N/A'}</li>
+          <li>Current production branch: master</li>
+          <li>Current production role: read-only review dashboard</li>
+          <li>Next phase: stakeholder demo review / runtime activation planning</li>
+          <li>MVP-51 not started</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3 class="card-title">Current safety posture</h3><span class="badge warning">STRICT</span></div>
+        <ul class="compact-list">
+          <li>public endpoints disabled</li>
+          <li>no live intake</li>
+          <li>no public writes</li>
+          <li>no reviewer response writes</li>
+          <li>no response persistence</li>
+          <li>no token input</li>
+          <li>no service role in browser</li>
+          <li>no email sending</li>
+          <li>no reviewer contact automation</li>
+          <li>no deploy/merge/push controls</li>
+          <li>automation disabled</li>
+        </ul>
+        <p class="card-body">Backend/Supabase readiness architecture exists. Live backend runtime is disabled. Supabase writes are disabled. Public writes are disabled. Service role is not exposed to the browser. Runtime activation has not started.</p>
+      </div>
+    </div>
+    <div class="landing-actions" style="margin-top: 2rem;">
+      <h3>What should I look at first?</h3>
+      <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+        <button class="action-button" onclick="switchTab('view-demo')">External Review / Demo</button>
+        <a class="action-button" href="./demo/">Open Premium Demo Hub</a>
+        <a class="action-button" href="./demo/simulator.html">Open Static Simulator</a>
+        <button class="action-button" onclick="switchTab('view-safety')">Safety Posture</button>
+        <button class="action-button" onclick="switchTab('view-latest-mvp')">Latest Verified MVP</button>
+        <button class="action-button" onclick="switchTab('view-archive')">Original Full Audit Dashboard</button>
+      </div>
+    </div>
+  </div>
+</div>
+'''
+
+def _build_demo_page():
+    return '''
+<div class="tab-pane" id="view-demo" style="display: none;">
+  <div class="landing-shell">
+    <div class="landing-head">
+      <h2>External Review / Demo</h2>
+      <p class="lede">A useful demo directory for the browser-viewable stakeholder package. The Agent Command Center includes backend/Supabase readiness architecture, but the live demo runs in static read-only mode. Supabase writes, public endpoints, service-role usage, command execution, and runtime mutation flows remain disabled until a separate runtime activation phase is explicitly approved.</p>
+    </div>
+    <div class="landing-cards">
+      <article class="card">
+        <div class="card-head"><h3 class="card-title">Premium Demo Hub</h3><span class="badge info">OPEN</span></div>
+        <p class="card-body">The polished stakeholder demo hub, built for screen-share and review.</p>
+        <div class="card-extra"><a class="section-button" href="./index.html">Open Premium Demo Hub</a></div>
+      </article>
+      <article class="card">
+        <div class="card-head"><h3 class="card-title">Runnable Static Simulator</h3><span class="badge info">OPEN</span></div>
+        <p class="card-body">Run a safe simulated request through Auth → Storage → Audit → Approval → Dry Run → Queue → Human Review → Monitoring Readiness at <code>./simulator.html</code>.</p>
+        <div class="card-extra"><a class="section-button" href="./simulator.html">Open Static Simulator</a></div>
+      </article>
+      <article class="card">
+        <div class="card-head"><h3 class="card-title">Presentation Mode</h3><span class="badge info">OPEN</span></div>
+        <p class="card-body">Executive presentation storyline for guided review.</p>
+        <div class="card-extra"><a class="section-button" href="./presentation.html">Open Presentation</a></div>
+      </article>
+      <article class="card">
+        <div class="card-head"><h3 class="card-title">System Story</h3><span class="badge info">OPEN</span></div>
+        <p class="card-body">Plain-English explanation of the system and why runtime remains disabled.</p>
+        <div class="card-extra"><a class="section-button" href="./system-story.html">Open System Story</a></div>
+      </article>
+      <article class="card">
+        <div class="card-head"><h3 class="card-title">System Scale</h3><span class="badge info">OPEN</span></div>
+        <p class="card-body">Repo-derived counts and honest UNKNOWN labels where canonical registries do not exist.</p>
+        <div class="card-extra"><a class="section-button" href="./system-scale.html">Open System Scale</a></div>
+      </article>
+      <article class="card">
+        <div class="card-head"><h3 class="card-title">Agent / Department Hierarchy</h3><span class="badge info">OPEN</span></div>
+        <p class="card-body">Seven-level hierarchy, operational domains, and the places where registries remain undeclared.</p>
+        <div class="card-extra"><a class="section-button" href="./agent-hierarchy.html">Open Hierarchy</a></div>
+      </article>
+      <article class="card">
+        <div class="card-head"><h3 class="card-title">Operating Model</h3><span class="badge info">OPEN</span></div>
+        <p class="card-body">The request flow from identity through audit, approval, dry-run, queueing, human review, and go / no-go.</p>
+        <div class="card-extra"><a class="section-button" href="./operating-model.html">Open Operating Model</a></div>
+      </article>
+      <article class="card">
+        <div class="card-head"><h3 class="card-title">Validator and Safety Gate Map</h3><span class="badge info">OPEN</span></div>
+        <p class="card-body">The flat E2E validator pattern, the master wall, and the markers that keep runtime off.</p>
+        <div class="card-extra"><a class="section-button" href="./validator-safety-map.html">Open Validator Map</a></div>
+      </article>
+      <article class="card">
+        <div class="card-head"><h3 class="card-title">Review / Scorecard</h3><span class="badge info">OPEN</span></div>
+        <p class="card-body">Executive questions, technical checks, safety criteria, and the demo success scorecard.</p>
+        <div class="card-extra"><a class="section-button" href="./review.html">Open Review</a></div>
+      </article>
+      <article class="card">
+        <div class="card-head"><h3 class="card-title">Launch Live Dashboard</h3><span class="badge info">OPEN</span></div>
+        <p class="card-body">Return to the production dashboard root without leaving the publish directory.</p>
+        <div class="card-extra"><a class="section-button" href="../index.html">Launch Live Dashboard</a></div>
+      </article>
+    </div>
+  </div>
+</div>
+'''
+
+def _build_safety_page(snapshot):
+    return f'''
+<div class="tab-pane" id="view-safety" style="display: none;">
+  <div class="landing-shell">
+    <div class="landing-head">
+      <h2>Safety Posture</h2>
+      <p class="lede">Strict enforcement of security boundaries to prevent runaway automation.</p>
+    </div>
+    <div class="landing-cards">
+      <div class="card" style="grid-column: 1 / -1;">
+        <div class="card-head"><h3 class="card-title">Runtime Boundaries</h3></div>
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap:1rem;">
+          {_stat("Public endpoint", "disabled", _badge("DISABLED", "disabled"))}
+          {_stat("Live intake", "disabled", _badge("DISABLED", "disabled"))}
+          {_stat("Public writes", "disabled", _badge("DISABLED", "disabled"))}
+          {_stat("Reviewer response writes", "disabled", _badge("DISABLED", "disabled"))}
+          {_stat("Response persistence", "disabled", _badge("DISABLED", "disabled"))}
+          {_stat("Email sending", "disabled", _badge("DISABLED", "disabled"))}
+          {_stat("Reviewer contact", "disabled", _badge("DISABLED", "disabled"))}
+          {_stat("Token input", "disabled", _badge("DISABLED", "disabled"))}
+          {_stat("Browser secret storage", "disabled", _badge("DISABLED", "disabled"))}
+          {_stat("Service role in browser", "disabled", _badge("DISABLED", "disabled"))}
+          {_stat("GitHub mutation", "disabled", _badge("DISABLED", "disabled"))}
+          {_stat("Netlify mutation", "disabled", _badge("DISABLED", "disabled"))}
+          {_stat("Deploy/merge/push controls", "disabled", _badge("DISABLED", "disabled"))}
+          {_stat("Automation", "disabled", _badge("DISABLED", "disabled"))}
+        </div>
+      </div>
+      <div class="card" style="grid-column: 1 / -1;">
+        <div class="card-head"><h3 class="card-title">Context-Aware Safeties</h3></div>
+        <p class="card-body" style="margin-bottom: 0.5rem;">Why scary terms appear: The dashboard explicitly prints words like "deploy" or "execute" to prove they are blocked.</p>
+        <p class="card-body" style="margin-bottom: 0.5rem;">What the context-aware validator does: It ensures that any dangerous words are safely prefixed (e.g. NO_PUBLIC_WRITES) rather than used as active labels.</p>
+        <p class="card-body">Difference between safety-denial language and enabled runtime behavior: A button that says "NO DEPLOY CONTROLS" is inert documentation, not a hidden feature.</p>
+      </div>
+    </div>
+  </div>
+</div>
+'''
+
+def _build_roadmap_page():
+    latest_mvp = _get_latest_production_verified_mvp()
+    return f'''
+<div class="tab-pane" id="view-roadmap" style="display: none;">
+  <div class="landing-shell">
+    <div class="landing-head">
+      <h2>Roadmap / Next Step</h2>
+    </div>
+    <div class="landing-cards">
+      <div class="card">
+        <div class="card-head"><h3 class="card-title">Completed</h3><span class="badge pass">DONE</span></div>
+        <ul class="compact-list">
+          <li>Completed through {latest_mvp['label'] if latest_mvp else 'N/A'}</li>
+          <li>Validation stabilization completed</li>
+          <li>Dashboard Usability Refactor completed</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3 class="card-title">Next Planned</h3><span class="badge info">UPCOMING</span></div>
+        <p class="card-body" style="margin-bottom: 0.5rem;"><strong>Next phase</strong></p>
+        <ul class="compact-list">
+          <li>stakeholder review / demo verification</li>
+          <li>runtime activation planning is separate and has not started</li>
+          <li>MVP-51 not started</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+'''
+
 def render_html(snapshot, compact_view=False, print_mode=False):
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
-    header = f"""
+    
+    tabs = '''
+    <nav class="dashboard-tabs">
+      <button class="tab-btn active" onclick="switchTab('view-welcome')">Welcome</button>
+      <button class="tab-btn" onclick="switchTab('view-status')">Current Status / Readiness Overview</button>
+      <button class="tab-btn" onclick="switchTab('view-orientation')">Orientation</button>
+      <button class="tab-btn" onclick="switchTab('view-latest-mvp')">Latest Verified MVP</button>
+      <button class="tab-btn" onclick="switchTab('view-demo')">External Review / Demo</button>
+      <button class="tab-btn" onclick="switchTab('view-safety')">Safety Posture</button>
+      <button class="tab-btn" onclick="switchTab('view-roadmap')">Roadmap</button>
+      <button class="tab-btn" onclick="switchTab('view-archive')">Original Full Audit Dashboard</button>
+      <button class="tab-btn" onclick="switchTab('view-developer')">Developer View</button>
+    </nav>
+    '''
+
+    header = f'''
     <header class="hero dashboard-shell">
-      <div class="hero-copy">
+      <div class="hero-copy" style="width: 100%;">
         <h1>The Agent Command Center</h1>
-        <p class="lede">A read-only production dashboard for reviewing system status, safety boundaries, static schemas, and operator workflow readiness. Includes Original Phase 5A client-side operator workflow shell, Phase 5B request packet builder, Phase 5C review board, Phase 5D handoff composer, Phase 5E runbook simulator, Original +1 controlled automation readiness layer, and Original +1B operator console contract layer.</p>
-        <p class="muted" style="margin-top: 0.5rem; font-size: 0.85rem;">Production-hosted. Static/inert. No command execution. No deploy, merge, push, or mutation controls.</p>
+        {tabs if not print_mode else ''}
       </div>
     </header>
-    """
+    '''
 
     toolbar = _build_toolbar(snapshot) if not print_mode else ""
-    sections = [
+    
+    # Core views
+    welcome_view = _build_welcome_page()
+    orientation_view = _build_orientation_page()
+    status_view = _build_status_page(snapshot)
+    demo_view = _build_demo_page()
+    safety_view = _build_safety_page(snapshot)
+    roadmap_view = _build_roadmap_page()
+    
+    # Latest MVP view
+    latest_mvp_view = f'''<div class="tab-pane" id="view-latest-mvp" style="display: none;">
+      <h2 style="margin-bottom:1rem;">Latest Verified MVP</h2>
+      {_build_latest_verified_mvp_layer(snapshot, _get_latest_production_verified_mvp())}
+    </div>'''
+    
+    # Archive view
+    archive_sections = [
         _build_safety_banner(),
         _build_landing_screen(snapshot),
-        _details("Safety Boundary Summary", _build_safety_boundary(snapshot), "source", open_by_default=True, panel_id="safety-boundary"),
+        _details("Safety Boundary Summary", _build_safety_boundary(snapshot), "source", open_by_default=False, panel_id="safety-boundary"),
         _build_roadmap_panel(),
         _build_phase4d_preview_panel(),
         _build_status_snapshot_panel(snapshot),
@@ -8112,6 +9294,45 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _load_prebuilt_section("mvp39-external-demo-review-share-package-lock"),
         _build_mvp40_reviewer_response_capture_readiness_lock_layer(snapshot),
         _build_mvp41_controlled_reviewer_response_intake_blueprint_layer(snapshot),
+                _build_mvp41_controlled_reviewer_response_intake_blueprint_layer(snapshot),
+        _build_mvp42_operator_controlled_response_import_dry_run_layer(snapshot),
+                _build_mvp42_operator_controlled_response_import_dry_run_layer(snapshot),
+        _build_mvp43_operational_auth_foundation_layer(snapshot),
+                _build_mvp42_operator_controlled_response_import_dry_run_layer(snapshot),
+        _build_mvp43_operational_auth_foundation_layer(snapshot),
+        _build_mvp44_persistent_request_storage_foundation_layer(snapshot),
+                _build_mvp44_persistent_request_storage_foundation_layer(snapshot),
+        _build_mvp45_immutable_audit_event_ledger_layer(snapshot),
+                _build_mvp45_immutable_audit_event_ledger_layer(snapshot),
+        _build_mvp46_approval_gate_storage_layer(snapshot),
+                _build_mvp46_approval_gate_storage_layer(snapshot),
+        _build_mvp47_server_side_dry_run_engine_layer(snapshot),
+        _build_mvp48_controlled_action_queue_layer(snapshot),
+        _build_mvp49_human_approved_internal_execution_layer(snapshot),
+        _build_mvp50_monitoring_rollback_incident_console_layer(snapshot),
+    ]
+    # Replace any 'open_by_default=True' with False in archive_sections if possible, 
+    # but since they are already rendered strings, we can use JS or just let details be closed.
+    # We will use CSS/JS to close them, or replace 'open' with '' in the HTML string for the archive tab.
+    archive_html = "\n".join(archive_sections).replace(' open ', ' ').replace('<details class="panel" open>', '<details class="panel">')
+    archive_view = f'''<div class="tab-pane" id="view-archive" style="display: none;">
+      <h2 style="margin-bottom:1rem;">Archive / Full Audit Trail</h2>
+      <div style="margin-bottom:1rem;">
+         <label>Filter Archive: </label>
+         <select id="archive-filter" onchange="filterArchive(this.value)" style="padding:0.3rem; border-radius:4px; border:1px solid var(--stroke); background:var(--card); color:var(--text);">
+           <option value="all">All</option>
+           <option value="original">Original Phases</option>
+           <option value="mvp1-10">MVP 1-10</option>
+           <option value="mvp11-20">MVP 11-20</option>
+           <option value="mvp21-30">MVP 21-30</option>
+           <option value="mvp31-40">MVP 31-40</option>
+         </select>
+      </div>
+      <div id="archive-content">{archive_html}</div>
+    </div>'''
+    
+    # Developer view
+    dev_sections = [
         _build_action_panel(snapshot),
         _build_reports_panel(snapshot),
         _build_validator_panel(snapshot),
@@ -8120,26 +9341,42 @@ def render_html(snapshot, compact_view=False, print_mode=False):
         _build_compare_panel(snapshot),
         _build_branch_review_panel(snapshot),
         _build_approval_panel(snapshot),
-        _build_session_panel(snapshot),
-        _build_footer(),
+        _build_session_panel(snapshot)
     ]
+    dev_html = "\n".join(dev_sections).replace(' open ', ' ').replace('<details class="panel" open>', '<details class="panel">')
+    dev_view = f'''<div class="tab-pane" id="view-developer" style="display: none;">
+      <h2 style="margin-bottom:1rem;">Developer / Validator View</h2>
+      <div class="callout" style="margin-bottom:1.5rem; border-color:var(--warning);"><p class="muted">Developer view contains internal build/audit details and is not the recommended starting point for external reviewers.</p></div>
+      {dev_html}
+    </div>'''
+    
+    if print_mode:
+        all_sections = [
+            welcome_view, orientation_view, status_view, demo_view, safety_view, roadmap_view, latest_mvp_view, archive_view, dev_view, _build_footer()
+        ]
+        sections_out = "\n".join(all_sections)
+    else:
+        sections_out = "\n".join([
+            welcome_view, orientation_view, status_view, demo_view, safety_view, roadmap_view, latest_mvp_view, archive_view, dev_view, _build_footer()
+        ])
+    
     body_class = "dashboard-body print-view" if print_mode else "dashboard-body"
     if compact_view:
         body_class += " compact-view"
-    data_json = json.dumps(snapshot, indent=2, sort_keys=False).replace("</", "<\\/")
+        
+    data_json = json.dumps(snapshot, indent=2, sort_keys=False).replace("</", "<\/")
     replacements = {
         "{{TITLE}}": "The Agent Command Center - Read-Only Operations Dashboard",
         "{{BODY_CLASS}}": body_class,
         "{{HEADER}}": header,
         "{{TOOLBAR}}": toolbar,
-        "{{SECTIONS}}": "\n".join(sections),
+        "{{SECTIONS}}": sections_out,
         "{{DASHBOARD_DATA_JSON}}": data_json,
         "{{SCRIPTS}}": "" if print_mode else '<script src="./static/dashboard.js"></script>',
     }
     for key, value in replacements.items():
         template = template.replace(key, value)
     return template
-
 
 def render_print_html(snapshot):
     return render_html(snapshot, compact_view=False, print_mode=True)

@@ -1,0 +1,8 @@
+{
+  "phase": "MVP-48",
+  "name": "QUEUE PRIORITY SCHEDULING MODEL",
+  "status": "QUEUE_PRIORITY_SCHEDULING_MODEL_READY",
+  "readiness_only": "true",
+  "review_only": "true",
+  "future_implementation_only": "true"
+}

@@ -1,0 +1,8 @@
+{
+  "phase": "MVP-47",
+  "name": "DRY RUN EVIDENCE PACKET",
+  "status": "DRY_RUN_EVIDENCE_PACKET_READY",
+  "readiness_only": "true",
+  "review_only": "true",
+  "future_implementation_only": "true"
+}

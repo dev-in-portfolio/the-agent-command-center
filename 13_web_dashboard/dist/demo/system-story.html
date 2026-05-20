@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>System Story - The Agent Command Center</title>
+  <link rel="stylesheet" href="./assets/demo.css">
+</head>
+<body>
+  <div class="demo-shell">
+    <header class="demo-topbar collapsible-topbar" data-collapsible-menu>
+      <div class="topbar-main">
+        <a class="topbar-title" href="./index.html">System Story</a>
+        <button
+          class="menu-toggle"
+          type="button"
+          data-action="toggle-menu"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          aria-controls="demo-menu-panel">
+          Menu
+        </button>
+      </div>
+      <nav
+        id="demo-menu-panel"
+        class="menu-panel"
+        data-menu-panel
+        hidden
+        aria-label="Demo navigation">
+        <a href="../index.html">Home</a>
+        <a href="./index.html">Demo Hub</a>
+        <a href="./presentation.html">Presentation</a>
+        <a href="./simulator.html">Simulator</a>
+        <a href="./system-story.html">System Story</a>
+        <a href="./system-scale.html">System Scale</a>
+        <a href="./agent-hierarchy.html">Agent Hierarchy</a>
+        <a href="./agent-registry.html">Agent Registry</a>
+        <a href="./operating-model.html">Operating Model</a>
+        <a href="./validator-safety-map.html">Validator Map</a>
+        <a href="./safety-boundaries.html">Safety Boundaries</a>
+        <a href="./technical-appendix.html">Technical Appendix</a>
+        <a href="./objections.html">Objections</a>
+        <a href="./review.html">Review</a>
+        <a href="../full-audit-dashboard.html">Full Audit Dashboard</a>
+        <a href="../legal.html">Legal / Copyright</a>
+      </nav>
+    </header>
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../index.html">Home</a>
+      <span aria-hidden="true">→</span>
+      <a href="./index.html">Demo Hub</a>
+      <span aria-hidden="true">→</span>
+      <span>System Story</span>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <p class="eyebrow">Plain English</p>
+          <h1 class="title">The Agent Command Center is a control room before the switches are wired.</h1>
+          <p class="lead">It is a production-visible, read-only dashboard that proves the readiness architecture exists before runtime activation is allowed. The system is complete through MVP-50, but live automation is intentionally disabled.</p>
+          <div class="badge-row">
+            <span class="badge success">Production verified through MVP-50</span>
+            <span class="badge warning">NOT_READY_FOR_REAL_AUTOMATION</span>
+            <span class="badge info">Runtime activation not started</span>
+          </div>
+        </div>
+        <div class="callout">
+          <p class="kicker">The System in One Sentence</p>
+          <p>The Agent Command Center is a production-visible control room that organizes operational readiness layers, validator gates, safety boundaries, and stakeholder-facing review materials before any real automation or execution is allowed.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="card-grid">
+        <article class="card"><h3>What it proves</h3><p>The dashboard proves the architecture is complete enough to review, audit, and present. It does not prove live execution is enabled.</p></article>
+        <article class="card"><h3>What remains disabled</h3><p>No commands, actions, writes, alerts, rollback execution, incident mutation, deploy controls, or automation are active.</p></article>
+        <article class="card"><h3>Why it matters</h3><p>Stakeholders can inspect readiness honestly before any operational risk is introduced.</p></article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head"><div><p class="eyebrow">System story</p><h2>How the product is framed</h2></div></div>
+      <div class="page-grid">
+        <article class="page-card">
+          <h3>Readiness architecture, not runtime</h3>
+          <p>The dashboard documents the readiness stack instead of pretending the runtime is already enabled. That is deliberate and safer.</p>
+        </article>
+        <article class="page-card">
+          <h3>Visible system scale</h3>
+          <p>The repo exposes verified counts for reports, validators, artifacts, layers, and the canonical registry export. The exact agent count is 47,979 and the exact department count is 1,777, both derived from <code>09_exports/org_chart_export.json</code>.</p>
+        </article>
+        <article class="page-card">
+          <h3>Operational domains instead of departments</h3>
+          <p>The docs use 11 operational domains in place of formal department names. That keeps the language precise and avoids false structure.</p>
+        </article>
+        <article class="page-card">
+          <h3>Validators and safety gates</h3>
+          <p>Validators prove the markers, the latest status, the wall, and the package boundaries. They do not turn the system into a live execution engine.</p>
+        </article>
+        <article class="page-card">
+          <h3>Registry traceability</h3>
+          <p>The published registry page and traceability HTML show how the counts were derived from project artifacts without inventing new runtime data.</p>
+        </article>
+      </div>
+    </section>
+        <footer class="footer site-legal-footer">
+      <p>© 2026 Devin O’Rourke. All rights reserved.</p>
+      <p>Agent Command Center, the demo pages, registry presentation, dashboard copy, visual layout, simulator materials, validator descriptions, and stakeholder presentation materials are protected project materials. No license, sale, transfer, or permission to reuse is granted by viewing this demo.</p>
+      <p>This site is a static, read-only demonstration. It does not enable live automation, command execution, database writes, Supabase mutations, deployment actions, rollback execution, alert sending, or runtime activation.</p>
+      <p>Third-party names, platforms, and services referenced for context remain the property of their respective owners.</p>
+      <p class="legal-links"><a href="../legal.html">Legal / Copyright</a> · <a href="../index.html">Home</a> · <a href="./index.html">Demo Hub</a> · <a href="../full-audit-dashboard.html">Full Audit Dashboard</a> · <a href="../copyright.html">Copyright</a></p>
+    </footer>
+  </div>
+  <script src="./assets/demo.js"></script>
+</body>
+</html>

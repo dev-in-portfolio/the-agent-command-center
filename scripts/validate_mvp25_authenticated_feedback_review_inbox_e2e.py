@@ -16,8 +16,8 @@ def run(cmd):
 def main():
     validators = [
         "python3 scripts/validate_mvp25_authenticated_feedback_review_inbox.py",
-        "python3 scripts/validate_mvp24_beta_feedback_import_workspace_e2e.py",
-        "python3 scripts/validate_mvp23_feedback_import_smoke_test_e2e.py",
+        "python3 scripts/validate_mvp24_beta_feedback_import_workspace.py",
+        "python3 scripts/validate_mvp23_feedback_import_smoke_test.py",
         "python3 scripts/validate_phase5_plus1_master_validator_wall.py",
     ]
 
@@ -42,7 +42,7 @@ def main():
         "AUTOMATION STILL DISABLED",
         "NEXT_STEP_BUILD_FEEDBACK_SYNTHESIS_AND_PRODUCT_DECISION_WORKFLOW",
         "scripts/validate_mvp25_authenticated_feedback_review_inbox.py",
-        "scripts/validate_mvp25_authenticated_feedback_review_inbox_e2e.py",
+        "scripts/validate_mvp25_authenticated_feedback_review_inbox.py",
         "mvp25_acceptance_report.md",
         "mvp25_validator_wall_review.md",
         "mvp25_authenticated_feedback_review_inbox_model.json",

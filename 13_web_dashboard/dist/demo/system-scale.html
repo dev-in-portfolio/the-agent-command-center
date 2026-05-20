@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>System Scale - The Agent Command Center</title>
+  <link rel="stylesheet" href="./assets/demo.css">
+</head>
+<body>
+  <div class="demo-shell">
+    <header class="demo-topbar collapsible-topbar" data-collapsible-menu>
+      <div class="topbar-main">
+        <a class="topbar-title" href="./index.html">System Scale</a>
+        <button
+          class="menu-toggle"
+          type="button"
+          data-action="toggle-menu"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          aria-controls="demo-menu-panel">
+          Menu
+        </button>
+      </div>
+      <nav
+        id="demo-menu-panel"
+        class="menu-panel"
+        data-menu-panel
+        hidden
+        aria-label="Demo navigation">
+        <a href="../index.html">Home</a>
+        <a href="./index.html">Demo Hub</a>
+        <a href="./presentation.html">Presentation</a>
+        <a href="./simulator.html">Simulator</a>
+        <a href="./system-story.html">System Story</a>
+        <a href="./system-scale.html">System Scale</a>
+        <a href="./agent-hierarchy.html">Agent Hierarchy</a>
+        <a href="./agent-registry.html">Agent Registry</a>
+        <a href="./operating-model.html">Operating Model</a>
+        <a href="./validator-safety-map.html">Validator Map</a>
+        <a href="./safety-boundaries.html">Safety Boundaries</a>
+        <a href="./technical-appendix.html">Technical Appendix</a>
+        <a href="./objections.html">Objections</a>
+        <a href="./review.html">Review</a>
+        <a href="../full-audit-dashboard.html">Full Audit Dashboard</a>
+        <a href="../legal.html">Legal / Copyright</a>
+      </nav>
+    </header>
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../index.html">Home</a>
+      <span aria-hidden="true">→</span>
+      <a href="./index.html">Demo Hub</a>
+      <span aria-hidden="true">→</span>
+      <span>System Scale</span>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <p class="eyebrow">Scale snapshot</p>
+          <h1 class="title">The repo is large enough to prove a real program, but small enough to audit.</h1>
+          <p class="lead">Every exact count shown below comes from a manifest, a file count, dashboard data, or the canonical export graph. The demo now exposes exact agent and department counts instead of inventing placeholders. The registry tracks registered command-center operating units, not live autonomous processes. Live runtime agents enabled: 0. Runtime activation: not started.</p>
+        </div>
+        <div class="callout">
+          <p class="kicker">Exact counts we will not fake</p>
+          <p>Exact agent count: 47,979. Exact department count: 1,777. Exact unit count: 5,331. Exact family count: 175. Hierarchy levels: 7. Operational domains: 11. Source file: <code>org_chart_export.json</code>. Live runtime agents enabled: 0. Runtime activation: not started.</p>
+          <p style="margin-top: 12px;">Runtime activation not started.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="card-grid">
+        <article class="card">
+          <h3>Registered vs runtime</h3>
+          <ul class="card-list">
+            <li>Registered agents: 47,979</li>
+            <li>Live runtime agents: 0</li>
+            <li>Activation: not started</li>
+            <li>Meaning: the registry exists; automation remains disabled.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Why this matters</h3>
+          <p>The value is not that 47,979 agents are running today. The value is that the command structure, safety model, registry, simulator, and review process are visible before runtime activation.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Category</th><th>Count</th><th>Count Type</th><th>Source / Method</th></tr></thead>
+          <tbody>
+            <tr><th>MVP readiness layers completed</th><td>8</td><td>Source: generated from the presentation manifest</td><td>presentation manifest</td></tr>
+            <tr><th>Production verification reports</th><td>67</td><td>Source: derived from file count</td><td>find `09_exports -name '*production_verification_report.md'`</td></tr>
+            <tr><th>MVP product-track files</th><td>582</td><td>Source: derived from file count</td><td>find `09_exports/mvp_product_track -type f`</td></tr>
+            <tr><th>Release package artifacts</th><td>177</td><td>Source: derived from file count</td><td>find `09_exports/release_package -type f`</td></tr>
+            <tr><th>UI model JSON files</th><td>226</td><td>Source: derived from file count</td><td>find `14_backend/product_runtime/ui_models -type f`</td></tr>
+            <tr><th>Validator scripts</th><td>280</td><td>Source: derived from file count</td><td>find `scripts -name 'validate_*.py'`</td></tr>
+            <tr><th>Dashboard static artifacts</th><td>70</td><td>Source: derived from file count</td><td>find `13_web_dashboard/dist -type f`</td></tr>
+            <tr><th>Demo package files</th><td>16</td><td>Source: generated from the demo package manifest</td><td>demo package manifest</td></tr>
+            <tr><th>Stakeholder presentation files</th><td>19</td><td>Source: generated from the presentation manifest</td><td>presentation manifest</td></tr>
+            <tr><th>Viewable demo pages</th><td>11</td><td>Source: derived from file count</td><td>browser pages in `dist/demo/`</td></tr>
+            <tr><th>Safety boundary markers</th><td>13</td><td>Source: generated from the demo package manifest</td><td>demo package manifest</td></tr>
+            <tr><th>Disabled capability categories</th><td>13</td><td>Source: generated from the presentation manifest</td><td>presentation manifest</td></tr>
+            <tr><th>Operational domains</th><td>11</td><td>Source: documented hierarchy domains</td><td>hierarchy doc</td></tr>
+            <tr><th>Exact family count</th><td>175</td><td>Source: generated from project artifacts</td><td>org_chart_export.json</td></tr>
+            <tr><th>Exact unit count</th><td>5,331</td><td>Source: generated from project artifacts</td><td>org_chart_export.json</td></tr>
+            <tr><th>Exact agent count</th><td>47,979</td><td>Source: generated from project artifacts</td><td>org_chart_export.json</td></tr>
+            <tr><th>Exact department count</th><td>1,777</td><td>Source: generated from project artifacts</td><td>org_chart_export.json</td></tr>
+            <tr><th>Hierarchy levels</th><td>7</td><td>Source: documented hierarchy</td><td>command center hierarchy doc</td></tr>
+            <tr><th>Live runtime agents enabled</th><td>0</td><td>Source: generated from project artifacts</td><td>org_chart_export.json</td></tr>
+            <tr><th>Runtime activation</th><td>not started</td><td>Source: generated from project artifacts</td><td>org_chart_export.json</td></tr>
+            <tr><th>Action registry items</th><td>12</td><td>Source: dashboard data</td><td>dashboard_data.json</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">11 operational domains</p>
+          <h2>Demo-facing operating domain map</h2>
+        </div>
+        <p>Source type: demo-facing operating domain map derived from MVP-43 through MVP-50 readiness architecture.</p>
+      </div>
+      <div class="panel">
+        <ul class="scale-list">
+          <li>Authentication / identity readiness</li>
+          <li>Request storage readiness</li>
+          <li>Audit ledger readiness</li>
+          <li>Approval gate readiness</li>
+          <li>Dry-run readiness</li>
+          <li>Controlled action queue readiness</li>
+          <li>Human-approved execution readiness</li>
+          <li>Monitoring / rollback / incident readiness</li>
+          <li>Demo / stakeholder review readiness</li>
+          <li>Validator / quality gate readiness</li>
+          <li>Safety boundary readiness</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="card-grid">
+        <article class="card"><h3>Verified scale is enough to matter</h3><p>The repository has a meaningful surface area: reports, validators, dashboard artifacts, and structured manifests across multiple layers.</p></article>
+        <article class="card"><h3>Exact counts are declared</h3><p>The canonical export graph resolves exact agent and department counts with source traceability.</p></article>
+        <article class="card"><h3>Recommended next docs step</h3><p>Use the agent registry page and traceability HTML as the published registry surface for stakeholder review.</p></article>
+      </div>
+    </section>
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Glossary</p>
+          <h2>Plain-English translation for the demo terms</h2>
+        </div>
+      </div>
+      <div class="card-grid">
+        <article class="card"><h3>Registered agent</h3><p>A registered command-center operating unit listed in the static org-chart registry.</p></article>
+        <article class="card"><h3>Live runtime agent</h3><p>A live autonomous process. The count is 0 in this build.</p></article>
+        <article class="card"><h3>Runtime activation</h3><p>Turning on live execution. It has not started.</p></article>
+        <article class="card"><h3>Static simulator</h3><p>A browser-only in-memory demo that does not call backends or execute actions.</p></article>
+        <article class="card"><h3>Backend/Supabase readiness</h3><p>The architecture is prepared, but live writes and public mutation remain disabled.</p></article>
+        <article class="card"><h3>Validator</h3><p>A script that checks files, markers, and safety conditions.</p></article>
+        <article class="card"><h3>Safety gate</h3><p>A hard stop that prevents unsafe movement into runtime or mutation flows.</p></article>
+        <article class="card"><h3>MVP-50</h3><p>The current verified demo milestone, summarized here as MVP-50 Production Verified.</p></article>
+      </div>
+    </section>
+        <footer class="footer site-legal-footer">
+      <p>© 2026 Devin O’Rourke. All rights reserved.</p>
+      <p>Agent Command Center, the demo pages, registry presentation, dashboard copy, visual layout, simulator materials, validator descriptions, and stakeholder presentation materials are protected project materials. No license, sale, transfer, or permission to reuse is granted by viewing this demo.</p>
+      <p>This site is a static, read-only demonstration. It does not enable live automation, command execution, database writes, Supabase mutations, deployment actions, rollback execution, alert sending, or runtime activation.</p>
+      <p>Third-party names, platforms, and services referenced for context remain the property of their respective owners.</p>
+      <p class="legal-links"><a href="../legal.html">Legal / Copyright</a> · <a href="../index.html">Home</a> · <a href="./index.html">Demo Hub</a> · <a href="../full-audit-dashboard.html">Full Audit Dashboard</a> · <a href="../copyright.html">Copyright</a></p>
+    </footer>
+  </div>
+  <script src="./assets/demo.js"></script>
+</body>
+</html>

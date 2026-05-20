@@ -1,0 +1,111 @@
+{
+  "registry_name": "system_hierarchy",
+  "formal_registry_status": "GENERATED_FROM_PROJECT_ARTIFACTS",
+  "count_type": "DERIVED_FROM_PROJECT_ARTIFACTS",
+  "hierarchy_level_count": 7,
+  "operational_domain_count": 11,
+  "live_runtime_agents_enabled": 0,
+  "runtime_activation_started": false,
+  "registry_structure": {
+    "exact_family_count": 175,
+    "exact_department_count": 1777,
+    "exact_unit_count": 5331,
+    "exact_agent_count": 47979
+  },
+  "governance_levels": [
+    {
+      "level": 1,
+      "name": "Product / Command Center Layer",
+      "source_file": "09_exports/stakeholder_presentation_after_mvp50/agent_department_hierarchy.md"
+    },
+    {
+      "level": 2,
+      "name": "Readiness Layer Roadmap",
+      "source_file": "09_exports/stakeholder_presentation_after_mvp50/agent_department_hierarchy.md"
+    },
+    {
+      "level": 3,
+      "name": "Operational Domains",
+      "source_file": "09_exports/stakeholder_presentation_after_mvp50/agent_department_hierarchy.md"
+    },
+    {
+      "level": 4,
+      "name": "Model / Artifact Layer",
+      "source_file": "09_exports/stakeholder_presentation_after_mvp50/agent_department_hierarchy.md"
+    },
+    {
+      "level": 5,
+      "name": "Validator Gate Layer",
+      "source_file": "09_exports/stakeholder_presentation_after_mvp50/agent_department_hierarchy.md"
+    },
+    {
+      "level": 6,
+      "name": "Human Review Layer",
+      "source_file": "09_exports/stakeholder_presentation_after_mvp50/agent_department_hierarchy.md"
+    },
+    {
+      "level": 7,
+      "name": "Future Runtime Activation Layer",
+      "source_file": "09_exports/stakeholder_presentation_after_mvp50/agent_department_hierarchy.md"
+    }
+  ],
+  "operational_domains": [
+    {
+      "index": 1,
+      "name": "Authentication / identity readiness",
+      "source_file": "09_exports/stakeholder_presentation_after_mvp50/agent_department_hierarchy.md"
+    },
+    {
+      "index": 2,
+      "name": "Request storage readiness",
+      "source_file": "09_exports/stakeholder_presentation_after_mvp50/agent_department_hierarchy.md"
+    },
+    {
+      "index": 3,
+      "name": "Audit ledger readiness",
+      "source_file": "09_exports/stakeholder_presentation_after_mvp50/agent_department_hierarchy.md"
+    },
+    {
+      "index": 4,
+      "name": "Approval gate readiness",
+      "source_file": "09_exports/stakeholder_presentation_after_mvp50/agent_department_hierarchy.md"
+    },
+    {
+      "index": 5,
+      "name": "Dry-run readiness",
+      "source_file": "09_exports/stakeholder_presentation_after_mvp50/agent_department_hierarchy.md"
+    },
+    {
+      "index": 6,
+      "name": "Controlled action queue readiness",
+      "source_file": "09_exports/stakeholder_presentation_after_mvp50/agent_department_hierarchy.md"
+    },
+    {
+      "index": 7,
+      "name": "Human-approved execution readiness",
+      "source_file": "09_exports/stakeholder_presentation_after_mvp50/agent_department_hierarchy.md"
+    },
+    {
+      "index": 8,
+      "name": "Monitoring / rollback / incident readiness",
+      "source_file": "09_exports/stakeholder_presentation_after_mvp50/agent_department_hierarchy.md"
+    },
+    {
+      "index": 9,
+      "name": "Demo / stakeholder review readiness",
+      "source_file": "09_exports/stakeholder_presentation_after_mvp50/agent_department_hierarchy.md"
+    },
+    {
+      "index": 10,
+      "name": "Validator / quality gate readiness",
+      "source_file": "09_exports/stakeholder_presentation_after_mvp50/agent_department_hierarchy.md"
+    },
+    {
+      "index": 11,
+      "name": "Safety boundary readiness",
+      "source_file": "09_exports/stakeholder_presentation_after_mvp50/agent_department_hierarchy.md"
+    }
+  ],
+  "registry_source_file": "09_exports/org_chart_export.json",
+  "registry_source_type": "org_chart_export_json"
+}

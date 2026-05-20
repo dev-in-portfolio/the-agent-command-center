@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agent / Department Hierarchy - The Agent Command Center</title>
+  <link rel="stylesheet" href="./assets/demo.css">
+</head>
+<body>
+  <div class="demo-shell">
+    <header class="demo-topbar collapsible-topbar" data-collapsible-menu>
+      <div class="topbar-main">
+        <a class="topbar-title" href="./index.html">Agent Hierarchy</a>
+        <button
+          class="menu-toggle"
+          type="button"
+          data-action="toggle-menu"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          aria-controls="demo-menu-panel">
+          Menu
+        </button>
+      </div>
+      <nav
+        id="demo-menu-panel"
+        class="menu-panel"
+        data-menu-panel
+        hidden
+        aria-label="Demo navigation">
+        <a href="../index.html">Home</a>
+        <a href="./index.html">Demo Hub</a>
+        <a href="./presentation.html">Presentation</a>
+        <a href="./simulator.html">Simulator</a>
+        <a href="./system-story.html">System Story</a>
+        <a href="./system-scale.html">System Scale</a>
+        <a href="./agent-hierarchy.html">Agent Hierarchy</a>
+        <a href="./agent-registry.html">Agent Registry</a>
+        <a href="./operating-model.html">Operating Model</a>
+        <a href="./validator-safety-map.html">Validator Map</a>
+        <a href="./safety-boundaries.html">Safety Boundaries</a>
+        <a href="./technical-appendix.html">Technical Appendix</a>
+        <a href="./objections.html">Objections</a>
+        <a href="./review.html">Review</a>
+        <a href="../full-audit-dashboard.html">Full Audit Dashboard</a>
+        <a href="../legal.html">Legal / Copyright</a>
+      </nav>
+    </header>
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../index.html">Home</a>
+      <span aria-hidden="true">→</span>
+      <a href="./index.html">Demo Hub</a>
+      <span aria-hidden="true">→</span>
+      <span>Agent Hierarchy</span>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <p class="eyebrow">Hierarchy</p>
+          <h1 class="title">The repo has a command hierarchy, not a fake agent census.</h1>
+          <p class="lead">The hierarchy is explicit on what is known, what is operationally modeled, and what is canonically declared from the export graph. In this demo, an agent means registered command-center operating units from the static org-chart registry. These are not live autonomous processes. That keeps the story defensible.</p>
+          <div class="badge-row">
+            <span class="badge success">Exact agent count: 47,979</span>
+            <span class="badge success">Exact department count: 1,777</span>
+            <span class="badge success">Exact unit count: 5,331</span>
+            <span class="badge success">Exact family count: 175</span>
+            <span class="badge info">Hierarchy levels: 7</span>
+            <span class="badge info">Operational domains: 11</span>
+            <span class="badge warning">Live runtime agents enabled: 0</span>
+            <span class="badge warning">Runtime activation: not started</span>
+          </div>
+        </div>
+        <div class="callout">
+          <p class="kicker">Canonical counts</p>
+          <p>Exact agent count: 47,979. Exact department count: 1,777. Hierarchy levels: 7. Operational domains: 11. Source file: <code>09_exports/org_chart_export.json</code>. Registry source: generated from project artifacts.</p>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="card-grid">
+        <article class="card">
+          <h3>Registered vs runtime</h3>
+          <ul class="card-list">
+            <li>Registered agents: 47,979</li>
+            <li>Live runtime agents: 0</li>
+            <li>Activation: not started</li>
+            <li>Meaning: the registry exists; automation remains disabled.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Why this matters</h3>
+          <p>The command hierarchy proves the system has enough structure to audit and enough clarity to explain before any live runtime decision is made.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="card-grid">
+        <article class="card"><h3>Level 1 - Product / Command Center Layer</h3><p>The overall product framing and stakeholder surface.</p></article>
+        <article class="card"><h3>Level 2 - Readiness Layer Roadmap</h3><p>MVP-43 through MVP-50 prove readiness layer by layer.</p></article>
+        <article class="card"><h3>Level 3 - Operational Domains</h3><p>11 operational domains stand in for formal departments.</p></article>
+        <article class="card"><h3>Level 4 - Model / Artifact Layer</h3><p>Manifests, reports, dashboards, and JSON models.</p></article>
+        <article class="card"><h3>Level 5 - Validator Gate Layer</h3><p>Flat E2E validators, the wall, and package-specific checks.</p></article>
+        <article class="card"><h3>Level 6 - Human Review Layer</h3><p>Stakeholder review, technical review, and executive review.</p></article>
+        <article class="card"><h3>Level 7 - Future Runtime Activation Layer</h3><p>Intentionally separate and not started.</p></article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head"><div><p class="eyebrow">Operational domains</p><h2>What the system currently models</h2></div></div>
+      <div class="page-grid">
+        <article class="page-card"><h3>Auth / identity</h3><p>Defines how access would work in a future runtime.</p></article>
+        <article class="page-card"><h3>Request storage</h3><p>Defines how requests would be persisted.</p></article>
+        <article class="page-card"><h3>Audit ledger</h3><p>Defines how events would be recorded.</p></article>
+        <article class="page-card"><h3>Approval gate</h3><p>Defines how requests would be approved.</p></article>
+        <article class="page-card"><h3>Dry-run</h3><p>Defines how previews happen before any action.</p></article>
+        <article class="page-card"><h3>Controlled action queue</h3><p>Defines ordered handling of requests.</p></article>
+        <article class="page-card"><h3>Human-approved execution</h3><p>Defines the next safety gate, not enabled runtime.</p></article>
+        <article class="page-card"><h3>Monitoring / rollback / incident</h3><p>Defines the observability layer for future runtime.</p></article>
+        <article class="page-card"><h3>Stakeholder review</h3><p>Defines the demo and presentation layer.</p></article>
+        <article class="page-card"><h3>Validator / quality gates</h3><p>Defines machine-checkable proof surfaces.</p></article>
+        <article class="page-card"><h3>Safety boundary</h3><p>Defines the hard stop around runtime activation.</p></article>
+      </div>
+    </section>
+            <footer class="footer site-legal-footer">
+      <p>© 2026 Devin O’Rourke. All rights reserved.</p>
+      <p>Agent Command Center, the demo pages, registry presentation, dashboard copy, visual layout, simulator materials, validator descriptions, and stakeholder presentation materials are protected project materials. No license, sale, transfer, or permission to reuse is granted by viewing this demo.</p>
+      <p>This site is a static, read-only demonstration. It does not enable live automation, command execution, database writes, Supabase mutations, deployment actions, rollback execution, alert sending, or runtime activation.</p>
+      <p>Third-party names, platforms, and services referenced for context remain the property of their respective owners.</p>
+      <p class="legal-links"><a href="../legal.html">Legal / Copyright</a> · <a href="../index.html">Home</a> · <a href="./index.html">Demo Hub</a> · <a href="../full-audit-dashboard.html">Full Audit Dashboard</a> · <a href="../copyright.html">Copyright</a></p>
+    </footer>
+  </div>
+  <script src="./assets/demo.js"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+{
+  "model_id": "monitoring_console_model",
+  "mvp": "MVP-50",
+  "domain": "Monitoring Console Model",
+  "title": "Monitoring Console Model",
+  "description": "Incident Console model for monitoring dashboard state, signal display, and operator awareness.",
+  "fields": [
+    { "name": "active_incidents", "type": "array", "purpose": "List of currently active incident references" },
+    { "name": "incident_console_display_mode", "type": "string", "purpose": "Display mode: overview | detail | timeline" },
+    { "name": "selected_incident_id", "type": "string", "purpose": "Currently selected incident record ID for detail view" },
+    { "name": "console_filter_state", "type": "object", "purpose": "Active filters for severity, status, and component" }
+  ],
+  "status": "monitoring_console_ready",
+  "monitoring_console_flag": true,
+  "schema_readiness_only": true,
+  "review_only": true,
+  "future_implementation_only": true,
+  "safety_notes": "Schema readiness only. No runtime execution.",
+  "real_monitoring_enabled": false,
+  "real_alert_dispatch_enabled": false,
+  "real_metrics_collection_enabled": false,
+  "real_log_aggregation_enabled": false,
+  "autonomous_observability_enabled": false,
+  "external_monitoring_api_mutation_enabled": false,
+  "dashboard_write_enabled": false,
+  "health_check_execution_enabled": false,
+  "service_role_used": false,
+  "service_role_in_browser": false,
+  "token_input_enabled": false,
+  "browser_persistence_enabled": false,
+  "migration_apply_enabled": false
+}

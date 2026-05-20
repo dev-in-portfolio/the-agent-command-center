@@ -1,0 +1,2 @@
+# MVP-47 Risk and Dependency Report
+RISK_DEPENDENCY_REPORT_READY

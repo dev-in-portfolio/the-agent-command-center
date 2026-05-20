@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Objections and FAQ - The Agent Command Center</title>
+  <link rel="stylesheet" href="./assets/demo.css">
+</head>
+<body>
+  <div class="demo-shell">
+    <header class="demo-topbar collapsible-topbar" data-collapsible-menu>
+      <div class="topbar-main">
+        <a class="topbar-title" href="./index.html">Objections</a>
+        <button
+          class="menu-toggle"
+          type="button"
+          data-action="toggle-menu"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          aria-controls="demo-menu-panel">
+          Menu
+        </button>
+      </div>
+      <nav
+        id="demo-menu-panel"
+        class="menu-panel"
+        data-menu-panel
+        hidden
+        aria-label="Demo navigation">
+        <a href="../index.html">Home</a>
+        <a href="./index.html">Demo Hub</a>
+        <a href="./presentation.html">Presentation</a>
+        <a href="./simulator.html">Simulator</a>
+        <a href="./system-story.html">System Story</a>
+        <a href="./system-scale.html">System Scale</a>
+        <a href="./agent-hierarchy.html">Agent Hierarchy</a>
+        <a href="./agent-registry.html">Agent Registry</a>
+        <a href="./operating-model.html">Operating Model</a>
+        <a href="./validator-safety-map.html">Validator Map</a>
+        <a href="./safety-boundaries.html">Safety Boundaries</a>
+        <a href="./technical-appendix.html">Technical Appendix</a>
+        <a href="./objections.html">Objections</a>
+        <a href="./review.html">Review</a>
+        <a href="../full-audit-dashboard.html">Full Audit Dashboard</a>
+        <a href="../legal.html">Legal / Copyright</a>
+      </nav>
+    </header>
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../index.html">Home</a>
+      <span aria-hidden="true">→</span>
+      <a href="./index.html">Demo Hub</a>
+      <span aria-hidden="true">→</span>
+      <span>Objections</span>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <p class="eyebrow">FAQ</p>
+          <h1 class="title">Twenty stakeholder objections answered plainly.</h1>
+          <p class="lead">These answers are written to be readable by executives, technical reviewers, and safety reviewers without hype or ambiguity.</p>
+        </div>
+        <div class="callout"><p class="kicker">Safety note</p><p>None of these answers claim runtime activation has started.</p></div>
+      </div>
+    </section>
+
+    <section class="section qa-grid">
+      <details class="qa-item"><summary>Is this just documentation?</summary><div class="qa-body">No. It is documentation that is production-verified. The dashboard and validators prove the claims, and the live site serves the current MVP-50 state.</div></details>
+      <details class="qa-item"><summary>Is this actually live?</summary><div class="qa-body">The dashboard is live at a public URL. The runtime it documents is not active.</div></details>
+      <details class="qa-item"><summary>Why are so many features disabled?</summary><div class="qa-body">Because readiness comes before activation. Disabled capabilities are a safety feature.</div></details>
+      <details class="qa-item"><summary>Can it execute actions?</summary><div class="qa-body">No. There are no execution endpoints or active command paths.</div></details>
+      <details class="qa-item"><summary>Can it write to the database?</summary><div class="qa-body">No. Public writes and database writes remain disabled.</div></details>
+      <details class="qa-item"><summary>Can it deploy code?</summary><div class="qa-body">No. Deploy, merge, and push controls are not in the app.</div></details>
+      <details class="qa-item"><summary>Can it send alerts?</summary><div class="qa-body">No. Alert sending is disabled.</div></details>
+      <details class="qa-item"><summary>Can it roll back production?</summary><div class="qa-body">No. Rollback execution is disabled. The monitor / rollback / incident console is a readiness surface only.</div></details>
+      <details class="qa-item"><summary>What makes this safe?</summary><div class="qa-body">The system carries explicit safety markers, flat validators, and a clear runtime-disabled posture.</div></details>
+      <details class="qa-item"><summary>What is the next step?</summary><div class="qa-body">Stakeholder review and feedback. Runtime activation planning is a separate phase if approval is granted later.</div></details>
+      <details class="qa-item"><summary>Has this been security-reviewed?</summary><div class="qa-body">Not yet. A security review is recommended before any runtime activation.</div></details>
+      <details class="qa-item"><summary>Can external reviewers access the dashboard?</summary><div class="qa-body">Yes. The dashboard is publicly accessible and read-only.</div></details>
+      <details class="qa-item"><summary>How do I know the dashboard is accurate?</summary><div class="qa-body">Validators check markers, files, and latest-status content. The outputs are version-controlled.</div></details>
+      <details class="qa-item"><summary>What does production-verified mean technically?</summary><div class="qa-body">It means the live site was checked against the repo, the required markers were present, and the validators passed.</div></details>
+      <details class="qa-item"><summary>What would it take to enable just one capability?</summary><div class="qa-body">A separate runtime plan, security review, approval gates, monitoring, rollback planning, and explicit stakeholder approval.</div></details>
+      <details class="qa-item"><summary>Is there a risk of accidental activation?</summary><div class="qa-body">Not in this build. The app has no runtime activation controls.</div></details>
+      <details class="qa-item"><summary>Who owns this system?</summary><div class="qa-body">The repo does not declare a canonical owner registry. Ownership should be tracked in a separate registry if needed.</div></details>
+      <details class="qa-item"><summary>How long would runtime activation take?</summary><div class="qa-body">That depends on scope. Runtime activation is a separate planning conversation.</div></details>
+      <details class="qa-item"><summary>Can I see the source code?</summary><div class="qa-body">Yes. The repository is public and the docs are version-controlled.</div></details>
+      <details class="qa-item"><summary>Is this ready for a production operations team?</summary><div class="qa-body">The readiness architecture is complete. Runtime activation has not started.</div></details>
+    </section>
+  </div>        <footer class="footer site-legal-footer">
+      <p>© 2026 Devin O’Rourke. All rights reserved.</p>
+      <p>Agent Command Center, the demo pages, registry presentation, dashboard copy, visual layout, simulator materials, validator descriptions, and stakeholder presentation materials are protected project materials. No license, sale, transfer, or permission to reuse is granted by viewing this demo.</p>
+      <p>This site is a static, read-only demonstration. It does not enable live automation, command execution, database writes, Supabase mutations, deployment actions, rollback execution, alert sending, or runtime activation.</p>
+      <p>Third-party names, platforms, and services referenced for context remain the property of their respective owners.</p>
+      <p class="legal-links"><a href="../legal.html">Legal / Copyright</a> · <a href="../index.html">Home</a> · <a href="./index.html">Demo Hub</a> · <a href="../full-audit-dashboard.html">Full Audit Dashboard</a> · <a href="../copyright.html">Copyright</a></p>
+    </footer>
+
+
+  <script src="./assets/demo.js"></script>
+</body>
+</html>

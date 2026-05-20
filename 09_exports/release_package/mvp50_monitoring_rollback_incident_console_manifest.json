@@ -1,0 +1,20 @@
+{
+  "mvp": "MVP-50",
+  "title": "Monitoring / Rollback / Incident Console",
+  "components": [
+    "monitoring_rollback_incident_console",
+    "monitoring_console",
+    "health_signal_schema",
+    "incident_record_schema",
+    "rollback_plan_registry",
+    "rollback_readiness_checklist",
+    "operator_incident_review_packet",
+    "incident_severity_escalation_matrix",
+    "post_incident_audit_packet"
+  ],
+  "status": "readiness_ready",
+  "schema_readiness_only": true,
+  "review_only": true,
+  "future_implementation_only": true,
+  "safety_notes": "Schema readiness only. No runtime execution."
+}

@@ -19,7 +19,7 @@ def run(cmd):
 def main():
     validators = [
         "python3 scripts/validate_mvp21_safe_feedback_persistence_readiness.py",
-        "python3 scripts/validate_mvp20_manual_feedback_import_review_queue_e2e.py",
+        "python3 scripts/validate_mvp20_manual_feedback_import_review_queue.py",
         "python3 scripts/validate_phase5_plus1_master_validator_wall.py",
     ]
 

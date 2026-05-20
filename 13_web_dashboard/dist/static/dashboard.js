@@ -7265,13 +7265,85 @@
     bindDynamicCopy("mvp41-copy-implementation-checklist", buildImplementationChecklist, "MVP-41 implementation checklist copied.");
   }
 
+  function initMvp42() {
+    const buildImportDryRun = () => "Operator Controlled Response Import Dry Run\n\nDry-run only preview of a future operator-controlled response import workflow.\n\nIncludes:\n- Dry run response import packet\n- Operator import preview queue\n- Dry run validation result\n- Response normalization preview\n- Response-to-feedback conversion preview\n- Dry run audit rollback blueprint\n\nOPERATOR REVIEW ONLY — DRY RUN ONLY — PREVIEW ONLY — FUTURE IMPLEMENTATION ONLY";
+    const buildImportPacket = () => "Dry Run Response Import Packet\n\nProposed packet review fields\n- reviewer_role\n- reviewer_name_or_alias\n- response_category\n- response_summary\n- response_priority\n- operator_notes\n- normalization_preview\n- feedback_conversion_preview\n\nNO PUBLIC RESPONSE SUBMISSION — NO REVIEWER RESPONSE WRITES — NO RESPONSE PERSISTENCE ENABLED";
+    const buildPreviewQueue = () => "Operator Import Preview Queue\n\nPreview queue states\n- received for operator review\n- validation preview pending\n- normalization preview ready\n- feedback conversion preview ready\n- blocked by safety boundary\n- ready for future dry-run review queue\n\nNO LIVE INTAKE — NO REAL IMPORT — NO AUTOMATIC IMPORT";
+    const buildValidationResults = () => "Dry Run Validation Result\n\nValidation preview checks\n- required response fields present\n- reviewer context separated from operator notes\n- no token input\n- no service role exposure\n- no browser persistence\n- no public writes\n\nDRY RUN ONLY — OPERATOR REVIEW ONLY";
+    const buildNormalizationPreview = () => "Response Normalization Preview\n\nPreview mapping\n- response_category to normalized_theme\n- response_priority to normalized_priority\n- response_summary to operator review summary\n- operator_notes preserved for human review\n\nPREVIEW ONLY — NO RESPONSE CAPTURE ENABLED";
+    const buildFeedbackPreview = () => "Response-to-Feedback Conversion Preview\n\nFuture conversion path\n- normalized response preview\n- feedback theme candidate\n- product signal candidate\n- roadmap/request candidate\n- operator decision note\n\nFUTURE IMPLEMENTATION ONLY — NO LIVE WRITES";
+    const buildAuditRollbackBlueprint = () => "Dry Run Audit Rollback Blueprint\n\nAudit preview requirements\n- dry-run import packet identifier\n- validation result snapshot\n- normalization preview snapshot\n- operator review status\n- rollback/no-go reason\n\nROLLBACK BLUEPRINT ONLY — AUTOMATION STILL DISABLED — UPDATE DELETE EXECUTE BLOCKED";
+
+    bindDynamicCopy("mvp42-copy-import-dry-run", buildImportDryRun, "MVP-42 import dry run copied.");
+    bindDynamicCopy("mvp42-copy-import-packet", buildImportPacket, "MVP-42 import packet copied.");
+    bindDynamicCopy("mvp42-copy-preview-queue", buildPreviewQueue, "MVP-42 preview queue copied.");
+    bindDynamicCopy("mvp42-copy-validation-results", buildValidationResults, "MVP-42 validation results copied.");
+    bindDynamicCopy("mvp42-copy-normalization-preview", buildNormalizationPreview, "MVP-42 normalization preview copied.");
+    bindDynamicCopy("mvp42-copy-feedback-preview", buildFeedbackPreview, "MVP-42 feedback conversion preview copied.");
+    bindDynamicCopy("mvp42-copy-audit-rollback-blueprint", buildAuditRollbackBlueprint, "MVP-42 audit rollback blueprint copied.");
+  }
+
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initMvp39);
     document.addEventListener("DOMContentLoaded", initMvp40);
     document.addEventListener("DOMContentLoaded", initMvp41);
+    document.addEventListener("DOMContentLoaded", initMvp42);
   } else {
     initMvp39();
     initMvp40();
     initMvp41();
+    initMvp42();
   }
 })();
+
+window.switchTab = function(tabId) {
+  document.querySelectorAll('.tab-pane').forEach(function(el) {
+    el.style.display = 'none';
+    el.classList.remove('active');
+  });
+  document.querySelectorAll('.tab-btn').forEach(function(el) {
+    el.classList.remove('active');
+  });
+  
+  var target = document.getElementById(tabId);
+  if (target) {
+    target.style.display = 'block';
+    target.classList.add('active');
+  }
+  
+  var btn = document.querySelector('.tab-btn[onclick*="' + tabId + '"]');
+  if (btn) {
+    btn.classList.add('active');
+  }
+  
+  window.scrollTo(0, 0);
+};
+
+window.filterArchive = function(filterValue) {
+  var archiveContent = document.getElementById('archive-content');
+  if (!archiveContent) return;
+  
+  var details = archiveContent.querySelectorAll('details.panel');
+  details.forEach(function(el) {
+    var title = el.querySelector('summary').textContent.toLowerCase();
+    var show = false;
+    if (filterValue === 'all') {
+      show = true;
+    } else if (filterValue === 'original') {
+      if (title.indexOf('phase 5') !== -1 || title.indexOf('plus') !== -1) show = true;
+    } else if (filterValue === 'mvp1-10') {
+      for(var i=1; i<=10; i++) if(title.indexOf('mvp-' + i + ' ') !== -1) show = true;
+    } else if (filterValue === 'mvp11-20') {
+      for(var i=11; i<=20; i++) if(title.indexOf('mvp-' + i + ' ') !== -1) show = true;
+    } else if (filterValue === 'mvp21-30') {
+      for(var i=21; i<=30; i++) if(title.indexOf('mvp-' + i + ' ') !== -1) show = true;
+    } else if (filterValue === 'mvp31-40') {
+      for(var i=31; i<=40; i++) if(title.indexOf('mvp-' + i + ' ') !== -1) show = true;
+    }
+    
+    // Always show safety boundary in all
+    if (el.id === 'safety-boundary' && filterValue === 'all') show = true;
+    
+    el.style.display = show ? 'block' : 'none';
+  });
+};

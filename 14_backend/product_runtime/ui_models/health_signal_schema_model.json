@@ -1,0 +1,33 @@
+{
+  "model_id": "health_signal_schema_model",
+  "mvp": "MVP-50",
+  "domain": "Health Signal Schema",
+  "title": "Health Signal Schema Model",
+  "description": "Health Signal Schema defining the structure of component health signals for monitoring readiness.",
+  "fields": [
+    { "name": "signal_id", "type": "string", "purpose": "Unique health signal identifier" },
+    { "name": "component_name", "type": "string", "purpose": "Name of the component emitting the signal" },
+    { "name": "signal_status", "type": "string", "purpose": "Health status: healthy | degraded | critical | unknown" },
+    { "name": "last_heartbeat", "type": "string", "purpose": "ISO 8601 timestamp of last signal received" },
+    { "name": "signal_metadata", "type": "object", "purpose": "Optional metadata payload from the component" }
+  ],
+  "status": "health_signal_schema_ready",
+  "health_signal_schema_flag": true,
+  "schema_readiness_only": true,
+  "review_only": true,
+  "future_implementation_only": true,
+  "safety_notes": "Schema readiness only. No runtime execution.",
+  "real_monitoring_enabled": false,
+  "real_alert_dispatch_enabled": false,
+  "real_metrics_collection_enabled": false,
+  "real_log_aggregation_enabled": false,
+  "autonomous_observability_enabled": false,
+  "external_monitoring_api_mutation_enabled": false,
+  "dashboard_write_enabled": false,
+  "health_check_execution_enabled": false,
+  "service_role_used": false,
+  "service_role_in_browser": false,
+  "token_input_enabled": false,
+  "browser_persistence_enabled": false,
+  "migration_apply_enabled": false
+}

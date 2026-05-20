@@ -1,0 +1,685 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Command Center Sandbox Simulator - The Agent Command Center</title>
+  <link rel="stylesheet" href="./assets/demo.css">
+  <style>
+    .sim-shell {
+      display: grid;
+      gap: 24px;
+      min-width: 0;
+    }
+    .sim-hero {
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 24px;
+      padding: 28px;
+      background:
+        radial-gradient(circle at top right, rgba(96,165,250,0.18), transparent 36%),
+        radial-gradient(circle at bottom left, rgba(16,185,129,0.12), transparent 28%),
+        rgba(10,15,23,0.82);
+      box-shadow: 0 26px 70px rgba(0,0,0,0.34);
+    }
+    .sim-hero-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+      gap: 24px;
+      align-items: start;
+    }
+    .sim-title {
+      margin: 0;
+      font-size: clamp(2.4rem, 4vw, 4.1rem);
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+    }
+    .sim-lead {
+      max-width: 72ch;
+      color: rgba(226,232,240,0.88);
+      font-size: 1.05rem;
+      line-height: 1.7;
+      overflow-wrap: anywhere;
+    }
+    .stage-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+      gap: 14px;
+    }
+    .stage-card {
+      min-height: 240px;
+      display: grid;
+      gap: 10px;
+      align-content: start;
+      min-width: 0;
+    }
+    .stage-card.active {
+      border-color: rgba(96,165,250,0.45);
+      box-shadow: 0 0 0 1px rgba(96,165,250,0.18), 0 18px 48px rgba(0,0,0,0.25);
+      transform: translateY(-1px);
+    }
+    .stage-card.complete {
+      border-color: rgba(52,211,153,0.28);
+    }
+    .stage-card.pending {
+      opacity: 0.9;
+    }
+    .stage-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .scenario-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+      gap: 14px;
+    }
+    .scenario-button {
+      width: 100%;
+      text-align: left;
+      border: 1px solid rgba(148,163,184,0.18);
+      border-radius: 18px;
+      background: rgba(15,23,42,0.72);
+      color: inherit;
+      padding: 16px;
+      cursor: pointer;
+      transition: transform 120ms ease, border-color 120ms ease, background 120ms ease;
+      min-width: 0;
+      overflow-wrap: anywhere;
+      white-space: normal;
+    }
+    .scenario-button:hover,
+    .scenario-button:focus-visible {
+      transform: translateY(-1px);
+      border-color: rgba(96,165,250,0.42);
+      background: rgba(17,24,39,0.92);
+      outline: none;
+    }
+    .scenario-button.active {
+      border-color: rgba(96,165,250,0.58);
+      background: rgba(30,41,59,0.95);
+    }
+    .scenario-button[data-scenario="safeContentReview"] { border-left: 4px solid rgba(52,211,153,0.8); }
+    .scenario-button[data-scenario="highRiskDeploy"] { border-left: 4px solid rgba(248,113,113,0.8); }
+    .scenario-button[data-scenario="incidentRollback"] { border-left: 4px solid rgba(251,191,36,0.8); }
+    .scenario-button[data-scenario="approvalDenied"] { border-left: 4px solid rgba(96,165,250,0.8); }
+    .scenario-button strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+    .sim-panel {
+      display: grid;
+      gap: 16px;
+    }
+    .control-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .report-box {
+      min-height: 140px;
+      border-radius: 18px;
+      border: 1px solid rgba(148,163,184,0.18);
+      background: rgba(15,23,42,0.72);
+      padding: 16px;
+      white-space: pre-wrap;
+      line-height: 1.6;
+    }
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+      gap: 14px;
+    }
+    .progress-track {
+      margin-top: 12px;
+    }
+    .status-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-top: 14px;
+    }
+    @media (max-width: 1100px) {
+      .sim-hero-grid, .stage-grid, .summary-grid, .scenario-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 900px) {
+      .sim-hero,
+      .sim-panel {
+        max-width: 100%;
+        min-width: 0;
+      }
+      .control-row .button,
+      .control-row button,
+      .scenario-button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-shell">
+    <header class="demo-topbar collapsible-topbar" data-collapsible-menu>
+      <div class="topbar-main">
+        <a class="topbar-title" href="./index.html">Command Center Sandbox Simulator</a>
+        <button
+          class="menu-toggle"
+          type="button"
+          data-action="toggle-menu"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          aria-controls="demo-menu-panel">
+          Menu
+        </button>
+      </div>
+      <nav
+        id="demo-menu-panel"
+        class="menu-panel"
+        data-menu-panel
+        hidden
+        aria-label="Demo navigation">
+        <a href="../index.html">Home</a>
+        <a href="./index.html">Demo Hub</a>
+        <a href="./presentation.html">Presentation</a>
+        <a href="./simulator.html">Simulator</a>
+        <a href="./system-story.html">System Story</a>
+        <a href="./system-scale.html">System Scale</a>
+        <a href="./agent-hierarchy.html">Agent Hierarchy</a>
+        <a href="./agent-registry.html">Agent Registry</a>
+        <a href="./operating-model.html">Operating Model</a>
+        <a href="./validator-safety-map.html">Validator Map</a>
+        <a href="./safety-boundaries.html">Safety Boundaries</a>
+        <a href="./technical-appendix.html">Technical Appendix</a>
+        <a href="./objections.html">Objections</a>
+        <a href="./review.html">Review</a>
+        <a href="../full-audit-dashboard.html">Full Audit Dashboard</a>
+        <a href="../legal.html">Legal / Copyright</a>
+      </nav>
+    </header>
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../index.html">Home</a>
+      <span aria-hidden="true">→</span>
+      <a href="./index.html">Demo Hub</a>
+      <span aria-hidden="true">→</span>
+      <span>Command Center Sandbox Simulator</span>
+    </nav>
+
+    <section class="sim-hero">
+      <div class="sim-hero-grid">
+        <div>
+          <p class="eyebrow">STATIC SANDBOX</p>
+          <h1 class="sim-title">Command Center Sandbox Simulator</h1>
+          <p class="sim-lead">Run a safe simulated request through the Agent Command Center pipeline. Backend/Supabase readiness exists, live backend runtime is disabled, and this page stays local and read-only. This is a flight simulator, not the real aircraft. No backend calls. No writes. No execution. No automation.</p>
+          <div class="badge-row">
+            <span class="badge success">PRODUCTION VERIFIED THROUGH MVP-50</span>
+            <span class="badge warning">BACKEND/SUPABASE READINESS PRESENT</span>
+            <span class="badge info">LIVE BACKEND RUNTIME DISABLED</span>
+            <span class="badge ghost">NOT_READY_FOR_REAL_AUTOMATION</span>
+          </div>
+          <div class="cta-row" style="margin-top: 18px;">
+            <a class="button primary" href="./index.html">Back to Demo Hub</a>
+            <a class="button" href="../index.html">Open Live Dashboard</a>
+            <a class="button" href="./safety-boundaries.html">Safety Boundaries</a>
+          </div>
+        </div>
+        <aside class="card">
+          <div class="card-head">
+            <h3 class="card-title">Current scenario</h3>
+            <span class="badge info" id="scenario-badge">SAFE CONTENT REVIEW</span>
+          </div>
+          <p class="card-body" id="scenario-premise">A stakeholder asks the command center to review a piece of content for safety and clarity before sharing.</p>
+          <div class="status-strip" id="sim-status-strip">
+            <span class="badge pass">READY FOR HUMAN REVIEW SIMULATION ONLY</span>
+          </div>
+          <div class="callout" style="margin-top: 16px;">
+            <p class="kicker">What this proves</p>
+            <p id="scenario-proof">The simulator is local and in-memory only. It demonstrates the readiness pipeline without sending data anywhere.</p>
+          </div>
+          <ul class="list" style="margin-top: 16px;">
+            <li>STATIC SANDBOX</li>
+            <li>PRODUCTION VERIFIED THROUGH MVP-50</li>
+            <li>BACKEND/SUPABASE READINESS PRESENT</li>
+            <li>LIVE BACKEND RUNTIME DISABLED</li>
+            <li>NOT_READY_FOR_REAL_AUTOMATION</li>
+            <li>No backend calls</li>
+            <li>No writes</li>
+            <li>No execution</li>
+            <li>No automation</li>
+            <li>No Supabase mutation</li>
+            <li>No alert sending</li>
+            <li>No rollback execution</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Scenario chooser</p>
+          <h2>Choose a simulated request</h2>
+        </div>
+        <p>Each scenario uses the same static pipeline, but the stage results and final status reflect a different stakeholder request.</p>
+      </div>
+      <div class="scenario-grid" id="scenario-grid">
+        <button class="scenario-button active" type="button" data-scenario="safeContentReview">
+          <strong>Safe content-review request</strong>
+          <span>READY_FOR_HUMAN_REVIEW_SIMULATION_ONLY</span>
+        </button>
+        <button class="scenario-button" type="button" data-scenario="highRiskDeploy">
+          <strong>High-risk deploy request</strong>
+          <span>BLOCKED_BY_DEPLOY_CONTROL_BOUNDARY</span>
+        </button>
+        <button class="scenario-button" type="button" data-scenario="incidentRollback">
+          <strong>Incident rollback request</strong>
+          <span>ROLLBACK_READINESS_PREVIEW_ONLY</span>
+        </button>
+        <button class="scenario-button" type="button" data-scenario="approvalDenied">
+          <strong>Approval denied request</strong>
+          <span>STOPPED_AT_APPROVAL_GATE</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Pipeline</p>
+          <h2>Auth → Storage → Audit → Approval → Dry Run → Queue → Human Review → Monitoring Readiness</h2>
+        </div>
+        <p>This is the readiness flow, not an enabled execution flow.</p>
+      </div>
+      <div class="stage-grid" id="stage-grid"></div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Controls</p>
+          <h2>Run the simulation</h2>
+        </div>
+        <p>All controls are local. They only update the browser view and copy static text.</p>
+      </div>
+      <div class="sim-panel">
+        <div class="control-row">
+          <button class="button primary" type="button" id="run-button">Run full simulation</button>
+          <button class="button" type="button" id="step-button">Step through simulation</button>
+          <button class="button" type="button" id="reset-button">Reset simulation</button>
+          <button class="button" type="button" id="copy-button">Copy simulation summary</button>
+          <button class="button" type="button" id="print-button">Print simulation report</button>
+        </div>
+        <div class="summary-grid">
+          <article class="card">
+            <div class="card-head"><h3 class="card-title">Simulation summary</h3><span class="badge info" id="final-status-badge">READY_FOR_HUMAN_REVIEW_SIMULATION_ONLY</span></div>
+            <p class="card-body" id="summary-text">The simulator is initialized and ready.</p>
+          </article>
+          <article class="card">
+            <div class="card-head"><h3 class="card-title">Stage progress</h3><span class="badge ghost" id="progress-badge">0 / 8</span></div>
+            <p class="card-body" id="progress-text">No stages have been run yet.</p>
+            <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="progress-fill"></div></div>
+          </article>
+          <article class="card">
+            <div class="card-head"><h3 class="card-title">Mock log</h3><span class="badge ghost">In-memory only</span></div>
+            <div class="sim-log" id="log-box" aria-live="polite"></div>
+          </article>
+        </div>
+        <div class="report-box" id="report-box" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Safety boundary</p>
+          <h2>What this simulator does not enable</h2>
+        </div>
+        <p>Backend/Supabase readiness exists, but live backend runtime, writes, endpoints, service-role usage, and runtime mutation flows stay disabled until explicit runtime activation approval.</p>
+      </div>
+      <div class="card-grid">
+        <article class="card">
+          <h3>Disabled capabilities</h3>
+          <ul class="list">
+            <li>No command execution.</li>
+            <li>No action execution.</li>
+            <li>No public writes or Supabase writes.</li>
+            <li>No backend calls.</li>
+            <li>No writes.</li>
+            <li>No execution.</li>
+            <li>No automation.</li>
+            <li>No Supabase mutation.</li>
+            <li>No alert sending.</li>
+            <li>No rollback execution.</li>
+            <li>No alert sending, rollback execution, or incident mutation.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Runtime boundary</h3>
+          <ul class="list">
+            <li>Service role is not exposed to the browser.</li>
+            <li>Runtime activation has not started.</li>
+            <li>This page is static, local, and read-only.</li>
+            <li>The simulator stays local and does not invoke live backend runtime.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+        <footer class="footer site-legal-footer">
+      <p>© 2026 Devin O’Rourke. All rights reserved.</p>
+      <p>Agent Command Center, the demo pages, registry presentation, dashboard copy, visual layout, simulator materials, validator descriptions, and stakeholder presentation materials are protected project materials. No license, sale, transfer, or permission to reuse is granted by viewing this demo.</p>
+      <p>This site is a static, read-only demonstration. It does not enable live automation, command execution, database writes, Supabase mutations, deployment actions, rollback execution, alert sending, or runtime activation.</p>
+      <p>Third-party names, platforms, and services referenced for context remain the property of their respective owners.</p>
+      <p class="legal-links"><a href="../legal.html">Legal / Copyright</a> · <a href="../index.html">Home</a> · <a href="./index.html">Demo Hub</a> · <a href="../full-audit-dashboard.html">Full Audit Dashboard</a> · <a href="../copyright.html">Copyright</a></p>
+    </footer>
+  </div>
+
+  <script>
+    const STAGE_NAMES = [
+      "Auth",
+      "Storage",
+      "Audit",
+      "Approval",
+      "Dry Run",
+      "Queue",
+      "Human Review",
+      "Monitoring Readiness",
+    ];
+
+    const SIMULATOR_SCENARIOS = {
+      safeContentReview: {
+        label: "Safe Content Review",
+        badge: "SAFE CONTENT REVIEW",
+        premise: "A stakeholder asks the command center to review a piece of content for safety and clarity before sharing.",
+        finalStatus: "READY_FOR_HUMAN_REVIEW_SIMULATION_ONLY",
+        proof: "No real content is submitted. No database record is written. Live backend runtime is not invoked.",
+        stages: [
+          ["PASS", "Auth passes because the request is simulated locally.", "The command center would check identity boundaries.", "Simulated authentication only.", "No token is sent to a backend or browser store.", "Proof: identity is evaluated in-memory only."],
+          ["PASS", "Storage creates a simulated request record only.", "The command center would check persistence eligibility.", "Simulated storage only.", "No database or Supabase write occurs.", "Proof: the request remains in the page state."],
+          ["PASS", "Audit logs a simulated event only.", "The command center would check traceability and reviewability.", "Simulated audit event only.", "No immutable ledger write occurs.", "Proof: the audit line exists only in the browser."],
+          ["REVIEW REQUIRED", "Approval is needed before any follow-on step.", "The command center would check human authorization.", "Human review required.", "No approval execution happens.", "Proof: the request stops at the review boundary until a human approves it."],
+          ["PASS", "Dry run generates a preview of the action.", "The command center would check the request shape and likely effects.", "Preview generated.", "No real side effect is possible.", "Proof: the dry run is a local mock outcome."],
+          ["QUEUED", "Queue holds the simulated request.", "The command center would check dispatch eligibility.", "Queued in simulation only.", "No dispatch to a worker occurs.", "Proof: no worker or automation is running."],
+          ["READY", "Human review can approve or deny the request.", "The command center would check the final attestation step.", "Ready for human approval.", "No execution occurs automatically.", "Proof: a human must still decide."],
+          ["NONE", "Monitoring readiness is not needed for this benign request.", "The command center would check whether incident handling is relevant.", "No incident or rollback needed.", "No incident mutation or rollback execution.", "Proof: the simulator stays read-only."],
+        ],
+      },
+      highRiskDeploy: {
+        label: "High-Risk Deploy Request",
+        badge: "HIGH-RISK DEPLOY",
+        premise: "A user asks the command center to deploy or merge a production change.",
+        finalStatus: "BLOCKED_BY_DEPLOY_CONTROL_BOUNDARY",
+        proof: "Deploy controls are not present in the app. GitHub and Netlify mutation are disabled.",
+        stages: [
+          ["PASS", "Auth passes because the scenario is simulated.", "The command center would check identity boundaries.", "Simulated authentication only.", "Live backend runtime is not invoked.", "Proof: the request stays local."],
+          ["PASS", "Storage keeps a local preview record only.", "The command center would check request persistence.", "Preview only.", "No database write occurs.", "Proof: nothing leaves the browser."],
+          ["PASS", "Audit records the simulated request.", "The command center would check traceability.", "Simulated audit event only.", "No immutable ledger write occurs.", "Proof: the page state is the only record."],
+          ["ESCALATED", "Approval must escalate because deploy controls are disabled.", "The command center would check for human authorization and deployment readiness.", "Blocked pending a separate runtime activation plan.", "No deploy, merge, push, or PR action can run.", "Proof: the app has no deploy controls."],
+          ["BLOCKED", "Dry run detects a risky production deployment path.", "The command center would check for side effects.", "Risk detected; no execution preview dispatched.", "No execution path exists.", "Proof: runtime mutation is off."],
+          ["BLOCKED", "Queue is blocked and not dispatched.", "The command center would check dispatch eligibility.", "No worker dispatch.", "No automation processing.", "Proof: queue processing is disabled."],
+          ["DENIED", "Human review denies the request for now.", "The command center would check final go / no-go criteria.", "Denied pending separate approval and activation planning.", "No production change can occur.", "Proof: the request cannot reach execution.",],
+          ["NONE", "Monitoring readiness confirms there is nothing to roll back.", "The command center would check whether live monitoring is relevant.", "Deployment controls are unavailable.", "No incident mutation or rollback execution.", "Proof: the simulator is static only."],
+        ],
+      },
+      incidentRollback: {
+        label: "Incident Rollback Request",
+        badge: "ROLLBACK REQUEST",
+        premise: "A stakeholder asks whether the command center can prepare a rollback response for an incident.",
+        finalStatus: "ROLLBACK_READINESS_PREVIEW_ONLY",
+        proof: "Rollback execution is disabled. Incident mutation is disabled. Alert sending is disabled.",
+        stages: [
+          ["PASS", "Auth passes in simulation.", "The command center would check identity boundaries.", "Simulated authentication only.", "No token leaves the browser.", "Proof: live backend runtime is not invoked."],
+          ["PASS", "Storage keeps a simulated incident request record only.", "The command center would check request persistence.", "Preview only.", "No database or Supabase write occurs.", "Proof: the record is not persisted."],
+          ["PASS", "Audit records a simulated incident event.", "The command center would check traceability.", "Simulated audit event only.", "No immutable ledger write occurs.", "Proof: the audit ledger is not mutated."],
+          ["EMERGENCY REVIEW", "Approval requires explicit incident commander review.", "The command center would check incident authority.", "Emergency review required.", "No approval execution happens.", "Proof: humans still control the gate."],
+          ["PASS", "Dry run generates a rollback preview packet.", "The command center would check the rollback shape.", "Rollback preview only.", "No real rollback is possible.", "Proof: the preview stays local."],
+          ["QUEUED", "Queue keeps a simulated handoff packet.", "The command center would check whether incident work can be dispatched.", "Queued as a preview only.", "No worker dispatch occurs.", "Proof: queueing is simulated."],
+          ["READY", "Human review can inspect the handoff packet.", "The command center would check the operator review path.", "Ready for incident commander review.", "No incident mutation can occur automatically.", "Proof: the page stays read-only."],
+          ["READY", "Monitoring readiness shows the rollback handoff packet only.", "The command center would check post-incident preparedness.", "Preview only; no alerting or rollback execution.", "No alert sending or incident mutation.", "Proof: this is readiness, not activation."],
+        ],
+      },
+      approvalDenied: {
+        label: "Approval Denied Request",
+        badge: "APPROVAL DENIED",
+        premise: "A requested action fails the approval gate because it lacks sufficient human authorization.",
+        finalStatus: "STOPPED_AT_APPROVAL_GATE",
+        proof: "Denied requests do not proceed to queue or execution. No approval decision is written to a backend.",
+        stages: [
+          ["PASS", "Auth passes in simulation.", "The command center would check identity boundaries.", "Simulated authentication only.", "No token persistence is used.", "Proof: the request is local only."],
+          ["PASS", "Storage keeps a request preview only.", "The command center would check persistence eligibility.", "Preview only.", "No database write occurs.", "Proof: live backend runtime remains disabled."],
+          ["PASS", "Audit records the simulated request.", "The command center would check traceability.", "Simulated audit event only.", "No immutable ledger write occurs.", "Proof: the audit trail is browser-only."],
+          ["DENIED", "Approval is denied because the request lacks authorization.", "The command center would check the human approval gate.", "Denied at the gate.", "No approval execution or backend mutation occurs.", "Proof: the flow stops here."],
+          ["SKIPPED", "Dry run is skipped after denial.", "The command center would check whether preview execution is still relevant.", "Skipped.", "No execution preview is produced.", "Proof: denial stops the flow early."],
+          ["NOT QUEUED", "Queue is not used.", "The command center would check whether dispatch is allowed.", "Not dispatched.", "No queue processing occurs.", "Proof: blocked requests never reach the queue."],
+          ["RECORDED", "Human review records the denial in the browser summary.", "The command center would check the human review outcome.", "Denied request stays local.", "Live backend runtime is not invoked.", "Proof: the summary is read-only."],
+          ["NONE", "Monitoring readiness remains idle.", "The command center would check if incident handling is needed.", "No monitoring activation.", "No alerting or rollback execution.", "Proof: no live action is enabled."],
+        ],
+      },
+    };
+
+    const stageGrid = document.getElementById("stage-grid");
+    const scenarioGrid = document.getElementById("scenario-grid");
+    const scenarioBadge = document.getElementById("scenario-badge");
+    const scenarioPremise = document.getElementById("scenario-premise");
+    const scenarioProof = document.getElementById("scenario-proof");
+    const summaryText = document.getElementById("summary-text");
+    const progressText = document.getElementById("progress-text");
+    const progressBadge = document.getElementById("progress-badge");
+    const progressFill = document.getElementById("progress-fill");
+    const finalStatusBadge = document.getElementById("final-status-badge");
+    const reportBox = document.getElementById("report-box");
+    const logBox = document.getElementById("log-box");
+    const simStatusStrip = document.getElementById("sim-status-strip");
+    const runButton = document.getElementById("run-button");
+    const stepButton = document.getElementById("step-button");
+    const resetButton = document.getElementById("reset-button");
+    const copyButton = document.getElementById("copy-button");
+    const printButton = document.getElementById("print-button");
+
+    let selectedScenarioKey = "safeContentReview";
+    let activeStageIndex = -1;
+    let timer = null;
+
+    function buildStageCards() {
+      stageGrid.innerHTML = STAGE_NAMES.map((name, index) => `
+        <article class="card stage-card pending" id="stage-${index}">
+          <div class="stage-meta">
+            <h3 class="card-title">${name}</h3>
+            <span class="badge ghost" id="stage-badge-${index}">PENDING</span>
+          </div>
+          <p class="card-body" id="stage-check-${index}"></p>
+          <div class="callout">
+            <p class="kicker">Simulated result</p>
+            <p id="stage-result-${index}"></p>
+          </div>
+          <div class="callout">
+            <p class="kicker">Safety boundary</p>
+            <p id="stage-boundary-${index}"></p>
+          </div>
+          <div class="callout">
+            <p class="kicker">Proof note</p>
+            <p id="stage-proof-${index}"></p>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    function clearTimer() {
+      if (timer) {
+        window.clearInterval(timer);
+        timer = null;
+      }
+    }
+
+    function setScenario(key) {
+      selectedScenarioKey = key;
+      activeStageIndex = -1;
+      clearTimer();
+      scenarioGrid.querySelectorAll(".scenario-button").forEach((button) => {
+        button.classList.toggle("active", button.dataset.scenario === key);
+      });
+      const scenario = SIMULATOR_SCENARIOS[key];
+      scenarioBadge.textContent = scenario.badge;
+      scenarioPremise.textContent = scenario.premise;
+      scenarioProof.textContent = scenario.proof;
+      summaryText.textContent = `Selected scenario: ${scenario.label}. Use Run or Step to simulate the readiness flow.`;
+      progressText.textContent = "No stages have been run yet.";
+      progressBadge.textContent = "0 / 8";
+      finalStatusBadge.textContent = scenario.finalStatus;
+      simStatusStrip.innerHTML = `<span class="badge pass">${scenario.finalStatus}</span><span class="badge info">STATIC SANDBOX</span><span class="badge warning">LIVE BACKEND RUNTIME DISABLED</span>`;
+      reportBox.textContent = "";
+      renderStages();
+    }
+
+    function renderStages() {
+      const scenario = SIMULATOR_SCENARIOS[selectedScenarioKey];
+      STAGE_NAMES.forEach((name, index) => {
+        const [status, check, result, boundary, proof] = scenario.stages[index];
+        const card = document.getElementById(`stage-${index}`);
+        const badge = document.getElementById(`stage-badge-${index}`);
+        const checkEl = document.getElementById(`stage-check-${index}`);
+        const resultEl = document.getElementById(`stage-result-${index}`);
+        const boundaryEl = document.getElementById(`stage-boundary-${index}`);
+        const proofEl = document.getElementById(`stage-proof-${index}`);
+        badge.textContent = status;
+        checkEl.textContent = check;
+        resultEl.textContent = result;
+        boundaryEl.textContent = boundary;
+        proofEl.textContent = proof;
+        card.classList.toggle("active", index === activeStageIndex);
+        card.classList.toggle("complete", activeStageIndex >= index && activeStageIndex >= 0);
+        card.classList.toggle("pending", activeStageIndex < index || activeStageIndex < 0);
+      });
+    }
+
+    function buildReportText() {
+      const scenario = SIMULATOR_SCENARIOS[selectedScenarioKey];
+      const lines = [
+        `Scenario: ${scenario.label}`,
+        `Final status: ${scenario.finalStatus}`,
+        `Premise: ${scenario.premise}`,
+        `Proof: ${scenario.proof}`,
+        "",
+      ];
+      STAGE_NAMES.forEach((name, index) => {
+        const [status, check, result, boundary, proof] = scenario.stages[index];
+        lines.push(`${name}`);
+        lines.push(`- Status: ${status}`);
+        lines.push(`- Check: ${check}`);
+        lines.push(`- Result: ${result}`);
+        lines.push(`- Safety boundary: ${boundary}`);
+        lines.push(`- Proof note: ${proof}`);
+        lines.push("");
+      });
+      return lines.join(String.fromCharCode(10)).trim();
+    }
+
+    function buildMockLogLines() {
+      const scenario = SIMULATOR_SCENARIOS[selectedScenarioKey];
+      const startedAt = Date.parse("2025-05-20T12:00:00Z");
+      const activeCount = Math.max(activeStageIndex + 1, 0);
+      const lines = [
+        {
+          time: new Date(startedAt).toISOString(),
+          text: `Scenario selected: ${scenario.label}`,
+        },
+        {
+          time: new Date(startedAt + 1200).toISOString(),
+          text: "Boundary check: static sandbox only; no backend calls, no writes, no execution.",
+        },
+      ];
+      STAGE_NAMES.slice(0, activeCount).forEach((name, index) => {
+        const [status, check, result] = scenario.stages[index];
+        lines.push({
+          time: new Date(startedAt + (index + 2) * 2200).toISOString(),
+          text: `${name}: ${status} - ${result} (${check})`,
+        });
+      });
+      lines.push({
+        time: new Date(startedAt + (activeCount + 2) * 2200).toISOString(),
+        text: activeStageIndex < 0
+          ? "Ready state: use Run full simulation or Step through simulation."
+          : `Outcome: ${scenario.finalStatus}`,
+      });
+      return lines;
+    }
+
+    function syncOutput() {
+      const scenario = SIMULATOR_SCENARIOS[selectedScenarioKey];
+      const completed = Math.max(activeStageIndex + 1, 0);
+      const progressPct = Math.round((completed / STAGE_NAMES.length) * 100);
+      progressBadge.textContent = `${completed} / 8`;
+      progressFill.style.width = `${progressPct}%`;
+      progressText.textContent = activeStageIndex < 0
+        ? "No stages have been run yet."
+        : `Stage ${Math.min(activeStageIndex + 1, 8)} of 8 is active.`;
+      summaryText.textContent = activeStageIndex < 0
+        ? `Selected scenario: ${scenario.label}. Use Run or Step to simulate the readiness flow.`
+        : `Selected scenario: ${scenario.label}. ${scenario.finalStatus} is the current simulated outcome.`;
+      logBox.innerHTML = buildMockLogLines().map((entry) => `<div class="sim-log-line"><time>${entry.time.slice(11, 19)}Z</time><span>${entry.text}</span></div>`).join("");
+      reportBox.textContent = buildReportText();
+      renderStages();
+    }
+
+    function stepSimulation() {
+      clearTimer();
+      activeStageIndex = Math.min(activeStageIndex + 1, STAGE_NAMES.length - 1);
+      syncOutput();
+    }
+
+    function runSimulation() {
+      clearTimer();
+      activeStageIndex = -1;
+      syncOutput();
+      timer = window.setInterval(() => {
+        if (activeStageIndex >= STAGE_NAMES.length - 1) {
+          clearTimer();
+          return;
+        }
+        activeStageIndex += 1;
+        syncOutput();
+      }, 850);
+    }
+
+    async function copySummary() {
+      const text = buildReportText();
+      try {
+        await navigator.clipboard.writeText(text);
+        summaryText.textContent = "Simulation summary copied to clipboard.";
+      } catch {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+        summaryText.textContent = "Simulation summary copied to clipboard.";
+      }
+    }
+
+    scenarioGrid.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-scenario]");
+      if (!button) return;
+      setScenario(button.dataset.scenario);
+    });
+
+    runButton.addEventListener("click", runSimulation);
+    stepButton.addEventListener("click", stepSimulation);
+    resetButton.addEventListener("click", () => {
+      clearTimer();
+      setScenario(selectedScenarioKey);
+    });
+    copyButton.addEventListener("click", copySummary);
+    printButton.addEventListener("click", () => window.print());
+
+    buildStageCards();
+    setScenario(selectedScenarioKey);
+  </script>
+</body>
+</html>

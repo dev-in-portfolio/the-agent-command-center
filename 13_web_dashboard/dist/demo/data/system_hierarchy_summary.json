@@ -1,0 +1,2413 @@
+{
+  "formal_registry_status": "GENERATED_FROM_PROJECT_ARTIFACTS",
+  "count_type": "DERIVED_FROM_PROJECT_ARTIFACTS",
+  "discovery_status": "COMPLETE",
+  "exact_family_count": 175,
+  "exact_department_count": 1777,
+  "exact_unit_count": 5331,
+  "exact_agent_count": 47979,
+  "hierarchy_level_count": 7,
+  "operational_domain_count": 11,
+  "live_runtime_agents_enabled": 0,
+  "runtime_activation_started": false,
+  "source_file": "09_exports/org_chart_export.json",
+  "source_type": "org_chart_export_json",
+  "traceability_file": "09_exports/system_registry/agent_department_registry_traceability.md",
+  "traceability_html": "13_web_dashboard/dist/demo/data/agent_department_registry_traceability.html",
+  "registry_files": {
+    "agent_registry": "09_exports/system_registry/agent_registry.json",
+    "department_registry": "09_exports/system_registry/department_registry.json",
+    "system_hierarchy": "09_exports/system_registry/system_hierarchy.json"
+  },
+  "family_breakdown": [
+    {
+      "id": 1,
+      "display_name": "Agent Command",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 2,
+      "display_name": "Planning & Project Control",
+      "department_count": 14,
+      "unit_count": 42,
+      "agent_count": 378,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 3,
+      "display_name": "Operations",
+      "department_count": 14,
+      "unit_count": 42,
+      "agent_count": 378,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 4,
+      "display_name": "Research & Intelligence",
+      "department_count": 15,
+      "unit_count": 45,
+      "agent_count": 405,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 5,
+      "display_name": "Data & Knowledge",
+      "department_count": 17,
+      "unit_count": 51,
+      "agent_count": 459,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 6,
+      "display_name": "Creation & Production",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 7,
+      "display_name": "Engineering & Automation",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 8,
+      "display_name": "Quality, Risk & Compliance",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 9,
+      "display_name": "Business Growth",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 10,
+      "display_name": "Finance & Administration",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 11,
+      "display_name": "Industry Divisions",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 12,
+      "display_name": "Personal Operating System",
+      "department_count": 17,
+      "unit_count": 51,
+      "agent_count": 459,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 13,
+      "display_name": "HR, Training & Enablement",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 14,
+      "display_name": "Communications & Public Relations",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 15,
+      "display_name": "Manufacturing, Print & Physical Production",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 16,
+      "display_name": "Facilities & Event Operations",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 17,
+      "display_name": "Ethics & Safety",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 18,
+      "display_name": "Strategy, Innovation & R&D",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 19,
+      "display_name": "Community & Ecosystem",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 20,
+      "display_name": "Education & Instructional Systems",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 21,
+      "display_name": "Media & Content Production",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 22,
+      "display_name": "Localization & Accessibility",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 23,
+      "display_name": "Funding, Grants & Capital",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 24,
+      "display_name": "Government, Public Sector & Civic Operations",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 25,
+      "display_name": "Healthcare & Wellness Division",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 26,
+      "display_name": "Real Estate & Property Division",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 27,
+      "display_name": "E-Commerce & Retail Division",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 28,
+      "display_name": "Intellectual Property, Rights & Licensing",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 29,
+      "display_name": "Sustainability & Environmental Operations",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 30,
+      "display_name": "Agent Lab & System Evolution",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 31,
+      "display_name": "Model Operations & AI Infrastructure",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 32,
+      "display_name": "Evaluation & Benchmarking",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 33,
+      "display_name": "Human Review & Approval Operations",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 34,
+      "display_name": "Standards, Templates & Methodology",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 35,
+      "display_name": "Workflow Control Tower",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 36,
+      "display_name": "Regulatory Monitoring & Change Intelligence",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 37,
+      "display_name": "Knowledge Security & Information Classification",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 38,
+      "display_name": "Simulation, Forecasting & Decision Games",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 39,
+      "display_name": "Negotiation & Deal Desk",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 40,
+      "display_name": "Reputation, Trust & Brand Risk",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 41,
+      "display_name": "Customer Insight & Voice of Customer",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 42,
+      "display_name": "Offer Design & Productized Services",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 43,
+      "display_name": "Knowledge Products & Course Production",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 44,
+      "display_name": "Talent Marketplace & Freelance Operations",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 45,
+      "display_name": "Recruiting, Career & Professional Positioning",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 46,
+      "display_name": "Portfolio, Case Studies & Proof Assets",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 47,
+      "display_name": "Personal Productivity & Time Management",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 48,
+      "display_name": "Life Administration",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 49,
+      "display_name": "Personal Knowledge, Learning & Skill Building",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 50,
+      "display_name": "Creative Studio & Story Worlds",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 51,
+      "display_name": "Brand, Identity & Personal Mythology",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 52,
+      "display_name": "Personal AI Companion Architecture",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 53,
+      "display_name": "Prompt Systems & Instruction Architecture",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 54,
+      "display_name": "Memory Engineering & Context Architecture",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 55,
+      "display_name": "Agent Society & Internal Culture",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 56,
+      "display_name": "Autonomous Operations Control",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 57,
+      "display_name": "Multi-Agent Orchestration & Swarm Control",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 58,
+      "display_name": "Tool Operations & External Access",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 59,
+      "display_name": "Interface, Dashboard & Control Panels",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 60,
+      "display_name": "Experimental Systems & Weird Lab",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 61,
+      "display_name": "Archives, Museums & Collection Management",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 62,
+      "display_name": "Scientific Research & Lab Operations",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 63,
+      "display_name": "Investor Research & Market Intelligence",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 64,
+      "display_name": "Relationship Intelligence & Network Management",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 65,
+      "display_name": "Legal Operations & Case Management",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 66,
+      "display_name": "Investigations & Due Diligence",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 67,
+      "display_name": "Personal Finance, Tax & Household Economy",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 68,
+      "display_name": "Travel, Field Work & Mobility Operations",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 69,
+      "display_name": "Home, Workshop & Physical Project Builds",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 70,
+      "display_name": "Humor, Entertainment & Engagement Systems",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 71,
+      "display_name": "Spiritual, Philosophical & Meaning Systems",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 72,
+      "display_name": "Emotional Intelligence & Self-Regulation Systems",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 73,
+      "display_name": "Negotiation, Conflict & Mediation Systems",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 74,
+      "display_name": "Debate, Argument & Critical Thinking Systems",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 75,
+      "display_name": "Creativity, Ideation & Concept Generation",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 76,
+      "display_name": "Decision Memory & Lessons Learned",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 77,
+      "display_name": "Environmental Scanning & Opportunity Radar",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 78,
+      "display_name": "Standards of Evidence & Source Hierarchy",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 79,
+      "display_name": "User Experience Research & Human Factors",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 80,
+      "display_name": "Experimental Governance & Sandbox Control",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 81,
+      "display_name": "Agent Memory Governance & Recall Control",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 82,
+      "display_name": "Version Control, Releases & Change Management",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 83,
+      "display_name": "API Economy, Platform Access & Usage Limits",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 84,
+      "display_name": "Infrastructure Economics & Compute Planning",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 85,
+      "display_name": "Agent Procurement, Hiring & Role Marketplace",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 86,
+      "display_name": "Agent Labor Relations & Internal Governance",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 87,
+      "display_name": "Emotional Brand Experience & Client Perception",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 88,
+      "display_name": "Strategic Memory, Institutional Knowledge & Lore",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 89,
+      "display_name": "Narrative Intelligence & Explanation Design",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 90,
+      "display_name": "Meta-Reasoning & Cognitive Control",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 91,
+      "display_name": "Multi-Modal Intelligence & Artifact Understanding",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 92,
+      "display_name": "Data Visualization & Information Design",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 93,
+      "display_name": "Conversation Design & Dialogue Systems",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 94,
+      "display_name": "Trust, Transparency & Explainability",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 95,
+      "display_name": "Compliance Evidence, Attestation & Regulated Deliverables",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 96,
+      "display_name": "Digital Asset Management & Creative Libraries",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 97,
+      "display_name": "Forms, Intake & Structured Data Collection",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 98,
+      "display_name": "Inbox, Notifications & Signal Management",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 99,
+      "display_name": "Calendar, Scheduling & Time Intelligence",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 100,
+      "display_name": "Master Control, Meta-Architecture & System Constitution",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 101,
+      "display_name": "Cross-Project Intelligence & Pattern Transfer",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 102,
+      "display_name": "Error Recovery, Apology & Repair Systems",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 103,
+      "display_name": "Attention Management & Cognitive Workspace",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 104,
+      "display_name": "User Intent Forensics",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 105,
+      "display_name": "User Preference Engine",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 106,
+      "display_name": "Command Language & Shortcut Systems",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 107,
+      "display_name": "Personal Archive, Vaults & Shelving Systems",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 108,
+      "display_name": "Client-Facing Asset Factory",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 109,
+      "display_name": "Agent-Based Business Process Outsourcing",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 110,
+      "display_name": "System Map, Visualization & Architecture Diagrams",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 111,
+      "display_name": "Knowledge Monetization & Asset Commercialization",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 112,
+      "display_name": "Enterprise Knowledge Base & Internal Wiki",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 113,
+      "display_name": "Scenario Library & Playbook Systems",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 114,
+      "display_name": "Marketplace Intelligence & Commercial Positioning",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 115,
+      "display_name": "Platform Strategy & Distribution Channels",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 116,
+      "display_name": "Business Rules Engine",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 117,
+      "display_name": "Ontology, Taxonomy & Semantic Systems",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 118,
+      "display_name": "Knowledge Graph & Relationship Mapping",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 119,
+      "display_name": "Data Pipelines & ETL Operations",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 120,
+      "display_name": "Search, Discovery & Retrieval Operations",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 121,
+      "display_name": "Data Labeling, Annotation & Training Sets",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 122,
+      "display_name": "Personal Data Rooms & Secure Project Spaces",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 123,
+      "display_name": "Identity, Access & Permission Architecture",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 124,
+      "display_name": "Data Privacy, Consent & Retention Operations",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 125,
+      "display_name": "Integration Testing & End-to-End Validation",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 126,
+      "display_name": "Agent Observability, Telemetry & Run Analytics",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 127,
+      "display_name": "State Management & Workflow Memory",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 128,
+      "display_name": "Work Product Governance & Deliverable Standards",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 129,
+      "display_name": "Knowledge Quality, Currency & Source Freshness",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 130,
+      "display_name": "Agent Economy, Internal Costing & Resource Allocation",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 131,
+      "display_name": "Approval UX, Review Queues & Human Control",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 132,
+      "display_name": "Agent Marketplace, Templates & Reusable Crews",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 133,
+      "display_name": "Agent Conversation Memory & Internal Messaging",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 134,
+      "display_name": "External Action Governance",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 135,
+      "display_name": "Work Intake, Scoping & Triage",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 136,
+      "display_name": "Task Decomposition & Work Package Design",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 137,
+      "display_name": "Department Dependency Graph & Routing Matrix",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 138,
+      "display_name": "Output Assembly, Synthesis & Final Answer Design",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 139,
+      "display_name": "Long-Running Work, Checkpointing & Resumability",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 140,
+      "display_name": "Final Boss Layer: System-of-Systems Governance",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 141,
+      "display_name": "Agent Governance Testing & Constitutional Simulation",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 142,
+      "display_name": "Agent Identity, Role Clarity & Persona Control",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 143,
+      "display_name": "Agent Contracting & Service-Level Agreements",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 144,
+      "display_name": "Agent Tool Safety, Sandboxing & Permission Firewalls",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 145,
+      "display_name": "Agent Ethics Board & Value Alignment Office",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 146,
+      "display_name": "Agent Procurement Stack & Vendor Ecosystem",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 147,
+      "display_name": "Agent Learning Loops & Continuous Improvement",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 148,
+      "display_name": "Multi-Tenant, Multi-Client & Workspace Management",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 149,
+      "display_name": "Agent Reputation, Reliability & Trust Scoring",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 150,
+      "display_name": "Completion Architecture & Definition of Done",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 151,
+      "display_name": "Legal Evidence Exhibit Production",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 152,
+      "display_name": "Compliance Training Academy",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 153,
+      "display_name": "Disaster Simulation Lab",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 154,
+      "display_name": "Public Launch Command Center",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 155,
+      "display_name": "Franchise, Replication & Scaling Systems",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 156,
+      "display_name": "Licensing & White-Label Operations",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 157,
+      "display_name": "Agent App Store & Plugin Ecosystem",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 158,
+      "display_name": "Client Portal Operations",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 159,
+      "display_name": "Knowledge Graph Visualization Studio",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 160,
+      "display_name": "AI Safety Red-Team Lab",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 161,
+      "display_name": "Prompt Injection Defense Office",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 162,
+      "display_name": "Data Backup & Cold Storage",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 163,
+      "display_name": "Digital Legacy Planning",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 164,
+      "display_name": "Reputation Fire Drill Team",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 165,
+      "display_name": "Systems Migration Office",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 166,
+      "display_name": "Mobile App Operations",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 167,
+      "display_name": "Voice, Phone & Conversational Agent Operations",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 168,
+      "display_name": "Physical Mail & Print Outreach",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 169,
+      "display_name": "CRM Operations",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 170,
+      "display_name": "Lead Nurture Factory",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 171,
+      "display_name": "Revenue Operations",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 172,
+      "display_name": "Customer Education Academy",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 173,
+      "display_name": "Workflow Certification Office",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 174,
+      "display_name": "Agent Incident Court",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    },
+    {
+      "id": 175,
+      "display_name": "Master Archive / Library of Alexandria",
+      "department_count": 10,
+      "unit_count": 30,
+      "agent_count": 270,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json"
+    }
+  ],
+  "sample_departments": [
+    {
+      "id": "1.1",
+      "stable_slug": "1-1-1-executive-command",
+      "display_name": "Executive Command",
+      "parent_department": "Agent Command",
+      "family_id": 1,
+      "family_name": "Agent Command",
+      "unit_count": 3,
+      "agent_count": 27,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "department entry in org_chart_export.json"
+    },
+    {
+      "id": "1.2",
+      "stable_slug": "1-1-2-chief-of-staff-office",
+      "display_name": "Chief of Staff Office",
+      "parent_department": "Agent Command",
+      "family_id": 1,
+      "family_name": "Agent Command",
+      "unit_count": 3,
+      "agent_count": 27,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "department entry in org_chart_export.json"
+    },
+    {
+      "id": "1.3",
+      "stable_slug": "1-1-3-strategic-planning",
+      "display_name": "Strategic Planning",
+      "parent_department": "Agent Command",
+      "family_id": 1,
+      "family_name": "Agent Command",
+      "unit_count": 3,
+      "agent_count": 27,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "department entry in org_chart_export.json"
+    },
+    {
+      "id": "1.4",
+      "stable_slug": "1-1-4-decision-support",
+      "display_name": "Decision Support",
+      "parent_department": "Agent Command",
+      "family_id": 1,
+      "family_name": "Agent Command",
+      "unit_count": 3,
+      "agent_count": 27,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "department entry in org_chart_export.json"
+    },
+    {
+      "id": "1.5",
+      "stable_slug": "1-1-5-priority-management",
+      "display_name": "Priority Management",
+      "parent_department": "Agent Command",
+      "family_id": 1,
+      "family_name": "Agent Command",
+      "unit_count": 3,
+      "agent_count": 27,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "department entry in org_chart_export.json"
+    },
+    {
+      "id": "1.6",
+      "stable_slug": "1-1-6-mode-protocol-control",
+      "display_name": "Mode / Protocol Control",
+      "parent_department": "Agent Command",
+      "family_id": 1,
+      "family_name": "Agent Command",
+      "unit_count": 3,
+      "agent_count": 27,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "department entry in org_chart_export.json"
+    },
+    {
+      "id": "1.7",
+      "stable_slug": "1-1-7-governance-office",
+      "display_name": "Governance Office",
+      "parent_department": "Agent Command",
+      "family_id": 1,
+      "family_name": "Agent Command",
+      "unit_count": 3,
+      "agent_count": 27,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "department entry in org_chart_export.json"
+    },
+    {
+      "id": "1.8",
+      "stable_slug": "1-1-8-advisory-board-layer",
+      "display_name": "Advisory / Board Layer",
+      "parent_department": "Agent Command",
+      "family_id": 1,
+      "family_name": "Agent Command",
+      "unit_count": 3,
+      "agent_count": 27,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "department entry in org_chart_export.json"
+    },
+    {
+      "id": "1.9",
+      "stable_slug": "1-1-9-executive-reporting",
+      "display_name": "Executive Reporting",
+      "parent_department": "Agent Command",
+      "family_id": 1,
+      "family_name": "Agent Command",
+      "unit_count": 3,
+      "agent_count": 27,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "department entry in org_chart_export.json"
+    },
+    {
+      "id": "1.10",
+      "stable_slug": "1-1-10-mission-control",
+      "display_name": "Mission Control",
+      "parent_department": "Agent Command",
+      "family_id": 1,
+      "family_name": "Agent Command",
+      "unit_count": 3,
+      "agent_count": 27,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "department entry in org_chart_export.json"
+    },
+    {
+      "id": "2.1",
+      "stable_slug": "2-2-1-project-management-office",
+      "display_name": "Project Management Office",
+      "parent_department": "Planning & Project Control",
+      "family_id": 2,
+      "family_name": "Planning & Project Control",
+      "unit_count": 3,
+      "agent_count": 27,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "department entry in org_chart_export.json"
+    },
+    {
+      "id": "2.2",
+      "stable_slug": "2-2-2-program-management",
+      "display_name": "Program Management",
+      "parent_department": "Planning & Project Control",
+      "family_id": 2,
+      "family_name": "Planning & Project Control",
+      "unit_count": 3,
+      "agent_count": 27,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "department entry in org_chart_export.json"
+    },
+    {
+      "id": "2.3",
+      "stable_slug": "2-2-3-portfolio-management",
+      "display_name": "Portfolio Management",
+      "parent_department": "Planning & Project Control",
+      "family_id": 2,
+      "family_name": "Planning & Project Control",
+      "unit_count": 3,
+      "agent_count": 27,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "department entry in org_chart_export.json"
+    },
+    {
+      "id": "2.4",
+      "stable_slug": "2-2-4-task-breakdown",
+      "display_name": "Task Breakdown",
+      "parent_department": "Planning & Project Control",
+      "family_id": 2,
+      "family_name": "Planning & Project Control",
+      "unit_count": 3,
+      "agent_count": 27,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "department entry in org_chart_export.json"
+    },
+    {
+      "id": "2.5",
+      "stable_slug": "2-2-5-sprint-planning",
+      "display_name": "Sprint Planning",
+      "parent_department": "Planning & Project Control",
+      "family_id": 2,
+      "family_name": "Planning & Project Control",
+      "unit_count": 3,
+      "agent_count": 27,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "department entry in org_chart_export.json"
+    },
+    {
+      "id": "2.6",
+      "stable_slug": "2-2-6-timeline-management",
+      "display_name": "Timeline Management",
+      "parent_department": "Planning & Project Control",
+      "family_id": 2,
+      "family_name": "Planning & Project Control",
+      "unit_count": 3,
+      "agent_count": 27,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "department entry in org_chart_export.json"
+    },
+    {
+      "id": "2.7",
+      "stable_slug": "2-2-7-milestone-tracking",
+      "display_name": "Milestone Tracking",
+      "parent_department": "Planning & Project Control",
+      "family_id": 2,
+      "family_name": "Planning & Project Control",
+      "unit_count": 3,
+      "agent_count": 27,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "department entry in org_chart_export.json"
+    },
+    {
+      "id": "2.8",
+      "stable_slug": "2-2-8-dependency-management",
+      "display_name": "Dependency Management",
+      "parent_department": "Planning & Project Control",
+      "family_id": 2,
+      "family_name": "Planning & Project Control",
+      "unit_count": 3,
+      "agent_count": 27,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "department entry in org_chart_export.json"
+    },
+    {
+      "id": "2.9",
+      "stable_slug": "2-2-9-resource-allocation",
+      "display_name": "Resource Allocation",
+      "parent_department": "Planning & Project Control",
+      "family_id": 2,
+      "family_name": "Planning & Project Control",
+      "unit_count": 3,
+      "agent_count": 27,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "department entry in org_chart_export.json"
+    },
+    {
+      "id": "2.10",
+      "stable_slug": "2-2-10-scope-control",
+      "display_name": "Scope Control",
+      "parent_department": "Planning & Project Control",
+      "family_id": 2,
+      "family_name": "Planning & Project Control",
+      "unit_count": 3,
+      "agent_count": 27,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "department entry in org_chart_export.json"
+    },
+    {
+      "id": "2.11",
+      "stable_slug": "2-2-11-change-request-management",
+      "display_name": "Change Request Management",
+      "parent_department": "Planning & Project Control",
+      "family_id": 2,
+      "family_name": "Planning & Project Control",
+      "unit_count": 3,
+      "agent_count": 27,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "department entry in org_chart_export.json"
+    },
+    {
+      "id": "2.12",
+      "stable_slug": "2-2-12-delivery-management",
+      "display_name": "Delivery Management",
+      "parent_department": "Planning & Project Control",
+      "family_id": 2,
+      "family_name": "Planning & Project Control",
+      "unit_count": 3,
+      "agent_count": 27,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "department entry in org_chart_export.json"
+    },
+    {
+      "id": "2.13",
+      "stable_slug": "2-2-13-status-reporting",
+      "display_name": "Status Reporting",
+      "parent_department": "Planning & Project Control",
+      "family_id": 2,
+      "family_name": "Planning & Project Control",
+      "unit_count": 3,
+      "agent_count": 27,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "department entry in org_chart_export.json"
+    },
+    {
+      "id": "2.14",
+      "stable_slug": "2-2-14-project-recovery-rescue",
+      "display_name": "Project Recovery / Rescue",
+      "parent_department": "Planning & Project Control",
+      "family_id": 2,
+      "family_name": "Planning & Project Control",
+      "unit_count": 3,
+      "agent_count": 27,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "department entry in org_chart_export.json"
+    },
+    {
+      "id": "3.1",
+      "stable_slug": "3-3-1-business-operations",
+      "display_name": "Business Operations",
+      "parent_department": "Operations",
+      "family_id": 3,
+      "family_name": "Operations",
+      "unit_count": 3,
+      "agent_count": 27,
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "department entry in org_chart_export.json"
+    }
+  ],
+  "sample_agents": [
+    {
+      "id": "1.1.1.1A",
+      "stable_slug": "1-1-1-1-1-1-1-1-1-1a-realist",
+      "display_name": "Realist",
+      "role": "Realist",
+      "family_id": 1,
+      "family_name": "Agent Command",
+      "department_id": "1.1",
+      "department_name": "Executive Command",
+      "unit_id": "1.1.1",
+      "unit_name": "Mission Direction",
+      "hierarchy_path": "Agent Command > Executive Command > Mission Direction > Realist",
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "team member entry in org_chart_export.json"
+    },
+    {
+      "id": "1.1.1.1B",
+      "stable_slug": "1-1-1-1-1-1-1-1-1-1b-overachiever",
+      "display_name": "Overachiever",
+      "role": "Overachiever",
+      "family_id": 1,
+      "family_name": "Agent Command",
+      "department_id": "1.1",
+      "department_name": "Executive Command",
+      "unit_id": "1.1.1",
+      "unit_name": "Mission Direction",
+      "hierarchy_path": "Agent Command > Executive Command > Mission Direction > Overachiever",
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "team member entry in org_chart_export.json"
+    },
+    {
+      "id": "1.1.1.1C",
+      "stable_slug": "1-1-1-1-1-1-1-1-1-1c-dreamer",
+      "display_name": "Dreamer",
+      "role": "Dreamer",
+      "family_id": 1,
+      "family_name": "Agent Command",
+      "department_id": "1.1",
+      "department_name": "Executive Command",
+      "unit_id": "1.1.1",
+      "unit_name": "Mission Direction",
+      "hierarchy_path": "Agent Command > Executive Command > Mission Direction > Dreamer",
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "team member entry in org_chart_export.json"
+    },
+    {
+      "id": "1.1.1.1D",
+      "stable_slug": "1-1-1-1-1-1-1-1-1-1d-timid",
+      "display_name": "Timid",
+      "role": "Timid",
+      "family_id": 1,
+      "family_name": "Agent Command",
+      "department_id": "1.1",
+      "department_name": "Executive Command",
+      "unit_id": "1.1.1",
+      "unit_name": "Mission Direction",
+      "hierarchy_path": "Agent Command > Executive Command > Mission Direction > Timid",
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "team member entry in org_chart_export.json"
+    },
+    {
+      "id": "1.1.1.1E",
+      "stable_slug": "1-1-1-1-1-1-1-1-1-1e-overprotective",
+      "display_name": "Overprotective",
+      "role": "Overprotective",
+      "family_id": 1,
+      "family_name": "Agent Command",
+      "department_id": "1.1",
+      "department_name": "Executive Command",
+      "unit_id": "1.1.1",
+      "unit_name": "Mission Direction",
+      "hierarchy_path": "Agent Command > Executive Command > Mission Direction > Overprotective",
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "team member entry in org_chart_export.json"
+    },
+    {
+      "id": "1.1.1.1F",
+      "stable_slug": "1-1-1-1-1-1-1-1-1-1f-wildcard-intern",
+      "display_name": "Wildcard Intern",
+      "role": "Wildcard Intern",
+      "family_id": 1,
+      "family_name": "Agent Command",
+      "department_id": "1.1",
+      "department_name": "Executive Command",
+      "unit_id": "1.1.1",
+      "unit_name": "Mission Direction",
+      "hierarchy_path": "Agent Command > Executive Command > Mission Direction > Wildcard Intern",
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "team member entry in org_chart_export.json"
+    },
+    {
+      "id": "1.1.1.1G",
+      "stable_slug": "1-1-1-1-1-1-1-1-1-1g-team-lead-manager",
+      "display_name": "Team Lead / Manager",
+      "role": "Team Lead / Manager",
+      "family_id": 1,
+      "family_name": "Agent Command",
+      "department_id": "1.1",
+      "department_name": "Executive Command",
+      "unit_id": "1.1.1",
+      "unit_name": "Mission Direction",
+      "hierarchy_path": "Agent Command > Executive Command > Mission Direction > Team Lead / Manager",
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "team member entry in org_chart_export.json"
+    },
+    {
+      "id": "1.1.1.1H",
+      "stable_slug": "1-1-1-1-1-1-1-1-1-1h-scribe-shower-of-work",
+      "display_name": "Scribe / Shower of Work",
+      "role": "Scribe / Shower of Work",
+      "family_id": 1,
+      "family_name": "Agent Command",
+      "department_id": "1.1",
+      "department_name": "Executive Command",
+      "unit_id": "1.1.1",
+      "unit_name": "Mission Direction",
+      "hierarchy_path": "Agent Command > Executive Command > Mission Direction > Scribe / Shower of Work",
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "team member entry in org_chart_export.json"
+    },
+    {
+      "id": "1.1.1.1I",
+      "stable_slug": "1-1-1-1-1-1-1-1-1-1i-auditor-revision-director",
+      "display_name": "Auditor / Revision Director",
+      "role": "Auditor / Revision Director",
+      "family_id": 1,
+      "family_name": "Agent Command",
+      "department_id": "1.1",
+      "department_name": "Executive Command",
+      "unit_id": "1.1.1",
+      "unit_name": "Mission Direction",
+      "hierarchy_path": "Agent Command > Executive Command > Mission Direction > Auditor / Revision Director",
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "team member entry in org_chart_export.json"
+    },
+    {
+      "id": "1.1.2.1A",
+      "stable_slug": "1-1-1-1-1-2-1-1-2-1a-realist",
+      "display_name": "Realist",
+      "role": "Realist",
+      "family_id": 1,
+      "family_name": "Agent Command",
+      "department_id": "1.1",
+      "department_name": "Executive Command",
+      "unit_id": "1.1.2",
+      "unit_name": "Priority Control",
+      "hierarchy_path": "Agent Command > Executive Command > Priority Control > Realist",
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "team member entry in org_chart_export.json"
+    },
+    {
+      "id": "1.1.2.1B",
+      "stable_slug": "1-1-1-1-1-2-1-1-2-1b-overachiever",
+      "display_name": "Overachiever",
+      "role": "Overachiever",
+      "family_id": 1,
+      "family_name": "Agent Command",
+      "department_id": "1.1",
+      "department_name": "Executive Command",
+      "unit_id": "1.1.2",
+      "unit_name": "Priority Control",
+      "hierarchy_path": "Agent Command > Executive Command > Priority Control > Overachiever",
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "team member entry in org_chart_export.json"
+    },
+    {
+      "id": "1.1.2.1C",
+      "stable_slug": "1-1-1-1-1-2-1-1-2-1c-dreamer",
+      "display_name": "Dreamer",
+      "role": "Dreamer",
+      "family_id": 1,
+      "family_name": "Agent Command",
+      "department_id": "1.1",
+      "department_name": "Executive Command",
+      "unit_id": "1.1.2",
+      "unit_name": "Priority Control",
+      "hierarchy_path": "Agent Command > Executive Command > Priority Control > Dreamer",
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "team member entry in org_chart_export.json"
+    },
+    {
+      "id": "1.1.2.1D",
+      "stable_slug": "1-1-1-1-1-2-1-1-2-1d-timid",
+      "display_name": "Timid",
+      "role": "Timid",
+      "family_id": 1,
+      "family_name": "Agent Command",
+      "department_id": "1.1",
+      "department_name": "Executive Command",
+      "unit_id": "1.1.2",
+      "unit_name": "Priority Control",
+      "hierarchy_path": "Agent Command > Executive Command > Priority Control > Timid",
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "team member entry in org_chart_export.json"
+    },
+    {
+      "id": "1.1.2.1E",
+      "stable_slug": "1-1-1-1-1-2-1-1-2-1e-overprotective",
+      "display_name": "Overprotective",
+      "role": "Overprotective",
+      "family_id": 1,
+      "family_name": "Agent Command",
+      "department_id": "1.1",
+      "department_name": "Executive Command",
+      "unit_id": "1.1.2",
+      "unit_name": "Priority Control",
+      "hierarchy_path": "Agent Command > Executive Command > Priority Control > Overprotective",
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "team member entry in org_chart_export.json"
+    },
+    {
+      "id": "1.1.2.1F",
+      "stable_slug": "1-1-1-1-1-2-1-1-2-1f-wildcard-intern",
+      "display_name": "Wildcard Intern",
+      "role": "Wildcard Intern",
+      "family_id": 1,
+      "family_name": "Agent Command",
+      "department_id": "1.1",
+      "department_name": "Executive Command",
+      "unit_id": "1.1.2",
+      "unit_name": "Priority Control",
+      "hierarchy_path": "Agent Command > Executive Command > Priority Control > Wildcard Intern",
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "team member entry in org_chart_export.json"
+    },
+    {
+      "id": "1.1.2.1G",
+      "stable_slug": "1-1-1-1-1-2-1-1-2-1g-team-lead-manager",
+      "display_name": "Team Lead / Manager",
+      "role": "Team Lead / Manager",
+      "family_id": 1,
+      "family_name": "Agent Command",
+      "department_id": "1.1",
+      "department_name": "Executive Command",
+      "unit_id": "1.1.2",
+      "unit_name": "Priority Control",
+      "hierarchy_path": "Agent Command > Executive Command > Priority Control > Team Lead / Manager",
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "team member entry in org_chart_export.json"
+    },
+    {
+      "id": "1.1.2.1H",
+      "stable_slug": "1-1-1-1-1-2-1-1-2-1h-scribe-shower-of-work",
+      "display_name": "Scribe / Shower of Work",
+      "role": "Scribe / Shower of Work",
+      "family_id": 1,
+      "family_name": "Agent Command",
+      "department_id": "1.1",
+      "department_name": "Executive Command",
+      "unit_id": "1.1.2",
+      "unit_name": "Priority Control",
+      "hierarchy_path": "Agent Command > Executive Command > Priority Control > Scribe / Shower of Work",
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "team member entry in org_chart_export.json"
+    },
+    {
+      "id": "1.1.2.1I",
+      "stable_slug": "1-1-1-1-1-2-1-1-2-1i-auditor-revision-director",
+      "display_name": "Auditor / Revision Director",
+      "role": "Auditor / Revision Director",
+      "family_id": 1,
+      "family_name": "Agent Command",
+      "department_id": "1.1",
+      "department_name": "Executive Command",
+      "unit_id": "1.1.2",
+      "unit_name": "Priority Control",
+      "hierarchy_path": "Agent Command > Executive Command > Priority Control > Auditor / Revision Director",
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "team member entry in org_chart_export.json"
+    },
+    {
+      "id": "1.1.3.1A",
+      "stable_slug": "1-1-1-1-1-3-1-1-3-1a-realist",
+      "display_name": "Realist",
+      "role": "Realist",
+      "family_id": 1,
+      "family_name": "Agent Command",
+      "department_id": "1.1",
+      "department_name": "Executive Command",
+      "unit_id": "1.1.3",
+      "unit_name": "Final Decision Authority",
+      "hierarchy_path": "Agent Command > Executive Command > Final Decision Authority > Realist",
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "team member entry in org_chart_export.json"
+    },
+    {
+      "id": "1.1.3.1B",
+      "stable_slug": "1-1-1-1-1-3-1-1-3-1b-overachiever",
+      "display_name": "Overachiever",
+      "role": "Overachiever",
+      "family_id": 1,
+      "family_name": "Agent Command",
+      "department_id": "1.1",
+      "department_name": "Executive Command",
+      "unit_id": "1.1.3",
+      "unit_name": "Final Decision Authority",
+      "hierarchy_path": "Agent Command > Executive Command > Final Decision Authority > Overachiever",
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "team member entry in org_chart_export.json"
+    },
+    {
+      "id": "1.1.3.1C",
+      "stable_slug": "1-1-1-1-1-3-1-1-3-1c-dreamer",
+      "display_name": "Dreamer",
+      "role": "Dreamer",
+      "family_id": 1,
+      "family_name": "Agent Command",
+      "department_id": "1.1",
+      "department_name": "Executive Command",
+      "unit_id": "1.1.3",
+      "unit_name": "Final Decision Authority",
+      "hierarchy_path": "Agent Command > Executive Command > Final Decision Authority > Dreamer",
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "team member entry in org_chart_export.json"
+    },
+    {
+      "id": "1.1.3.1D",
+      "stable_slug": "1-1-1-1-1-3-1-1-3-1d-timid",
+      "display_name": "Timid",
+      "role": "Timid",
+      "family_id": 1,
+      "family_name": "Agent Command",
+      "department_id": "1.1",
+      "department_name": "Executive Command",
+      "unit_id": "1.1.3",
+      "unit_name": "Final Decision Authority",
+      "hierarchy_path": "Agent Command > Executive Command > Final Decision Authority > Timid",
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "team member entry in org_chart_export.json"
+    },
+    {
+      "id": "1.1.3.1E",
+      "stable_slug": "1-1-1-1-1-3-1-1-3-1e-overprotective",
+      "display_name": "Overprotective",
+      "role": "Overprotective",
+      "family_id": 1,
+      "family_name": "Agent Command",
+      "department_id": "1.1",
+      "department_name": "Executive Command",
+      "unit_id": "1.1.3",
+      "unit_name": "Final Decision Authority",
+      "hierarchy_path": "Agent Command > Executive Command > Final Decision Authority > Overprotective",
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "team member entry in org_chart_export.json"
+    },
+    {
+      "id": "1.1.3.1F",
+      "stable_slug": "1-1-1-1-1-3-1-1-3-1f-wildcard-intern",
+      "display_name": "Wildcard Intern",
+      "role": "Wildcard Intern",
+      "family_id": 1,
+      "family_name": "Agent Command",
+      "department_id": "1.1",
+      "department_name": "Executive Command",
+      "unit_id": "1.1.3",
+      "unit_name": "Final Decision Authority",
+      "hierarchy_path": "Agent Command > Executive Command > Final Decision Authority > Wildcard Intern",
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "team member entry in org_chart_export.json"
+    },
+    {
+      "id": "1.1.3.1G",
+      "stable_slug": "1-1-1-1-1-3-1-1-3-1g-team-lead-manager",
+      "display_name": "Team Lead / Manager",
+      "role": "Team Lead / Manager",
+      "family_id": 1,
+      "family_name": "Agent Command",
+      "department_id": "1.1",
+      "department_name": "Executive Command",
+      "unit_id": "1.1.3",
+      "unit_name": "Final Decision Authority",
+      "hierarchy_path": "Agent Command > Executive Command > Final Decision Authority > Team Lead / Manager",
+      "source_file": "09_exports/org_chart_export.json",
+      "source_type": "org_chart_export_json",
+      "count_basis": "team member entry in org_chart_export.json"
+    }
+  ],
+  "registry_source_files": [
+    "09_exports/org_chart_export.json",
+    "01_registry/department_families.json",
+    "02_departments/**/family.json",
+    "09_exports/stakeholder_presentation_after_mvp50/agent_department_hierarchy.md"
+  ],
+  "candidate_files_count": 952,
+  "structured_candidate_files_count": 1210,
+  "content_hit_lines_count": 203883,
+  "governance_levels": [
+    {
+      "level": 1,
+      "name": "Product / Command Center Layer"
+    },
+    {
+      "level": 2,
+      "name": "Readiness Layer Roadmap"
+    },
+    {
+      "level": 3,
+      "name": "Operational Domains"
+    },
+    {
+      "level": 4,
+      "name": "Model / Artifact Layer"
+    },
+    {
+      "level": 5,
+      "name": "Validator Gate Layer"
+    },
+    {
+      "level": 6,
+      "name": "Human Review Layer"
+    },
+    {
+      "level": 7,
+      "name": "Future Runtime Activation Layer"
+    }
+  ],
+  "operational_domains": [
+    {
+      "index": 1,
+      "name": "Authentication / identity readiness"
+    },
+    {
+      "index": 2,
+      "name": "Request storage readiness"
+    },
+    {
+      "index": 3,
+      "name": "Audit ledger readiness"
+    },
+    {
+      "index": 4,
+      "name": "Approval gate readiness"
+    },
+    {
+      "index": 5,
+      "name": "Dry-run readiness"
+    },
+    {
+      "index": 6,
+      "name": "Controlled action queue readiness"
+    },
+    {
+      "index": 7,
+      "name": "Human-approved execution readiness"
+    },
+    {
+      "index": 8,
+      "name": "Monitoring / rollback / incident readiness"
+    },
+    {
+      "index": 9,
+      "name": "Demo / stakeholder review readiness"
+    },
+    {
+      "index": 10,
+      "name": "Validator / quality gate readiness"
+    },
+    {
+      "index": 11,
+      "name": "Safety boundary readiness"
+    }
+  ]
+}

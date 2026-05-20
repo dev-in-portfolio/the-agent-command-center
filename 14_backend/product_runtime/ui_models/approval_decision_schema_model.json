@@ -1,0 +1,8 @@
+{
+  "phase": "MVP-46",
+  "name": "APPROVAL DECISION SCHEMA",
+  "status": "APPROVAL_DECISION_SCHEMA_READY",
+  "readiness_only": "true",
+  "review_only": "true",
+  "future_implementation_only": "true"
+}

@@ -1,0 +1,8 @@
+{
+  "phase": "MVP-46",
+  "name": "APPROVAL REVOCATION MODEL",
+  "status": "APPROVAL_REVOCATION_MODEL_READY",
+  "readiness_only": "true",
+  "review_only": "true",
+  "future_implementation_only": "true"
+}
