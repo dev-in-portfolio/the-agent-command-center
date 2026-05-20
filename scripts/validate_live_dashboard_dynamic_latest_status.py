@@ -33,8 +33,8 @@ def main():
     check(max_mvp > 0, "found production verification reports")
     latest_label = f"MVP-{max_mvp}"
     
-    index_path = ROOT / "13_web_dashboard" / "dist" / "index.html"
-    check(index_path.exists(), "index.html exists")
+    index_path = ROOT / "13_web_dashboard" / "dist" / "full-audit-dashboard.html"
+    check(index_path.exists(), "full-audit-dashboard.html exists")
     
     if index_path.exists():
         text = index_path.read_text(encoding="utf-8")

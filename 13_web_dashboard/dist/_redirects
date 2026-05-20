@@ -1,4 +1,7 @@
 /demo /demo/index.html 200
+/dashboard /dashboard.html 200
+/full-dashboard /full-audit-dashboard.html 200
+/audit /full-audit-dashboard.html 200
 /presentation.html /demo/presentation.html 200
 /simulator.html /demo/simulator.html 200
 /system-story.html /demo/system-story.html 200

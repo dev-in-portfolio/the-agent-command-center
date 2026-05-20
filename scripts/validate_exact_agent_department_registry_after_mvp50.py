@@ -156,28 +156,54 @@ def main() -> int:
     visible_demo_pages = {name: visible_text(text) for name, text in demo_pages.items()}
     page_blobs = [visible_root, visible_demo_index, *visible_demo_pages.values(), read_text(DEMO / "demo-package.json") if (DEMO / "demo-package.json").exists() else ""]
 
-    required_root_strings = [
+    current_root_strings = [
         "Command Center Launchpad",
         "Premium Stakeholder Demo",
         "Open Premium Demo Hub",
         "Runnable Static Simulator",
-        "Open Static Simulator",
+        "Open Simulator",
         "Agent Registry",
-        "Open Agent Registry",
-        "Current Status / Readiness Overview",
-        "Original Full Audit Dashboard",
-        "Safety Posture",
-        "Latest Verified MVP",
+        "View Exact Registry",
+        "System Scale",
+        "Safety Boundaries",
+        "Review / Scorecard",
+        "Full Internal Audit Dashboard",
+        "Exact agent count: 47,979",
+        "Exact department count: 1,777",
+        "Exact unit count: 5,331",
+        "Exact family count: 175",
+        "Live runtime agents enabled: 0",
+        "Runtime activation has not started",
+        "Backend/Supabase readiness exists",
+        "Live backend runtime disabled",
+        "MVP-50 Production Verified",
+        "MVP-51 not started",
         "./demo/",
         "./demo/simulator.html",
         "./demo/agent-registry.html",
-        "Backend/Supabase readiness architecture",
-        "Live backend runtime disabled",
-        "MVP-50",
+        "./demo/system-scale.html",
+        "./demo/safety-boundaries.html",
+        "./demo/review.html",
+        "./full-audit-dashboard.html",
+        "./dashboard.html",
     ]
-    for needle in required_root_strings:
+    for needle in current_root_strings:
         if needle not in visible_root:
             fail(failures, f"root dashboard missing {needle!r}")
+
+    archive_text = visible_text(read_text(DIST / "full-audit-dashboard.html")) if (DIST / "full-audit-dashboard.html").exists() else ""
+    archive_required_strings = [
+        "Open Static Simulator",
+        "Current Status / Readiness Overview",
+        "Original Full Audit Dashboard",
+        "Latest Verified MVP",
+        "Backend/Supabase readiness architecture exists",
+        "Live backend runtime is disabled",
+        "MVP-50",
+    ]
+    for needle in archive_required_strings:
+        if needle not in archive_text:
+            fail(failures, f"archive dashboard missing {needle!r}")
 
     required_demo_index_strings = [
         "Stakeholder Demo Hub",
