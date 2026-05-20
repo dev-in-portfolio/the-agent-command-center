@@ -17,22 +17,27 @@ REQUIRED_HTML_STRINGS = [
     'data-collapsible-menu',
     'data-action="toggle-menu"',
     'aria-expanded="false"',
-    'aria-controls="presentation-menu-panel"',
-    'id="presentation-menu-panel"',
+    'aria-controls="demo-menu-panel"',
+    'id="demo-menu-panel"',
     'data-menu-panel',
     'hidden',
     'Stakeholder Presentation',
     'Menu',
     'Home',
     'Demo Hub',
+    'Presentation',
     'Simulator',
     'System Story',
     'System Scale',
+    'Agent Hierarchy',
     'Agent Registry',
+    'Operating Model',
+    'Validator Map',
     'Safety Boundaries',
+    'Technical Appendix',
+    'Objections',
     'Review',
     'Full Audit Dashboard',
-    'Live Dashboard',
 ]
 
 FORBIDDEN_HTML_STRINGS = [
@@ -92,7 +97,7 @@ def main() -> None:
         ensure(needle not in html, f"HTML_FORBIDDEN {needle}")
 
     panel_match = re.search(
-        r'<nav\b[^>]*id="presentation-menu-panel"[^>]*>(.*?)</nav>',
+        r'<nav\b[^>]*id="demo-menu-panel"[^>]*>(.*?)</nav>',
         html,
         re.IGNORECASE | re.DOTALL,
     )
@@ -103,14 +108,19 @@ def main() -> None:
     required_panel_labels = [
         'Home',
         'Demo Hub',
+        'Presentation',
         'Simulator',
         'System Story',
         'System Scale',
+        'Agent Hierarchy',
         'Agent Registry',
+        'Operating Model',
+        'Validator Map',
         'Safety Boundaries',
+        'Technical Appendix',
+        'Objections',
         'Review',
         'Full Audit Dashboard',
-        'Live Dashboard',
     ]
     for label in required_panel_labels:
         ensure(label in panel_html, f"PANEL_MISSING_LABEL {label}")
@@ -118,11 +128,17 @@ def main() -> None:
     required_panel_hrefs = [
         '../index.html',
         './index.html',
+        './presentation.html',
         './simulator.html',
         './system-story.html',
         './system-scale.html',
+        './agent-hierarchy.html',
         './agent-registry.html',
+        './operating-model.html',
+        './validator-safety-map.html',
         './safety-boundaries.html',
+        './technical-appendix.html',
+        './objections.html',
         './review.html',
         '../full-audit-dashboard.html',
     ]

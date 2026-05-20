@@ -40,9 +40,16 @@ button, a.button {
 
 .demo-shell {
   position: relative;
+  width: min(100% - 2rem, 1180px);
   max-width: var(--max);
   margin: 0 auto;
   padding: 24px 20px 56px;
+}
+
+.page-shell,
+main {
+  width: min(100% - 2rem, 1180px);
+  margin-inline: auto;
 }
 
 .topbar,
@@ -79,6 +86,8 @@ button, a.button {
   color: var(--text);
   font-weight: 700;
   letter-spacing: 0.02em;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .topbar-meta {
@@ -236,6 +245,7 @@ button, a.button {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  align-items: center;
   margin: 18px 0 0;
   color: var(--muted);
   font-size: 0.88rem;
@@ -669,6 +679,22 @@ button, a.button {
   .menu-panel a {
     width: 100%;
     justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .demo-shell,
+  .page-shell,
+  main {
+    width: min(100% - 1rem, 100%);
+  }
+  .menu-panel {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .menu-panel a,
+  .menu-toggle {
+    width: 100%;
   }
 }
 

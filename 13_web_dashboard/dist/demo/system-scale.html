@@ -8,20 +8,50 @@
 </head>
 <body>
   <div class="demo-shell">
-    <header class="topbar">
-      <div class="brand"><strong>System Scale</strong><span>Repo-derived counts with honest labels</span></div>
-      <nav class="nav-links" aria-label="Demo navigation">
-        <a href="./index.html">Home</a>
+    <header class="demo-topbar collapsible-topbar" data-collapsible-menu>
+      <div class="topbar-main">
+        <a class="topbar-title" href="./index.html">System Scale</a>
+        <button
+          class="menu-toggle"
+          type="button"
+          data-action="toggle-menu"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          aria-controls="demo-menu-panel">
+          Menu
+        </button>
+      </div>
+      <nav
+        id="demo-menu-panel"
+        class="menu-panel"
+        data-menu-panel
+        hidden
+        aria-label="Demo navigation">
+        <a href="../index.html">Home</a>
         <a href="./index.html">Demo Hub</a>
+        <a href="./presentation.html">Presentation</a>
         <a href="./simulator.html">Simulator</a>
+        <a href="./system-story.html">System Story</a>
         <a href="./system-scale.html">System Scale</a>
+        <a href="./agent-hierarchy.html">Agent Hierarchy</a>
         <a href="./agent-registry.html">Agent Registry</a>
+        <a href="./operating-model.html">Operating Model</a>
+        <a href="./validator-safety-map.html">Validator Map</a>
         <a href="./safety-boundaries.html">Safety Boundaries</a>
+        <a href="./technical-appendix.html">Technical Appendix</a>
+        <a href="./objections.html">Objections</a>
         <a href="./review.html">Review</a>
         <a href="../full-audit-dashboard.html">Full Audit Dashboard</a>
-        <a href="../index.html">Launch Live Dashboard</a>
       </nav>
     </header>
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../index.html">Home</a>
+      <span aria-hidden="true">→</span>
+      <a href="./index.html">Demo Hub</a>
+      <span aria-hidden="true">→</span>
+      <span>System Scale</span>
+    </nav>
 
     <section class="hero">
       <div class="hero-grid">
