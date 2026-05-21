@@ -7,7 +7,7 @@ PRODUCTION_VERIFIED
 PASS_WITH_HIGH_CONFIDENCE
 
 ## Production Site
-https://the-agent-command-center-dashboard.netlify.app/
+https://the-agent-command-center.netlify.app/
 
 ## Production Dashboard Verification
 MVP49_PRODUCTION_VERIFICATION_PASS

@@ -25,6 +25,6 @@ The Agent Command Center is a **safety-first request control layer** designed fo
 
 ## Visual Surface
 The live production dashboard is available at:
-[https://the-agent-command-center-dashboard.netlify.app/](https://the-agent-command-center-dashboard.netlify.app/)
+[https://the-agent-command-center.netlify.app/](https://the-agent-command-center.netlify.app/)
 
 *Note: Manual live testing with a real user token may still be required to see private data in the dashboard.*

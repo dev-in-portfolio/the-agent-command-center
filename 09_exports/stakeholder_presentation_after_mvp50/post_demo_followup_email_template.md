@@ -16,7 +16,7 @@ Thank you for attending the Agent Command Center demo. I hope the session provid
 
 **Live Site**
 You can explore the dashboard at any time:
-https://the-agent-command-center-dashboard.netlify.app/
+https://the-agent-command-center.netlify.app/
 
 **Materials**
 The full demo package is available in the repository:

@@ -4,7 +4,7 @@
 This package provides materials for presenting The Agent Command Center to stakeholders, executives, technical reviewers, and external reviewers. It builds on the external demo package to create a complete screen-share and presentation kit.
 
 ## Live Site
-https://the-agent-command-center-dashboard.netlify.app/
+https://the-agent-command-center.netlify.app/
 
 ## Relationship to External Demo Package
 This package is the presentation layer built on top of the external demo package at `09_exports/external_demo_package_after_mvp50/`. The demo package contains detailed scripts and reference materials; this package contains slide outlines, runbooks, and stakeholder-facing materials.

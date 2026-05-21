@@ -1,7 +1,7 @@
 # Demo Click Path — Live Site Navigation
 
 ## Starting Point
-https://the-agent-command-center-dashboard.netlify.app/
+https://the-agent-command-center.netlify.app/
 
 ## Welcome Section
 - Show the welcome banner "The Agent Command Center"

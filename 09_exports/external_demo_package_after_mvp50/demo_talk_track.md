@@ -7,7 +7,7 @@
 "Eight readiness layers from MVP-43 through MVP-50 are production-verified. Each has a schema-defined artifact, a validator that proves correctness, and explicit safety boundaries. The dashboard is a static HTML/JSON artifact served via Netlify. No server-side runtime exists. No API endpoints are deployed. No functions execute. The system is read-only by construction."
 
 ## Executive Talk Track
-"Eight readiness layers complete and production-verified. The live site at the-agent-command-center-dashboard.netlify.app shows the current state. Everything is designed for a controlled command center. Nothing is executing yet — that is intentional and documented. The next decision point is whether to begin runtime activation planning."
+"Eight readiness layers complete and production-verified. The live site at the-agent-command-center.netlify.app shows the current state. Everything is designed for a controlled command center. Nothing is executing yet — that is intentional and documented. The next decision point is whether to begin runtime activation planning."
 
 ## Safety/Compliance Talk Track
 "The dashboard includes explicit disabled-status markers including NOT_READY_FOR_REAL_AUTOMATION. These markers are validated by automated scripts. If someone modifies the system to claim readiness where it does not exist, validators fail. No database writes, no execution, no automation, no alerts, no rollbacks. There is no mechanism for the dashboard to perform any action beyond displaying its own static content."

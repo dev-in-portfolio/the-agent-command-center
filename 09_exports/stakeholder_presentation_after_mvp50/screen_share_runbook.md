@@ -8,12 +8,12 @@
 
 ## Cache-Bust Check
 Before starting, verify the live site is serving current content:
-https://the-agent-command-center-dashboard.netlify.app/?cache_bust=stakeholder_demo
+https://the-agent-command-center.netlify.app/?cache_bust=stakeholder_demo
 
 Expected: Latest production verified MVP: MVP-50 badge
 
 ## Live Site URL
-https://the-agent-command-center-dashboard.netlify.app/
+https://the-agent-command-center.netlify.app/
 
 ## Exact Click Path
 1. Open URL

@@ -4,7 +4,7 @@
 "The Agent Command Center is a read-only dashboard showing 8 production-verified readiness layers through MVP-50. It proves the architecture is designed, documented, and validated — without enabling any runtime execution. Runtime activation is a separate phase."
 
 ## Long Pitch (3 minutes)
-"We have built and production-verified 8 readiness layers for a controlled command center. Each layer covers a critical capability: authentication, storage, audit, approval, dry-run, action queuing, execution, and monitoring. All 8 are schema-backed, validator-proven, and displayed on a live dashboard at the-agent-command-center-dashboard.netlify.app."
+"We have built and production-verified 8 readiness layers for a controlled command center. Each layer covers a critical capability: authentication, storage, audit, approval, dry-run, action queuing, execution, and monitoring. All 8 are schema-backed, validator-proven, and displayed on a live dashboard at the-agent-command-center.netlify.app."
 
 "Importantly, runtime activation is zero. No commands execute. No writes happen. No automation runs. This is intentional — the architecture exists first, runtime comes later. The dashboard proves readiness without risk."
 

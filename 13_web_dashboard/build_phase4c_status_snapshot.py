@@ -41,7 +41,7 @@ def main():
         "merge_controls": False,
         "push_controls": False,
         "pr_controls": False,
-        "production_site": "https://the-agent-command-center-dashboard.netlify.app/",
+        "production_site": "https://the-agent-command-center.netlify.app/",
         "phase_status": {
             "phase_4a": "complete_live_verified",
             "phase_4b": "planning_merged",

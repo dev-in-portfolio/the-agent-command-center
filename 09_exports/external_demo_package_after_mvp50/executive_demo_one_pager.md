@@ -28,7 +28,7 @@ Before this dashboard, there was no single place to verify the readiness posture
 - **Readiness roadmap**: Complete through MVP-50
 - **Production verified**: All 8 readiness layers
 - **Runtime activation**: Not started
-- **Live dashboard**: Publicly accessible at https://the-agent-command-center-dashboard.netlify.app/
+- **Live dashboard**: Publicly accessible at https://the-agent-command-center.netlify.app/
 - **System type**: Read-only review/demo dashboard
 
 ## Safety Posture

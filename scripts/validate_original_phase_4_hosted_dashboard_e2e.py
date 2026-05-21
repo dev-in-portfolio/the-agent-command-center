@@ -138,7 +138,7 @@ def check_dangerous_patterns():
                 match_found = False
                 for i, line in enumerate(lines):
                     if re.search(pattern, line):
-                        if "http://www.w3.org" in line or "the-agent-command-center-dashboard.netlify.app" in line:
+                        if "http://www.w3.org" in line or "the-agent-command-center.netlify.app" in line:
                             continue
                         # If we reach here, it's a real violation
                         print(f"FAIL: Dangerous pattern '{pattern}' found in {file_path.name} on line {i+1}: {line.strip()}")

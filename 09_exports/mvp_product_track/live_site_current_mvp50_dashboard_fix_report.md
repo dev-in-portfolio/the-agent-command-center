@@ -2,7 +2,7 @@
 
 ## Diagnosis Summary
 
-- **Site**: https://the-agent-command-center-dashboard.netlify.app/
+- **Site**: https://the-agent-command-center.netlify.app/
 - **Date**: 2026-05-19
 - **Method**: Direct HTTP fetch with cache-bust query parameter (no stale-CD risk)
 
@@ -10,11 +10,11 @@
 
 | URL | MVP-50 Present? | Matches Local Master? | Notes |
 |---|---|---|---|
-| `https://the-agent-command-center-dashboard.netlify.app/` | YES | YES (same SHA256: `2c5b6c0`) | Correct content served |
-| `https://the-agent-command-center-dashboard.netlify.app/?cache_bust=...` | YES | YES | No cache stale |
-| `https://the-agent-command-center-dashboard.netlify.app/index.html?cache_bust=...` | YES | YES | No cache stale |
-| `https://the-agent-command-center-dashboard.netlify.app/dashboard_data.json?cache_bust=...` | N/A (JSON) | N/A | Serves current data |
-| `https://the-agent-command-center-dashboard.netlify.app/status_snapshot.json?cache_bust=...` | N/A (JSON) | N/A | Serves current data |
+| `https://the-agent-command-center.netlify.app/` | YES | YES (same SHA256: `2c5b6c0`) | Correct content served |
+| `https://the-agent-command-center.netlify.app/?cache_bust=...` | YES | YES | No cache stale |
+| `https://the-agent-command-center.netlify.app/index.html?cache_bust=...` | YES | YES | No cache stale |
+| `https://the-agent-command-center.netlify.app/dashboard_data.json?cache_bust=...` | N/A (JSON) | N/A | Serves current data |
+| `https://the-agent-command-center.netlify.app/status_snapshot.json?cache_bust=...` | N/A (JSON) | N/A | Serves current data |
 
 ### Root Cause Classification
 
