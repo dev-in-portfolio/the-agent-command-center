@@ -26,19 +26,19 @@
 
 Verified live URLs:
 
-- `https://the-agent-command-center-dashboard.netlify.app/`
-- `https://the-agent-command-center-dashboard.netlify.app/demo/`
-- `https://the-agent-command-center-dashboard.netlify.app/demo/simulator.html`
-- `https://the-agent-command-center-dashboard.netlify.app/demo/presentation.html`
-- `https://the-agent-command-center-dashboard.netlify.app/demo/system-story.html`
-- `https://the-agent-command-center-dashboard.netlify.app/demo/system-scale.html`
-- `https://the-agent-command-center-dashboard.netlify.app/demo/agent-hierarchy.html`
-- `https://the-agent-command-center-dashboard.netlify.app/demo/operating-model.html`
-- `https://the-agent-command-center-dashboard.netlify.app/demo/validator-safety-map.html`
-- `https://the-agent-command-center-dashboard.netlify.app/demo/safety-boundaries.html`
-- `https://the-agent-command-center-dashboard.netlify.app/demo/technical-appendix.html`
-- `https://the-agent-command-center-dashboard.netlify.app/demo/objections.html`
-- `https://the-agent-command-center-dashboard.netlify.app/demo/review.html`
+- `https://the-agent-command-center.netlify.app/`
+- `https://the-agent-command-center.netlify.app/demo/`
+- `https://the-agent-command-center.netlify.app/demo/simulator.html`
+- `https://the-agent-command-center.netlify.app/demo/presentation.html`
+- `https://the-agent-command-center.netlify.app/demo/system-story.html`
+- `https://the-agent-command-center.netlify.app/demo/system-scale.html`
+- `https://the-agent-command-center.netlify.app/demo/agent-hierarchy.html`
+- `https://the-agent-command-center.netlify.app/demo/operating-model.html`
+- `https://the-agent-command-center.netlify.app/demo/validator-safety-map.html`
+- `https://the-agent-command-center.netlify.app/demo/safety-boundaries.html`
+- `https://the-agent-command-center.netlify.app/demo/technical-appendix.html`
+- `https://the-agent-command-center.netlify.app/demo/objections.html`
+- `https://the-agent-command-center.netlify.app/demo/review.html`
 
 Observed live state:
 

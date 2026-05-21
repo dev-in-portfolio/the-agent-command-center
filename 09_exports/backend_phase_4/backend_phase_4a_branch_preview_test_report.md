@@ -5,11 +5,11 @@
 3. **Original long branch:** backend/phase-4-read-only-api-foundation
 4. **Short branch:** b/ph4a
 5. **Base branch:** master
-6. **Live production site:** https://the-agent-command-center-dashboard.netlify.app/
+6. **Live production site:** https://the-agent-command-center.netlify.app/
 7. **Active preview method:** PR deploy preview
-8. **Active preview URL:** https://deploy-preview-1--the-agent-command-center-dashboard.netlify.app
-9. **Previous failed long preview URL:** https://backend-phase-4-read-only-api-foundation--the-agent-command-center-dashboard.netlify.app
-10. **Previous failed short branch URL:** https://b-ph4a--the-agent-command-center-dashboard.netlify.app (Blocked by Netlify settings)
+8. **Active preview URL:** https://deploy-preview-1--the-agent-command-center.netlify.app
+9. **Previous failed long preview URL:** https://backend-phase-4-read-only-api-foundation--the-agent-command-center.netlify.app
+10. **Previous failed short branch URL:** https://b-ph4a--the-agent-command-center.netlify.app (Blocked by Netlify settings)
 11. **Dashboard page test:** PASS (HTTP 200, contains Backend Status panel and safety chips)
 12. **/api/health test:** PASS (HTTP 200, JSON valid, ok=true, mode=read_only_api_foundation)
 13. **/api/status test:** PASS (HTTP 200, JSON valid, ok=true, read_only=true)

@@ -1,7 +1,7 @@
 # Demo Readiness Checklist
 
 ## Pre-Demo Checks
-- [ ] Live site URL loads correctly at https://the-agent-command-center-dashboard.netlify.app/
+- [ ] Live site URL loads correctly at https://the-agent-command-center.netlify.app/
 - [ ] Cache-busted URL shows MVP-50 content (add ?cache_bust=check to force fresh request)
 - [ ] No stale MVP-41 or earlier badges visible
 - [ ] NOT_READY_FOR_REAL_AUTOMATION badge visible

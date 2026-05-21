@@ -3,7 +3,7 @@
 1. **Executive verdict:** PASS_WITH_HIGH_CONFIDENCE
 2. **Repo:** dev-in-portfolio/the-agent-command-center
 3. **Production branch:** master
-4. **Production site:** https://the-agent-command-center-dashboard.netlify.app/
+4. **Production site:** https://the-agent-command-center.netlify.app/
 5. **Merged PR:** #1
 6. **Merge commit:** bcec3e86aa16cff634529dd55c1689f7fc886ca1
 7. **Production dashboard test:** PASS (HTTP 200, HTML valid, Backend Status panel present)

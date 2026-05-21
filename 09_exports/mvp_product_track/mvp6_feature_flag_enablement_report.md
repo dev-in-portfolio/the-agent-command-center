@@ -9,7 +9,7 @@ READ_AUTH_FLAGS_SET_WRITES_DISABLED
 - MVP_ENABLE_REQUEST_API_WRITES=false
 
 ## Netlify CLI State
-Netlify CLI was available, authenticated as d o (devin.dev.portfolio@gmail.com), and successfully linked to the-agent-command-center-dashboard.
+Netlify CLI was available, authenticated as d o (devin.dev.portfolio@gmail.com), and successfully linked to the-agent-command-center.
 
 ## Result
 Flags were successfully set using `netlify env:set`.

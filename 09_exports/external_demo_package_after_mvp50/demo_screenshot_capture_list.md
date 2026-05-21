@@ -11,7 +11,7 @@
 | 7 | Roadmap section overview | 07_roadmap_overview.png | "Roadmap MVP-43 through MVP-50 — all readiness layers listed" | Shows the complete readiness roadmap |
 | 8 | NOT_READY_FOR_REAL_AUTOMATION badge closeup | 08_not_ready_badge.png | "NOT_READY_FOR_REAL_AUTOMATION badge" | Emphasizes the disabled-status marker |
 | 9 | Developer View section | 09_developer_view.png | "Developer View with validation checklists" | Shows technical depth available to reviewers |
-| 10 | Browser address bar showing live URL | 10_live_url.png | "Live dashboard at the-agent-command-center-dashboard.netlify.app" | Confirms the correct URL for reviewers |
+| 10 | Browser address bar showing live URL | 10_live_url.png | "Live dashboard at the-agent-command-center.netlify.app" | Confirms the correct URL for reviewers |
 
 ## Instructions
 - Use full-width browser window (1920x1080 recommended)

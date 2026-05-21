@@ -7,7 +7,7 @@ PRODUCTION_VERIFIED
 PASS_WITH_HIGH_CONFIDENCE
 
 ## Production Site
-https://the-agent-command-center-dashboard.netlify.app/
+https://the-agent-command-center.netlify.app/
 
 ## Verified Production Dashboard
 - Homepage returned HTTP 200.

@@ -1,7 +1,7 @@
 {
   "package_name": "viewable_demo_hub_after_mvp50",
   "source_package": "stakeholder_presentation_after_mvp50",
-  "live_site": "https://the-agent-command-center-dashboard.netlify.app/",
+  "live_site": "https://the-agent-command-center.netlify.app/",
   "production_verified_through": "MVP-50",
   "runtime_activation_started": false,
   "registry_source": "09_exports/org_chart_export.json",

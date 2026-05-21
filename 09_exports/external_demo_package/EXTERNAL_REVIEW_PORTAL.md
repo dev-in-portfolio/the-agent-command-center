@@ -21,4 +21,4 @@ This portal and the associated demo package have been QA'd to ensure:
 - Clearly blocked approval/execution/automation paths.
 
 ## Demo Surface
-[https://the-agent-command-center-dashboard.netlify.app/](https://the-agent-command-center-dashboard.netlify.app/)
+[https://the-agent-command-center.netlify.app/](https://the-agent-command-center.netlify.app/)

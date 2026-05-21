@@ -7,7 +7,7 @@
   - The Agent Command Center
   - Controlled Command-Center Readiness Architecture
   - Readiness Roadmap Complete Through MVP-50
-  - Production Dashboard: the-agent-command-center-dashboard.netlify.app
+  - Production Dashboard: the-agent-command-center.netlify.app
 - **Visual suggestion**: Dashboard welcome banner screenshot as backdrop
 - **Speaker note**: "Today I will show you the controlled command-center readiness architecture we have built. It is a read-only production-visible dashboard documenting the readiness state of 8 essential layers. Runtime activation has not started."
 
@@ -29,7 +29,7 @@
   - A read-only production-visible dashboard
   - Documents the readiness architecture of a controlled command center
   - 8 readiness layers are schema-defined, validator-proven, and production-verified
-  - Live at the-agent-command-center-dashboard.netlify.app
+  - Live at the-agent-command-center.netlify.app
   - Publicly accessible — no authentication required to view
   - System scale is visible and honest: 67 production verification reports, 582 product-track files, 280 validators, 47,979 agents, and 1,777 departments
   - Registry source: `09_exports/org_chart_export.json`

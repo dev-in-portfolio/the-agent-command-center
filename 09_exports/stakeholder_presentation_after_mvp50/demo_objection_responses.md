@@ -34,7 +34,7 @@ A: "Stakeholder review and feedback. If approved, runtime activation planning be
 A: "Not yet. External security review is a recommended step before any runtime activation."
 
 ## Q12: "Can external reviewers access the dashboard?"
-A: "Yes. The dashboard is publicly accessible at the-agent-command-center-dashboard.netlify.app."
+A: "Yes. The dashboard is publicly accessible at the-agent-command-center.netlify.app."
 
 ## Q13: "How do I know the dashboard is accurate?"
 A: "Automated Python validators check every marker. Validator output is committed and version-controlled. You can run them yourself."

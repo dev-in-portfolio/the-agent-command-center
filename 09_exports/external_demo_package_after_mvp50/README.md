@@ -4,7 +4,7 @@
 This package provides materials for demonstrating and reviewing The Agent Command Center's controlled command-center readiness architecture. The system is a read-only production-visible dashboard that documents the readiness architecture. Runtime activation has not started.
 
 ## Live Site
-https://the-agent-command-center-dashboard.netlify.app/
+https://the-agent-command-center.netlify.app/
 
 ## Package Contents
 - executive_demo_one_pager.md — One-page executive summary

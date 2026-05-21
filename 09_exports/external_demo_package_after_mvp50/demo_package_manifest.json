@@ -1,7 +1,7 @@
 {
   "package_name": "external_demo_package_after_mvp50",
   "created_for": "The Agent Command Center — External Demo and Stakeholder Review",
-  "live_site": "https://the-agent-command-center-dashboard.netlify.app/",
+  "live_site": "https://the-agent-command-center.netlify.app/",
   "source_branch": "release/external-demo-package-after-mvp50",
   "base_mvp": "MVP-50",
   "production_verified_through": "MVP-50",

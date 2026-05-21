@@ -22,6 +22,6 @@ Phase 4A has established the Netlify Functions skeleton and whitelisted same-ori
 
 ## Production Verification
 - **Production verification completed**: YES
-- **Production URL**: https://the-agent-command-center-dashboard.netlify.app/
+- **Production URL**: https://the-agent-command-center.netlify.app/
 - **API status**: ALL_PASS (Verified live)
 - **Recommended next operator decision**: ready_for_phase_4b_planning

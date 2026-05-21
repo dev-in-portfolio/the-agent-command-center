@@ -6,7 +6,7 @@
 ## Navigation Path
 
 ### Welcome Section (30s)
-- URL: https://the-agent-command-center-dashboard.netlify.app/
+- URL: https://the-agent-command-center.netlify.app/
 - "You see the welcome banner with the project tagline. This confirms we are at the correct live site."
 
 ### Current Status (1 min)

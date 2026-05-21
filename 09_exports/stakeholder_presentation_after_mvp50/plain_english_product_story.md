@@ -13,7 +13,7 @@ The Agent Command Center is the documentation of that foundation. It shows 8 ess
 - How approved actions are executed (Execution)
 - How we monitor and handle incidents (Monitoring/Rollback/Incident)
 
-Each capability is verified on a live dashboard at the-agent-command-center-dashboard.netlify.app. You can see them all in one place.
+Each capability is verified on a live dashboard at the-agent-command-center.netlify.app. You can see them all in one place.
 
 ## Why It Matters
 Without this dashboard, there is no single place to verify what is ready and what is not. Stakeholders cannot easily review progress. Safety boundaries are unclear. The risk is that someone might enable runtime capabilities before the architecture is proven complete.
