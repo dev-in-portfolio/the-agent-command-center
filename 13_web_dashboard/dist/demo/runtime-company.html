@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>250-Agent Runtime Company - The Agent Command Center</title>
+  <link rel="stylesheet" href="./assets/demo.css">
+  <script src="./assets/demo.js" defer></script>
+  <script src="./assets/runtime-company.js" defer></script>
+</head>
+<body>
+  <div class="demo-shell runtime-agent-shell">
+    <header class="demo-topbar collapsible-topbar" data-collapsible-menu>
+      <div class="topbar-main">
+        <a class="topbar-title" href="./runtime-company.html">250-Agent Runtime Company</a>
+        <button
+          class="menu-toggle"
+          type="button"
+          data-action="toggle-menu"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          aria-controls="demo-menu-panel">
+          Menu
+        </button>
+      </div>
+      <nav id="demo-menu-panel" class="menu-panel" data-menu-panel hidden aria-label="Demo navigation">
+        <a href="../index.html">Home</a>
+        <a href="./index.html">Demo Hub</a>
+        <a href="./runtime-foundation.html">Runtime Foundation</a>
+        <a href="./runtime-kernel.html">Runtime Kernel</a>
+        <a href="./runtime-agent-control.html">Runtime Agent Control</a>
+        <a href="./runtime-company.html" aria-current="page">Runtime Company</a>
+        <a href="./simulator.html">Simulator</a>
+        <a href="./agent-registry.html">Agent Registry</a>
+        <a href="./safety-boundaries.html">Safety Boundaries</a>
+        <a href="../legal.html">Legal / Copyright</a>
+      </nav>
+    </header>
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../index.html">Home</a>
+      <span aria-hidden="true">→</span>
+      <a href="./index.html">Demo Hub</a>
+      <span aria-hidden="true">→</span>
+      <span>Runtime Company</span>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <p class="eyebrow">MVP-56 controlled runtime company</p>
+          <h1 class="title">250-Agent Runtime Company</h1>
+          <p class="lead">Activate, deactivate, heartbeat, and monitor a controlled 250-agent supervised runtime company across 25 lanes. No command execution.</p>
+          <div class="badge-row">
+            <span class="badge success">MVP-56 250-Agent Runtime Company</span>
+            <span class="badge info">Runtime company size: 250</span>
+            <span class="badge warning">Live runtime agents enabled: 0–250</span>
+            <span class="badge warning">Total registered agents: 47,979</span>
+            <span class="badge danger">Activation beyond 250: blocked</span>
+            <span class="badge danger">Full 47,979 activation: blocked</span>
+          </div>
+          <div class="badge-row">
+            <button class="button primary" type="button" id="refreshButton">Refresh</button>
+            <button class="button secondary" type="button" id="activateCompanyButton">Activate full 250-agent company</button>
+            <button class="button danger" type="button" id="deactivateCompanyButton">Deactivate full company</button>
+          </div>
+        </div>
+        <aside class="runtime-kill-switch">
+          <p class="eyebrow">Kill switch</p>
+          <h2>Visible and ready</h2>
+          <p>Mass activation remains blocked. The company can only operate inside the approved 250-agent boundary across 25 lanes.</p>
+          <div class="badge-row">
+            <span class="badge danger">Kill switch visible</span>
+            <span class="badge ghost">No activate-all route</span>
+          </div>
+          <p id="backendStatusMessage" class="runtime-notice">Loading backend state...</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Backend Status Panel</p>
+          <h2>Company readiness and runtime config</h2>
+        </div>
+        <p>Backend functions and Supabase persistence are required for live state. When missing, the page stays readable and explicitly says so.</p>
+      </div>
+      <div class="runtime-agent-grid">
+        <article class="card">
+          <h3>Backend Status</h3>
+          <ul class="runtime-status-list">
+            <li class="runtime-status-item"><strong>Connection</strong><span id="backendConnectionState">Loading...</span></li>
+            <li class="runtime-status-item"><strong>Runtime activation</strong><span id="runtimeActivationState">false</span></li>
+            <li class="runtime-status-item"><strong>Runtime company size</strong><span id="runtimeCompanySizeState">250</span></li>
+            <li class="runtime-status-item"><strong>Live runtime agents enabled</strong><span id="liveRuntimeAgentsState">0 of 250</span></li>
+            <li class="runtime-status-item"><strong>Max batch size</strong><span id="maxBatchSizeState">250</span></li>
+            <li class="runtime-status-item"><strong>Active lanes</strong><span id="activeLanesState">0 of 25</span></li>
+            <li class="runtime-status-item"><strong>Inactive lanes</strong><span id="inactiveLanesState">25 of 25</span></li>
+            <li class="runtime-status-item"><strong>Company health</strong><span id="companyHealthState">inactive</span></li>
+            <li class="runtime-status-item"><strong>Heartbeat count</strong><span id="heartbeatCountState">0</span></li>
+            <li class="runtime-status-item"><strong>Readiness note count</strong><span id="readinessNoteCountState">0</span></li>
+            <li class="runtime-status-item"><strong>Total registered agents</strong><span id="totalRegisteredAgentsState">47,979</span></li>
+            <li class="runtime-status-item"><strong>Kill switch</strong><span id="killSwitchState">visible</span></li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Company Rollup</h3>
+          <p id="companyRollupSummary" class="runtime-notice">Loading company rollup...</p>
+          <p class="lead">Company health rollups, lane health, heartbeat counts, readiness note counts, and audit counts are all reflected from the backend response.</p>
+          <div id="backendUnavailableNotice" class="runtime-notice" hidden>
+            Backend functions or Supabase environment variables are not configured yet. The UI is ready, but persistence requires Supabase URL and service-role key configured in Netlify environment variables.
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Runtime Controls</p>
+          <h2>Activate company, lanes, and individual agents</h2>
+        </div>
+        <p>Approval and heartbeat controls are persisted server-side. No command execution, deploy execution, rollback execution, or alert sending is enabled.</p>
+      </div>
+      <div class="runtime-agent-grid">
+        <article class="card">
+          <h3>Lane and Agent Picker</h3>
+          <div class="runtime-field-grid">
+            <div class="runtime-field">
+              <label for="selectedLaneSelect">Selected lane</label>
+              <select id="selectedLaneSelect"></select>
+            </div>
+            <div class="runtime-field">
+              <label for="selectedAgentSelect">Selected agent</label>
+              <select id="selectedAgentSelect"></select>
+            </div>
+          </div>
+          <p id="currentLaneStatus" class="runtime-notice">Select a lane to inspect its health.</p>
+          <p id="currentLaneMeta" class="runtime-notice">Lane metrics will appear here.</p>
+          <p id="currentAgentMeta" class="runtime-notice">Select an agent to inspect its status.</p>
+          <p id="currentAgentPermissions" class="runtime-notice">Lane-scoped, supervised, audit-only, readiness-note only.</p>
+        </article>
+        <article class="card">
+          <h3>Activation Controls</h3>
+          <div class="badge-row">
+            <button class="button primary" type="button" id="activateLaneButton">Activate one lane</button>
+            <button class="button danger" type="button" id="deactivateLaneButton">Deactivate one lane</button>
+            <button class="button primary" type="button" id="activateAgentButton">Activate individual agent</button>
+            <button class="button danger" type="button" id="deactivateAgentButton">Deactivate individual agent</button>
+          </div>
+          <div class="runtime-field-grid two">
+            <div class="runtime-field">
+              <label for="heartbeatStatus">Heartbeat status</label>
+              <input id="heartbeatStatus" value="healthy" maxlength="40">
+            </div>
+            <div class="runtime-field">
+              <label for="heartbeatNote">Heartbeat note</label>
+              <input id="heartbeatNote" value="Company heartbeat recorded from the runtime company page." maxlength="2000">
+            </div>
+            <div class="runtime-field">
+              <label for="readinessTitle">Readiness title</label>
+              <input id="readinessTitle" value="Runtime company readiness note" maxlength="180">
+            </div>
+            <div class="runtime-field">
+              <label for="readinessLevel">Readiness level</label>
+              <select id="readinessLevel">
+                <option value="green">green</option>
+                <option value="yellow">yellow</option>
+                <option value="red">red</option>
+              </select>
+            </div>
+          </div>
+          <div class="runtime-field">
+            <label for="readinessBody">Readiness body</label>
+            <textarea id="readinessBody" maxlength="8000">Runtime company readiness note captured from the supervised 250-agent company prototype.</textarea>
+          </div>
+          <div class="badge-row">
+            <button class="button primary" type="button" id="companyHeartbeatButton">Send company heartbeat</button>
+            <button class="button primary" type="button" id="laneHeartbeatButton">Send lane heartbeat</button>
+            <button class="button secondary" type="button" id="readinessButton">Create readiness note</button>
+          </div>
+          <p id="heartbeatStatusMessage" class="runtime-notice">Heartbeats update persisted runtime state.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Lane Roster</p>
+          <h2>Twenty-five lanes with ten agents each</h2>
+        </div>
+        <p>Each lane remains supervised, lane-scoped, and capped at ten approved agents.</p>
+      </div>
+      <p class="runtime-notice">Lane health, Heartbeat count, and Readiness note count are tracked for every lane.</p>
+      <div id="laneRoster" class="card-grid"></div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Audit Timeline</p>
+          <h2>Activation, lane changes, heartbeat, and readiness notes</h2>
+        </div>
+      </div>
+      <div id="auditTimeline" class="runtime-audit-timeline">
+        <div class="runtime-audit-item">No audit events have been recorded yet.</div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>© 2026 Devin O’Rourke. All rights reserved.</p>
+      <p>The two-hundred-fifty-agent runtime company is supervised, audit-only, and capped at two hundred fifty agents across twenty-five lanes. It does not enable command execution, deploy execution, rollback execution, alert sending, or full-squad mass activation.</p>
+      <p class="legal-links"><a href="../index.html">Home</a> · <a href="./index.html">Demo Hub</a> · <a href="./runtime-kernel.html">Runtime Kernel</a> · <a href="./runtime-agent-control.html">Runtime Agent Control</a> · <a href="./runtime-foundation.html">Runtime Foundation</a> · <a href="./simulator.html">Simulator</a> · <a href="./agent-registry.html">Agent Registry</a> · <a href="./safety-boundaries.html">Safety Boundaries</a> · <a href="../legal.html">Legal / Copyright</a></p>
+    </footer>
+  </div>
+</body>
+</html>
