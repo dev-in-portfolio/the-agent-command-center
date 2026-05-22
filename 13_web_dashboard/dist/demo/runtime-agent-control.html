@@ -5,128 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Runtime Agent Control - The Agent Command Center</title>
   <link rel="stylesheet" href="./assets/demo.css">
-  <style>
-    :root {
-      --bg: #07111f;
-      --panel: rgba(9, 18, 33, 0.92);
-      --line: rgba(141, 179, 229, 0.18);
-      --line-strong: rgba(141, 179, 229, 0.36);
-      --text: #f4f7fb;
-      --muted: #aec0d8;
-      --accent: #7bc8ff;
-      --accent-2: #8df3c5;
-      --danger: #ff7c91;
-      --shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
-    }
-    * { box-sizing: border-box; }
-    html, body { margin: 0; min-height: 100%; background: linear-gradient(180deg, #050b16 0%, #07111f 100%); color: var(--text); font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-    a { color: inherit; text-decoration: none; }
-    .shell { width: min(100% - 2rem, 1280px); margin: 0 auto; padding: 24px 0 48px; }
-    .topbar {
-      position: sticky; top: 14px; z-index: 10;
-      display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px;
-      align-items: center; padding: 14px 18px; border: 1px solid var(--line); border-radius: 999px;
-      background: rgba(8, 16, 28, 0.8); backdrop-filter: blur(18px); box-shadow: var(--shadow);
-    }
-    .brand { display: flex; flex-direction: column; gap: 4px; }
-    .brand strong { font-size: 0.96rem; letter-spacing: 0.02em; }
-    .brand span { color: var(--muted); font-size: 0.84rem; }
-    .nav-links { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
-    .nav-links a, .button {
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      padding: 10px 14px; border-radius: 999px; border: 1px solid var(--line);
-      background: rgba(255, 255, 255, 0.04); transition: transform 140ms ease, border-color 140ms ease, background 140ms ease;
-      white-space: normal; overflow-wrap: anywhere;
-    }
-    .nav-links a:hover, .button:hover { transform: translateY(-1px); border-color: var(--line-strong); background: rgba(255, 255, 255, 0.08); }
-    .hero, .card, .panel {
-      border: 1px solid var(--line); border-radius: 28px; background: var(--panel); box-shadow: var(--shadow);
-    }
-    .hero {
-      margin-top: 22px; padding: 30px;
-      background:
-        radial-gradient(circle at top right, rgba(123, 200, 255, 0.16), transparent 30%),
-        radial-gradient(circle at bottom left, rgba(141, 243, 197, 0.12), transparent 26%),
-        linear-gradient(180deg, rgba(15, 28, 50, 0.96), rgba(9, 17, 31, 0.96));
-    }
-    .hero-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 24px; align-items: start; }
-    .eyebrow { margin: 0 0 10px; text-transform: uppercase; letter-spacing: 0.18em; color: var(--accent-2); font-size: 0.74rem; }
-    h1, h2, h3, p, ul { margin-top: 0; }
-    h1 { font-size: clamp(2.4rem, 5vw, 4.8rem); line-height: 0.96; letter-spacing: -0.05em; margin-bottom: 14px; }
-    h2 { font-size: clamp(1.7rem, 2.8vw, 2.4rem); line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 10px; }
-    .lead { max-width: 72ch; color: var(--muted); line-height: 1.72; font-size: 1.05rem; }
-    .badge-row, .button-row, .meta-row { display: flex; flex-wrap: wrap; gap: 10px; }
-    .badge {
-      display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px;
-      border: 1px solid var(--line); background: rgba(255, 255, 255, 0.04); font-size: 0.88rem;
-    }
-    .badge.success { border-color: rgba(141, 243, 197, 0.42); background: rgba(141, 243, 197, 0.12); }
-    .badge.info { border-color: rgba(123, 200, 255, 0.42); background: rgba(123, 200, 255, 0.12); }
-    .badge.warning { border-color: rgba(255, 207, 125, 0.42); background: rgba(255, 207, 125, 0.12); }
-    .badge.danger { border-color: rgba(255, 124, 145, 0.42); background: rgba(255, 124, 145, 0.12); }
-    .badge.ghost { color: var(--muted); }
-    .grid { display: grid; gap: 16px; min-width: 0; }
-    .split { grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); }
-    .card, .panel { padding: 20px; min-width: 0; overflow: hidden; }
-    .card h3 { margin-bottom: 10px; font-size: 1.05rem; }
-    .card p, .panel p, li, label, code { color: var(--muted); line-height: 1.7; overflow-wrap: anywhere; }
-    .status-list, .history-list { margin: 0; padding-left: 18px; display: grid; gap: 8px; }
-    .status-item { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
-    .status-item:last-child { border-bottom: 0; padding-bottom: 0; }
-    .status-item strong { color: var(--text); }
-    .control-form { display: grid; gap: 12px; }
-    .field-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 12px; }
-    .field { display: grid; gap: 6px; }
-    .field label { font-size: 0.9rem; }
-    .field input, .field select, .field textarea {
-      width: 100%; border: 1px solid var(--line); border-radius: 16px; background: rgba(255, 255, 255, 0.04);
-      color: var(--text); padding: 12px 14px; font: inherit;
-    }
-    .field textarea { min-height: 110px; resize: vertical; }
-    .button.primary { border-color: rgba(123, 200, 255, 0.44); background: rgba(123, 200, 255, 0.16); }
-    .button.secondary { border-color: rgba(141, 243, 197, 0.38); background: rgba(141, 243, 197, 0.12); }
-    .button.danger { border-color: rgba(255, 124, 145, 0.46); background: rgba(255, 124, 145, 0.14); }
-    .button-row { margin-top: 6px; }
-    .status-pill {
-      display: inline-flex; align-items: center; gap: 8px; padding: 9px 12px; border-radius: 999px;
-      border: 1px solid var(--line); background: rgba(255, 255, 255, 0.04); font-size: 0.88rem;
-    }
-    .timeline { display: grid; gap: 12px; }
-    .timeline-item {
-      border: 1px solid var(--line); border-radius: 18px; padding: 14px;
-      background: rgba(255,255,255,0.03);
-    }
-    .timeline-item h4 { margin: 0 0 8px; font-size: 0.98rem; }
-    .code-block { margin: 10px 0 0; white-space: pre-wrap; word-break: break-word; color: var(--muted); }
-    .notice {
-      border: 1px solid rgba(255, 207, 125, 0.4); border-radius: 18px; padding: 14px 16px;
-      background: rgba(255, 207, 125, 0.08); color: var(--muted);
-    }
-    .notice.hidden { display: none; }
-    .footer {
-      margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.92rem;
-    }
-    @media (max-width: 900px) {
-      .shell { width: min(100% - 1rem, 100%); }
-      .hero-grid, .split { grid-template-columns: 1fr; }
-      .nav-links { justify-content: flex-start; }
-      .nav-links a, .button { width: 100%; }
-      .topbar { border-radius: 24px; }
-    }
-  </style>
+  <script src="./assets/demo.js" defer></script>
+  <script src="./assets/runtime-agent-control.js" defer></script>
 </head>
 <body>
-  <div class="shell">
-    <header class="topbar">
-      <div class="brand">
-        <strong>The Agent Command Center</strong>
-        <span>Runtime Agent Control</span>
+  <div class="demo-shell runtime-agent-shell">
+    <header class="demo-topbar collapsible-topbar" data-collapsible-menu>
+      <div class="topbar-main">
+        <a class="topbar-title" href="./index.html">Runtime Agent Control</a>
+        <button
+          class="menu-toggle"
+          type="button"
+          data-action="toggle-menu"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          aria-controls="demo-menu-panel">
+          Menu
+        </button>
       </div>
-      <nav class="nav-links" aria-label="Navigation">
+      <nav
+        id="demo-menu-panel"
+        class="menu-panel"
+        data-menu-panel
+        hidden
+        aria-label="Demo navigation">
         <a href="../index.html">Home</a>
         <a href="./index.html">Demo Hub</a>
         <a href="./runtime-kernel.html">Runtime Kernel</a>
         <a href="./runtime-foundation.html">Runtime Foundation</a>
+        <a href="./runtime-agent-control.html" aria-current="page">Runtime Agent Control</a>
         <a href="./simulator.html">Simulator</a>
         <a href="./agent-registry.html">Agent Registry</a>
         <a href="./safety-boundaries.html">Safety Boundaries</a>
@@ -134,11 +41,19 @@
       </nav>
     </header>
 
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../index.html">Home</a>
+      <span aria-hidden="true">→</span>
+      <a href="./index.html">Demo Hub</a>
+      <span aria-hidden="true">→</span>
+      <span>Runtime Agent Control</span>
+    </nav>
+
     <section class="hero">
       <div class="hero-grid">
-        <div>
+        <div class="hero-copy">
           <p class="eyebrow">MVP-53 runtime agent activation controller</p>
-          <h1>Runtime Agent Control</h1>
+          <h1 class="title">Runtime Agent Control</h1>
           <p class="lead">A real backend-connected control surface for one supervised test agent only. Mass activation is blocked, the kill switch is visible, and every activation or deactivation writes an audit event.</p>
           <div class="badge-row">
             <span class="badge success">MVP-53 Runtime Agent Activation Controller</span>
@@ -148,117 +63,139 @@
             <span class="badge danger">Mass activation: blocked</span>
             <span class="badge danger">batch size = 1</span>
           </div>
-          <div class="button-row" style="margin-top: 18px;">
+          <div class="cta-row">
             <button id="refreshButton" class="button secondary" type="button">Refresh</button>
             <button id="activateButton" class="button primary" type="button">Activate supervised test agent</button>
             <button id="deactivateButton" class="button danger" type="button">Deactivate supervised test agent</button>
           </div>
         </div>
-        <aside class="panel">
+        <aside class="runtime-kill-switch">
           <p class="eyebrow">Kill switch</p>
-          <h2 style="margin-bottom: 10px;">Visible and ready</h2>
+          <h2>Visible and ready</h2>
           <p>The kill switch is always visible. It does not unlock mass activation. It only controls the one supervised test agent.</p>
           <div class="badge-row">
             <span class="badge danger">Kill switch visible</span>
             <span class="badge ghost">No activate-all route</span>
           </div>
-          <p id="backendStatusMessage" style="margin-top: 14px;">Loading backend state...</p>
+          <p id="backendStatusMessage" class="runtime-notice">Loading backend state...</p>
         </aside>
       </div>
     </section>
 
     <section class="section">
-      <div class="grid split">
-        <article class="card">
+      <div class="section-head">
+        <div>
           <p class="eyebrow">Backend Status Panel</p>
           <h2>Persistence and runtime config</h2>
-          <ul class="status-list">
-            <li class="status-item"><strong>Backend functions respond</strong><span id="backendConnectionState">Loading...</span></li>
-            <li class="status-item"><strong>Live runtime agents enabled</strong><span id="liveRuntimeAgentsState">0</span></li>
-            <li class="status-item"><strong>Total registered agents</strong><span id="totalRegisteredAgentsState">47,979</span></li>
-            <li class="status-item"><strong>Mass activation</strong><span id="massActivationState">blocked</span></li>
-            <li class="status-item"><strong>Activation mode</strong><span id="activationModeState">Activation mode: supervised single-agent test</span></li>
-            <li class="status-item"><strong>Max batch size</strong><span id="maxBatchSizeState">1</span></li>
-            <li class="status-item"><strong>Kill switch</strong><span id="killSwitchState">visible</span></li>
-          </ul>
-        </article>
+        </div>
+        <p>Backend readiness is visible even when the backend is not configured. The page distinguishes a configured backend from the not-configured state.</p>
+      </div>
+      <div class="panel">
+        <ul class="runtime-status-list">
+          <li class="runtime-status-item"><strong>Backend functions respond</strong><span id="backendConnectionState">Loading...</span></li>
+          <li class="runtime-status-item"><strong>Live runtime agents enabled</strong><span id="liveRuntimeAgentsState">0</span></li>
+          <li class="runtime-status-item"><strong>Total registered agents</strong><span id="totalRegisteredAgentsState">47,979</span></li>
+          <li class="runtime-status-item"><strong>Mass activation</strong><span id="massActivationState">blocked</span></li>
+          <li class="runtime-status-item"><strong>Activation mode</strong><span id="activationModeState">Activation mode: supervised single-agent test</span></li>
+          <li class="runtime-status-item"><strong>Max batch size</strong><span id="maxBatchSizeState">1</span></li>
+          <li class="runtime-status-item"><strong>Kill switch</strong><span id="killSwitchState">visible</span></li>
+        </ul>
+      </div>
+    </section>
 
-        <article class="card">
-          <p class="eyebrow">Controlled Activation</p>
-          <h2>One supervised test agent only</h2>
-          <form id="activationForm" class="control-form">
-            <div class="field-grid">
-              <div class="field">
+    <section class="section">
+      <div class="runtime-agent-grid">
+        <section class="panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Controlled Activation</p>
+              <h2>One supervised test agent only</h2>
+            </div>
+          </div>
+          <form id="activationForm" class="runtime-field-grid">
+            <div class="runtime-field-grid two">
+              <div class="runtime-field">
                 <label for="agentSelect">Agent</label>
                 <select id="agentSelect" name="agent_id">
                   <option value="mvp53_supervised_test_agent_001">mvp53_supervised_test_agent_001 - Supervised Test Agent 001</option>
                 </select>
               </div>
-              <div class="field">
+              <div class="runtime-field">
                 <label for="operatorName">Operator name</label>
                 <input id="operatorName" name="operator_name" type="text" placeholder="Operator name">
               </div>
             </div>
-            <div class="field">
+            <div class="runtime-field">
               <label for="reasonField">Reason</label>
               <textarea id="reasonField" name="reason" placeholder="Optional reason or note"></textarea>
             </div>
-            <div class="notice">
+            <div class="runtime-notice">
               No activate-all route. Batch size is locked to 1. The only allowed target is <code>mvp53_supervised_test_agent_001</code>.
             </div>
           </form>
-        </article>
-      </div>
-    </section>
+        </section>
 
-    <section class="section">
-      <div class="grid split">
-        <article class="card">
-          <p class="eyebrow">Current Agent Status</p>
-          <h2>Status snapshot</h2>
-          <div class="status-pill" id="currentAgentStatus">No agent loaded yet.</div>
-          <div class="meta-row" style="margin-top: 12px;">
+        <section class="panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Current Agent Status</p>
+              <h2>Status snapshot</h2>
+            </div>
+          </div>
+          <div class="badge-row runtime-agent-status-row">
+            <span class="badge info" id="currentAgentStatus">No agent loaded yet.</span>
+          </div>
+          <div class="badge-row">
             <span class="badge info" id="currentAgentId">mvp53_supervised_test_agent_001</span>
             <span class="badge ghost" id="currentAgentPermissions">execution: none</span>
             <span class="badge ghost" id="currentAgentTask">audit-only readiness note</span>
           </div>
-          <p id="currentAgentMeta" style="margin-top: 14px;">Refresh to load the current activation state.</p>
-        </article>
-
-        <article class="card">
-          <p class="eyebrow">Audit Timeline</p>
-          <h2>Activation history</h2>
-          <div id="auditTimeline" class="timeline">
-            <div class="timeline-item">No activation events recorded yet.</div>
-          </div>
-        </article>
+          <p id="currentAgentMeta" class="runtime-notice">Refresh to load the current activation state.</p>
+        </section>
       </div>
     </section>
 
     <section class="section">
-      <div class="panel">
-        <p class="eyebrow">Disabled surface</p>
-        <h2>What remains blocked</h2>
-        <div class="badge-row">
-          <span class="badge danger">Mass activation: blocked</span>
-          <span class="badge danger">No activate-all route</span>
-          <span class="badge danger">No command execution</span>
-          <span class="badge danger">No deploy execution</span>
-          <span class="badge danger">No rollback execution</span>
-          <span class="badge danger">No alert sending</span>
-        </div>
-        <p class="notice" style="margin-top: 14px;">
-          Backend functions or Supabase environment variables are not configured yet. The UI is ready, but persistence requires Supabase URL and service-role key configured in Netlify environment variables.
-        </p>
+      <div class="runtime-agent-grid">
+        <section class="panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Audit Timeline</p>
+              <h2>Activation history</h2>
+            </div>
+          </div>
+          <div id="auditTimeline" class="runtime-audit-timeline">
+            <div class="runtime-audit-item">No activation events recorded yet.</div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Disabled surface</p>
+              <h2>What remains blocked</h2>
+            </div>
+          </div>
+          <div class="badge-row">
+            <span class="badge danger">Mass activation: blocked</span>
+            <span class="badge danger">No activate-all route</span>
+            <span class="badge danger">No command execution</span>
+            <span class="badge danger">No deploy execution</span>
+            <span class="badge danger">No rollback execution</span>
+            <span class="badge danger">No alert sending</span>
+          </div>
+          <p class="runtime-notice">
+            Backend functions or Supabase environment variables are not configured yet. The UI is ready, but persistence requires Supabase URL and service-role key configured in Netlify environment variables.
+          </p>
+        </section>
       </div>
     </section>
 
     <footer class="footer">
       <p>© 2026 Devin O’Rourke. All rights reserved.</p>
       <p>Runtime agent control is limited to one supervised test agent. It does not enable command execution, deploy execution, rollback execution, alert sending, or mass activation.</p>
-      <p class="legal-links"><a href="./index.html">Demo Hub</a> · <a href="./runtime-kernel.html">Runtime Kernel</a> · <a href="./runtime-foundation.html">Runtime Foundation</a> · <a href="../index.html">Home</a> · <a href="../legal.html">Legal / Copyright</a></p>
+      <p class="legal-links"><a href="../index.html">Home</a> · <a href="./index.html">Demo Hub</a> · <a href="./runtime-kernel.html">Runtime Kernel</a> · <a href="./runtime-foundation.html">Runtime Foundation</a> · <a href="./simulator.html">Simulator</a> · <a href="./agent-registry.html">Agent Registry</a> · <a href="./safety-boundaries.html">Safety Boundaries</a> · <a href="../legal.html">Legal / Copyright</a></p>
     </footer>
   </div>
-  <script src="./assets/runtime-agent-control.js"></script>
 </body>
 </html>

@@ -20,6 +20,8 @@
     },
   };
 
+  const backendUnavailableMessage = "Backend functions or Supabase environment variables are not configured yet. The UI is ready, but persistence requires Supabase URL and service-role key configured in Netlify environment variables.";
+
   const backendConnectionState = document.getElementById("backendConnectionState");
   const liveRuntimeAgentsState = document.getElementById("liveRuntimeAgentsState");
   const totalRegisteredAgentsState = document.getElementById("totalRegisteredAgentsState");
@@ -114,14 +116,14 @@
     auditTimeline.innerHTML = state.events
       .map((event) => {
         return `
-          <article class="timeline-item">
+          <article class="runtime-audit-item">
             <h4>${escapeHtml(event.event_type || "UNKNOWN_EVENT")}</h4>
             <div class="meta-row">
               <span class="badge info">${escapeHtml(event.agent_id || "n/a")}</span>
               <span class="badge ghost">${fmtDate(event.created_at)}</span>
               <span class="badge ghost">${escapeHtml(event.actor || "operator")}</span>
             </div>
-            <p style="margin-top: 10px;">${escapeHtml(event.event_summary || "")}</p>
+            <p class="runtime-audit-summary">${escapeHtml(event.event_summary || "")}</p>
             <details>
               <summary class="badge ghost">Payload</summary>
               <pre class="code-block">${escapeHtml(JSON.stringify(event.event_payload || {}, null, 2))}</pre>
@@ -151,7 +153,7 @@
       inactive_agents: 0,
       activation_event_count: 0,
     };
-    setMessage(message, "warn");
+    setMessage(message || backendUnavailableMessage, "warn");
     renderAll();
   }
 
@@ -214,16 +216,20 @@
       });
       const data = await response.json();
 
+      if (response.status === 503 || data.error === "Runtime agent controller backend is not configured.") {
+        setBackendUnavailable(backendUnavailableMessage);
+        return;
+      }
+
       if (!response.ok || !data.ok) {
-        throw new Error(data.error || `${actionLabel} failed.`);
+        setMessage(data.error || `${actionLabel} failed.`, "warn");
+        return;
       }
 
       await loadState();
       setMessage(`${actionLabel} complete.`, "success");
     } catch (error) {
-      setBackendUnavailable(
-        "Backend functions or Supabase environment variables are not configured yet. The UI is ready, but persistence requires Supabase URL and service-role key configured in Netlify environment variables."
-      );
+      setBackendUnavailable(backendUnavailableMessage);
     }
   }
 

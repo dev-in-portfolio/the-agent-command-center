@@ -3,6 +3,22 @@
 
 create extension if not exists pgcrypto;
 
+create table if not exists runtime_kernel_config (
+  key text primary key,
+  value jsonb not null,
+  updated_at timestamptz not null default now()
+);
+
+create or replace function runtime_kernel_touch_updated_at()
+returns trigger
+language plpgsql
+as $$
+begin
+  new.updated_at = now();
+  return new;
+end;
+$$;
+
 create table if not exists runtime_agents (
   agent_id text primary key,
   agent_name text not null,
