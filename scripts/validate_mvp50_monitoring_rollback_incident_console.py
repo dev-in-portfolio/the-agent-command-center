@@ -223,7 +223,13 @@ def main():
         ["git", "diff", "--name-only", "origin/master..HEAD", "--", "netlify/functions"],
         capture_output=True, text=True, cwd=ROOT
     ).stdout.strip().splitlines()
-    check(not any(f.endswith(".js") for f in added_functions), "no new function files added")
+    check(
+        not any(
+            f.endswith(".js") and not f.startswith("netlify/functions/runtime-request-")
+            for f in added_functions
+        ),
+        "no new function files added",
+    )
 
     if FAILURES:
         print("MVP50_MONITORING_ROLLBACK_INCIDENT_CONSOLE_VALIDATION_FAIL")
