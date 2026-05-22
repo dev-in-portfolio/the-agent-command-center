@@ -1,0 +1,1020 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Runtime Workbench - The Agent Command Center</title>
+  <link rel="stylesheet" href="./assets/demo.css">
+  <script src="./assets/demo.js" defer></script>
+  <style>
+    .workbench-shell {
+      display: grid;
+      gap: 18px;
+    }
+
+    .workbench-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    @media (max-width: 980px) {
+      .workbench-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @media (max-width: 760px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .field label {
+      font-size: 0.92rem;
+      color: var(--text);
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+      padding: 12px 14px;
+      font: inherit;
+      outline: none;
+      transition: border-color 140ms ease, background 140ms ease, transform 140ms ease;
+    }
+
+    .field textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--line-strong);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .control-row,
+    .queue-actions,
+    .toolbar,
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .toolbar {
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .split {
+      display: grid;
+      gap: 14px;
+    }
+
+    .workbench-panel {
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: rgba(10, 19, 34, 0.92);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      overflow: hidden;
+    }
+
+    .preview-board {
+      display: grid;
+      gap: 12px;
+    }
+
+    .status-banner {
+      display: grid;
+      gap: 12px;
+      padding: 18px;
+      border-radius: 22px;
+      border: 1px solid rgba(123, 200, 255, 0.22);
+      background: linear-gradient(180deg, rgba(123, 200, 255, 0.12), rgba(141, 243, 197, 0.08));
+    }
+
+    .status-banner strong {
+      font-size: 1.12rem;
+    }
+
+    .status-grid {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    @media (max-width: 760px) {
+      .status-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .status-tile {
+      padding: 14px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.04);
+      min-width: 0;
+    }
+
+    .status-tile .smallcaps {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .risk-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      font-size: 0.88rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .risk-low {
+      border-color: rgba(141, 243, 197, 0.36);
+      background: rgba(141, 243, 197, 0.12);
+    }
+
+    .risk-medium {
+      border-color: rgba(123, 200, 255, 0.4);
+      background: rgba(123, 200, 255, 0.12);
+    }
+
+    .risk-high {
+      border-color: rgba(255, 207, 125, 0.42);
+      background: rgba(255, 207, 125, 0.12);
+    }
+
+    .risk-critical {
+      border-color: rgba(255, 143, 147, 0.46);
+      background: rgba(255, 143, 147, 0.12);
+    }
+
+    .queue-list,
+    .timeline {
+      display: grid;
+      gap: 12px;
+    }
+
+    .queue-item,
+    .timeline-item {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 16px;
+    }
+
+    .queue-item.pending {
+      border-color: rgba(123, 200, 255, 0.28);
+    }
+
+    .queue-item.approved {
+      border-color: rgba(141, 243, 197, 0.28);
+    }
+
+    .queue-item.denied {
+      border-color: rgba(255, 143, 147, 0.3);
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 12px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .mini-label {
+      color: var(--muted);
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .preview-list,
+    .plain-list {
+      margin: 0;
+      padding-left: 18px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .stat-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      flex-wrap: wrap;
+    }
+
+    .stat-line strong {
+      color: var(--text);
+    }
+
+    .empty-state {
+      padding: 18px;
+      border: 1px dashed var(--line-strong);
+      border-radius: 18px;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .export-note {
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-shell">
+    <header class="demo-topbar collapsible-topbar" data-collapsible-menu>
+      <div class="topbar-main">
+        <a class="topbar-title" href="./index.html">Runtime Workbench</a>
+        <button
+          class="menu-toggle"
+          type="button"
+          data-action="toggle-menu"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          aria-controls="workbench-menu-panel">
+          Menu
+        </button>
+      </div>
+      <nav id="workbench-menu-panel" class="menu-panel" data-menu-panel hidden aria-label="Runtime workbench navigation">
+        <a href="../index.html">Home</a>
+        <a href="./index.html">Demo Hub</a>
+        <a href="./runtime-foundation.html">Runtime Foundation</a>
+        <a href="./simulator.html">Simulator</a>
+        <a href="./system-scale.html">System Scale</a>
+        <a href="./agent-registry.html">Agent Registry</a>
+        <a href="./safety-boundaries.html">Safety Boundaries</a>
+        <a href="../legal.html">Legal / Copyright</a>
+        <a href="../full-audit-dashboard.html">Full Audit Dashboard</a>
+      </nav>
+    </header>
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../index.html">Home</a>
+      <span aria-hidden="true">→</span>
+      <a href="./index.html">Demo Hub</a>
+      <span aria-hidden="true">→</span>
+      <span>Runtime Workbench</span>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <p class="eyebrow">Static in-browser prototype</p>
+          <h1 class="title">Runtime Workbench</h1>
+          <p class="lead">Runtime Workbench - static in-browser prototype. No backend writes. No real execution.</p>
+          <div class="badge-row">
+            <span class="badge success">MVP-52</span>
+            <span class="badge warning">No backend writes</span>
+            <span class="badge info">No real execution</span>
+            <span class="badge ghost">In-memory only</span>
+          </div>
+          <div class="toolbar" style="margin-top: 18px;">
+            <div class="control-row">
+              <button class="button primary" type="button" id="exportButton">Export JSON report</button>
+              <button class="button" type="button" id="resetButton">Reset demo</button>
+            </div>
+            <p class="export-note">The export uses a local blob download only. It never calls fetch, never stores state, and never talks to a backend.</p>
+          </div>
+        </div>
+        <aside class="status-banner">
+          <strong>Prototype guardrails</strong>
+          <div class="pill-row">
+            <span class="risk-pill risk-low">No fetch</span>
+            <span class="risk-pill risk-low">No XHR</span>
+            <span class="risk-pill risk-low">No realtime sockets</span>
+            <span class="risk-pill risk-low">No storage APIs</span>
+          </div>
+          <div class="status-grid">
+            <div class="status-tile">
+              <span class="smallcaps">Requests</span>
+              <strong id="requestCount">0</strong>
+              <small>Queued in memory</small>
+            </div>
+            <div class="status-tile">
+              <span class="smallcaps">Pending approvals</span>
+              <strong id="pendingCount">0</strong>
+              <small>Awaiting action</small>
+            </div>
+            <div class="status-tile">
+              <span class="smallcaps">Audit events</span>
+              <strong id="auditCount">0</strong>
+              <small>Rendered timeline</small>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Workbench controls</p>
+          <h2>Build a request, classify risk, and preview the dry run</h2>
+        </div>
+      </div>
+      <div class="workbench-grid">
+        <section class="workbench-panel">
+          <div class="split" style="margin-bottom: 16px;">
+            <div>
+              <p class="eyebrow">Request builder</p>
+              <p class="hint">Compose an in-memory request, inspect the selected action, and queue the review path without touching any backend surface.</p>
+            </div>
+          </div>
+          <form id="requestForm" class="split">
+            <div class="form-grid">
+              <div class="field">
+                <label for="actionId">Static action registry</label>
+                <select id="actionId" name="actionId"></select>
+              </div>
+              <div class="field">
+                <label for="requester">Requester</label>
+                <input id="requester" name="requester" type="text" value="operator@example.com" required>
+              </div>
+              <div class="field">
+                <label for="tenantId">Tenant ID</label>
+                <input id="tenantId" name="tenantId" type="text" value="tenant-alpha" required>
+              </div>
+              <div class="field">
+                <label for="workspaceId">Workspace ID</label>
+                <input id="workspaceId" name="workspaceId" type="text" value="workspace-001" required>
+              </div>
+              <div class="field">
+                <label for="environment">Environment</label>
+                <select id="environment" name="environment">
+                  <option value="sandbox">sandbox</option>
+                  <option value="private-pilot">private-pilot</option>
+                  <option value="review">review</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="targetSystem">Target system</label>
+                <input id="targetSystem" name="targetSystem" type="text" value="command-center-monitoring" required>
+              </div>
+            </div>
+            <div class="field">
+              <label for="requestSummary">Request summary</label>
+              <input id="requestSummary" name="requestSummary" type="text" value="Queue a controlled approval review for a static runtime planning action." required>
+            </div>
+            <div class="field">
+              <label for="requestNotes">Dry-run notes</label>
+              <textarea id="requestNotes" name="requestNotes">This is a static prototype. It classifies the request, prepares a dry-run preview, and queues a human review decision in memory only.</textarea>
+            </div>
+            <div class="control-row">
+              <button class="button primary" type="submit">Build request</button>
+              <button class="button" type="button" id="copyActionButton">Copy action summary</button>
+            </div>
+          </form>
+        </section>
+
+        <aside class="workbench-panel preview-board">
+          <div class="toolbar">
+            <div>
+              <p class="mini-label">Risk classifier</p>
+              <strong id="classifierTitle">Low</strong>
+            </div>
+            <span id="riskPill" class="risk-pill risk-low">low</span>
+          </div>
+          <div class="status-tile">
+            <span class="smallcaps">Action registry entry</span>
+            <strong id="actionDisplay">-</strong>
+            <p class="hint" id="actionDescription"></p>
+          </div>
+          <div class="status-tile">
+            <span class="smallcaps">Dry-run preview</span>
+            <ul class="preview-list" id="dryRunList"></ul>
+          </div>
+          <div class="status-tile">
+            <span class="smallcaps">Approval rule</span>
+            <div class="meta-row" id="approvalMeta"></div>
+          </div>
+          <div class="status-tile">
+            <span class="smallcaps">Execution boundary</span>
+            <p class="hint" id="executionBoundary"></p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Approval queue</p>
+          <h2>Pending requests with approve and deny actions</h2>
+        </div>
+      </div>
+      <div class="workbench-panel">
+        <div class="queue-list" id="queueList"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Audit timeline</p>
+          <h2>In-memory audit trail</h2>
+        </div>
+      </div>
+      <div class="workbench-panel">
+        <div class="timeline" id="auditTimeline"></div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    (() => {
+      const ACTION_REGISTRY = [
+        {
+          id: "queue-controlled-review",
+          display_name: "Queue controlled review",
+          description: "Create a review request that stays in memory and waits for an approve or deny decision.",
+          action_type: "workflow_control",
+          risk_level: "low",
+          required_role: "operator",
+          required_approval_level: "optional",
+          dry_run_required: true,
+          human_review_required: true,
+          rollback_required: false,
+          allowed_inputs: ["requester", "tenant_id", "workspace_id", "notes"],
+          forbidden_inputs: ["token", "password", "secret"],
+        },
+        {
+          id: "prepare-dry-run",
+          display_name: "Prepare dry-run preview",
+          description: "Generate a static preview of the expected changes, affected systems, and rollback notes.",
+          action_type: "planning",
+          risk_level: "medium",
+          required_role: "operator",
+          required_approval_level: "reviewer",
+          dry_run_required: true,
+          human_review_required: false,
+          rollback_required: true,
+          allowed_inputs: ["request_summary", "target_system", "request_notes"],
+          forbidden_inputs: ["command", "token", "password"],
+        },
+        {
+          id: "escalate-approval-gate",
+          display_name: "Escalate approval gate",
+          description: "Move a request toward a higher approval bar before any future execution is even considered.",
+          action_type: "control_gate",
+          risk_level: "high",
+          required_role: "approver",
+          required_approval_level: "security_reviewer",
+          dry_run_required: true,
+          human_review_required: true,
+          rollback_required: true,
+          allowed_inputs: ["request_id", "tenant_id", "workspace_id", "approval_reason"],
+          forbidden_inputs: ["deployment", "database_write", "external_api"],
+        },
+        {
+          id: "deny-request",
+          display_name: "Deny request",
+          description: "Reject a request and record the denial in the audit timeline.",
+          action_type: "review_decision",
+          risk_level: "medium",
+          required_role: "approver",
+          required_approval_level: "none",
+          dry_run_required: false,
+          human_review_required: true,
+          rollback_required: false,
+          allowed_inputs: ["request_id", "denial_reason"],
+          forbidden_inputs: ["execution", "write", "rollback"],
+        },
+        {
+          id: "export-audit-snapshot",
+          display_name: "Export audit snapshot",
+          description: "Export the current in-memory workbench state as a JSON report download.",
+          action_type: "reporting",
+          risk_level: "low",
+          required_role: "audit_viewer",
+          required_approval_level: "none",
+          dry_run_required: false,
+          human_review_required: false,
+          rollback_required: false,
+          allowed_inputs: ["generated_at", "request_count", "audit_count"],
+          forbidden_inputs: ["fetch", "xhr", "backend"],
+        },
+      ];
+
+      const state = {
+        nextRequestNumber: 2,
+        nextAuditNumber: 3,
+        requests: [],
+        auditEvents: [],
+        currentRequestId: null,
+      };
+
+      const form = document.getElementById("requestForm");
+      const actionSelect = document.getElementById("actionId");
+      const requesterInput = document.getElementById("requester");
+      const tenantInput = document.getElementById("tenantId");
+      const workspaceInput = document.getElementById("workspaceId");
+      const environmentInput = document.getElementById("environment");
+      const targetSystemInput = document.getElementById("targetSystem");
+      const requestSummaryInput = document.getElementById("requestSummary");
+      const requestNotesInput = document.getElementById("requestNotes");
+      const exportButton = document.getElementById("exportButton");
+      const resetButton = document.getElementById("resetButton");
+      const copyActionButton = document.getElementById("copyActionButton");
+      const requestCount = document.getElementById("requestCount");
+      const pendingCount = document.getElementById("pendingCount");
+      const auditCount = document.getElementById("auditCount");
+      const classifierTitle = document.getElementById("classifierTitle");
+      const riskPill = document.getElementById("riskPill");
+      const actionDisplay = document.getElementById("actionDisplay");
+      const actionDescription = document.getElementById("actionDescription");
+      const dryRunList = document.getElementById("dryRunList");
+      const approvalMeta = document.getElementById("approvalMeta");
+      const executionBoundary = document.getElementById("executionBoundary");
+      const queueList = document.getElementById("queueList");
+      const auditTimeline = document.getElementById("auditTimeline");
+
+      function nowStamp() {
+        return new Date().toISOString();
+      }
+
+      function prettyTime(iso) {
+        return new Intl.DateTimeFormat("en-US", {
+          dateStyle: "medium",
+          timeStyle: "short",
+          hour12: false,
+        }).format(new Date(iso));
+      }
+
+      function currentAction() {
+        return ACTION_REGISTRY.find((action) => action.id === actionSelect.value) || ACTION_REGISTRY[0];
+      }
+
+      function riskRank(risk) {
+        return { low: 1, medium: 2, high: 3, critical: 4 }[risk] || 1;
+      }
+
+      function classifyRisk(action, values) {
+        const text = [values.requestSummary, values.requestNotes, values.targetSystem].join(" ").toLowerCase();
+        if (action.risk_level === "critical" || /rollback|deploy|delete|database|external|execute/.test(text)) {
+          return "critical";
+        }
+        if (action.risk_level === "high" || action.human_review_required) {
+          return "high";
+        }
+        if (action.risk_level === "medium" || /approval|review|queue/.test(text)) {
+          return "medium";
+        }
+        return "low";
+      }
+
+      function buildDryRun(action, values, risk) {
+        const approvalRequired = action.required_approval_level !== "none" || riskRank(risk) >= 3 || action.human_review_required;
+        return {
+          expectedChanges: [
+            `Create an in-memory request for ${action.display_name}.`,
+            `Classify the request as ${risk}.`,
+            `Record the request against ${values.tenantId} / ${values.workspaceId}.`,
+          ],
+          affectedSystems: [
+            values.environment,
+            values.targetSystem,
+            "audit timeline",
+            approvalRequired ? "approval queue" : "review surface",
+          ],
+          riskSummary: `The request is classified as ${risk}. No live execution can occur from this page.`,
+          approvalRequired,
+          rollbackNotes: action.rollback_required
+            ? "Rollback planning is noted for future runtime design. No rollback executes here."
+            : "No rollback execution is needed for this in-memory prototype.",
+        };
+      }
+
+      function readFormValues() {
+        const action = currentAction();
+        const values = {
+          actionId: actionSelect.value,
+          requester: requesterInput.value.trim(),
+          tenantId: tenantInput.value.trim(),
+          workspaceId: workspaceInput.value.trim(),
+          environment: environmentInput.value,
+          targetSystem: targetSystemInput.value.trim(),
+          requestSummary: requestSummaryInput.value.trim(),
+          requestNotes: requestNotesInput.value.trim(),
+        };
+        const risk = classifyRisk(action, values);
+        return { action, values, risk, dryRun: buildDryRun(action, values, risk) };
+      }
+
+      function makeRequestId() {
+        const value = String(state.nextRequestNumber).padStart(3, "0");
+        state.nextRequestNumber += 1;
+        return `REQ-${value}`;
+      }
+
+      function makeAuditId() {
+        const value = String(state.nextAuditNumber).padStart(3, "0");
+        state.nextAuditNumber += 1;
+        return `AUD-${value}`;
+      }
+
+      function addAudit(eventType, request, detail) {
+        state.auditEvents.unshift({
+          audit_event_id: makeAuditId(),
+          timestamp: nowStamp(),
+          event_type: eventType,
+          request_id: request.request_id,
+          action_id: request.action_id,
+          requester: request.requester,
+          status: request.status,
+          detail,
+        });
+      }
+
+      function createRequestRecord(source) {
+        const { action, values, risk, dryRun } = source;
+        const request = {
+          request_id: makeRequestId(),
+          action_id: action.id,
+          action_display_name: action.display_name,
+          requester: values.requester,
+          tenant_id: values.tenantId,
+          workspace_id: values.workspaceId,
+          environment: values.environment,
+          target_system: values.targetSystem,
+          request_summary: values.requestSummary,
+          request_notes: values.requestNotes,
+          risk_level: risk,
+          approval_required: dryRun.approvalRequired,
+          dry_run_status: "completed",
+          approval_status: "pending",
+          execution_status: "blocked",
+          status: "pending",
+          created_at: nowStamp(),
+          expected_changes: dryRun.expectedChanges,
+          affected_systems: dryRun.affectedSystems,
+          risk_summary: dryRun.riskSummary,
+          rollback_notes: dryRun.rollbackNotes,
+          required_role: action.required_role,
+          required_approval_level: action.required_approval_level,
+          human_review_required: action.human_review_required,
+          rollback_required: action.rollback_required,
+        };
+        state.requests.unshift(request);
+        state.currentRequestId = request.request_id;
+        addAudit("request_created", request, `Queued ${action.display_name} in memory.`);
+        addAudit("dry_run_completed", request, request.risk_summary);
+        addAudit("queued_for_review", request, request.approval_required ? "Approval queue entry created." : "Review entry created.");
+      }
+
+      function seedDemo() {
+        const seedValues = {
+          actionId: "prepare-dry-run",
+          requester: "demo.operator@example.com",
+          tenantId: "tenant-alpha",
+          workspaceId: "workspace-001",
+          environment: "sandbox",
+          targetSystem: "command-center-monitoring",
+          requestSummary: "Seeded dry-run request for the workbench demo.",
+          requestNotes: "This seed keeps the approval queue and audit timeline populated without any real execution.",
+        };
+        const action = ACTION_REGISTRY[1];
+        const risk = classifyRisk(action, seedValues);
+        const dryRun = buildDryRun(action, seedValues, risk);
+        const request = {
+          request_id: "REQ-001",
+          action_id: action.id,
+          action_display_name: action.display_name,
+          requester: seedValues.requester,
+          tenant_id: seedValues.tenantId,
+          workspace_id: seedValues.workspaceId,
+          environment: seedValues.environment,
+          target_system: seedValues.targetSystem,
+          request_summary: seedValues.requestSummary,
+          request_notes: seedValues.requestNotes,
+          risk_level: risk,
+          approval_required: dryRun.approvalRequired,
+          dry_run_status: "completed",
+          approval_status: "pending",
+          execution_status: "blocked",
+          status: "pending",
+          created_at: nowStamp(),
+          expected_changes: dryRun.expectedChanges,
+          affected_systems: dryRun.affectedSystems,
+          risk_summary: dryRun.riskSummary,
+          rollback_notes: dryRun.rollbackNotes,
+          required_role: action.required_role,
+          required_approval_level: action.required_approval_level,
+          human_review_required: action.human_review_required,
+          rollback_required: action.rollback_required,
+        };
+        state.requests = [request];
+        state.auditEvents = [
+          {
+            audit_event_id: "AUD-001",
+            timestamp: nowStamp(),
+            event_type: "seeded_demo_state",
+            request_id: request.request_id,
+            action_id: request.action_id,
+            requester: request.requester,
+            status: request.status,
+            detail: "Seeded demo state for the static runtime workbench.",
+          },
+          {
+            audit_event_id: "AUD-002",
+            timestamp: nowStamp(),
+            event_type: "dry_run_completed",
+            request_id: request.request_id,
+            action_id: request.action_id,
+            requester: request.requester,
+            status: request.status,
+            detail: request.risk_summary,
+          },
+        ];
+        state.currentRequestId = request.request_id;
+        state.nextRequestNumber = 2;
+        state.nextAuditNumber = 3;
+      }
+
+      function updateActionMenu() {
+        actionSelect.innerHTML = ACTION_REGISTRY.map((action, index) => {
+          const suffix = `${action.risk_level} / ${action.required_role} / ${action.required_approval_level}`;
+          return `<option value="${action.id}"${index === 0 ? " selected" : ""}>${action.display_name} - ${suffix}</option>`;
+        }).join("");
+      }
+
+      function renderPreview() {
+        const { action, values, risk, dryRun } = readFormValues();
+        actionDisplay.textContent = action.display_name;
+        actionDescription.textContent = action.description;
+        classifierTitle.textContent = risk[0].toUpperCase() + risk.slice(1);
+        riskPill.textContent = risk;
+        riskPill.className = `risk-pill risk-${risk}`;
+        dryRunList.innerHTML = dryRun.expectedChanges.map((item) => `<li>${item}</li>`).join("");
+        approvalMeta.innerHTML = [
+          `<span class="badge info">Required role: ${action.required_role}</span>`,
+          `<span class="badge warning">Approval level: ${action.required_approval_level}</span>`,
+          `<span class="badge">${dryRun.approvalRequired ? "Human review required" : "Human review optional"}</span>`,
+        ].join(" ");
+        executionBoundary.textContent = `Execution stays blocked in memory. The current form would create a ${risk} request for ${values.targetSystem} in ${values.environment}.`;
+      }
+
+      function queueStateLabel(request) {
+        if (request.status === "approved") return "Approved";
+        if (request.status === "denied") return "Denied";
+        return "Pending review";
+      }
+
+      function renderQueue() {
+        pendingCount.textContent = String(state.requests.filter((request) => request.status === "pending").length);
+        requestCount.textContent = String(state.requests.length);
+        auditCount.textContent = String(state.auditEvents.length);
+
+        if (!state.requests.length) {
+          queueList.innerHTML = '<div class="empty-state">No requests are queued. Build one from the form to see the approval queue and audit timeline update in memory.</div>';
+          return;
+        }
+
+        queueList.innerHTML = state.requests
+          .map((request) => {
+            const active = state.currentRequestId === request.request_id;
+            const riskClass = `risk-pill risk-${request.risk_level}`;
+            const statusClass = request.status;
+            const actions = request.status === "pending"
+              ? `<div class="queue-actions">
+                   <button class="button primary" type="button" data-approve="${request.request_id}">Approve request</button>
+                   <button class="button" type="button" data-deny="${request.request_id}">Deny request</button>
+                 </div>`
+              : `<div class="meta-row"><span class="badge">${queueStateLabel(request)}</span><span class="badge ghost">${request.execution_status}</span></div>`;
+            return `
+              <article class="queue-item ${statusClass}" data-request-id="${request.request_id}"${active ? ' aria-current="true"' : ""}>
+                <div class="toolbar">
+                  <div>
+                    <p class="mini-label">${request.request_id}</p>
+                    <strong>${request.action_display_name}</strong>
+                  </div>
+                  <span class="${riskClass}">${request.risk_level}</span>
+                </div>
+                <p class="hint">${request.request_summary}</p>
+                <div class="meta-row">
+                  <span class="badge info">${request.environment}</span>
+                  <span class="badge">${request.tenant_id}</span>
+                  <span class="badge">${request.workspace_id}</span>
+                  <span class="badge">${request.approval_required ? "Approval required" : "Approval optional"}</span>
+                </div>
+                <p class="hint">${request.risk_summary}</p>
+                ${actions}
+              </article>
+            `;
+          })
+          .join("");
+      }
+
+      function renderAudit() {
+        if (!state.auditEvents.length) {
+          auditTimeline.innerHTML = '<div class="empty-state">No audit events have been recorded yet.</div>';
+          return;
+        }
+
+        auditTimeline.innerHTML = state.auditEvents
+          .map((event) => `
+            <article class="timeline-item">
+              <div class="toolbar">
+                <div>
+                  <p class="mini-label">${event.audit_event_id}</p>
+                  <strong>${event.event_type.replace(/_/g, " ")}</strong>
+                </div>
+                <span class="badge ghost">${prettyTime(event.timestamp)}</span>
+              </div>
+              <div class="meta-row" style="margin-top: 10px;">
+                <span class="badge info">${event.request_id}</span>
+                <span class="badge">${event.action_id}</span>
+                <span class="badge">${event.status}</span>
+              </div>
+              <p class="hint" style="margin-top: 10px;">${event.detail}</p>
+            </article>
+          `)
+          .join("");
+      }
+
+      function renderAll() {
+        renderPreview();
+        renderQueue();
+        renderAudit();
+      }
+
+      function updateFromActionSelection() {
+        renderPreview();
+      }
+
+      function setCurrentRequest(requestId) {
+        state.currentRequestId = requestId;
+        renderQueue();
+      }
+
+      function resolveRequest(requestId) {
+        return state.requests.find((request) => request.request_id === requestId);
+      }
+
+      function approveRequest(requestId) {
+        const request = resolveRequest(requestId);
+        if (!request || request.status !== "pending") return;
+        request.status = "approved";
+        request.approval_status = "approved";
+        request.execution_status = "blocked";
+        addAudit("approval_recorded", request, "Approval granted in-memory. No real execution followed.");
+        addAudit("queue_transition", request, "Request moved from pending to approved.");
+        setCurrentRequest(requestId);
+        renderAudit();
+      }
+
+      function denyRequest(requestId) {
+        const request = resolveRequest(requestId);
+        if (!request || request.status !== "pending") return;
+        request.status = "denied";
+        request.approval_status = "denied";
+        request.execution_status = "blocked";
+        addAudit("approval_recorded", request, "Approval denied in-memory. No real execution followed.");
+        addAudit("queue_transition", request, "Request moved from pending to denied.");
+        setCurrentRequest(requestId);
+        renderAudit();
+      }
+
+      function queueRequest(event) {
+        event.preventDefault();
+        const source = readFormValues();
+        createRequestRecord(source);
+        renderAll();
+        form.reset();
+        actionSelect.value = source.action.id;
+        requesterInput.value = source.values.requester;
+        tenantInput.value = source.values.tenantId;
+        workspaceInput.value = source.values.workspaceId;
+        environmentInput.value = source.values.environment;
+        targetSystemInput.value = source.values.targetSystem;
+        requestSummaryInput.value = source.values.requestSummary;
+        requestNotesInput.value = source.values.requestNotes;
+        actionSelect.focus();
+      }
+
+      function exportJson() {
+        const payload = {
+          generated_at: nowStamp(),
+          workbench: "runtime-workbench",
+          runtime_activation: {
+            enabled: false,
+            live_runtime_agents_enabled: 0,
+            backend_writes_enabled: false,
+            real_execution_enabled: false,
+          },
+          registry: ACTION_REGISTRY,
+          requests: state.requests,
+          audit_events: state.auditEvents,
+          summary: {
+            request_count: state.requests.length,
+            pending_count: state.requests.filter((request) => request.status === "pending").length,
+            approved_count: state.requests.filter((request) => request.status === "approved").length,
+            denied_count: state.requests.filter((request) => request.status === "denied").length,
+          },
+        };
+
+        const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "runtime-workbench-report.json";
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+      }
+
+      function resetDemo() {
+        seedDemo();
+        actionSelect.value = ACTION_REGISTRY[0].id;
+        form.reset();
+        requesterInput.value = "operator@example.com";
+        tenantInput.value = "tenant-alpha";
+        workspaceInput.value = "workspace-001";
+        environmentInput.value = "sandbox";
+        targetSystemInput.value = "command-center-monitoring";
+        requestSummaryInput.value = "Queue a controlled approval review for a static runtime planning action.";
+        requestNotesInput.value = "This is a static prototype. It classifies the request, prepares a dry-run preview, and queues a human review decision in memory only.";
+        renderAll();
+      }
+
+      function init() {
+        updateActionMenu();
+        seedDemo();
+        actionSelect.value = ACTION_REGISTRY[0].id;
+        renderAll();
+
+        form.addEventListener("submit", queueRequest);
+        actionSelect.addEventListener("change", updateFromActionSelection);
+        [requesterInput, tenantInput, workspaceInput, environmentInput, targetSystemInput, requestSummaryInput, requestNotesInput].forEach((input) => {
+          input.addEventListener("input", renderPreview);
+          input.addEventListener("change", renderPreview);
+        });
+
+        exportButton.addEventListener("click", exportJson);
+        resetButton.addEventListener("click", resetDemo);
+        copyActionButton.addEventListener("click", () => {
+          const { action, risk, dryRun } = readFormValues();
+          const summary = [
+            `Action: ${action.display_name}`,
+            `Risk: ${risk}`,
+            `Approval required: ${dryRun.approvalRequired ? "yes" : "no"}`,
+            `Dry run: ${dryRun.riskSummary}`,
+          ].join("\n");
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(summary).catch(() => {});
+          }
+        });
+
+        queueList.addEventListener("click", (event) => {
+          const approveId = event.target.getAttribute && event.target.getAttribute("data-approve");
+          const denyId = event.target.getAttribute && event.target.getAttribute("data-deny");
+          if (approveId) {
+            approveRequest(approveId);
+          }
+          if (denyId) {
+            denyRequest(denyId);
+          }
+        });
+      }
+
+      init();
+    })();
+  </script>
+</body>
+</html>
