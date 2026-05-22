@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Action Registry Entry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "action_id",
+    "display_name",
+    "description",
+    "action_type",
+    "risk_level",
+    "required_role",
+    "required_approval_level",
+    "dry_run_required",
+    "human_review_required",
+    "rollback_required",
+    "allowed_inputs",
+    "forbidden_inputs",
+    "execution_enabled",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "action_id": { "type": "string" },
+    "display_name": { "type": "string" },
+    "description": { "type": "string" },
+    "action_type": { "type": "string" },
+    "risk_level": {
+      "type": "string",
+      "enum": ["low", "moderate", "high", "critical"]
+    },
+    "required_role": { "type": "string" },
+    "required_approval_level": { "type": "string" },
+    "dry_run_required": { "type": "boolean" },
+    "human_review_required": { "type": "boolean" },
+    "rollback_required": { "type": "boolean" },
+    "allowed_inputs": { "type": "array", "items": { "type": "string" } },
+    "forbidden_inputs": { "type": "array", "items": { "type": "string" } },
+    "execution_enabled": { "type": "boolean", "const": false },
+    "created_at": { "type": "string" },
+    "updated_at": { "type": "string" }
+  }
+}

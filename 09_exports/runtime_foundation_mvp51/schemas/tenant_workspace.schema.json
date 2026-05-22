@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Tenant Workspace",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "tenant_id",
+    "tenant_name",
+    "workspace_id",
+    "environment",
+    "data_boundary",
+    "allowed_users",
+    "audit_scope",
+    "runtime_enabled"
+  ],
+  "properties": {
+    "tenant_id": { "type": "string" },
+    "tenant_name": { "type": "string" },
+    "workspace_id": { "type": "string" },
+    "environment": {
+      "type": "string",
+      "enum": ["development", "staging", "pilot", "production", "sandbox"]
+    },
+    "data_boundary": { "type": "string" },
+    "allowed_users": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "audit_scope": { "type": "string" },
+    "runtime_enabled": { "type": "boolean", "const": false }
+  }
+}

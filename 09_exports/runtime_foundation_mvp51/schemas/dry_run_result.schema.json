@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Dry Run Result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "dry_run_id",
+    "request_id",
+    "action_id",
+    "expected_changes",
+    "affected_systems",
+    "risk_summary",
+    "approval_required",
+    "rollback_notes",
+    "dry_run_status",
+    "execution_allowed"
+  ],
+  "properties": {
+    "dry_run_id": { "type": "string" },
+    "request_id": { "type": "string" },
+    "action_id": { "type": "string" },
+    "expected_changes": { "type": "array", "items": { "type": "string" } },
+    "affected_systems": { "type": "array", "items": { "type": "string" } },
+    "risk_summary": { "type": "string" },
+    "approval_required": { "type": "boolean" },
+    "rollback_notes": { "type": "string" },
+    "dry_run_status": {
+      "type": "string",
+      "enum": ["pending", "complete", "failed", "blocked"]
+    },
+    "execution_allowed": { "type": "boolean", "const": false }
+  }
+}

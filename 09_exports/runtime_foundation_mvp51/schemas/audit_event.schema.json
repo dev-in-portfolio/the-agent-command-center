@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Audit Event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "audit_event_id",
+    "timestamp",
+    "tenant_id",
+    "workspace_id",
+    "actor",
+    "action_id",
+    "request_id",
+    "event_type",
+    "risk_level",
+    "approval_status",
+    "dry_run_status",
+    "execution_status",
+    "runtime_enabled_at_event_time",
+    "metadata"
+  ],
+  "properties": {
+    "audit_event_id": { "type": "string" },
+    "timestamp": { "type": "string" },
+    "tenant_id": { "type": "string" },
+    "workspace_id": { "type": "string" },
+    "actor": { "type": "string" },
+    "action_id": { "type": "string" },
+    "request_id": { "type": "string" },
+    "event_type": { "type": "string" },
+    "risk_level": { "type": "string" },
+    "approval_status": { "type": "string" },
+    "dry_run_status": { "type": "string" },
+    "execution_status": { "type": "string" },
+    "runtime_enabled_at_event_time": { "type": "boolean" },
+    "metadata": { "type": "object" }
+  }
+}
