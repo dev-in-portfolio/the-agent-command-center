@@ -1786,7 +1786,6 @@ forbidden_prefixes = [
     "09_exports/interface_phase_1/",
     "09_exports/interface_phase_2/",
     "09_exports/interface_phase_3/",
-    "09_exports/interface_phase_4/",
     "11_interface/",
     "12_tui/",
     "10_runtime/",
