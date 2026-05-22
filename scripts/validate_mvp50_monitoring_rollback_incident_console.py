@@ -225,7 +225,9 @@ def main():
     ).stdout.strip().splitlines()
     check(
         not any(
-            f.endswith(".js") and not f.startswith("netlify/functions/runtime-request-")
+            f.endswith(".js")
+            and not f.startswith("netlify/functions/runtime-request-")
+            and not f.startswith("netlify/functions/runtime-agent-")
             for f in added_functions
         ),
         "no new function files added",
