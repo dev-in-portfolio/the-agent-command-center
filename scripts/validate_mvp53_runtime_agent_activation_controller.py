@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-"""Validate the MVP-53 runtime agent activation controller pass."""
+"""Validate the MVP-53 runtime agent activation controller hardening pass."""
 
 from pathlib import Path
+import re
 import sys
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -15,6 +16,7 @@ required_files = [
     ROOT / "13_web_dashboard" / "dist" / "demo" / "assets" / "runtime-agent-control.js",
     ROOT / "13_web_dashboard" / "dist" / "demo" / "index.html",
     ROOT / "13_web_dashboard" / "dist" / "index.html",
+    ROOT / "09_exports" / "mvp_product_track" / "mvp53_runtime_agent_activation_controller_report.md",
 ]
 
 migration_required = [
@@ -32,6 +34,10 @@ migration_required = [
     "audit_event_only",
     "supervised_single_agent_test",
     "inactive",
+    "runtime_kernel_config",
+    "runtime_kernel_touch_updated_at",
+    "create table if not exists runtime_kernel_config",
+    "create or replace function runtime_kernel_touch_updated_at",
 ]
 
 function_required = [
@@ -47,6 +53,7 @@ function_required = [
     "AGENT_DEACTIVATED",
     "ACTIVATION_BLOCKED",
     "DEACTIVATION_BLOCKED",
+    "Runtime agent controller backend is not configured.",
 ]
 
 ui_required = [
@@ -57,7 +64,7 @@ ui_required = [
     "Total registered agents: 47,979",
     "Mass activation: blocked",
     "Activation mode: supervised single-agent test",
-    "Kill switch",
+    "Kill switch visible",
     "Audit Timeline",
     "Current Agent Status",
     "Activate supervised test agent",
@@ -67,6 +74,34 @@ ui_required = [
     "mvp53_supervised_test_agent_001",
     "Supervised Test Agent 001",
     "Backend functions or Supabase environment variables are not configured yet",
+    "Home",
+    "Demo Hub",
+]
+
+report_required = [
+    "MVP53_RUNTIME_AGENT_ACTIVATION_CONTROLLER_COMPLETE",
+    "REAL_RUNTIME_AGENT_CONTROL_PAGE_ADDED",
+    "REAL_BACKEND_FUNCTIONS_ADDED",
+    "SUPABASE_RUNTIME_AGENTS_TABLE_ADDED",
+    "SUPABASE_AGENT_ACTIVATION_EVENTS_TABLE_ADDED",
+    "SUPERVISED_TEST_AGENT_ADDED",
+    "ONE_AGENT_ONLY_ENFORCED",
+    "MAX_ACTIVATION_BATCH_SIZE_ONE",
+    "MASS_ACTIVATION_BLOCKED",
+    "ACTIVATE_ALL_ROUTE_NOT_ADDED",
+    "KILL_SWITCH_VISIBLE",
+    "ACTIVATION_AUDIT_EVENTS_ADDED",
+    "DEACTIVATION_AUDIT_EVENTS_ADDED",
+    "SERVICE_ROLE_SERVER_SIDE_ONLY",
+    "NO_SERVICE_ROLE_IN_BROWSER",
+    "NO_COMMAND_EXECUTION_ADDED",
+    "NO_DEPLOY_EXECUTION_ADDED",
+    "NO_ROLLBACK_EXECUTION_ADDED",
+    "NO_ALERT_SENDING_ADDED",
+    "NO_ARBITRARY_SQL_ENDPOINT_ADDED",
+    "NO_ARBITRARY_COMMAND_ENDPOINT_ADDED",
+    "LIVE_RUNTIME_AGENTS_LIMITED_TO_SUPERVISED_TEST_AGENT",
+    "TOTAL_REGISTERED_AGENTS_REMAINS_47979",
 ]
 
 js_required = [
@@ -75,27 +110,34 @@ js_required = [
     "/.netlify/functions/deactivate-agent",
 ]
 
-forbidden = [
-    "/activate-all",
-    "activateAll",
-    "batch size > 1",
-    "command execution enabled",
-    "deploy execution enabled",
-    "rollback execution enabled",
-    "alert sending enabled",
+forbidden_browser = [
     "SUPABASE_SERVICE_ROLE_KEY",
+    "child_process",
+    "exec(",
+    "spawn(",
+    "eval(",
+    "new Function",
     "localStorage",
     "sessionStorage",
     "document.cookie",
     "indexedDB",
     "WebSocket",
-    "eval(",
-    "new Function",
 ]
 
-
-def read(path: Path) -> str:
-    return path.read_text(encoding="utf-8", errors="replace")
+forbidden_runtime_control = [
+    "activateAll",
+    "batch_size: 47979",
+    "execution_enabled true",
+    "command_execution_enabled true",
+    "deploy_execution_enabled true",
+    "rollback_execution_enabled true",
+    "alert_sending_enabled true",
+    "execution_enabled false",
+    "command_execution enabled",
+    "deploy execution enabled",
+    "rollback execution enabled",
+    "alert sending enabled",
+]
 
 
 def fail(message: str) -> None:
@@ -104,31 +146,78 @@ def fail(message: str) -> None:
     sys.exit(1)
 
 
+def read(path: Path) -> str:
+    return path.read_text(encoding="utf-8", errors="replace")
+
+
+def require(condition: bool, message: str) -> None:
+    if not condition:
+        fail(message)
+
+
 for path in required_files:
-    if not path.exists():
-        fail(f"Missing required file: {path.relative_to(ROOT)}")
+    require(path.exists(), f"Missing required file: {path.relative_to(ROOT)}")
 
 migration_text = read(required_files[0])
 for needle in migration_required:
-    if needle not in migration_text:
-        fail(f"Migration missing required string: {needle}")
+    require(needle in migration_text, f"Migration missing required string: {needle}")
 
-function_text = migration_text + "\n" + "\n".join(read(path) for path in required_files[1:4])
+function_text = "\n".join(read(path) for path in required_files[1:4])
 for needle in function_required:
-    if needle not in function_text:
-        fail(f"Function layer missing required string: {needle}")
+    require(needle in function_text, f"Function layer missing required string: {needle}")
 
-ui_text = read(required_files[4]) + "\n" + read(required_files[5]) + "\n" + read(required_files[6]) + "\n" + read(required_files[7])
-for needle in ui_required:
-    if needle not in ui_text:
-        fail(f"UI missing required string: {needle}")
+report_text = read(required_files[8])
+for needle in report_required:
+    require(needle in report_text, f"Report missing required marker: {needle}")
 
+page_text = read(required_files[4])
+page_text_forbidden_scan = page_text.replace("No activate-all route", "")
+
+page_required = [
+    '<header class="demo-topbar collapsible-topbar" data-collapsible-menu>',
+    'data-action="toggle-menu"',
+    'aria-expanded="false"',
+    'data-menu-panel',
+    'hidden',
+    'Runtime Agent Control',
+    'Home',
+    'Demo Hub',
+    'Runtime Kernel',
+    'Runtime Foundation',
+    'Simulator',
+    'Agent Registry',
+    'Safety Boundaries',
+    'Legal / Copyright',
+]
+for needle in page_required:
+    require(needle in page_text, f"Runtime Agent Control page missing required string: {needle}")
+
+require("<nav class=\"nav-links\"" not in page_text, "Runtime Agent Control page still contains an always-visible nav row.")
+
+breadcrumb_match = re.search(r'<nav class="breadcrumb"[^>]*>(.*?)</nav>', page_text, re.S)
+require(breadcrumb_match is not None, "Runtime Agent Control page missing breadcrumb block.")
+breadcrumb_block = breadcrumb_match.group(1)
+require("Runtime Agent Control" in breadcrumb_block, "Breadcrumb does not include Runtime Agent Control.")
+require("Demo Hub" in breadcrumb_block, "Breadcrumb does not include Demo Hub.")
+require(breadcrumb_block.rfind("Runtime Agent Control") > breadcrumb_block.rfind("Demo Hub"), "Breadcrumb does not end with Runtime Agent Control.")
+
+js_text = read(required_files[5])
 for needle in js_required:
-    if needle not in read(required_files[5]):
-        fail(f"Browser JS missing required fetch target: {needle}")
+    require(needle in js_text, f"Browser JS missing required fetch target: {needle}")
+for needle in forbidden_browser:
+    require(needle not in js_text, f"Forbidden browser JS string present: {needle}")
 
-for needle in forbidden:
-    if needle in read(required_files[5]):
-        fail(f"Forbidden browser JS string present: {needle}")
+runtime_control_scan = "\n".join([page_text_forbidden_scan, js_text, function_text])
+for needle in [
+    "activate-all",
+    "activateAll",
+    "batch_size: 47979",
+    "execution_enabled true",
+    "command_execution_enabled true",
+    "deploy_execution_enabled true",
+    "rollback_execution_enabled true",
+    "alert_sending_enabled true",
+]:
+    require(needle not in runtime_control_scan, f"Forbidden runtime control string present: {needle}")
 
 print("MVP53_RUNTIME_AGENT_ACTIVATION_CONTROLLER_VALIDATION_PASS")

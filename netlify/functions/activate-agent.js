@@ -79,7 +79,11 @@ exports.handler = async function handler(event) {
 
   try {
     const payload = parseBody(event);
-    if (payload.activate_all === true || payload.batch_size > 1 || Array.isArray(payload.agent_ids)) {
+    if (
+      payload.activate_all === true ||
+      Number(payload.batch_size || 1) > 1 ||
+      Array.isArray(payload.agent_ids)
+    ) {
       return jsonResponse(400, {
         ok: false,
         error: "ACTIVATE_ALL_BLOCKED",
@@ -111,6 +115,7 @@ exports.handler = async function handler(event) {
       p_actor: actor || "operator",
       p_reason: reason,
     });
+    // AGENT_ACTIVATED is emitted by the database RPC for the supervised test agent.
 
     return jsonResponse(200, {
       ok: true,

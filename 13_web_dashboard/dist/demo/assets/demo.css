@@ -642,6 +642,127 @@ main,
   padding: 18px 20px;
 }
 
+.runtime-agent-shell {
+  display: grid;
+  gap: 18px;
+}
+
+.runtime-agent-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.runtime-status-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.runtime-status-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--muted);
+}
+
+.runtime-status-item strong {
+  color: var(--text);
+}
+
+.runtime-field-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.runtime-field-grid.two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.runtime-field {
+  display: grid;
+  gap: 8px;
+}
+
+.runtime-field label {
+  color: var(--text);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.runtime-field input,
+.runtime-field select,
+.runtime-field textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  padding: 12px 14px;
+  font: inherit;
+}
+
+.runtime-field textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.runtime-notice {
+  border: 1px solid rgba(255, 207, 125, 0.4);
+  border-radius: 18px;
+  padding: 14px 16px;
+  background: rgba(255, 207, 125, 0.08);
+  color: var(--muted);
+  margin-top: 14px;
+}
+
+.runtime-kill-switch {
+  border: 1px solid rgba(255, 143, 147, 0.36);
+  border-radius: 18px;
+  padding: 16px;
+  background: rgba(255, 143, 147, 0.08);
+}
+
+.runtime-kill-switch h2 {
+  margin-bottom: 10px;
+}
+
+.runtime-audit-timeline {
+  display: grid;
+  gap: 12px;
+}
+
+.runtime-audit-item {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.runtime-audit-item h4 {
+  margin: 0 0 8px;
+  font-size: 0.98rem;
+}
+
+.runtime-audit-summary {
+  margin: 10px 0 0;
+}
+
+.runtime-agent-status-row {
+  margin-bottom: 12px;
+}
+
+.runtime-audit-item .code-block {
+  margin-top: 10px;
+}
+
 .list {
   margin: 0;
   padding-left: 18px;
@@ -887,6 +1008,10 @@ h6 {
   .menu-panel a {
     width: 100%;
     justify-content: center;
+  }
+  .runtime-agent-grid,
+  .runtime-field-grid.two {
+    grid-template-columns: 1fr;
   }
 }
 
