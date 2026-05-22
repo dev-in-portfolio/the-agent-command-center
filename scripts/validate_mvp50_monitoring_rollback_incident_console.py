@@ -231,9 +231,11 @@ def main():
             and not f.startswith("netlify/functions/runtime-squad-")
             and not f.startswith("netlify/functions/runtime-battalion-")
             and not f.startswith("netlify/functions/runtime-company-")
+            and not f.startswith("netlify/functions/runtime-group-")
             and f != "netlify/functions/_shared/runtime_squad_helpers.js"
             and f != "netlify/functions/_shared/runtime_battalion_helpers.js"
             and f != "netlify/functions/_shared/runtime_company_helpers.js"
+            and f != "netlify/functions/_shared/runtime_group_helpers.js"
             and f not in {
                 "netlify/functions/activate-agent.js",
                 "netlify/functions/deactivate-agent.js",
@@ -257,6 +259,13 @@ def main():
                 "netlify/functions/deactivate-company-lane.js",
                 "netlify/functions/company-heartbeat.js",
                 "netlify/functions/create-company-readiness-note.js",
+                "netlify/functions/list-runtime-group.js",
+                "netlify/functions/activate-runtime-group.js",
+                "netlify/functions/deactivate-runtime-group.js",
+                "netlify/functions/activate-group-lane.js",
+                "netlify/functions/deactivate-group-lane.js",
+                "netlify/functions/group-heartbeat.js",
+                "netlify/functions/create-group-readiness-note.js",
             }
             for f in added_functions
         ),
