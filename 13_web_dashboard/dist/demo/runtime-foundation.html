@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Runtime Foundation - The Agent Command Center</title>
+  <link rel="stylesheet" href="./assets/demo.css">
+</head>
+<body>
+  <div class="demo-shell legal-page">
+    <header class="demo-topbar">
+      <div class="topbar-main">
+        <a class="topbar-title" href="./index.html">Runtime Foundation</a>
+        <span class="topbar-meta">MVP-51 runtime planning track</span>
+      </div>
+      <nav class="legal-links" aria-label="Runtime foundation navigation">
+        <a href="./index.html">Demo Hub</a>
+        <a href="./simulator.html">Simulator</a>
+        <a href="./system-scale.html">System Scale</a>
+        <a href="./agent-registry.html">Agent Registry</a>
+        <a href="./safety-boundaries.html">Safety Boundaries</a>
+        <a href="../legal.html">Legal / Copyright</a>
+        <a href="../full-audit-dashboard.html">Full Audit Dashboard</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <p class="eyebrow">Runtime planning track</p>
+          <h1 class="title">Runtime Foundation</h1>
+          <p class="lead">This page explains the path from static demo to safe runtime planning. It does not turn on live execution. It defines the controls that must exist before any real action can run.</p>
+          <div class="badge-row">
+            <span class="badge success">MVP-51</span>
+            <span class="badge warning">Runtime activation has not started.</span>
+            <span class="badge info">Live runtime agents enabled: 0.</span>
+            <span class="badge ghost">Static, read-only, in-browser</span>
+          </div>
+        </div>
+        <div class="callout">
+          <p class="kicker">What stays disabled</p>
+          <ul class="card-list">
+            <li>No commands execute from this page.</li>
+            <li>No backend writes are enabled.</li>
+            <li>No Supabase mutations are enabled.</li>
+            <li>No automation is enabled.</li>
+            <li>No rollback execution is enabled.</li>
+            <li>No Netlify functions or endpoints are added.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">What MVP-51 is</p>
+          <h2>Runtime foundation overview</h2>
+        </div>
+      </div>
+      <div class="card-grid">
+        <article class="card">
+          <h3>What MVP-51 is</h3>
+          <p>A planning and static-readiness pass that defines the runtime gates, schemas, contracts, and review steps needed before any live execution can ever be considered.</p>
+        </article>
+        <article class="card">
+          <h3>What MVP-51 is not</h3>
+          <p>It is not runtime activation. It does not run agents. It does not mutate data. It does not add endpoints or functions.</p>
+        </article>
+        <article class="card">
+          <h3>Required controls</h3>
+          <p>Authenticated user, tenant/workspace scope, role permission, registered action, risk classification, dry-run result, approval decision, audit event, queue record if required, rollback or incident readiness note, and human review if required.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Runtime ladder</p>
+          <h2>From static demo to controlled pilot</h2>
+        </div>
+      </div>
+      <div class="panel">
+        <ol class="path-list">
+          <li>Static demo</li>
+          <li>Runtime foundation blueprint</li>
+          <li>Auth/RBAC prototype</li>
+          <li>Tenant model</li>
+          <li>Audit ledger</li>
+          <li>Action registry</li>
+          <li>Approval gates</li>
+          <li>Dry-run engine</li>
+          <li>Queue / human review</li>
+          <li>Private sandbox with fake data</li>
+          <li>Limited controlled pilot</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Activation prerequisites</p>
+          <h2>Controls that must exist before any real action can run</h2>
+        </div>
+      </div>
+      <div class="card-grid">
+        <article class="card"><h3>Required schemas</h3><p>Role, tenant workspace, action registry, approval gate, audit event, dry-run result, and runtime activation gate schemas.</p></article>
+        <article class="card"><h3>Safety contracts</h3><p>Non-execution, dry-run-before-execution, human approval, and audit-everything contracts.</p></article>
+        <article class="card"><h3>Enterprise checklist</h3><p>Review auth/RBAC, boundaries, audit, approvals, dry-run, queueing, monitoring, incident planning, security, legal, and explicit activation approval.</p></article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Required schemas</p>
+          <h2>Static schema references</h2>
+        </div>
+      </div>
+      <div class="card-grid">
+        <article class="card"><h3>user_role.schema.json</h3><p>owner_admin, system_admin, security_reviewer, approver, operator, stakeholder_viewer, audit_viewer, developer, disabled_user.</p></article>
+        <article class="card"><h3>tenant_workspace.schema.json</h3><p>tenant_id, tenant_name, workspace_id, environment, data_boundary, allowed_users, audit_scope, runtime_enabled false by default.</p></article>
+        <article class="card"><h3>action_registry.schema.json</h3><p>action_id, risk_level, required_role, dry_run_required, human_review_required, rollback_required, execution_enabled false by default.</p></article>
+        <article class="card"><h3>approval_gate.schema.json</h3><p>approval_id, approver, approval_status, required_approval_level, denial_reason, expires_at.</p></article>
+        <article class="card"><h3>audit_event.schema.json</h3><p>audit_event_id, event_type, approval_status, dry_run_status, execution_status, runtime_enabled_at_event_time.</p></article>
+        <article class="card"><h3>dry_run_result.schema.json</h3><p>dry_run_id, approval_required, rollback_notes, dry_run_status, execution_allowed false by default.</p></article>
+        <article class="card"><h3>runtime_activation_gate.schema.json</h3><p>runtime_gate_id, gate_name, required_status, current_status, blocking_reason, checked_by, checked_at.</p></article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Safety contracts</p>
+          <h2>Non-execution rules</h2>
+        </div>
+      </div>
+      <div class="grid summary-grid">
+        <article class="card">
+          <h3>Non-execution contract</h3>
+          <p>MVP-51 does not enable runtime. Any implementation that enables execution, writes, endpoint mutation, queue processing, automation, or rollback is out of scope and must fail validation.</p>
+        </article>
+        <article class="card">
+          <h3>Dry-run before execution</h3>
+          <p>No real action may execute without a completed dry-run result, risk classification, audit record, and approval decision.</p>
+        </article>
+        <article class="card">
+          <h3>Human approval</h3>
+          <p>High-risk actions require human approval. Deploy, rollback, database mutation, alert sending, and external API mutation cannot be executed by default.</p>
+        </article>
+        <article class="card">
+          <h3>Audit everything</h3>
+          <p>Every request, classification, approval, denial, dry run, queue transition, and execution decision must create an audit event before any future runtime activation.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Enterprise runtime checklist</p>
+          <h2>What still blocks runtime</h2>
+        </div>
+      </div>
+      <div class="card-grid">
+        <article class="card"><h3>Auth/RBAC</h3><p>Authenticated user and role validation must exist.</p></article>
+        <article class="card"><h3>Tenant/workspace</h3><p>Boundaries must be defined and enforced.</p></article>
+        <article class="card"><h3>Audit ledger</h3><p>Every decision must be auditable.</p></article>
+        <article class="card"><h3>Approval gates</h3><p>High-risk actions need human approval.</p></article>
+        <article class="card"><h3>Dry-run engine</h3><p>Real execution requires a completed dry run first.</p></article>
+        <article class="card"><h3>Queue / human review</h3><p>Queued and reviewed states are required where appropriate.</p></article>
+        <article class="card"><h3>Monitoring / readiness</h3><p>Monitoring and readiness notes must exist before activation.</p></article>
+        <article class="card"><h3>Incident / rollback planning</h3><p>Planning notes exist; execution remains disabled.</p></article>
+        <article class="card"><h3>Security / legal review</h3><p>Ownership, security, and legal review must be explicit.</p></article>
+        <article class="card"><h3>Pilot scope</h3><p>Only a narrow private sandbox with fake data can be considered first.</p></article>
+        <article class="card"><h3>Activation approval</h3><p>Explicit approval is required before any future runtime activation.</p></article>
+        <article class="card"><h3>Status</h3><p>Runtime activation has not started. Live runtime agents enabled: 0.</p></article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">What remains disabled</p>
+          <h2>Hard boundaries</h2>
+        </div>
+      </div>
+      <div class="panel">
+        <ul class="scale-list">
+          <li>No commands execute from this page.</li>
+          <li>No backend writes are enabled.</li>
+          <li>No Supabase mutations are enabled.</li>
+          <li>No automation is enabled.</li>
+          <li>No rollback execution is enabled.</li>
+          <li>No endpoints or Netlify functions are added.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Links</p>
+          <h2>Open the public demo surfaces</h2>
+        </div>
+      </div>
+      <div class="card-grid">
+        <article class="card"><h3>Demo Hub</h3><p>Return to the stakeholder demo hub.</p><a class="button" href="./index.html">Open Demo Hub</a></article>
+        <article class="card"><h3>Simulator</h3><p>Open the static simulator.</p><a class="button" href="./simulator.html">Open Simulator</a></article>
+        <article class="card"><h3>System Scale</h3><p>Open the exact-count scale page.</p><a class="button" href="./system-scale.html">Open System Scale</a></article>
+        <article class="card"><h3>Agent Registry</h3><p>Open the exact registry page.</p><a class="button" href="./agent-registry.html">Open Agent Registry</a></article>
+        <article class="card"><h3>Safety Boundaries</h3><p>Open the safety boundary summary.</p><a class="button" href="./safety-boundaries.html">Open Safety Boundaries</a></article>
+        <article class="card"><h3>Legal / Copyright</h3><p>Open the legal notice page.</p><a class="button" href="../legal.html">Open Legal / Copyright</a></article>
+        <article class="card"><h3>Full Audit Dashboard</h3><p>Open the preserved archive dashboard.</p><a class="button" href="../full-audit-dashboard.html">Open Full Audit Dashboard</a></article>
+      </div>
+    </section>
+
+    <footer class="footer site-legal-footer">
+      <p>© 2026 Devin O’Rourke. All rights reserved.</p>
+      <p>This page is static, public, and read-only. It documents the runtime path without enabling live execution.</p>
+    </footer>
+  </div>
+</body>
+</html>

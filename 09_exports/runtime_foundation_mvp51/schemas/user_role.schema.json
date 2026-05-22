@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "User Role",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["role_id", "role_name", "description", "permissions"],
+  "properties": {
+    "role_id": { "type": "string" },
+    "role_name": {
+      "type": "string",
+      "enum": [
+        "owner_admin",
+        "system_admin",
+        "security_reviewer",
+        "approver",
+        "operator",
+        "stakeholder_viewer",
+        "audit_viewer",
+        "developer",
+        "disabled_user"
+      ]
+    },
+    "description": { "type": "string" },
+    "permissions": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

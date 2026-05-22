@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Approval Gate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "approval_id",
+    "request_id",
+    "action_id",
+    "requester",
+    "approver",
+    "approval_status",
+    "required_approval_level",
+    "denial_reason",
+    "expires_at",
+    "created_at"
+  ],
+  "properties": {
+    "approval_id": { "type": "string" },
+    "request_id": { "type": "string" },
+    "action_id": { "type": "string" },
+    "requester": { "type": "string" },
+    "approver": { "type": "string" },
+    "approval_status": {
+      "type": "string",
+      "enum": ["pending", "approved", "denied", "expired"]
+    },
+    "required_approval_level": { "type": "string" },
+    "denial_reason": { "type": "string" },
+    "expires_at": { "type": "string" },
+    "created_at": { "type": "string" }
+  }
+}

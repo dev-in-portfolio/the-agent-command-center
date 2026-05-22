@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Runtime Activation Gate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "runtime_gate_id",
+    "gate_name",
+    "required_status",
+    "current_status",
+    "blocking_reason",
+    "checked_by",
+    "checked_at"
+  ],
+  "properties": {
+    "runtime_gate_id": { "type": "string" },
+    "gate_name": { "type": "string" },
+    "required_status": { "type": "string" },
+    "current_status": { "type": "string" },
+    "blocking_reason": { "type": "string" },
+    "checked_by": { "type": "string" },
+    "checked_at": { "type": "string" }
+  }
+}
