@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Runtime Kernel - The Agent Command Center</title>
+  <link rel="stylesheet" href="./assets/demo.css">
+  <script src="./assets/demo.js" defer></script>
+  <script src="./assets/runtime-kernel.js" defer></script>
+  <style>
+    .kernel-shell {
+      display: grid;
+      gap: 18px;
+    }
+
+    .kernel-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    @media (max-width: 980px) {
+      .kernel-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .status-list,
+    .detail-list {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .status-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--muted);
+    }
+
+    .status-item strong {
+      color: var(--text);
+    }
+
+    .field-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .field-grid.two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @media (max-width: 760px) {
+      .field-grid.two {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .field label {
+      color: var(--text);
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+      padding: 12px 14px;
+      font: inherit;
+    }
+
+    .field textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: rgba(10, 19, 34, 0.92);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      overflow: hidden;
+    }
+
+    .panel h2 {
+      margin-bottom: 12px;
+    }
+
+    .hint-box {
+      border: 1px dashed rgba(123, 200, 255, 0.34);
+      background: rgba(123, 200, 255, 0.08);
+      border-radius: 18px;
+      padding: 16px;
+      color: var(--muted);
+    }
+
+    .code-block {
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-shell kernel-shell">
+    <header class="demo-topbar collapsible-topbar" data-collapsible-menu>
+      <div class="topbar-main">
+        <a class="topbar-title" href="./index.html">Runtime Kernel</a>
+        <button
+          class="menu-toggle"
+          type="button"
+          data-action="toggle-menu"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          aria-controls="kernel-menu-panel">
+          Menu
+        </button>
+      </div>
+      <nav id="kernel-menu-panel" class="menu-panel" data-menu-panel hidden aria-label="Runtime kernel navigation">
+        <a href="../index.html">Home</a>
+        <a href="./index.html">Demo Hub</a>
+        <a href="./runtime-foundation.html">Runtime Foundation</a>
+        <a href="./simulator.html">Simulator</a>
+        <a href="./agent-registry.html">Agent Registry</a>
+        <a href="./safety-boundaries.html">Safety Boundaries</a>
+        <a href="../legal.html">Legal / Copyright</a>
+        <a href="../full-audit-dashboard.html">Full Audit Dashboard</a>
+      </nav>
+    </header>
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../index.html">Home</a>
+      <span aria-hidden="true">→</span>
+      <a href="./index.html">Demo Hub</a>
+      <span aria-hidden="true">→</span>
+      <span>Runtime Kernel</span>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">MVP-52 real runtime kernel</p>
+          <h1 class="title">Runtime Kernel</h1>
+          <p class="lead">Real persisted request intake, audit logging, and approval queue for the Agent Command Center.</p>
+          <div class="badge-row">
+            <span class="badge success">MVP-52 Real Runtime Kernel</span>
+            <span class="badge info">Backend persistence: Supabase</span>
+            <span class="badge warning">Runtime activation: not started</span>
+            <span class="badge warning">Live runtime agents enabled: 0</span>
+            <span class="badge ghost">Command execution: disabled</span>
+            <span class="badge ghost">Automation: disabled</span>
+          </div>
+          <div class="badge-row" style="margin-top: 16px;">
+            <button class="button primary" type="button" id="refreshKernelButton">Refresh</button>
+          </div>
+        </div>
+        <div class="hint-box">
+          <p class="eyebrow">Safety statement</p>
+          <p>Approval is not execution. MVP-52 never executes the requested action.</p>
+          <p id="backendStatusMessage">Loading backend state...</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Backend Status Panel</p>
+          <h2>Backend connectivity and runtime config</h2>
+        </div>
+      </div>
+      <div class="panel">
+        <ul class="status-list">
+          <li class="status-item"><strong>Backend functions respond</strong><span id="backendConnectionState">Loading...</span></li>
+          <li class="status-item"><strong>Runtime activation started</strong><span id="runtimeActivationState">false</span></li>
+          <li class="status-item"><strong>Live runtime agents enabled</strong><span id="liveRuntimeAgentsState">0</span></li>
+          <li class="status-item"><strong>Command execution</strong><span id="commandExecutionState">false</span></li>
+          <li class="status-item"><strong>Automation</strong><span id="automationState">false</span></li>
+          <li class="status-item"><strong>Rollback execution</strong><span id="rollbackState">false</span></li>
+          <li class="status-item"><strong>Alert sending</strong><span id="alertState">false</span></li>
+          <li class="status-item"><strong>Counts</strong><span id="countsState">No backend data loaded yet.</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="kernel-grid">
+        <section class="panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Runtime Request Form</p>
+              <h2>Submit a real persisted runtime request</h2>
+            </div>
+          </div>
+          <form id="runtimeRequestForm" class="field-grid">
+            <div class="field-grid two">
+              <div class="field">
+                <label for="requester_name">Requester name</label>
+                <input id="requester_name" name="requester_name" type="text" autocomplete="name" required>
+              </div>
+              <div class="field">
+                <label for="requester_email">Requester email</label>
+                <input id="requester_email" name="requester_email" type="email" autocomplete="email" required>
+              </div>
+            </div>
+            <div class="field">
+              <label for="request_title">Request title</label>
+              <input id="request_title" name="request_title" type="text" required>
+            </div>
+            <div class="field">
+              <label for="request_type">Request type</label>
+              <select id="request_type" name="request_type" required>
+                <option value="content_review">content_review</option>
+                <option value="stakeholder_report">stakeholder_report</option>
+                <option value="deploy_request">deploy_request</option>
+                <option value="rollback_request">rollback_request</option>
+                <option value="supabase_write">supabase_write</option>
+                <option value="alert_send">alert_send</option>
+                <option value="command_execution">command_execution</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="request_body">Request body</label>
+              <textarea id="request_body" name="request_body" required></textarea>
+            </div>
+            <div class="badge-row">
+              <button class="button primary" type="submit">Submit Real Runtime Request</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Result Panel</p>
+              <h2>Latest persisted request</h2>
+            </div>
+          </div>
+          <ul class="detail-list">
+            <li class="status-item"><strong>Request ID</strong><span id="requestIdState">n/a</span></li>
+            <li class="status-item"><strong>Status</strong><span id="requestStatusState">n/a</span></li>
+            <li class="status-item"><strong>Risk level</strong><span id="riskLevelState">n/a</span></li>
+            <li class="status-item"><strong>Blocked</strong><span id="blockedState">n/a</span></li>
+            <li class="status-item"><strong>Approval status</strong><span id="approvalStatusState">n/a</span></li>
+          </ul>
+          <div style="margin-top: 16px;">
+            <p class="eyebrow">Dry-run summary</p>
+            <pre id="dryRunSummaryState" class="code-block">Submit a request to see the dry-run summary here.</pre>
+          </div>
+          <div class="hint-box" style="margin-top: 16px;">
+            <strong>Backend not configured state</strong>
+            <p id="backendUnavailableNotice" class="hidden">Backend functions or Supabase environment variables are not configured yet. The UI is ready, but persistence requires Supabase URL and service-role key configured in Netlify environment variables.</p>
+            <p>Approval is not execution. MVP-52 never executes the requested action.</p>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="kernel-grid">
+        <section class="panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Approval Queue Panel</p>
+              <h2>Pending requests ready for human review</h2>
+            </div>
+          </div>
+          <div id="approvalQueueList" class="grid"></div>
+        </section>
+
+        <section class="panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Audit Timeline</p>
+              <h2>Persisted audit events</h2>
+            </div>
+          </div>
+          <div id="auditTimeline" class="grid"></div>
+        </section>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
