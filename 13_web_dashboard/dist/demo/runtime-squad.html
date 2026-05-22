@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>10-Agent Runtime Squad - The Agent Command Center</title>
+  <link rel="stylesheet" href="./assets/demo.css">
+  <script src="./assets/demo.js" defer></script>
+  <script src="./assets/runtime-squad.js" defer></script>
+</head>
+<body>
+  <div class="demo-shell runtime-agent-shell">
+    <header class="demo-topbar collapsible-topbar" data-collapsible-menu>
+      <div class="topbar-main">
+        <a class="topbar-title" href="./index.html">10-Agent Runtime Squad</a>
+        <button
+          class="menu-toggle"
+          type="button"
+          data-action="toggle-menu"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          aria-controls="demo-menu-panel">
+          Menu
+        </button>
+      </div>
+      <nav id="demo-menu-panel" class="menu-panel" data-menu-panel hidden aria-label="Demo navigation">
+        <a href="../index.html">Home</a>
+        <a href="./index.html">Demo Hub</a>
+        <a href="./runtime-foundation.html">Runtime Foundation</a>
+        <a href="./runtime-kernel.html">Runtime Kernel</a>
+        <a href="./runtime-agent-control.html">Runtime Agent Control</a>
+        <a href="./runtime-squad.html" aria-current="page">10-Agent Runtime Squad</a>
+        <a href="./simulator.html">Simulator</a>
+        <a href="./agent-registry.html">Agent Registry</a>
+        <a href="./safety-boundaries.html">Safety Boundaries</a>
+        <a href="../legal.html">Legal / Copyright</a>
+      </nav>
+    </header>
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../index.html">Home</a>
+      <span aria-hidden="true">→</span>
+      <a href="./index.html">Demo Hub</a>
+      <span aria-hidden="true">→</span>
+      <span>10-Agent Runtime Squad</span>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <p class="eyebrow">MVP-54 controlled runtime squad</p>
+          <h1 class="title">10-Agent Runtime Squad</h1>
+          <p class="lead">Activate, deactivate, heartbeat, and log readiness notes for a controlled 10-agent supervised squad. No command execution.</p>
+          <div class="badge-row">
+            <span class="badge success">MVP-54 Ten-Agent Runtime Squad</span>
+            <span class="badge info">Runtime squad size: 10</span>
+            <span class="badge warning">Live runtime agents enabled: 0–10</span>
+            <span class="badge warning">Total registered agents: 47,979</span>
+            <span class="badge danger">Mass activation beyond 10: blocked</span>
+            <span class="badge danger">Full 47,979 activation: blocked</span>
+          </div>
+          <div class="badge-row" style="margin-top: 16px;">
+            <button class="button primary" type="button" id="refreshButton">Refresh</button>
+            <button class="button secondary" type="button" id="activateSquadButton">Activate squad</button>
+            <button class="button danger" type="button" id="deactivateSquadButton">Deactivate squad</button>
+          </div>
+        </div>
+        <aside class="runtime-kill-switch">
+          <p class="eyebrow">Kill switch</p>
+          <h2>Visible and ready</h2>
+          <p>Mass activation remains blocked. The squad can only operate inside the approved 10-agent boundary.</p>
+          <div class="badge-row">
+            <span class="badge danger">Kill switch visible</span>
+            <span class="badge ghost">No activate-all route</span>
+          </div>
+          <p id="backendStatusMessage" class="runtime-notice">Loading backend state...</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Backend Status Panel</p>
+          <h2>Squad readiness and runtime config</h2>
+        </div>
+        <p>The squad is controlled, supervised, audit-only, and capped at 10 agents.</p>
+      </div>
+      <div class="panel">
+        <ul class="runtime-status-list">
+          <li class="runtime-status-item"><strong>Backend functions respond</strong><span id="backendConnectionState">Loading...</span></li>
+          <li class="runtime-status-item"><strong>Runtime activation started</strong><span id="runtimeActivationState">false</span></li>
+          <li class="runtime-status-item"><strong>Runtime squad size</strong><span id="runtimeSquadSizeState">10</span></li>
+          <li class="runtime-status-item"><strong>Live runtime agents enabled</strong><span id="liveRuntimeAgentsState">0 of 10</span></li>
+          <li class="runtime-status-item"><strong>Max batch size</strong><span id="maxBatchSizeState">10</span></li>
+          <li class="runtime-status-item"><strong>Mass activation</strong><span id="massActivationState">blocked</span></li>
+          <li class="runtime-status-item"><strong>Full 47,979 activation</strong><span id="fullActivationState">blocked</span></li>
+          <li class="runtime-status-item"><strong>Total registered agents</strong><span id="totalRegisteredAgentsState">47,979</span></li>
+          <li class="runtime-status-item"><strong>Kill switch</strong><span id="killSwitchState">visible</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="runtime-agent-grid">
+        <section class="panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Squad Control</p>
+              <h2>Approved 10-agent boundary</h2>
+            </div>
+          </div>
+          <p class="runtime-notice">Mass activation beyond 10 is blocked. The only approved agents are the 10 supervised squad members.</p>
+          <div class="button-row" style="margin-top: 14px;">
+            <button id="activateAgentButton" class="button primary" type="button">Activate individual agent</button>
+            <button id="deactivateAgentButton" class="button danger" type="button">Deactivate individual agent</button>
+            <button id="heartbeatButton" class="button secondary" type="button">Send heartbeat</button>
+            <button id="readinessButton" class="button" type="button">Create readiness note</button>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Individual Agent</p>
+              <h2>Selected squad member</h2>
+            </div>
+          </div>
+          <div class="runtime-field-grid">
+            <div class="runtime-field">
+              <label for="selectedAgentSelect">Approved agent</label>
+              <select id="selectedAgentSelect"></select>
+            </div>
+            <div class="runtime-field-grid two">
+              <div class="runtime-field">
+                <label for="squadHeartbeatStatus">Heartbeat status</label>
+                <select id="squadHeartbeatStatus">
+                  <option value="healthy">healthy</option>
+                  <option value="warning">warning</option>
+                  <option value="degraded">degraded</option>
+                </select>
+              </div>
+              <div class="runtime-field">
+                <label for="squadHeartbeatNote">Heartbeat note</label>
+                <input id="squadHeartbeatNote" type="text" placeholder="Optional heartbeat note">
+              </div>
+            </div>
+            <div class="runtime-field-grid two">
+              <div class="runtime-field">
+                <label for="squadReadinessTitle">Readiness title</label>
+                <input id="squadReadinessTitle" type="text" placeholder="Readiness summary">
+              </div>
+              <div class="runtime-field">
+                <label for="squadReadinessLevel">Readiness level</label>
+                <select id="squadReadinessLevel">
+                  <option value="green">green</option>
+                  <option value="yellow">yellow</option>
+                  <option value="red">red</option>
+                </select>
+              </div>
+            </div>
+            <div class="runtime-field">
+              <label for="squadReadinessBody">Readiness note body</label>
+              <textarea id="squadReadinessBody" placeholder="Why this agent is ready or what still needs attention"></textarea>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Squad Roster</p>
+          <h2>Ten approved agents</h2>
+        </div>
+      </div>
+      <div id="squadRoster" class="card-grid"></div>
+    </section>
+
+    <section class="section">
+      <div class="runtime-agent-grid">
+        <section class="panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Current Agent Status</p>
+              <h2>Selected squad member snapshot</h2>
+            </div>
+          </div>
+          <div class="badge-row runtime-agent-status-row">
+            <span class="badge info" id="currentAgentStatus">No squad agent loaded yet.</span>
+          </div>
+          <div class="badge-row">
+            <span class="badge info" id="currentAgentId">mvp54_runtime_squad_agent_001</span>
+            <span class="badge ghost" id="currentAgentPermissions">execution: none</span>
+            <span class="badge ghost" id="currentAgentTask">create heartbeat and readiness note only</span>
+          </div>
+          <p id="currentAgentMeta" class="runtime-notice">Refresh to load the current squad state.</p>
+        </section>
+
+        <section class="panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">What remains blocked</p>
+              <h2>Explicit safety wall</h2>
+            </div>
+          </div>
+          <div class="badge-row">
+            <span class="badge danger">Mass activation beyond 10: blocked</span>
+            <span class="badge danger">Full 47,979 activation: blocked</span>
+            <span class="badge danger">No command execution</span>
+            <span class="badge danger">No deploy execution</span>
+            <span class="badge danger">No rollback execution</span>
+            <span class="badge danger">No alert sending</span>
+          </div>
+          <p id="backendUnavailableNotice" class="runtime-notice">Backend functions or Supabase environment variables are not configured yet. The UI is ready, but persistence requires Supabase URL and service-role key configured in Netlify environment variables.</p>
+        </section>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Audit Timeline</p>
+          <h2>Activation, heartbeat, and readiness notes</h2>
+        </div>
+      </div>
+      <div id="auditTimeline" class="runtime-audit-timeline">
+        <div class="runtime-audit-item">No audit events have been recorded yet.</div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>© 2026 Devin O’Rourke. All rights reserved.</p>
+      <p>The ten-agent runtime squad is supervised, audit-only, and capped at ten agents. It does not enable command execution, deploy execution, rollback execution, alert sending, or full-squad mass activation.</p>
+      <p class="legal-links"><a href="../index.html">Home</a> · <a href="./index.html">Demo Hub</a> · <a href="./runtime-kernel.html">Runtime Kernel</a> · <a href="./runtime-agent-control.html">Runtime Agent Control</a> · <a href="./runtime-foundation.html">Runtime Foundation</a> · <a href="./simulator.html">Simulator</a> · <a href="./agent-registry.html">Agent Registry</a> · <a href="./safety-boundaries.html">Safety Boundaries</a> · <a href="../legal.html">Legal / Copyright</a></p>
+    </footer>
+  </div>
+</body>
+</html>
