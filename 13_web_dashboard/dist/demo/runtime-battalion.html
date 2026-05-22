@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>100-Agent Runtime Battalion - The Agent Command Center</title>
+  <link rel="stylesheet" href="./assets/demo.css">
+  <script src="./assets/demo.js" defer></script>
+  <script src="./assets/runtime-battalion.js" defer></script>
+</head>
+<body>
+  <div class="demo-shell runtime-agent-shell">
+    <header class="demo-topbar collapsible-topbar" data-collapsible-menu>
+      <div class="topbar-main">
+        <a class="topbar-title" href="./index.html">100-Agent Runtime Battalion</a>
+        <button
+          class="menu-toggle"
+          type="button"
+          data-action="toggle-menu"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          aria-controls="demo-menu-panel">
+          Menu
+        </button>
+      </div>
+      <nav id="demo-menu-panel" class="menu-panel" data-menu-panel hidden aria-label="Demo navigation">
+        <a href="../index.html">Home</a>
+        <a href="./index.html">Demo Hub</a>
+        <a href="./runtime-foundation.html">Runtime Foundation</a>
+        <a href="./runtime-kernel.html">Runtime Kernel</a>
+        <a href="./runtime-agent-control.html">Runtime Agent Control</a>
+        <a href="./runtime-squad.html">Runtime Squad</a>
+        <a href="./runtime-battalion.html" aria-current="page">100-Agent Runtime Battalion</a>
+        <a href="./simulator.html">Simulator</a>
+        <a href="./agent-registry.html">Agent Registry</a>
+        <a href="./safety-boundaries.html">Safety Boundaries</a>
+        <a href="../legal.html">Legal / Copyright</a>
+      </nav>
+    </header>
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../index.html">Home</a>
+      <span aria-hidden="true">→</span>
+      <a href="./index.html">Demo Hub</a>
+      <span aria-hidden="true">→</span>
+      <span>100-Agent Runtime Battalion</span>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <p class="eyebrow">MVP-55 controlled runtime battalion</p>
+          <h1 class="title">100-Agent Runtime Battalion</h1>
+          <p class="lead">Activate, deactivate, heartbeat, and monitor a controlled 100-agent supervised runtime battalion across 10 lanes. No command execution.</p>
+          <div class="badge-row">
+            <span class="badge success">MVP-55 100-Agent Runtime Battalion</span>
+            <span class="badge info">Runtime battalion size: 100</span>
+            <span class="badge warning">Live runtime agents enabled: 0–100</span>
+            <span class="badge warning">Total registered agents: 47,979</span>
+            <span class="badge danger">Activation beyond 100: blocked</span>
+            <span class="badge danger">Full 47,979 activation: blocked</span>
+          </div>
+          <div class="badge-row" style="margin-top: 16px;">
+            <button class="button primary" type="button" id="refreshButton">Refresh</button>
+            <button class="button secondary" type="button" id="activateBattalionButton">Activate full 100-agent battalion</button>
+            <button class="button danger" type="button" id="deactivateBattalionButton">Deactivate full battalion</button>
+          </div>
+        </div>
+        <aside class="runtime-kill-switch">
+          <p class="eyebrow">Kill switch</p>
+          <h2>Visible and ready</h2>
+          <p>Mass activation remains blocked. The battalion can only operate inside the approved 100-agent boundary across 10 lanes.</p>
+          <div class="badge-row">
+            <span class="badge danger">Kill switch visible</span>
+            <span class="badge ghost">No activate-all route</span>
+          </div>
+          <p id="backendStatusMessage" class="runtime-notice">Loading backend state...</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Backend Status Panel</p>
+          <h2>Battalion readiness and runtime config</h2>
+        </div>
+        <p>The battalion is controlled, supervised, audit-only, and capped at 100 agents across 10 lanes.</p>
+      </div>
+      <div class="panel">
+        <ul class="runtime-status-list">
+          <li class="runtime-status-item"><strong>Backend functions respond</strong><span id="backendConnectionState">Loading...</span></li>
+          <li class="runtime-status-item"><strong>Runtime activation started</strong><span id="runtimeActivationState">false</span></li>
+          <li class="runtime-status-item"><strong>Runtime battalion size</strong><span id="runtimeBattalionSizeState">100</span></li>
+          <li class="runtime-status-item"><strong>Live runtime agents enabled</strong><span id="liveRuntimeAgentsState">0 of 100</span></li>
+          <li class="runtime-status-item"><strong>Max batch size</strong><span id="maxBatchSizeState">100</span></li>
+          <li class="runtime-status-item"><strong>Active lanes</strong><span id="activeLanesState">0 of 10</span></li>
+          <li class="runtime-status-item"><strong>Inactive lanes</strong><span id="inactiveLanesState">10 of 10</span></li>
+          <li class="runtime-status-item"><strong>Heartbeat count</strong><span id="heartbeatCountState">0</span></li>
+          <li class="runtime-status-item"><strong>Readiness note count</strong><span id="readinessNoteCountState">0</span></li>
+          <li class="runtime-status-item"><strong>Total registered agents</strong><span id="totalRegisteredAgentsState">47,979</span></li>
+          <li class="runtime-status-item"><strong>Kill switch</strong><span id="killSwitchState">visible</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="runtime-agent-grid">
+        <section class="panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Lane and Agent Control</p>
+              <h2>Controlled lane scope and individual agent scope</h2>
+            </div>
+          </div>
+          <p class="runtime-notice">Activation beyond 100 is blocked. Full 47,979 activation is blocked. Command, deploy, rollback, and alert execution remain disabled.</p>
+          <div class="runtime-field-grid">
+            <div class="runtime-field">
+              <label for="selectedLaneSelect">Approved lane</label>
+              <select id="selectedLaneSelect"></select>
+            </div>
+            <div class="runtime-field">
+              <label for="selectedAgentSelect">Approved agent</label>
+              <select id="selectedAgentSelect"></select>
+            </div>
+          </div>
+          <div class="button-row" style="margin-top: 14px;">
+            <button id="activateLaneButton" class="button primary" type="button">Activate one lane</button>
+            <button id="deactivateLaneButton" class="button danger" type="button">Deactivate one lane</button>
+            <button id="activateAgentButton" class="button secondary" type="button">Activate individual agent</button>
+            <button id="deactivateAgentButton" class="button danger" type="button">Deactivate individual agent</button>
+          </div>
+          <div class="runtime-field-grid" style="margin-top: 18px;">
+            <div class="runtime-field">
+              <label for="heartbeatStatus">Heartbeat status</label>
+              <select id="heartbeatStatus">
+                <option value="healthy">healthy</option>
+                <option value="warning">warning</option>
+                <option value="degraded">degraded</option>
+              </select>
+            </div>
+            <div class="runtime-field">
+              <label for="heartbeatNote">Heartbeat note</label>
+              <input id="heartbeatNote" type="text" placeholder="Optional battalion heartbeat note">
+            </div>
+            <div class="runtime-field">
+              <label for="readinessTitle">Readiness title</label>
+              <input id="readinessTitle" type="text" placeholder="Readiness summary">
+            </div>
+            <div class="runtime-field">
+              <label for="readinessLevel">Readiness level</label>
+              <select id="readinessLevel">
+                <option value="green">green</option>
+                <option value="yellow">yellow</option>
+                <option value="red">red</option>
+              </select>
+            </div>
+            <div class="runtime-field">
+              <label for="readinessBody">Readiness note body</label>
+              <textarea id="readinessBody" placeholder="Why the battalion is ready or what still needs attention"></textarea>
+            </div>
+          </div>
+          <div class="button-row" style="margin-top: 14px;">
+            <button id="heartbeatButton" class="button secondary" type="button">Send battalion heartbeat</button>
+            <button id="readinessButton" class="button" type="button">Create readiness note</button>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Current Selection</p>
+              <h2>Selected lane and agent snapshot</h2>
+            </div>
+          </div>
+          <div class="badge-row runtime-agent-status-row">
+            <span class="badge info" id="currentLaneStatus">No lane loaded yet.</span>
+          </div>
+          <div class="badge-row">
+            <span class="badge info" id="currentLaneId">intake_lane</span>
+            <span class="badge info" id="currentAgentId">mvp55_battalion_agent_001</span>
+            <span class="badge ghost" id="currentLaneMeta">Select a lane to inspect its health.</span>
+            <span class="badge ghost" id="currentAgentMeta">Select an agent to inspect its status.</span>
+          </div>
+          <p id="currentAgentPermissions" class="runtime-notice">Lane-scoped, supervised, audit-only, readiness-note only.</p>
+          <p id="backendUnavailableNotice" class="runtime-notice">Backend functions or Supabase environment variables are not configured yet. The UI is ready, but persistence requires Supabase URL and service-role key configured in Netlify environment variables.</p>
+        </section>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Lane Roster</p>
+          <h2>Ten lanes with ten agents each</h2>
+        </div>
+        <p>Each lane remains supervised, lane-scoped, and capped at ten approved agents.</p>
+      </div>
+      <p class="runtime-notice">Lane health, Heartbeat count, and Readiness note count are tracked for every lane.</p>
+      <div id="laneRoster" class="card-grid"></div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Audit Timeline</p>
+          <h2>Activation, lane changes, heartbeat, and readiness notes</h2>
+        </div>
+      </div>
+      <div id="auditTimeline" class="runtime-audit-timeline">
+        <div class="runtime-audit-item">No audit events have been recorded yet.</div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>© 2026 Devin O’Rourke. All rights reserved.</p>
+      <p>The hundred-agent runtime battalion is supervised, audit-only, and capped at one hundred agents across ten lanes. It does not enable command execution, deploy execution, rollback execution, alert sending, or full-squad mass activation.</p>
+      <p class="legal-links"><a href="../index.html">Home</a> · <a href="./index.html">Demo Hub</a> · <a href="./runtime-kernel.html">Runtime Kernel</a> · <a href="./runtime-agent-control.html">Runtime Agent Control</a> · <a href="./runtime-squad.html">Runtime Squad</a> · <a href="./runtime-foundation.html">Runtime Foundation</a> · <a href="./simulator.html">Simulator</a> · <a href="./agent-registry.html">Agent Registry</a> · <a href="./safety-boundaries.html">Safety Boundaries</a> · <a href="../legal.html">Legal / Copyright</a></p>
+    </footer>
+  </div>
+</body>
+</html>
