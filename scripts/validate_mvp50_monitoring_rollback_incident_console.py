@@ -228,6 +228,11 @@ def main():
             f.endswith(".js")
             and not f.startswith("netlify/functions/runtime-request-")
             and not f.startswith("netlify/functions/runtime-agent-")
+            and f not in {
+                "netlify/functions/activate-agent.js",
+                "netlify/functions/deactivate-agent.js",
+                "netlify/functions/list-runtime-agents.js",
+            }
             for f in added_functions
         ),
         "no new function files added",
