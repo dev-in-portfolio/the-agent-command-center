@@ -228,10 +228,17 @@ def main():
             f.endswith(".js")
             and not f.startswith("netlify/functions/runtime-request-")
             and not f.startswith("netlify/functions/runtime-agent-")
+            and not f.startswith("netlify/functions/runtime-squad-")
+            and f != "netlify/functions/_shared/runtime_squad_helpers.js"
             and f not in {
                 "netlify/functions/activate-agent.js",
                 "netlify/functions/deactivate-agent.js",
                 "netlify/functions/list-runtime-agents.js",
+                "netlify/functions/activate-runtime-squad.js",
+                "netlify/functions/deactivate-runtime-squad.js",
+                "netlify/functions/list-runtime-squad.js",
+                "netlify/functions/agent-heartbeat.js",
+                "netlify/functions/create-readiness-note.js",
             }
             for f in added_functions
         ),
