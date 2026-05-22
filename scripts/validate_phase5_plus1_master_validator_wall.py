@@ -1667,6 +1667,7 @@ allowed_prefixes = [
         "scripts/validate_global_demo_collapsible_menu_breadcrumbs_after_mvp50.py",
         "scripts/validate_global_demo_overflow_containment_after_mvp50.py",
         "scripts/validate_sitewide_copyright_legal_layer_after_mvp50.py",
+        "scripts/validate_public_netlify_url_rename_after_mvp50.py",
         "scripts/validate_mvp51_runtime_foundation_blueprint.py",
         "scripts/discover_agent_department_registry_after_mvp50.py",
         "scripts/validate_exact_agent_department_registry_after_mvp50.py",
@@ -1678,6 +1679,9 @@ allowed_prefixes = [
         "scripts/mvp23_feedback_import_smoke_test.py",
         "scripts/mvp23_verify_feedback_migration_files.py",
         "13_web_dashboard/",
+        "09_exports/backend_phase_4/",
+        "09_exports/external_demo_package_after_mvp50/",
+        "09_exports/interface_phase_4/",
         "09_exports/interface_phase_5/",
         "09_exports/original_plus1/",
         "09_exports/original_plus2/",
@@ -1772,6 +1776,10 @@ allowed_prefixes = [
     "scripts/validate_original_phase_5d_handoff_composer_e2e.py",
     "scripts/validate_original_phase_5e_runbook_simulator.py",
     "scripts/validate_original_phase_5e_runbook_simulator_e2e.py",
+    "09_exports/backend_phase_4/",
+    "09_exports/external_demo_package_after_mvp50/",
+    "09_exports/interface_phase_4/",
+    "scripts/validate_public_netlify_url_rename_after_mvp50.py",
 ]
 
 forbidden_prefixes = [
