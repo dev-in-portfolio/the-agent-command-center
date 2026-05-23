@@ -1,0 +1,81 @@
+const base = require("./_shared/runtime_department_helpers");
+const corps = require("./_shared/runtime_corps_helpers");
+// SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are only read server-side through the shared helper.
+
+exports.handler = async function handler(event) {
+  if (event.httpMethod !== "GET") {
+    return base.jsonResponse(405, {
+      ok: false,
+      error: "Method Not Allowed",
+    }, "mvp61-5000-agent-department-gated-runtime-corps");
+  }
+
+  if (!corps.isConfigured()) {
+    return corps.backendUnavailable("Runtime corps backend is not configured.");
+  }
+
+  try {
+    const [configRows, limitRows, departmentRows, gateRows, cohortRows, eventRows, rollupRows] = await Promise.all([
+      base.supabaseGet("runtime_kernel_config?select=key,value,updated_at&order=key.asc"),
+      base.supabaseGet("runtime_corps_limits?select=key,value,updated_at&order=key.asc"),
+      base.supabaseGetAll("runtime_departments?select=*&order=family_id.asc,department_id.asc"),
+      base.supabaseGetAll("department_runtime_gates?select=*&order=department_id.asc"),
+      base.supabaseGetAll("runtime_corps_cohorts?select=*&order=created_at.desc"),
+      base.supabaseGetAll("runtime_corps_events?select=*&order=created_at.desc"),
+      base.supabaseGet("runtime_corps_rollups?select=*&order=created_at.desc&limit=1"),
+    ]);
+
+    const config = base.toConfigObject(configRows);
+    const limits = base.toConfigObject(limitRows);
+    const latestRollup = Array.isArray(rollupRows) && rollupRows.length ? rollupRows[0] : null;
+    const rollup = latestRollup || corps.buildCorpsRollup(departmentRows || [], gateRows || [], cohortRows || [], config);
+
+    return base.jsonResponse(200, {
+      ok: true,
+      backend_configured: true,
+      caps: {
+        global_live_agent_cap: Number(config.mvp61_global_live_agent_cap || corps.GLOBAL_LIVE_AGENT_CAP),
+        max_cohort_activation_size: Number(config.max_cohort_activation_size || corps.MAX_COHORT_ACTIVATION_SIZE),
+        max_operation_chunk_size: Number(config.max_operation_chunk_size || corps.MAX_OPERATION_CHUNK_SIZE),
+      },
+      backend_status: {
+        mvp61_department_gated_runtime_corps_ready: Boolean(config.mvp61_department_gated_runtime_corps_ready),
+        global_live_agent_cap: Number(config.mvp61_global_live_agent_cap || corps.GLOBAL_LIVE_AGENT_CAP),
+        max_cohort_activation_size: Number(config.max_cohort_activation_size || corps.MAX_COHORT_ACTIVATION_SIZE),
+        max_operation_chunk_size: Number(config.max_operation_chunk_size || corps.MAX_OPERATION_CHUNK_SIZE),
+        current_live_runtime_agents: Number(rollup.current_live_runtime_agents || corps.currentLiveRuntimeAgents(gateRows || [], cohortRows || [])),
+        total_registered_agents: Number(config.total_registered_agents || 47979),
+        total_departments: Number(config.total_departments || 1777),
+        full_47979_activation_blocked: Boolean(config.full_47979_activation_blocked !== false),
+        department_gated_activation_required: Boolean(config.department_gated_activation_required),
+        command_execution_enabled: Boolean(config.command_execution_enabled),
+        deploy_execution_enabled: Boolean(config.deploy_execution_enabled),
+        rollback_execution_enabled: Boolean(config.rollback_execution_enabled),
+        alert_sending_enabled: Boolean(config.alert_sending_enabled),
+        kill_switch_visible: true,
+      },
+      rollup: {
+        ...rollup,
+        current_live_runtime_agents: Number(rollup.current_live_runtime_agents || corps.currentLiveRuntimeAgents(gateRows || [], cohortRows || [])),
+        gate_event_count: (eventRows || []).length,
+      },
+      counts: {
+        total_registered_agents: Number(config.total_registered_agents || 47979),
+        total_departments: Number(config.total_departments || 1777),
+        global_live_agent_cap: Number(config.mvp61_global_live_agent_cap || corps.GLOBAL_LIVE_AGENT_CAP),
+        current_live_runtime_agents: Number(rollup.current_live_runtime_agents || corps.currentLiveRuntimeAgents(gateRows || [], cohortRows || [])),
+        approved_department_gates: rollup.approved_department_gates || 0,
+        active_department_gates: rollup.active_department_gates || 0,
+        active_cohorts: rollup.active_cohorts || 0,
+        gate_event_count: (eventRows || []).length,
+      },
+      limits,
+      recent_events: (eventRows || []).slice(0, 100),
+    });
+  } catch (error) {
+    return base.jsonResponse(500, {
+      ok: false,
+      error: "Runtime corps rollup failed.",
+    });
+  }
+};
