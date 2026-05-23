@@ -259,7 +259,7 @@
     if (!response.ok || !payload.ok) {
       throw new Error(payload.error || "Unable to execute allowlisted operation.");
     }
-    setMessage("Allowlisted operation executed.");
+    setMessage("Allowlisted plan action completed and audited.");
     await refreshStatus();
   }
 

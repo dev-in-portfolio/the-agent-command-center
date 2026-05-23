@@ -84,13 +84,22 @@
 
       setOpen(false);
 
-      toggle.addEventListener("click", () => {
+      toggle.addEventListener("click", (e) => {
+        e.stopPropagation();
         const isOpen = toggle.getAttribute("aria-expanded") === "true";
         setOpen(!isOpen);
       });
 
+      panel.addEventListener("click", (e) => {
+        e.stopPropagation();
+      });
+
       panel.querySelectorAll("a").forEach((link) => {
         link.addEventListener("click", () => setOpen(false));
+      });
+
+      document.addEventListener("click", () => {
+        setOpen(false);
       });
 
       document.addEventListener("keydown", (event) => {

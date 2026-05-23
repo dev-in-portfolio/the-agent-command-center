@@ -103,7 +103,7 @@ if "/demo/" not in index_text:
 demo_index = (DEMO / "index.html").read_text(encoding="utf-8", errors="replace")
 for required in [
     "Stakeholder Demo Hub",
-    "Production verified through MVP-50",
+    "Production verified through MVP-62 plus Continual Harness Operator Mode. Full-fleet MVP-63 through MVP-68 surfaces are not yet merged into this branch.",
     "NOT_READY_FOR_REAL_AUTOMATION",
     "System Story",
     "System Scale",

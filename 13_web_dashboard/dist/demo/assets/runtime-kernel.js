@@ -255,7 +255,7 @@
       const data = await response.json();
       if (response.status === 503 || !data.ok) {
         setBackendUnavailable(
-          "Backend functions or Supabase environment variables are not configured yet. The UI is ready, but persistence requires Supabase URL and service-role key configured in Netlify environment variables."
+          "Backend functions are wired, but persistence requires Netlify Supabase environment variables. Nothing is executing from this page. Missing backend configuration is not runtime failure."
         );
         setMessage("Backend not configured yet.", "warn");
         return;
@@ -265,7 +265,7 @@
       setMessage("Backend functions responded successfully.", "success");
     } catch (error) {
       setBackendUnavailable(
-        "Backend functions or Supabase environment variables are not configured yet. The UI is ready, but persistence requires Supabase URL and service-role key configured in Netlify environment variables."
+        "Backend functions are wired, but persistence requires Netlify Supabase environment variables. Nothing is executing from this page. Missing backend configuration is not runtime failure."
       );
       setMessage("Backend unavailable right now.", "warn");
     }
@@ -322,7 +322,7 @@
       await loadKernelState();
     } catch (error) {
       setBackendUnavailable(
-        "Backend functions or Supabase environment variables are not configured yet. The UI is ready, but persistence requires Supabase URL and service-role key configured in Netlify environment variables."
+        "Backend functions are wired, but persistence requires Netlify Supabase environment variables. Nothing is executing from this page. Missing backend configuration is not runtime failure."
       );
       setMessage("Runtime request submission failed.", "warn");
     }
@@ -363,7 +363,7 @@
       setMessage(`Request ${decision}. Approval is not execution.`, "success");
     } catch (error) {
       setBackendUnavailable(
-        "Backend functions or Supabase environment variables are not configured yet. The UI is ready, but persistence requires Supabase URL and service-role key configured in Netlify environment variables."
+        "Backend functions are wired, but persistence requires Netlify Supabase environment variables. Nothing is executing from this page. Missing backend configuration is not runtime failure."
       );
       setMessage("Runtime approval decision failed.", "warn");
     }

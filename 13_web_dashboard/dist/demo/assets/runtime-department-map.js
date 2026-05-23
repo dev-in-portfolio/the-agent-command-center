@@ -8,7 +8,7 @@
     rollup: "/.netlify/functions/department-runtime-rollup",
   };
 
-  const backendUnavailableMessage = "Backend functions or Supabase environment variables are not configured yet. The UI is ready, but persistence requires Supabase URL and service-role key configured in Netlify environment variables.";
+  const backendUnavailableMessage = "Backend functions are wired, but persistence requires Netlify Supabase environment variables. Nothing is executing from this page. Missing backend configuration is not runtime failure.";
 
   const state = {
     backendConfigured: false,

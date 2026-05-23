@@ -58,7 +58,7 @@ required_strings = {
         "Command execution: disabled",
         "Automation: disabled",
         "Approval is not execution",
-        "Backend functions or Supabase environment variables are not configured yet",
+        "Backend functions are wired, but persistence requires Netlify Supabase environment variables. Nothing is executing from this page. Missing backend configuration is not runtime failure.",
     ],
     "js_fetch": [
         "/.netlify/functions/runtime-request-create",

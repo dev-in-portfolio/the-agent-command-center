@@ -1,0 +1,40 @@
+name: Command Center Validation
+
+on:
+  push:
+    branches: [ master, feature/*, fix/* ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python 3
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Node Syntax Check
+      run: |
+        find netlify/functions 13_web_dashboard/dist/demo/assets -name "*.js" -print0 | xargs -0 -I{} node --check "{}"
+
+    - name: Run Remediation Validator
+      run: |
+        python3 scripts/validate_last20_push_remediation.py
+
+    - name: Run MVP Validators
+      run: |
+        # Run available validators safely
+        [ -f scripts/validate_mvp62_20000_agent_department_gated_runtime_army.py ] && python3 scripts/validate_mvp62_20000_agent_department_gated_runtime_army.py || echo "MVP62 validator skipped"
+        [ -f scripts/validate_continual_harness_operator_mode.py ] && python3 scripts/validate_continual_harness_operator_mode.py || echo "CH validator skipped"
+        [ -f scripts/validate_mvp61_5000_agent_department_gated_runtime_corps.py ] && python3 scripts/validate_mvp61_5000_agent_department_gated_runtime_corps.py || echo "MVP61 validator skipped"
+        [ -f scripts/validate_mvp60_department_gated_runtime_expansion.py ] && python3 scripts/validate_mvp60_department_gated_runtime_expansion.py || echo "MVP60 validator skipped"

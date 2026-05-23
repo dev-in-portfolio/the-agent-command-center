@@ -207,7 +207,7 @@ def main() -> int:
 
     required_demo_index_strings = [
         "Stakeholder Demo Hub",
-        "Production verified through MVP-50",
+        "Production verified through MVP-62 plus Continual Harness Operator Mode. Full-fleet MVP-63 through MVP-68 surfaces are not yet merged into this branch.",
         "Command Center Sandbox Simulator",
         "./simulator.html",
         "Launch Live Dashboard",

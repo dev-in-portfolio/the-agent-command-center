@@ -207,13 +207,12 @@ exports.handler = async function handler(event) {
 
     await base.supabasePatch(`continual_harness_run_plans?run_plan_id=eq.${encodeURIComponent(runPlan.run_plan_id)}`, [{
       execution_status: "completed",
-      approval_status: "not_required",
     }]);
 
     await base.supabasePost("continual_harness_operator_events", [{
       run_plan_id: runPlan.run_plan_id,
-      event_type: "allowlisted_operation_executed",
-      event_summary: `Executed ${runPlan.requested_operation}`,
+      event_type: "allowlisted_plan_action_completed",
+      event_summary: `Allowlisted plan action completed: ${runPlan.requested_operation}`,
       event_payload: {
         result,
         requested_scope: runPlan.requested_scope,
