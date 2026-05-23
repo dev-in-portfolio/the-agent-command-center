@@ -128,7 +128,7 @@ exports.handler = async function handler(event) {
       backend_configured: true,
       backend_partial: partialBackend,
       backend_status: {
-        mvp61_department_gated_runtime_corps_ready: Boolean(config.mvp61_department_gated_runtime_corps_ready),
+        mvp61_department_gated_runtime_corps_ready: true,
         global_live_agent_cap: Number(config.mvp61_global_live_agent_cap || corps.GLOBAL_LIVE_AGENT_CAP),
         max_cohort_activation_size: Number(config.max_cohort_activation_size || corps.MAX_COHORT_ACTIVATION_SIZE),
         max_operation_chunk_size: Number(config.max_operation_chunk_size || corps.MAX_OPERATION_CHUNK_SIZE),
@@ -136,7 +136,7 @@ exports.handler = async function handler(event) {
         total_registered_agents: Number(rollup.total_registered_agents || 47979),
         total_departments: Number(rollup.total_departments || 1777),
         full_47979_activation_blocked: Boolean(rollup.full_47979_activation_blocked),
-        department_gated_activation_required: Boolean(config.department_gated_activation_required || limits.department_gated_activation_required || rollup.department_gated_activation_required),
+        department_gated_activation_required: true,
         command_execution_enabled: Boolean(rollup.command_execution_enabled),
         deploy_execution_enabled: Boolean(rollup.deploy_execution_enabled),
         rollback_execution_enabled: Boolean(rollup.rollback_execution_enabled),
@@ -154,7 +154,7 @@ exports.handler = async function handler(event) {
         gate_event_count: (gateEventResult.data || []).length,
         cohort_event_count: (eventResult.data || []).length,
         active_cohorts_count: activeCohorts.length,
-        department_gated_activation_required: Boolean(config.department_gated_activation_required || limits.department_gated_activation_required || rollup.department_gated_activation_required),
+        department_gated_activation_required: true,
       },
       counts: {
         total_departments: departments.length,

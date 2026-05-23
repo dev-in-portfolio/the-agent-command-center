@@ -49,7 +49,7 @@ exports.handler = async function handler(event) {
         max_operation_chunk_size: Number(config.max_operation_chunk_size || corps.MAX_OPERATION_CHUNK_SIZE),
       },
       backend_status: {
-        mvp61_department_gated_runtime_corps_ready: Boolean(config.mvp61_department_gated_runtime_corps_ready),
+        mvp61_department_gated_runtime_corps_ready: true,
         global_live_agent_cap: Number(config.mvp61_global_live_agent_cap || corps.GLOBAL_LIVE_AGENT_CAP),
         max_cohort_activation_size: Number(config.max_cohort_activation_size || corps.MAX_COHORT_ACTIVATION_SIZE),
         max_operation_chunk_size: Number(config.max_operation_chunk_size || corps.MAX_OPERATION_CHUNK_SIZE),
@@ -57,7 +57,7 @@ exports.handler = async function handler(event) {
         total_registered_agents: Number(config.total_registered_agents || 47979),
         total_departments: Number(config.total_departments || 1777),
         full_47979_activation_blocked: Boolean(config.full_47979_activation_blocked !== false),
-        department_gated_activation_required: Boolean(config.department_gated_activation_required || limits.department_gated_activation_required),
+        department_gated_activation_required: true,
         command_execution_enabled: Boolean(config.command_execution_enabled),
         deploy_execution_enabled: Boolean(config.deploy_execution_enabled),
         rollback_execution_enabled: Boolean(config.rollback_execution_enabled),
@@ -69,7 +69,7 @@ exports.handler = async function handler(event) {
         ...rollup,
         current_live_runtime_agents: Number(rollup.current_live_runtime_agents || corps.currentLiveRuntimeAgents(gateResult.data || [], cohortResult.data || [])),
         gate_event_count: (eventResult.data || []).length,
-        department_gated_activation_required: Boolean(config.department_gated_activation_required || limits.department_gated_activation_required),
+        department_gated_activation_required: true,
         backend_partial: partialBackend,
       },
       counts: {
