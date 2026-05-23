@@ -51,7 +51,7 @@ exports.handler = async function handler(event) {
   try {
     const [configRows, departmentRows, assignmentRows, noteRows, eventRows, rollupRows] = await Promise.all([
       supabaseGet("runtime_kernel_config?select=key,value,updated_at&order=key.asc"),
-      supabaseGet("runtime_departments?select=*&order=family_id.asc,department_id.asc"),
+      supabaseGet("runtime_departments?select=*&order=family_id.asc,department_id.asc&limit=5000"),
       supabaseGet("runtime_department_lane_assignments?select=*&order=assigned_at.desc"),
       supabaseGet("runtime_department_readiness_notes?select=*&order=created_at.desc&limit=5000"),
       supabaseGet("runtime_department_events?select=*&order=created_at.desc&limit=5000"),
