@@ -559,26 +559,18 @@ main,
   margin: -4px 0;
 }
 
-.table-wrap {
-  overflow-x: auto;
-  border-radius: 18px;
-  border: 1px solid var(--line);
-  background: rgba(3, 8, 16, 0.25);
-  max-width: 100%;
-  min-width: 0;
-}
+.table-wrap,
 .table-scroll,
 .table-container {
   width: 100%;
   max-width: 100%;
   overflow-x: auto;
-  min-width: 0;
+  -webkit-overflow-scrolling: touch;
 }
-.data-table {
+
+table {
   width: 100%;
-  max-width: 100%;
   border-collapse: collapse;
-  table-layout: fixed;
 }
 
 .mt-12 { margin-top: 12px; }

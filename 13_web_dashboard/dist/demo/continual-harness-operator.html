@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Continual Harness Operator Mode - The Agent Command Center</title>
+  <link rel="stylesheet" href="./assets/demo.css">
+  <script src="./assets/demo.js" defer></script>
+  <script src="./assets/continual-harness-operator.js" defer></script>
+</head>
+<body>
+  <div class="demo-shell runtime-army-shell">
+    <header class="demo-topbar collapsible-topbar" data-collapsible-menu>
+      <div class="topbar-main">
+        <a class="topbar-title" href="./index.html">Continual Harness Operator Mode</a>
+        <button class="menu-toggle" type="button" data-action="toggle-menu" aria-label="Open navigation menu" aria-expanded="false" aria-controls="demo-menu-panel">Menu</button>
+      </div>
+      <nav id="demo-menu-panel" class="menu-panel" data-menu-panel hidden aria-label="Demo navigation">
+        <a href="../index.html">Home</a>
+        <a href="./index.html">Demo Hub</a>
+        <a href="./runtime-army.html">Runtime Army</a>
+        <a href="./runtime-corps.html">Runtime Corps</a>
+        <a href="./runtime-department-map.html">1,777-Department Runtime Map</a>
+        <a href="./department-gated-runtime.html">Department-Gated Runtime</a>
+        <a href="./continual-harness-operator.html">Continual Harness Operator Mode</a>
+      </nav>
+    </header>
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../index.html">Home</a>
+      <span aria-hidden="true">→</span>
+      <a href="./index.html">Demo Hub</a>
+      <span aria-hidden="true">→</span>
+      <span>Continual Harness Operator Mode</span>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Continual Harness v5.0.0</p>
+          <h1 class="title">Continual Harness Operator Mode</h1>
+          <p class="lead">Active Command Center coordination through explicit permission scopes, allowlisted operations, run plans, validation, and audit events. Operator Mode is powerful, but not free range. Continual Harness can execute allowlisted Command Center operations only. Arbitrary shell commands, arbitrary SQL, deploys, rollbacks, alerts, and full fleet activation remain blocked. Every run plan is validated and audited.</p>
+          <div class="badge-row">
+            <span class="badge success">Component: Continual Harness</span>
+            <span class="badge info">Version: v5.0.0</span>
+            <span class="badge warning">Mode: Operator Mode</span>
+            <span class="badge danger">Shell blocked</span>
+            <span class="badge danger">SQL blocked</span>
+            <span class="badge danger">Deploy blocked</span>
+            <span class="badge danger">Rollback blocked</span>
+            <span class="badge danger">Alerts blocked</span>
+          </div>
+          <div class="cta-row" style="margin-top: 18px;">
+            <button id="refreshButton" class="button primary" type="button">Refresh status</button>
+            <button id="exportButton" class="button secondary" type="button">Export operator state as JSON</button>
+            <button id="stopButton" class="button" type="button">Stop harness</button>
+          </div>
+          <p id="statusMessage" class="runtime-notice" style="margin-top: 16px;">Loading Continual Harness operator status...</p>
+        </div>
+        <aside class="runtime-kill-switch">
+          <p class="eyebrow">Status</p>
+          <h2 id="sessionState">Loading...</h2>
+          <p>Operator Mode coordinates approved workflows only. It does not enable arbitrary command execution or full fleet control.</p>
+          <div class="badge-row">
+            <span class="badge ghost">Mode: <strong id="modeState">operator_mode</strong></span>
+            <span class="badge ghost">Backend: <strong id="backendState">Loading</strong></span>
+            <span class="badge ghost">Circuit breaker: <strong id="circuitBreakerState">clear</strong></span>
+          </div>
+          <div class="badge-row" style="margin-top: 12px;">
+            <span class="badge ghost">Shell blocked</span>
+            <span class="badge ghost">SQL blocked</span>
+            <span class="badge ghost">Deploy blocked</span>
+            <span class="badge ghost">Rollback blocked</span>
+            <span class="badge ghost">Alerts blocked</span>
+            <span class="badge ghost">Full fleet activation blocked</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Permission model</p>
+          <h2>Enabled and blocked scopes</h2>
+        </div>
+        <p>Explicit permission scopes gate the operator boundary. Dangerous scopes stay blocked by default.</p>
+      </div>
+      <div class="metric-grid">
+        <article class="metric"><span class="smallcaps">Enabled scopes</span><strong id="enabledScopesState">Loading...</strong><small>Allowed operator scopes</small></article>
+        <article class="metric"><span class="smallcaps">Blocked scopes</span><strong id="blockedScopesState">Loading...</strong><small>Dangerous scopes remain blocked</small></article>
+        <article class="metric"><span class="smallcaps">Execution flags</span><strong id="executionFlagsState">Loading...</strong><small>Shell, SQL, deploy, rollback, alerts, and full fleet remain blocked</small></article>
+        <article class="metric"><span class="smallcaps">Run plans</span><strong id="runPlansState">0</strong><small>Recorded and auditable</small></article>
+        <article class="metric"><span class="smallcaps">Validation status</span><strong id="validationState">pending</strong><small>Current selected run plan</small></article>
+        <article class="metric"><span class="smallcaps">Approval status</span><strong id="approvalState">pending</strong><small>Approval recorded before execution</small></article>
+        <article class="metric"><span class="smallcaps">Execution status</span><strong id="executionStatusState">not_started</strong><small>Controlled allowlisted operation status</small></article>
+      </div>
+      <div class="panel mt-16">
+        <table class="data-table">
+          <thead><tr><th>Scope</th><th>Status</th></tr></thead>
+          <tbody id="permissionsBody"><tr><td colspan="2">Loading permission scopes...</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Allowlisted operations</p>
+          <h2>Internal operations only</h2>
+        </div>
+        <p>Allowlisted operations can create plans, notes, audits, reports, and requests. They do not unlock arbitrary execution.</p>
+      </div>
+      <div class="panel">
+        <table class="data-table">
+          <thead>
+            <tr><th>Operation</th><th>Display Name</th><th>Scope</th><th>Enabled</th><th>Risk</th></tr>
+          </thead>
+          <tbody id="operationsBody"><tr><td colspan="5">Loading allowlisted operations...</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Run plans</p>
+          <h2>Create, validate, and execute</h2>
+        </div>
+        <p>Every run plan is validated against the permission model, the allowlist, and the operator safety boundary before execution.</p>
+      </div>
+      <div class="panel">
+        <form id="createPlanForm" class="runtime-field-grid">
+          <div class="runtime-field-grid two">
+            <div class="runtime-field">
+              <label for="planTitle">Plan title</label>
+              <input id="planTitle" name="title" type="text" placeholder="Export Department Readiness Report">
+            </div>
+            <div class="runtime-field">
+              <label for="planScope">Requested scope</label>
+              <select id="planScope" name="requested_scope">
+                <option value="harness:read_status">harness:read_status</option>
+                <option value="harness:create_run_plan">harness:create_run_plan</option>
+                <option value="harness:validate_run_plan">harness:validate_run_plan</option>
+                <option value="harness:write_audit_event">harness:write_audit_event</option>
+                <option value="harness:create_readiness_note">harness:create_readiness_note</option>
+                <option value="harness:update_harness_session">harness:update_harness_session</option>
+                <option value="harness:run_allowlisted_check">harness:run_allowlisted_check</option>
+                <option value="harness:run_allowlisted_validator">harness:run_allowlisted_validator</option>
+                <option value="harness:request_department_gate_review">harness:request_department_gate_review</option>
+                <option value="harness:request_runtime_cohort_activation">harness:request_runtime_cohort_activation</option>
+                <option value="harness:request_runtime_cohort_deactivation">harness:request_runtime_cohort_deactivation</option>
+                <option value="harness:export_report">harness:export_report</option>
+              </select>
+            </div>
+          </div>
+          <div class="runtime-field-grid two">
+            <div class="runtime-field">
+              <label for="planOperation">Requested operation</label>
+              <select id="planOperation" name="requested_operation">
+                <option value="create_audit_event">create_audit_event</option>
+                <option value="create_readiness_note">create_readiness_note</option>
+                <option value="export_status_report">export_status_report</option>
+                <option value="request_department_gate_review">request_department_gate_review</option>
+                <option value="request_runtime_rollup">request_runtime_rollup</option>
+                <option value="request_harness_stop">request_harness_stop</option>
+                <option value="run_mvp_validators">run_mvp_validators</option>
+              </select>
+            </div>
+            <div class="runtime-field">
+              <label for="planSelect">Select run plan</label>
+              <select id="planSelect" name="run_plan_id">
+                <option value="">Loading plans...</option>
+              </select>
+            </div>
+          </div>
+          <div class="runtime-field">
+            <label for="planBody">Plan body JSON</label>
+            <textarea id="planBody" name="plan_body" rows="8" placeholder='{"note_body":"Ready to export report"}'></textarea>
+          </div>
+          <div class="button-row">
+            <button class="button primary" type="submit">Create run plan</button>
+            <button id="validateButton" class="button" type="button">Validate selected run plan</button>
+            <button id="executeButton" class="button secondary" type="button">Run / record allowlisted plan action</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Audit timeline</p>
+          <h2>Events and readiness notes</h2>
+        </div>
+        <p>All operator-mode actions are written to audit events, with readiness notes available as a separate controlled record.</p>
+      </div>
+      <div class="panel">
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Created</th><th>Event type</th><th>Summary</th><th>Payload</th></tr></thead>
+            <tbody id="eventsBody"><tr><td colspan="4">Loading operator events...</td></tr></tbody>
+          </table>
+        </div>
+        <div class="table-wrap mt-16">
+          <table class="data-table">
+            <thead><tr><th>Created</th><th>Type</th><th>Note</th><th>Actor</th></tr></thead>
+            <tbody id="notesBody"><tr><td colspan="4">Loading readiness notes...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="panel">
+        <p class="eyebrow">Safety boundary</p>
+        <h2>Blocked execution surface</h2>
+        <p>“Operator Mode is powerful, but not free range.” “Continual Harness can execute allowlisted Command Center operations only.” “Arbitrary shell commands, arbitrary SQL, deploys, rollbacks, alerts, and full fleet activation remain blocked.” “Every run plan is validated and audited.”</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="panel">
+        <a class="button primary" href="./index.html">Back to Demo Hub</a>
+      </div>
+    </section>
+  </div>
+
+    <footer class="footer site-legal-footer">
+      <p>© 2026 Devin O’Rourke. All rights reserved.</p>
+      <p>Agent Command Center, the demo pages, registry presentation, dashboard copy, visual layout, simulator materials, validator descriptions, and stakeholder presentation materials are protected project materials. No license, sale, transfer, or permission to reuse is granted by viewing this demo.</p>
+      <p>This site is a static, read-only demonstration. It does not enable live automation, command execution, database writes, Supabase mutations, deployment actions, rollback execution, alert sending, or runtime activation.</p>
+      <p>Third-party names, platforms, and services referenced for context remain the property of their respective owners.</p>
+      <p class="legal-links"><a href="../legal.html">Legal / Copyright</a> · <a href="../index.html">Home</a> · <a href="./index.html">Demo Hub</a> · <a href="../full-audit-dashboard.html">Full Audit Dashboard</a> · <a href="../copyright.html">Copyright</a></p>
+    </footer>
+
+</body>
+</html>

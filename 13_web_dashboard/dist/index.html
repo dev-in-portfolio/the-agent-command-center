@@ -328,60 +328,56 @@
     <header class="topbar">
       <div class="brand">
         <strong>The Agent Command Center</strong>
-        <span>Enterprise Review Portal</span>
+        <span>Command Center Launchpad</span>
       </div>
-      <nav class="nav-links" aria-label="Portal navigation">
-        <a href="./demo/">Demo Hub</a>
-        <a href="./demo/executive-control-room.html">Executive Room</a>
-        <a href="./demo/enterprise-pilot-packet.html">Pilot Packet</a>
+      <nav class="nav-links" aria-label="Launchpad navigation">
+        <a href="./demo/">Premium Demo</a>
         <a href="./demo/simulator.html">Simulator</a>
-        <a href="./demo/runtime-fleet.html">Runtime Fleet</a>
-        <a href="./demo/full-fleet-load-test.html">Load Test</a>
-        <a href="./demo/observability-command-wall.html">Observability</a>
-        <a href="./demo/enterprise-pilot-room.html">Pilot Room</a>
-        <a href="./demo/continual-harness-operator.html">Supervisor</a>
-        <a href="./legal.html">Legal</a>
-        <a href="./full-audit-dashboard.html">Audit</a>
+        <a href="./demo/runtime-company.html">Runtime Company</a>
+        <a href="./demo/runtime-division.html">Runtime Division</a>
+        <a href="./demo/department-gated-runtime.html">Department Gate Runtime</a>
+        <a href="./demo/runtime-corps.html">Runtime Corps</a>
+        <a href="./demo/runtime-army.html">Runtime Army</a>
+        <a href="./demo/runtime-department-map.html">Department Map</a>
+        <a href="./demo/agent-registry.html">Registry</a>
+        <a href="./demo/system-scale.html">Scale</a>
+        <a href="./demo/safety-boundaries.html">Safety</a>
+        <a href="./demo/review.html">Review</a>
+        <a href="./dashboard.html">Legacy Dashboard</a>
+        <a href="./full-audit-dashboard.html">Archive</a>
       </nav>
     </header>
 
     <section class="hero">
       <div class="hero-grid">
         <div>
-          <p class="eyebrow">Enterprise Review Portal</p>
-          <h1>The Agent Command Center</h1>
-          <p class="lead">The Agent Command Center is a public stakeholder review surface for a large-scale AI operations control architecture.</p>
-          <p class="lead">It maps 47,979 registered agents across 1,777 departments, 5,331 units, and 175 families. The system includes the stakeholder demo hub, static simulator, exact registry, controlled runtime ladder, department-gated runtime surfaces, full-fleet control-plane review, load-test and recovery drills, observability wall, executive control room, enterprise pilot room, and enterprise pilot packet exporter.</p>
-          <p class="lead">Latest public milestone: MVP-68 — Enterprise Pilot Packet Exporter.</p>
-          <p class="lead">This site does not provide raw activate-all, arbitrary shell execution, arbitrary SQL, deploy execution, rollback execution, alert sending, or unrestricted automation. Runtime surfaces are gated, staged, audited, and controlled.</p>
-          <div class="badge-row" aria-label="Portal status badges">
-            <span class="badge success">MVP-68 Enterprise Pilot Packet Exporter</span>
-            <span class="badge info">47,979 Registered Agents</span>
-            <span class="badge info">1,777 Departments</span>
-            <span class="badge warning">Raw Activate-All Disabled</span>
-            <span class="badge warning">Command Execution Disabled</span>
-            <span class="badge warning">Deploy / Rollback / Alerts Disabled</span>
-            <span class="badge success">Enterprise Review Portal</span>
+          <p class="eyebrow">Public stakeholder demo</p>
+          <h1>Command Center Launchpad</h1>
+          <p class="lead">The Agent Command Center is a static, read-only demonstration of a large-scale AI operations control system. It organizes 47,979 registered agents across 1,777 departments, with safety gates, simulator flows, and audit-ready review materials.</p>
+          <p class="lead">This public demo does not run live agents. Live runtime agents enabled: 0. Runtime activation has not started. Backend/Supabase readiness exists. Live backend runtime disabled. Further expansion planned. Live backend writes, public mutations, command execution, deployment actions, rollback execution, and automation are disabled.</p>
+          <div class="badge-row" aria-label="Launchpad status badges">
+            <span class="badge success">Production verified through MVP-62 plus Continual Harness Operator Mode. Full-fleet MVP-63 through MVP-68 surfaces are not yet merged into this branch.</span>
+            <span class="badge info">Static Read-Only Demo</span>
+            <span class="badge info">Backend/Supabase Readiness Exists</span>
+            <span class="badge warning">Live Runtime Disabled</span>
+            <span class="badge warning">Live Runtime Agents: 0</span>
+            <span class="badge warning">Runtime Activation Not Started</span>
           </div>
         </div>
         <aside class="callout">
-          <p class="eyebrow">Current Live Review Status</p>
+          <p class="eyebrow">Exact registry snapshot</p>
+          <h2 style="margin-bottom: 12px;">Exact scale summary</h2>
           <ul class="scale-list">
-            <li>Registered agents: 47,979</li>
-            <li>Departments: 1,777</li>
-            <li>Units: 5,331</li>
-            <li>Families: 175</li>
-            <li>Latest public milestone: MVP-68</li>
-            <li>Enterprise Pilot Packet: available</li>
-            <li>Raw activate-all: disabled</li>
-            <li>Command execution: disabled</li>
-            <li>Deploy execution: disabled</li>
-            <li>Rollback execution: disabled</li>
-            <li>Alert sending: disabled</li>
-            <li>Shell execution: disabled</li>
-            <li>Arbitrary SQL: disabled</li>
+            <li>Exact agent count: 47,979</li>
+            <li>Exact department count: 1,777</li>
+            <li>Exact unit count: 5,331</li>
+            <li>Exact family count: 175</li>
+            <li>Hierarchy levels: 7</li>
+            <li>Operational domains: 11</li>
+            <li>Source: org_chart_export.json</li>
+            <li>Live runtime agents enabled: 0</li>
+            <li>Runtime activation: not started</li>
           </ul>
-          <p style="font-size: 0.8rem; margin-top: 10px; color: var(--muted);">Some surfaces are static review pages. Some are controlled backend-wired status, audit, readiness, approval, or export surfaces. No page grants unrestricted runtime authority.</p>
         </aside>
       </div>
     </section>
@@ -389,35 +385,88 @@
     <section class="section">
       <div class="section-head">
         <div>
-          <p class="eyebrow">Start Here</p>
-          <h2>Core review paths</h2>
+          <p class="eyebrow">Launchpad</p>
+          <h2>What to open first</h2>
         </div>
+        <p>A clean first-time visitor route through the stakeholder demo without any live automation or public writes.</p>
       </div>
       <div class="grid launch-grid">
         <article class="card launch-card">
-          <h3>Executive Control Room</h3>
-          <p>Role-aware executive review surface for executives, operators, security/risk, technical reviewers, recruiters, and skeptical reviewers.</p>
-          <a class="button secondary" href="./demo/executive-control-room.html">Executive Control Room</a>
-        </article>
-        <article class="card launch-card">
-          <h3>Enterprise Pilot Packet</h3>
-          <p>Generate the shareable enterprise pilot packet with executive summary, safety boundaries, success criteria, risks, legal links, and decision support.</p>
-          <a class="button secondary" href="./demo/enterprise-pilot-packet.html">Enterprise Pilot Packet</a>
-        </article>
-        <article class="card launch-card">
-          <h3>Premium Demo Hub</h3>
-          <p>Open the guided stakeholder demo hub.</p>
+          <h3>Premium Stakeholder Demo</h3>
+          <p>Open the premium stakeholder demo hub with the guided browser-ready overview.</p>
           <a class="button primary" href="./demo/">Open Premium Demo Hub</a>
         </article>
         <article class="card launch-card">
-          <h3>Runnable Static Simulator</h3>
-          <p>Walk through the safe request pipeline without live execution.</p>
-          <a class="button primary" href="./demo/simulator.html">Open Simulator</a>
+          <h3>Runtime Foundation</h3>
+          <p>Runtime planning track - not live execution. Review the controls, schemas, contracts, and checklists required before live runtime activation can ever be considered.</p>
+          <a class="button secondary" href="./demo/runtime-foundation.html">Open Runtime Foundation</a>
         </article>
         <article class="card launch-card">
-          <h3>System Scale</h3>
-          <p>Inspect the exact counts and source file behind the public scale summary.</p>
-          <a class="button secondary" href="./demo/system-scale.html">View System Scale</a>
+          <h3>Runtime Kernel</h3>
+          <p>Private/admin runtime evaluation with real backend persistence and approval flow. Approval never executes the requested action.</p>
+          <a class="button secondary" href="./demo/runtime-kernel.html">Open Runtime Kernel</a>
+        </article>
+        <article class="card launch-card">
+          <h3>Runtime Agent Control</h3>
+          <p>Supervised single-agent test only. Activate or deactivate one controlled runtime agent with a visible kill switch and audit trail.</p>
+          <a class="button secondary" href="./demo/runtime-agent-control.html">Open Runtime Agent Control</a>
+        </article>
+        <article class="card launch-card">
+          <h3>10-Agent Runtime Squad</h3>
+          <p>Controlled 10-agent supervised squad with heartbeats and readiness notes. Mass activation remains blocked.</p>
+          <a class="button secondary" href="./demo/runtime-squad.html">Open Runtime Squad</a>
+        </article>
+        <article class="card launch-card">
+          <h3>100-Agent Runtime Battalion</h3>
+          <p>Controlled 100-agent supervised battalion across 10 lanes. Mass activation beyond 100 remains blocked.</p>
+          <a class="button secondary" href="./demo/runtime-battalion.html">Open Runtime Battalion</a>
+        </article>
+
+<article class="card launch-card">
+  <h3>500-Agent Runtime Group</h3>
+  <p>Controlled 500-agent supervised group across 50 lanes. Mass activation beyond 500 remains blocked.</p>
+  <a class="button secondary" href="./demo/runtime-group.html">Open Runtime Group</a>
+</article>
+        <article class="card launch-card">
+          <h3>250-Agent Runtime Company</h3>
+          <p>Controlled 250-agent supervised company across 25 lanes. Mass activation beyond 250 remains blocked.</p>
+          <a class="button secondary" href="./demo/runtime-company.html">Open Runtime Company</a>
+        </article>
+        <article class="card launch-card">
+          <h3>1,000-Agent Runtime Division</h3>
+          <p>Controlled 1,000-agent supervised division across 10 subdivisions and 100 lanes. Mass activation beyond 1,000 remains blocked.</p>
+          <a class="button secondary" href="./demo/runtime-division.html">Open Runtime Division</a>
+        </article>
+        <article class="card launch-card">
+          <h3>Department-Gated Runtime Expansion</h3>
+          <p>Approve department gates and activate supervised runtime capacity by department. Global cap: 2,500. No command execution.</p>
+          <a class="button secondary" href="./demo/department-gated-runtime.html">Open Department-Gated Runtime Expansion</a>
+        </article>
+        <article class="card launch-card">
+          <h3>5,000-Agent Runtime Corps</h3>
+          <p>Scale supervised runtime capacity up to a 5,000-agent cap through approved department gates only. No raw fleet activation or command execution.</p>
+          <a class="button secondary" href="./demo/runtime-corps.html">Open 5,000-Agent Runtime Corps</a>
+          <a class="button secondary" href="./demo/runtime-army.html">Open 20,000-Agent Runtime Army</a>
+        </article>
+        <article class="card launch-card">
+          <h3>20,000-Agent Runtime Army</h3>
+          <p>Scale supervised runtime capacity toward a 20,000-agent cap through approved department gates, staged unlocks, and circuit breakers. No raw fleet activation or command execution.</p>
+          <a class="button secondary" href="./demo/runtime-army.html">Open 20,000-Agent Runtime Army</a>
+        </article>
+        <article class="card launch-card">
+          <h3>Continual Harness Operator Mode</h3>
+          <p>Active operator integration with explicit permission scopes, allowlisted operations, validation, and audit logging.</p>
+          <a class="button secondary" href="./demo/continual-harness-operator.html">Open Continual Harness Operator Mode</a>
+        </article>
+        <article class="card launch-card">
+          <h3>1,777-Department Runtime Map</h3>
+          <p>Map all 1,777 departments to supervised runtime readiness, lane coverage, and audit status without activating the full 47,979-agent registry.</p>
+          <a class="button secondary" href="./demo/runtime-department-map.html">Open Department Runtime Map</a>
+        </article>
+        <article class="card launch-card">
+          <h3>Runnable Static Simulator</h3>
+          <p>Open the safe, static command-flow simulator at <code>./demo/simulator.html</code>.</p>
+          <a class="button primary" href="./demo/simulator.html">Open Simulator</a>
         </article>
         <article class="card launch-card">
           <h3>Agent Registry</h3>
@@ -425,138 +474,20 @@
           <a class="button secondary" href="./demo/agent-registry.html">View Exact Registry</a>
         </article>
         <article class="card launch-card">
+          <h3>System Scale</h3>
+          <p>Inspect the exact counts and source file behind the public scale summary.</p>
+          <a class="button secondary" href="./demo/system-scale.html">View System Scale</a>
+        </article>
+        <article class="card launch-card">
           <h3>Safety Boundaries</h3>
-          <p>Review disabled execution surfaces and runtime safety boundaries.</p>
+          <p>Review the disabled runtime surface and the safety posture before any future activation discussion.</p>
           <a class="button secondary" href="./demo/safety-boundaries.html">View Safety Posture</a>
         </article>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <div>
-          <p class="eyebrow">Runtime Review Surfaces</p>
-          <h2>Controlled runtime ladder</h2>
-        </div>
-      </div>
-      <div class="grid launch-grid">
         <article class="card launch-card">
-          <h3>Runtime Foundation</h3>
-          <p>Review the controls, schemas, and checklists required before live runtime activation.</p>
-          <a class="button secondary" href="./demo/runtime-foundation.html">Open Runtime Foundation</a>
+          <h3>Review / Scorecard</h3>
+          <p>Open the decision page for the stakeholder demo and review readiness.</p>
+          <a class="button secondary" href="./demo/review.html">View Review Materials</a>
         </article>
-        <article class="card launch-card">
-          <h3>Runtime Kernel</h3>
-          <p>Private/admin runtime evaluation with real backend persistence and approval flow.</p>
-          <a class="button secondary" href="./demo/runtime-kernel.html">Open Runtime Kernel</a>
-        </article>
-        <article class="card launch-card">
-          <h3>Runtime Agent Control</h3>
-          <p>Supervised single-agent test only. Activate or deactivate one controlled runtime agent.</p>
-          <a class="button secondary" href="./demo/runtime-agent-control.html">Open Runtime Agent Control</a>
-        </article>
-        <article class="card launch-card">
-          <h3>10-Agent Runtime Squad</h3>
-          <p>Controlled 10-agent supervised squad with heartbeats and readiness notes.</p>
-          <a class="button secondary" href="./demo/runtime-squad.html">Open Runtime Squad</a>
-        </article>
-        <article class="card launch-card">
-          <h3>100-Agent Runtime Battalion</h3>
-          <p>Controlled 100-agent supervised battalion across 10 lanes.</p>
-          <a class="button secondary" href="./demo/runtime-battalion.html">Open Runtime Battalion</a>
-        </article>
-        <article class="card launch-card">
-          <h3>250-Agent Runtime Company</h3>
-          <p>Controlled 250-agent supervised company across 25 lanes.</p>
-          <a class="button secondary" href="./demo/runtime-company.html">Open Runtime Company</a>
-        </article>
-        <article class="card launch-card">
-          <h3>500-Agent Runtime Group</h3>
-          <p>Controlled 500-agent supervised group across 50 lanes.</p>
-          <a class="button secondary" href="./demo/runtime-group.html">Open Runtime Group</a>
-        </article>
-        <article class="card launch-card">
-          <h3>1,000-Agent Runtime Division</h3>
-          <p>Controlled 1,000-agent supervised division across 10 subdivisions and 100 lanes.</p>
-          <a class="button secondary" href="./demo/runtime-division.html">Open Runtime Division</a>
-        </article>
-        <article class="card launch-card">
-          <h3>1,777-Department Runtime Map</h3>
-          <p>Map all 1,777 departments to supervised runtime readiness and lane coverage.</p>
-          <a class="button secondary" href="./demo/runtime-department-map.html">Open Department Runtime Map</a>
-        </article>
-        <article class="card launch-card">
-          <h3>Department-Gated Runtime Expansion</h3>
-          <p>Approve department gates and activate supervised runtime capacity by department.</p>
-          <a class="button secondary" href="./demo/department-gated-runtime.html">Open Department-Gated Runtime Expansion</a>
-        </article>
-        <article class="card launch-card">
-          <h3>5,000-Agent Runtime Corps</h3>
-          <p>Scale supervised runtime capacity up to a 5,000-agent cap through approved department gates only.</p>
-          <a class="button secondary" href="./demo/runtime-corps.html">Open 5,000-Agent Runtime Corps</a>
-        </article>
-        <article class="card launch-card">
-          <h3>20,000-Agent Runtime Army</h3>
-          <p>Scale supervised runtime capacity toward a 20,000-agent cap through approved department gates.</p>
-          <a class="button secondary" href="./demo/runtime-army.html">Open 20,000-Agent Runtime Army</a>
-        </article>
-        <article class="card launch-card">
-          <h3>Full 47,979-Agent Runtime Fleet</h3>
-          <p>Scale to the full registered Agent Command Center fleet through approved department gates.</p>
-          <a class="button secondary" href="./demo/runtime-fleet.html">Open Full 47,979-Agent Runtime Fleet</a>
-        </article>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <div>
-          <p class="eyebrow">Full-Fleet / Enterprise Review</p>
-          <h2>Advanced control plane review</h2>
-        </div>
-      </div>
-      <div class="grid launch-grid">
-        <article class="card launch-card">
-          <h3>Full-Fleet Load Test</h3>
-          <p>Stress-test the 47,979-agent control system with simulated load and failure scenarios.</p>
-          <a class="button secondary" href="./demo/full-fleet-load-test.html">Open Full-Fleet Load Test</a>
-        </article>
-        <article class="card launch-card">
-          <h3>Full-Fleet Observability Command Wall</h3>
-          <p>One command-wall view for fleet scale, department gates, stages, cohorts, and audit health.</p>
-          <a class="button secondary" href="./demo/observability-command-wall.html">Open Observability Command Wall</a>
-        </article>
-        <article class="card launch-card">
-          <h3>Executive Control Room</h3>
-          <p>Role-aware executive view for reviewing safety boundaries, observability, and next decisions.</p>
-          <a class="button secondary" href="./demo/executive-control-room.html">Executive Control Room</a>
-        </article>
-        <article class="card launch-card">
-          <h3>Enterprise Pilot Room</h3>
-          <p>A pilot-ready review room with scope, stakeholder roles, and go/no-go decision support.</p>
-          <a class="button secondary" href="./demo/enterprise-pilot-room.html">Enterprise Pilot Room</a>
-        </article>
-        <article class="card launch-card">
-          <h3>Enterprise Pilot Packet Exporter</h3>
-          <p>Generate a shareable pilot packet with executive summary and safety boundaries.</p>
-          <a class="button secondary" href="./demo/enterprise-pilot-packet.html">Enterprise Pilot Packet Exporter</a>
-        </article>
-        <article class="card launch-card">
-          <h3>Continual Harness Operator Mode</h3>
-          <p>Active operator integration with explicit permission scopes, allowlisted operations, and audit logging.</p>
-          <a class="button secondary" href="./demo/continual-harness-operator.html">Open Continual Harness Operator Mode</a>
-        </article>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <div>
-          <p class="eyebrow">Proof / Archive / Legal</p>
-          <h2>Provenance and deep review</h2>
-        </div>
-      </div>
-      <div class="grid launch-grid">
         <article class="card launch-card">
           <h3>Full Internal Audit Dashboard</h3>
           <p>Open the preserved internal audit dashboard archive for provenance and deep review.</p>
@@ -567,21 +498,94 @@
           <p>Inspect the implementation notes, validator strategy, and proof surfaces.</p>
           <a class="button" href="./demo/technical-appendix.html">View Technical Appendix</a>
         </article>
-        <article class="card launch-card">
-          <h3>Validator Map</h3>
-          <p>Review the flat E2E validator pattern and specific safety markers.</p>
-          <a class="button" href="./demo/validator-safety-map.html">View Validator Map</a>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Current Status / Readiness Overview</p>
+          <h2>Legacy verification phrases preserved alongside the cleaned launchpad</h2>
+        </div>
+      </div>
+      <div class="card-grid">
+        <article class="card"><h3>Latest Verified MVP</h3><p>Production verified through MVP-62 plus Continual Harness Operator Mode. Full-fleet MVP-63 through MVP-68 surfaces are not yet merged into this branch..</p></article>
+        <article class="card"><h3>Backend/Supabase readiness architecture exists</h3><p>Live backend runtime is disabled.</p></article>
+        <article class="card"><h3>Open Static Simulator</h3><p>Use the static simulator path from the launchpad.</p></article>
+        <article class="card"><h3>Open Full Audit / Archive</h3><p>Original Full Audit Dashboard remains preserved under the archive route.</p></article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">System at a Glance</p>
+          <h2>Where the registry, simulator, and review flow fit together</h2>
+        </div>
+        <p>These visuals are static and text-based, but they make the architecture easier to scan on desktop and mobile.</p>
+      </div>
+      <div class="card-grid">
+        <article class="card">
+          <h3>Registered agent registry</h3>
+          <ol class="path-list">
+            <li>Registered Agent Registry</li>
+            <li>Departments</li>
+            <li>Units</li>
+            <li>Families</li>
+            <li>Operational Domains</li>
+            <li>Safety Gates</li>
+            <li>Static Simulator</li>
+            <li>Human Review</li>
+          </ol>
         </article>
-        <article class="card launch-card">
-          <h3>Review / Scorecard</h3>
-          <p>Open the decision page for the stakeholder demo and review readiness.</p>
-          <a class="button" href="./demo/review.html">View Review Materials</a>
+        <article class="card">
+          <h3>Readiness flow</h3>
+          <ol class="path-list">
+            <li>Request</li>
+            <li>Auth</li>
+            <li>Storage</li>
+            <li>Audit</li>
+            <li>Approval</li>
+            <li>Dry Run</li>
+            <li>Queue</li>
+            <li>Human Review</li>
+            <li>Monitoring Readiness</li>
+          </ol>
         </article>
-        <article class="card launch-card">
-          <h3>Legal / Copyright</h3>
-          <p>Review legal boundaries, IP ownership, and data privacy models.</p>
-          <a class="button" href="./legal.html">Legal / Copyright</a>
+        <article class="card">
+          <h3>Registered vs Runtime</h3>
+          <ul class="card-list">
+            <li>Registered agents: 47,979</li>
+            <li>Live runtime agents: 0</li>
+            <li>Activation: not started</li>
+            <li>Meaning: the registry exists; automation remains disabled.</li>
+          </ul>
         </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">11 Operational Domains</p>
+          <h2>Demo-facing operating domain map</h2>
+        </div>
+        <p>Source type: demo-facing operating domain map derived from MVP-43 through MVP-62 readiness architecture.</p>
+      </div>
+      <div class="panel">
+        <ul class="scale-list">
+          <li>Authentication / identity readiness</li>
+          <li>Request storage readiness</li>
+          <li>Audit ledger readiness</li>
+          <li>Approval gate readiness</li>
+          <li>Dry-run readiness</li>
+          <li>Controlled action queue readiness</li>
+          <li>Human-approved execution readiness</li>
+          <li>Monitoring / rollback / incident readiness</li>
+          <li>Demo / stakeholder review readiness</li>
+          <li>Validator / quality gate readiness</li>
+          <li>Safety boundary readiness</li>
+        </ul>
       </div>
     </section>
 
@@ -596,26 +600,22 @@
         <article class="card">
           <h3>What this is</h3>
           <ul class="card-list">
-            <li>A stakeholder-facing enterprise review portal.</li>
+            <li>A stakeholder-facing static demo.</li>
             <li>A command-center architecture presentation.</li>
-            <li>A registry, runtime-gating, safety-boundary, observability, and pilot-review surface.</li>
-            <li>A safe simulator and controlled review environment.</li>
-            <li>A proof of large-scale AI operations architecture, validator-driven QA, runtime-boundary design, and enterprise communication.</li>
+            <li>A registry and safety-boundary preview.</li>
+            <li>A simulator for safe request flow demonstration.</li>
+            <li>A proof of dashboard, validator, deployment, and systems design capability.</li>
           </ul>
         </article>
         <article class="card">
           <h3>What this is not</h3>
           <ul class="card-list">
-            <li>Not raw activate-all.</li>
-            <li>Not unrestricted live automation.</li>
-            <li>Not 47,979 autonomous agents running freely.</li>
-            <li>Not arbitrary shell execution.</li>
-            <li>Not arbitrary SQL.</li>
-            <li>Not deploy execution.</li>
-            <li>Not rollback execution.</li>
-            <li>Not alert sending.</li>
-            <li>Not a grant of runtime permission.</li>
-            <li>Not a replacement for enterprise authorization, legal review, security review, or scoped pilot approval.</li>
+            <li>Not a live automation runtime.</li>
+            <li>Not running 47,979 live autonomous agents.</li>
+            <li>Not executing commands.</li>
+            <li>Not writing to Supabase.</li>
+            <li>Not deploying, merging, pushing, rolling back, or sending alerts.</li>
+            <li>Not MVP-51.</li>
           </ul>
         </article>
       </div>
@@ -628,19 +628,30 @@
           <h2>Why this matters</h2>
         </div>
       </div>
-      <div class="card">
-        <h3>What this project proves</h3>
-        <ul class="card-list">
-          <li>AI-assisted software development at scale</li>
-          <li>Full-stack system architecture with Supabase / Netlify</li>
-          <li>Runtime safety and permission design (Zero-Live-Agents default)</li>
-          <li>Validator-driven QA and automated safety enforcement</li>
-          <li>Enterprise-ready stakeholder review surfaces</li>
-          <li>Technical communication for complex AI operations</li>
-          <li>Large-scale registry and hierarchy modeling</li>
-          <li>Product-led demo and stakeholder review design</li>
-        </ul>
-        <p style="margin-top: 15px;">The value is not that 47,979 agents are running freely. The value is that the command structure, safety model, runtime gates, observability surfaces, pilot materials, and packet exporter are visible before any unrestricted runtime is considered.</p>
+      <div class="grid summary-grid">
+        <article class="card">
+          <h3>Skills demonstrated</h3>
+          <ul class="card-list">
+            <li>AI-assisted software development</li>
+            <li>System architecture</li>
+            <li>Static deployment</li>
+            <li>Validator-driven QA</li>
+            <li>Safety and runtime-boundary design</li>
+            <li>Data registry generation</li>
+            <li>UX / product demo packaging</li>
+            <li>Deployment debugging</li>
+            <li>Technical communication</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Why this matters</h3>
+          <ul class="card-list">
+            <li>The value is not that 47,979 agents are running today.</li>
+            <li>The value is that the command structure, safety model, registry, simulator, and review process are visible before runtime activation.</li>
+            <li>Production verified through MVP-62 plus Continual Harness Operator Mode. Full-fleet MVP-63 through MVP-68 surfaces are not yet merged into this branch. is the current verified demo milestone.</li>
+            <li>The next runtime phase has not started.</li>
+          </ul>
+        </article>
       </div>
     </section>
 
@@ -648,70 +659,45 @@
       <div class="section-head">
         <div>
           <p class="eyebrow">Glossary</p>
-          <h2>Key system terms</h2>
+          <h2>Translate the demo terms into plain English</h2>
         </div>
       </div>
       <div class="card-grid">
-        <article class="card"><h3>MVP-50</h3><p>Historical stakeholder demo verification milestone.</p></article>
-        <article class="card"><h3>MVP-68</h3><p>Current public enterprise review milestone: Enterprise Pilot Packet Exporter.</p></article>
-        <article class="card"><h3>Registered agent</h3><p>A registered command-center operating unit listed in the static registry.</p></article>
-        <article class="card"><h3>Live runtime agent</h3><p>A controlled runtime process or runtime capacity record. Not equivalent to unrestricted autonomous execution.</p></article>
-        <article class="card"><h3>Runtime activation</h3><p>A gated, staged, audited process. Not raw activate-all.</p></article>
-        <article class="card"><h3>Enterprise Pilot Packet</h3><p>A shareable review package containing executive summary, safety boundaries, success criteria, risks, legal links, and decision support.</p></article>
-        <article class="card"><h3>Raw activate-all</h3><p>Explicitly disabled.</p></article>
+        <article class="card"><h3>Registered agent</h3><p>A registered command-center operating unit listed in the static org-chart registry.</p></article>
+        <article class="card"><h3>Live runtime agent</h3><p>A live autonomous process. The count is 0 in this build.</p></article>
+        <article class="card"><h3>Runtime activation</h3><p>Turning on live execution. It has not started.</p></article>
+        <article class="card"><h3>Static simulator</h3><p>A browser-only in-memory demo that does not call backends or execute actions.</p></article>
+        <article class="card"><h3>Backend/Supabase readiness</h3><p>The architecture is prepared, but live writes and public mutation remain disabled.</p></article>
+        <article class="card"><h3>Validator</h3><p>A script that checks files, markers, and safety conditions.</p></article>
+        <article class="card"><h3>Safety gate</h3><p>A hard stop that prevents unsafe movement into runtime or mutation flows.</p></article>
+        <article class="card"><h3>MVP-62</h3><p>The current verified demo milestone, summarized here as Production verified through MVP-62 plus Continual Harness Operator Mode. Full-fleet MVP-63 through MVP-68 surfaces are not yet merged into this branch..</p></article>
       </div>
     </section>
 
     <section class="section">
       <div class="section-head">
         <div>
-          <p class="eyebrow">5-minute demo paths</p>
-          <h2>Recommended walk-throughs</h2>
+          <p class="eyebrow">5-minute demo path</p>
+          <h2>Recommended stakeholder walk-through</h2>
         </div>
       </div>
-      <div class="panel-flex">
-        <div>
-          <h3>Executive Path</h3>
-          <ol class="path-list">
-            <li>Executive Control Room</li>
-            <li>Enterprise Pilot Packet</li>
-            <li>System Scale</li>
-            <li>Agent Registry</li>
-            <li>Safety Boundaries</li>
-            <li>Observability Command Wall</li>
-            <li>Enterprise Pilot Room</li>
-          </ol>
-        </div>
-        <div>
-          <h3>Technical Path</h3>
-          <ol class="path-list">
-            <li>Runtime Foundation</li>
-            <li>Runtime Kernel</li>
-            <li>Department-Gated Runtime</li>
-            <li>Runtime Fleet</li>
-            <li>Full-Fleet Load Test</li>
-            <li>Technical Appendix</li>
-            <li>Validator Map</li>
-          </ol>
-        </div>
-        <div>
-          <h3>Risk / Legal Path</h3>
-          <ol class="path-list">
-            <li>Safety Boundaries</li>
-            <li>Legal / Copyright</li>
-            <li>Enterprise Pilot Room</li>
-            <li>Enterprise Pilot Packet</li>
-            <li>Full-Fleet Load Test</li>
-            <li>Continual Harness Operator Mode</li>
-          </ol>
-        </div>
+      <div class="panel">
+        <ol class="path-list">
+          <li>Start here: Command Center Launchpad</li>
+          <li>Open Premium Demo Hub</li>
+          <li>Run the Static Simulator</li>
+          <li>Review System Scale</li>
+          <li>Open Agent Registry</li>
+          <li>Review Safety Boundaries</li>
+          <li>Open Review / Scorecard</li>
+        </ol>
       </div>
     </section>
 
-    <footer class="footer site-legal-footer">
+            <footer class="footer site-legal-footer">
       <p>© 2026 Devin O’Rourke. All rights reserved.</p>
       <p>Agent Command Center, the demo pages, registry presentation, dashboard copy, visual layout, simulator materials, validator descriptions, and stakeholder presentation materials are protected project materials. No license, sale, transfer, or permission to reuse is granted by viewing this demo.</p>
-      <p>This site is a public stakeholder review surface. Some pages are static demonstrations, and some pages may be controlled backend-wired status, audit, readiness, approval, or export surfaces. No page enables raw activate-all, arbitrary shell execution, arbitrary SQL, command execution, deployment actions, rollback execution, alert sending, or unrestricted automation.</p>
+      <p>This site is a static, read-only demonstration. It does not enable live automation, command execution, database writes, Supabase mutations, deployment actions, rollback execution, alert sending, or runtime activation.</p>
       <p>Third-party names, platforms, and services referenced for context remain the property of their respective owners.</p>
       <p class="legal-links"><a href="./legal.html">Legal / Copyright</a> · <a href="./index.html">Home</a> · <a href="./demo/">Demo Hub</a> · <a href="./full-audit-dashboard.html">Full Audit Dashboard</a> · <a href="./copyright.html">Copyright</a></p>
     </footer>

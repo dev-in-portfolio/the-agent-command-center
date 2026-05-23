@@ -49,7 +49,7 @@ ROOT_REQUIRED_STRINGS = [
 
 DEMO_REQUIRED_STRINGS = [
     "Stakeholder Demo Hub",
-    "Production verified through MVP-50",
+    "Production verified through MVP-62 plus Continual Harness Operator Mode. Full-fleet MVP-63 through MVP-68 surfaces are not yet merged into this branch.",
     "Command Center Sandbox Simulator",
     "Agent Registry",
     "System Scale",

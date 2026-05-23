@@ -51,7 +51,7 @@ ROOT_RAW_REQUIRED = [
 
 DEMO_REQUIRED = [
     "Stakeholder Demo Hub",
-    "Production verified through MVP-50",
+    "Production verified through MVP-62 plus Continual Harness Operator Mode. Full-fleet MVP-63 through MVP-68 surfaces are not yet merged into this branch.",
     "Simulator",
     "Command Center Sandbox Simulator",
     "Launch Live Dashboard",

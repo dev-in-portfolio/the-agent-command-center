@@ -10,6 +10,7 @@
     "/demo/agent-hierarchy.html": "Agent Hierarchy",
     "/demo/agent-registry.html": "Agent Registry",
     "/demo/operating-model.html": "Operating Model",
+    "/demo/continual-harness-operator.html": "Continual Harness Operator Mode",
     "/demo/validator-safety-map.html": "Validator Map",
     "/demo/safety-boundaries.html": "Safety Boundaries",
     "/demo/technical-appendix.html": "Technical Appendix",
@@ -83,13 +84,22 @@
 
       setOpen(false);
 
-      toggle.addEventListener("click", () => {
+      toggle.addEventListener("click", (e) => {
+        e.stopPropagation();
         const isOpen = toggle.getAttribute("aria-expanded") === "true";
         setOpen(!isOpen);
       });
 
+      panel.addEventListener("click", (e) => {
+        e.stopPropagation();
+      });
+
       panel.querySelectorAll("a").forEach((link) => {
         link.addEventListener("click", () => setOpen(false));
+      });
+
+      document.addEventListener("click", () => {
+        setOpen(false);
       });
 
       document.addEventListener("keydown", (event) => {
