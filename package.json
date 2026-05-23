@@ -1,0 +1,17 @@
+{
+  "name": "the-agent-command-center",
+  "version": "1.0.0",
+  "private": true,
+  "description": "The Agent Command Center Netlify static dashboard and function surface.",
+  "type": "commonjs",
+  "scripts": {
+    "check:functions": "node scripts/check_netlify_function_dependencies.js",
+    "check:js": "find netlify/functions 13_web_dashboard/dist/demo/assets -name \"*.js\" -print0 | xargs -0 -I{} node --check \"{}\"",
+    "validate:homepage": "python3 scripts/validate_mvp68_homepage_alignment.py",
+    "validate:netlify-deps": "python3 scripts/validate_netlify_function_dependencies.py"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.47.0"
+  },
+  "devDependencies": {}
+}
