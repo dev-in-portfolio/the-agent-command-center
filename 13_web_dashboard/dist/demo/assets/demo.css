@@ -580,6 +580,19 @@ main,
   border-collapse: collapse;
   table-layout: fixed;
 }
+
+.mt-12 { margin-top: 12px; }
+.mt-14 { margin-top: 14px; }
+.mt-16 { margin-top: 16px; }
+
+.department-table tbody tr.is-selected td {
+  background: rgba(123, 200, 255, 0.08);
+}
+
+.department-table tbody tr.is-selected:hover td {
+  background: rgba(123, 200, 255, 0.12);
+}
+
 .data-table th,
 .data-table td {
   padding: 14px 16px;

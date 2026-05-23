@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>1,777-Department Runtime Map - The Agent Command Center</title>
+  <link rel="stylesheet" href="./assets/demo.css">
+  <script src="./assets/demo.js" defer></script>
+  <script src="./assets/runtime-department-map.js" defer></script>
+</head>
+<body>
+  <div class="demo-shell runtime-agent-shell">
+    <header class="demo-topbar collapsible-topbar" data-collapsible-menu>
+      <div class="topbar-main">
+        <a class="topbar-title" href="./runtime-department-map.html">1,777-Department Runtime Map</a>
+        <button
+          class="menu-toggle"
+          type="button"
+          data-action="toggle-menu"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          aria-controls="demo-menu-panel">
+          Menu
+        </button>
+      </div>
+      <nav
+        id="demo-menu-panel"
+        class="menu-panel"
+        data-menu-panel
+        hidden
+        aria-label="Demo navigation">
+        <a href="../index.html">Home</a>
+        <a href="./index.html">Demo Hub</a>
+        <a href="./runtime-kernel.html">Runtime Kernel</a>
+        <a href="./runtime-foundation.html">Runtime Foundation</a>
+        <a href="./runtime-agent-control.html">Runtime Agent Control</a>
+        <a href="./runtime-squad.html">Runtime Squad</a>
+        <a href="./runtime-battalion.html">Runtime Battalion</a>
+        <a href="./runtime-company.html">Runtime Company</a>
+        <a href="./runtime-group.html">Runtime Group</a>
+        <a href="./runtime-division.html">Runtime Division</a>
+        <a href="./runtime-department-map.html">1,777-Department Runtime Map</a>
+        <a href="./simulator.html">Simulator</a>
+        <a href="./agent-registry.html">Agent Registry</a>
+        <a href="./safety-boundaries.html">Safety Boundaries</a>
+        <a href="../full-audit-dashboard.html">Full Audit Dashboard</a>
+        <a href="../legal.html">Legal / Copyright</a>
+      </nav>
+    </header>
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../index.html">Home</a>
+      <span aria-hidden="true">→</span>
+      <a href="./index.html">Demo Hub</a>
+      <span aria-hidden="true">→</span>
+      <span>1,777-Department Runtime Map</span>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Department readiness mapping</p>
+          <h1 class="title">1,777-Department Runtime Map</h1>
+          <p class="lead">Map all command-center departments to supervised runtime readiness without activating the full agent registry. This page is a real backend-connected mapping surface, not activation, and it stays inside the safety boundary.</p>
+          <div class="badge-row">
+            <span class="badge success">Total registered agents: 47,979</span>
+            <span class="badge info">Total departments: 1,777</span>
+            <span class="badge info">Total units: 5,331</span>
+            <span class="badge info">Total families: 175</span>
+            <span class="badge warning">Live runtime agents enabled: 0–1,000 from MVP-58</span>
+          </div>
+          <div class="badge-row mt-12">
+            <span class="badge ghost">Department runtime mapping: 1,777 departments</span>
+            <span class="badge ghost">Full 47,979 activation: blocked</span>
+            <span class="badge ghost">Command execution: disabled</span>
+            <span class="badge ghost">Deploy execution: disabled</span>
+            <span class="badge ghost">Rollback execution: disabled</span>
+            <span class="badge ghost">Alert sending: disabled</span>
+          </div>
+        </div>
+        <aside class="hero-aside">
+          <div class="metric-stack">
+            <div class="metric">
+              <span class="smallcaps">Runtime mapping status</span>
+              <strong id="mappingStatusState">Loading...</strong>
+              <small>Runtime mapping is not activation.</small>
+            </div>
+            <div class="metric">
+              <span class="smallcaps">Mapped departments</span>
+              <strong id="mappedDepartmentsState">1,777</strong>
+              <small>All departments remain read-only by default.</small>
+            </div>
+            <div class="metric">
+              <span class="smallcaps">Runtime lanes</span>
+              <strong>100</strong>
+              <small>Lane coverage inherited from MVP-58.</small>
+            </div>
+            <div class="metric">
+              <span class="smallcaps">Runtime subdivisions</span>
+              <strong>10</strong>
+              <small>Subdivision coverage inherited from MVP-58.</small>
+            </div>
+            <div class="metric">
+              <span class="smallcaps">Live runtime agents enabled</span>
+              <strong id="liveRuntimeAgentsState">0–1,000</strong>
+              <small>Controlled by the runtime division backend.</small>
+            </div>
+            <div class="metric">
+              <span class="smallcaps">Kill switch</span>
+              <strong id="killSwitchState">Visible</strong>
+              <small>Visible boundary, not executable from this page.</small>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Mapping status</p>
+          <h2>Runtime mapping status panel</h2>
+        </div>
+        <p id="backendStatusMessage">Loading runtime department backend status...</p>
+      </div>
+      <div class="card-grid">
+        <article class="card">
+          <h3>Backend connection</h3>
+          <p>Status: <strong id="backendConnectionState">Loading...</strong></p>
+          <p>Runtime department mapping ready: <strong id="runtimeMappingReadyState">false</strong></p>
+          <p>Live runtime agents enabled: <strong id="liveRuntimeAgentsSummaryState">0 of 1,000</strong></p>
+          <p>Total registered agents: <strong id="totalRegisteredAgentsState">47,979</strong></p>
+          <p>Total departments: <strong id="totalDepartmentsState">1,777</strong></p>
+          <p>Total units: <strong id="totalUnitsState">5,331</strong></p>
+          <p>Total families: <strong id="totalFamiliesState">175</strong></p>
+          <p>Full 47,979 activation: <strong>blocked</strong></p>
+        </article>
+        <article class="card">
+          <h3>Rollup summary</h3>
+          <div class="runtime-status-list">
+            <div class="runtime-status-item"><span>Mapped departments</span><strong id="rollupMappedDepartmentsState">1,777</strong></div>
+            <div class="runtime-status-item"><span>Readiness review</span><strong id="rollupReadinessReviewState">0</strong></div>
+            <div class="runtime-status-item"><span>Eligible</span><strong id="rollupEligibleState">0</strong></div>
+            <div class="runtime-status-item"><span>Blocked</span><strong id="rollupBlockedState">0</strong></div>
+            <div class="runtime-status-item"><span>Disabled</span><strong id="rollupDisabledState">0</strong></div>
+            <div class="runtime-status-item"><span>Readiness notes</span><strong id="rollupNotesState">0</strong></div>
+            <div class="runtime-status-item"><span>Audit events</span><strong id="rollupEventsState">0</strong></div>
+          </div>
+        </article>
+        <article class="card">
+          <h3>Safety boundary</h3>
+          <p>Mapping is not activation.</p>
+          <p>Eligible does not mean executing.</p>
+          <p>No department can run commands from this page.</p>
+          <p>Full 47,979-agent activation remains blocked.</p>
+          <p>Command execution: disabled.</p>
+          <p>Deploy execution: disabled.</p>
+          <p>Rollback execution: disabled.</p>
+          <p>Alert sending: disabled.</p>
+          <p>Service role remains server-side only.</p>
+        </article>
+      </div>
+      <div class="callout" id="backendUnavailableNotice" hidden></div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Department search</p>
+          <h2>Department search and filters</h2>
+        </div>
+        <p>Search departments and narrow by runtime status, family, unit, or lane. Mapping is not activation.</p>
+      </div>
+      <div class="runtime-field-grid two">
+        <div class="runtime-field">
+          <label for="departmentSearchInput">Search departments</label>
+          <input id="departmentSearchInput" type="text" autocomplete="off" placeholder="Search department id, name, family, unit, or lane">
+        </div>
+        <div class="runtime-field">
+          <label for="statusFilterSelect">Filter by status</label>
+          <select id="statusFilterSelect">
+            <option value="">All statuses</option>
+            <option value="unmapped">unmapped</option>
+            <option value="mapped_readonly">mapped_readonly</option>
+            <option value="readiness_review">readiness_review</option>
+            <option value="eligible_for_supervised_runtime">eligible_for_supervised_runtime</option>
+            <option value="blocked">blocked</option>
+            <option value="disabled">disabled</option>
+          </select>
+        </div>
+        <div class="runtime-field">
+          <label for="familyFilterInput">Filter by family</label>
+          <input id="familyFilterInput" type="text" autocomplete="off" placeholder="Family id or family name">
+        </div>
+        <div class="runtime-field">
+          <label for="unitFilterInput">Filter by unit</label>
+          <input id="unitFilterInput" type="text" autocomplete="off" placeholder="Unit id or unit name">
+        </div>
+        <div class="runtime-field">
+          <label for="laneFilterInput">Filter by lane</label>
+          <input id="laneFilterInput" type="text" autocomplete="off" placeholder="Lane id, lane name, or subdivision">
+        </div>
+        <div class="runtime-field">
+          <label for="pageSizeSelect">Page size</label>
+          <select id="pageSizeSelect">
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100" selected>100</option>
+            <option value="250">250</option>
+          </select>
+        </div>
+      </div>
+      <div class="button-row mt-16">
+        <button class="button primary" type="button" id="searchDepartmentsButton">Search departments</button>
+        <button class="button" type="button" id="refreshRollupButton">Refresh rollup</button>
+        <button class="button" type="button" id="resetFiltersButton">Reset filters</button>
+        <button class="button" type="button" id="exportMappingButton">Export current mapping view as JSON</button>
+      </div>
+      <div class="callout mt-16">
+        <p><strong>Mapping is not activation.</strong> This view is an inspectable map of 1,777 departments, not a command surface.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Department list</p>
+          <h2>Department table / list</h2>
+        </div>
+        <p id="departmentPageSummary">Loading department list...</p>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table department-table">
+          <thead>
+            <tr>
+              <th>Department</th>
+              <th>Family</th>
+              <th>Unit</th>
+              <th>Agents</th>
+              <th>Lane</th>
+              <th>Subdivision</th>
+              <th>Status</th>
+              <th>Eligibility</th>
+              <th>Audit</th>
+              <th>Notes</th>
+              <th>Last update</th>
+              <th>Detail</th>
+            </tr>
+          </thead>
+          <tbody id="departmentTableBody"></tbody>
+        </table>
+      </div>
+      <div class="button-row mt-14">
+        <button class="button" type="button" id="previousPageButton">Previous page</button>
+        <button class="button" type="button" id="nextPageButton">Next page</button>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Department detail</p>
+          <h2>Department detail panel</h2>
+        </div>
+        <p id="selectedDepartmentSummary">Select a department to inspect lane coverage, readiness, notes, and audit history.</p>
+      </div>
+      <div class="card-grid">
+        <article class="card">
+          <h3>Selected department</h3>
+          <div id="selectedDepartmentFields" class="runtime-status-list">
+            <div class="runtime-status-item"><span>Department id</span><strong id="selectedDepartmentId">n/a</strong></div>
+            <div class="runtime-status-item"><span>Department name</span><strong id="selectedDepartmentName">n/a</strong></div>
+            <div class="runtime-status-item"><span>Family</span><strong id="selectedDepartmentFamily">n/a</strong></div>
+            <div class="runtime-status-item"><span>Unit</span><strong id="selectedDepartmentUnit">n/a</strong></div>
+            <div class="runtime-status-item"><span>Runtime lane</span><strong id="selectedDepartmentLane">n/a</strong></div>
+            <div class="runtime-status-item"><span>Runtime subdivision</span><strong id="selectedDepartmentSubdivision">n/a</strong></div>
+            <div class="runtime-status-item"><span>Runtime status</span><strong id="selectedDepartmentStatus">n/a</strong></div>
+            <div class="runtime-status-item"><span>Activation eligibility</span><strong id="selectedDepartmentEligibility">n/a</strong></div>
+            <div class="runtime-status-item"><span>Audit status</span><strong id="selectedDepartmentAudit">n/a</strong></div>
+            <div class="runtime-status-item"><span>Notes count</span><strong id="selectedDepartmentNotes">0</strong></div>
+            <div class="runtime-status-item"><span>Last readiness update</span><strong id="selectedDepartmentLastUpdate">n/a</strong></div>
+          </div>
+          <p id="selectedDepartmentUnits" class="note mt-12"></p>
+        </article>
+        <article class="card">
+          <h3>Department event timeline</h3>
+          <div id="departmentEventTimeline" class="runtime-audit-timeline"></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Lane assignment and readiness</p>
+          <h2>Lane assignment panel and readiness controls</h2>
+        </div>
+        <p>Assign a runtime lane, update readiness status, or create a readiness note. None of these actions enable commands.</p>
+      </div>
+      <div class="card-grid">
+        <article class="card">
+          <h3>Lane assignment panel</h3>
+          <div class="runtime-field-grid">
+            <div class="runtime-field">
+              <label for="assignDepartmentId">Department id</label>
+              <input id="assignDepartmentId" type="text" autocomplete="off" placeholder="Select a department first">
+            </div>
+            <div class="runtime-field">
+              <label for="assignLaneSelect">Assign runtime lane</label>
+              <select id="assignLaneSelect"></select>
+            </div>
+            <div class="runtime-field">
+              <label for="assignSubdivisionSelect">Mapped runtime subdivision</label>
+              <select id="assignSubdivisionSelect"></select>
+            </div>
+            <div class="runtime-field">
+              <label for="assignCapacityInput">Mapped agent capacity</label>
+              <input id="assignCapacityInput" type="number" min="0" step="1" value="27">
+            </div>
+            <div class="runtime-field">
+              <label for="assignActorInput">Actor</label>
+              <input id="assignActorInput" type="text" autocomplete="off" value="operator">
+            </div>
+          </div>
+          <div class="button-row mt-14">
+            <button class="button primary" type="button" id="assignLaneButton">Assign runtime lane</button>
+          </div>
+        </article>
+        <article class="card">
+          <h3>Readiness status panel</h3>
+          <div class="runtime-field-grid">
+            <div class="runtime-field">
+              <label for="readinessDepartmentId">Department id</label>
+              <input id="readinessDepartmentId" type="text" autocomplete="off" placeholder="Select a department first">
+            </div>
+            <div class="runtime-field">
+              <label for="readinessStatusSelect">Runtime status</label>
+              <select id="readinessStatusSelect">
+                <option value="unmapped">unmapped</option>
+                <option value="mapped_readonly" selected>mapped_readonly</option>
+                <option value="readiness_review">readiness_review</option>
+                <option value="eligible_for_supervised_runtime">eligible_for_supervised_runtime</option>
+                <option value="blocked">blocked</option>
+                <option value="disabled">disabled</option>
+              </select>
+            </div>
+            <div class="runtime-field">
+              <label for="readinessEligibleSelect">Activation eligible</label>
+              <select id="readinessEligibleSelect">
+                <option value="false" selected>false</option>
+                <option value="true">true</option>
+              </select>
+            </div>
+            <div class="runtime-field">
+              <label for="readinessReasonInput">Reason</label>
+              <input id="readinessReasonInput" type="text" autocomplete="off" value="Department readiness review updated.">
+            </div>
+            <div class="runtime-field">
+              <label for="readinessActorInput">Actor</label>
+              <input id="readinessActorInput" type="text" autocomplete="off" value="operator">
+            </div>
+          </div>
+          <div class="button-row mt-14">
+            <button class="button primary" type="button" id="updateReadinessButton">Update readiness status</button>
+          </div>
+        </article>
+        <article class="card">
+          <h3>Readiness note form</h3>
+          <div class="runtime-field-grid">
+            <div class="runtime-field">
+              <label for="noteDepartmentId">Department id</label>
+              <input id="noteDepartmentId" type="text" autocomplete="off" placeholder="Select a department first">
+            </div>
+            <div class="runtime-field">
+              <label for="noteTypeInput">Note type</label>
+              <input id="noteTypeInput" type="text" autocomplete="off" value="readiness_note">
+            </div>
+            <div class="runtime-field">
+              <label for="noteBodyInput">Note body</label>
+              <textarea id="noteBodyInput" rows="5">Department readiness note.</textarea>
+            </div>
+            <div class="runtime-field">
+              <label for="noteActorInput">Actor</label>
+              <input id="noteActorInput" type="text" autocomplete="off" value="operator">
+            </div>
+          </div>
+          <div class="button-row mt-14">
+            <button class="button primary" type="button" id="createNoteButton">Create readiness note</button>
+          </div>
+        </article>
+        <article class="card">
+          <h3>Rollup summary cards</h3>
+          <div class="runtime-status-list">
+            <div class="runtime-status-item"><span>Mapped departments</span><strong id="rollupTotalDepartmentsState">1,777</strong></div>
+            <div class="runtime-status-item"><span>Mapped departments</span><strong id="rollupMappedDepartmentsState2">1,777</strong></div>
+            <div class="runtime-status-item"><span>Readiness review departments</span><strong id="rollupReadinessReviewState2">0</strong></div>
+            <div class="runtime-status-item"><span>Eligible departments</span><strong id="rollupEligibleState2">0</strong></div>
+            <div class="runtime-status-item"><span>Blocked departments</span><strong id="rollupBlockedState2">0</strong></div>
+            <div class="runtime-status-item"><span>Disabled departments</span><strong id="rollupDisabledState2">0</strong></div>
+            <div class="runtime-status-item"><span>Heartbeat count</span><strong id="rollupHeartbeatCountState">0</strong></div>
+            <div class="runtime-status-item"><span>Readiness note count</span><strong id="rollupReadinessNoteCountState">0</strong></div>
+            <div class="runtime-status-item"><span>Audit event count</span><strong id="rollupAuditEventCountState">0</strong></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Audit trail</p>
+          <h2>Department audit event timeline</h2>
+        </div>
+        <p>Recent events and readiness notes for the selected department appear here after you open a department row.</p>
+      </div>
+      <div class="card-grid">
+        <article class="card">
+          <h3>Department event timeline</h3>
+          <div id="selectedDepartmentTimeline" class="runtime-audit-timeline"></div>
+        </article>
+        <article class="card">
+          <h3>Kill switch / blocked activation callout</h3>
+          <div class="runtime-kill-switch">
+            <p><strong>Mapping is not activation.</strong></p>
+            <p>Eligible does not mean executing.</p>
+            <p>No department can run commands from this page.</p>
+            <p>Full 47,979-agent activation remains blocked.</p>
+            <p>Command execution: disabled.</p>
+            <p>Deploy execution: disabled.</p>
+            <p>Rollback execution: disabled.</p>
+            <p>Alert sending: disabled.</p>
+            <p>Service role remains server-side only.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

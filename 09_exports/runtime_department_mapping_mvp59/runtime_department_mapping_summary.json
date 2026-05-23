@@ -1,0 +1,16 @@
+{
+  "source_file": "09_exports/org_chart_export.json",
+  "generated_at": "2026-05-23T01:34:52.382443+00:00",
+  "total_registered_agents": 47979,
+  "total_departments": 1777,
+  "total_units": 5331,
+  "total_families": 175,
+  "mapped_departments": 1777,
+  "live_runtime_agents_enabled": 0,
+  "full_47979_activation_blocked": true,
+  "command_execution_enabled": false,
+  "deploy_execution_enabled": false,
+  "rollback_execution_enabled": false,
+  "alert_sending_enabled": false,
+  "runtime_department_map_file": "09_exports/runtime_department_mapping_mvp59/runtime_department_map.json"
+}
