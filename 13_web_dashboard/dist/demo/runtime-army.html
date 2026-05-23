@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>20,000-Agent Department-Gated Runtime Army - The Agent Command Center</title>
+  <link rel="stylesheet" href="./assets/demo.css">
+  <script src="./assets/demo.js" defer></script>
+  <script src="./assets/runtime-army.js" defer></script>
+</head>
+<body>
+  <div class="demo-shell runtime-army-shell">
+    <header class="demo-topbar collapsible-topbar" data-collapsible-menu>
+      <div class="topbar-main">
+        <a class="topbar-title" href="./index.html">20,000-Agent Department-Gated Runtime Army</a>
+        <button
+          class="menu-toggle"
+          type="button"
+          data-action="toggle-menu"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          aria-controls="demo-menu-panel">
+          Menu
+        </button>
+      </div>
+      <nav id="demo-menu-panel" class="menu-panel" data-menu-panel hidden aria-label="Demo navigation">
+        <a href="../index.html">Home</a>
+        <a href="./index.html">Demo Hub</a>
+        <a href="./runtime-kernel.html">Runtime Kernel</a>
+        <a href="./runtime-foundation.html">Runtime Foundation</a>
+        <a href="./runtime-agent-control.html">Runtime Agent Control</a>
+        <a href="./runtime-squad.html">Runtime Squad</a>
+        <a href="./runtime-battalion.html">Runtime Battalion</a>
+        <a href="./runtime-company.html">Runtime Company</a>
+        <a href="./runtime-group.html">Runtime Group</a>
+        <a href="./runtime-division.html">Runtime Division</a>
+        <a href="./department-gated-runtime.html">Department-Gated Runtime</a>
+        <a href="./runtime-corps.html">Runtime Corps</a>
+        <a href="./runtime-department-map.html">1,777-Department Runtime Map</a>
+        <a href="./runtime-army.html">Runtime Army</a>
+        <a href="./simulator.html">Simulator</a>
+        <a href="./agent-registry.html">Agent Registry</a>
+        <a href="./safety-boundaries.html">Safety Boundaries</a>
+        <a href="../legal.html">Legal / Copyright</a>
+      </nav>
+    </header>
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../index.html">Home</a>
+      <span aria-hidden="true">→</span>
+      <a href="./index.html">Demo Hub</a>
+      <span aria-hidden="true">→</span>
+      <span>Runtime Army</span>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">MVP-62 department-gated runtime army</p>
+          <h1 class="title">20,000-Agent Department-Gated Runtime Army</h1>
+          <p class="lead">Scale supervised runtime capacity toward 20,000 agents only through approved department gates, staged unlocks, and circuit breakers. 20,000 is a cap, not an automatic activation. Department-gated activation is required. Staged unlocks are required. Raw fleet activation is blocked. Full 47,979 activation remains blocked.</p>
+          <div class="badge-row">
+            <span class="badge success">Total registered agents: 47,979</span>
+            <span class="badge info">Total departments: 1,777</span>
+            <span class="badge warning">MVP-62 global runtime cap: 20,000</span>
+            <span class="badge warning">Max cohort activation size: 1,000</span>
+            <span class="badge warning">Max operation chunk size: 500</span>
+            <span class="badge danger">Full 47,979 activation: blocked</span>
+            <span class="badge danger">Raw 20,000-agent activation: blocked</span>
+          </div>
+          <div class="cta-row" style="margin-top: 18px;">
+            <button id="refreshButton" class="button primary" type="button">Refresh army status</button>
+            <button id="exportButton" class="button secondary" type="button">Export current army state as JSON</button>
+          </div>
+        </div>
+        <aside class="runtime-kill-switch">
+          <p class="eyebrow">Kill switch</p>
+          <h2>Visible and ready</h2>
+          <p>No department can run commands, deploys, rollbacks, alerts, or arbitrary actions from this page.</p>
+          <div class="badge-row">
+            <span class="badge danger">Kill switch visible</span>
+            <span class="badge ghost">Department approval is not command execution.</span>
+            <span class="badge ghost">Activation means supervised runtime capacity only.</span>
+            <span class="badge ghost">Staged unlocks are required.</span>
+            <span class="badge ghost">Circuit breakers pause further activation.</span>
+          </div>
+          <p id="backendStatusMessage" class="runtime-notice">Loading backend state...</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Global runtime army status</p>
+          <h2>Cap and safety panel</h2>
+        </div>
+        <p>Department-gated activation is required. Staged unlocks are required. Circuit breakers pause further activation. The live runtime state only expands through approved department gates.</p>
+      </div>
+      <div class="metric-grid">
+        <article class="metric"><span class="smallcaps">Current live runtime agents</span><strong id="currentLiveAgentsState">0</strong><small>Combined live capacity across gates and cohorts</small></article>
+        <article class="metric"><span class="smallcaps">Current unlocked stage cap</span><strong id="currentStageCapState">5,000</strong><small>Current maximum allowed live agents</small></article>
+        <article class="metric"><span class="smallcaps">Global runtime cap</span><strong id="globalLiveCapState">20,000</strong><small>Hard stop for MVP-62</small></article>
+        <article class="metric"><span class="smallcaps">Max cohort activation size</span><strong id="maxCohortSizeState">1,000</strong><small>Maximum supervised cohort request</small></article>
+        <article class="metric"><span class="smallcaps">Max operation chunk size</span><strong id="maxChunkSizeState">500</strong><small>Chunked activation and deactivation boundary</small></article>
+        <article class="metric"><span class="smallcaps">Unlocked stages</span><strong id="unlockedStagesState">1</strong><small>Stages currently available for activation</small></article>
+        <article class="metric"><span class="smallcaps">Approved department gates</span><strong id="approvedGatesState">0</strong><small>Approved or active gates ready for cohorts</small></article>
+        <article class="metric"><span class="smallcaps">Active department gates</span><strong id="activeGatesState">0</strong><small>Currently carrying supervised runtime capacity</small></article>
+        <article class="metric"><span class="smallcaps">Active cohorts</span><strong id="activeCohortsState">0</strong><small>Currently enabled army cohorts</small></article>
+        <article class="metric"><span class="smallcaps">Heartbeat count</span><strong id="heartbeatCountState">0</strong><small>Heartbeat events recorded</small></article>
+        <article class="metric"><span class="smallcaps">Readiness note count</span><strong id="readinessNoteCountState">0</strong><small>Readiness notes recorded</small></article>
+        <article class="metric"><span class="smallcaps">Circuit breaker status</span><strong id="circuitBreakerState">clear</strong><small>Trigger state for staged activation</small></article>
+      </div>
+      <div class="panel mt-16">
+        <ul class="runtime-status-list">
+          <li class="runtime-status-item"><strong>Backend functions respond</strong><span id="backendConnectionState">Loading...</span></li>
+          <li class="runtime-status-item"><strong>Total registered agents</strong><span id="totalRegisteredAgentsState">47,979</span></li>
+          <li class="runtime-status-item"><strong>Total departments</strong><span id="totalDepartmentsState">1,777</span></li>
+          <li class="runtime-status-item"><strong>Department-gated activation required</strong><span id="departmentGatedActivationState">true</span></li>
+          <li class="runtime-status-item"><strong>Staged activation required</strong><span id="stagedActivationState">true</span></li>
+          <li class="runtime-status-item"><strong>Circuit breaker required</strong><span id="circuitBreakerRequiredState">true</span></li>
+          <li class="runtime-status-item"><strong>Full 47,979 activation</strong><span id="fullActivationState">blocked</span></li>
+          <li class="runtime-status-item"><strong>Command execution</strong><span id="commandExecutionState">disabled</span></li>
+          <li class="runtime-status-item"><strong>Deploy execution</strong><span id="deployExecutionState">disabled</span></li>
+          <li class="runtime-status-item"><strong>Rollback execution</strong><span id="rollbackExecutionState">disabled</span></li>
+          <li class="runtime-status-item"><strong>Alert sending</strong><span id="alertSendingState">disabled</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Stage unlock panel</p>
+          <h2>Unlock staged capacity</h2>
+        </div>
+        <p>Unlock the next stage only after the prior stage, the audit trail, the heartbeat rollup, the readiness rollup, and the circuit breaker are all in the correct state.</p>
+      </div>
+      <div class="panel">
+        <form id="stageUnlockForm" class="runtime-field-grid">
+          <div class="runtime-field-grid two">
+            <div class="runtime-field">
+              <label for="stageSelect">Stage</label>
+              <select id="stageSelect" name="stage_id">
+                <option value="">Loading stages...</option>
+              </select>
+            </div>
+            <div class="runtime-field">
+              <label for="stageActor">Actor</label>
+              <input id="stageActor" name="actor" type="text" placeholder="operator">
+            </div>
+          </div>
+          <div class="runtime-field-grid two">
+            <div class="runtime-field">
+              <label for="stageReason">Reason</label>
+              <input id="stageReason" name="reason" type="text" placeholder="Why this stage is being unlocked">
+            </div>
+          </div>
+          <div class="button-row">
+            <button id="unlockStageButton" class="button primary" type="submit">Unlock next stage</button>
+          </div>
+        </form>
+        <div class="table-wrap mt-16">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Stage</th>
+                <th>Cap</th>
+                <th>Status</th>
+                <th>Safety</th>
+                <th>Unlocked by</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="stageTableBody">
+              <tr><td colspan="6">Loading stages...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Approved department gate selector</p>
+          <h2>Search and select approved department gates</h2>
+        </div>
+        <p>Only approved or active department gates can be selected for cohort activation. Raw fleet activation stays blocked.</p>
+      </div>
+      <div class="panel">
+        <form id="filterForm" class="runtime-field-grid">
+          <div class="runtime-field-grid two">
+            <div class="runtime-field">
+              <label for="searchInput">Search gates</label>
+              <input id="searchInput" name="search" type="text" placeholder="Department id, name, family, unit, lane, or gate status">
+            </div>
+            <div class="runtime-field">
+              <label for="statusFilter">Gate status</label>
+              <select id="statusFilter" name="status">
+                <option value="">Approved or active</option>
+                <option value="approved">Approved</option>
+                <option value="active">Active</option>
+                <option value="blocked">Blocked</option>
+                <option value="closed">Closed</option>
+                <option value="disabled">Disabled</option>
+              </select>
+            </div>
+          </div>
+          <div class="runtime-field-grid two">
+            <div class="runtime-field">
+              <label for="familyFilter">Family</label>
+              <input id="familyFilter" name="family" type="text" placeholder="Family id or name">
+            </div>
+            <div class="runtime-field">
+              <label for="unitFilter">Unit</label>
+              <input id="unitFilter" name="unit" type="text" placeholder="Unit id or name">
+            </div>
+          </div>
+          <div class="runtime-field-grid two">
+            <div class="runtime-field">
+              <label for="laneFilter">Lane / subdivision</label>
+              <input id="laneFilter" name="lane" type="text" placeholder="Lane or subdivision">
+            </div>
+            <div class="runtime-field">
+              <label for="departmentSelect">Approved department gate</label>
+              <select id="departmentSelect" name="department_id">
+                <option value="">Loading approved gates...</option>
+              </select>
+            </div>
+          </div>
+          <div class="button-row">
+            <button id="applyFiltersButton" class="button secondary" type="submit">Apply filters</button>
+            <button id="prevPageButton" class="button" type="button">Previous page</button>
+            <button id="nextPageButton" class="button" type="button">Next page</button>
+          </div>
+        </form>
+        <p id="pageInfo" class="runtime-notice mt-16">Loading page information...</p>
+        <div class="table-wrap mt-16">
+          <table class="data-table department-table">
+            <thead>
+              <tr>
+                <th>Department</th>
+                <th>Lane / subdivision</th>
+                <th>Gate state</th>
+                <th>Cap / live</th>
+                <th>Cohorts</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="armyTableBody">
+              <tr><td colspan="6">Loading approved department gates...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="runtime-agent-grid">
+        <section class="panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Cohort activation panel</p>
+              <h2>Activate a department-gated cohort</h2>
+            </div>
+          </div>
+          <form id="activationForm" class="runtime-field-grid">
+            <div class="runtime-field-grid two">
+              <div class="runtime-field">
+                <label for="activationDepartmentId">Department id</label>
+                <input id="activationDepartmentId" name="department_id" type="text" placeholder="Selected department">
+              </div>
+              <div class="runtime-field">
+                <label for="activationCount">Requested agents</label>
+                <input id="activationCount" name="requested_agent_count" type="number" min="1" max="1000" step="1" value="1">
+              </div>
+            </div>
+            <div class="runtime-field-grid two">
+              <div class="runtime-field">
+                <label for="activationActor">Actor</label>
+                <input id="activationActor" name="actor" type="text" placeholder="operator">
+              </div>
+              <div class="runtime-field">
+                <label for="activationReason">Reason</label>
+                <input id="activationReason" name="reason" type="text" placeholder="Department-gated cohort activation reason">
+              </div>
+            </div>
+            <div class="button-row">
+              <button id="activateButton" class="button primary" type="submit">Activate department-gated cohort</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Cohort deactivation panel</p>
+              <h2>Deactivate a cohort or department cohorts</h2>
+            </div>
+          </div>
+          <form id="cohortDeactivationForm" class="runtime-field-grid">
+            <div class="runtime-field-grid two">
+              <div class="runtime-field">
+                <label for="cohortIdInput">Cohort id</label>
+                <input id="cohortIdInput" name="cohort_id" type="text" placeholder="Select from active cohorts">
+              </div>
+              <div class="runtime-field">
+                <label for="cohortActorInput">Actor</label>
+                <input id="cohortActorInput" name="actor" type="text" placeholder="operator">
+              </div>
+            </div>
+            <div class="runtime-field">
+              <label for="cohortReasonInput">Reason</label>
+              <input id="cohortReasonInput" name="reason" type="text" placeholder="Cohort deactivation reason">
+            </div>
+            <div class="button-row">
+              <button id="deactivateCohortButton" class="button secondary" type="submit">Deactivate cohort</button>
+            </div>
+          </form>
+          <form id="departmentDeactivationForm" class="runtime-field-grid mt-16">
+            <div class="runtime-field-grid two">
+              <div class="runtime-field">
+                <label for="departmentDeactivateInput">Department id</label>
+                <input id="departmentDeactivateInput" name="department_id" type="text" placeholder="Selected department">
+              </div>
+              <div class="runtime-field">
+                <label for="departmentDeactivateActor">Actor</label>
+                <input id="departmentDeactivateActor" name="actor" type="text" placeholder="operator">
+              </div>
+            </div>
+            <div class="runtime-field">
+              <label for="departmentDeactivateReason">Reason</label>
+              <input id="departmentDeactivateReason" name="reason" type="text" placeholder="Department cohort deactivation reason">
+            </div>
+            <div class="button-row">
+              <button id="deactivateDepartmentButton" class="button secondary" type="submit">Deactivate department cohorts</button>
+            </div>
+          </form>
+        </section>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Active cohorts</p>
+          <h2>Current supervised runtime cohorts</h2>
+        </div>
+        <p>Active cohorts are always tied to an approved department gate and remain capped, audited, and kill-switchable.</p>
+      </div>
+      <div class="panel">
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Cohort</th>
+                <th>Department</th>
+                <th>Requested / active</th>
+                <th>Status</th>
+                <th>Reason</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="activeCohortsBody">
+              <tr><td colspan="6">Loading active cohorts...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Circuit breaker panel</p>
+          <h2>Pause or clear staged activation</h2>
+        </div>
+        <p>Circuit breakers pause further activation. Clearing a breaker does not activate anything automatically.</p>
+      </div>
+      <div class="panel">
+        <form id="breakerForm" class="runtime-field-grid">
+          <div class="runtime-field-grid two">
+            <div class="runtime-field">
+              <label for="breakerAction">Action</label>
+              <select id="breakerAction" name="action">
+                <option value="trigger">Trigger</option>
+                <option value="clear">Clear</option>
+              </select>
+            </div>
+            <div class="runtime-field">
+              <label for="breakerName">Breaker name</label>
+              <input id="breakerName" name="breaker_name" type="text" value="runtime_army_global">
+            </div>
+          </div>
+          <div class="runtime-field-grid two">
+            <div class="runtime-field">
+              <label for="breakerId">Breaker id</label>
+              <input id="breakerId" name="breaker_id" type="text" placeholder="Needed only when clearing">
+            </div>
+            <div class="runtime-field">
+              <label for="breakerActor">Actor</label>
+              <input id="breakerActor" name="actor" type="text" placeholder="operator">
+            </div>
+          </div>
+          <div class="runtime-field-grid two">
+            <div class="runtime-field">
+              <label for="breakerStageId">Affected stage id</label>
+              <input id="breakerStageId" name="stage_id" type="text" placeholder="Optional">
+            </div>
+            <div class="runtime-field">
+              <label for="breakerDepartmentId">Affected department id</label>
+              <input id="breakerDepartmentId" name="department_id" type="text" placeholder="Optional">
+            </div>
+          </div>
+          <div class="runtime-field">
+            <label for="breakerReason">Reason</label>
+            <input id="breakerReason" name="reason" type="text" placeholder="Why this breaker is being updated">
+          </div>
+          <div class="button-row">
+            <button id="breakerButton" class="button primary" type="submit">Update circuit breaker</button>
+          </div>
+        </form>
+        <div class="table-wrap mt-16">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Breaker</th>
+                <th>Status</th>
+                <th>Reason</th>
+                <th>Affected stage</th>
+                <th>Affected department</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="breakerTableBody">
+              <tr><td colspan="6">Loading circuit breakers...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="runtime-agent-grid">
+        <section class="panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Heartbeat</p>
+              <h2>Send army heartbeat</h2>
+            </div>
+          </div>
+          <form id="heartbeatForm" class="runtime-field-grid">
+            <div class="runtime-field-grid two">
+              <div class="runtime-field">
+                <label for="heartbeatActor">Actor</label>
+                <input id="heartbeatActor" name="actor" type="text" placeholder="operator">
+              </div>
+              <div class="runtime-field">
+                <label for="heartbeatReason">Reason</label>
+                <input id="heartbeatReason" name="reason" type="text" placeholder="Heartbeat reason">
+              </div>
+            </div>
+            <div class="button-row">
+              <button id="heartbeatButton" class="button secondary" type="submit">Send army heartbeat</button>
+            </div>
+          </form>
+        </section>
+        <section class="panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Readiness note</p>
+              <h2>Create readiness note</h2>
+            </div>
+          </div>
+          <form id="noteForm" class="runtime-field-grid">
+            <div class="runtime-field-grid two">
+              <div class="runtime-field">
+                <label for="noteDepartmentId">Department id</label>
+                <input id="noteDepartmentId" name="department_id" type="text" placeholder="Selected department">
+              </div>
+              <div class="runtime-field">
+                <label for="noteActor">Actor</label>
+                <input id="noteActor" name="actor" type="text" placeholder="operator">
+              </div>
+            </div>
+            <div class="runtime-field">
+              <label for="noteBody">Note body</label>
+              <textarea id="noteBody" name="note_body" rows="4" placeholder="Readiness note body"></textarea>
+            </div>
+            <div class="button-row">
+              <button id="noteButton" class="button secondary" type="submit">Create readiness note</button>
+            </div>
+          </form>
+        </section>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Army timeline</p>
+          <h2>Recent events and audit trail</h2>
+        </div>
+        <p>Every activation, deactivation, heartbeat, readiness note, stage unlock, and circuit breaker update is written as an event.</p>
+      </div>
+      <div id="eventTimeline" class="timeline panel">
+        <div class="timeline-item"><p class="runtime-notice">Loading runtime army events...</p></div>
+      </div>
+    </section>
+
+    <p id="statusMessage" class="runtime-notice mt-16">Loading runtime army state...</p>
+  </div>
+</body>
+</html>
