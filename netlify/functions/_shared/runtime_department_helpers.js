@@ -132,6 +132,10 @@ function supabasePost(path, body, extraHeaders = {}) {
   return supabaseRequest("POST", path, body, extraHeaders);
 }
 
+function supabaseRpc(functionName, payload, extraHeaders = {}) {
+  return supabaseRequest("POST", `rpc/${functionName}`, payload, extraHeaders);
+}
+
 function supabasePatch(path, body, extraHeaders = {}) {
   return supabaseRequest("PATCH", path, body, extraHeaders);
 }
@@ -298,6 +302,7 @@ module.exports = {
   supabaseGetAll,
   supabasePatch,
   supabasePost,
+  supabaseRpc,
   supabaseRequest,
   text,
   toConfigObject,

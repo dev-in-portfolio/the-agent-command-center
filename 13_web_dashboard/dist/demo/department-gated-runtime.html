@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Department-Gated Runtime Expansion - The Agent Command Center</title>
+  <link rel="stylesheet" href="./assets/demo.css">
+  <script src="./assets/demo.js" defer></script>
+  <script src="./assets/department-gated-runtime.js" defer></script>
+</head>
+<body>
+  <div class="demo-shell runtime-agent-shell">
+    <header class="demo-topbar collapsible-topbar" data-collapsible-menu>
+      <div class="topbar-main">
+        <a class="topbar-title" href="./index.html">Department-Gated Runtime Expansion</a>
+        <button
+          class="menu-toggle"
+          type="button"
+          data-action="toggle-menu"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          aria-controls="demo-menu-panel">
+          Menu
+        </button>
+      </div>
+      <nav
+        id="demo-menu-panel"
+        class="menu-panel"
+        data-menu-panel
+        hidden
+        aria-label="Demo navigation">
+        <a href="../index.html">Home</a>
+        <a href="./index.html">Demo Hub</a>
+        <a href="./runtime-kernel.html">Runtime Kernel</a>
+        <a href="./runtime-foundation.html">Runtime Foundation</a>
+        <a href="./runtime-agent-control.html">Runtime Agent Control</a>
+        <a href="./simulator.html">Simulator</a>
+        <a href="./agent-registry.html">Agent Registry</a>
+        <a href="./safety-boundaries.html">Safety Boundaries</a>
+        <a href="../legal.html">Legal / Copyright</a>
+      </nav>
+    </header>
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../index.html">Home</a>
+      <span aria-hidden="true">→</span>
+      <a href="./index.html">Demo Hub</a>
+      <span aria-hidden="true">→</span>
+      <span>Department-Gated Runtime Expansion</span>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">MVP-60 department-gated runtime expansion</p>
+          <h1 class="title">Department-Gated Runtime Expansion</h1>
+          <p class="lead">Activate supervised runtime capacity only through approved department gates. Department approval is not command execution. Activation means supervised runtime capacity only.</p>
+          <div class="badge-row">
+            <span class="badge success">Total registered agents: 47,979</span>
+            <span class="badge info">Total departments: 1,777</span>
+            <span class="badge warning">Global MVP-60 live runtime cap: 2,500</span>
+            <span class="badge warning">Max per-department cap: 250</span>
+            <span class="badge danger">Full 47,979 activation: blocked</span>
+            <span class="badge danger">Command execution: disabled</span>
+          </div>
+          <div class="cta-row">
+            <button id="refreshButton" class="button primary" type="button">Refresh gates</button>
+            <button id="exportButton" class="button secondary" type="button">Export current gate state as JSON</button>
+          </div>
+        </div>
+        <aside class="runtime-kill-switch">
+          <p class="eyebrow">Kill switch</p>
+          <h2>Visible and ready</h2>
+          <p>No department can run shell commands, deploys, rollbacks, alerts, or arbitrary actions from this page.</p>
+          <div class="badge-row">
+            <span class="badge danger">Kill switch visible</span>
+            <span class="badge ghost">Full 47,979 activation remains blocked</span>
+          </div>
+          <p id="backendStatusMessage" class="runtime-notice">Loading backend state...</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Global cap status</p>
+          <h2>Live runtime constraints</h2>
+        </div>
+        <p>Approved department gates can only open supervised runtime capacity inside the hard global and per-department caps.</p>
+      </div>
+      <div class="metric-grid">
+        <article class="metric">
+          <span class="smallcaps">Current live runtime agents</span>
+          <strong id="currentLiveAgentsState">0</strong>
+          <small>Supervised capacity currently enabled</small>
+        </article>
+        <article class="metric">
+          <span class="smallcaps">Global live runtime cap</span>
+          <strong id="globalLiveCapState">2,500</strong>
+          <small>Hard stop for MVP-60</small>
+        </article>
+        <article class="metric">
+          <span class="smallcaps">Per-department cap</span>
+          <strong id="perDepartmentCapState">250</strong>
+          <small>Maximum approved department activation</small>
+        </article>
+        <article class="metric">
+          <span class="smallcaps">Approved department gates</span>
+          <strong id="approvedGatesState">0</strong>
+          <small>Eligible and approved for supervised runtime</small>
+        </article>
+        <article class="metric">
+          <span class="smallcaps">Active department gates</span>
+          <strong id="activeGatesState">0</strong>
+          <small>Currently using supervised runtime capacity</small>
+        </article>
+        <article class="metric">
+          <span class="smallcaps">Blocked department gates</span>
+          <strong id="blockedGatesState">0</strong>
+          <small>Explicitly blocked by operator action</small>
+        </article>
+      </div>
+      <div class="panel mt-16">
+        <ul class="runtime-status-list">
+          <li class="runtime-status-item"><strong>Backend functions respond</strong><span id="backendConnectionState">Loading...</span></li>
+          <li class="runtime-status-item"><strong>Total registered agents</strong><span id="totalRegisteredAgentsState">47,979</span></li>
+          <li class="runtime-status-item"><strong>Total departments</strong><span id="totalDepartmentsState">1,777</span></li>
+          <li class="runtime-status-item"><strong>Total units</strong><span id="totalUnitsState">5,331</span></li>
+          <li class="runtime-status-item"><strong>Total families</strong><span id="totalFamiliesState">175</span></li>
+          <li class="runtime-status-item"><strong>Full 47,979 activation</strong><span id="fullActivationState">blocked</span></li>
+          <li class="runtime-status-item"><strong>Deploy execution</strong><span id="deployExecutionState">disabled</span></li>
+          <li class="runtime-status-item"><strong>Rollback execution</strong><span id="rollbackExecutionState">disabled</span></li>
+          <li class="runtime-status-item"><strong>Alert sending</strong><span id="alertSendingState">disabled</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Department search / filter</p>
+          <h2>Gate list and runtime map</h2>
+        </div>
+        <p>Search the approved department map, filter by gate state, and page through the runtime-gated departments.</p>
+      </div>
+      <div class="panel">
+        <form id="filterForm" class="runtime-field-grid">
+          <div class="runtime-field-grid two">
+            <div class="runtime-field">
+              <label for="searchInput">Search departments</label>
+              <input id="searchInput" name="search" type="text" placeholder="Department id, name, family, unit, lane, or gate status">
+            </div>
+            <div class="runtime-field">
+              <label for="statusFilter">Gate status</label>
+              <select id="statusFilter" name="status">
+                <option value="">All statuses</option>
+                <option value="closed">Closed</option>
+                <option value="pending_review">Pending review</option>
+                <option value="approved">Approved</option>
+                <option value="active">Active</option>
+                <option value="blocked">Blocked</option>
+                <option value="disabled">Disabled</option>
+              </select>
+            </div>
+          </div>
+          <div class="runtime-field-grid two">
+            <div class="runtime-field">
+              <label for="familyFilter">Family filter</label>
+              <input id="familyFilter" name="family" type="text" placeholder="Family id or name">
+            </div>
+            <div class="runtime-field">
+              <label for="unitFilter">Unit filter</label>
+              <input id="unitFilter" name="unit" type="text" placeholder="Unit id or name">
+            </div>
+          </div>
+          <div class="runtime-field-grid two">
+            <div class="runtime-field">
+              <label for="laneFilter">Lane filter</label>
+              <input id="laneFilter" name="lane" type="text" placeholder="Lane or subdivision">
+            </div>
+            <div class="runtime-field">
+              <label for="pageInfo">Page controls</label>
+              <div class="button-row">
+                <button id="applyFiltersButton" class="button secondary" type="submit">Apply filters</button>
+                <button id="prevPageButton" class="button" type="button">Previous page</button>
+                <button id="nextPageButton" class="button" type="button">Next page</button>
+              </div>
+            </div>
+          </div>
+        </form>
+        <p id="pageInfo" class="runtime-notice mt-16">Loading page information...</p>
+        <div class="table-wrap mt-16">
+          <table class="data-table department-table">
+            <thead>
+              <tr>
+                <th>Department</th>
+                <th>Lane / subdivision</th>
+                <th>Gate state</th>
+                <th>Cap / active</th>
+                <th>Notes / audit</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="gateTableBody">
+              <tr><td colspan="6">Loading gates...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="runtime-agent-grid">
+        <section class="panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Gate approval panel</p>
+              <h2>Approve a department gate</h2>
+            </div>
+          </div>
+          <form id="approvalForm" class="runtime-field-grid">
+            <div class="runtime-field-grid two">
+              <div class="runtime-field">
+                <label for="approvalDepartmentId">Department id</label>
+                <input id="approvalDepartmentId" name="department_id" type="text" placeholder="1.1">
+              </div>
+              <div class="runtime-field">
+                <label for="approvalCap">Activation cap</label>
+                <input id="approvalCap" name="activation_cap" type="number" min="1" max="250" step="1" value="1">
+              </div>
+            </div>
+            <div class="runtime-field-grid two">
+              <div class="runtime-field">
+                <label for="approvalActor">Actor</label>
+                <input id="approvalActor" name="actor" type="text" placeholder="operator">
+              </div>
+              <div class="runtime-field">
+                <label for="approvalReason">Readiness note / reason</label>
+                <input id="approvalReason" name="reason" type="text" placeholder="Department readiness note">
+              </div>
+            </div>
+            <div class="button-row">
+              <button id="approveButton" class="button primary" type="submit">Approve department gate</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Department activation panel</p>
+              <h2>Activate supervised runtime capacity</h2>
+            </div>
+          </div>
+          <form id="activationForm" class="runtime-field-grid">
+            <div class="runtime-field-grid two">
+              <div class="runtime-field">
+                <label for="activationDepartmentId">Department id</label>
+                <input id="activationDepartmentId" name="department_id" type="text" placeholder="1.1">
+              </div>
+              <div class="runtime-field">
+                <label for="activationCount">Requested agent count</label>
+                <input id="activationCount" name="requested_agent_count" type="number" min="1" max="250" step="1" value="1">
+              </div>
+            </div>
+            <div class="runtime-field-grid two">
+              <div class="runtime-field">
+                <label for="activationActor">Actor</label>
+                <input id="activationActor" name="actor" type="text" placeholder="operator">
+              </div>
+              <div class="runtime-field">
+                <label for="activationReason">Readiness note / reason</label>
+                <input id="activationReason" name="reason" type="text" placeholder="Activation note">
+              </div>
+            </div>
+            <div class="button-row">
+              <button id="activateButton" class="button primary" type="submit">Activate department runtime</button>
+            </div>
+          </form>
+        </section>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="runtime-agent-grid">
+        <section class="panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Deactivation / kill switch panel</p>
+              <h2>Deactivate or block a gate</h2>
+            </div>
+          </div>
+          <form id="deactivationForm" class="runtime-field-grid">
+            <div class="runtime-field-grid two">
+              <div class="runtime-field">
+                <label for="deactivationDepartmentId">Department id</label>
+                <input id="deactivationDepartmentId" name="department_id" type="text" placeholder="1.1">
+              </div>
+              <div class="runtime-field">
+                <label for="deactivationActor">Actor</label>
+                <input id="deactivationActor" name="actor" type="text" placeholder="operator">
+              </div>
+            </div>
+            <div class="runtime-field">
+              <label for="deactivationReason">Reason / kill-switch note</label>
+              <input id="deactivationReason" name="reason" type="text" placeholder="Deactivate or block note">
+            </div>
+            <div class="button-row">
+              <button id="deactivateButton" class="button secondary" type="submit">Deactivate department runtime</button>
+              <button id="blockButton" class="button danger" type="button">Block department gate</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Department detail panel</p>
+              <h2>Selected department</h2>
+            </div>
+          </div>
+          <div class="badge-row" id="selectedDepartmentBadges">
+            <span class="badge info">No department selected yet.</span>
+          </div>
+          <p id="selectedDepartmentSummary" class="runtime-notice">Select a department from the table to inspect its gate state, lane mapping, and audit trail.</p>
+          <ul class="runtime-status-list">
+            <li class="runtime-status-item"><strong>Gate status</strong><span id="selectedGateStatus">n/a</span></li>
+            <li class="runtime-status-item"><strong>Activation cap</strong><span id="selectedActivationCap">n/a</span></li>
+            <li class="runtime-status-item"><strong>Active supervised agents</strong><span id="selectedLiveAgents">n/a</span></li>
+            <li class="runtime-status-item"><strong>Mapped lane</strong><span id="selectedLane">n/a</span></li>
+            <li class="runtime-status-item"><strong>Mapped subdivision</strong><span id="selectedSubdivision">n/a</span></li>
+            <li class="runtime-status-item"><strong>Last gate event</strong><span id="selectedLastEvent">n/a</span></li>
+          </ul>
+          <p class="runtime-notice mt-16" id="selectedReasonNote">Reason notes appear here from the selected gate event payload.</p>
+          <pre class="code-block" id="selectedEventPayload">{}</pre>
+        </section>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Rollup cards</p>
+          <h2>Department-gated runtime summary</h2>
+        </div>
+        <p>Approved departments only. Activation is capacity, not execution.</p>
+      </div>
+      <div class="metric-grid">
+        <article class="metric">
+          <span class="smallcaps">Approved gates</span>
+          <strong id="rollupApprovedGates">0</strong>
+          <small>Approved for supervised runtime</small>
+        </article>
+        <article class="metric">
+          <span class="smallcaps">Active gates</span>
+          <strong id="rollupActiveGates">0</strong>
+          <small>Currently contributing live capacity</small>
+        </article>
+        <article class="metric">
+          <span class="smallcaps">Blocked gates</span>
+          <strong id="rollupBlockedGates">0</strong>
+          <small>Explicit operator blocks</small>
+        </article>
+        <article class="metric">
+          <span class="smallcaps">Eligible departments</span>
+          <strong id="rollupEligibleDepartments">0</strong>
+          <small>Mapped and ready for supervised runtime</small>
+        </article>
+        <article class="metric">
+          <span class="smallcaps">Gate events</span>
+          <strong id="rollupGateEvents">0</strong>
+          <small>Approval, activation, blocking, deactivation</small>
+        </article>
+        <article class="metric">
+          <span class="smallcaps">Activation events</span>
+          <strong id="rollupActivationEvents">0</strong>
+          <small>Supervised runtime change records</small>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="runtime-agent-grid">
+        <section class="panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Department gate event timeline</p>
+              <h2>Audit timeline</h2>
+            </div>
+          </div>
+          <div id="gateEventTimeline" class="runtime-audit-timeline">
+            <div class="runtime-audit-item">No gate events recorded yet.</div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Safety boundary panel</p>
+              <h2>What remains blocked</h2>
+            </div>
+          </div>
+          <div class="badge-row">
+            <span class="badge danger">Department approval is not command execution.</span>
+            <span class="badge danger">Activation means supervised runtime capacity only.</span>
+            <span class="badge danger">Full 47,979 activation remains blocked.</span>
+            <span class="badge danger">Command execution disabled</span>
+            <span class="badge danger">Deploy execution disabled</span>
+            <span class="badge danger">Rollback execution disabled</span>
+            <span class="badge danger">Alert sending disabled</span>
+          </div>
+          <p class="runtime-notice">
+            No department can run shell commands, deploys, rollbacks, alerts, or arbitrary actions from this page.
+            Approved gates only move supervised runtime capacity within the 2,500-agent global cap.
+          </p>
+          <ul class="list">
+            <li>Department existence is required before approval or activation.</li>
+            <li>Department runtime status must be eligible_for_supervised_runtime.</li>
+            <li>Department activation_eligible must be true.</li>
+            <li>A mapped runtime lane is required.</li>
+            <li>Readiness notes travel in the event payload and audit trail.</li>
+          </ul>
+        </section>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>© 2026 Devin O’Rourke. All rights reserved.</p>
+      <p>Department-gated runtime expansion only enables supervised runtime capacity. It does not enable command execution, deploy execution, rollback execution, alert sending, or full fleet activation.</p>
+      <p class="legal-links"><a href="../index.html">Home</a> · <a href="./index.html">Demo Hub</a> · <a href="./runtime-kernel.html">Runtime Kernel</a> · <a href="./runtime-foundation.html">Runtime Foundation</a> · <a href="./runtime-agent-control.html">Runtime Agent Control</a> · <a href="./simulator.html">Simulator</a> · <a href="./agent-registry.html">Agent Registry</a> · <a href="./safety-boundaries.html">Safety Boundaries</a> · <a href="../legal.html">Legal / Copyright</a></p>
+    </footer>
+  </div>
+</body>
+</html>
