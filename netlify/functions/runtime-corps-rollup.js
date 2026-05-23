@@ -98,6 +98,7 @@ exports.handler = async function handler(event) {
     return base.jsonResponse(500, {
       ok: false,
       error: "Runtime corps rollup failed.",
+      details: corps.summarizeError(error),
     });
   }
 };
