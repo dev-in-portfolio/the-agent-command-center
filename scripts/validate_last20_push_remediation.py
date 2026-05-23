@@ -35,7 +35,7 @@ def run_validation():
     # C. Stale copy
     print("Checking for stale copy...")
     forbidden_strings = [
-        "Production verified through MVP-62 plus Continual Harness Operator Mode. Full-fleet MVP-63 through MVP-68 surfaces are not yet merged into this branch.",
+        "Production verified through MVP-50",
         "MVP-51 in progress",
         "agent count unknown",
         "Backend integration: planned"
