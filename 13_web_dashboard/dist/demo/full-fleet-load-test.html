@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full-Fleet Load Test, Failure Simulation, and Recovery Drill</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: #000; color: #0f0; }
+        .panel { border: 1px solid #0f0; padding: 15px; margin-bottom: 20px; }
+        button { background: #0f0; color: #000; padding: 10px; border: none; cursor: pointer; margin-right: 10px; }
+        button:hover { background: #0a0; }
+        .danger { background: #f00; color: #fff; }
+        .danger:hover { background: #a00; }
+        .label { font-weight: bold; }
+        input, select { margin: 5px 0; padding: 5px; }
+    </style>
+</head>
+<body>
+
+    <h1>Full-Fleet Load Test, Failure Simulation, and Recovery Drill</h1>
+    <p>Stress-test the full 47,979-agent control system with simulated load, failure scenarios, recovery verification, circuit breakers, and audit proof.</p>
+    
+    <div class="panel">
+        <h2>1. Load-test control panel</h2>
+        <p>This is a control-plane load test, not raw fleet activation.</p>
+        <div>Total registered agents: 47,979</div>
+        <div>Total departments: 1,777</div>
+        <div>Full fleet cap: 47,979</div>
+        <div>Load-test mode: simulation/control-plane test</div>
+        <div>Current load test status: <span id="test_status">none</span></div>
+        <button onclick="startLoadTest()">Start load test</button>
+        <button onclick="pauseLoadTest()">Pause load test</button>
+        <button onclick="completeLoadTest()">Complete load test</button>
+    </div>
+
+    <div class="panel">
+        <h2>2. Simulated load configuration</h2>
+        <input type="number" id="simulatedAgentCount" value="47979" max="47979" />
+        <input type="number" id="simulatedDepartmentCount" value="1777" max="1777" />
+        <div>Simulated agent count: <span id="sim_agent_count">0</span></div>
+        <div>Simulated department count: <span id="sim_dept_count">0</span></div>
+    </div>
+
+    <div class="panel">
+        <h2>3. Failure scenario selector</h2>
+        <p>Failure simulation does not execute destructive actions.</p>
+        <select id="scenarioSelector">
+            <option value="heartbeat_drop">Agent Heartbeat Drop</option>
+            <option value="department_gate_mismatch">Department Gate Mismatch</option>
+            <option value="circuit_breaker_trigger">Circuit Breaker Trigger</option>
+        </select>
+        <button onclick="simulateFailure()">Simulate failure</button>
+        <div>Failure scenarios: <span id="failure_count">0</span> simulated</div>
+    </div>
+
+    <div class="panel">
+        <h2>4. Circuit breaker drill panel</h2>
+        <div>Circuit breaker status: <span id="circuit_breaker_status">clear</span></div>
+    </div>
+
+    <div class="panel">
+        <h2>5. Recovery drill panel</h2>
+        <button onclick="triggerRecoveryDrill()">Trigger recovery drill</button>
+        <div>Recovery drills: <span id="recovery_drill_count">0</span> executed</div>
+    </div>
+
+    <div class="panel">
+        <h2>6. Safe-state verification panel</h2>
+        <p>Recovery drill verification does not perform rollback execution.</p>
+        <p>Safe-state restoration means the control system returns to a blocked/paused/audited state.</p>
+        <input type="text" id="drillId" placeholder="Drill ID" />
+        <button onclick="verifyRecovery()">Verify recovery drill</button>
+        <div>Safe-state restored status: <span id="safe_state_status">false</span></div>
+    </div>
+
+    <div class="panel">
+        <h2>7. Load-test rollup cards</h2>
+        <div id="rollup_data">Loading...</div>
+        <button onclick="refreshRollup()">Refresh rollup</button>
+    </div>
+
+    <div class="panel">
+        <h2>8. Event timeline</h2>
+        <div>Audit event count: <span id="audit_event_count">0</span></div>
+        <pre id="event_timeline"></pre>
+    </div>
+
+    <div class="panel">
+        <h2>9. Report export panel</h2>
+        <button onclick="exportReport()">Export report JSON</button>
+    </div>
+
+    <div class="panel">
+        <h2>10. Safety boundary panel</h2>
+        <p>No shell commands, deploys, rollbacks, alerts, or arbitrary actions run from this page.</p>
+        <div>Command execution: disabled</div>
+        <div>Deploy execution: disabled</div>
+        <div>Rollback execution: disabled</div>
+        <div>Alert sending: disabled</div>
+        <div>Arbitrary shell execution: disabled</div>
+    </div>
+
+    <script>
+        // No service role key or arbitrary SQL here!
+        async function fetchAPI(url, options = {}) {
+            try {
+                const res = await fetch(url, options);
+                return await res.json();
+            } catch (err) {
+                console.error(err);
+                return { error: err.message };
+            }
+        }
+
+        let currentTestId = null;
+
+        async function startLoadTest() {
+            const data = await fetchAPI('/.netlify/functions/start-fleet-load-test', {
+                method: 'POST',
+                body: JSON.stringify({
+                    test_name: 'Manual Drill ' + Date.now(),
+                    simulated_agent_count: document.getElementById('simulatedAgentCount').value,
+                    simulated_department_count: document.getElementById('simulatedDepartmentCount').value
+                })
+            });
+            if(data && data.load_test_id) currentTestId = data.load_test_id;
+            refreshRollup();
+        }
+
+        async function pauseLoadTest() {
+            if(!currentTestId) return alert('No active test');
+            await fetchAPI('/.netlify/functions/pause-fleet-load-test', {
+                method: 'POST',
+                body: JSON.stringify({ load_test_id: currentTestId })
+            });
+            refreshRollup();
+        }
+
+        async function completeLoadTest() {
+            if(!currentTestId) return alert('No active test');
+            await fetchAPI('/.netlify/functions/complete-fleet-load-test', {
+                method: 'POST',
+                body: JSON.stringify({ load_test_id: currentTestId })
+            });
+            refreshRollup();
+        }
+
+        async function simulateFailure() {
+            if(!currentTestId) return alert('No active test');
+            await fetchAPI('/.netlify/functions/simulate-fleet-failure', {
+                method: 'POST',
+                body: JSON.stringify({
+                    load_test_id: currentTestId,
+                    scenario_id: document.getElementById('scenarioSelector').value
+                })
+            });
+            refreshRollup();
+        }
+
+        async function triggerRecoveryDrill() {
+            if(!currentTestId) return alert('No active test');
+            const data = await fetchAPI('/.netlify/functions/trigger-recovery-drill', {
+                method: 'POST',
+                body: JSON.stringify({
+                    load_test_id: currentTestId,
+                    scenario_id: document.getElementById('scenarioSelector').value
+                })
+            });
+            if(data && data.drill_id) {
+                document.getElementById('drillId').value = data.drill_id;
+            }
+            refreshRollup();
+        }
+
+        async function verifyRecovery() {
+            const drillId = document.getElementById('drillId').value;
+            if(!drillId) return alert('No drill ID');
+            await fetchAPI('/.netlify/functions/verify-recovery-drill', {
+                method: 'POST',
+                body: JSON.stringify({ drill_id: drillId })
+            });
+            refreshRollup();
+        }
+
+        async function exportReport() {
+            if(!currentTestId) return alert('No active test');
+            const data = await fetchAPI('/.netlify/functions/export-fleet-load-test-report', {
+                method: 'POST',
+                body: JSON.stringify({ load_test_id: currentTestId })
+            });
+            if (data && data.report) {
+                const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data.report));
+                const downloadAnchorNode = document.createElement('a');
+                downloadAnchorNode.setAttribute("href", dataStr);
+                downloadAnchorNode.setAttribute("download", "load_test_report.json");
+                document.body.appendChild(downloadAnchorNode);
+                downloadAnchorNode.click();
+                downloadAnchorNode.remove();
+            }
+        }
+
+        async function refreshRollup() {
+            const listData = await fetchAPI('/.netlify/functions/list-fleet-load-tests');
+            if (listData && !listData.error) {
+                if(listData.load_tests && listData.load_tests.length > 0) {
+                    const test = listData.load_tests[0];
+                    currentTestId = test.load_test_id;
+                    document.getElementById('test_status').innerText = test.test_status;
+                    document.getElementById('sim_agent_count').innerText = test.simulated_agent_count;
+                    document.getElementById('sim_dept_count').innerText = test.simulated_department_count;
+                    document.getElementById('failure_count').innerText = test.failure_count;
+                    document.getElementById('recovery_drill_count').innerText = test.recovery_count;
+                    document.getElementById('circuit_breaker_status').innerText = test.circuit_breaker_triggered ? 'triggered' : 'clear';
+                    document.getElementById('safe_state_status').innerText = test.safe_state_restored ? 'true' : 'false';
+                }
+                if(listData.events) {
+                    document.getElementById('audit_event_count').innerText = listData.events.length;
+                    document.getElementById('event_timeline').innerText = JSON.stringify(listData.events, null, 2);
+                }
+                if(listData.rollups && listData.rollups.length > 0) {
+                    document.getElementById('rollup_data').innerText = JSON.stringify(listData.rollups[0], null, 2);
+                }
+            }
+        }
+
+        // Init
+        refreshRollup();
+    </script>
+</body>
+</html>
