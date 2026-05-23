@@ -10,6 +10,7 @@
     "/demo/agent-hierarchy.html": "Agent Hierarchy",
     "/demo/agent-registry.html": "Agent Registry",
     "/demo/operating-model.html": "Operating Model",
+    "/demo/continual-harness-operator.html": "Continual Harness Operator Mode",
     "/demo/validator-safety-map.html": "Validator Map",
     "/demo/safety-boundaries.html": "Safety Boundaries",
     "/demo/technical-appendix.html": "Technical Appendix",
