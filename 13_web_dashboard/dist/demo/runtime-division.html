@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Runtime Division - The Agent Command Center</title>
+  <link rel="stylesheet" href="./assets/demo.css">
+  <script src="./assets/demo.js" defer></script>
+  <script src="./assets/runtime-division.js" defer></script>
+</head>
+<body>
+  <div class="demo-shell runtime-agent-shell">
+    <header class="demo-topbar collapsible-topbar" data-collapsible-menu>
+      <div class="topbar-main">
+        <a class="topbar-title" href="./runtime-division.html">Runtime Division</a>
+        <button
+          class="menu-toggle"
+          type="button"
+          data-action="toggle-menu"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          aria-controls="demo-menu-panel">
+          Menu
+        </button>
+      </div>
+      <nav
+        id="demo-menu-panel"
+        class="menu-panel"
+        data-menu-panel
+        hidden
+        aria-label="Demo navigation">
+        <a href="../index.html">Home</a>
+        <a href="./index.html">Demo Hub</a>
+        <a href="./runtime-kernel.html">Runtime Kernel</a>
+        <a href="./runtime-foundation.html">Runtime Foundation</a>
+        <a href="./runtime-agent-control.html">Runtime Agent Control</a>
+        <a href="./runtime-squad.html">Runtime Squad</a>
+        <a href="./runtime-battalion.html">Runtime Battalion</a>
+        <a href="./runtime-company.html">Runtime Company</a>
+        <a href="./runtime-group.html">Runtime Group</a>
+        <a href="./runtime-division.html">Runtime Division</a>
+        <a href="./simulator.html">Simulator</a>
+        <a href="./agent-registry.html">Agent Registry</a>
+        <a href="./safety-boundaries.html">Safety Boundaries</a>
+        <a href="../full-audit-dashboard.html">Full Audit Dashboard</a>
+        <a href="../legal.html">Legal / Copyright</a>
+      </nav>
+    </header>
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../index.html">Home</a>
+      <span aria-hidden="true">→</span>
+      <a href="./index.html">Demo Hub</a>
+      <span aria-hidden="true">→</span>
+      <span>Runtime Division</span>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Controlled runtime scaling</p>
+          <h1 class="title">Runtime Division</h1>
+          <p class="lead">MVP-58 1,000-Agent Runtime Division is a real backend-connected control surface for a supervised, lane-scoped, subdivision-scoped runtime division. It keeps command execution disabled, uses chunked activation controls, and writes persistent runtime records through Supabase.</p>
+          <div class="badge-row">
+            <span class="badge success">MVP-58 1,000-Agent Runtime Division</span>
+            <span class="badge info">Runtime division size: 1,000</span>
+            <span class="badge info">Live runtime agents enabled: 0–1,000</span>
+            <span class="badge warning">Activation beyond 1,000: blocked</span>
+            <span class="badge ghost">Runtime activation: not started</span>
+          </div>
+          <div class="badge-row" style="margin-top: 12px;">
+            <span class="badge ghost">Full 47,979 activation: blocked</span>
+            <span class="badge ghost">Command execution: disabled</span>
+            <span class="badge ghost">Deploy execution: disabled</span>
+            <span class="badge ghost">Rollback execution: disabled</span>
+            <span class="badge ghost">Alert sending: disabled</span>
+          </div>
+        </div>
+        <aside class="hero-aside">
+          <div class="metric-stack">
+            <div class="metric">
+              <span class="smallcaps">Runtime division size</span>
+              <strong>1,000</strong>
+              <small>Approved supervised agents</small>
+            </div>
+            <div class="metric">
+              <span class="smallcaps">Live runtime agents enabled</span>
+              <strong>0–1,000</strong>
+              <small>Controlled by backend state</small>
+            </div>
+            <div class="metric">
+              <span class="smallcaps">Subdivisions</span>
+              <strong>10</strong>
+              <small>10 lanes per subdivision</small>
+            </div>
+            <div class="metric">
+              <span class="smallcaps">Lanes</span>
+              <strong>100</strong>
+              <small>10 agents per lane</small>
+            </div>
+            <div class="metric">
+              <span class="smallcaps">Registered agents</span>
+              <strong>47,979</strong>
+              <small>Total registry remains blocked from full activation</small>
+            </div>
+            <div class="metric">
+              <span class="smallcaps">Kill switch</span>
+              <strong id="killSwitchState">Visible</strong>
+              <small>Safety boundary remains visible</small>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Backend status</p>
+          <h2>Runtime Division Control Panel</h2>
+        </div>
+        <p id="backendStatusMessage">Loading runtime division backend status...</p>
+      </div>
+      <div class="card-grid">
+        <article class="card">
+          <h3>Backend Connection</h3>
+          <p>Status: <strong id="backendConnectionState">Loading...</strong></p>
+          <p>Runtime activation: <strong id="runtimeActivationState">false</strong></p>
+          <p>Runtime division size: <strong id="runtimeDivisionSizeState">1,000</strong></p>
+          <p>Live runtime agents enabled: <strong id="liveRuntimeAgentsState">0 of 1,000</strong></p>
+          <p>Max activation batch size: <strong id="maxBatchSizeState">1,000</strong></p>
+          <p>Max operation chunk size: <strong id="maxChunkSizeState">100</strong></p>
+          <p>Active subdivisions: <strong id="activeSubdivisionsState">0 of 10</strong></p>
+          <p>Inactive subdivisions: <strong id="inactiveSubdivisionsState">10 of 10</strong></p>
+          <p>Active lanes: <strong id="activeLanesState">0 of 100</strong></p>
+          <p>Inactive lanes: <strong id="inactiveLanesState">100 of 100</strong></p>
+          <p>Division health: <strong id="divisionHealthState">inactive</strong></p>
+          <p>Lane health: tracked in the lane roster below.</p>
+          <p>Heartbeat count: <strong id="heartbeatCountState">0</strong></p>
+          <p>Readiness note count: <strong id="readinessNoteCountState">0</strong></p>
+          <p>Total registered agents: <strong id="totalRegisteredAgentsState">47,979</strong></p>
+          <p>Total registered agents: 47,979</p>
+        </article>
+        <article class="card">
+          <h3>Current Scope</h3>
+          <p id="currentSelectionSummary">Select a subdivision, lane, or agent to inspect its current state.</p>
+          <p id="currentSubdivisionStatus">Subdivision details will appear here.</p>
+          <p id="currentLaneStatus">Lane details will appear here.</p>
+          <p id="currentAgentStatus">Agent details will appear here.</p>
+        </article>
+        <article class="card">
+          <h3>Safety Boundary</h3>
+          <p>Full 47,979 activation: blocked.</p>
+          <p>Activation beyond 1,000: blocked.</p>
+          <p>Command execution: disabled.</p>
+          <p>Deploy execution: disabled.</p>
+          <p>Rollback execution: disabled.</p>
+          <p>Alert sending: disabled.</p>
+          <p>Service role remains server-side only.</p>
+        </article>
+      </div>
+      <div class="callout" id="backendUnavailableNotice" hidden></div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Request builder</p>
+          <h2>Controlled action and note submission</h2>
+        </div>
+        <p>Every action calls a Netlify function and persists through Supabase.</p>
+      </div>
+      <div class="runtime-field-grid two">
+        <div class="runtime-field">
+          <label for="actorName">Actor name</label>
+          <input id="actorName" type="text" value="operator" autocomplete="off">
+        </div>
+        <div class="runtime-field">
+          <label for="reason">Reason</label>
+          <input id="reason" type="text" value="Controlled runtime division action" autocomplete="off">
+        </div>
+        <div class="runtime-field">
+          <label for="selectedSubdivisionSelect">Subdivision</label>
+          <select id="selectedSubdivisionSelect"></select>
+        </div>
+        <div class="runtime-field">
+          <label for="selectedLaneSelect">Lane</label>
+          <select id="selectedLaneSelect"></select>
+        </div>
+        <div class="runtime-field">
+          <label for="selectedAgentSelect">Agent</label>
+          <select id="selectedAgentSelect"></select>
+        </div>
+        <div class="runtime-field">
+          <label for="batchSize">Batch size</label>
+          <input id="batchSize" type="number" min="1" max="1000" value="1000">
+        </div>
+        <div class="runtime-field">
+          <label for="chunkSize">Chunk size</label>
+          <input id="chunkSize" type="number" min="1" max="100" value="100">
+        </div>
+        <div class="runtime-field">
+          <label for="heartbeatStatus">Heartbeat status</label>
+          <input id="heartbeatStatus" type="text" value="healthy" autocomplete="off">
+        </div>
+        <div class="runtime-field">
+          <label for="heartbeatNote">Heartbeat note</label>
+          <input id="heartbeatNote" type="text" value="Division heartbeat received." autocomplete="off">
+        </div>
+        <div class="runtime-field">
+          <label for="noteTitle">Readiness note title</label>
+          <input id="noteTitle" type="text" value="Division readiness note" autocomplete="off">
+        </div>
+        <div class="runtime-field">
+          <label for="noteBody">Readiness note body</label>
+          <textarea id="noteBody" rows="3">Division readiness note for controlled runtime scaling.</textarea>
+        </div>
+        <div class="runtime-field">
+          <label for="readinessLevel">Readiness level</label>
+          <select id="readinessLevel">
+            <option value="green">green</option>
+            <option value="yellow">yellow</option>
+            <option value="red">red</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="button-row" style="margin-top: 16px;">
+        <button class="button primary" type="button" data-runtime-action="activate-division-full">Activate full 1,000-agent division</button>
+        <button class="button" type="button" data-runtime-action="deactivate-division-full">Deactivate full division</button>
+        <button class="button" type="button" data-runtime-action="activate-subdivision">Activate one subdivision</button>
+        <button class="button" type="button" data-runtime-action="deactivate-subdivision">Deactivate one subdivision</button>
+        <button class="button" type="button" data-runtime-action="activate-lane">Activate one lane</button>
+        <button class="button" type="button" data-runtime-action="deactivate-lane">Deactivate one lane</button>
+        <button class="button" type="button" data-runtime-action="activate-agent">Activate individual agent</button>
+        <button class="button" type="button" data-runtime-action="deactivate-agent">Deactivate individual agent</button>
+        <button class="button" type="button" data-runtime-action="heartbeat-division">Send division heartbeat</button>
+        <button class="button" type="button" data-runtime-action="heartbeat-subdivision">Send subdivision heartbeat</button>
+        <button class="button" type="button" data-runtime-action="heartbeat-lane">Send lane heartbeat</button>
+        <button class="button" type="button" data-runtime-action="create-readiness-note">Create readiness note</button>
+        <button class="button" type="button" data-runtime-action="refresh">Refresh</button>
+      </div>
+      <div class="callout" style="margin-top: 16px;">
+        <p><strong>Kill switch visible.</strong> It remains a visible safety boundary and is not executable from this page.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Live rollups</p>
+          <h2>Subdivisions and lanes</h2>
+        </div>
+        <p id="divisionRollupSummary">Loading division rollup...</p>
+      </div>
+      <div class="card-grid">
+        <article class="card">
+          <h3>Subdivision Health</h3>
+          <div id="subdivisionRoster" class="timeline"></div>
+        </article>
+        <article class="card">
+          <h3>Lane Health</h3>
+          <div id="laneRoster" class="timeline"></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Action response</p>
+          <h2>Latest backend response</h2>
+        </div>
+        <p>Approval is not execution. Activation is still supervised and chunked.</p>
+      </div>
+      <article class="card">
+        <p id="lastOperation">No action submitted yet.</p>
+        <p id="lastMessage" class="hint">Use the buttons above to submit a controlled runtime action.</p>
+        <pre id="lastResponse" class="runtime-audit-timeline" style="white-space: pre-wrap; margin: 0; overflow-x: auto;">{}</pre>
+      </article>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Audit trail</p>
+          <h2>Audit timeline</h2>
+        </div>
+        <p>Every activation, deactivation, heartbeat, and readiness note writes an audit event.</p>
+      </div>
+      <div id="auditTimeline" class="timeline"></div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Required links</p>
+          <h2>Navigation references</h2>
+        </div>
+        <p>These are the current demo and safety surfaces for the runtime division pass.</p>
+      </div>
+      <div class="page-grid">
+        <article class="page-card"><h3>Demo Hub</h3><p>Return to the shared hub of static and runtime readiness pages.</p><a class="button" href="./index.html">Open Demo Hub</a></article>
+        <article class="page-card"><h3>Simulator</h3><p>The static request path simulator for the controlled runtime flow.</p><a class="button" href="./simulator.html">Open Simulator</a></article>
+        <article class="page-card"><h3>System Scale</h3><p>Exact counts for the public registry and scale summary.</p><a class="button" href="./system-scale.html">Open System Scale</a></article>
+        <article class="page-card"><h3>Agent Registry</h3><p>Source-traceable exact registry counts and family breakdowns.</p><a class="button" href="./agent-registry.html">Open Agent Registry</a></article>
+        <article class="page-card"><h3>Safety Boundaries</h3><p>Visible safety constraints for the runtime path.</p><a class="button" href="./safety-boundaries.html">Open Safety Boundaries</a></article>
+        <article class="page-card"><h3>Legal / Copyright</h3><p>Ownership and legal notice page.</p><a class="button" href="../legal.html">Open Legal / Copyright</a></article>
+        <article class="page-card"><h3>Full Audit Dashboard</h3><p>The full published audit dashboard for the command center.</p><a class="button" href="../full-audit-dashboard.html">Open Full Audit Dashboard</a></article>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
