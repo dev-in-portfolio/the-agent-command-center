@@ -140,6 +140,25 @@ function supabaseDelete(path, extraHeaders = {}) {
   return supabaseRequest("DELETE", path, undefined, extraHeaders);
 }
 
+async function supabaseGetAll(path, pageSize = 1000) {
+  const rows = [];
+  let offset = 0;
+
+  while (true) {
+    const pagePath = `${path}${path.includes("?") ? "&" : "?"}limit=${pageSize}&offset=${offset}`;
+    const page = await supabaseGet(pagePath);
+    if (Array.isArray(page) && page.length) {
+      rows.push(...page);
+    }
+    if (!Array.isArray(page) || page.length < pageSize) {
+      break;
+    }
+    offset += pageSize;
+  }
+
+  return rows;
+}
+
 function toConfigObject(rows) {
   return Object.fromEntries((rows || []).map((row) => [row.key, row.value]));
 }
@@ -276,6 +295,7 @@ module.exports = {
   subdivisionById,
   supabaseDelete,
   supabaseGet,
+  supabaseGetAll,
   supabasePatch,
   supabasePost,
   supabaseRequest,
