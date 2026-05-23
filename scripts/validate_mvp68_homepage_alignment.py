@@ -41,7 +41,7 @@ def run_validation():
         "Full-Fleet Load Test",
         "Full-Fleet Observability Command Wall",
         "Enterprise Pilot Room",
-        "Raw activate-all: disabled",
+        "Raw activate all: disabled",
         "Command execution: disabled",
         "Deploy execution: disabled",
         "Rollback execution: disabled",

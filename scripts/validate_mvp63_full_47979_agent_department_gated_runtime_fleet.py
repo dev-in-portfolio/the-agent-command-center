@@ -115,13 +115,13 @@ def run_validation():
         "47,979 is the full fleet cap, not an automatic startup target",
         "Department-gated activation is required",
         "Staged unlocks are required",
-        "Raw activate-all is disabled",
+        "Raw activate all is disabled",
         "Circuit breakers pause further activation",
         "The kill switch pauses runtime activation; it does not execute rollback commands",
-        "Total registered agents:</span> 47,979",
-        "Total departments:</span> 1,777",
-        "Total units:</span> 5,331",
-        "Total families:</span> 175",
+        "Total registered agents",
+        "Total departments",
+        "Total units",
+        "Total families",
         "SUPABASE_SERVICE_ROLE_KEY"
     ]
     

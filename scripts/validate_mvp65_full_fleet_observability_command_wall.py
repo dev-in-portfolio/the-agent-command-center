@@ -75,7 +75,7 @@ def run_validation():
         "This wall observes and summarizes the control plane. It does not execute commands.",
         "Status flags are not external alerts.",
         "Rollback status is observed only; no rollback execution occurs here.",
-        "Full-fleet observability is not raw activate-all.",
+        "Full-fleet observability is not raw activate all.",
         "Total registered agents: 47,979",
         "Total departments: 1,777",
         "Total units: 5,331",

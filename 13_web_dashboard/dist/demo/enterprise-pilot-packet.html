@@ -1,96 +1,149 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enterprise Pilot Packet Exporter</title>
-    <style>
-        body { font-family: sans-serif; padding: 20px; background: #000; color: #0f0; }
-        .panel { border: 1px solid #0f0; padding: 15px; margin-bottom: 20px; }
-        .panel-flex { display: flex; gap: 20px; flex-wrap: wrap; }
-        .panel-flex > div { flex: 1; min-width: 300px; border: 1px solid #0a0; padding: 10px; }
-        button { background: #0f0; color: #000; padding: 10px; border: none; cursor: pointer; margin-right: 10px; margin-top: 5px; }
-        button:hover { background: #0a0; }
-        .danger { background: #f00; color: #fff; }
-        .label { font-weight: bold; }
-        input, select { margin: 5px 0; padding: 5px; width: calc(100% - 14px); }
-        .nav-links a { color: #0f0; margin-right: 15px; }
-        h1, h2, h3 { margin-top: 0; }
-        .section-preview { border: 1px dashed #050; padding: 10px; margin-top: 10px; background: #010; }
-        @media print {
-            body { background: #fff; color: #000; }
-            .panel { border: 1px solid #ccc; page-break-inside: avoid; }
-            button, .nav-links, .no-print { display: none; }
-            .section-preview { border: none; background: transparent; }
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Enterprise Pilot Packet Exporter - The Agent Command Center</title>
+  <link rel="stylesheet" href="./assets/demo.css">
+  <script src="./assets/demo.js" defer></script>
 </head>
 <body>
+  <div class="demo-shell">
+    <header class="demo-topbar collapsible-topbar" data-collapsible-menu>
+      <div class="topbar-main">
+        <a class="topbar-title" href="./index.html">Pilot Packet Exporter</a>
+        <button
+          class="menu-toggle"
+          type="button"
+          data-action="toggle-menu"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          aria-controls="demo-menu-panel">
+          Menu
+        </button>
+      </div>
+      <nav id="demo-menu-panel" class="menu-panel" data-menu-panel hidden aria-label="Demo navigation">
+        <a href="../index.html">Home</a>
+        <a href="./index.html">Demo Hub</a>
+        <a href="./executive-control-room.html">Executive Control Room</a>
+        <a href="./enterprise-pilot-packet.html">Enterprise Pilot Packet</a>
+        <a href="./simulator.html">Simulator</a>
+        <a href="./system-scale.html">System Scale</a>
+        <a href="./agent-registry.html">Agent Registry</a>
+        <a href="./safety-boundaries.html">Safety Boundaries</a>
+        <a href="./runtime-fleet.html">Runtime Fleet</a>
+        <a href="./full-fleet-load-test.html">Full-Fleet Load Test</a>
+        <a href="./observability-command-wall.html">Observability Command Wall</a>
+        <a href="./enterprise-pilot-room.html">Enterprise Pilot Room</a>
+        <a href="./continual-harness-operator.html">Continual Harness Operator</a>
+        <a href="../legal.html">Legal / Copyright</a>
+        <a href="../full-audit-dashboard.html">Full Audit Dashboard</a>
+      </nav>
+    </header>
 
-    <h1 class="no-print">Enterprise Pilot Packet Exporter</h1>
-    <p class="no-print">Generate a shareable pilot packet for The Agent Command Center with executive summary, scope, safety boundaries, success criteria, risks, legal links, and go/no-go decision support.</p>
-    
-    <div class="panel nav-links no-print">
-        <a href="./enterprise-pilot-room.html">Open Enterprise Pilot Room</a>
-        <a href="./executive-control-room.html">Open Executive Control Room</a>
-        <a href="./observability-command-wall.html">Open Observability Command Wall</a>
-        <a href="../legal.html">Open Legal / Copyright</a>
-    </div>
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../index.html">Home</a>
+      <span aria-hidden="true">→</span>
+      <a href="./index.html">Demo Hub</a>
+      <span aria-hidden="true">→</span>
+      <span>Pilot Packet Exporter</span>
+    </nav>
 
-    <div class="panel">
-        <h2 class="no-print">1. Packet status banner</h2>
-        <p class="no-print">This packet is for enterprise review and pilot planning. It does not grant runtime permission.</p>
-        <p class="no-print">Exporting the packet does not activate agents.</p>
-        <div>Packet status: <span id="packet_status">unknown</span></div>
-        <div>Current live runtime agents: <span id="current_live">0</span></div>
-        <div class="no-print">
-            <button onclick="generatePacket()">Generate / refresh pilot packet</button>
+    <section class="hero no-print">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Shareable review package</p>
+          <h1 class="title">Enterprise Pilot Packet</h1>
+          <p class="lead">Generate a shareable pilot packet for The Agent Command Center with executive summary, scope, safety boundaries, success criteria, risks, legal links, and go/no-go decision support. This packet is for enterprise review and pilot planning. It does not grant runtime permission.</p>
+          <div class="badge-row">
+            <span class="badge info">Export Surface</span>
+            <span class="badge success">Screen-Share Ready</span>
+            <span class="badge warning">No Agent Activation</span>
+            <span class="badge ghost">No Execution</span>
+          </div>
+          <div class="cta-row" style="margin-top: 18px;">
+            <button onclick="generatePacket()" class="button primary">Generate / refresh packet</button>
+            <button onclick="window.print()" class="button secondary">Print packet</button>
+          </div>
         </div>
-    </div>
+        <aside class="callout">
+            <p class="eyebrow">Safety boundary</p>
+            <p>Exporting the packet does not activate agents. Pilot approval is not command execution. Limited pilot approval does not activate the full fleet. No export action runs shell commands, deploys, rollbacks, alerts, or arbitrary actions.</p>
+            <div class="badge-row">
+              <span class="badge danger">Read-only export</span>
+              <span class="badge ghost">Audit-ready.</span>
+            </div>
+        </aside>
+      </div>
+    </section>
 
-    <div class="panel no-print">
-        <h2>16. Export controls</h2>
-        <p>No export action runs shell commands, deploys, rollbacks, alerts, or arbitrary actions.</p>
-        <button onclick="exportPacket('json')">Export JSON</button>
-        <button onclick="exportPacket('print_html')">Export print HTML</button>
-        <button onclick="exportPacket('markdown')">Export markdown</button>
-        <button onclick="window.print()">Print packet</button>
-    </div>
+    <section class="section">
+        <div class="metric-grid">
+            <article class="metric"><span class="smallcaps">Packet status</span><strong id="packet_status">unknown</strong></article>
+            <article class="metric"><span class="smallcaps">Live runtime agents</span><strong id="current_live">0</strong></article>
+            <article class="metric"><span class="smallcaps">Total registered agents</span><strong>47,979</strong></article>
+        </div>
+    </section>
 
-    <div class="panel no-print">
-        <h2>17. Review notes</h2>
-        <input type="text" id="noteInput" placeholder="Add packet review note..." />
-        <button onclick="addReviewNote()">Add review note</button>
-        <div id="notes_list" class="section-preview" style="max-height: 150px; overflow-y: auto;"></div>
-    </div>
+    <section class="section no-print">
+        <div class="panel">
+            <h2>Export formats</h2>
+            <div class="button-row">
+                <button onclick="exportPacket('json')" class="button">Export JSON</button>
+                <button onclick="exportPacket('print_html')" class="button">Export print HTML</button>
+                <button onclick="exportPacket('markdown')" class="button">Export markdown</button>
+            </div>
+        </div>
+    </section>
 
-    <div class="panel">
+    <section class="section">
         <h2>Packet Contents</h2>
-        <div id="packet_sections">
-            <div class="section-preview">Generate a packet to preview sections.</div>
+        <div id="packet_sections" class="grid summary-grid">
+            <div class="card">Generate a packet to preview sections.</div>
         </div>
-    </div>
+    </section>
 
-    <div class="panel no-print">
-        <h2>Safety boundaries (Internal Context)</h2>
-        <p>Pilot approval is not command execution.</p>
-        <p>Limited pilot approval does not activate the full fleet.</p>
-        <div>Total registered agents: 47,979</div>
-        <div>Total departments: 1,777</div>
-        <div>Total units: 5,331</div>
-        <div>Total families: 175</div>
-        <div>Full fleet cap: 47,979</div>
-        <div>Runtime permission granted: false</div>
-        <div>Command execution: disabled</div>
-        <div>Deploy execution: disabled</div>
-        <div>Rollback execution: disabled</div>
-        <div>Alert sending: disabled</div>
-        <div>Arbitrary shell execution: disabled</div>
-        <div>External alert sending: disabled</div>
-    </div>
+    <section class="section no-print">
+        <div class="panel">
+            <h2>Review Notes</h2>
+            <div class="button-row">
+                <input type="text" id="noteInput" placeholder="Add packet review note..." style="flex: 1;" />
+                <button onclick="addReviewNote()" class="button">Add review note</button>
+            </div>
+            <div id="notes_list" class="mt-12"></div>
+        </div>
+    </section>
+
+    <section class="section no-print">
+        <div class="panel">
+            <h2>Safety Boundaries (Internal Context)</h2>
+            <ul class="card-list">
+                <li>Total registered agents: 47,979</li>
+                <li>Total departments: 1,777</li>
+                <li>Total units: 5,331</li>
+                <li>Total families: 175</li>
+                <li>Full fleet cap: 47,979</li>
+                <li>Runtime permission granted: false</li>
+                <li>Command execution: disabled</li>
+                <li>Deploy execution: disabled</li>
+                <li>Rollback execution: disabled</li>
+                <li>Alert sending: disabled</li>
+                <li>Arbitrary shell execution: disabled</li>
+                <li>External alert sending: disabled</li>
+            </ul>
+        </div>
+    </section>
+
+    <footer class="footer site-legal-footer">
+      <p>© 2026 Devin O’Rourke. All rights reserved.</p>
+      <p>Agent Command Center, the demo pages, registry presentation, dashboard copy, visual layout, simulator materials, validator descriptions, and stakeholder presentation materials are protected project materials. No license, sale, transfer, or permission to reuse is granted by viewing this demo.</p>
+      <p>This site is a public stakeholder review surface. Some pages are static demonstrations, and some pages may be controlled backend-wired status, audit, readiness, approval, or export surfaces. No page enables raw activate all, arbitrary shell execution, arbitrary SQL, command execution, deployment actions, rollback execution, alert sending, or unrestricted automation.</p>
+      <p>Third-party names, platforms, and services referenced for context remain the property of their respective owners.</p>
+      <p class="legal-links"><a href="../legal.html">Legal / Copyright</a> · <a href="../index.html">Home</a> · <a href="./index.html">Demo Hub</a> · <a href="../full-audit-dashboard.html">Full Audit Dashboard</a> · <a href="../copyright.html">Copyright</a></p>
+    </footer>
+  </div>
 
     <script>
-        // No service role key or arbitrary SQL here!
         async function fetchAPI(url, options = {}) {
             try {
                 const res = await fetch(url, options);
@@ -104,7 +157,7 @@
         let currentPacketId = null;
 
         async function generatePacket() {
-            const createData = await fetchAPI('/.netlify/functions/enterprise-pilot-packet', {
+            await fetchAPI('/.netlify/functions/enterprise-pilot-packet', {
                 method: 'POST',
                 body: JSON.stringify({ actor: 'pilot_viewer' })
             });
@@ -123,8 +176,8 @@
                 container.innerHTML = '';
                 if (p.sections && p.sections.length > 0) {
                     p.sections.sort((a,b) => a.sort_order - b.sort_order).forEach(s => {
-                        const div = document.createElement('div');
-                        div.className = 'section-preview';
+                        const div = document.createElement('article');
+                        div.className = 'card';
                         div.innerHTML = `<h3>${s.section_title}</h3><p>${s.section_body}</p>`;
                         container.appendChild(div);
                     });
@@ -156,7 +209,6 @@
                 } else if (format === 'markdown') {
                     mime = 'text/markdown';
                     ext = 'md';
-                    // Very basic transform for demo
                     dataStr = "data:" + mime + ";charset=utf-8," + encodeURIComponent("# Enterprise Pilot Packet\n\n```json\n" + payload + "\n```");
                 } else {
                     mime = 'text/html';
@@ -189,7 +241,6 @@
             refreshPacket();
         }
 
-        // Init - attempt to load existing
         refreshPacket();
     </script>
 </body>

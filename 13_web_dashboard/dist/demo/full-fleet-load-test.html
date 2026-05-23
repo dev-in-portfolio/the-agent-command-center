@@ -1,107 +1,163 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Full-Fleet Load Test, Failure Simulation, and Recovery Drill</title>
-    <style>
-        body { font-family: sans-serif; padding: 20px; background: #000; color: #0f0; }
-        .panel { border: 1px solid #0f0; padding: 15px; margin-bottom: 20px; }
-        button { background: #0f0; color: #000; padding: 10px; border: none; cursor: pointer; margin-right: 10px; }
-        button:hover { background: #0a0; }
-        .danger { background: #f00; color: #fff; }
-        .danger:hover { background: #a00; }
-        .label { font-weight: bold; }
-        input, select { margin: 5px 0; padding: 5px; }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Full-Fleet Load Test, Failure Simulation, and Recovery Drill - The Agent Command Center</title>
+  <link rel="stylesheet" href="./assets/demo.css">
+  <script src="./assets/demo.js" defer></script>
 </head>
 <body>
+  <div class="demo-shell">
+    <header class="demo-topbar collapsible-topbar" data-collapsible-menu>
+      <div class="topbar-main">
+        <a class="topbar-title" href="./index.html">Full-Fleet Load Test</a>
+        <button
+          class="menu-toggle"
+          type="button"
+          data-action="toggle-menu"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          aria-controls="demo-menu-panel">
+          Menu
+        </button>
+      </div>
+      <nav id="demo-menu-panel" class="menu-panel" data-menu-panel hidden aria-label="Demo navigation">
+        <a href="../index.html">Home</a>
+        <a href="./index.html">Demo Hub</a>
+        <a href="./executive-control-room.html">Executive Control Room</a>
+        <a href="./enterprise-pilot-packet.html">Enterprise Pilot Packet</a>
+        <a href="./simulator.html">Simulator</a>
+        <a href="./system-scale.html">System Scale</a>
+        <a href="./agent-registry.html">Agent Registry</a>
+        <a href="./safety-boundaries.html">Safety Boundaries</a>
+        <a href="./runtime-fleet.html">Runtime Fleet</a>
+        <a href="./full-fleet-load-test.html">Full-Fleet Load Test</a>
+        <a href="./observability-command-wall.html">Observability Command Wall</a>
+        <a href="./enterprise-pilot-room.html">Enterprise Pilot Room</a>
+        <a href="./continual-harness-operator.html">Continual Harness Operator</a>
+        <a href="../legal.html">Legal / Copyright</a>
+        <a href="../full-audit-dashboard.html">Full Audit Dashboard</a>
+      </nav>
+    </header>
 
-    <h1>Full-Fleet Load Test, Failure Simulation, and Recovery Drill</h1>
-    <p>Stress-test the full 47,979-agent control system with simulated load, failure scenarios, recovery verification, circuit breakers, and audit proof.</p>
-    
-    <div class="panel">
-        <h2>1. Load-test control panel</h2>
-        <p>This is a control-plane load test, not raw fleet activation.</p>
-        <div>Total registered agents: 47,979</div>
-        <div>Total departments: 1,777</div>
-        <div>Full fleet cap: 47,979</div>
-        <div>Load-test mode: simulation/control-plane test</div>
-        <div>Current load test status: <span id="test_status">none</span></div>
-        <button onclick="startLoadTest()">Start load test</button>
-        <button onclick="pauseLoadTest()">Pause load test</button>
-        <button onclick="completeLoadTest()">Complete load test</button>
-    </div>
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../index.html">Home</a>
+      <span aria-hidden="true">→</span>
+      <a href="./index.html">Demo Hub</a>
+      <span aria-hidden="true">→</span>
+      <span>Load Test</span>
+    </nav>
 
-    <div class="panel">
-        <h2>2. Simulated load configuration</h2>
-        <input type="number" id="simulatedAgentCount" value="47979" max="47979" />
-        <input type="number" id="simulatedDepartmentCount" value="1777" max="1777" />
-        <div>Simulated agent count: <span id="sim_agent_count">0</span></div>
-        <div>Simulated department count: <span id="sim_dept_count">0</span></div>
-    </div>
+    <section class="hero">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Control-plane pressure test</p>
+          <h1 class="title">Full-Fleet Load Test & Recovery</h1>
+          <p class="lead">Stress-test the full 47,979-agent control system with simulated load, failure scenarios, recovery verification, circuit breakers, and audit proof. This is a control-plane load test, not raw fleet activation.</p>
+          <div class="badge-row">
+            <span class="badge info">Simulation Mode</span>
+            <span class="badge info">Total registered agents: 47,979</span>
+            <span class="badge warning">Full fleet cap: 47,979</span>
+            <span class="badge success">Non-destructive test</span>
+          </div>
+          <div class="cta-row" style="margin-top: 18px;">
+            <button onclick="startLoadTest()" class="button primary">Start load test</button>
+            <button onclick="pauseLoadTest()" class="button">Pause load test</button>
+            <button onclick="completeLoadTest()" class="button">Complete load test</button>
+          </div>
+        </div>
+        <aside class="callout">
+            <p class="eyebrow">Safety boundaries</p>
+            <p>Failure simulation does not execute destructive actions. Recovery drill verification does not perform rollback execution. Safe-state restoration means the control system returns to a blocked/paused/audited state.</p>
+            <div class="badge-row">
+              <span class="badge warning">No shell execution</span>
+              <span class="badge warning">No alert sending</span>
+            </div>
+        </aside>
+      </div>
+    </section>
 
-    <div class="panel">
-        <h2>3. Failure scenario selector</h2>
-        <p>Failure simulation does not execute destructive actions.</p>
-        <select id="scenarioSelector">
-            <option value="heartbeat_drop">Agent Heartbeat Drop</option>
-            <option value="department_gate_mismatch">Department Gate Mismatch</option>
-            <option value="circuit_breaker_trigger">Circuit Breaker Trigger</option>
-        </select>
-        <button onclick="simulateFailure()">Simulate failure</button>
-        <div>Failure scenarios: <span id="failure_count">0</span> simulated</div>
-    </div>
+    <section class="section">
+        <div class="metric-grid">
+            <article class="metric"><span class="smallcaps">Status</span><strong id="test_status">none</strong></article>
+            <article class="metric"><span class="smallcaps">Simulated agents</span><strong id="sim_agent_count">0</strong></article>
+            <article class="metric"><span class="smallcaps">Simulated departments</span><strong id="sim_dept_count">0</strong></article>
+            <article class="metric"><span class="smallcaps">Failures simulated</span><strong id="failure_count">0</strong></article>
+        </div>
+    </section>
 
-    <div class="panel">
-        <h2>4. Circuit breaker drill panel</h2>
-        <div>Circuit breaker status: <span id="circuit_breaker_status">clear</span></div>
-    </div>
+    <section class="section">
+        <div class="panel-flex">
+            <div class="panel">
+                <h2>2. Load configuration</h2>
+                <div class="button-row" style="flex-direction: column; align-items: stretch;">
+                    <label class="label">Agent Count</label>
+                    <input type="number" id="simulatedAgentCount" value="47979" max="47979" />
+                    <label class="label">Department Count</label>
+                    <input type="number" id="simulatedDepartmentCount" value="1777" max="1777" />
+                </div>
+            </div>
+            <div class="panel">
+                <h2>3. Failure scenario</h2>
+                <p>Simulation only.</p>
+                <select id="scenarioSelector">
+                    <option value="heartbeat_drop">Agent Heartbeat Drop</option>
+                    <option value="department_gate_mismatch">Department Gate Mismatch</option>
+                    <option value="circuit_breaker_trigger">Circuit Breaker Trigger</option>
+                </select>
+                <button onclick="simulateFailure()" class="button danger mt-12">Simulate failure</button>
+            </div>
+        </div>
+    </section>
 
-    <div class="panel">
-        <h2>5. Recovery drill panel</h2>
-        <button onclick="triggerRecoveryDrill()">Trigger recovery drill</button>
-        <div>Recovery drills: <span id="recovery_drill_count">0</span> executed</div>
-    </div>
+    <section class="section">
+        <div class="panel-flex">
+            <div class="panel">
+                <h2>5. Recovery drill</h2>
+                <button onclick="triggerRecoveryDrill()" class="button">Trigger recovery drill</button>
+                <div class="mt-12">Recovery drills: <span id="recovery_drill_count">0</span> executed</div>
+            </div>
+            <div class="panel">
+                <h2>6. Safe-state verification</h2>
+                <input type="text" id="drillId" placeholder="Drill ID" />
+                <button onclick="verifyRecovery()" class="button mt-12">Verify recovery drill</button>
+                <div class="mt-12">Safe-state restored: <span id="safe_state_status">false</span></div>
+            </div>
+        </div>
+    </section>
 
-    <div class="panel">
-        <h2>6. Safe-state verification panel</h2>
-        <p>Recovery drill verification does not perform rollback execution.</p>
-        <p>Safe-state restoration means the control system returns to a blocked/paused/audited state.</p>
-        <input type="text" id="drillId" placeholder="Drill ID" />
-        <button onclick="verifyRecovery()">Verify recovery drill</button>
-        <div>Safe-state restored status: <span id="safe_state_status">false</span></div>
-    </div>
+    <section class="section">
+        <div class="panel">
+            <h2>7. Load-test rollup</h2>
+            <pre id="rollup_data" class="output-panel">Loading...</pre>
+            <button onclick="refreshRollup()" class="button mt-12">Refresh rollup</button>
+        </div>
+    </section>
 
-    <div class="panel">
-        <h2>7. Load-test rollup cards</h2>
-        <div id="rollup_data">Loading...</div>
-        <button onclick="refreshRollup()">Refresh rollup</button>
-    </div>
-
-    <div class="panel">
+    <section class="section">
         <h2>8. Event timeline</h2>
-        <div>Audit event count: <span id="audit_event_count">0</span></div>
-        <pre id="event_timeline"></pre>
-    </div>
+        <div class="mt-12">Audit event count: <span id="audit_event_count">0</span></div>
+        <pre id="event_timeline" class="output-panel"></pre>
+    </section>
 
-    <div class="panel">
-        <h2>9. Report export panel</h2>
-        <button onclick="exportReport()">Export report JSON</button>
-    </div>
+    <section class="section">
+        <div class="panel">
+            <h2>9. Report export</h2>
+            <button onclick="exportReport()" class="button">Export report JSON</button>
+        </div>
+    </section>
 
-    <div class="panel">
-        <h2>10. Safety boundary panel</h2>
-        <p>No shell commands, deploys, rollbacks, alerts, or arbitrary actions run from this page.</p>
-        <div>Command execution: disabled</div>
-        <div>Deploy execution: disabled</div>
-        <div>Rollback execution: disabled</div>
-        <div>Alert sending: disabled</div>
-        <div>Arbitrary shell execution: disabled</div>
-    </div>
+    <footer class="footer site-legal-footer">
+      <p>© 2026 Devin O’Rourke. All rights reserved.</p>
+      <p>Agent Command Center, the demo pages, registry presentation, dashboard copy, visual layout, simulator materials, validator descriptions, and stakeholder presentation materials are protected project materials. No license, sale, transfer, or permission to reuse is granted by viewing this demo.</p>
+      <p>This site is a public stakeholder review surface. Some pages are static demonstrations, and some pages may be controlled backend-wired status, audit, readiness, approval, or export surfaces. No page enables raw activate all, arbitrary shell execution, arbitrary SQL, command execution, deployment actions, rollback execution, alert sending, or unrestricted automation.</p>
+      <p>Third-party names, platforms, and services referenced for context remain the property of their respective owners.</p>
+      <p class="legal-links"><a href="../legal.html">Legal / Copyright</a> · <a href="../index.html">Home</a> · <a href="./index.html">Demo Hub</a> · <a href="../full-audit-dashboard.html">Full Audit Dashboard</a> · <a href="../copyright.html">Copyright</a></p>
+    </footer>
+  </div>
 
     <script>
-        // No service role key or arbitrary SQL here!
         async function fetchAPI(url, options = {}) {
             try {
                 const res = await fetch(url, options);
@@ -210,7 +266,6 @@
                     document.getElementById('sim_dept_count').innerText = test.simulated_department_count;
                     document.getElementById('failure_count').innerText = test.failure_count;
                     document.getElementById('recovery_drill_count').innerText = test.recovery_count;
-                    document.getElementById('circuit_breaker_status').innerText = test.circuit_breaker_triggered ? 'triggered' : 'clear';
                     document.getElementById('safe_state_status').innerText = test.safe_state_restored ? 'true' : 'false';
                 }
                 if(listData.events) {
@@ -223,7 +278,6 @@
             }
         }
 
-        // Init
         refreshRollup();
     </script>
 </body>

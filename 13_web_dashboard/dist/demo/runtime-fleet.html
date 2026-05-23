@@ -1,138 +1,192 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Full 47,979-Agent Department-Gated Runtime Fleet</title>
-    <style>
-        body { font-family: sans-serif; padding: 20px; background: #000; color: #0f0; }
-        .panel { border: 1px solid #0f0; padding: 15px; margin-bottom: 20px; }
-        button { background: #0f0; color: #000; padding: 10px; border: none; cursor: pointer; margin-right: 10px; }
-        button:hover { background: #0a0; }
-        .danger { background: #f00; color: #fff; }
-        .danger:hover { background: #a00; }
-        .label { font-weight: bold; }
-        input, select { margin: 5px 0; padding: 5px; }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Full 47,979-Agent Department-Gated Runtime Fleet - The Agent Command Center</title>
+  <link rel="stylesheet" href="./assets/demo.css">
+  <script src="./assets/demo.js" defer></script>
 </head>
 <body>
+  <div class="demo-shell">
+    <header class="demo-topbar collapsible-topbar" data-collapsible-menu>
+      <div class="topbar-main">
+        <a class="topbar-title" href="./index.html">Full 47,979-Agent Runtime Fleet</a>
+        <button
+          class="menu-toggle"
+          type="button"
+          data-action="toggle-menu"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          aria-controls="demo-menu-panel">
+          Menu
+        </button>
+      </div>
+      <nav id="demo-menu-panel" class="menu-panel" data-menu-panel hidden aria-label="Demo navigation">
+        <a href="../index.html">Home</a>
+        <a href="./index.html">Demo Hub</a>
+        <a href="./executive-control-room.html">Executive Control Room</a>
+        <a href="./enterprise-pilot-packet.html">Enterprise Pilot Packet</a>
+        <a href="./simulator.html">Simulator</a>
+        <a href="./system-scale.html">System Scale</a>
+        <a href="./agent-registry.html">Agent Registry</a>
+        <a href="./safety-boundaries.html">Safety Boundaries</a>
+        <a href="./runtime-fleet.html">Runtime Fleet</a>
+        <a href="./full-fleet-load-test.html">Full-Fleet Load Test</a>
+        <a href="./observability-command-wall.html">Observability Command Wall</a>
+        <a href="./enterprise-pilot-room.html">Enterprise Pilot Room</a>
+        <a href="./continual-harness-operator.html">Continual Harness Operator</a>
+        <a href="../legal.html">Legal / Copyright</a>
+        <a href="../full-audit-dashboard.html">Full Audit Dashboard</a>
+      </nav>
+    </header>
 
-    <h1>Full 47,979-Agent Department-Gated Runtime Fleet</h1>
-    <p>Scale to the full registered Agent Command Center fleet only through approved department gates, staged unlocks, circuit breakers, and kill-switch controls.</p>
-    
-    <div class="panel">
-        <h2>1. Full fleet runtime status</h2>
-        <div><span class="label">Total registered agents:</span> 47,979</div>
-        <div><span class="label">Total departments:</span> 1,777</div>
-        <div><span class="label">Total units:</span> 5,331</div>
-        <div><span class="label">Total families:</span> 175</div>
-        <div><span class="label">MVP-63 full fleet cap:</span> 47,979</div>
-        <div><span class="label">Max cohort activation size:</span> 2,500</div>
-        <div><span class="label">Max operation chunk size:</span> 500</div>
-        <div><span class="label">Current live runtime agents:</span> <span id="current_live">0</span></div>
-        <div><span class="label">Current unlocked stage cap:</span> <span id="current_stage_cap">20,000</span></div>
-    </div>
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../index.html">Home</a>
+      <span aria-hidden="true">→</span>
+      <a href="./index.html">Demo Hub</a>
+      <span aria-hidden="true">→</span>
+      <span>Runtime Fleet</span>
+    </nav>
 
-    <div class="panel">
-        <h2>2. Stage unlock panel</h2>
-        <p>47,979 is the full fleet cap, not an automatic startup target.</p>
-        <p>Staged unlocks are required.</p>
-        <ul>
-            <li>Stage 1: 5,000</li>
-            <li>Stage 2: 10,000</li>
-            <li>Stage 3: 20,000</li>
-            <li>Stage 4: 30,000</li>
-            <li>Stage 5: 40,000</li>
-            <li>Stage 6: 47,979</li>
-        </ul>
-        <button onclick="unlockNextStage()">Unlock next stage</button>
-    </div>
+    <section class="hero">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Full-fleet runtime capacity</p>
+          <h1 class="title">Full 47,979-Agent Runtime Fleet</h1>
+          <p class="lead">Scale to the full registered Agent Command Center fleet only through approved department gates, staged unlocks, circuit breakers, and kill-switch controls. 47,979 is the full fleet cap, not an automatic startup target. Department-gated activation is required. Staged unlocks are required. Raw activate all is disabled.</p>
+          <div class="badge-row">
+            <span class="badge success">Total registered agents:</span> 47,979</span>
+            <span class="badge info">Total departments:</span> 1,777</span>
+            <span class="badge warning">Full fleet cap: 47,979</span>
+            <span class="badge warning">Max cohort activation size: 2,500</span>
+            <span class="badge warning">Max operation chunk size: 500</span>
+            <span class="badge danger">Raw activate all: disabled</span>
+          </div>
+          <div class="cta-row" style="margin-top: 18px;">
+            <button onclick="refreshFleetStatus()" class="button primary">Refresh fleet status</button>
+            <button onclick="exportJson()" class="button secondary">Export fleet state as JSON</button>
+            <button onclick="sendHeartbeat()" class="button">Send fleet heartbeat</button>
+          </div>
+        </div>
+        <aside class="callout">
+            <p class="eyebrow">Safety boundaries</p>
+            <p>The kill switch pauses runtime activation; it does not execute rollback commands. No department can run commands, deploys, rollbacks, alerts, shell commands, or arbitrary actions from this page.</p>
+            <div class="badge-row">
+              <span class="badge danger">Kill switch ready</span>
+              <span class="badge ghost">Circuit breakers pause further activation</span>
+            </div>
+            <button onclick="fleetKillSwitch()" class="button danger mt-12">Fleet kill switch</button>
+        </aside>
+      </div>
+    </section>
 
-    <div class="panel">
-        <h2>3. Cap and safety panel</h2>
-        <p>Raw activate-all is disabled.</p>
-        <p>Department-gated activation is required.</p>
-        <div>Raw activate-all route: disabled</div>
-        <div>Command execution: disabled</div>
-        <div>Deploy execution: disabled</div>
-        <div>Rollback execution: disabled</div>
-        <div>Alert sending: disabled</div>
-        <div>Arbitrary shell execution: disabled</div>
-    </div>
+    <section class="section">
+        <div class="section-head">
+            <h2>1. Full fleet runtime status</h2>
+        </div>
+        <div class="metric-grid">
+            <article class="metric"><span class="smallcaps">Total registered agents</span><strong>47,979</strong></article>
+            <article class="metric"><span class="smallcaps">Total departments</span><strong>1,777</strong></article>
+            <article class="metric"><span class="smallcaps">Total units</span><strong>5,331</strong></article>
+            <article class="metric"><span class="smallcaps">Total families</span><strong>175</strong></article>
+            <article class="metric"><span class="smallcaps">Current live runtime agents</span><strong id="current_live">0</strong></article>
+            <article class="metric"><span class="smallcaps">Current unlocked stage cap</span><strong id="current_stage_cap">20,000</strong></article>
+            <article class="metric"><span class="smallcaps">Circuit breaker status</span><strong id="circuit_breaker_status">clear</strong></article>
+            <article class="metric"><span class="smallcaps">Continual Harness status</span><strong id="continual_harness_status">not_checked</strong></article>
+        </div>
+    </section>
 
-    <div class="panel">
-        <h2>4. Approved department gate selector</h2>
-        <select id="departmentSelector">
-            <option value="dept_001">dept_001 (Operations)</option>
-        </select>
-        <button onclick="refreshFleetStatus()">Refresh fleet status</button>
-    </div>
+    <section class="section">
+        <div class="panel">
+            <h2>2. Stage unlock panel</h2>
+            <p>Staged unlocks are required.</p>
+            <ul class="card-list">
+                <li>Stage 1: 5,000</li>
+                <li>Stage 2: 10,000</li>
+                <li>Stage 3: 20,000</li>
+                <li>Stage 4: 30,000</li>
+                <li>Stage 5: 40,000</li>
+                <li>Stage 6: 47,979</li>
+            </ul>
+            <button onclick="unlockNextStage()" class="button">Unlock next stage</button>
+        </div>
+    </section>
 
-    <div class="panel">
-        <h2>5. Cohort activation panel</h2>
-        <input type="number" id="cohortSize" value="100" max="2500" />
-        <button onclick="activateCohort()">Activate department-gated cohort</button>
-        <button onclick="activateApprovedCohort()">Activate approved department-gated cohort</button>
-    </div>
+    <section class="section">
+        <div class="panel-flex">
+            <div class="panel">
+                <h2>4. Approved department gate selector</h2>
+                <select id="departmentSelector">
+                    <option value="dept_001">dept_001 (Operations)</option>
+                </select>
+                <div class="mt-12">
+                    <span class="label">Approved department gates:</span> <span id="approved_gates">0</span><br>
+                    <span class="label">Active department gates:</span> <span id="active_gates">0</span><br>
+                    <span class="label">Active cohorts:</span> <span id="active_cohorts">0</span>
+                </div>
+            </div>
+            <div class="panel">
+                <h2>5. Cohort activation panel</h2>
+                <input type="number" id="cohortSize" value="100" max="2500" />
+                <div class="button-row mt-12">
+                    <button onclick="activateCohort()" class="button">Activate department-gated cohort</button>
+                    <button onclick="activateApprovedCohort()" class="button">Activate approved department-gated cohort</button>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <div class="panel">
-        <h2>6. Cohort deactivation panel</h2>
-        <input type="text" id="cohortId" placeholder="Cohort ID" />
-        <button onclick="deactivateCohort()">Deactivate cohort</button>
-        <button onclick="deactivateDeptCohorts()">Deactivate department cohorts</button>
-    </div>
+    <section class="section">
+        <div class="panel">
+            <h2>6. Cohort deactivation panel</h2>
+            <input type="text" id="cohortId" placeholder="Cohort ID" />
+            <div class="button-row mt-12">
+                <button onclick="deactivateCohort()" class="button">Deactivate cohort</button>
+                <button onclick="deactivateDeptCohorts()" class="button">Deactivate department cohorts</button>
+            </div>
+        </div>
+    </section>
 
-    <div class="panel">
-        <h2>7. Department coverage panel</h2>
-        <div>Approved department gates: <span id="approved_gates">0</span></div>
-        <div>Active department gates: <span id="active_gates">0</span></div>
-        <div>Active cohorts: <span id="active_cohorts">0</span></div>
-    </div>
+    <section class="section">
+        <div class="panel">
+            <h2>8. Circuit breaker panel</h2>
+            <div class="button-row">
+                <button onclick="triggerCircuitBreaker()" class="button danger">Trigger circuit breaker</button>
+                <button onclick="clearCircuitBreaker()" class="button">Clear circuit breaker</button>
+            </div>
+        </div>
+    </section>
 
-    <div class="panel">
-        <h2>8. Circuit breaker panel</h2>
-        <p>Circuit breakers pause further activation.</p>
-        <div>Circuit breaker status: <span id="circuit_breaker_status">clear</span></div>
-        <button onclick="triggerCircuitBreaker()" class="danger">Trigger circuit breaker</button>
-        <button onclick="clearCircuitBreaker()">Clear circuit breaker</button>
-    </div>
+    <section class="section">
+        <div class="panel-flex">
+            <div class="panel">
+                <h2>10. Runtime fleet rollup cards</h2>
+                <pre id="rollup_data" class="output-panel">Loading...</pre>
+            </div>
+            <div class="panel">
+                <h2>12. Readiness note form</h2>
+                <input type="text" id="readinessNote" placeholder="Enter note..." />
+                <button onclick="createReadinessNote()" class="button mt-12">Create readiness note</button>
+            </div>
+        </div>
+    </section>
 
-    <div class="panel">
-        <h2>9. Continual Harness supervisor panel</h2>
-        <div>Continual Harness supervisor status: <span id="continual_harness_status">not_checked</span></div>
-    </div>
-
-    <div class="panel">
-        <h2>10. Runtime fleet rollup cards</h2>
-        <div id="rollup_data">Loading...</div>
-    </div>
-
-    <div class="panel">
+    <section class="section">
         <h2>11. Event timeline</h2>
-        <pre id="event_timeline"></pre>
-    </div>
+        <pre id="event_timeline" class="output-panel"></pre>
+    </section>
 
-    <div class="panel">
-        <h2>12. Readiness note form</h2>
-        <input type="text" id="readinessNote" placeholder="Enter note..." />
-        <button onclick="createReadinessNote()">Create readiness note</button>
-    </div>
-
-    <div class="panel">
-        <h2>13. Kill switch / blocked activation callout</h2>
-        <p>The kill switch pauses runtime activation; it does not execute rollback commands.</p>
-        <p>No department can run commands, deploys, rollbacks, alerts, shell commands, or arbitrary actions from this page.</p>
-        <button onclick="fleetKillSwitch()" class="danger">Fleet kill switch</button>
-    </div>
-
-    <div class="panel">
-        <h2>14. Export current fleet state as JSON</h2>
-        <button onclick="exportJson()">Export JSON</button>
-        <button onclick="sendHeartbeat()">Send fleet heartbeat</button>
-    </div>
+    <footer class="footer site-legal-footer">
+      <p>© 2026 Devin O’Rourke. All rights reserved.</p>
+      <p>Agent Command Center, the demo pages, registry presentation, dashboard copy, visual layout, simulator materials, validator descriptions, and stakeholder presentation materials are protected project materials. No license, sale, transfer, or permission to reuse is granted by viewing this demo.</p>
+      <p>This site is a public stakeholder review surface. Some pages are static demonstrations, and some pages may be controlled backend-wired status, audit, readiness, approval, or export surfaces. No page enables raw activate all, arbitrary shell execution, arbitrary SQL, command execution, deployment actions, rollback execution, alert sending, or unrestricted automation.</p>
+      <p>Third-party names, platforms, and services referenced for context remain the property of their respective owners.</p>
+      <p class="legal-links"><a href="../legal.html">Legal / Copyright</a> · <a href="../index.html">Home</a> · <a href="./index.html">Demo Hub</a> · <a href="../full-audit-dashboard.html">Full Audit Dashboard</a> · <a href="../copyright.html">Copyright</a></p>
+    </footer>
+  </div>
 
     <script>
-        // No service role key or arbitrary SQL here!
         async function fetchAPI(url, options = {}) {
             try {
                 const res = await fetch(url, options);
@@ -172,7 +226,7 @@
         async function unlockNextStage() {
             await fetchAPI('/.netlify/functions/unlock-runtime-fleet-stage', {
                 method: 'POST',
-                body: JSON.stringify({ stage_id: 'stage_4_30000' }) // simplified for demo
+                body: JSON.stringify({ stage_id: 'stage_4_30000' })
             });
             refreshFleetStatus();
         }
@@ -226,7 +280,7 @@
         async function clearCircuitBreaker() {
             await fetchAPI('/.netlify/functions/runtime-fleet-circuit-breaker', {
                 method: 'POST',
-                body: JSON.stringify({ action: 'clear', breaker_id: '...', reason: 'User requested' }) // Needs actual ID in real usage
+                body: JSON.stringify({ action: 'clear', breaker_id: '...', reason: 'User requested' })
             });
             refreshFleetStatus();
         }
@@ -264,7 +318,6 @@
             }
         }
 
-        // Init
         refreshFleetStatus();
     </script>
 </body>

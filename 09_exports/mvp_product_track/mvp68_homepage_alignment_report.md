@@ -8,7 +8,8 @@ The Agent Command Center live site has been updated to reflect the completion of
 - **Demo Hub:** Updated to match the MVP-68 enterprise framing, including all new review surfaces.
 - **Milestone Promotion:** Latest public milestone promoted from MVP-50 to MVP-68.
 - **Copy Alignment:** Removed stale "static-only" and "not started" language where it contradicted live backend-wired functionality.
-- **Navigation Sync:** Synchronized collapsible menus across all demo pages to include new routes.
+- **Standardization:** Refactored all new MVP 63-68 pages to use the standard site shell, navigation, and footer.
+- **Navigation Sync:** Synchronized collapsible menus across all 30+ demo pages to include all new routes.
 - **CSS Layout:** Added global safeguards for text overflow, table responsiveness, and mobile stacking.
 
 ## Markers

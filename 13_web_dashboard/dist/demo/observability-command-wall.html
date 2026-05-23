@@ -1,134 +1,157 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Full-Fleet Observability Command Wall</title>
-    <style>
-        body { font-family: sans-serif; padding: 20px; background: #000; color: #0f0; }
-        .panel { border: 1px solid #0f0; padding: 15px; margin-bottom: 20px; }
-        .panel-flex { display: flex; gap: 20px; flex-wrap: wrap; }
-        .panel-flex > div { flex: 1; min-width: 300px; border: 1px solid #0a0; padding: 10px; }
-        button { background: #0f0; color: #000; padding: 10px; border: none; cursor: pointer; margin-right: 10px; margin-top: 5px; }
-        button:hover { background: #0a0; }
-        .danger { background: #f00; color: #fff; }
-        .label { font-weight: bold; }
-        input, select { margin: 5px 0; padding: 5px; width: calc(100% - 14px); }
-        .nav-links a { color: #0f0; margin-right: 15px; }
-        h1, h2, h3 { margin-top: 0; }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Full-Fleet Observability Command Wall - The Agent Command Center</title>
+  <link rel="stylesheet" href="./assets/demo.css">
+  <script src="./assets/demo.js" defer></script>
 </head>
 <body>
+  <div class="demo-shell">
+    <header class="demo-topbar collapsible-topbar" data-collapsible-menu>
+      <div class="topbar-main">
+        <a class="topbar-title" href="./index.html">Observability Wall</a>
+        <button
+          class="menu-toggle"
+          type="button"
+          data-action="toggle-menu"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          aria-controls="demo-menu-panel">
+          Menu
+        </button>
+      </div>
+      <nav id="demo-menu-panel" class="menu-panel" data-menu-panel hidden aria-label="Demo navigation">
+        <a href="../index.html">Home</a>
+        <a href="./index.html">Demo Hub</a>
+        <a href="./executive-control-room.html">Executive Control Room</a>
+        <a href="./enterprise-pilot-packet.html">Enterprise Pilot Packet</a>
+        <a href="./simulator.html">Simulator</a>
+        <a href="./system-scale.html">System Scale</a>
+        <a href="./agent-registry.html">Agent Registry</a>
+        <a href="./safety-boundaries.html">Safety Boundaries</a>
+        <a href="./runtime-fleet.html">Runtime Fleet</a>
+        <a href="./full-fleet-load-test.html">Full-Fleet Load Test</a>
+        <a href="./observability-command-wall.html">Observability Command Wall</a>
+        <a href="./enterprise-pilot-room.html">Enterprise Pilot Room</a>
+        <a href="./continual-harness-operator.html">Continual Harness Operator</a>
+        <a href="../legal.html">Legal / Copyright</a>
+        <a href="../full-audit-dashboard.html">Full Audit Dashboard</a>
+      </nav>
+    </header>
 
-    <h1>Full-Fleet Observability Command Wall</h1>
-    <p>One command-wall view for the 47,979-agent department-gated runtime fleet, safety gates, circuit breakers, load tests, recovery drills, and Continual Harness status.</p>
-    
-    <div class="panel nav-links">
-        <a href="./runtime-fleet.html">Open Runtime Fleet</a>
-        <a href="./full-fleet-load-test.html">Open Full-Fleet Load Test</a>
-        <a href="./department-gated-runtime.html">Open Department-Gated Runtime</a>
-        <a href="./continual-harness-operator.html">Open Continual Harness Operator</a>
-    </div>
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../index.html">Home</a>
+      <span aria-hidden="true">→</span>
+      <a href="./index.html">Demo Hub</a>
+      <span aria-hidden="true">→</span>
+      <span>Observability Wall</span>
+    </nav>
 
-    <div class="panel">
-        <h2>1. Executive status banner</h2>
-        <p>This wall observes and summarizes the control plane. It does not execute commands.</p>
-        <p>Full-fleet observability is not raw activate-all.</p>
-        <div>Overall system status: <span id="overall_status">unknown</span></div>
-        <div>Recommended action: <span id="recommended_action">none</span></div>
-        <button onclick="refreshWall()">Refresh wall</button>
-        <button onclick="createSnapshot()">Create snapshot</button>
-    </div>
-
-    <div class="panel-flex">
-        <div>
-            <h2>2. Fleet scale cards</h2>
-            <div>Total registered agents: 47,979</div>
-            <div>Total departments: 1,777</div>
-            <div>Total units: 5,331</div>
-            <div>Total families: 175</div>
-            <div>Full fleet cap: 47,979</div>
+    <section class="hero">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Executive/Operator wall</p>
+          <h1 class="title">Full-Fleet Observability</h1>
+          <p class="lead">One unified command-wall view for the 47,979-agent department-gated runtime fleet, safety gates, circuit breakers, load tests, recovery drills, and Continual Harness status. This wall observes and summarizes the control plane. It does not execute commands.</p>
+          <div class="badge-row">
+            <span class="badge info">Observability Only</span>
+            <span class="badge info">Status Flags Ready</span>
+            <span class="badge success">Audit Verified</span>
+            <span class="badge ghost">No Execution</span>
+          </div>
+          <div class="cta-row" style="margin-top: 18px;">
+            <button onclick="refreshWall()" class="button primary">Refresh wall</button>
+            <button onclick="createSnapshot()" class="button secondary">Create snapshot</button>
+            <button onclick="exportReport()" class="button">Export report JSON</button>
+          </div>
         </div>
-        
-        <div>
-            <h2>3. Runtime activation status</h2>
-            <div>Current live runtime agents: <span id="current_live">0</span></div>
-            <div>Current stage cap: <span id="current_stage_cap">0</span></div>
+        <aside class="callout">
+            <p class="eyebrow">Safety boundary</p>
+            <p>Status flags are not external alerts. Rollback status is observed only; no rollback execution occurs here. Full-fleet observability is not raw activate all.</p>
+            <div class="badge-row">
+              <span class="badge warning">No raw activate all</span>
+              <span class="badge warning">No external alerts</span>
+            </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section">
+        <div class="metric-grid">
+            <article class="metric"><span class="smallcaps">System status</span><strong id="overall_status">unknown</strong></article>
+            <article class="metric"><span class="smallcaps">Live runtime agents</span><strong id="current_live">0</strong></article>
+            <article class="metric"><span class="smallcaps">Unlocked stages</span><strong id="unlocked_stages">0</strong></article>
+            <article class="metric"><span class="smallcaps">Active circuit breakers</span><strong id="cb_status">0</strong></article>
         </div>
+    </section>
 
-        <div>
-            <h2>4. Department gate status</h2>
-            <div>Approved department gates: <span id="approved_gates">0</span></div>
-            <div>Active department gates: <span id="active_gates">0</span></div>
-            <div>Blocked department gates: <span id="blocked_gates">0</span></div>
+    <section class="section">
+        <div class="panel">
+            <h2>Recommended Action</h2>
+            <p id="recommended_action" class="lead">Monitor normal operations</p>
         </div>
+    </section>
 
-        <div>
-            <h2>5. Stage and cohort status</h2>
-            <div>Unlocked stages: <span id="unlocked_stages">0</span></div>
-            <div>Active cohorts: <span id="active_cohorts">0</span></div>
+    <section class="section">
+        <div class="panel-flex">
+            <div class="panel">
+                <h2>Scale & Gates</h2>
+                <div>Total registered agents: 47,979</div>
+                <div>Total departments: 1,777</div>
+                <div>Total units: 5,331</div>
+                <div>Total families: 175</div>
+                <div class="mt-12">
+                    <span class="label">Approved gates:</span> <span id="approved_gates">0</span><br>
+                    <span class="label">Active gates:</span> <span id="active_gates">0</span><br>
+                    <span class="label">Blocked gates:</span> <span id="blocked_gates">0</span>
+                </div>
+            </div>
+            <div class="panel">
+                <h2>Drills & Status</h2>
+                <div>Continual Harness: <span id="ch_status">unknown</span></div>
+                <div>Load-test: <span id="lt_status">unknown</span></div>
+                <div>Recovery drill: <span id="rd_status">unknown</span></div>
+                <div>Safe-state: <span id="ss_status">unknown</span></div>
+            </div>
         </div>
-    </div>
+    </section>
 
-    <div class="panel-flex" style="margin-top: 20px;">
-        <div>
-            <h2>6. Circuit breaker panel</h2>
-            <div>Circuit breaker status: <span id="cb_status">0</span> active</div>
+    <section class="section">
+        <div class="panel-flex">
+            <div class="panel">
+                <h2>Audit Event Log</h2>
+                <pre id="audit_events" class="output-panel" style="max-height: 200px;">Loading events...</pre>
+            </div>
+            <div class="panel">
+                <h2>State Flags</h2>
+                <pre id="state_flags" class="output-panel" style="max-height: 200px;">Loading flags...</pre>
+            </div>
         </div>
+    </section>
 
-        <div>
-            <h2>7. Continual Harness panel</h2>
-            <div>Continual Harness status: <span id="ch_status">unknown</span></div>
+    <section class="section">
+        <div class="panel">
+            <h2>Operator Notes</h2>
+            <pre id="operator_notes" class="output-panel" style="max-height: 150px;">Loading notes...</pre>
+            <div class="button-row mt-12">
+                <input type="text" id="noteInput" placeholder="Enter observability note..." style="flex: 1;" />
+                <button onclick="addNote()" class="button">Add operator note</button>
+            </div>
         </div>
+    </section>
 
-        <div>
-            <h2>8. Full-fleet load-test panel</h2>
-            <div>Load-test status: <span id="lt_status">unknown</span></div>
-        </div>
-
-        <div>
-            <h2>9. Recovery drill / safe-state panel</h2>
-            <div>Recovery drill status: <span id="rd_status">unknown</span></div>
-            <div>Safe-state status: <span id="ss_status">unknown</span></div>
-        </div>
-    </div>
-
-    <div class="panel" style="margin-top: 20px;">
-        <h2>10. Audit event panel</h2>
-        <pre id="audit_events" style="max-height: 200px; overflow-y: auto;">Loading events...</pre>
-    </div>
-
-    <div class="panel">
-        <h2>11. State flags panel</h2>
-        <p>Status flags are not external alerts.</p>
-        <pre id="state_flags" style="max-height: 150px; overflow-y: auto;">Loading flags...</pre>
-    </div>
-
-    <div class="panel">
-        <h2>12. Operator notes panel</h2>
-        <pre id="operator_notes" style="max-height: 150px; overflow-y: auto;">Loading notes...</pre>
-        <input type="text" id="noteInput" placeholder="Enter observability note..." />
-        <button onclick="addNote()">Add operator note</button>
-    </div>
-
-    <div class="panel">
-        <h2>13. Export report panel</h2>
-        <button onclick="exportReport()">Export observability report JSON</button>
-    </div>
-
-    <div class="panel">
-        <h2>14. Safety boundary panel</h2>
-        <p>Rollback status is observed only; no rollback execution occurs here.</p>
-        <p>The command wall can recommend review, pause, or recovery steps, but it does not perform destructive actions.</p>
-        <div>Command execution: disabled</div>
-        <div>Deploy execution: disabled</div>
-        <div>Rollback execution: disabled</div>
-        <div>Alert sending: disabled</div>
-        <div>Arbitrary shell execution: disabled</div>
-    </div>
+    <footer class="footer site-legal-footer">
+      <p>© 2026 Devin O’Rourke. All rights reserved.</p>
+      <p>Agent Command Center, the demo pages, registry presentation, dashboard copy, visual layout, simulator materials, validator descriptions, and stakeholder presentation materials are protected project materials. No license, sale, transfer, or permission to reuse is granted by viewing this demo.</p>
+      <p>This site is a public stakeholder review surface. Some pages are static demonstrations, and some pages may be controlled backend-wired status, audit, readiness, approval, or export surfaces. No page enables raw activate all, arbitrary shell execution, arbitrary SQL, command execution, deployment actions, rollback execution, alert sending, or unrestricted automation.</p>
+      <p>Third-party names, platforms, and services referenced for context remain the property of their respective owners.</p>
+      <p class="legal-links"><a href="../legal.html">Legal / Copyright</a> · <a href="../index.html">Home</a> · <a href="./index.html">Demo Hub</a> · <a href="../full-audit-dashboard.html">Full Audit Dashboard</a> · <a href="../copyright.html">Copyright</a></p>
+    </footer>
+  </div>
 
     <script>
-        // No service role key or arbitrary SQL here!
         async function fetchAPI(url, options = {}) {
             try {
                 const res = await fetch(url, options);
@@ -149,12 +172,10 @@
                 document.getElementById('overall_status').innerText = s.overall_status;
                 document.getElementById('recommended_action').innerText = s.recommended_action || 'none';
                 document.getElementById('current_live').innerText = s.current_live_runtime_agents;
-                document.getElementById('current_stage_cap').innerText = s.current_stage_cap;
                 document.getElementById('approved_gates').innerText = s.approved_department_gates;
                 document.getElementById('active_gates').innerText = s.active_department_gates;
                 document.getElementById('blocked_gates').innerText = s.blocked_department_gates;
                 document.getElementById('unlocked_stages').innerText = s.unlocked_stages;
-                document.getElementById('active_cohorts').innerText = s.active_cohorts;
                 document.getElementById('cb_status').innerText = s.active_circuit_breakers;
                 document.getElementById('ch_status').innerText = s.continual_harness_status;
                 document.getElementById('lt_status').innerText = s.load_test_status;
@@ -171,7 +192,7 @@
         }
 
         async function createSnapshot() {
-            const data = await fetchAPI('/.netlify/functions/full-fleet-observability-snapshot', {
+            await fetchAPI('/.netlify/functions/full-fleet-observability-snapshot', {
                 method: 'POST',
                 body: JSON.stringify({ actor: 'operator' })
             });
@@ -181,7 +202,7 @@
         async function addNote() {
             const body = document.getElementById('noteInput').value;
             if (!body) return;
-            if (!currentSnapshotId) return alert('No snapshot ID available. Create one first.');
+            if (!currentSnapshotId) return alert('No snapshot ID available.');
             await fetchAPI('/.netlify/functions/create-observability-note', {
                 method: 'POST',
                 body: JSON.stringify({ snapshot_id: currentSnapshotId, note_body: body, actor: 'operator' })
@@ -191,7 +212,7 @@
         }
 
         async function exportReport() {
-            if (!currentSnapshotId) return alert('No snapshot ID available. Create one first.');
+            if (!currentSnapshotId) return alert('No snapshot ID available.');
             const data = await fetchAPI('/.netlify/functions/export-observability-report', {
                 method: 'POST',
                 body: JSON.stringify({ snapshot_id: currentSnapshotId, actor: 'operator' })
@@ -207,7 +228,6 @@
             }
         }
 
-        // Init
         refreshWall();
     </script>
 </body>
