@@ -57,7 +57,7 @@ exports.handler = async function handler(event) {
         total_registered_agents: Number(config.total_registered_agents || 47979),
         total_departments: Number(config.total_departments || 1777),
         full_47979_activation_blocked: Boolean(config.full_47979_activation_blocked !== false),
-        department_gated_activation_required: Boolean(config.department_gated_activation_required),
+        department_gated_activation_required: Boolean(config.department_gated_activation_required || limits.department_gated_activation_required),
         command_execution_enabled: Boolean(config.command_execution_enabled),
         deploy_execution_enabled: Boolean(config.deploy_execution_enabled),
         rollback_execution_enabled: Boolean(config.rollback_execution_enabled),
@@ -69,6 +69,7 @@ exports.handler = async function handler(event) {
         ...rollup,
         current_live_runtime_agents: Number(rollup.current_live_runtime_agents || corps.currentLiveRuntimeAgents(gateResult.data || [], cohortResult.data || [])),
         gate_event_count: (eventResult.data || []).length,
+        department_gated_activation_required: Boolean(config.department_gated_activation_required || limits.department_gated_activation_required),
         backend_partial: partialBackend,
       },
       counts: {

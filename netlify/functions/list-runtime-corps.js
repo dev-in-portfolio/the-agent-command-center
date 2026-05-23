@@ -136,7 +136,7 @@ exports.handler = async function handler(event) {
         total_registered_agents: Number(rollup.total_registered_agents || 47979),
         total_departments: Number(rollup.total_departments || 1777),
         full_47979_activation_blocked: Boolean(rollup.full_47979_activation_blocked),
-        department_gated_activation_required: Boolean(rollup.department_gated_activation_required),
+        department_gated_activation_required: Boolean(config.department_gated_activation_required || limits.department_gated_activation_required || rollup.department_gated_activation_required),
         command_execution_enabled: Boolean(rollup.command_execution_enabled),
         deploy_execution_enabled: Boolean(rollup.deploy_execution_enabled),
         rollback_execution_enabled: Boolean(rollup.rollback_execution_enabled),
@@ -154,6 +154,7 @@ exports.handler = async function handler(event) {
         gate_event_count: (gateEventResult.data || []).length,
         cohort_event_count: (eventResult.data || []).length,
         active_cohorts_count: activeCohorts.length,
+        department_gated_activation_required: Boolean(config.department_gated_activation_required || limits.department_gated_activation_required || rollup.department_gated_activation_required),
       },
       counts: {
         total_departments: departments.length,
