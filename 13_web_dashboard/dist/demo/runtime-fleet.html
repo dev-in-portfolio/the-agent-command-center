@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full 47,979-Agent Department-Gated Runtime Fleet</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: #000; color: #0f0; }
+        .panel { border: 1px solid #0f0; padding: 15px; margin-bottom: 20px; }
+        button { background: #0f0; color: #000; padding: 10px; border: none; cursor: pointer; margin-right: 10px; }
+        button:hover { background: #0a0; }
+        .danger { background: #f00; color: #fff; }
+        .danger:hover { background: #a00; }
+        .label { font-weight: bold; }
+        input, select { margin: 5px 0; padding: 5px; }
+    </style>
+</head>
+<body>
+
+    <h1>Full 47,979-Agent Department-Gated Runtime Fleet</h1>
+    <p>Scale to the full registered Agent Command Center fleet only through approved department gates, staged unlocks, circuit breakers, and kill-switch controls.</p>
+    
+    <div class="panel">
+        <h2>1. Full fleet runtime status</h2>
+        <div><span class="label">Total registered agents:</span> 47,979</div>
+        <div><span class="label">Total departments:</span> 1,777</div>
+        <div><span class="label">Total units:</span> 5,331</div>
+        <div><span class="label">Total families:</span> 175</div>
+        <div><span class="label">MVP-63 full fleet cap:</span> 47,979</div>
+        <div><span class="label">Max cohort activation size:</span> 2,500</div>
+        <div><span class="label">Max operation chunk size:</span> 500</div>
+        <div><span class="label">Current live runtime agents:</span> <span id="current_live">0</span></div>
+        <div><span class="label">Current unlocked stage cap:</span> <span id="current_stage_cap">20,000</span></div>
+    </div>
+
+    <div class="panel">
+        <h2>2. Stage unlock panel</h2>
+        <p>47,979 is the full fleet cap, not an automatic startup target.</p>
+        <p>Staged unlocks are required.</p>
+        <ul>
+            <li>Stage 1: 5,000</li>
+            <li>Stage 2: 10,000</li>
+            <li>Stage 3: 20,000</li>
+            <li>Stage 4: 30,000</li>
+            <li>Stage 5: 40,000</li>
+            <li>Stage 6: 47,979</li>
+        </ul>
+        <button onclick="unlockNextStage()">Unlock next stage</button>
+    </div>
+
+    <div class="panel">
+        <h2>3. Cap and safety panel</h2>
+        <p>Raw activate-all is disabled.</p>
+        <p>Department-gated activation is required.</p>
+        <div>Raw activate-all route: disabled</div>
+        <div>Command execution: disabled</div>
+        <div>Deploy execution: disabled</div>
+        <div>Rollback execution: disabled</div>
+        <div>Alert sending: disabled</div>
+        <div>Arbitrary shell execution: disabled</div>
+    </div>
+
+    <div class="panel">
+        <h2>4. Approved department gate selector</h2>
+        <select id="departmentSelector">
+            <option value="dept_001">dept_001 (Operations)</option>
+        </select>
+        <button onclick="refreshFleetStatus()">Refresh fleet status</button>
+    </div>
+
+    <div class="panel">
+        <h2>5. Cohort activation panel</h2>
+        <input type="number" id="cohortSize" value="100" max="2500" />
+        <button onclick="activateCohort()">Activate department-gated cohort</button>
+        <button onclick="activateApprovedCohort()">Activate approved department-gated cohort</button>
+    </div>
+
+    <div class="panel">
+        <h2>6. Cohort deactivation panel</h2>
+        <input type="text" id="cohortId" placeholder="Cohort ID" />
+        <button onclick="deactivateCohort()">Deactivate cohort</button>
+        <button onclick="deactivateDeptCohorts()">Deactivate department cohorts</button>
+    </div>
+
+    <div class="panel">
+        <h2>7. Department coverage panel</h2>
+        <div>Approved department gates: <span id="approved_gates">0</span></div>
+        <div>Active department gates: <span id="active_gates">0</span></div>
+        <div>Active cohorts: <span id="active_cohorts">0</span></div>
+    </div>
+
+    <div class="panel">
+        <h2>8. Circuit breaker panel</h2>
+        <p>Circuit breakers pause further activation.</p>
+        <div>Circuit breaker status: <span id="circuit_breaker_status">clear</span></div>
+        <button onclick="triggerCircuitBreaker()" class="danger">Trigger circuit breaker</button>
+        <button onclick="clearCircuitBreaker()">Clear circuit breaker</button>
+    </div>
+
+    <div class="panel">
+        <h2>9. Continual Harness supervisor panel</h2>
+        <div>Continual Harness supervisor status: <span id="continual_harness_status">not_checked</span></div>
+    </div>
+
+    <div class="panel">
+        <h2>10. Runtime fleet rollup cards</h2>
+        <div id="rollup_data">Loading...</div>
+    </div>
+
+    <div class="panel">
+        <h2>11. Event timeline</h2>
+        <pre id="event_timeline"></pre>
+    </div>
+
+    <div class="panel">
+        <h2>12. Readiness note form</h2>
+        <input type="text" id="readinessNote" placeholder="Enter note..." />
+        <button onclick="createReadinessNote()">Create readiness note</button>
+    </div>
+
+    <div class="panel">
+        <h2>13. Kill switch / blocked activation callout</h2>
+        <p>The kill switch pauses runtime activation; it does not execute rollback commands.</p>
+        <p>No department can run commands, deploys, rollbacks, alerts, shell commands, or arbitrary actions from this page.</p>
+        <button onclick="fleetKillSwitch()" class="danger">Fleet kill switch</button>
+    </div>
+
+    <div class="panel">
+        <h2>14. Export current fleet state as JSON</h2>
+        <button onclick="exportJson()">Export JSON</button>
+        <button onclick="sendHeartbeat()">Send fleet heartbeat</button>
+    </div>
+
+    <script>
+        // No service role key or arbitrary SQL here!
+        async function fetchAPI(url, options = {}) {
+            try {
+                const res = await fetch(url, options);
+                return await res.json();
+            } catch (err) {
+                console.error(err);
+                return { error: err.message };
+            }
+        }
+
+        async function refreshFleetStatus() {
+            const data = await fetchAPI('/.netlify/functions/list-runtime-fleet');
+            if (data && !data.error) {
+                document.getElementById('current_live').innerText = data.active_count;
+                document.getElementById('active_cohorts').innerText = data.cohorts ? data.cohorts.filter(c => c.cohort_status === 'active').length : 0;
+                
+                if (data.events) {
+                    document.getElementById('event_timeline').innerText = JSON.stringify(data.events, null, 2);
+                }
+                
+                if (data.rollups && data.rollups.length > 0) {
+                    document.getElementById('rollup_data').innerText = JSON.stringify(data.rollups[0], null, 2);
+                    document.getElementById('circuit_breaker_status').innerText = data.rollups[0].circuit_breaker_status;
+                    document.getElementById('continual_harness_status').innerText = data.rollups[0].continual_harness_status;
+                }
+                
+                if (data.stages) {
+                    const unlocked = data.stages.filter(s => s.stage_status === 'unlocked');
+                    if (unlocked.length > 0) {
+                        document.getElementById('current_stage_cap').innerText = unlocked[unlocked.length - 1].stage_cap.toLocaleString();
+                    }
+                }
+                window.fleetState = data;
+            }
+        }
+
+        async function unlockNextStage() {
+            await fetchAPI('/.netlify/functions/unlock-runtime-fleet-stage', {
+                method: 'POST',
+                body: JSON.stringify({ stage_id: 'stage_4_30000' }) // simplified for demo
+            });
+            refreshFleetStatus();
+        }
+
+        async function activateCohort() {
+            await fetchAPI('/.netlify/functions/activate-runtime-fleet-cohort', {
+                method: 'POST',
+                body: JSON.stringify({
+                    department_id: document.getElementById('departmentSelector').value,
+                    requested_agent_count: document.getElementById('cohortSize').value
+                })
+            });
+            refreshFleetStatus();
+        }
+
+        async function deactivateCohort() {
+            await fetchAPI('/.netlify/functions/deactivate-runtime-fleet-cohort', {
+                method: 'POST',
+                body: JSON.stringify({ cohort_id: document.getElementById('cohortId').value })
+            });
+            refreshFleetStatus();
+        }
+
+        async function activateApprovedCohort() {
+            await fetchAPI('/.netlify/functions/activate-approved-department-fleet-cohort', {
+                method: 'POST',
+                body: JSON.stringify({
+                    department_id: document.getElementById('departmentSelector').value,
+                    requested_agent_count: document.getElementById('cohortSize').value
+                })
+            });
+            refreshFleetStatus();
+        }
+
+        async function deactivateDeptCohorts() {
+            await fetchAPI('/.netlify/functions/deactivate-approved-department-fleet-cohort', {
+                method: 'POST',
+                body: JSON.stringify({ department_id: document.getElementById('departmentSelector').value })
+            });
+            refreshFleetStatus();
+        }
+
+        async function triggerCircuitBreaker() {
+            await fetchAPI('/.netlify/functions/runtime-fleet-circuit-breaker', {
+                method: 'POST',
+                body: JSON.stringify({ action: 'trigger', breaker_name: 'MANUAL_TRIGGER', reason: 'User requested' })
+            });
+            refreshFleetStatus();
+        }
+
+        async function clearCircuitBreaker() {
+            await fetchAPI('/.netlify/functions/runtime-fleet-circuit-breaker', {
+                method: 'POST',
+                body: JSON.stringify({ action: 'clear', breaker_id: '...', reason: 'User requested' }) // Needs actual ID in real usage
+            });
+            refreshFleetStatus();
+        }
+
+        async function createReadinessNote() {
+            await fetchAPI('/.netlify/functions/create-runtime-fleet-readiness-note', {
+                method: 'POST',
+                body: JSON.stringify({ note: document.getElementById('readinessNote').value })
+            });
+            refreshFleetStatus();
+        }
+
+        async function sendHeartbeat() {
+            await fetchAPI('/.netlify/functions/runtime-fleet-heartbeat', { method: 'POST', body: JSON.stringify({}) });
+            refreshFleetStatus();
+        }
+
+        async function fleetKillSwitch() {
+            await fetchAPI('/.netlify/functions/runtime-fleet-kill-switch', {
+                method: 'POST',
+                body: JSON.stringify({ reason: 'Emergency kill switch triggered via UI' })
+            });
+            refreshFleetStatus();
+        }
+
+        function exportJson() {
+            if (window.fleetState) {
+                const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(window.fleetState));
+                const downloadAnchorNode = document.createElement('a');
+                downloadAnchorNode.setAttribute("href",     dataStr);
+                downloadAnchorNode.setAttribute("download", "fleet_state.json");
+                document.body.appendChild(downloadAnchorNode);
+                downloadAnchorNode.click();
+                downloadAnchorNode.remove();
+            }
+        }
+
+        // Init
+        refreshFleetStatus();
+    </script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+
+const { createClient } = require('@supabase/supabase-js');
+
+exports.handler = async (event) => {
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Content-Type': 'application/json'
+  };
+
+  if (event.httpMethod === 'OPTIONS') {
+    return { statusCode: 204, headers, body: '' };
+  }
+
+  if (event.httpMethod !== 'POST') {
+    return {
+      statusCode: 405,
+      headers,
+      body: JSON.stringify({ error: 'Method not allowed' })
+    };
+  }
+
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!supabaseUrl || !supabaseKey) {
+    return {
+      statusCode: 500,
+      headers,
+      body: JSON.stringify({ error: 'Server configuration error' })
+    };
+  }
+
+  const supabase = createClient(supabaseUrl, supabaseKey);
+
+  try {
+    
+    const body = JSON.parse(event.body);
+    const { action, breaker_name, breaker_id, reason, actor } = body;
+
+    if (action === 'trigger') {
+        const { error } = await supabase.rpc('trigger_runtime_fleet_circuit_breaker', {
+            p_breaker_name: breaker_name,
+            p_trigger_reason: reason,
+            p_actor: actor || 'system'
+        });
+        if (error) throw error;
+    } else if (action === 'clear') {
+        const { error } = await supabase.rpc('clear_runtime_fleet_circuit_breaker', {
+            p_breaker_id: breaker_id,
+            p_reason: reason,
+            p_actor: actor || 'system'
+        });
+        if (error) throw error;
+    }
+
+    return {
+      statusCode: 200,
+      headers,
+      body: JSON.stringify({ success: true })
+    };
+
+  } catch (err) {
+    return {
+      statusCode: 500,
+      headers,
+      body: JSON.stringify({ error: err.message })
+    };
+  }
+};
