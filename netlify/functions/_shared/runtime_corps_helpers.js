@@ -45,6 +45,48 @@ function supabaseRpc(functionName, payload, extraHeaders = {}) {
   return base.supabaseRpc(functionName, payload, extraHeaders);
 }
 
+function summarizeError(error) {
+  return {
+    message: error && error.message ? String(error.message) : "Unknown error",
+    status: Number(error && error.status ? error.status : 0) || null,
+    code: error && error.payload && error.payload.code ? String(error.payload.code) : null,
+  };
+}
+
+async function safeSupabaseGet(path, fallback = null) {
+  try {
+    return {
+      ok: true,
+      data: await base.supabaseGet(path),
+      error: null,
+    };
+  } catch (error) {
+    console.error("[runtime-corps] supabaseGet failed", path, summarizeError(error));
+    return {
+      ok: false,
+      data: fallback,
+      error: summarizeError(error),
+    };
+  }
+}
+
+async function safeSupabaseGetAll(path, fallback = []) {
+  try {
+    return {
+      ok: true,
+      data: await base.supabaseGetAll(path),
+      error: null,
+    };
+  } catch (error) {
+    console.error("[runtime-corps] supabaseGetAll failed", path, summarizeError(error));
+    return {
+      ok: false,
+      data: fallback,
+      error: summarizeError(error),
+    };
+  }
+}
+
 function hasForbiddenExecutionFlags(payload = {}) {
   return gate.hasForbiddenExecutionFlags(payload);
 }
@@ -205,6 +247,9 @@ module.exports = {
   mergeCorpsGateRecords,
   parseBody,
   supabaseRpc,
+  safeSupabaseGet,
+  safeSupabaseGetAll,
+  summarizeError,
   text,
   SUPABASE_URL,
   SUPABASE_SERVICE_ROLE_KEY,

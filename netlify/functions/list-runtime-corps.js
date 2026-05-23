@@ -42,21 +42,41 @@ exports.handler = async function handler(event) {
   }
 
   try {
-    const [configRows, limitRows, departmentRows, assignmentRows, gateRows, gateEventRows, cohortRows, eventRows] = await Promise.all([
-      base.supabaseGet("runtime_kernel_config?select=key,value,updated_at&order=key.asc"),
-      base.supabaseGet("runtime_corps_limits?select=key,value,updated_at&order=key.asc"),
-      base.supabaseGetAll("runtime_departments?select=*&order=family_id.asc,department_id.asc"),
-      base.supabaseGet("runtime_department_lane_assignments?select=*&order=assigned_at.desc"),
-      base.supabaseGetAll("department_runtime_gates?select=*&order=department_id.asc"),
-      base.supabaseGetAll("department_runtime_gate_events?select=*&order=created_at.desc"),
-      base.supabaseGetAll("runtime_corps_cohorts?select=*&order=created_at.desc"),
-      base.supabaseGetAll("runtime_corps_events?select=*&order=created_at.desc"),
+    const [
+      configResult,
+      limitResult,
+      departmentResult,
+      assignmentResult,
+      gateResult,
+      gateEventResult,
+      cohortResult,
+      eventResult,
+    ] = await Promise.all([
+      base.safeSupabaseGet("runtime_kernel_config?select=key,value,updated_at&order=key.asc", []),
+      base.safeSupabaseGet("runtime_corps_limits?select=key,value,updated_at&order=key.asc", []),
+      base.safeSupabaseGetAll("runtime_departments?select=*&order=family_id.asc,department_id.asc", []),
+      base.safeSupabaseGet("runtime_department_lane_assignments?select=*&order=assigned_at.desc", []),
+      base.safeSupabaseGetAll("department_runtime_gates?select=*&order=department_id.asc", []),
+      base.safeSupabaseGetAll("department_runtime_gate_events?select=*&order=created_at.desc", []),
+      base.safeSupabaseGetAll("runtime_corps_cohorts?select=*&order=created_at.desc", []),
+      base.safeSupabaseGetAll("runtime_corps_events?select=*&order=created_at.desc", []),
     ]);
 
-    const config = base.toConfigObject(configRows);
-    const limits = base.toConfigObject(limitRows);
-    const enrichedDepartments = base.enrichDepartmentRecords(departmentRows || [], assignmentRows || [], [], []);
-    const departments = corps.mergeCorpsGateRecords(enrichedDepartments, gateRows || [], gateEventRows || [], cohortRows || []);
+    const tableHealth = {
+      runtime_kernel_config: configResult,
+      runtime_corps_limits: limitResult,
+      runtime_departments: departmentResult,
+      runtime_department_lane_assignments: assignmentResult,
+      department_runtime_gates: gateResult,
+      department_runtime_gate_events: gateEventResult,
+      runtime_corps_cohorts: cohortResult,
+      runtime_corps_events: eventResult,
+    };
+
+    const config = base.toConfigObject(configResult.data || []);
+    const limits = base.toConfigObject(limitResult.data || []);
+    const enrichedDepartments = base.enrichDepartmentRecords(departmentResult.data || [], assignmentResult.data || [], [], []);
+    const departments = corps.mergeCorpsGateRecords(enrichedDepartments, gateResult.data || [], gateEventResult.data || [], cohortResult.data || []);
     const approvedDepartments = departments.filter((department) => {
       const status = String(department.gate_status || "").toLowerCase();
       return (status === "approved" || status === "active") && Boolean(department.activation_eligible);
@@ -96,15 +116,17 @@ exports.handler = async function handler(event) {
     const limit = base.normalizeNumber((event.queryStringParameters && event.queryStringParameters.limit) || 100, 100, 1, 250);
     const offset = base.normalizeNumber((event.queryStringParameters && event.queryStringParameters.offset) || 0, 0, 0, 100000);
     const pageDepartments = filteredDepartments.slice(offset, offset + limit);
-    const activeCohorts = (cohortRows || []).filter((cohort) => {
+    const activeCohorts = (cohortResult.data || []).filter((cohort) => {
       const status = String(cohort.cohort_status || "").toLowerCase();
       return status === "active" || status === "partially_active";
     });
-    const rollup = corps.buildCorpsRollup(departments, gateRows || [], cohortRows || [], config);
+    const rollup = corps.buildCorpsRollup(departments, gateResult.data || [], cohortResult.data || [], config);
+    const partialBackend = Object.values(tableHealth).some((entry) => !entry.ok);
 
     return base.jsonResponse(200, {
       ok: true,
       backend_configured: true,
+      backend_partial: partialBackend,
       backend_status: {
         mvp61_department_gated_runtime_corps_ready: Boolean(config.mvp61_department_gated_runtime_corps_ready),
         global_live_agent_cap: Number(config.mvp61_global_live_agent_cap || corps.GLOBAL_LIVE_AGENT_CAP),
@@ -120,6 +142,7 @@ exports.handler = async function handler(event) {
         rollback_execution_enabled: Boolean(rollup.rollback_execution_enabled),
         alert_sending_enabled: Boolean(rollup.alert_sending_enabled),
         kill_switch_visible: true,
+        backend_partial: partialBackend,
       },
       caps: {
         global_live_agent_cap: Number(config.mvp61_global_live_agent_cap || corps.GLOBAL_LIVE_AGENT_CAP),
@@ -128,8 +151,8 @@ exports.handler = async function handler(event) {
       },
       rollup: {
         ...rollup,
-        gate_event_count: (gateEventRows || []).length,
-        cohort_event_count: (eventRows || []).length,
+        gate_event_count: (gateEventResult.data || []).length,
+        cohort_event_count: (eventResult.data || []).length,
         active_cohorts_count: activeCohorts.length,
       },
       counts: {
@@ -140,8 +163,8 @@ exports.handler = async function handler(event) {
         active_cohorts: activeCohorts.length,
         current_live_runtime_agents: Number(rollup.current_live_runtime_agents || 0),
         total_registered_agents: Number(rollup.total_registered_agents || 47979),
-        gate_event_count: (gateEventRows || []).length,
-        cohort_event_count: (eventRows || []).length,
+        gate_event_count: (gateEventResult.data || []).length,
+        cohort_event_count: (eventResult.data || []).length,
       },
       page_info: {
         limit,
@@ -160,14 +183,16 @@ exports.handler = async function handler(event) {
       departments: pageDepartments,
       approved_department_gates: filteredDepartments,
       active_cohorts: activeCohorts,
-      recent_events: (eventRows || []).slice(0, 100),
-      gates: gateRows || [],
-      cohorts: cohortRows || [],
-      gate_events: gateEventRows || [],
-      runtime_corps_events: eventRows || [],
+      recent_events: (eventResult.data || []).slice(0, 100),
+      gates: gateResult.data || [],
+      cohorts: cohortResult.data || [],
+      gate_events: gateEventResult.data || [],
+      runtime_corps_events: eventResult.data || [],
       limits,
+      table_health: tableHealth,
     });
   } catch (error) {
+    console.error("[runtime-corps] list failed", error && error.message ? error.message : error);
     return base.jsonResponse(500, {
       ok: false,
       error: "Runtime corps list failed.",
