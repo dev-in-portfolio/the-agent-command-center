@@ -1751,6 +1751,7 @@ allowed_prefixes = [
     "netlify/functions/_shared/runtime_company_helpers.js",
     "netlify/functions/_shared/runtime_group_helpers.js",
     "netlify/functions/_shared/runtime_department_helpers.js",
+    "netlify/functions/_shared/runtime_department_gate_helpers.js",
     "netlify/functions/activate-runtime-squad.js",
     "netlify/functions/deactivate-runtime-squad.js",
     "netlify/functions/list-runtime-squad.js",
