@@ -52,14 +52,14 @@ exports.handler = async function handler(event) {
       cohortResult,
       eventResult,
     ] = await Promise.all([
-      base.safeSupabaseGet("runtime_kernel_config?select=key,value,updated_at&order=key.asc", []),
-      base.safeSupabaseGet("runtime_corps_limits?select=key,value,updated_at&order=key.asc", []),
-      base.safeSupabaseGetAll("runtime_departments?select=*&order=family_id.asc,department_id.asc", []),
-      base.safeSupabaseGet("runtime_department_lane_assignments?select=*&order=assigned_at.desc", []),
-      base.safeSupabaseGetAll("department_runtime_gates?select=*&order=department_id.asc", []),
-      base.safeSupabaseGetAll("department_runtime_gate_events?select=*&order=created_at.desc", []),
-      base.safeSupabaseGetAll("runtime_corps_cohorts?select=*&order=created_at.desc", []),
-      base.safeSupabaseGetAll("runtime_corps_events?select=*&order=created_at.desc", []),
+      corps.safeSupabaseGet("runtime_kernel_config?select=key,value,updated_at&order=key.asc", []),
+      corps.safeSupabaseGet("runtime_corps_limits?select=key,value,updated_at&order=key.asc", []),
+      corps.safeSupabaseGetAll("runtime_departments?select=*&order=family_id.asc,department_id.asc", []),
+      corps.safeSupabaseGet("runtime_department_lane_assignments?select=*&order=assigned_at.desc", []),
+      corps.safeSupabaseGetAll("department_runtime_gates?select=*&order=department_id.asc", []),
+      corps.safeSupabaseGetAll("department_runtime_gate_events?select=*&order=created_at.desc", []),
+      corps.safeSupabaseGetAll("runtime_corps_cohorts?select=*&order=created_at.desc", []),
+      corps.safeSupabaseGetAll("runtime_corps_events?select=*&order=created_at.desc", []),
     ]);
 
     const tableHealth = {

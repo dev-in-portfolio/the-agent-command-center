@@ -24,13 +24,13 @@ exports.handler = async function handler(event) {
       eventResult,
       rollupResult,
     ] = await Promise.all([
-      base.safeSupabaseGet("runtime_kernel_config?select=key,value,updated_at&order=key.asc", []),
-      base.safeSupabaseGet("runtime_corps_limits?select=key,value,updated_at&order=key.asc", []),
-      base.safeSupabaseGetAll("runtime_departments?select=*&order=family_id.asc,department_id.asc", []),
-      base.safeSupabaseGetAll("department_runtime_gates?select=*&order=department_id.asc", []),
-      base.safeSupabaseGetAll("runtime_corps_cohorts?select=*&order=created_at.desc", []),
-      base.safeSupabaseGetAll("runtime_corps_events?select=*&order=created_at.desc", []),
-      base.safeSupabaseGet("runtime_corps_rollups?select=*&order=created_at.desc&limit=1", []),
+      corps.safeSupabaseGet("runtime_kernel_config?select=key,value,updated_at&order=key.asc", []),
+      corps.safeSupabaseGet("runtime_corps_limits?select=key,value,updated_at&order=key.asc", []),
+      corps.safeSupabaseGetAll("runtime_departments?select=*&order=family_id.asc,department_id.asc", []),
+      corps.safeSupabaseGetAll("department_runtime_gates?select=*&order=department_id.asc", []),
+      corps.safeSupabaseGetAll("runtime_corps_cohorts?select=*&order=created_at.desc", []),
+      corps.safeSupabaseGetAll("runtime_corps_events?select=*&order=created_at.desc", []),
+      corps.safeSupabaseGet("runtime_corps_rollups?select=*&order=created_at.desc&limit=1", []),
     ]);
 
     const config = base.toConfigObject(configResult.data || []);
