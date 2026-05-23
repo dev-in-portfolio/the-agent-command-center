@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full-Fleet Observability Command Wall</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: #000; color: #0f0; }
+        .panel { border: 1px solid #0f0; padding: 15px; margin-bottom: 20px; }
+        .panel-flex { display: flex; gap: 20px; flex-wrap: wrap; }
+        .panel-flex > div { flex: 1; min-width: 300px; border: 1px solid #0a0; padding: 10px; }
+        button { background: #0f0; color: #000; padding: 10px; border: none; cursor: pointer; margin-right: 10px; margin-top: 5px; }
+        button:hover { background: #0a0; }
+        .danger { background: #f00; color: #fff; }
+        .label { font-weight: bold; }
+        input, select { margin: 5px 0; padding: 5px; width: calc(100% - 14px); }
+        .nav-links a { color: #0f0; margin-right: 15px; }
+        h1, h2, h3 { margin-top: 0; }
+    </style>
+</head>
+<body>
+
+    <h1>Full-Fleet Observability Command Wall</h1>
+    <p>One command-wall view for the 47,979-agent department-gated runtime fleet, safety gates, circuit breakers, load tests, recovery drills, and Continual Harness status.</p>
+    
+    <div class="panel nav-links">
+        <a href="./runtime-fleet.html">Open Runtime Fleet</a>
+        <a href="./full-fleet-load-test.html">Open Full-Fleet Load Test</a>
+        <a href="./department-gated-runtime.html">Open Department-Gated Runtime</a>
+        <a href="./continual-harness-operator.html">Open Continual Harness Operator</a>
+    </div>
+
+    <div class="panel">
+        <h2>1. Executive status banner</h2>
+        <p>This wall observes and summarizes the control plane. It does not execute commands.</p>
+        <p>Full-fleet observability is not raw activate-all.</p>
+        <div>Overall system status: <span id="overall_status">unknown</span></div>
+        <div>Recommended action: <span id="recommended_action">none</span></div>
+        <button onclick="refreshWall()">Refresh wall</button>
+        <button onclick="createSnapshot()">Create snapshot</button>
+    </div>
+
+    <div class="panel-flex">
+        <div>
+            <h2>2. Fleet scale cards</h2>
+            <div>Total registered agents: 47,979</div>
+            <div>Total departments: 1,777</div>
+            <div>Total units: 5,331</div>
+            <div>Total families: 175</div>
+            <div>Full fleet cap: 47,979</div>
+        </div>
+        
+        <div>
+            <h2>3. Runtime activation status</h2>
+            <div>Current live runtime agents: <span id="current_live">0</span></div>
+            <div>Current stage cap: <span id="current_stage_cap">0</span></div>
+        </div>
+
+        <div>
+            <h2>4. Department gate status</h2>
+            <div>Approved department gates: <span id="approved_gates">0</span></div>
+            <div>Active department gates: <span id="active_gates">0</span></div>
+            <div>Blocked department gates: <span id="blocked_gates">0</span></div>
+        </div>
+
+        <div>
+            <h2>5. Stage and cohort status</h2>
+            <div>Unlocked stages: <span id="unlocked_stages">0</span></div>
+            <div>Active cohorts: <span id="active_cohorts">0</span></div>
+        </div>
+    </div>
+
+    <div class="panel-flex" style="margin-top: 20px;">
+        <div>
+            <h2>6. Circuit breaker panel</h2>
+            <div>Circuit breaker status: <span id="cb_status">0</span> active</div>
+        </div>
+
+        <div>
+            <h2>7. Continual Harness panel</h2>
+            <div>Continual Harness status: <span id="ch_status">unknown</span></div>
+        </div>
+
+        <div>
+            <h2>8. Full-fleet load-test panel</h2>
+            <div>Load-test status: <span id="lt_status">unknown</span></div>
+        </div>
+
+        <div>
+            <h2>9. Recovery drill / safe-state panel</h2>
+            <div>Recovery drill status: <span id="rd_status">unknown</span></div>
+            <div>Safe-state status: <span id="ss_status">unknown</span></div>
+        </div>
+    </div>
+
+    <div class="panel" style="margin-top: 20px;">
+        <h2>10. Audit event panel</h2>
+        <pre id="audit_events" style="max-height: 200px; overflow-y: auto;">Loading events...</pre>
+    </div>
+
+    <div class="panel">
+        <h2>11. State flags panel</h2>
+        <p>Status flags are not external alerts.</p>
+        <pre id="state_flags" style="max-height: 150px; overflow-y: auto;">Loading flags...</pre>
+    </div>
+
+    <div class="panel">
+        <h2>12. Operator notes panel</h2>
+        <pre id="operator_notes" style="max-height: 150px; overflow-y: auto;">Loading notes...</pre>
+        <input type="text" id="noteInput" placeholder="Enter observability note..." />
+        <button onclick="addNote()">Add operator note</button>
+    </div>
+
+    <div class="panel">
+        <h2>13. Export report panel</h2>
+        <button onclick="exportReport()">Export observability report JSON</button>
+    </div>
+
+    <div class="panel">
+        <h2>14. Safety boundary panel</h2>
+        <p>Rollback status is observed only; no rollback execution occurs here.</p>
+        <p>The command wall can recommend review, pause, or recovery steps, but it does not perform destructive actions.</p>
+        <div>Command execution: disabled</div>
+        <div>Deploy execution: disabled</div>
+        <div>Rollback execution: disabled</div>
+        <div>Alert sending: disabled</div>
+        <div>Arbitrary shell execution: disabled</div>
+    </div>
+
+    <script>
+        // No service role key or arbitrary SQL here!
+        async function fetchAPI(url, options = {}) {
+            try {
+                const res = await fetch(url, options);
+                return await res.json();
+            } catch (err) {
+                console.error(err);
+                return { error: err.message };
+            }
+        }
+
+        let currentSnapshotId = null;
+
+        async function refreshWall() {
+            const snapData = await fetchAPI('/.netlify/functions/full-fleet-observability-snapshot');
+            if (snapData && snapData.snapshot) {
+                const s = snapData.snapshot;
+                currentSnapshotId = s.snapshot_id;
+                document.getElementById('overall_status').innerText = s.overall_status;
+                document.getElementById('recommended_action').innerText = s.recommended_action || 'none';
+                document.getElementById('current_live').innerText = s.current_live_runtime_agents;
+                document.getElementById('current_stage_cap').innerText = s.current_stage_cap;
+                document.getElementById('approved_gates').innerText = s.approved_department_gates;
+                document.getElementById('active_gates').innerText = s.active_department_gates;
+                document.getElementById('blocked_gates').innerText = s.blocked_department_gates;
+                document.getElementById('unlocked_stages').innerText = s.unlocked_stages;
+                document.getElementById('active_cohorts').innerText = s.active_cohorts;
+                document.getElementById('cb_status').innerText = s.active_circuit_breakers;
+                document.getElementById('ch_status').innerText = s.continual_harness_status;
+                document.getElementById('lt_status').innerText = s.load_test_status;
+                document.getElementById('rd_status').innerText = s.recovery_drill_status;
+                document.getElementById('ss_status').innerText = s.safe_state_status;
+            }
+
+            const eventsData = await fetchAPI('/.netlify/functions/full-fleet-observability-events');
+            if (eventsData) {
+                document.getElementById('audit_events').innerText = JSON.stringify(eventsData.events || [], null, 2);
+                document.getElementById('operator_notes').innerText = JSON.stringify(eventsData.notes || [], null, 2);
+                document.getElementById('state_flags').innerText = JSON.stringify(eventsData.flags || [], null, 2);
+            }
+        }
+
+        async function createSnapshot() {
+            const data = await fetchAPI('/.netlify/functions/full-fleet-observability-snapshot', {
+                method: 'POST',
+                body: JSON.stringify({ actor: 'operator' })
+            });
+            refreshWall();
+        }
+
+        async function addNote() {
+            const body = document.getElementById('noteInput').value;
+            if (!body) return;
+            if (!currentSnapshotId) return alert('No snapshot ID available. Create one first.');
+            await fetchAPI('/.netlify/functions/create-observability-note', {
+                method: 'POST',
+                body: JSON.stringify({ snapshot_id: currentSnapshotId, note_body: body, actor: 'operator' })
+            });
+            document.getElementById('noteInput').value = '';
+            refreshWall();
+        }
+
+        async function exportReport() {
+            if (!currentSnapshotId) return alert('No snapshot ID available. Create one first.');
+            const data = await fetchAPI('/.netlify/functions/export-observability-report', {
+                method: 'POST',
+                body: JSON.stringify({ snapshot_id: currentSnapshotId, actor: 'operator' })
+            });
+            if (data && data.report) {
+                const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data.report));
+                const downloadAnchorNode = document.createElement('a');
+                downloadAnchorNode.setAttribute("href", dataStr);
+                downloadAnchorNode.setAttribute("download", "observability_report.json");
+                document.body.appendChild(downloadAnchorNode);
+                downloadAnchorNode.click();
+                downloadAnchorNode.remove();
+            }
+        }
+
+        // Init
+        refreshWall();
+    </script>
+</body>
+</html>
