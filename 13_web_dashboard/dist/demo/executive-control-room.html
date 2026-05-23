@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full-Fleet Executive Control Room</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: #000; color: #0f0; }
+        .panel { border: 1px solid #0f0; padding: 15px; margin-bottom: 20px; }
+        .panel-flex { display: flex; gap: 20px; flex-wrap: wrap; }
+        .panel-flex > div { flex: 1; min-width: 300px; border: 1px solid #0a0; padding: 10px; }
+        button { background: #0f0; color: #000; padding: 10px; border: none; cursor: pointer; margin-right: 10px; margin-top: 5px; }
+        button:hover { background: #0a0; }
+        .tabs { margin-bottom: 20px; }
+        .tabs button { background: #000; color: #0f0; border: 1px solid #0f0; }
+        .tabs button.active { background: #0f0; color: #000; }
+        .label { font-weight: bold; }
+        input, select { margin: 5px 0; padding: 5px; width: calc(100% - 14px); }
+        .nav-links a { color: #0f0; margin-right: 15px; }
+        h1, h2, h3 { margin-top: 0; }
+    </style>
+</head>
+<body>
+
+    <h1>Full-Fleet Executive Control Room</h1>
+    <p>A role-aware executive view of the 47,979-agent Agent Command Center, department gates, fleet status, observability, load tests, recovery drills, and safety boundaries.</p>
+    
+    <div class="panel nav-links">
+        <a href="./observability-command-wall.html">Open Observability Command Wall</a>
+        <a href="./runtime-fleet.html">Open Runtime Fleet</a>
+        <a href="./full-fleet-load-test.html">Open Full-Fleet Load Test</a>
+        <a href="./department-gated-runtime.html">Open Department-Gated Runtime</a>
+        <a href="./continual-harness-operator.html">Open Continual Harness Operator</a>
+    </div>
+
+    <div class="panel tabs">
+        <button id="tab_executive" class="active" onclick="switchMode('executive')">Executive</button>
+        <button id="tab_operator" onclick="switchMode('operator')">Operator</button>
+        <button id="tab_security_risk" onclick="switchMode('security_risk')">Security / Risk</button>
+        <button id="tab_technical" onclick="switchMode('technical')">Technical</button>
+        <button id="tab_investor_recruiter" onclick="switchMode('investor_recruiter')">Investor / Recruiter</button>
+        <button id="tab_skeptical_reviewer" onclick="switchMode('skeptical_reviewer')">Skeptical Reviewer</button>
+    </div>
+
+    <div class="panel">
+        <h2>1. Executive status banner</h2>
+        <p>This room summarizes the system for review. It does not execute commands.</p>
+        <p>Executive readiness is not runtime permission.</p>
+        <div>Enterprise readiness status: <span id="enterprise_status">unknown</span></div>
+        <div>Recommended next step: <span id="recommended_next_step">none</span></div>
+        <button onclick="refreshSnapshot()">Refresh snapshot</button>
+    </div>
+
+    <div class="panel">
+        <h2>2. One-minute explanation</h2>
+        <p>Role modes change the explanation, not the underlying facts.</p>
+        <div id="mode_explanation">Loading mode-specific explanation...</div>
+    </div>
+
+    <div class="panel-flex">
+        <div>
+            <h2>3. Fleet scale cards</h2>
+            <div>Total registered agents: 47,979</div>
+            <div>Total departments: 1,777</div>
+            <div>Total units: 5,331</div>
+            <div>Total families: 175</div>
+            <div>Full fleet cap: 47,979</div>
+        </div>
+        
+        <div>
+            <h2>4. Runtime status cards</h2>
+            <div>Current live runtime agents: <span id="current_live">0</span></div>
+            <div>Current stage cap: <span id="current_stage_cap">0</span></div>
+            <div>Active cohorts: <span id="active_cohorts">0</span></div>
+        </div>
+
+        <div>
+            <h2>5. Department gate cards</h2>
+            <div>Approved department gates: <span id="approved_gates">0</span></div>
+            <div>Active department gates: <span id="active_gates">0</span></div>
+            <div>Blocked department gates: <span id="blocked_gates">0</span></div>
+        </div>
+    </div>
+
+    <div class="panel-flex" style="margin-top: 20px;">
+        <div>
+            <h2>6. Safety boundary cards</h2>
+            <p>Rollback status is observed only; no rollback execution occurs here.</p>
+            <p>No page in this control room runs shell commands, deploys, rollbacks, alerts, or arbitrary actions.</p>
+            <div>Command execution: disabled</div>
+            <div>Deploy execution: disabled</div>
+            <div>Rollback execution: disabled</div>
+            <div>Alert sending: disabled</div>
+            <div>Arbitrary shell execution: disabled</div>
+        </div>
+
+        <div>
+            <h2>7. Observability summary</h2>
+            <div>Audit status: <span id="audit_status">unknown</span></div>
+            <div>Circuit breaker status: <span id="cb_status">0</span> active</div>
+            <p>Full-fleet control is department-gated, staged, audited, and circuit-breakered.</p>
+        </div>
+
+        <div>
+            <h2>8. Load-test / recovery summary</h2>
+            <div>Load-test status: <span id="lt_status">unknown</span></div>
+            <div>Recovery drill status: <span id="rd_status">unknown</span></div>
+            <div>Safe-state status: <span id="ss_status">unknown</span></div>
+        </div>
+
+        <div>
+            <h2>9. Continual Harness summary</h2>
+            <div>Continual Harness status: <span id="ch_status">unknown</span></div>
+        </div>
+    </div>
+
+    <div class="panel" style="margin-top: 20px;">
+        <h2>10. Role-specific review questions</h2>
+        <ul id="review_questions">Loading questions...</ul>
+    </div>
+
+    <div class="panel">
+        <h2>11. Decision log / note panel</h2>
+        <input type="text" id="noteInput" placeholder="Enter review note..." />
+        <button onclick="addReviewNote()">Add review note</button>
+    </div>
+
+    <div class="panel">
+        <h2>12. Export report panel</h2>
+        <button onclick="exportReport()">Export executive report JSON</button>
+        <button onclick="window.print()">Print / screen-share mode</button>
+    </div>
+
+    <script>
+        // No service role key or arbitrary SQL here!
+        async function fetchAPI(url, options = {}) {
+            try {
+                const res = await fetch(url, options);
+                return await res.json();
+            } catch (err) {
+                console.error(err);
+                return { error: err.message };
+            }
+        }
+
+        let currentMode = 'executive';
+        let currentSnapshotId = null;
+
+        const modeExplanations = {
+            'executive': 'This mode highlights business readiness, ROI, and high-level safety boundaries.',
+            'operator': 'This mode emphasizes operational state, live metrics, and next safe actions.',
+            'security_risk': 'This mode focuses on disabled paths, circuit breakers, and audit traceability.',
+            'technical': 'This mode surfaces architecture, dependencies, and data flow.',
+            'investor_recruiter': 'This mode translates scale and capability into a product and market story.',
+            'skeptical_reviewer': 'This mode directly addresses simulated vs real state and potential failure points.'
+        };
+
+        async function switchMode(mode) {
+            document.querySelectorAll('.tabs button').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('tab_' + mode).classList.add('active');
+            currentMode = mode;
+            document.getElementById('mode_explanation').innerText = modeExplanations[mode];
+            await refreshSnapshot(true);
+        }
+
+        async function refreshSnapshot(forceNew = false) {
+            let snapData;
+            if (forceNew) {
+                snapData = await fetchAPI('/.netlify/functions/executive-control-room-snapshot', {
+                    method: 'POST',
+                    body: JSON.stringify({ mode: currentMode, actor: 'executive_viewer' })
+                });
+            } else {
+                snapData = await fetchAPI('/.netlify/functions/executive-control-room-snapshot?mode=' + currentMode);
+            }
+
+            if (snapData && (snapData.snapshot || snapData.snapshot_id)) {
+                // If we forced a new one, we need to fetch it to display
+                if(forceNew && snapData.snapshot_id) {
+                     const fetched = await fetchAPI('/.netlify/functions/executive-control-room-snapshot?mode=' + currentMode);
+                     if(fetched && fetched.snapshot) updateUI(fetched.snapshot);
+                } else if (snapData.snapshot) {
+                     updateUI(snapData.snapshot);
+                }
+            }
+
+            const questionsData = await fetchAPI('/.netlify/functions/executive-control-room-mode?mode=' + currentMode);
+            if (questionsData && questionsData.questions) {
+                const list = document.getElementById('review_questions');
+                list.innerHTML = '';
+                questionsData.questions.forEach(q => {
+                    const li = document.createElement('li');
+                    li.innerHTML = '<strong>' + q.question_text + '</strong><br><i>Why it matters:</i> ' + q.why_it_matters;
+                    list.appendChild(li);
+                });
+            }
+        }
+
+        function updateUI(s) {
+            currentSnapshotId = s.snapshot_id;
+            document.getElementById('enterprise_status').innerText = s.enterprise_readiness_status;
+            document.getElementById('recommended_next_step').innerText = s.recommended_next_step || 'none';
+            document.getElementById('current_live').innerText = s.current_live_runtime_agents;
+            document.getElementById('current_stage_cap').innerText = s.current_stage_cap;
+            document.getElementById('approved_gates').innerText = s.approved_department_gates;
+            document.getElementById('active_gates').innerText = s.active_department_gates;
+            document.getElementById('blocked_gates').innerText = s.blocked_department_gates;
+            document.getElementById('active_cohorts').innerText = s.active_cohorts;
+            document.getElementById('cb_status').innerText = s.active_circuit_breakers;
+            document.getElementById('ch_status').innerText = s.continual_harness_status;
+            document.getElementById('lt_status').innerText = s.load_test_status;
+            document.getElementById('rd_status').innerText = s.recovery_drill_status;
+            document.getElementById('ss_status').innerText = s.safe_state_status;
+            document.getElementById('audit_status').innerText = s.audit_status;
+        }
+
+        async function addReviewNote() {
+            const body = document.getElementById('noteInput').value;
+            if (!body) return;
+            if (!currentSnapshotId) return alert('No snapshot available.');
+            await fetchAPI('/.netlify/functions/create-executive-control-room-note', {
+                method: 'POST',
+                body: JSON.stringify({ 
+                    snapshot_id: currentSnapshotId, 
+                    reviewer_mode: currentMode,
+                    note_body: body, 
+                    actor: 'executive_viewer' 
+                })
+            });
+            document.getElementById('noteInput').value = '';
+            alert('Note added');
+        }
+
+        async function exportReport() {
+            if (!currentSnapshotId) return alert('No snapshot available.');
+            const data = await fetchAPI('/.netlify/functions/export-executive-control-room-report', {
+                method: 'POST',
+                body: JSON.stringify({ snapshot_id: currentSnapshotId, actor: 'executive_viewer' })
+            });
+            if (data && data.report) {
+                const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data.report));
+                const downloadAnchorNode = document.createElement('a');
+                downloadAnchorNode.setAttribute("href", dataStr);
+                downloadAnchorNode.setAttribute("download", "executive_report_" + currentMode + ".json");
+                document.body.appendChild(downloadAnchorNode);
+                downloadAnchorNode.click();
+                downloadAnchorNode.remove();
+            }
+        }
+
+        // Init
+        switchMode('executive');
+    </script>
+</body>
+</html>
